@@ -272,8 +272,8 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2013 3:38:49 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,65844,67202,0,53666,TO_TIMESTAMP('2013-06-28 15:38:48','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA01','Y','Y','N','N','N','N','N','N','Farm Division',TO_TIMESTAMP('2013-06-28 15:38:48','YYYY-MM-DD HH24:MI:SS'),100)
-;
+--INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,65844,67202,0,53666,TO_TIMESTAMP('2013-06-28 15:38:48','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA01','Y','Y','N','N','N','N','N','N','Farm Division',TO_TIMESTAMP('2013-06-28 15:38:48','YYYY-MM-DD HH24:MI:SS'),100)
+--;
 
 -- Jun 28, 2013 3:38:49 PM VET
 -- SFAndroid Contribution
