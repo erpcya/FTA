@@ -18,11 +18,6 @@ REFERENCES M_Shipper (M_Shipper_ID)
 ON UPDATE CASCADE 
 ON DELETE RESTRICT;
 
-ALTER TABLE FTA_Farm ADD CONSTRAINT FK_Farm_BPartner FOREIGN KEY (C_BPartner_ID)
-REFERENCES C_BPartner (C_BPartner_ID) 
-ON UPDATE CASCADE 
-ON DELETE RESTRICT;
-
 ALTER TABLE FTA_Farm ADD CONSTRAINT FK_Farm_BPartner FOREIGN KEY (C_BPartner_Location_ID)
 REFERENCES C_BPartner_Location (C_BPartner_Location_ID) 
 ON UPDATE CASCADE 
@@ -51,8 +46,8 @@ REFERENCES FTA_FarmingStage (FTA_FarmingStage_ID)
 ON UPDATE CASCADE 
 ON DELETE RESTRICT;
 
-ALTER TABLE FTA_SuggestedProduct ADD CONSTRAINT FK_SuggestedProduct_ObservacionType FOREIGN KEY (FTA_ObservacionType_ID)
-REFERENCES FTA_ObservacionType (FTA_ObservacionType_ID) 
+ALTER TABLE FTA_SuggestedProduct ADD CONSTRAINT FK_SuggestedProduct_ObservationType FOREIGN KEY (FTA_ObservationType_ID)
+REFERENCES FTA_ObservationType (FTA_ObservationType_ID) 
 ON UPDATE CASCADE 
 ON DELETE RESTRICT;
 
@@ -81,12 +76,6 @@ REFERENCES FTA_Farm (FTA_Farm_ID)
 ON UPDATE CASCADE 
 ON DELETE RESTRICT;
 
-ALTER TABLE FTA_TechnicalForm ADD CONSTRAINT FK_TechnicalForm_TechnicalForm FOREIGN KEY (FTA_TecnicalForm_ID)
-REFERENCES FTA_TecnicalForm (FTA_TecnicalForm_ID) 
-ON UPDATE CASCADE 
-ON DELETE RESTRICT;
-
-
 ALTER TABLE FTA_TechnicalFormLine ADD CONSTRAINT FK_TechnicalFormLine_FarmDivision FOREIGN KEY (FTA_FarmDivision_ID)
 REFERENCES FTA_FarmDivision (FTA_FarmDivision_ID) 
 ON UPDATE CASCADE 
@@ -107,8 +96,8 @@ REFERENCES FTA_ObservationType (FTA_ObservationType_ID)
 ON UPDATE CASCADE 
 ON DELETE RESTRICT;
 
-ALTER TABLE FTA_TechnicalFormLine ADD CONSTRAINT FK_TechnicalFormLine_TecnicalForm FOREIGN KEY (FTA_TecnicalForm_ID)
-REFERENCES FTA_TecnicalForm (FTA_TecnicalForm_ID) 
+ALTER TABLE FTA_TechnicalFormLine ADD CONSTRAINT FK_TechnicalFormLine_TechnicalForm FOREIGN KEY (FTA_TechnicalForm_ID)
+REFERENCES FTA_TechnicalForm (FTA_TechnicalForm_ID) 
 ON UPDATE CASCADE 
 ON DELETE RESTRICT;
 
