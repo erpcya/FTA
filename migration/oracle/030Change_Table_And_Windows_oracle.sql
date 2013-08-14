@@ -15,7 +15,7 @@ UPDATE AD_Field SET IsReadOnly='Y',Updated=TO_DATE('2013-07-15 23:43:57','YYYY-M
 
 -- Jul 15, 2013 11:44:36 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66319,67771,0,53665,TO_DATE('2013-07-15 23:44:35','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA01','Y','Y','Y','N','N','N','N','N','Process Now',TO_DATE('2013-07-15 23:44:35','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66319,67771,0,53665,TO_DATE('2013-07-15 23:44:35','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA02','Y','Y','Y','N','N','N','N','N','Process Now',TO_DATE('2013-07-15 23:44:35','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 15, 2013 11:44:36 PM VET
@@ -135,7 +135,7 @@ UPDATE AD_Column SET IsIdentifier='Y', SeqNo=1,Updated=TO_DATE('2013-07-15 23:58
 
 -- Jul 16, 2013 12:03:35 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52172,'M_Product.IsSummary=''N'' AND M_Product.IsActive=''Y'' AND M_Product.M_Product_Category_ID =@M_Product_Category_ID@',TO_DATE('2013-07-16 00:03:34','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','M_Product in  Product Category','S',TO_DATE('2013-07-16 00:03:34','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52172,'M_Product.IsSummary=''N'' AND M_Product.IsActive=''Y'' AND M_Product.M_Product_Category_ID =@M_Product_Category_ID@',TO_DATE('2013-07-16 00:03:34','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','M_Product in  Product Category','S',TO_DATE('2013-07-16 00:03:34','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 16, 2013 12:04:01 AM VET

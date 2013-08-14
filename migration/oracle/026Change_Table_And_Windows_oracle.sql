@@ -1,6 +1,6 @@
 -- Jul 15, 2013 3:49:02 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56033,0,'Suggested_Uom_ID',TO_DATE('2013-07-15 15:48:51','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Suggested Uom','Suggested Uom',TO_DATE('2013-07-15 15:48:51','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56033,0,'Suggested_Uom_ID',TO_DATE('2013-07-15 15:48:51','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Suggested Uom','Suggested Uom',TO_DATE('2013-07-15 15:48:51','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 15, 2013 3:49:02 PM VET
@@ -15,7 +15,7 @@ UPDATE AD_Element_Trl SET Name='UM Sugerida',PrintName='UM Sugerida',Updated=TO_
 
 -- Jul 15, 2013 3:50:42 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66349,56033,0,18,114,53515,'Suggested_Uom_ID',TO_DATE('2013-07-15 15:50:40','YYYY-MM-DD HH24:MI:SS'),100,'ECA01',10,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Suggested Uom',0,TO_DATE('2013-07-15 15:50:40','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66349,56033,0,18,114,53515,'Suggested_Uom_ID',TO_DATE('2013-07-15 15:50:40','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',10,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Suggested Uom',0,TO_DATE('2013-07-15 15:50:40','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jul 15, 2013 3:50:42 PM VET
@@ -25,7 +25,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 15, 2013 3:50:53 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66349,67769,0,53672,TO_DATE('2013-07-15 15:50:53','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Suggested Uom',TO_DATE('2013-07-15 15:50:53','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66349,67769,0,53672,TO_DATE('2013-07-15 15:50:53','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Suggested Uom',TO_DATE('2013-07-15 15:50:53','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 15, 2013 3:50:53 PM VET
