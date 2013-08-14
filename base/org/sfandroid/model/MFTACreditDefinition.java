@@ -16,14 +16,18 @@
  *****************************************************************************/
 package org.sfandroid.model;
 
+import java.io.File;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.compiere.process.DocAction;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class MFTACreditDefinition extends X_FTA_CreditDefinition {
+public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocAction {
 	
 	/**
 	 * 
@@ -53,6 +57,144 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition {
 	public MFTACreditDefinition(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void setDocStatus(String newStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getDocStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean processIt(String action) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean unlockIt() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean invalidateIt() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String prepareIt() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean approveIt() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean rejectIt() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String completeIt() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean voidIt() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean closeIt() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean reverseCorrectIt() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean reverseAccrualIt() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean reActivateIt() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getSummary() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDocumentNo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDocumentInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public File createPDF() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getProcessMsg() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getDoc_User_ID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getC_Currency_ID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public BigDecimal getApprovalAmt() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDocAction() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
