@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
-    <jar path="Farming-Technical-Assistance/packages/Farming-Technical-Assistance/lib/Farming-Technical-Assistance.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/Farming-Technical-Assistance/Farming-Technical-Assistance.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <jar path="FTA/packages/FTA/lib/FTA.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/FTA/FTA.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
     <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
@@ -11,6 +11,6 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=Farming-Technical-Assistance/base"/>
+        <javaElement handleIdentifier="=FTA/base"/>
     </selectedElements>
 </jardesc>
