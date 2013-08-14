@@ -135,7 +135,7 @@ DELETE FROM AD_Column WHERE AD_Column_ID=65850
 
 -- 22/07/2013 05:09:58 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Process (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Process_ID,Classname,CopyFromProcess,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,IsServerProcess,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value) VALUES ('3',0,0,53419,'org.sfandroid.process.','N',TO_TIMESTAMP('2013-07-22 17:09:56','YYYY-MM-DD HH24:MI:SS'),100,'Validate Farm','ECA01','Y','N','N','N','N','Validate','Y',0,0,TO_TIMESTAMP('2013-07-22 17:09:56','YYYY-MM-DD HH24:MI:SS'),100,'FTA_Farm Validate')
+INSERT INTO AD_Process (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Process_ID,Classname,CopyFromProcess,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,IsServerProcess,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value) VALUES ('3',0,0,53419,'org.sfandroid.process.','N',TO_TIMESTAMP('2013-07-22 17:09:56','YYYY-MM-DD HH24:MI:SS'),100,'Validate Farm','ECA02','Y','N','N','N','N','Validate','Y',0,0,TO_TIMESTAMP('2013-07-22 17:09:56','YYYY-MM-DD HH24:MI:SS'),100,'FTA_Farm Validate')
 ;
 
 -- 22/07/2013 05:09:58 PM VET
@@ -175,7 +175,7 @@ UPDATE AD_Column SET AD_Process_ID=53419,Updated=TO_TIMESTAMP('2013-07-22 17:30:
 
 -- 22/07/2013 05:32:23 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Process (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Process_ID,Classname,CopyFromProcess,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,IsServerProcess,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value) VALUES ('3',0,0,53420,'org.sfandroid.process.CopyFromFarmingStage','N',TO_TIMESTAMP('2013-07-22 17:32:21','YYYY-MM-DD HH24:MI:SS'),100,'Copy From','ECA01','Y','N','N','N','N','Copy From','Y',0,0,TO_TIMESTAMP('2013-07-22 17:32:21','YYYY-MM-DD HH24:MI:SS'),100,'FTA_FarmingStage CopyFrom')
+INSERT INTO AD_Process (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Process_ID,Classname,CopyFromProcess,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,IsServerProcess,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value) VALUES ('3',0,0,53420,'org.sfandroid.process.CopyFromFarmingStage','N',TO_TIMESTAMP('2013-07-22 17:32:21','YYYY-MM-DD HH24:MI:SS'),100,'Copy From','ECA02','Y','N','N','N','N','Copy From','Y',0,0,TO_TIMESTAMP('2013-07-22 17:32:21','YYYY-MM-DD HH24:MI:SS'),100,'FTA_FarmingStage CopyFrom')
 ;
 
 -- 22/07/2013 05:32:23 PM VET

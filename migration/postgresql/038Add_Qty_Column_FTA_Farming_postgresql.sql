@@ -70,7 +70,7 @@ UPDATE AD_Column SET IsUpdateable='N',Updated=TO_TIMESTAMP('2013-08-07 10:53:59'
 
 -- 7/08/2013 10:55:07 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66609,526,0,29,53509,'Qty',TO_TIMESTAMP('2013-08-07 10:54:59','YYYY-MM-DD HH24:MI:SS'),100,'Quantity','ECA01',10,'The Quantity indicates the number of a specific product or item for this document.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Quantity',0,TO_TIMESTAMP('2013-08-07 10:54:59','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66609,526,0,29,53509,'Qty',TO_TIMESTAMP('2013-08-07 10:54:59','YYYY-MM-DD HH24:MI:SS'),100,'Quantity','ECA02',10,'The Quantity indicates the number of a specific product or item for this document.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Quantity',0,TO_TIMESTAMP('2013-08-07 10:54:59','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- 7/08/2013 10:55:07 AM VET
@@ -80,7 +80,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- 7/08/2013 10:55:51 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,66609,68061,0,53668,TO_TIMESTAMP('2013-08-07 10:55:49','YYYY-MM-DD HH24:MI:SS'),100,'Quantity',0,'ECA01','The Quantity indicates the number of a specific product or item for this document.','Y','Y','Y','N','N','N','N','Y','Quantity',230,0,TO_TIMESTAMP('2013-08-07 10:55:49','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,66609,68061,0,53668,TO_TIMESTAMP('2013-08-07 10:55:49','YYYY-MM-DD HH24:MI:SS'),100,'Quantity',0,'ECA02','The Quantity indicates the number of a specific product or item for this document.','Y','Y','Y','N','N','N','N','Y','Quantity',230,0,TO_TIMESTAMP('2013-08-07 10:55:49','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 7/08/2013 10:55:51 AM VET

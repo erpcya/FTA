@@ -1,6 +1,6 @@
 -- Jul 7, 2013 9:35:55 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53561,0,53240,TO_TIMESTAMP('2013-07-07 21:35:53','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Y','N','N','N','Mobilization Guide',TO_TIMESTAMP('2013-07-07 21:35:53','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53561,0,53240,TO_TIMESTAMP('2013-07-07 21:35:53','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Y','N','N','N','Mobilization Guide',TO_TIMESTAMP('2013-07-07 21:35:53','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 7, 2013 9:35:55 PM VET
@@ -25,7 +25,7 @@ UPDATE AD_Menu_Trl SET Name='Guia de Movilización',Updated=TO_TIMESTAMP('2013-0
 
 -- Jul 7, 2013 9:38:09 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53562,0,53238,TO_TIMESTAMP('2013-07-07 21:38:02','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Y','N','N','N','Observation Type',TO_TIMESTAMP('2013-07-07 21:38:02','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53562,0,53238,TO_TIMESTAMP('2013-07-07 21:38:02','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Y','N','N','N','Observation Type',TO_TIMESTAMP('2013-07-07 21:38:02','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 7, 2013 9:38:09 PM VET
@@ -50,7 +50,7 @@ UPDATE AD_Menu_Trl SET Name='Tipo de Observación',Updated=TO_TIMESTAMP('2013-07
 
 -- Jul 7, 2013 9:39:38 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53563,0,53237,TO_TIMESTAMP('2013-07-07 21:39:37','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Y','N','N','N','Producer',TO_TIMESTAMP('2013-07-07 21:39:37','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53563,0,53237,TO_TIMESTAMP('2013-07-07 21:39:37','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Y','N','N','N','Producer',TO_TIMESTAMP('2013-07-07 21:39:37','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 7, 2013 9:39:38 PM VET
@@ -115,7 +115,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53563
 
 -- Jul 7, 2013 9:43:08 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53564,0,53241,TO_TIMESTAMP('2013-07-07 21:43:00','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Y','N','N','N','Suggested Product',TO_TIMESTAMP('2013-07-07 21:43:00','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53564,0,53241,TO_TIMESTAMP('2013-07-07 21:43:00','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Y','N','N','N','Suggested Product',TO_TIMESTAMP('2013-07-07 21:43:00','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 7, 2013 9:43:08 PM VET
@@ -135,7 +135,7 @@ UPDATE AD_Menu_Trl SET Name='Productos Sugeridos',Updated=TO_TIMESTAMP('2013-07-
 
 -- Jul 7, 2013 9:43:43 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53565,0,53239,TO_TIMESTAMP('2013-07-07 21:43:41','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Y','N','N','N','Technical Form',TO_TIMESTAMP('2013-07-07 21:43:41','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53565,0,53239,TO_TIMESTAMP('2013-07-07 21:43:41','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Y','N','N','N','Technical Form',TO_TIMESTAMP('2013-07-07 21:43:41','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 7, 2013 9:43:43 PM VET

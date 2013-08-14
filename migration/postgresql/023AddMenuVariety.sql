@@ -15,7 +15,7 @@ UPDATE AD_Window_Trl SET Name='Variedad',Updated=TO_TIMESTAMP('2013-07-10 10:32:
 
 -- Jul 10, 2013 10:32:24 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53566,0,53249,TO_TIMESTAMP('2013-07-10 10:32:20','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Y','N','N','N','Variety',TO_TIMESTAMP('2013-07-10 10:32:20','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu ("action",AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53566,0,53249,TO_TIMESTAMP('2013-07-10 10:32:20','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Y','N','N','N','Variety',TO_TIMESTAMP('2013-07-10 10:32:20','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jul 10, 2013 10:32:24 AM VET

@@ -115,7 +115,7 @@ DELETE FROM AD_Column WHERE AD_Column_ID=66532
 
 -- Aug 12, 2013 11:14:02 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56105,0,'Beneficiary_ID',TO_DATE('2013-08-12 11:13:59','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner to whom payment is made','ECA01','The Beneficiary indicates the Business Partner to whom payment will be made.','Y','Beneficiary','Beneficiary',TO_DATE('2013-08-12 11:13:59','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56105,0,'Beneficiary_ID',TO_DATE('2013-08-12 11:13:59','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner to whom payment is made','ECA02','The Beneficiary indicates the Business Partner to whom payment will be made.','Y','Beneficiary','Beneficiary',TO_DATE('2013-08-12 11:13:59','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 11:14:02 AM VET
@@ -145,7 +145,7 @@ UPDATE AD_Field SET Name='Beneficiary', Description='Business Partner to whom pa
 
 -- Aug 12, 2013 3:15:41 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66657,160,0,12,53544,'Amt',TO_DATE('2013-08-12 15:15:35','YYYY-MM-DD HH24:MI:SS'),100,'Amount','ECA01',10,'Amount','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Amount',0,TO_DATE('2013-08-12 15:15:35','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66657,160,0,12,53544,'Amt',TO_DATE('2013-08-12 15:15:35','YYYY-MM-DD HH24:MI:SS'),100,'Amount','ECA02',10,'Amount','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Amount',0,TO_DATE('2013-08-12 15:15:35','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 12, 2013 3:15:41 PM VET
@@ -155,7 +155,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 12, 2013 3:16:46 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,ColumnSQL,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66658,858,0,12,53544,'CurrentBalance','(Amt)',TO_DATE('2013-08-12 15:16:45','YYYY-MM-DD HH24:MI:SS'),100,'Current Balance','ECA01',10,'The Current Balance field indicates the current balance in this account.','Y','Y','N','N','N','N','N','N','N','N','N','N','N','Current balance',0,TO_DATE('2013-08-12 15:16:45','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,ColumnSQL,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66658,858,0,12,53544,'CurrentBalance','(Amt)',TO_DATE('2013-08-12 15:16:45','YYYY-MM-DD HH24:MI:SS'),100,'Current Balance','ECA02',10,'The Current Balance field indicates the current balance in this account.','Y','Y','N','N','N','N','N','N','N','N','N','N','N','Current balance',0,TO_DATE('2013-08-12 15:16:45','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 12, 2013 3:16:46 PM VET
@@ -165,7 +165,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 12, 2013 3:18:13 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66659,196,0,19,53544,'C_DocType_ID',TO_DATE('2013-08-12 15:18:12','YYYY-MM-DD HH24:MI:SS'),100,'Document type or rules','ECA01',10,'The Document Type determines document sequence and processing rules','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Document Type',0,TO_DATE('2013-08-12 15:18:12','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66659,196,0,19,53544,'C_DocType_ID',TO_DATE('2013-08-12 15:18:12','YYYY-MM-DD HH24:MI:SS'),100,'Document type or rules','ECA02',10,'The Document Type determines document sequence and processing rules','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Document Type',0,TO_DATE('2013-08-12 15:18:12','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 12, 2013 3:18:13 PM VET
@@ -175,7 +175,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 12, 2013 3:34:19 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66660,558,0,19,53544,'C_Order_ID',TO_DATE('2013-08-12 15:34:17','YYYY-MM-DD HH24:MI:SS'),100,'Order','ECA01',10,'The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Order',0,TO_DATE('2013-08-12 15:34:17','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66660,558,0,19,53544,'C_Order_ID',TO_DATE('2013-08-12 15:34:17','YYYY-MM-DD HH24:MI:SS'),100,'Order','ECA02',10,'The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Order',0,TO_DATE('2013-08-12 15:34:17','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 12, 2013 3:34:19 PM VET
@@ -185,7 +185,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 12, 2013 3:37:05 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66661,526,0,29,53544,'Qty',TO_DATE('2013-08-12 15:37:04','YYYY-MM-DD HH24:MI:SS'),100,'Quantity','ECA01',10,'The Quantity indicates the number of a specific product or item for this document.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Quantity',0,TO_DATE('2013-08-12 15:37:04','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66661,526,0,29,53544,'Qty',TO_DATE('2013-08-12 15:37:04','YYYY-MM-DD HH24:MI:SS'),100,'Quantity','ECA02',10,'The Quantity indicates the number of a specific product or item for this document.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Quantity',0,TO_DATE('2013-08-12 15:37:04','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 12, 2013 3:37:05 PM VET
@@ -195,7 +195,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 12, 2013 3:38:09 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66662,290,0,10,53544,'DocumentNo',TO_DATE('2013-08-12 15:38:08','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document','ECA01',60,'The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66662,290,0,10,53544,'DocumentNo',TO_DATE('2013-08-12 15:38:08','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document','ECA02',60,'The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
 
 If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Document No',0,TO_DATE('2013-08-12 15:38:08','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
@@ -207,7 +207,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 12, 2013 3:39:01 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66663,289,0,17,131,53544,'DocStatus',TO_DATE('2013-08-12 15:39:00','YYYY-MM-DD HH24:MI:SS'),100,'The current status of the document','ECA01',2,'The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Document Status',0,TO_DATE('2013-08-12 15:39:00','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66663,289,0,17,131,53544,'DocStatus',TO_DATE('2013-08-12 15:39:00','YYYY-MM-DD HH24:MI:SS'),100,'The current status of the document','ECA02',2,'The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Document Status',0,TO_DATE('2013-08-12 15:39:00','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 12, 2013 3:39:01 PM VET
@@ -217,7 +217,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 12, 2013 3:40:33 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66664,287,0,28,135,53544,'DocAction',TO_DATE('2013-08-12 15:40:33','YYYY-MM-DD HH24:MI:SS'),100,'CO','The targeted status of the document','ECA01',2,'You find the current status in the Document Status field. The options are listed in a popup','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Document Action',0,TO_DATE('2013-08-12 15:40:33','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66664,287,0,28,135,53544,'DocAction',TO_DATE('2013-08-12 15:40:33','YYYY-MM-DD HH24:MI:SS'),100,'CO','The targeted status of the document','ECA02',2,'You find the current status in the Document Status field. The options are listed in a popup','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Document Action',0,TO_DATE('2013-08-12 15:40:33','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 12, 2013 3:40:33 PM VET
@@ -317,7 +317,7 @@ UPDATE AD_Field SET Name='Amount', Description='Amount', Help='Amount' WHERE AD_
 
 -- Aug 12, 2013 4:13:36 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66657,68109,0,53713,TO_DATE('2013-08-12 16:13:25','YYYY-MM-DD HH24:MI:SS'),100,'Amount',10,'ECA01','Amount','Y','Y','Y','N','N','N','N','N','Amount',TO_DATE('2013-08-12 16:13:25','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66657,68109,0,53713,TO_DATE('2013-08-12 16:13:25','YYYY-MM-DD HH24:MI:SS'),100,'Amount',10,'ECA02','Amount','Y','Y','Y','N','N','N','N','N','Amount',TO_DATE('2013-08-12 16:13:25','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:13:36 PM VET
@@ -327,7 +327,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:13:37 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66658,68110,0,53713,TO_DATE('2013-08-12 16:13:36','YYYY-MM-DD HH24:MI:SS'),100,'Current Balance',10,'ECA01','The Current Balance field indicates the current balance in this account.','Y','Y','Y','N','N','N','N','N','Current balance',TO_DATE('2013-08-12 16:13:36','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66658,68110,0,53713,TO_DATE('2013-08-12 16:13:36','YYYY-MM-DD HH24:MI:SS'),100,'Current Balance',10,'ECA02','The Current Balance field indicates the current balance in this account.','Y','Y','Y','N','N','N','N','N','Current balance',TO_DATE('2013-08-12 16:13:36','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:13:37 PM VET
@@ -337,7 +337,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:13:39 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66664,68111,0,53713,TO_DATE('2013-08-12 16:13:37','YYYY-MM-DD HH24:MI:SS'),100,'The targeted status of the document',2,'ECA01','You find the current status in the Document Status field. The options are listed in a popup','Y','Y','Y','N','N','N','N','N','Document Action',TO_DATE('2013-08-12 16:13:37','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66664,68111,0,53713,TO_DATE('2013-08-12 16:13:37','YYYY-MM-DD HH24:MI:SS'),100,'The targeted status of the document',2,'ECA02','You find the current status in the Document Status field. The options are listed in a popup','Y','Y','Y','N','N','N','N','N','Document Action',TO_DATE('2013-08-12 16:13:37','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:13:39 PM VET
@@ -347,7 +347,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:13:39 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66662,68112,0,53713,TO_DATE('2013-08-12 16:13:39','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document',60,'ECA01','The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66662,68112,0,53713,TO_DATE('2013-08-12 16:13:39','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document',60,'ECA02','The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
 
 If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).','Y','Y','Y','N','N','N','N','N','Document No',TO_DATE('2013-08-12 16:13:39','YYYY-MM-DD HH24:MI:SS'),100)
 ;
@@ -359,7 +359,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:13:40 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66663,68113,0,53713,TO_DATE('2013-08-12 16:13:39','YYYY-MM-DD HH24:MI:SS'),100,'The current status of the document',2,'ECA01','The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field','Y','Y','Y','N','N','N','N','N','Document Status',TO_DATE('2013-08-12 16:13:39','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66663,68113,0,53713,TO_DATE('2013-08-12 16:13:39','YYYY-MM-DD HH24:MI:SS'),100,'The current status of the document',2,'ECA02','The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field','Y','Y','Y','N','N','N','N','N','Document Status',TO_DATE('2013-08-12 16:13:39','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:13:40 PM VET
@@ -369,7 +369,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:13:41 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66659,68114,0,53713,TO_DATE('2013-08-12 16:13:40','YYYY-MM-DD HH24:MI:SS'),100,'Document type or rules',10,'ECA01','The Document Type determines document sequence and processing rules','Y','Y','Y','N','N','N','N','N','Document Type',TO_DATE('2013-08-12 16:13:40','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66659,68114,0,53713,TO_DATE('2013-08-12 16:13:40','YYYY-MM-DD HH24:MI:SS'),100,'Document type or rules',10,'ECA02','The Document Type determines document sequence and processing rules','Y','Y','Y','N','N','N','N','N','Document Type',TO_DATE('2013-08-12 16:13:40','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:13:41 PM VET
@@ -379,7 +379,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:13:43 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66660,68115,0,53713,TO_DATE('2013-08-12 16:13:41','YYYY-MM-DD HH24:MI:SS'),100,'Order',10,'ECA01','The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.','Y','Y','Y','N','N','N','N','N','Order',TO_DATE('2013-08-12 16:13:41','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66660,68115,0,53713,TO_DATE('2013-08-12 16:13:41','YYYY-MM-DD HH24:MI:SS'),100,'Order',10,'ECA02','The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.','Y','Y','Y','N','N','N','N','N','Order',TO_DATE('2013-08-12 16:13:41','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:13:43 PM VET
@@ -389,7 +389,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:13:43 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66661,68116,0,53713,TO_DATE('2013-08-12 16:13:43','YYYY-MM-DD HH24:MI:SS'),100,'Quantity',10,'ECA01','The Quantity indicates the number of a specific product or item for this document.','Y','Y','Y','N','N','N','N','N','Quantity',TO_DATE('2013-08-12 16:13:43','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66661,68116,0,53713,TO_DATE('2013-08-12 16:13:43','YYYY-MM-DD HH24:MI:SS'),100,'Quantity',10,'ECA02','The Quantity indicates the number of a specific product or item for this document.','Y','Y','Y','N','N','N','N','N','Quantity',TO_DATE('2013-08-12 16:13:43','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:13:43 PM VET
@@ -699,7 +699,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53570
 
 -- Aug 12, 2013 4:55:05 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType,WinHeight,WinWidth) VALUES (0,0,53259,TO_DATE('2013-08-12 16:55:04','YYYY-MM-DD HH24:MI:SS'),100,'Farmer Debts or Financial','ECA01','Y','N','N','Y','Farmer Debts','N',TO_DATE('2013-08-12 16:55:04','YYYY-MM-DD HH24:MI:SS'),100,'M',0,0)
+INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType,WinHeight,WinWidth) VALUES (0,0,53259,TO_DATE('2013-08-12 16:55:04','YYYY-MM-DD HH24:MI:SS'),100,'Farmer Debts or Financial','ECA02','Y','N','N','Y','Farmer Debts','N',TO_DATE('2013-08-12 16:55:04','YYYY-MM-DD HH24:MI:SS'),100,'M',0,0)
 ;
 
 -- Aug 12, 2013 4:55:05 PM VET
@@ -729,7 +729,7 @@ UPDATE AD_Tab_Trl SET IsTranslated='N' WHERE AD_Tab_ID=53714
 
 -- Aug 12, 2013 4:56:19 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53721,53545,53259,TO_DATE('2013-08-12 16:56:17','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','N','N','Y','N','N','Y','N','Y','N','N','Farmer Debs','N',10,0,TO_DATE('2013-08-12 16:56:17','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53721,53545,53259,TO_DATE('2013-08-12 16:56:17','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','N','N','Y','N','N','Y','N','Y','N','N','Farmer Debs','N',10,0,TO_DATE('2013-08-12 16:56:17','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:19 PM VET
@@ -744,7 +744,7 @@ UPDATE AD_Tab SET AD_Table_ID=53544,Updated=TO_DATE('2013-08-12 16:56:42','YYYY-
 
 -- Aug 12, 2013 4:56:51 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66544,68117,0,53721,TO_DATE('2013-08-12 16:56:49','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA01','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-12 16:56:49','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66544,68117,0,53721,TO_DATE('2013-08-12 16:56:49','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-12 16:56:49','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:51 PM VET
@@ -754,7 +754,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:51 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66545,68118,0,53721,TO_DATE('2013-08-12 16:56:51','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA01','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-12 16:56:51','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66545,68118,0,53721,TO_DATE('2013-08-12 16:56:51','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-12 16:56:51','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:51 PM VET
@@ -764,7 +764,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:52 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66554,68119,0,53721,TO_DATE('2013-08-12 16:56:51','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Business Partner',10,'ECA01','A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson','Y','Y','Y','N','N','N','N','N','Business Partner ',30,TO_DATE('2013-08-12 16:56:51','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66554,68119,0,53721,TO_DATE('2013-08-12 16:56:51','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Business Partner',10,'ECA02','A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson','Y','Y','Y','N','N','N','N','N','Business Partner ',30,TO_DATE('2013-08-12 16:56:51','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:52 PM VET
@@ -774,7 +774,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:52 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66577,68120,0,53721,TO_DATE('2013-08-12 16:56:52','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner to whom payment is made',10,'ECA01','The Beneficiary indicates the Business Partner to whom payment will be made.','Y','Y','Y','N','N','N','N','Y','Beneficiary',40,TO_DATE('2013-08-12 16:56:52','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66577,68120,0,53721,TO_DATE('2013-08-12 16:56:52','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner to whom payment is made',10,'ECA02','The Beneficiary indicates the Business Partner to whom payment will be made.','Y','Y','Y','N','N','N','N','Y','Beneficiary',40,TO_DATE('2013-08-12 16:56:52','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:52 PM VET
@@ -784,7 +784,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:53 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66549,68121,0,53721,TO_DATE('2013-08-12 16:56:52','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66549,68121,0,53721,TO_DATE('2013-08-12 16:56:52','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','Y','N','N','N','N','N','Active',50,TO_DATE('2013-08-12 16:56:52','YYYY-MM-DD HH24:MI:SS'),100)
@@ -797,7 +797,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:53 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66660,68122,0,53721,TO_DATE('2013-08-12 16:56:53','YYYY-MM-DD HH24:MI:SS'),100,'Order',10,'ECA01','The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.','Y','Y','Y','N','N','N','N','Y','Order',60,TO_DATE('2013-08-12 16:56:53','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66660,68122,0,53721,TO_DATE('2013-08-12 16:56:53','YYYY-MM-DD HH24:MI:SS'),100,'Order',10,'ECA02','The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.','Y','Y','Y','N','N','N','N','Y','Order',60,TO_DATE('2013-08-12 16:56:53','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:53 PM VET
@@ -807,7 +807,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:53 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66659,68123,0,53721,TO_DATE('2013-08-12 16:56:53','YYYY-MM-DD HH24:MI:SS'),100,'Document type or rules',10,'ECA01','The Document Type determines document sequence and processing rules','Y','Y','Y','N','N','N','N','N','Document Type',70,TO_DATE('2013-08-12 16:56:53','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66659,68123,0,53721,TO_DATE('2013-08-12 16:56:53','YYYY-MM-DD HH24:MI:SS'),100,'Document type or rules',10,'ECA02','The Document Type determines document sequence and processing rules','Y','Y','Y','N','N','N','N','N','Document Type',70,TO_DATE('2013-08-12 16:56:53','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:53 PM VET
@@ -817,7 +817,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:54 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66558,68124,0,53721,TO_DATE('2013-08-12 16:56:54','YYYY-MM-DD HH24:MI:SS'),100,'Date of the Document',7,'ECA01','The Document Date indicates the date the document was generated.  It may or may not be the same as the accounting date.','Y','Y','Y','N','N','N','N','Y','Document Date',80,TO_DATE('2013-08-12 16:56:54','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66558,68124,0,53721,TO_DATE('2013-08-12 16:56:54','YYYY-MM-DD HH24:MI:SS'),100,'Date of the Document',7,'ECA02','The Document Date indicates the date the document was generated.  It may or may not be the same as the accounting date.','Y','Y','Y','N','N','N','N','Y','Document Date',80,TO_DATE('2013-08-12 16:56:54','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:54 PM VET
@@ -827,7 +827,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:54 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66662,68125,0,53721,TO_DATE('2013-08-12 16:56:54','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document',60,'ECA01','The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66662,68125,0,53721,TO_DATE('2013-08-12 16:56:54','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document',60,'ECA02','The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
 
 If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).','Y','Y','Y','N','N','N','N','N','Document No',90,TO_DATE('2013-08-12 16:56:54','YYYY-MM-DD HH24:MI:SS'),100)
 ;
@@ -839,7 +839,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:55 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66548,68126,0,53721,TO_DATE('2013-08-12 16:56:54','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA01','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',100,TO_DATE('2013-08-12 16:56:54','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66548,68126,0,53721,TO_DATE('2013-08-12 16:56:54','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA02','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',100,TO_DATE('2013-08-12 16:56:54','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:55 PM VET
@@ -849,7 +849,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:55 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66661,68127,0,53721,TO_DATE('2013-08-12 16:56:55','YYYY-MM-DD HH24:MI:SS'),100,'Quantity',10,'ECA01','The Quantity indicates the number of a specific product or item for this document.','Y','Y','Y','N','N','N','N','N','Quantity',110,TO_DATE('2013-08-12 16:56:55','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66661,68127,0,53721,TO_DATE('2013-08-12 16:56:55','YYYY-MM-DD HH24:MI:SS'),100,'Quantity',10,'ECA02','The Quantity indicates the number of a specific product or item for this document.','Y','Y','Y','N','N','N','N','N','Quantity',110,TO_DATE('2013-08-12 16:56:55','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:55 PM VET
@@ -859,7 +859,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:56 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66556,68128,0,53721,TO_DATE('2013-08-12 16:56:55','YYYY-MM-DD HH24:MI:SS'),100,'The document has been processed',1,'ECA01','The Processed checkbox indicates that a document has been processed.','Y','Y','Y','N','N','N','Y','Y','Processed',120,TO_DATE('2013-08-12 16:56:55','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66556,68128,0,53721,TO_DATE('2013-08-12 16:56:55','YYYY-MM-DD HH24:MI:SS'),100,'The document has been processed',1,'ECA02','The Processed checkbox indicates that a document has been processed.','Y','Y','Y','N','N','N','Y','Y','Processed',120,TO_DATE('2013-08-12 16:56:55','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:56 PM VET
@@ -869,7 +869,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:56 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66657,68129,0,53721,TO_DATE('2013-08-12 16:56:56','YYYY-MM-DD HH24:MI:SS'),100,'Amount',10,'ECA01','Amount','Y','Y','Y','N','N','N','N','N','Amount',130,TO_DATE('2013-08-12 16:56:56','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66657,68129,0,53721,TO_DATE('2013-08-12 16:56:56','YYYY-MM-DD HH24:MI:SS'),100,'Amount',10,'ECA02','Amount','Y','Y','Y','N','N','N','N','N','Amount',130,TO_DATE('2013-08-12 16:56:56','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:56 PM VET
@@ -879,7 +879,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:57 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66658,68130,0,53721,TO_DATE('2013-08-12 16:56:56','YYYY-MM-DD HH24:MI:SS'),100,'Current Balance',10,'ECA01','The Current Balance field indicates the current balance in this account.','Y','Y','Y','N','N','N','N','Y','Current balance',140,TO_DATE('2013-08-12 16:56:56','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66658,68130,0,53721,TO_DATE('2013-08-12 16:56:56','YYYY-MM-DD HH24:MI:SS'),100,'Current Balance',10,'ECA02','The Current Balance field indicates the current balance in this account.','Y','Y','Y','N','N','N','N','Y','Current balance',140,TO_DATE('2013-08-12 16:56:56','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:57 PM VET
@@ -889,7 +889,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:57 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66663,68131,0,53721,TO_DATE('2013-08-12 16:56:57','YYYY-MM-DD HH24:MI:SS'),100,'The current status of the document',2,'ECA01','The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field','Y','Y','Y','N','N','N','N','N','Document Status',150,TO_DATE('2013-08-12 16:56:57','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66663,68131,0,53721,TO_DATE('2013-08-12 16:56:57','YYYY-MM-DD HH24:MI:SS'),100,'The current status of the document',2,'ECA02','The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field','Y','Y','Y','N','N','N','N','N','Document Status',150,TO_DATE('2013-08-12 16:56:57','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:57 PM VET
@@ -899,7 +899,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:58 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66664,68132,0,53721,TO_DATE('2013-08-12 16:56:57','YYYY-MM-DD HH24:MI:SS'),100,'The targeted status of the document',2,'ECA01','You find the current status in the Document Status field. The options are listed in a popup','Y','Y','Y','N','N','N','N','Y','Document Action',160,TO_DATE('2013-08-12 16:56:57','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66664,68132,0,53721,TO_DATE('2013-08-12 16:56:57','YYYY-MM-DD HH24:MI:SS'),100,'The targeted status of the document',2,'ECA02','You find the current status in the Document Status field. The options are listed in a popup','Y','Y','Y','N','N','N','N','Y','Document Action',160,TO_DATE('2013-08-12 16:56:57','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:58 PM VET
@@ -909,7 +909,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:56:58 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66550,68133,0,53721,TO_DATE('2013-08-12 16:56:58','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA01','Y','Y','N','N','N','N','N','N','Producer Debt',TO_DATE('2013-08-12 16:56:58','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66550,68133,0,53721,TO_DATE('2013-08-12 16:56:58','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA02','Y','Y','N','N','N','N','N','N','Producer Debt',TO_DATE('2013-08-12 16:56:58','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:56:58 PM VET
@@ -919,7 +919,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:37 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53722,53545,53259,TO_DATE('2013-08-12 16:57:36','YYYY-MM-DD HH24:MI:SS'),100,'Debt Details','ECA01','N','N','Y','N','N','Y','N','N','N','N','Farmer Debt Line','N',20,1,TO_DATE('2013-08-12 16:57:36','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53722,53545,53259,TO_DATE('2013-08-12 16:57:36','YYYY-MM-DD HH24:MI:SS'),100,'Debt Details','ECA02','N','N','Y','N','N','Y','N','N','N','N','Farmer Debt Line','N',20,1,TO_DATE('2013-08-12 16:57:36','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:37 PM VET
@@ -929,7 +929,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 12, 2013 4:57:43 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66559,68134,0,53722,TO_DATE('2013-08-12 16:57:42','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA01','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-12 16:57:42','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66559,68134,0,53722,TO_DATE('2013-08-12 16:57:42','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-12 16:57:42','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:43 PM VET
@@ -939,7 +939,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:43 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66560,68135,0,53722,TO_DATE('2013-08-12 16:57:43','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA01','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-12 16:57:43','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66560,68135,0,53722,TO_DATE('2013-08-12 16:57:43','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-12 16:57:43','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:43 PM VET
@@ -949,7 +949,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:44 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66572,68136,0,53722,TO_DATE('2013-08-12 16:57:43','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Producer Debt',30,TO_DATE('2013-08-12 16:57:43','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66572,68136,0,53722,TO_DATE('2013-08-12 16:57:43','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Producer Debt',30,TO_DATE('2013-08-12 16:57:43','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:44 PM VET
@@ -959,7 +959,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:44 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66569,68137,0,53722,TO_DATE('2013-08-12 16:57:44','YYYY-MM-DD HH24:MI:SS'),100,'Date of the Document',7,'ECA01','The Document Date indicates the date the document was generated.  It may or may not be the same as the accounting date.','Y','Y','Y','N','N','N','N','Y','Document Date',40,TO_DATE('2013-08-12 16:57:44','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66569,68137,0,53722,TO_DATE('2013-08-12 16:57:44','YYYY-MM-DD HH24:MI:SS'),100,'Date of the Document',7,'ECA02','The Document Date indicates the date the document was generated.  It may or may not be the same as the accounting date.','Y','Y','Y','N','N','N','N','Y','Document Date',40,TO_DATE('2013-08-12 16:57:44','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:44 PM VET
@@ -969,7 +969,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:45 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66574,68138,0,53722,TO_DATE('2013-08-12 16:57:44','YYYY-MM-DD HH24:MI:SS'),100,'Additional document charges',10,'ECA01','The Charge indicates a type of Charge (Handling, Shipping, Restocking)','Y','Y','Y','N','N','N','N','N','Charge',50,TO_DATE('2013-08-12 16:57:44','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66574,68138,0,53722,TO_DATE('2013-08-12 16:57:44','YYYY-MM-DD HH24:MI:SS'),100,'Additional document charges',10,'ECA02','The Charge indicates a type of Charge (Handling, Shipping, Restocking)','Y','Y','Y','N','N','N','N','N','Charge',50,TO_DATE('2013-08-12 16:57:44','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:45 PM VET
@@ -979,7 +979,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:45 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66573,68139,0,53722,TO_DATE('2013-08-12 16:57:45','YYYY-MM-DD HH24:MI:SS'),100,'Amount',10,'ECA01','Amount','Y','Y','Y','N','N','N','N','Y','Amount',60,TO_DATE('2013-08-12 16:57:45','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66573,68139,0,53722,TO_DATE('2013-08-12 16:57:45','YYYY-MM-DD HH24:MI:SS'),100,'Amount',10,'ECA02','Amount','Y','Y','Y','N','N','N','N','Y','Amount',60,TO_DATE('2013-08-12 16:57:45','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:45 PM VET
@@ -989,7 +989,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:46 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66564,68140,0,53722,TO_DATE('2013-08-12 16:57:45','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66564,68140,0,53722,TO_DATE('2013-08-12 16:57:45','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','Y','N','N','N','N','N','Active',70,TO_DATE('2013-08-12 16:57:45','YYYY-MM-DD HH24:MI:SS'),100)
@@ -1002,7 +1002,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:46 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66563,68141,0,53722,TO_DATE('2013-08-12 16:57:46','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA01','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',80,TO_DATE('2013-08-12 16:57:46','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66563,68141,0,53722,TO_DATE('2013-08-12 16:57:46','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA02','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',80,TO_DATE('2013-08-12 16:57:46','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:46 PM VET
@@ -1012,7 +1012,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:47 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_FieldGroup_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66575,104,68142,0,53722,TO_DATE('2013-08-12 16:57:46','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','Y','N','Credit Memo',90,TO_DATE('2013-08-12 16:57:46','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_FieldGroup_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66575,104,68142,0,53722,TO_DATE('2013-08-12 16:57:46','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','Y','N','Credit Memo',90,TO_DATE('2013-08-12 16:57:46','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:47 PM VET
@@ -1022,7 +1022,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:47 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66576,68143,0,53722,TO_DATE('2013-08-12 16:57:47','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','Y','Y','Debit Memo',100,TO_DATE('2013-08-12 16:57:47','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66576,68143,0,53722,TO_DATE('2013-08-12 16:57:47','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','Y','Y','Debit Memo',100,TO_DATE('2013-08-12 16:57:47','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:47 PM VET
@@ -1032,7 +1032,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:48 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_FieldGroup_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66571,101,68144,0,53722,TO_DATE('2013-08-12 16:57:47','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA01','Y','Y','Y','N','N','N','N','N','Process Now',110,TO_DATE('2013-08-12 16:57:47','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_FieldGroup_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66571,101,68144,0,53722,TO_DATE('2013-08-12 16:57:47','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA02','Y','Y','Y','N','N','N','N','N','Process Now',110,TO_DATE('2013-08-12 16:57:47','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:48 PM VET
@@ -1042,7 +1042,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:48 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66570,68145,0,53722,TO_DATE('2013-08-12 16:57:48','YYYY-MM-DD HH24:MI:SS'),100,'The document has been processed',1,'ECA01','The Processed checkbox indicates that a document has been processed.','Y','Y','Y','N','N','N','Y','Y','Processed',120,TO_DATE('2013-08-12 16:57:48','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66570,68145,0,53722,TO_DATE('2013-08-12 16:57:48','YYYY-MM-DD HH24:MI:SS'),100,'The document has been processed',1,'ECA02','The Processed checkbox indicates that a document has been processed.','Y','Y','Y','N','N','N','Y','Y','Processed',120,TO_DATE('2013-08-12 16:57:48','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:48 PM VET
@@ -1052,7 +1052,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:57:49 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66565,68146,0,53722,TO_DATE('2013-08-12 16:57:48','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA01','Y','Y','N','N','N','N','N','N','Producer Debt Line',TO_DATE('2013-08-12 16:57:48','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66565,68146,0,53722,TO_DATE('2013-08-12 16:57:48','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA02','Y','Y','N','N','N','N','N','N','Producer Debt Line',TO_DATE('2013-08-12 16:57:48','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 4:57:49 PM VET
@@ -1122,7 +1122,7 @@ DELETE FROM AD_Tab WHERE AD_Tab_ID=53713
 
 -- Aug 12, 2013 5:07:13 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu (Action,AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53589,0,53259,TO_DATE('2013-08-12 17:07:12','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Y','N','N','N','Farmer Debts',TO_DATE('2013-08-12 17:07:12','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu (Action,AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53589,0,53259,TO_DATE('2013-08-12 17:07:12','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Y','N','N','N','Farmer Debts',TO_DATE('2013-08-12 17:07:12','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:07:13 PM VET
@@ -1272,7 +1272,7 @@ UPDATE AD_PrintFormatItem pi SET PrintName='Farmer Debts Line', Name='Farmer Deb
 
 -- Aug 12, 2013 5:11:17 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType,WinHeight,WinWidth) VALUES (0,0,53260,TO_DATE('2013-08-12 17:11:16','YYYY-MM-DD HH24:MI:SS'),100,'Farm or Territory','ECA01','Y','N','N','Y','Farm','N',TO_DATE('2013-08-12 17:11:16','YYYY-MM-DD HH24:MI:SS'),100,'M',0,0)
+INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType,WinHeight,WinWidth) VALUES (0,0,53260,TO_DATE('2013-08-12 17:11:16','YYYY-MM-DD HH24:MI:SS'),100,'Farm or Territory','ECA02','Y','N','N','Y','Farm','N',TO_DATE('2013-08-12 17:11:16','YYYY-MM-DD HH24:MI:SS'),100,'M',0,0)
 ;
 
 -- Aug 12, 2013 5:11:17 PM VET
@@ -1282,7 +1282,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Aug 12, 2013 5:11:52 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53723,53506,53260,TO_DATE('2013-08-12 17:11:52','YYYY-MM-DD HH24:MI:SS'),100,'Farm or Territory','ECA01','N','N','Y','N','N','Y','N','Y','N','N','Farm','N',10,0,TO_DATE('2013-08-12 17:11:52','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53723,53506,53260,TO_DATE('2013-08-12 17:11:52','YYYY-MM-DD HH24:MI:SS'),100,'Farm or Territory','ECA02','N','N','Y','N','N','Y','N','Y','N','N','Farm','N',10,0,TO_DATE('2013-08-12 17:11:52','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:11:52 PM VET
@@ -1292,7 +1292,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 12, 2013 5:11:57 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65808,68147,0,53723,TO_DATE('2013-08-12 17:11:57','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA01','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-12 17:11:57','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65808,68147,0,53723,TO_DATE('2013-08-12 17:11:57','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-12 17:11:57','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:11:57 PM VET
@@ -1302,7 +1302,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:11:58 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65809,68148,0,53723,TO_DATE('2013-08-12 17:11:57','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA01','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-12 17:11:57','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65809,68148,0,53723,TO_DATE('2013-08-12 17:11:57','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-12 17:11:57','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:11:58 PM VET
@@ -1312,7 +1312,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:11:59 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65818,68149,0,53723,TO_DATE('2013-08-12 17:11:58','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Business Partner',10,'ECA01','A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson','Y','Y','Y','N','N','N','N','N','Business Partner ',30,TO_DATE('2013-08-12 17:11:58','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65818,68149,0,53723,TO_DATE('2013-08-12 17:11:58','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Business Partner',10,'ECA02','A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson','Y','Y','Y','N','N','N','N','N','Business Partner ',30,TO_DATE('2013-08-12 17:11:58','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:11:59 PM VET
@@ -1322,7 +1322,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:01 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65819,68150,0,53723,TO_DATE('2013-08-12 17:11:59','YYYY-MM-DD HH24:MI:SS'),100,'Identifies the (ship to) address for this Business Partner',10,'ECA01','The Partner address indicates the location of a Business Partner','Y','Y','Y','N','N','N','N','Y','Partner Location',40,TO_DATE('2013-08-12 17:11:59','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65819,68150,0,53723,TO_DATE('2013-08-12 17:11:59','YYYY-MM-DD HH24:MI:SS'),100,'Identifies the (ship to) address for this Business Partner',10,'ECA02','The Partner address indicates the location of a Business Partner','Y','Y','Y','N','N','N','N','Y','Partner Location',40,TO_DATE('2013-08-12 17:11:59','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:01 PM VET
@@ -1332,7 +1332,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:02 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65821,68151,0,53723,TO_DATE('2013-08-12 17:12:01','YYYY-MM-DD HH24:MI:SS'),100,'Search key for the record in the format required - must be unique',10,'ECA01','A search key allows you a fast method of finding a particular record.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65821,68151,0,53723,TO_DATE('2013-08-12 17:12:01','YYYY-MM-DD HH24:MI:SS'),100,'Search key for the record in the format required - must be unique',10,'ECA02','A search key allows you a fast method of finding a particular record.
 If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).','Y','Y','Y','N','N','N','N','N','Search Key',50,TO_DATE('2013-08-12 17:12:01','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
@@ -1343,7 +1343,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:03 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66542,68152,0,53723,TO_DATE('2013-08-12 17:12:02','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA01','Y','Y','Y','N','N','N','N','Y','Farm Type',60,TO_DATE('2013-08-12 17:12:02','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66542,68152,0,53723,TO_DATE('2013-08-12 17:12:02','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA02','Y','Y','Y','N','N','N','N','Y','Farm Type',60,TO_DATE('2013-08-12 17:12:02','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:03 PM VET
@@ -1353,7 +1353,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:04 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65814,68153,0,53723,TO_DATE('2013-08-12 17:12:03','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity',60,'ECA01','The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','Y','N','N','N','N','N','Name',70,TO_DATE('2013-08-12 17:12:03','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65814,68153,0,53723,TO_DATE('2013-08-12 17:12:03','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity',60,'ECA02','The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','Y','N','N','N','N','N','Name',70,TO_DATE('2013-08-12 17:12:03','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:04 PM VET
@@ -1363,7 +1363,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:05 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65812,68154,0,53723,TO_DATE('2013-08-12 17:12:04','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA01','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',80,TO_DATE('2013-08-12 17:12:04','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65812,68154,0,53723,TO_DATE('2013-08-12 17:12:04','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA02','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',80,TO_DATE('2013-08-12 17:12:04','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:05 PM VET
@@ -1373,7 +1373,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:06 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66538,68155,0,53723,TO_DATE('2013-08-12 17:12:05','YYYY-MM-DD HH24:MI:SS'),100,255,'ECA01','Y','Y','Y','N','N','N','N','N','Frontier North',90,TO_DATE('2013-08-12 17:12:05','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66538,68155,0,53723,TO_DATE('2013-08-12 17:12:05','YYYY-MM-DD HH24:MI:SS'),100,255,'ECA02','Y','Y','Y','N','N','N','N','N','Frontier North',90,TO_DATE('2013-08-12 17:12:05','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:06 PM VET
@@ -1383,7 +1383,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:08 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66539,68156,0,53723,TO_DATE('2013-08-12 17:12:06','YYYY-MM-DD HH24:MI:SS'),100,255,'ECA01','Y','Y','Y','N','N','N','N','N','Frontier South',100,TO_DATE('2013-08-12 17:12:06','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66539,68156,0,53723,TO_DATE('2013-08-12 17:12:06','YYYY-MM-DD HH24:MI:SS'),100,255,'ECA02','Y','Y','Y','N','N','N','N','N','Frontier South',100,TO_DATE('2013-08-12 17:12:06','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:08 PM VET
@@ -1393,7 +1393,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:09 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66540,68157,0,53723,TO_DATE('2013-08-12 17:12:08','YYYY-MM-DD HH24:MI:SS'),100,255,'ECA01','Y','Y','Y','N','N','N','N','N','Frontier East',110,TO_DATE('2013-08-12 17:12:08','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66540,68157,0,53723,TO_DATE('2013-08-12 17:12:08','YYYY-MM-DD HH24:MI:SS'),100,255,'ECA02','Y','Y','Y','N','N','N','N','N','Frontier East',110,TO_DATE('2013-08-12 17:12:08','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:09 PM VET
@@ -1403,7 +1403,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:10 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66541,68158,0,53723,TO_DATE('2013-08-12 17:12:09','YYYY-MM-DD HH24:MI:SS'),100,255,'ECA01','Y','Y','Y','N','N','N','N','N','Frontier West',120,TO_DATE('2013-08-12 17:12:09','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66541,68158,0,53723,TO_DATE('2013-08-12 17:12:09','YYYY-MM-DD HH24:MI:SS'),100,255,'ECA02','Y','Y','Y','N','N','N','N','N','Frontier West',120,TO_DATE('2013-08-12 17:12:09','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:10 PM VET
@@ -1413,7 +1413,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:11 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65822,68159,0,53723,TO_DATE('2013-08-12 17:12:10','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Area',130,TO_DATE('2013-08-12 17:12:10','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65822,68159,0,53723,TO_DATE('2013-08-12 17:12:10','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Area',130,TO_DATE('2013-08-12 17:12:10','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:11 PM VET
@@ -1423,7 +1423,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:12 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65813,68160,0,53723,TO_DATE('2013-08-12 17:12:11','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65813,68160,0,53723,TO_DATE('2013-08-12 17:12:11','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','Y','N','N','N','N','Y','Active',140,TO_DATE('2013-08-12 17:12:11','YYYY-MM-DD HH24:MI:SS'),100)
@@ -1436,7 +1436,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:14 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66319,68161,0,53723,TO_DATE('2013-08-12 17:12:13','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA01','Y','Y','Y','N','N','N','N','N','Process Now',150,TO_DATE('2013-08-12 17:12:13','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66319,68161,0,53723,TO_DATE('2013-08-12 17:12:13','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA02','Y','Y','Y','N','N','N','N','N','Process Now',150,TO_DATE('2013-08-12 17:12:13','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:14 PM VET
@@ -1446,7 +1446,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:15 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,66320,68162,0,53723,TO_DATE('2013-08-12 17:12:14','YYYY-MM-DD HH24:MI:SS'),100,'Element is valid',0,'ECA01','The element passed the validation check','Y','Y','Y','N','N','N','Y','Y','Valid',160,0,TO_DATE('2013-08-12 17:12:14','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,66320,68162,0,53723,TO_DATE('2013-08-12 17:12:14','YYYY-MM-DD HH24:MI:SS'),100,'Element is valid',0,'ECA02','The element passed the validation check','Y','Y','Y','N','N','N','Y','Y','Valid',160,0,TO_DATE('2013-08-12 17:12:14','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:15 PM VET
@@ -1456,7 +1456,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:12:16 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,65815,68163,0,53723,TO_DATE('2013-08-12 17:12:15','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA01','Y','Y','N','N','N','N','N','N','Farm',TO_DATE('2013-08-12 17:12:15','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,65815,68163,0,53723,TO_DATE('2013-08-12 17:12:15','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA02','Y','Y','N','N','N','N','N','N','Farm',TO_DATE('2013-08-12 17:12:15','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 12, 2013 5:12:16 PM VET
@@ -1471,7 +1471,7 @@ UPDATE AD_Tab_Trl SET Name='Finca',Description='Finca o Parcela',Updated=TO_DATE
 
 -- Aug 13, 2013 8:19:00 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53724,53508,53260,TO_DATE('2013-08-13 08:18:59','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','N','N','Y','N','N','Y','N','Y','N','N','Farm Division','N',20,1,TO_DATE('2013-08-13 08:18:59','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53724,53508,53260,TO_DATE('2013-08-13 08:18:59','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','N','N','Y','N','N','Y','N','Y','N','N','Farm Division','N',20,1,TO_DATE('2013-08-13 08:18:59','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:19:00 AM VET
@@ -1481,7 +1481,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 13, 2013 8:19:16 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65837,68164,0,53724,TO_DATE('2013-08-13 08:19:15','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA01','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-13 08:19:15','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65837,68164,0,53724,TO_DATE('2013-08-13 08:19:15','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-13 08:19:15','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:19:16 AM VET
@@ -1491,7 +1491,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:19:16 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65838,68165,0,53724,TO_DATE('2013-08-13 08:19:16','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA01','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-13 08:19:16','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65838,68165,0,53724,TO_DATE('2013-08-13 08:19:16','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-13 08:19:16','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:19:16 AM VET
@@ -1501,7 +1501,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:19:17 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65847,68166,0,53724,TO_DATE('2013-08-13 08:19:16','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','Y','N','Farm',30,TO_DATE('2013-08-13 08:19:16','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65847,68166,0,53724,TO_DATE('2013-08-13 08:19:16','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','Y','N','Farm',30,TO_DATE('2013-08-13 08:19:16','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:19:17 AM VET
@@ -1511,7 +1511,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:19:17 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65848,68167,0,53724,TO_DATE('2013-08-13 08:19:17','YYYY-MM-DD HH24:MI:SS'),100,'Search key for the record in the format required - must be unique',10,'ECA01','A search key allows you a fast method of finding a particular record.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65848,68167,0,53724,TO_DATE('2013-08-13 08:19:17','YYYY-MM-DD HH24:MI:SS'),100,'Search key for the record in the format required - must be unique',10,'ECA02','A search key allows you a fast method of finding a particular record.
 If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).','Y','Y','Y','N','N','N','N','Y','Search Key',40,TO_DATE('2013-08-13 08:19:17','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
@@ -1522,7 +1522,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:19:18 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65843,68168,0,53724,TO_DATE('2013-08-13 08:19:17','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity',60,'ECA01','The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','Y','N','N','N','N','N','Name',50,TO_DATE('2013-08-13 08:19:17','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65843,68168,0,53724,TO_DATE('2013-08-13 08:19:17','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity',60,'ECA02','The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','Y','N','N','N','N','N','Name',50,TO_DATE('2013-08-13 08:19:17','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:19:18 AM VET
@@ -1532,7 +1532,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:19:18 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65849,68169,0,53724,TO_DATE('2013-08-13 08:19:18','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Area',60,TO_DATE('2013-08-13 08:19:18','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65849,68169,0,53724,TO_DATE('2013-08-13 08:19:18','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Area',60,TO_DATE('2013-08-13 08:19:18','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:19:18 AM VET
@@ -1542,7 +1542,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:19:19 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65842,68170,0,53724,TO_DATE('2013-08-13 08:19:18','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65842,68170,0,53724,TO_DATE('2013-08-13 08:19:18','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','Y','N','N','N','N','Y','Active',70,TO_DATE('2013-08-13 08:19:18','YYYY-MM-DD HH24:MI:SS'),100)
@@ -1555,7 +1555,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:19:19 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66067,68171,0,53724,TO_DATE('2013-08-13 08:19:19','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','N','N','N','N','N','N','Farm Division',TO_DATE('2013-08-13 08:19:19','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66067,68171,0,53724,TO_DATE('2013-08-13 08:19:19','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','N','N','N','N','N','N','Farm Division',TO_DATE('2013-08-13 08:19:19','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:19:19 AM VET
@@ -1570,7 +1570,7 @@ UPDATE AD_Tab_Trl SET Name='Lote de Finca',Description='Lote o Sub-División de 
 
 -- Aug 13, 2013 8:22:11 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53725,53509,53260,TO_DATE('2013-08-13 08:22:09','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','N','N','Y','N','N','Y','N','N','N','N','Farming','N',30,2,TO_DATE('2013-08-13 08:22:09','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53725,53509,53260,TO_DATE('2013-08-13 08:22:09','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','N','N','Y','N','N','Y','N','N','N','N','Farming','N',30,2,TO_DATE('2013-08-13 08:22:09','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:11 AM VET
@@ -1580,7 +1580,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 13, 2013 8:22:16 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65851,68172,0,53725,TO_DATE('2013-08-13 08:22:15','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA01','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-13 08:22:15','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65851,68172,0,53725,TO_DATE('2013-08-13 08:22:15','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-13 08:22:15','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:16 AM VET
@@ -1590,7 +1590,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:16 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65852,68173,0,53725,TO_DATE('2013-08-13 08:22:16','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA01','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-13 08:22:16','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65852,68173,0,53725,TO_DATE('2013-08-13 08:22:16','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-13 08:22:16','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:16 AM VET
@@ -1600,7 +1600,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:17 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65862,68174,0,53725,TO_DATE('2013-08-13 08:22:16','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','Y','N','Farm Division',30,TO_DATE('2013-08-13 08:22:16','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65862,68174,0,53725,TO_DATE('2013-08-13 08:22:16','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','Y','N','Farm Division',30,TO_DATE('2013-08-13 08:22:16','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:17 AM VET
@@ -1610,7 +1610,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:17 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65856,68175,0,53725,TO_DATE('2013-08-13 08:22:17','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65856,68175,0,53725,TO_DATE('2013-08-13 08:22:17','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','Y','N','N','N','N','Y','Active',40,TO_DATE('2013-08-13 08:22:17','YYYY-MM-DD HH24:MI:SS'),100)
@@ -1623,7 +1623,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:18 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65857,68176,0,53725,TO_DATE('2013-08-13 08:22:17','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity',60,'ECA01','The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','Y','N','N','N','N','N','Name',50,TO_DATE('2013-08-13 08:22:17','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65857,68176,0,53725,TO_DATE('2013-08-13 08:22:17','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity',60,'ECA02','The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','Y','N','N','N','N','N','Name',50,TO_DATE('2013-08-13 08:22:17','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:18 AM VET
@@ -1633,7 +1633,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:18 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65855,68177,0,53725,TO_DATE('2013-08-13 08:22:18','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA01','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',60,TO_DATE('2013-08-13 08:22:18','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65855,68177,0,53725,TO_DATE('2013-08-13 08:22:18','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA02','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',60,TO_DATE('2013-08-13 08:22:18','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:18 AM VET
@@ -1643,7 +1643,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:19 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65863,68178,0,53725,TO_DATE('2013-08-13 08:22:18','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Category',70,TO_DATE('2013-08-13 08:22:18','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65863,68178,0,53725,TO_DATE('2013-08-13 08:22:18','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Category',70,TO_DATE('2013-08-13 08:22:18','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:19 AM VET
@@ -1653,7 +1653,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:19 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65865,68179,0,53725,TO_DATE('2013-08-13 08:22:19','YYYY-MM-DD HH24:MI:SS'),100,'First effective day (inclusive)',7,'ECA01','The Start Date indicates the first or starting date','Y','Y','Y','N','N','N','N','N','Start Date',80,TO_DATE('2013-08-13 08:22:19','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65865,68179,0,53725,TO_DATE('2013-08-13 08:22:19','YYYY-MM-DD HH24:MI:SS'),100,'First effective day (inclusive)',7,'ECA02','The Start Date indicates the first or starting date','Y','Y','Y','N','N','N','N','N','Start Date',80,TO_DATE('2013-08-13 08:22:19','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:19 AM VET
@@ -1663,7 +1663,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:20 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65864,68180,0,53725,TO_DATE('2013-08-13 08:22:19','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA01','Y','Y','Y','N','N','N','N','Y','Planting Cycle',90,TO_DATE('2013-08-13 08:22:19','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65864,68180,0,53725,TO_DATE('2013-08-13 08:22:19','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA02','Y','Y','Y','N','N','N','N','Y','Planting Cycle',90,TO_DATE('2013-08-13 08:22:19','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:20 AM VET
@@ -1673,7 +1673,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:20 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65872,68181,0,53725,TO_DATE('2013-08-13 08:22:20','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Area',100,TO_DATE('2013-08-13 08:22:20','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65872,68181,0,53725,TO_DATE('2013-08-13 08:22:20','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Area',100,TO_DATE('2013-08-13 08:22:20','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:20 AM VET
@@ -1683,7 +1683,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:21 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66353,68182,0,53725,TO_DATE('2013-08-13 08:22:20','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA01','Y','Y','Y','N','N','N','N','Y','Financing Type',110,TO_DATE('2013-08-13 08:22:20','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66353,68182,0,53725,TO_DATE('2013-08-13 08:22:20','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA02','Y','Y','Y','N','N','N','N','Y','Financing Type',110,TO_DATE('2013-08-13 08:22:20','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:21 AM VET
@@ -1693,7 +1693,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:21 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65866,68183,0,53725,TO_DATE('2013-08-13 08:22:21','YYYY-MM-DD HH24:MI:SS'),100,7,'ECA01','Y','Y','Y','N','N','N','N','N','Planting Start Date',120,TO_DATE('2013-08-13 08:22:21','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65866,68183,0,53725,TO_DATE('2013-08-13 08:22:21','YYYY-MM-DD HH24:MI:SS'),100,7,'ECA02','Y','Y','Y','N','N','N','N','N','Planting Start Date',120,TO_DATE('2013-08-13 08:22:21','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:21 AM VET
@@ -1703,7 +1703,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:22 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65867,68184,0,53725,TO_DATE('2013-08-13 08:22:21','YYYY-MM-DD HH24:MI:SS'),100,7,'ECA01','Y','Y','Y','N','N','N','N','Y','Planting End Date',130,TO_DATE('2013-08-13 08:22:21','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65867,68184,0,53725,TO_DATE('2013-08-13 08:22:21','YYYY-MM-DD HH24:MI:SS'),100,7,'ECA02','Y','Y','Y','N','N','N','N','Y','Planting End Date',130,TO_DATE('2013-08-13 08:22:21','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:22 AM VET
@@ -1713,7 +1713,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:22 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65868,68185,0,53725,TO_DATE('2013-08-13 08:22:22','YYYY-MM-DD HH24:MI:SS'),100,7,'ECA01','Y','Y','Y','N','N','N','N','N','Harvest Start Date',140,TO_DATE('2013-08-13 08:22:22','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65868,68185,0,53725,TO_DATE('2013-08-13 08:22:22','YYYY-MM-DD HH24:MI:SS'),100,7,'ECA02','Y','Y','Y','N','N','N','N','N','Harvest Start Date',140,TO_DATE('2013-08-13 08:22:22','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:22 AM VET
@@ -1723,7 +1723,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:23 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65869,68186,0,53725,TO_DATE('2013-08-13 08:22:22','YYYY-MM-DD HH24:MI:SS'),100,7,'ECA01','Y','Y','Y','N','N','N','N','Y','Harvest End Date',150,TO_DATE('2013-08-13 08:22:22','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65869,68186,0,53725,TO_DATE('2013-08-13 08:22:22','YYYY-MM-DD HH24:MI:SS'),100,7,'ECA02','Y','Y','Y','N','N','N','N','Y','Harvest End Date',150,TO_DATE('2013-08-13 08:22:22','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:23 AM VET
@@ -1733,7 +1733,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:23 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_FieldGroup_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66348,128,68187,0,53725,TO_DATE('2013-08-13 08:22:23','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA01','Y','Y','Y','N','N','N','N','N','Process Now',160,TO_DATE('2013-08-13 08:22:23','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_FieldGroup_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66348,128,68187,0,53725,TO_DATE('2013-08-13 08:22:23','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA02','Y','Y','Y','N','N','N','N','N','Process Now',160,TO_DATE('2013-08-13 08:22:23','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:23 AM VET
@@ -1743,7 +1743,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:24 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,DisplayLogic,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65874,68188,0,53725,TO_DATE('2013-08-13 08:22:23','YYYY-MM-DD HH24:MI:SS'),100,'Order',10,'@FinancingType@=''S''','ECA01','The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.','Y','Y','Y','N','N','N','Y','Y','Order',170,TO_DATE('2013-08-13 08:22:23','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,DisplayLogic,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65874,68188,0,53725,TO_DATE('2013-08-13 08:22:23','YYYY-MM-DD HH24:MI:SS'),100,'Order',10,'@FinancingType@=''S''','ECA02','The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.','Y','Y','Y','N','N','N','Y','Y','Order',170,TO_DATE('2013-08-13 08:22:23','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:24 AM VET
@@ -1753,7 +1753,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:24 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66537,68189,0,53725,TO_DATE('2013-08-13 08:22:24','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA01','Y','Y','Y','N','N','N','N','N','Guide Generate',180,TO_DATE('2013-08-13 08:22:24','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66537,68189,0,53725,TO_DATE('2013-08-13 08:22:24','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA02','Y','Y','Y','N','N','N','N','N','Guide Generate',180,TO_DATE('2013-08-13 08:22:24','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:24 AM VET
@@ -1763,7 +1763,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:25 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_FieldGroup_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65870,50028,68190,0,53725,TO_DATE('2013-08-13 08:22:24','YYYY-MM-DD HH24:MI:SS'),100,7,'ECA01','Y','Y','Y','N','N','N','Y','N','Estimated Date',190,TO_DATE('2013-08-13 08:22:24','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_FieldGroup_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65870,50028,68190,0,53725,TO_DATE('2013-08-13 08:22:24','YYYY-MM-DD HH24:MI:SS'),100,7,'ECA02','Y','Y','Y','N','N','N','Y','N','Estimated Date',190,TO_DATE('2013-08-13 08:22:24','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:25 AM VET
@@ -1773,7 +1773,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:26 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66543,68191,0,53725,TO_DATE('2013-08-13 08:22:25','YYYY-MM-DD HH24:MI:SS'),100,14,'ECA01','Y','Y','Y','N','N','N','N','Y','Estimated Yield',200,TO_DATE('2013-08-13 08:22:25','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66543,68191,0,53725,TO_DATE('2013-08-13 08:22:25','YYYY-MM-DD HH24:MI:SS'),100,14,'ECA02','Y','Y','Y','N','N','N','N','Y','Estimated Yield',200,TO_DATE('2013-08-13 08:22:25','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:26 AM VET
@@ -1783,7 +1783,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:26 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65871,68192,0,53725,TO_DATE('2013-08-13 08:22:26','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Estimated Qty',210,TO_DATE('2013-08-13 08:22:26','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65871,68192,0,53725,TO_DATE('2013-08-13 08:22:26','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Estimated Qty',210,TO_DATE('2013-08-13 08:22:26','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:26 AM VET
@@ -1793,7 +1793,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:27 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,66609,68193,0,53725,TO_DATE('2013-08-13 08:22:26','YYYY-MM-DD HH24:MI:SS'),100,'Quantity',0,'ECA01','The Quantity indicates the number of a specific product or item for this document.','Y','Y','Y','N','N','N','N','Y','Quantity',220,0,TO_DATE('2013-08-13 08:22:26','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,66609,68193,0,53725,TO_DATE('2013-08-13 08:22:26','YYYY-MM-DD HH24:MI:SS'),100,'Quantity',0,'ECA02','The Quantity indicates the number of a specific product or item for this document.','Y','Y','Y','N','N','N','N','Y','Quantity',220,0,TO_DATE('2013-08-13 08:22:26','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:27 AM VET
@@ -1803,7 +1803,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:22:28 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,65858,68194,0,53725,TO_DATE('2013-08-13 08:22:27','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA01','Y','Y','N','N','N','N','N','N','Farming',TO_DATE('2013-08-13 08:22:27','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,65858,68194,0,53725,TO_DATE('2013-08-13 08:22:27','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA02','Y','Y','N','N','N','N','N','N','Farming',TO_DATE('2013-08-13 08:22:27','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:22:28 AM VET
@@ -1813,7 +1813,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:30:44 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Tab (AD_Client_ID,AD_Column_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,65888,0,53726,53510,53260,TO_DATE('2013-08-13 08:30:43','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','N','N','Y','N','N','Y','N','N','N','N','Movilization Guide','N',40,3,TO_DATE('2013-08-13 08:30:43','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Column_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,65888,0,53726,53510,53260,TO_DATE('2013-08-13 08:30:43','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','N','N','Y','N','N','Y','N','N','N','N','Movilization Guide','N',40,3,TO_DATE('2013-08-13 08:30:43','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:30:44 AM VET
@@ -1823,7 +1823,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 13, 2013 8:31:01 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65875,68195,0,53726,TO_DATE('2013-08-13 08:31:00','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA01','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-13 08:31:00','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65875,68195,0,53726,TO_DATE('2013-08-13 08:31:00','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',10,TO_DATE('2013-08-13 08:31:00','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:01 AM VET
@@ -1833,7 +1833,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:02 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65876,68196,0,53726,TO_DATE('2013-08-13 08:31:01','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA01','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-13 08:31:01','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65876,68196,0,53726,TO_DATE('2013-08-13 08:31:01','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_DATE('2013-08-13 08:31:01','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:02 AM VET
@@ -1843,7 +1843,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:03 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65888,68197,0,53726,TO_DATE('2013-08-13 08:31:02','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Farming',30,TO_DATE('2013-08-13 08:31:02','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65888,68197,0,53726,TO_DATE('2013-08-13 08:31:02','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Farming',30,TO_DATE('2013-08-13 08:31:02','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:03 AM VET
@@ -1853,7 +1853,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:04 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66322,68198,0,53726,TO_DATE('2013-08-13 08:31:03','YYYY-MM-DD HH24:MI:SS'),100,'Document type or rules',10,'ECA01','The Document Type determines document sequence and processing rules','Y','Y','Y','N','N','N','N','Y','Document Type',40,TO_DATE('2013-08-13 08:31:03','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66322,68198,0,53726,TO_DATE('2013-08-13 08:31:03','YYYY-MM-DD HH24:MI:SS'),100,'Document type or rules',10,'ECA02','The Document Type determines document sequence and processing rules','Y','Y','Y','N','N','N','N','Y','Document Type',40,TO_DATE('2013-08-13 08:31:03','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:04 AM VET
@@ -1863,7 +1863,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:06 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65886,68199,0,53726,TO_DATE('2013-08-13 08:31:04','YYYY-MM-DD HH24:MI:SS'),100,'Date of the Document',7,'ECA01','The Document Date indicates the date the document was generated.  It may or may not be the same as the accounting date.','Y','Y','Y','N','N','N','N','N','Document Date',50,TO_DATE('2013-08-13 08:31:04','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65886,68199,0,53726,TO_DATE('2013-08-13 08:31:04','YYYY-MM-DD HH24:MI:SS'),100,'Date of the Document',7,'ECA02','The Document Date indicates the date the document was generated.  It may or may not be the same as the accounting date.','Y','Y','Y','N','N','N','N','N','Document Date',50,TO_DATE('2013-08-13 08:31:04','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:06 AM VET
@@ -1873,7 +1873,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:07 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65887,68200,0,53726,TO_DATE('2013-08-13 08:31:06','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document',10,'ECA01','The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65887,68200,0,53726,TO_DATE('2013-08-13 08:31:06','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document',10,'ECA02','The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
 
 If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).','Y','Y','Y','N','N','N','N','Y','Document No',60,TO_DATE('2013-08-13 08:31:06','YYYY-MM-DD HH24:MI:SS'),100)
 ;
@@ -1885,7 +1885,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:08 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66352,68201,0,53726,TO_DATE('2013-08-13 08:31:07','YYYY-MM-DD HH24:MI:SS'),100,14,'ECA01','Y','Y','Y','N','N','N','N','N','Qty to deliver',80,TO_DATE('2013-08-13 08:31:07','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66352,68201,0,53726,TO_DATE('2013-08-13 08:31:07','YYYY-MM-DD HH24:MI:SS'),100,14,'ECA02','Y','Y','Y','N','N','N','N','N','Qty to deliver',80,TO_DATE('2013-08-13 08:31:07','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:08 AM VET
@@ -1895,7 +1895,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:09 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66531,68202,0,53726,TO_DATE('2013-08-13 08:31:08','YYYY-MM-DD HH24:MI:SS'),100,'Valid to including this date (last day)',7,'ECA01','The Valid To date indicates the last day of a date range','Y','Y','Y','N','N','N','N','Y','Valid to',90,TO_DATE('2013-08-13 08:31:08','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66531,68202,0,53726,TO_DATE('2013-08-13 08:31:08','YYYY-MM-DD HH24:MI:SS'),100,'Valid to including this date (last day)',7,'ECA02','The Valid To date indicates the last day of a date range','Y','Y','Y','N','N','N','N','Y','Valid to',90,TO_DATE('2013-08-13 08:31:08','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:09 AM VET
@@ -1905,7 +1905,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:10 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65889,68203,0,53726,TO_DATE('2013-08-13 08:31:09','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Vehicle Type',100,TO_DATE('2013-08-13 08:31:09','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65889,68203,0,53726,TO_DATE('2013-08-13 08:31:09','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Vehicle Type',100,TO_DATE('2013-08-13 08:31:09','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:10 AM VET
@@ -1915,7 +1915,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:11 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66534,68204,0,53726,TO_DATE('2013-08-13 08:31:10','YYYY-MM-DD HH24:MI:SS'),100,'Storage Warehouse and Service Point',10,'ECA01','The Warehouse identifies a unique Warehouse where products are stored or Services are provided.','Y','Y','Y','N','N','N','N','Y','Warehouse',130,TO_DATE('2013-08-13 08:31:10','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66534,68204,0,53726,TO_DATE('2013-08-13 08:31:10','YYYY-MM-DD HH24:MI:SS'),100,'Storage Warehouse and Service Point',10,'ECA02','The Warehouse identifies a unique Warehouse where products are stored or Services are provided.','Y','Y','Y','N','N','N','N','Y','Warehouse',130,TO_DATE('2013-08-13 08:31:10','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:11 AM VET
@@ -1925,7 +1925,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:12 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66535,68205,0,53726,TO_DATE('2013-08-13 08:31:11','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Business Partner',10,'ECA01','A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson','Y','Y','Y','N','N','N','N','N','Business Partner ',140,TO_DATE('2013-08-13 08:31:11','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66535,68205,0,53726,TO_DATE('2013-08-13 08:31:11','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Business Partner',10,'ECA02','A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson','Y','Y','Y','N','N','N','N','N','Business Partner ',140,TO_DATE('2013-08-13 08:31:11','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:12 AM VET
@@ -1935,7 +1935,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:14 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65879,68206,0,53726,TO_DATE('2013-08-13 08:31:12','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA01','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',150,TO_DATE('2013-08-13 08:31:12','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65879,68206,0,53726,TO_DATE('2013-08-13 08:31:12','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA02','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',150,TO_DATE('2013-08-13 08:31:12','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:14 AM VET
@@ -1945,7 +1945,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:17 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65880,68207,0,53726,TO_DATE('2013-08-13 08:31:14','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65880,68207,0,53726,TO_DATE('2013-08-13 08:31:14','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','Y','N','N','N','N','N','Active',160,TO_DATE('2013-08-13 08:31:14','YYYY-MM-DD HH24:MI:SS'),100)
@@ -1958,7 +1958,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:18 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65891,68208,0,53726,TO_DATE('2013-08-13 08:31:17','YYYY-MM-DD HH24:MI:SS'),100,'The document has been processed',1,'ECA01','The Processed checkbox indicates that a document has been processed.','Y','Y','Y','N','N','N','Y','Y','Processed',170,TO_DATE('2013-08-13 08:31:17','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65891,68208,0,53726,TO_DATE('2013-08-13 08:31:17','YYYY-MM-DD HH24:MI:SS'),100,'The document has been processed',1,'ECA02','The Processed checkbox indicates that a document has been processed.','Y','Y','Y','N','N','N','Y','Y','Processed',170,TO_DATE('2013-08-13 08:31:17','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:18 AM VET
@@ -1968,7 +1968,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:31:19 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,65882,68209,0,53726,TO_DATE('2013-08-13 08:31:18','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA01','Y','Y','N','N','N','N','N','N','Mobilization Guide',TO_DATE('2013-08-13 08:31:18','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,65882,68209,0,53726,TO_DATE('2013-08-13 08:31:18','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA02','Y','Y','N','N','N','N','N','N','Mobilization Guide',TO_DATE('2013-08-13 08:31:18','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:31:19 AM VET
@@ -2008,7 +2008,7 @@ UPDATE AD_Tab SET AD_Column_ID=65847,Updated=TO_DATE('2013-08-13 08:33:38','YYYY
 
 -- Aug 13, 2013 8:35:07 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu (Action,AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53590,0,53260,TO_DATE('2013-08-13 08:35:07','YYYY-MM-DD HH24:MI:SS'),100,'Farm or Territory','ECA01','Y','Y','N','N','N','Farm',TO_DATE('2013-08-13 08:35:07','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu (Action,AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53590,0,53260,TO_DATE('2013-08-13 08:35:07','YYYY-MM-DD HH24:MI:SS'),100,'Farm or Territory','ECA02','Y','Y','N','N','N','Farm',TO_DATE('2013-08-13 08:35:07','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:35:07 AM VET
@@ -2088,7 +2088,7 @@ UPDATE AD_Menu_Trl SET Name='Configuración de A.T',Description='Configuración 
 
 -- Aug 13, 2013 8:44:13 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,CopyColumnsFromTable,Created,CreatedBy,EntityType,ImportTable,IsActive,IsCentrallyMaintained,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('3',0,0,53549,'N',TO_DATE('2013-08-13 08:44:12','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','N','Y','Y','N','Y','N','N','N',0,'Credit Definition','L','FTA_CreditDefinition',TO_DATE('2013-08-13 08:44:12','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,CopyColumnsFromTable,Created,CreatedBy,EntityType,ImportTable,IsActive,IsCentrallyMaintained,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('3',0,0,53549,'N',TO_DATE('2013-08-13 08:44:12','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','N','Y','Y','N','Y','N','N','N',0,'Credit Definition','L','FTA_CreditDefinition',TO_DATE('2013-08-13 08:44:12','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 8:44:13 AM VET
@@ -2108,7 +2108,7 @@ UPDATE AD_Table SET Description='Credit Definition',Updated=TO_DATE('2013-08-13 
 
 -- Aug 13, 2013 9:09:51 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66667,102,0,19,53549,'AD_Client_ID',TO_DATE('2013-08-13 09:09:45','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Client_ID@','Client/Tenant for this installation.','ECA01',22,'A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','N','N','N','N','Y','N','N','N','N','N','Client',0,TO_DATE('2013-08-13 09:09:45','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66667,102,0,19,53549,'AD_Client_ID',TO_DATE('2013-08-13 09:09:45','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Client_ID@','Client/Tenant for this installation.','ECA02',22,'A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','N','N','N','N','Y','N','N','N','N','N','Client',0,TO_DATE('2013-08-13 09:09:45','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:09:51 AM VET
@@ -2118,7 +2118,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:09:52 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66668,113,0,19,53549,104,'AD_Org_ID',TO_DATE('2013-08-13 09:09:51','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Org_ID@','Organizational entity within client','ECA01',22,'An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','N','N','N','N','Y','N','N','N','N','N','Organization',0,TO_DATE('2013-08-13 09:09:51','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66668,113,0,19,53549,104,'AD_Org_ID',TO_DATE('2013-08-13 09:09:51','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Org_ID@','Organizational entity within client','ECA02',22,'An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','N','N','N','N','Y','N','N','N','N','N','Organization',0,TO_DATE('2013-08-13 09:09:51','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:09:52 AM VET
@@ -2128,7 +2128,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:09:52 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66669,245,0,16,53549,'Created',TO_DATE('2013-08-13 09:09:52','YYYY-MM-DD HH24:MI:SS'),100,'Date this record was created','ECA01',7,'The Created field indicates the date that this record was created.','Y','N','N','N','N','Y','N','N','N','N','N','Created',0,TO_DATE('2013-08-13 09:09:52','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66669,245,0,16,53549,'Created',TO_DATE('2013-08-13 09:09:52','YYYY-MM-DD HH24:MI:SS'),100,'Date this record was created','ECA02',7,'The Created field indicates the date that this record was created.','Y','N','N','N','N','Y','N','N','N','N','N','Created',0,TO_DATE('2013-08-13 09:09:52','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:09:52 AM VET
@@ -2138,7 +2138,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:09:53 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66670,246,0,18,110,53549,'CreatedBy',TO_DATE('2013-08-13 09:09:52','YYYY-MM-DD HH24:MI:SS'),100,'User who created this records','ECA01',22,'The Created By field indicates the user who created this record.','Y','N','N','N','N','Y','N','N','N','N','N','Created By',0,TO_DATE('2013-08-13 09:09:52','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66670,246,0,18,110,53549,'CreatedBy',TO_DATE('2013-08-13 09:09:52','YYYY-MM-DD HH24:MI:SS'),100,'User who created this records','ECA02',22,'The Created By field indicates the user who created this record.','Y','N','N','N','N','Y','N','N','N','N','N','Created By',0,TO_DATE('2013-08-13 09:09:52','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:09:53 AM VET
@@ -2148,7 +2148,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:09:53 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66671,348,0,20,53549,'IsActive',TO_DATE('2013-08-13 09:09:53','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','ECA01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66671,348,0,20,53549,'IsActive',TO_DATE('2013-08-13 09:09:53','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','ECA02',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','N','N','N','N','Y','N','N','N','N','Y','Active',0,TO_DATE('2013-08-13 09:09:53','YYYY-MM-DD HH24:MI:SS'),100,1)
@@ -2161,7 +2161,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:09:54 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56108,0,'FTA_CreditDefinition_ID',TO_DATE('2013-08-13 09:09:53','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Credit Definition','Credit Definition',TO_DATE('2013-08-13 09:09:53','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56108,0,'FTA_CreditDefinition_ID',TO_DATE('2013-08-13 09:09:53','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Credit Definition','Credit Definition',TO_DATE('2013-08-13 09:09:53','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:09:54 AM VET
@@ -2171,7 +2171,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 13, 2013 9:09:55 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66672,56108,0,13,53549,'FTA_CreditDefinition_ID',TO_DATE('2013-08-13 09:09:53','YYYY-MM-DD HH24:MI:SS'),100,'ECA01',22,'Y','N','N','N','Y','Y','N','N','N','N','N','Credit Definition',0,TO_DATE('2013-08-13 09:09:53','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66672,56108,0,13,53549,'FTA_CreditDefinition_ID',TO_DATE('2013-08-13 09:09:53','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',22,'Y','N','N','N','Y','Y','N','N','N','N','N','Credit Definition',0,TO_DATE('2013-08-13 09:09:53','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:09:55 AM VET
@@ -2181,7 +2181,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:09:55 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66673,607,0,16,53549,'Updated',TO_DATE('2013-08-13 09:09:55','YYYY-MM-DD HH24:MI:SS'),100,'Date this record was updated','ECA01',7,'The Updated field indicates the date that this record was updated.','Y','N','N','N','N','Y','N','N','N','N','N','Updated',0,TO_DATE('2013-08-13 09:09:55','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66673,607,0,16,53549,'Updated',TO_DATE('2013-08-13 09:09:55','YYYY-MM-DD HH24:MI:SS'),100,'Date this record was updated','ECA02',7,'The Updated field indicates the date that this record was updated.','Y','N','N','N','N','Y','N','N','N','N','N','Updated',0,TO_DATE('2013-08-13 09:09:55','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:09:55 AM VET
@@ -2191,7 +2191,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:09:56 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66674,608,0,18,110,53549,'UpdatedBy',TO_DATE('2013-08-13 09:09:55','YYYY-MM-DD HH24:MI:SS'),100,'User who updated this records','ECA01',22,'The Updated By field indicates the user who updated this record.','Y','N','N','N','N','Y','N','N','N','N','N','Updated By',0,TO_DATE('2013-08-13 09:09:55','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66674,608,0,18,110,53549,'UpdatedBy',TO_DATE('2013-08-13 09:09:55','YYYY-MM-DD HH24:MI:SS'),100,'User who updated this records','ECA02',22,'The Updated By field indicates the user who updated this record.','Y','N','N','N','N','Y','N','N','N','N','N','Updated By',0,TO_DATE('2013-08-13 09:09:55','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:09:56 AM VET
@@ -2211,7 +2211,7 @@ UPDATE AD_Element_Trl SET Name='Definició de Crédito',PrintName='Definició de
 
 -- Aug 13, 2013 9:12:11 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66675,469,0,10,53549,'Name',TO_DATE('2013-08-13 09:12:08','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity','ECA01',60,'The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Name',0,TO_DATE('2013-08-13 09:12:08','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66675,469,0,10,53549,'Name',TO_DATE('2013-08-13 09:12:08','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity','ECA02',60,'The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Name',0,TO_DATE('2013-08-13 09:12:08','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 9:12:11 AM VET
@@ -2221,7 +2221,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:17:09 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66676,275,0,14,53549,'Description',TO_DATE('2013-08-13 09:17:08','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record','ECA01',255,'A description is limited to 255 characters.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Description',0,TO_DATE('2013-08-13 09:17:08','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66676,275,0,14,53549,'Description',TO_DATE('2013-08-13 09:17:08','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record','ECA02',255,'A description is limited to 255 characters.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Description',0,TO_DATE('2013-08-13 09:17:08','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 9:17:09 AM VET
@@ -2231,7 +2231,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:17:47 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66677,160,0,12,53549,'Amt',TO_DATE('2013-08-13 09:17:45','YYYY-MM-DD HH24:MI:SS'),100,'Amount','ECA01',10,'Amount','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Amount',0,TO_DATE('2013-08-13 09:17:45','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66677,160,0,12,53549,'Amt',TO_DATE('2013-08-13 09:17:45','YYYY-MM-DD HH24:MI:SS'),100,'Amount','ECA02',10,'Amount','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Amount',0,TO_DATE('2013-08-13 09:17:45','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 9:17:47 AM VET
@@ -2241,7 +2241,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:18:58 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66678,524,0,28,53549,'Processing',TO_DATE('2013-08-13 09:18:55','YYYY-MM-DD HH24:MI:SS'),100,'ECA01',1,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Process Now',0,TO_DATE('2013-08-13 09:18:55','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66678,524,0,28,53549,'Processing',TO_DATE('2013-08-13 09:18:55','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',1,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Process Now',0,TO_DATE('2013-08-13 09:18:55','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 9:18:58 AM VET
@@ -2251,7 +2251,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:26:09 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,CopyColumnsFromTable,Created,CreatedBy,Description,EntityType,ImportTable,IsActive,IsCentrallyMaintained,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('3',0,0,53550,'N',TO_DATE('2013-08-13 09:26:07','YYYY-MM-DD HH24:MI:SS'),100,'Credit Definition Detail','ECA01','N','Y','Y','N','Y','N','N','N',0,'Credit Definition Line','L','FTA_CreditDefinitionLine',TO_DATE('2013-08-13 09:26:07','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,CopyColumnsFromTable,Created,CreatedBy,Description,EntityType,ImportTable,IsActive,IsCentrallyMaintained,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('3',0,0,53550,'N',TO_DATE('2013-08-13 09:26:07','YYYY-MM-DD HH24:MI:SS'),100,'Credit Definition Detail','ECA02','N','Y','Y','N','Y','N','N','N',0,'Credit Definition Line','L','FTA_CreditDefinitionLine',TO_DATE('2013-08-13 09:26:07','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:26:09 AM VET
@@ -2266,7 +2266,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Aug 13, 2013 9:26:21 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66679,102,0,19,53550,'AD_Client_ID',TO_DATE('2013-08-13 09:26:21','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Client_ID@','Client/Tenant for this installation.','ECA01',22,'A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','N','N','N','N','Y','N','N','N','N','N','Client',0,TO_DATE('2013-08-13 09:26:21','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66679,102,0,19,53550,'AD_Client_ID',TO_DATE('2013-08-13 09:26:21','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Client_ID@','Client/Tenant for this installation.','ECA02',22,'A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','N','N','N','N','Y','N','N','N','N','N','Client',0,TO_DATE('2013-08-13 09:26:21','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:26:21 AM VET
@@ -2276,7 +2276,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:26:22 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66680,113,0,19,53550,104,'AD_Org_ID',TO_DATE('2013-08-13 09:26:21','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Org_ID@','Organizational entity within client','ECA01',22,'An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','N','N','N','N','Y','N','N','N','N','N','Organization',0,TO_DATE('2013-08-13 09:26:21','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66680,113,0,19,53550,104,'AD_Org_ID',TO_DATE('2013-08-13 09:26:21','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Org_ID@','Organizational entity within client','ECA02',22,'An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','N','N','N','N','Y','N','N','N','N','N','Organization',0,TO_DATE('2013-08-13 09:26:21','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:26:22 AM VET
@@ -2286,7 +2286,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:26:23 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66681,245,0,16,53550,'Created',TO_DATE('2013-08-13 09:26:22','YYYY-MM-DD HH24:MI:SS'),100,'Date this record was created','ECA01',7,'The Created field indicates the date that this record was created.','Y','N','N','N','N','Y','N','N','N','N','N','Created',0,TO_DATE('2013-08-13 09:26:22','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66681,245,0,16,53550,'Created',TO_DATE('2013-08-13 09:26:22','YYYY-MM-DD HH24:MI:SS'),100,'Date this record was created','ECA02',7,'The Created field indicates the date that this record was created.','Y','N','N','N','N','Y','N','N','N','N','N','Created',0,TO_DATE('2013-08-13 09:26:22','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:26:23 AM VET
@@ -2296,7 +2296,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:26:23 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66682,246,0,18,110,53550,'CreatedBy',TO_DATE('2013-08-13 09:26:23','YYYY-MM-DD HH24:MI:SS'),100,'User who created this records','ECA01',22,'The Created By field indicates the user who created this record.','Y','N','N','N','N','Y','N','N','N','N','N','Created By',0,TO_DATE('2013-08-13 09:26:23','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66682,246,0,18,110,53550,'CreatedBy',TO_DATE('2013-08-13 09:26:23','YYYY-MM-DD HH24:MI:SS'),100,'User who created this records','ECA02',22,'The Created By field indicates the user who created this record.','Y','N','N','N','N','Y','N','N','N','N','N','Created By',0,TO_DATE('2013-08-13 09:26:23','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:26:23 AM VET
@@ -2306,7 +2306,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:26:24 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66683,348,0,20,53550,'IsActive',TO_DATE('2013-08-13 09:26:23','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','ECA01',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66683,348,0,20,53550,'IsActive',TO_DATE('2013-08-13 09:26:23','YYYY-MM-DD HH24:MI:SS'),100,'Y','The record is active in the system','ECA02',1,'There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','N','N','N','N','Y','N','N','N','N','Y','Active',0,TO_DATE('2013-08-13 09:26:23','YYYY-MM-DD HH24:MI:SS'),100,1)
@@ -2319,7 +2319,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:26:25 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56109,0,'FTA_CreditDefinitionLine_ID',TO_DATE('2013-08-13 09:26:24','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Credit Definition Line','Credit Definition Line',TO_DATE('2013-08-13 09:26:24','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56109,0,'FTA_CreditDefinitionLine_ID',TO_DATE('2013-08-13 09:26:24','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Credit Definition Line','Credit Definition Line',TO_DATE('2013-08-13 09:26:24','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:26:25 AM VET
@@ -2329,7 +2329,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 13, 2013 9:26:25 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66684,56109,0,13,53550,'FTA_CreditDefinitionLine_ID',TO_DATE('2013-08-13 09:26:24','YYYY-MM-DD HH24:MI:SS'),100,'ECA01',22,'Y','N','N','N','Y','Y','N','N','N','N','N','Credit Definition Line',0,TO_DATE('2013-08-13 09:26:24','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66684,56109,0,13,53550,'FTA_CreditDefinitionLine_ID',TO_DATE('2013-08-13 09:26:24','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',22,'Y','N','N','N','Y','Y','N','N','N','N','N','Credit Definition Line',0,TO_DATE('2013-08-13 09:26:24','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:26:25 AM VET
@@ -2339,7 +2339,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:26:26 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66685,607,0,16,53550,'Updated',TO_DATE('2013-08-13 09:26:25','YYYY-MM-DD HH24:MI:SS'),100,'Date this record was updated','ECA01',7,'The Updated field indicates the date that this record was updated.','Y','N','N','N','N','Y','N','N','N','N','N','Updated',0,TO_DATE('2013-08-13 09:26:25','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66685,607,0,16,53550,'Updated',TO_DATE('2013-08-13 09:26:25','YYYY-MM-DD HH24:MI:SS'),100,'Date this record was updated','ECA02',7,'The Updated field indicates the date that this record was updated.','Y','N','N','N','N','Y','N','N','N','N','N','Updated',0,TO_DATE('2013-08-13 09:26:25','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:26:26 AM VET
@@ -2349,7 +2349,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:26:26 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66686,608,0,18,110,53550,'UpdatedBy',TO_DATE('2013-08-13 09:26:26','YYYY-MM-DD HH24:MI:SS'),100,'User who updated this records','ECA01',22,'The Updated By field indicates the user who updated this record.','Y','N','N','N','N','Y','N','N','N','N','N','Updated By',0,TO_DATE('2013-08-13 09:26:26','YYYY-MM-DD HH24:MI:SS'),100,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66686,608,0,18,110,53550,'UpdatedBy',TO_DATE('2013-08-13 09:26:26','YYYY-MM-DD HH24:MI:SS'),100,'User who updated this records','ECA02',22,'The Updated By field indicates the user who updated this record.','Y','N','N','N','N','Y','N','N','N','N','N','Updated By',0,TO_DATE('2013-08-13 09:26:26','YYYY-MM-DD HH24:MI:SS'),100,1)
 ;
 
 -- Aug 13, 2013 9:26:26 AM VET
@@ -2384,7 +2384,7 @@ UPDATE AD_Element_Trl SET Name='Línea de Crédito',PrintName='Línea de Crédit
 
 -- Aug 13, 2013 9:29:14 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66687,526,0,29,53550,'Qty',TO_DATE('2013-08-13 09:29:13','YYYY-MM-DD HH24:MI:SS'),100,'Quantity','ECA01',10,'The Quantity indicates the number of a specific product or item for this document.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Quantity',0,TO_DATE('2013-08-13 09:29:13','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66687,526,0,29,53550,'Qty',TO_DATE('2013-08-13 09:29:13','YYYY-MM-DD HH24:MI:SS'),100,'Quantity','ECA02',10,'The Quantity indicates the number of a specific product or item for this document.','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Quantity',0,TO_DATE('2013-08-13 09:29:13','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 9:29:14 AM VET
@@ -2394,7 +2394,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:30:13 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66688,160,0,12,53550,'Amt',TO_DATE('2013-08-13 09:30:06','YYYY-MM-DD HH24:MI:SS'),100,'Amount','ECA01',10,'Amount','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Amount',0,TO_DATE('2013-08-13 09:30:06','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66688,160,0,12,53550,'Amt',TO_DATE('2013-08-13 09:30:06','YYYY-MM-DD HH24:MI:SS'),100,'Amount','ECA02',10,'Amount','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Amount',0,TO_DATE('2013-08-13 09:30:06','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 9:30:13 AM VET
@@ -2404,7 +2404,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:36:17 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66689,968,0,19,53550,'C_Charge_ID',TO_DATE('2013-08-13 09:36:16','YYYY-MM-DD HH24:MI:SS'),100,'Additional document charges','ECA01',10,'The Charge indicates a type of Charge (Handling, Shipping, Restocking)','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Charge',0,TO_DATE('2013-08-13 09:36:16','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66689,968,0,19,53550,'C_Charge_ID',TO_DATE('2013-08-13 09:36:16','YYYY-MM-DD HH24:MI:SS'),100,'Additional document charges','ECA02',10,'The Charge indicates a type of Charge (Handling, Shipping, Restocking)','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Charge',0,TO_DATE('2013-08-13 09:36:16','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 9:36:17 AM VET
@@ -2414,7 +2414,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:36:44 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66690,453,0,19,53550,'M_Product_Category_ID',TO_DATE('2013-08-13 09:36:44','YYYY-MM-DD HH24:MI:SS'),100,'Category of a Product','ECA01',10,'Identifies the category which this product belongs to.  Product categories are used for pricing and selection.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Product Category',0,TO_DATE('2013-08-13 09:36:44','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66690,453,0,19,53550,'M_Product_Category_ID',TO_DATE('2013-08-13 09:36:44','YYYY-MM-DD HH24:MI:SS'),100,'Category of a Product','ECA02',10,'Identifies the category which this product belongs to.  Product categories are used for pricing and selection.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Product Category',0,TO_DATE('2013-08-13 09:36:44','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 9:36:44 AM VET
@@ -2424,7 +2424,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:39:59 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66691,454,0,19,53550,'M_Product_ID',TO_DATE('2013-08-13 09:39:52','YYYY-MM-DD HH24:MI:SS'),100,'Product, Service, Item','ECA01',10,'Identifies an item which is either purchased or sold in this organization.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Product',0,TO_DATE('2013-08-13 09:39:52','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66691,454,0,19,53550,'M_Product_ID',TO_DATE('2013-08-13 09:39:52','YYYY-MM-DD HH24:MI:SS'),100,'Product, Service, Item','ECA02',10,'Identifies an item which is either purchased or sold in this organization.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Product',0,TO_DATE('2013-08-13 09:39:52','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 9:39:59 AM VET
@@ -2434,7 +2434,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:41:00 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66692,56108,0,19,53550,'FTA_CreditDefinition_ID',TO_DATE('2013-08-13 09:40:59','YYYY-MM-DD HH24:MI:SS'),100,'ECA01',10,'Y','Y','N','N','N','N','N','Y','Y','N','N','N','N','Credit Definition',0,TO_DATE('2013-08-13 09:40:59','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66692,56108,0,19,53550,'FTA_CreditDefinition_ID',TO_DATE('2013-08-13 09:40:59','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',10,'Y','Y','N','N','N','N','N','Y','Y','N','N','N','N','Credit Definition',0,TO_DATE('2013-08-13 09:40:59','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 9:41:00 AM VET
@@ -2444,7 +2444,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:43:53 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType,WinHeight,WinWidth) VALUES (0,0,53261,TO_DATE('2013-08-13 09:43:44','YYYY-MM-DD HH24:MI:SS'),100,'Credit Definition','ECA01','Y','N','N','N','Credit Definition','N',TO_DATE('2013-08-13 09:43:44','YYYY-MM-DD HH24:MI:SS'),100,'M',0,0)
+INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType,WinHeight,WinWidth) VALUES (0,0,53261,TO_DATE('2013-08-13 09:43:44','YYYY-MM-DD HH24:MI:SS'),100,'Credit Definition','ECA02','Y','N','N','N','Credit Definition','N',TO_DATE('2013-08-13 09:43:44','YYYY-MM-DD HH24:MI:SS'),100,'M',0,0)
 ;
 
 -- Aug 13, 2013 9:43:53 AM VET
@@ -2479,7 +2479,7 @@ UPDATE AD_Window SET IsSOTrx='N',Updated=TO_DATE('2013-08-13 09:45:37','YYYY-MM-
 
 -- Aug 13, 2013 9:46:46 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53727,53549,53261,TO_DATE('2013-08-13 09:46:27','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','N','N','Y','N','N','Y','N','Y','N','N','Credit Definition','N',10,0,TO_DATE('2013-08-13 09:46:27','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53727,53549,53261,TO_DATE('2013-08-13 09:46:27','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','N','N','Y','N','N','Y','N','Y','N','N','Credit Definition','N',10,0,TO_DATE('2013-08-13 09:46:27','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:46:46 AM VET
@@ -2489,7 +2489,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 13, 2013 9:46:52 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66671,68210,0,53727,TO_DATE('2013-08-13 09:46:51','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66671,68210,0,53727,TO_DATE('2013-08-13 09:46:51','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','Y','N','N','N','N','N','Active',TO_DATE('2013-08-13 09:46:51','YYYY-MM-DD HH24:MI:SS'),100)
@@ -2502,7 +2502,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:46:53 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66677,68211,0,53727,TO_DATE('2013-08-13 09:46:52','YYYY-MM-DD HH24:MI:SS'),100,'Amount',10,'ECA01','Amount','Y','Y','Y','N','N','N','N','N','Amount',TO_DATE('2013-08-13 09:46:52','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66677,68211,0,53727,TO_DATE('2013-08-13 09:46:52','YYYY-MM-DD HH24:MI:SS'),100,'Amount',10,'ECA02','Amount','Y','Y','Y','N','N','N','N','N','Amount',TO_DATE('2013-08-13 09:46:52','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:46:53 AM VET
@@ -2512,7 +2512,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:46:54 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66667,68212,0,53727,TO_DATE('2013-08-13 09:46:53','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA01','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',TO_DATE('2013-08-13 09:46:53','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66667,68212,0,53727,TO_DATE('2013-08-13 09:46:53','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',TO_DATE('2013-08-13 09:46:53','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:46:54 AM VET
@@ -2522,7 +2522,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:46:55 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66672,68213,0,53727,TO_DATE('2013-08-13 09:46:54','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA01','Y','Y','N','N','N','N','N','N','Credit Definition',TO_DATE('2013-08-13 09:46:54','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66672,68213,0,53727,TO_DATE('2013-08-13 09:46:54','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA02','Y','Y','N','N','N','N','N','N','Credit Definition',TO_DATE('2013-08-13 09:46:54','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:46:55 AM VET
@@ -2532,7 +2532,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:46:57 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66676,68214,0,53727,TO_DATE('2013-08-13 09:46:55','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA01','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',TO_DATE('2013-08-13 09:46:55','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66676,68214,0,53727,TO_DATE('2013-08-13 09:46:55','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA02','A description is limited to 255 characters.','Y','Y','Y','N','N','N','N','N','Description',TO_DATE('2013-08-13 09:46:55','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:46:57 AM VET
@@ -2542,7 +2542,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:46:58 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66675,68215,0,53727,TO_DATE('2013-08-13 09:46:57','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity',60,'ECA01','The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','Y','N','N','N','N','N','Name',TO_DATE('2013-08-13 09:46:57','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66675,68215,0,53727,TO_DATE('2013-08-13 09:46:57','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity',60,'ECA02','The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','Y','N','N','N','N','N','Name',TO_DATE('2013-08-13 09:46:57','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:46:58 AM VET
@@ -2552,7 +2552,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:46:59 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66668,68216,0,53727,TO_DATE('2013-08-13 09:46:58','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA01','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','N','Organization',TO_DATE('2013-08-13 09:46:58','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66668,68216,0,53727,TO_DATE('2013-08-13 09:46:58','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','N','Organization',TO_DATE('2013-08-13 09:46:58','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:46:59 AM VET
@@ -2562,7 +2562,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:47:00 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66678,68217,0,53727,TO_DATE('2013-08-13 09:46:59','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA01','Y','Y','Y','N','N','N','N','N','Process Now',TO_DATE('2013-08-13 09:46:59','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66678,68217,0,53727,TO_DATE('2013-08-13 09:46:59','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA02','Y','Y','Y','N','N','N','N','N','Process Now',TO_DATE('2013-08-13 09:46:59','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:47:00 AM VET
@@ -2592,7 +2592,7 @@ UPDATE AD_Tab_Trl SET Name='Definición de Crédito',Description='Definición de
 
 -- Aug 13, 2013 9:50:26 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53728,53550,53261,TO_DATE('2013-08-13 09:50:24','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','N','N','Y','N','N','Y','N','N','N','N','Credit Line','N',10,0,TO_DATE('2013-08-13 09:50:24','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53728,53550,53261,TO_DATE('2013-08-13 09:50:24','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','N','N','Y','N','N','Y','N','N','N','N','Credit Line','N',10,0,TO_DATE('2013-08-13 09:50:24','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:50:26 AM VET
@@ -2617,7 +2617,7 @@ UPDATE AD_Tab_Trl SET Name='Línea de Crédito',Description='Línea de Crédito'
 
 -- Aug 13, 2013 9:52:22 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66683,68218,0,53728,TO_DATE('2013-08-13 09:52:13','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66683,68218,0,53728,TO_DATE('2013-08-13 09:52:13','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','Y','N','N','N','N','N','Active',TO_DATE('2013-08-13 09:52:13','YYYY-MM-DD HH24:MI:SS'),100)
@@ -2630,7 +2630,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:52:23 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66688,68219,0,53728,TO_DATE('2013-08-13 09:52:22','YYYY-MM-DD HH24:MI:SS'),100,'Amount',10,'ECA01','Amount','Y','Y','Y','N','N','N','N','N','Amount',TO_DATE('2013-08-13 09:52:22','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66688,68219,0,53728,TO_DATE('2013-08-13 09:52:22','YYYY-MM-DD HH24:MI:SS'),100,'Amount',10,'ECA02','Amount','Y','Y','Y','N','N','N','N','N','Amount',TO_DATE('2013-08-13 09:52:22','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:52:23 AM VET
@@ -2640,7 +2640,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:52:24 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66689,68220,0,53728,TO_DATE('2013-08-13 09:52:23','YYYY-MM-DD HH24:MI:SS'),100,'Additional document charges',10,'ECA01','The Charge indicates a type of Charge (Handling, Shipping, Restocking)','Y','Y','Y','N','N','N','N','N','Charge',TO_DATE('2013-08-13 09:52:23','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66689,68220,0,53728,TO_DATE('2013-08-13 09:52:23','YYYY-MM-DD HH24:MI:SS'),100,'Additional document charges',10,'ECA02','The Charge indicates a type of Charge (Handling, Shipping, Restocking)','Y','Y','Y','N','N','N','N','N','Charge',TO_DATE('2013-08-13 09:52:23','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:52:24 AM VET
@@ -2650,7 +2650,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:52:25 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66679,68221,0,53728,TO_DATE('2013-08-13 09:52:24','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA01','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',TO_DATE('2013-08-13 09:52:24','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66679,68221,0,53728,TO_DATE('2013-08-13 09:52:24','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','N','N','Client',TO_DATE('2013-08-13 09:52:24','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:52:25 AM VET
@@ -2660,7 +2660,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:52:26 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66692,68222,0,53728,TO_DATE('2013-08-13 09:52:25','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Credit Definition',TO_DATE('2013-08-13 09:52:25','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66692,68222,0,53728,TO_DATE('2013-08-13 09:52:25','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Credit Definition',TO_DATE('2013-08-13 09:52:25','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:52:26 AM VET
@@ -2670,7 +2670,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:52:27 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66684,68223,0,53728,TO_DATE('2013-08-13 09:52:26','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA01','Y','Y','N','N','N','N','N','N','Credit Definition Line',TO_DATE('2013-08-13 09:52:26','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66684,68223,0,53728,TO_DATE('2013-08-13 09:52:26','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA02','Y','Y','N','N','N','N','N','N','Credit Definition Line',TO_DATE('2013-08-13 09:52:26','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:52:27 AM VET
@@ -2680,7 +2680,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:52:28 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66680,68224,0,53728,TO_DATE('2013-08-13 09:52:27','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA01','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','N','Organization',TO_DATE('2013-08-13 09:52:27','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66680,68224,0,53728,TO_DATE('2013-08-13 09:52:27','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','N','N','Organization',TO_DATE('2013-08-13 09:52:27','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:52:28 AM VET
@@ -2690,7 +2690,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:52:29 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66691,68225,0,53728,TO_DATE('2013-08-13 09:52:28','YYYY-MM-DD HH24:MI:SS'),100,'Product, Service, Item',10,'ECA01','Identifies an item which is either purchased or sold in this organization.','Y','Y','Y','N','N','N','N','N','Product',TO_DATE('2013-08-13 09:52:28','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66691,68225,0,53728,TO_DATE('2013-08-13 09:52:28','YYYY-MM-DD HH24:MI:SS'),100,'Product, Service, Item',10,'ECA02','Identifies an item which is either purchased or sold in this organization.','Y','Y','Y','N','N','N','N','N','Product',TO_DATE('2013-08-13 09:52:28','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:52:29 AM VET
@@ -2700,7 +2700,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:52:31 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66690,68226,0,53728,TO_DATE('2013-08-13 09:52:29','YYYY-MM-DD HH24:MI:SS'),100,'Category of a Product',10,'ECA01','Identifies the category which this product belongs to.  Product categories are used for pricing and selection.','Y','Y','Y','N','N','N','N','N','Product Category',TO_DATE('2013-08-13 09:52:29','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66690,68226,0,53728,TO_DATE('2013-08-13 09:52:29','YYYY-MM-DD HH24:MI:SS'),100,'Category of a Product',10,'ECA02','Identifies the category which this product belongs to.  Product categories are used for pricing and selection.','Y','Y','Y','N','N','N','N','N','Product Category',TO_DATE('2013-08-13 09:52:29','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:52:31 AM VET
@@ -2710,7 +2710,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:52:32 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66687,68227,0,53728,TO_DATE('2013-08-13 09:52:31','YYYY-MM-DD HH24:MI:SS'),100,'Quantity',10,'ECA01','The Quantity indicates the number of a specific product or item for this document.','Y','Y','Y','N','N','N','N','N','Quantity',TO_DATE('2013-08-13 09:52:31','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66687,68227,0,53728,TO_DATE('2013-08-13 09:52:31','YYYY-MM-DD HH24:MI:SS'),100,'Quantity',10,'ECA02','The Quantity indicates the number of a specific product or item for this document.','Y','Y','Y','N','N','N','N','N','Quantity',TO_DATE('2013-08-13 09:52:31','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 9:52:32 AM VET
@@ -2835,7 +2835,7 @@ UPDATE AD_Field SET SeqNo=90,IsDisplayed='Y' WHERE AD_Field_ID=68227
 
 -- Aug 13, 2013 10:11:26 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66693,215,0,19,53550,'C_UOM_ID',TO_DATE('2013-08-13 10:11:24','YYYY-MM-DD HH24:MI:SS'),100,'Unit of Measure','ECA01',10,'The UOM defines a unique non monetary Unit of Measure','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','UOM',0,TO_DATE('2013-08-13 10:11:24','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66693,215,0,19,53550,'C_UOM_ID',TO_DATE('2013-08-13 10:11:24','YYYY-MM-DD HH24:MI:SS'),100,'Unit of Measure','ECA02',10,'The UOM defines a unique non monetary Unit of Measure','Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','UOM',0,TO_DATE('2013-08-13 10:11:24','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 10:11:26 AM VET
@@ -2845,7 +2845,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 10:12:58 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66693,68228,0,53728,TO_DATE('2013-08-13 10:12:57','YYYY-MM-DD HH24:MI:SS'),100,'Unit of Measure',10,'ECA01','The UOM defines a unique non monetary Unit of Measure','Y','Y','Y','N','N','N','N','N','UOM',TO_DATE('2013-08-13 10:12:57','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66693,68228,0,53728,TO_DATE('2013-08-13 10:12:57','YYYY-MM-DD HH24:MI:SS'),100,'Unit of Measure',10,'ECA02','The UOM defines a unique non monetary Unit of Measure','Y','Y','Y','N','N','N','N','N','UOM',TO_DATE('2013-08-13 10:12:57','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 10:12:58 AM VET
@@ -2940,7 +2940,7 @@ UPDATE AD_Field SET DisplayLogic='@M_Product_ID@=0 & @M_Product_Category_ID@',Up
 
 -- Aug 13, 2013 10:28:16 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu (Action,AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53591,0,53261,TO_DATE('2013-08-13 10:28:14','YYYY-MM-DD HH24:MI:SS'),100,'Credit Definition','ECA01','Y','Y','N','N','N','Credit Definition',TO_DATE('2013-08-13 10:28:14','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu (Action,AD_Client_ID,AD_Menu_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES ('W',0,53591,0,53261,TO_DATE('2013-08-13 10:28:14','YYYY-MM-DD HH24:MI:SS'),100,'Credit Definition','ECA02','Y','Y','N','N','N','Credit Definition',TO_DATE('2013-08-13 10:28:14','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 10:28:16 AM VET
@@ -2990,7 +2990,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53569, SeqNo=6, Updated=SysDate WHERE AD_Tree
 
 -- Aug 13, 2013 10:29:49 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu (AD_Client_ID,AD_Menu_ID,AD_Org_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES (0,53592,0,TO_DATE('2013-08-13 10:29:48','YYYY-MM-DD HH24:MI:SS'),100,'Credit Definition','ECA01','Y','Y','N','N','Y','Credit Definition',TO_DATE('2013-08-13 10:29:48','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu (AD_Client_ID,AD_Menu_ID,AD_Org_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES (0,53592,0,TO_DATE('2013-08-13 10:29:48','YYYY-MM-DD HH24:MI:SS'),100,'Credit Definition','ECA02','Y','Y','N','N','Y','Credit Definition',TO_DATE('2013-08-13 10:29:48','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 10:29:49 AM VET
@@ -3270,7 +3270,7 @@ UPDATE AD_Tab_Trl SET Name='Crédito/Deuda del Productor',Description='Crédito/
 
 -- Aug 13, 2013 10:45:23 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66694,56108,0,19,53544,'FTA_CreditDefinition_ID',TO_DATE('2013-08-13 10:45:20','YYYY-MM-DD HH24:MI:SS'),100,'ECA01',10,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Credit Definition',0,TO_DATE('2013-08-13 10:45:20','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66694,56108,0,19,53544,'FTA_CreditDefinition_ID',TO_DATE('2013-08-13 10:45:20','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',10,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Credit Definition',0,TO_DATE('2013-08-13 10:45:20','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 10:45:23 AM VET
@@ -3280,7 +3280,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 10:45:35 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66694,68229,0,53721,TO_DATE('2013-08-13 10:45:34','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Credit Definition',TO_DATE('2013-08-13 10:45:34','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66694,68229,0,53721,TO_DATE('2013-08-13 10:45:34','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Credit Definition',TO_DATE('2013-08-13 10:45:34','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 10:45:35 AM VET
@@ -3640,7 +3640,7 @@ UPDATE AD_Process_Para SET ColumnName='PlantingCycle_ID', Name='Planting Cycle',
 
 -- Aug 13, 2013 11:55:35 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,IsOrderByValue,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53523,TO_DATE('2013-08-13 11:55:31','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','N','M_Lot',TO_DATE('2013-08-13 11:55:31','YYYY-MM-DD HH24:MI:SS'),100,'T')
+INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,IsOrderByValue,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53523,TO_DATE('2013-08-13 11:55:31','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','N','M_Lot',TO_DATE('2013-08-13 11:55:31','YYYY-MM-DD HH24:MI:SS'),100,'T')
 ;
 
 -- Aug 13, 2013 11:55:35 AM VET
@@ -3675,7 +3675,7 @@ DELETE FROM AD_Reference WHERE AD_Reference_ID=53510
 
 -- Aug 13, 2013 12:06:24 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66695,55970,0,18,53523,53549,'PlantingCycle_ID',TO_DATE('2013-08-13 12:06:22','YYYY-MM-DD HH24:MI:SS'),100,'ECA01',10,'Y','Y','N','N','N','N','N','Y','N','N','N','N','N','Planting Cycle',0,TO_DATE('2013-08-13 12:06:22','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66695,55970,0,18,53523,53549,'PlantingCycle_ID',TO_DATE('2013-08-13 12:06:22','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',10,'Y','Y','N','N','N','N','N','Y','N','N','N','N','N','Planting Cycle',0,TO_DATE('2013-08-13 12:06:22','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 13, 2013 12:06:24 PM VET
@@ -3685,7 +3685,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 12:07:21 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66695,68230,0,53727,TO_DATE('2013-08-13 12:07:19','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA01','Y','Y','Y','N','N','N','N','N','Planting Cycle',TO_DATE('2013-08-13 12:07:19','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66695,68230,0,53727,TO_DATE('2013-08-13 12:07:19','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','Y','Y','Y','N','N','N','N','N','Planting Cycle',TO_DATE('2013-08-13 12:07:19','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 13, 2013 12:07:21 PM VET

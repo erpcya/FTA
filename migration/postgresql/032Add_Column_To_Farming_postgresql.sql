@@ -5,7 +5,7 @@ UPDATE AD_Column SET IsMandatory='Y',Updated=TO_TIMESTAMP('2013-07-17 09:40:12',
 
 -- 17/07/2013 09:43:03 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53696,293,53237,TO_TIMESTAMP('2013-07-17 09:43:01','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','N','N','Y','N','N','Y','N','Y','N','N','Business Partner Location','N',60,0,TO_TIMESTAMP('2013-07-17 09:43:01','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53696,293,53237,TO_TIMESTAMP('2013-07-17 09:43:01','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','N','N','Y','N','N','Y','N','Y','N','N','Business Partner Location','N',60,0,TO_TIMESTAMP('2013-07-17 09:43:01','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:03 AM VET
@@ -15,7 +15,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- 17/07/2013 09:43:25 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,3434,67787,0,53696,TO_TIMESTAMP('2013-07-17 09:43:25','YYYY-MM-DD HH24:MI:SS'),100,'Identifies the (ship to) address for this Business Partner',14,'ECA01','The Partner address indicates the location of a Business Partner','Y','Y','N','N','N','N','N','N','Partner Location',10,TO_TIMESTAMP('2013-07-17 09:43:25','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,3434,67787,0,53696,TO_TIMESTAMP('2013-07-17 09:43:25','YYYY-MM-DD HH24:MI:SS'),100,'Identifies the (ship to) address for this Business Partner',14,'ECA02','The Partner address indicates the location of a Business Partner','Y','Y','N','N','N','N','N','N','Partner Location',10,TO_TIMESTAMP('2013-07-17 09:43:25','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:25 AM VET
@@ -25,7 +25,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:26 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2951,67788,0,53696,TO_TIMESTAMP('2013-07-17 09:43:25','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',14,'ECA01','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','Y','N','Client',20,TO_TIMESTAMP('2013-07-17 09:43:25','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2951,67788,0,53696,TO_TIMESTAMP('2013-07-17 09:43:25','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',14,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','Y','N','N','N','Y','N','Client',20,TO_TIMESTAMP('2013-07-17 09:43:25','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:26 AM VET
@@ -35,7 +35,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:26 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2952,67789,0,53696,TO_TIMESTAMP('2013-07-17 09:43:26','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',14,'ECA01','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','Y','Y','Organization',30,TO_TIMESTAMP('2013-07-17 09:43:26','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2952,67789,0,53696,TO_TIMESTAMP('2013-07-17 09:43:26','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',14,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','Y','Y','N','N','N','Y','Y','Organization',30,TO_TIMESTAMP('2013-07-17 09:43:26','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:26 AM VET
@@ -45,7 +45,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:27 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2958,67790,0,53696,TO_TIMESTAMP('2013-07-17 09:43:26','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Business Partner',14,'ECA01','A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson','Y','Y','Y','N','N','N','Y','N','Business Partner ',40,TO_TIMESTAMP('2013-07-17 09:43:26','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2958,67790,0,53696,TO_TIMESTAMP('2013-07-17 09:43:26','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Business Partner',14,'ECA02','A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson','Y','Y','Y','N','N','N','Y','N','Business Partner ',40,TO_TIMESTAMP('2013-07-17 09:43:26','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:27 AM VET
@@ -55,7 +55,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:28 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,2960,67791,0,53696,TO_TIMESTAMP('2013-07-17 09:43:27','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity',11,'ECA01','The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','Y','N','N','N','N','N','Name',50,1,TO_TIMESTAMP('2013-07-17 09:43:27','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,2960,67791,0,53696,TO_TIMESTAMP('2013-07-17 09:43:27','YYYY-MM-DD HH24:MI:SS'),100,'Alphanumeric identifier of the entity',11,'ECA02','The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.','Y','Y','Y','N','N','N','N','N','Name',50,1,TO_TIMESTAMP('2013-07-17 09:43:27','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:28 AM VET
@@ -65,7 +65,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:28 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2953,67792,0,53696,TO_TIMESTAMP('2013-07-17 09:43:28','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA01','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2953,67792,0,53696,TO_TIMESTAMP('2013-07-17 09:43:28','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','Y','Y','Y','N','N','N','N','N','Active',60,TO_TIMESTAMP('2013-07-17 09:43:28','YYYY-MM-DD HH24:MI:SS'),100)
@@ -78,7 +78,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:29 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2959,67793,0,53696,TO_TIMESTAMP('2013-07-17 09:43:28','YYYY-MM-DD HH24:MI:SS'),100,'Location or Address',26,'ECA01','The Location / Address field defines the location of an entity.','Y','Y','Y','N','N','N','N','N','Address',70,TO_TIMESTAMP('2013-07-17 09:43:28','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2959,67793,0,53696,TO_TIMESTAMP('2013-07-17 09:43:28','YYYY-MM-DD HH24:MI:SS'),100,'Location or Address',26,'ECA02','The Location / Address field defines the location of an entity.','Y','Y','Y','N','N','N','N','N','Address',70,TO_TIMESTAMP('2013-07-17 09:43:28','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:29 AM VET
@@ -88,7 +88,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:29 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2964,67794,0,53696,TO_TIMESTAMP('2013-07-17 09:43:29','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a telephone number',20,'ECA01','The Phone field identifies a telephone number','Y','Y','Y','N','N','N','N','N','Phone',80,TO_TIMESTAMP('2013-07-17 09:43:29','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2964,67794,0,53696,TO_TIMESTAMP('2013-07-17 09:43:29','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a telephone number',20,'ECA02','The Phone field identifies a telephone number','Y','Y','Y','N','N','N','N','N','Phone',80,TO_TIMESTAMP('2013-07-17 09:43:29','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:29 AM VET
@@ -98,7 +98,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:30 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2965,67795,0,53696,TO_TIMESTAMP('2013-07-17 09:43:29','YYYY-MM-DD HH24:MI:SS'),100,'Identifies an alternate telephone number.',20,'ECA01','The 2nd Phone field identifies an alternate telephone number.','Y','Y','Y','N','N','N','N','Y','2nd Phone',90,TO_TIMESTAMP('2013-07-17 09:43:29','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2965,67795,0,53696,TO_TIMESTAMP('2013-07-17 09:43:29','YYYY-MM-DD HH24:MI:SS'),100,'Identifies an alternate telephone number.',20,'ECA02','The 2nd Phone field identifies an alternate telephone number.','Y','Y','Y','N','N','N','N','Y','2nd Phone',90,TO_TIMESTAMP('2013-07-17 09:43:29','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:30 AM VET
@@ -108,7 +108,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:30 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2966,67796,0,53696,TO_TIMESTAMP('2013-07-17 09:43:30','YYYY-MM-DD HH24:MI:SS'),100,'Facsimile number',20,'ECA01','The Fax identifies a facsimile number for this Business Partner or  Location','Y','Y','Y','N','N','N','N','N','Fax',100,TO_TIMESTAMP('2013-07-17 09:43:30','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2966,67796,0,53696,TO_TIMESTAMP('2013-07-17 09:43:30','YYYY-MM-DD HH24:MI:SS'),100,'Facsimile number',20,'ECA02','The Fax identifies a facsimile number for this Business Partner or  Location','Y','Y','Y','N','N','N','N','N','Fax',100,TO_TIMESTAMP('2013-07-17 09:43:30','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:30 AM VET
@@ -118,7 +118,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:31 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2967,67797,0,53696,TO_TIMESTAMP('2013-07-17 09:43:30','YYYY-MM-DD HH24:MI:SS'),100,'ISDN or modem line',20,'ECA01','The ISDN identifies a ISDN or Modem line number.','Y','Y','Y','N','N','N','N','Y','ISDN',110,TO_TIMESTAMP('2013-07-17 09:43:30','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2967,67797,0,53696,TO_TIMESTAMP('2013-07-17 09:43:30','YYYY-MM-DD HH24:MI:SS'),100,'ISDN or modem line',20,'ECA02','The ISDN identifies a ISDN or Modem line number.','Y','Y','Y','N','N','N','N','Y','ISDN',110,TO_TIMESTAMP('2013-07-17 09:43:30','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:31 AM VET
@@ -128,7 +128,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:32 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,3091,67798,0,53696,TO_TIMESTAMP('2013-07-17 09:43:31','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner Shipment Address',1,'ECA01','If the Ship Address is selected, the location is used to ship goods to a customer or receive goods from a vendor.','Y','Y','Y','N','N','N','N','N','Ship Address',120,TO_TIMESTAMP('2013-07-17 09:43:31','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,3091,67798,0,53696,TO_TIMESTAMP('2013-07-17 09:43:31','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner Shipment Address',1,'ECA02','If the Ship Address is selected, the location is used to ship goods to a customer or receive goods from a vendor.','Y','Y','Y','N','N','N','N','N','Ship Address',120,TO_TIMESTAMP('2013-07-17 09:43:31','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:32 AM VET
@@ -138,7 +138,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:32 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,3090,67799,0,53696,TO_TIMESTAMP('2013-07-17 09:43:32','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner Invoice/Bill Address',1,'ECA01','If the Invoice Address is selected, the location is used to send invoices to a customer or receive invoices from a vendor.','Y','Y','Y','N','N','N','N','Y','Invoice Address',130,TO_TIMESTAMP('2013-07-17 09:43:32','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,3090,67799,0,53696,TO_TIMESTAMP('2013-07-17 09:43:32','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner Invoice/Bill Address',1,'ECA02','If the Invoice Address is selected, the location is used to send invoices to a customer or receive invoices from a vendor.','Y','Y','Y','N','N','N','N','Y','Invoice Address',130,TO_TIMESTAMP('2013-07-17 09:43:32','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:32 AM VET
@@ -148,7 +148,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:33 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,3092,67800,0,53696,TO_TIMESTAMP('2013-07-17 09:43:32','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner pays from that address and we''ll send dunning letters there',1,'ECA01','If the Pay-From Address is selected, this location is the address the Business Partner pays from and where dunning letters will be sent to.','Y','Y','Y','N','N','N','N','N','Pay-From Address',140,TO_TIMESTAMP('2013-07-17 09:43:32','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,3092,67800,0,53696,TO_TIMESTAMP('2013-07-17 09:43:32','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner pays from that address and we''ll send dunning letters there',1,'ECA02','If the Pay-From Address is selected, this location is the address the Business Partner pays from and where dunning letters will be sent to.','Y','Y','Y','N','N','N','N','N','Pay-From Address',140,TO_TIMESTAMP('2013-07-17 09:43:32','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:33 AM VET
@@ -158,7 +158,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:33 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,3093,67801,0,53696,TO_TIMESTAMP('2013-07-17 09:43:33','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner payment address',1,'ECA01','If the Remit-To Address is selected, the location is used to send payments to the vendor.','Y','Y','Y','N','N','N','N','Y','Remit-To Address',150,TO_TIMESTAMP('2013-07-17 09:43:33','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,3093,67801,0,53696,TO_TIMESTAMP('2013-07-17 09:43:33','YYYY-MM-DD HH24:MI:SS'),100,'Business Partner payment address',1,'ECA02','If the Remit-To Address is selected, the location is used to send payments to the vendor.','Y','Y','Y','N','N','N','N','Y','Remit-To Address',150,TO_TIMESTAMP('2013-07-17 09:43:33','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:33 AM VET
@@ -168,7 +168,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:43:35 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2968,67802,0,53696,TO_TIMESTAMP('2013-07-17 09:43:33','YYYY-MM-DD HH24:MI:SS'),100,'Sales coverage region',14,'ECA01','The Sales Region indicates a specific area of sales coverage.','Y','Y','Y','N','N','N','N','N','Sales Region',160,TO_TIMESTAMP('2013-07-17 09:43:33','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,2968,67802,0,53696,TO_TIMESTAMP('2013-07-17 09:43:33','YYYY-MM-DD HH24:MI:SS'),100,'Sales coverage region',14,'ECA02','The Sales Region indicates a specific area of sales coverage.','Y','Y','Y','N','N','N','N','N','Sales Region',160,TO_TIMESTAMP('2013-07-17 09:43:33','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 09:43:35 AM VET
@@ -198,7 +198,7 @@ UPDATE AD_Tab SET SeqNo=15, TabLevel=1,Updated=TO_TIMESTAMP('2013-07-17 09:54:07
 
 -- 17/07/2013 10:04:24 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu (AD_Client_ID,AD_Menu_ID,AD_Org_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES (0,53569,0,TO_TIMESTAMP('2013-07-17 10:04:18','YYYY-MM-DD HH24:MI:SS'),100,'Farming Technical Assistance','ECA01','Y','Y','N','N','Y','Farming Technical Assistance',TO_TIMESTAMP('2013-07-17 10:04:18','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu (AD_Client_ID,AD_Menu_ID,AD_Org_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES (0,53569,0,TO_TIMESTAMP('2013-07-17 10:04:18','YYYY-MM-DD HH24:MI:SS'),100,'Farming Technical Assistance','ECA02','Y','Y','N','N','Y','Farming Technical Assistance',TO_TIMESTAMP('2013-07-17 10:04:18','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 10:04:24 AM VET
@@ -213,7 +213,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- 17/07/2013 10:08:17 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu (AD_Client_ID,AD_Menu_ID,AD_Org_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES (0,53570,0,TO_TIMESTAMP('2013-07-17 10:08:16','YYYY-MM-DD HH24:MI:SS'),100,'Producer Setup','ECA01','Y','Y','N','N','Y','Producer Setup',TO_TIMESTAMP('2013-07-17 10:08:16','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu (AD_Client_ID,AD_Menu_ID,AD_Org_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES (0,53570,0,TO_TIMESTAMP('2013-07-17 10:08:16','YYYY-MM-DD HH24:MI:SS'),100,'Producer Setup','ECA02','Y','Y','N','N','Y','Producer Setup',TO_TIMESTAMP('2013-07-17 10:08:16','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 10:08:17 AM VET
@@ -238,7 +238,7 @@ UPDATE AD_Menu_Trl SET Name='Configuración de Productor',Description='Configura
 
 -- 17/07/2013 10:22:12 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Menu (AD_Client_ID,AD_Menu_ID,AD_Org_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES (0,53571,0,TO_TIMESTAMP('2013-07-17 10:22:11','YYYY-MM-DD HH24:MI:SS'),100,'Farming Setup','ECA01','Y','Y','N','N','Y','Farming Setup',TO_TIMESTAMP('2013-07-17 10:22:11','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Menu (AD_Client_ID,AD_Menu_ID,AD_Org_ID,Created,CreatedBy,Description,EntityType,IsActive,IsCentrallyMaintained,IsReadOnly,IsSOTrx,IsSummary,Name,Updated,UpdatedBy) VALUES (0,53571,0,TO_TIMESTAMP('2013-07-17 10:22:11','YYYY-MM-DD HH24:MI:SS'),100,'Farming Setup','ECA02','Y','Y','N','N','Y','Farming Setup',TO_TIMESTAMP('2013-07-17 10:22:11','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 10:22:12 AM VET
@@ -338,7 +338,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53569, SeqNo=3, Updated=CURRENT_TIMESTAMP WHE
 
 -- 17/07/2013 10:41:19 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56034,0,'FinancingType',TO_TIMESTAMP('2013-07-17 10:41:19','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Financing Type','Financing Type',TO_TIMESTAMP('2013-07-17 10:41:19','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56034,0,'FinancingType',TO_TIMESTAMP('2013-07-17 10:41:19','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Financing Type','Financing Type',TO_TIMESTAMP('2013-07-17 10:41:19','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 10:41:19 AM VET
@@ -353,7 +353,7 @@ UPDATE AD_Element_Trl SET Name='Tipo de Financiamiento',PrintName='Tipo de Finan
 
 -- 17/07/2013 10:43:00 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66353,56034,0,17,53509,'FinancingType',TO_TIMESTAMP('2013-07-17 10:42:59','YYYY-MM-DD HH24:MI:SS'),100,'ECA01',1,'Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Financing Type',0,TO_TIMESTAMP('2013-07-17 10:42:59','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,66353,56034,0,17,53509,'FinancingType',TO_TIMESTAMP('2013-07-17 10:42:59','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',1,'Y','Y','N','N','N','N','N','Y','N','N','N','N','Y','Financing Type',0,TO_TIMESTAMP('2013-07-17 10:42:59','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- 17/07/2013 10:43:00 AM VET
@@ -363,7 +363,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- 17/07/2013 10:45:09 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,Description,EntityType,IsActive,IsOrderByValue,Name,Updated,UpdatedBy,ValidationType,VFormat) VALUES (0,0,53515,TO_TIMESTAMP('2013-07-17 10:45:08','YYYY-MM-DD HH24:MI:SS'),100,'Financing Type','ECA01','Y','N','FinancingType',TO_TIMESTAMP('2013-07-17 10:45:08','YYYY-MM-DD HH24:MI:SS'),100,'L','L')
+INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,Description,EntityType,IsActive,IsOrderByValue,Name,Updated,UpdatedBy,ValidationType,VFormat) VALUES (0,0,53515,TO_TIMESTAMP('2013-07-17 10:45:08','YYYY-MM-DD HH24:MI:SS'),100,'Financing Type','ECA02','Y','N','FinancingType',TO_TIMESTAMP('2013-07-17 10:45:08','YYYY-MM-DD HH24:MI:SS'),100,'L','L')
 ;
 
 -- 17/07/2013 10:45:09 AM VET
@@ -373,7 +373,7 @@ INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name
 
 -- 17/07/2013 10:51:32 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Reference_ID,AD_Ref_List_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53515,53993,TO_TIMESTAMP('2013-07-17 10:51:30','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Self-financed',TO_TIMESTAMP('2013-07-17 10:51:30','YYYY-MM-DD HH24:MI:SS'),100,'S')
+INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Reference_ID,AD_Ref_List_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53515,53993,TO_TIMESTAMP('2013-07-17 10:51:30','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Self-financed',TO_TIMESTAMP('2013-07-17 10:51:30','YYYY-MM-DD HH24:MI:SS'),100,'S')
 ;
 
 -- 17/07/2013 10:51:32 AM VET
@@ -383,7 +383,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- 17/07/2013 10:52:37 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Reference_ID,AD_Ref_List_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53515,53994,TO_TIMESTAMP('2013-07-17 10:52:37','YYYY-MM-DD HH24:MI:SS'),100,'ECA01','Y','Apply Financing',TO_TIMESTAMP('2013-07-17 10:52:37','YYYY-MM-DD HH24:MI:SS'),100,'A')
+INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Reference_ID,AD_Ref_List_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53515,53994,TO_TIMESTAMP('2013-07-17 10:52:37','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Apply Financing',TO_TIMESTAMP('2013-07-17 10:52:37','YYYY-MM-DD HH24:MI:SS'),100,'A')
 ;
 
 -- 17/07/2013 10:52:37 AM VET
@@ -408,7 +408,7 @@ UPDATE AD_Column SET AD_Reference_Value_ID=53515,Updated=TO_TIMESTAMP('2013-07-1
 
 -- 17/07/2013 10:54:05 AM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66353,67803,0,53668,TO_TIMESTAMP('2013-07-17 10:53:59','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA01','Y','Y','Y','N','N','N','N','N','Financing Type',TO_TIMESTAMP('2013-07-17 10:53:59','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,66353,67803,0,53668,TO_TIMESTAMP('2013-07-17 10:53:59','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA02','Y','Y','Y','N','N','N','N','N','Financing Type',TO_TIMESTAMP('2013-07-17 10:53:59','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 17/07/2013 10:54:05 AM VET
