@@ -33,7 +33,7 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130814L;
+	private static final long serialVersionUID = 20130827L;
 
     /** Standard Constructor */
     public X_FTA_MobilizationGuide (Properties ctx, int FTA_MobilizationGuide_ID, String trxName)

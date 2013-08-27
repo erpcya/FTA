@@ -33,7 +33,7 @@ public class X_FTA_Farm extends PO implements I_FTA_Farm, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130814L;
+	private static final long serialVersionUID = 20130827L;
 
     /** Standard Constructor */
     public X_FTA_Farm (Properties ctx, int FTA_Farm_ID, String trxName)
@@ -108,9 +108,9 @@ public class X_FTA_Farm extends PO implements I_FTA_Farm, I_Persistent
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
 		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .

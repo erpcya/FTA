@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for FTA_FarmerCredit
+/** Generated Interface for FTA_QualityAnalysis
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS
  */
-public interface I_FTA_FarmerCredit 
+public interface I_FTA_QualityAnalysis 
 {
 
-    /** TableName=FTA_FarmerCredit */
-    public static final String Table_Name = "FTA_FarmerCredit";
+    /** TableName=FTA_QualityAnalysis */
+    public static final String Table_Name = "FTA_QualityAnalysis";
 
-    /** AD_Table_ID=53544 */
+    /** AD_Table_ID=53560 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,64 +63,6 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Amt */
-    public static final String COLUMNNAME_Amt = "Amt";
-
-	/** Set Amount.
-	  * Amount
-	  */
-	public void setAmt (BigDecimal Amt);
-
-	/** Get Amount.
-	  * Amount
-	  */
-	public BigDecimal getAmt();
-
-    /** Column name Beneficiary_ID */
-    public static final String COLUMNNAME_Beneficiary_ID = "Beneficiary_ID";
-
-	/** Set Beneficiary.
-	  * Business Partner to whom payment is made
-	  */
-	public void setBeneficiary_ID (int Beneficiary_ID);
-
-	/** Get Beneficiary.
-	  * Business Partner to whom payment is made
-	  */
-	public int getBeneficiary_ID();
-
-	public I_C_BPartner getBeneficiary() throws RuntimeException;
-
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_Charge_ID */
-    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
-
-	/** Set Charge.
-	  * Additional document charges
-	  */
-	public void setC_Charge_ID (int C_Charge_ID);
-
-	/** Get Charge.
-	  * Additional document charges
-	  */
-	public int getC_Charge_ID();
-
-	public I_C_Charge getC_Charge() throws RuntimeException;
-
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -136,20 +78,16 @@ public interface I_FTA_FarmerCredit
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name C_Order_ID */
-    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+    /** Column name ChuteQualityAnalysis_ID */
+    public static final String COLUMNNAME_ChuteQualityAnalysis_ID = "ChuteQualityAnalysis_ID";
 
-	/** Set Order.
-	  * Order
-	  */
-	public void setC_Order_ID (int C_Order_ID);
+	/** Set Chute Quality Analysis ID	  */
+	public void setChuteQualityAnalysis_ID (int ChuteQualityAnalysis_ID);
 
-	/** Get Order.
-	  * Order
-	  */
-	public int getC_Order_ID();
+	/** Get Chute Quality Analysis ID	  */
+	public int getChuteQualityAnalysis_ID();
 
-	public I_C_Order getC_Order() throws RuntimeException;
+	public I_M_AttributeSetInstance getChuteQualityAnalysis() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -166,34 +104,6 @@ public interface I_FTA_FarmerCredit
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
-
-    /** Column name CurrentBalance */
-    public static final String COLUMNNAME_CurrentBalance = "CurrentBalance";
-
-	/** Set Current balance.
-	  * Current Balance
-	  */
-	public void setCurrentBalance (BigDecimal CurrentBalance);
-
-	/** Get Current balance.
-	  * Current Balance
-	  */
-	public BigDecimal getCurrentBalance();
 
     /** Column name DateDoc */
     public static final String COLUMNNAME_DateDoc = "DateDoc";
@@ -260,29 +170,25 @@ public interface I_FTA_FarmerCredit
 	  */
 	public String getDocumentNo();
 
-    /** Column name FTA_CreditDefinition_ID */
-    public static final String COLUMNNAME_FTA_CreditDefinition_ID = "FTA_CreditDefinition_ID";
+    /** Column name FTA_EntryTicket_ID */
+    public static final String COLUMNNAME_FTA_EntryTicket_ID = "FTA_EntryTicket_ID";
 
-	/** Set Credit Definition	  */
-	public void setFTA_CreditDefinition_ID (int FTA_CreditDefinition_ID);
+	/** Set Entry Ticket	  */
+	public void setFTA_EntryTicket_ID (int FTA_EntryTicket_ID);
 
-	/** Get Credit Definition	  */
-	public int getFTA_CreditDefinition_ID();
+	/** Get Entry Ticket	  */
+	public int getFTA_EntryTicket_ID();
 
-	public org.spin.model.I_FTA_CreditDefinition getFTA_CreditDefinition() throws RuntimeException;
+	public org.spin.model.I_FTA_EntryTicket getFTA_EntryTicket() throws RuntimeException;
 
-    /** Column name FTA_FarmerCredit_ID */
-    public static final String COLUMNNAME_FTA_FarmerCredit_ID = "FTA_FarmerCredit_ID";
+    /** Column name FTA_QualityAnalysis_ID */
+    public static final String COLUMNNAME_FTA_QualityAnalysis_ID = "FTA_QualityAnalysis_ID";
 
-	/** Set Farmer Credit/Debt.
-	  * Farmer Credit or Debts
-	  */
-	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID);
+	/** Set Quality Analysis	  */
+	public void setFTA_QualityAnalysis_ID (int FTA_QualityAnalysis_ID);
 
-	/** Get Farmer Credit/Debt.
-	  * Farmer Credit or Debts
-	  */
-	public int getFTA_FarmerCredit_ID();
+	/** Get Quality Analysis	  */
+	public int getFTA_QualityAnalysis_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -297,6 +203,47 @@ public interface I_FTA_FarmerCredit
 	  */
 	public boolean isActive();
 
+    /** Column name IsApproved */
+    public static final String COLUMNNAME_IsApproved = "IsApproved";
+
+	/** Set Approved.
+	  * Indicates if this document requires approval
+	  */
+	public void setIsApproved (boolean IsApproved);
+
+	/** Get Approved.
+	  * Indicates if this document requires approval
+	  */
+	public boolean isApproved();
+
+    /** Column name IsValid */
+    public static final String COLUMNNAME_IsValid = "IsValid";
+
+	/** Set Valid.
+	  * Element is valid
+	  */
+	public void setIsValid (boolean IsValid);
+
+	/** Get Valid.
+	  * Element is valid
+	  */
+	public boolean isValid();
+
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws RuntimeException;
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -310,27 +257,25 @@ public interface I_FTA_FarmerCredit
 	  */
 	public boolean isProcessed();
 
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
+    /** Column name ProductStatus */
+    public static final String COLUMNNAME_ProductStatus = "ProductStatus";
 
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
+	/** Set Product Status	  */
+	public void setProductStatus (String ProductStatus);
 
-	/** Get Process Now	  */
-	public boolean isProcessing();
+	/** Get Product Status	  */
+	public String getProductStatus();
 
-    /** Column name Qty */
-    public static final String COLUMNNAME_Qty = "Qty";
+    /** Column name QualityAnalysis_ID */
+    public static final String COLUMNNAME_QualityAnalysis_ID = "QualityAnalysis_ID";
 
-	/** Set Quantity.
-	  * Quantity
-	  */
-	public void setQty (BigDecimal Qty);
+	/** Set Quality Analysis	  */
+	public void setQualityAnalysis_ID (int QualityAnalysis_ID);
 
-	/** Get Quantity.
-	  * Quantity
-	  */
-	public BigDecimal getQty();
+	/** Get Quality Analysis	  */
+	public int getQualityAnalysis_ID();
+
+	public I_M_AttributeSetInstance getQualityAnalysis() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

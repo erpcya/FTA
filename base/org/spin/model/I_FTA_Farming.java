@@ -72,16 +72,16 @@ public interface I_FTA_Farming
 	/** Get Area	  */
 	public BigDecimal getArea();
 
-    /** Column name Category */
-    public static final String COLUMNNAME_Category = "Category";
+    /** Column name Category_ID */
+    public static final String COLUMNNAME_Category_ID = "Category_ID";
 
 	/** Set Category	  */
-	public void setCategory (int Category);
+	public void setCategory_ID (int Category_ID);
 
 	/** Get Category	  */
-	public int getCategory();
+	public int getCategory_ID();
 
-	public I_M_Product getCateg() throws RuntimeException;
+	public I_M_Product getCategory() throws RuntimeException;
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -299,6 +299,19 @@ public interface I_FTA_Farming
 	  * First effective day (inclusive)
 	  */
 	public Timestamp getStartDate();
+
+    /** Column name Status */
+    public static final String COLUMNNAME_Status = "Status";
+
+	/** Set Status.
+	  * Status of the currently running check
+	  */
+	public void setStatus (String Status);
+
+	/** Get Status.
+	  * Status of the currently running check
+	  */
+	public String getStatus();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

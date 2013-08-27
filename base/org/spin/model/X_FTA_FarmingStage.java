@@ -33,7 +33,7 @@ public class X_FTA_FarmingStage extends PO implements I_FTA_FarmingStage, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130814L;
+	private static final long serialVersionUID = 20130827L;
 
     /** Standard Constructor */
     public X_FTA_FarmingStage (Properties ctx, int FTA_FarmingStage_ID, String trxName)
@@ -41,7 +41,7 @@ public class X_FTA_FarmingStage extends PO implements I_FTA_FarmingStage, I_Pers
       super (ctx, FTA_FarmingStage_ID, trxName);
       /** if (FTA_FarmingStage_ID == 0)
         {
-			setCategory (0);
+			setCategory_ID (0);
 			setDayFrom (Env.ZERO);
 			setDayTo (Env.ZERO);
 			setFTA_FarmingStage_ID (0);
@@ -77,23 +77,26 @@ public class X_FTA_FarmingStage extends PO implements I_FTA_FarmingStage, I_Pers
       return sb.toString();
     }
 
-	public I_M_Product getCateg() throws RuntimeException
+	public I_M_Product getCategory() throws RuntimeException
     {
 		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
-			.getPO(getCategory(), get_TrxName());	}
+			.getPO(getCategory_ID(), get_TrxName());	}
 
 	/** Set Category.
-		@param Category Category	  */
-	public void setCategory (int Category)
+		@param Category_ID Category	  */
+	public void setCategory_ID (int Category_ID)
 	{
-		set_ValueNoCheck (COLUMNNAME_Category, Integer.valueOf(Category));
+		if (Category_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Category_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Category_ID, Integer.valueOf(Category_ID));
 	}
 
 	/** Get Category.
 		@return Category	  */
-	public int getCategory () 
+	public int getCategory_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Category);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Category_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

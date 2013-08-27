@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for FTA_FarmerCredit
+/** Generated Interface for FTA_FarmerLiquidation
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS
  */
-public interface I_FTA_FarmerCredit 
+public interface I_FTA_FarmerLiquidation 
 {
 
-    /** TableName=FTA_FarmerCredit */
-    public static final String Table_Name = "FTA_FarmerCredit";
+    /** TableName=FTA_FarmerLiquidation */
+    public static final String Table_Name = "FTA_FarmerLiquidation";
 
-    /** AD_Table_ID=53544 */
+    /** AD_Table_ID=53564 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -76,21 +76,6 @@ public interface I_FTA_FarmerCredit
 	  */
 	public BigDecimal getAmt();
 
-    /** Column name Beneficiary_ID */
-    public static final String COLUMNNAME_Beneficiary_ID = "Beneficiary_ID";
-
-	/** Set Beneficiary.
-	  * Business Partner to whom payment is made
-	  */
-	public void setBeneficiary_ID (int Beneficiary_ID);
-
-	/** Get Beneficiary.
-	  * Business Partner to whom payment is made
-	  */
-	public int getBeneficiary_ID();
-
-	public I_C_BPartner getBeneficiary() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -105,21 +90,6 @@ public interface I_FTA_FarmerCredit
 	public int getC_BPartner_ID();
 
 	public I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_Charge_ID */
-    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
-
-	/** Set Charge.
-	  * Additional document charges
-	  */
-	public void setC_Charge_ID (int C_Charge_ID);
-
-	/** Get Charge.
-	  * Additional document charges
-	  */
-	public int getC_Charge_ID();
-
-	public I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -136,20 +106,20 @@ public interface I_FTA_FarmerCredit
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name C_Order_ID */
-    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+    /** Column name C_Invoice_ID */
+    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
-	/** Set Order.
-	  * Order
+	/** Set Invoice.
+	  * Invoice Identifier
 	  */
-	public void setC_Order_ID (int C_Order_ID);
+	public void setC_Invoice_ID (int C_Invoice_ID);
 
-	/** Get Order.
-	  * Order
+	/** Get Invoice.
+	  * Invoice Identifier
 	  */
-	public int getC_Order_ID();
+	public int getC_Invoice_ID();
 
-	public I_C_Order getC_Order() throws RuntimeException;
+	public I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -167,34 +137,6 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
-
-    /** Column name CurrentBalance */
-    public static final String COLUMNNAME_CurrentBalance = "CurrentBalance";
-
-	/** Set Current balance.
-	  * Current Balance
-	  */
-	public void setCurrentBalance (BigDecimal CurrentBalance);
-
-	/** Get Current balance.
-	  * Current Balance
-	  */
-	public BigDecimal getCurrentBalance();
-
     /** Column name DateDoc */
     public static final String COLUMNNAME_DateDoc = "DateDoc";
 
@@ -207,19 +149,6 @@ public interface I_FTA_FarmerCredit
 	  * Date of the Document
 	  */
 	public Timestamp getDateDoc();
-
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
-
-	/** Set Description.
-	  * Optional short description of the record
-	  */
-	public void setDescription (String Description);
-
-	/** Get Description.
-	  * Optional short description of the record
-	  */
-	public String getDescription();
 
     /** Column name DocAction */
     public static final String COLUMNNAME_DocAction = "DocAction";
@@ -260,17 +189,6 @@ public interface I_FTA_FarmerCredit
 	  */
 	public String getDocumentNo();
 
-    /** Column name FTA_CreditDefinition_ID */
-    public static final String COLUMNNAME_FTA_CreditDefinition_ID = "FTA_CreditDefinition_ID";
-
-	/** Set Credit Definition	  */
-	public void setFTA_CreditDefinition_ID (int FTA_CreditDefinition_ID);
-
-	/** Get Credit Definition	  */
-	public int getFTA_CreditDefinition_ID();
-
-	public org.spin.model.I_FTA_CreditDefinition getFTA_CreditDefinition() throws RuntimeException;
-
     /** Column name FTA_FarmerCredit_ID */
     public static final String COLUMNNAME_FTA_FarmerCredit_ID = "FTA_FarmerCredit_ID";
 
@@ -283,6 +201,17 @@ public interface I_FTA_FarmerCredit
 	  * Farmer Credit or Debts
 	  */
 	public int getFTA_FarmerCredit_ID();
+
+	public org.spin.model.I_FTA_FarmerCredit getFTA_FarmerCredit() throws RuntimeException;
+
+    /** Column name FTA_FarmerLiquidation_ID */
+    public static final String COLUMNNAME_FTA_FarmerLiquidation_ID = "FTA_FarmerLiquidation_ID";
+
+	/** Set Farmer Liquidation	  */
+	public void setFTA_FarmerLiquidation_ID (int FTA_FarmerLiquidation_ID);
+
+	/** Get Farmer Liquidation	  */
+	public int getFTA_FarmerLiquidation_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -297,6 +226,30 @@ public interface I_FTA_FarmerCredit
 	  */
 	public boolean isActive();
 
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name NetWeight */
+    public static final String COLUMNNAME_NetWeight = "NetWeight";
+
+	/** Set Net Weight	  */
+	public void setNetWeight (BigDecimal NetWeight);
+
+	/** Get Net Weight	  */
+	public BigDecimal getNetWeight();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -309,28 +262,6 @@ public interface I_FTA_FarmerCredit
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
-
-    /** Column name Qty */
-    public static final String COLUMNNAME_Qty = "Qty";
-
-	/** Set Quantity.
-	  * Quantity
-	  */
-	public void setQty (BigDecimal Qty);
-
-	/** Get Quantity.
-	  * Quantity
-	  */
-	public BigDecimal getQty();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
