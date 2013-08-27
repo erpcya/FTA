@@ -34,7 +34,7 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130814L;
+	private static final long serialVersionUID = 20130827L;
 
     /** Standard Constructor */
     public X_FTA_Farming (Properties ctx, int FTA_Farming_ID, String trxName)
@@ -43,13 +43,15 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
       /** if (FTA_Farming_ID == 0)
         {
 			setArea (Env.ZERO);
-			setCategory (0);
+			setCategory_ID (0);
 			setFinancingType (null);
 			setFTA_FarmDivision_ID (0);
 			setFTA_Farming_ID (0);
 			setName (null);
 			setPlantingCycle_ID (0);
 			setStartDate (new Timestamp( System.currentTimeMillis() ));
+			setStatus (null);
+// A
         } */
     }
 
@@ -98,23 +100,26 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 		return bd;
 	}
 
-	public I_M_Product getCateg() throws RuntimeException
+	public I_M_Product getCategory() throws RuntimeException
     {
 		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
-			.getPO(getCategory(), get_TrxName());	}
+			.getPO(getCategory_ID(), get_TrxName());	}
 
 	/** Set Category.
-		@param Category Category	  */
-	public void setCategory (int Category)
+		@param Category_ID Category	  */
+	public void setCategory_ID (int Category_ID)
 	{
-		set_ValueNoCheck (COLUMNNAME_Category, Integer.valueOf(Category));
+		if (Category_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Category_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Category_ID, Integer.valueOf(Category_ID));
 	}
 
 	/** Get Category.
 		@return Category	  */
-	public int getCategory () 
+	public int getCategory_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Category);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Category_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -455,5 +460,31 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	public Timestamp getStartDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_StartDate);
+	}
+
+	/** Status AD_Reference_ID=53531 */
+	public static final int STATUS_AD_Reference_ID=53531;
+	/** Active = A */
+	public static final String STATUS_Active = "A";
+	/** Harvesting = H */
+	public static final String STATUS_Harvesting = "H";
+	/** Damaged = D */
+	public static final String STATUS_Damaged = "D";
+	/** Set Status.
+		@param Status 
+		Status of the currently running check
+	  */
+	public void setStatus (String Status)
+	{
+
+		set_Value (COLUMNNAME_Status, Status);
+	}
+
+	/** Get Status.
+		@return Status of the currently running check
+	  */
+	public String getStatus () 
+	{
+		return (String)get_Value(COLUMNNAME_Status);
 	}
 }

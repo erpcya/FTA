@@ -32,7 +32,7 @@ public class X_FTA_SuggestedProduct extends PO implements I_FTA_SuggestedProduct
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130814L;
+	private static final long serialVersionUID = 20130827L;
 
     /** Standard Constructor */
     public X_FTA_SuggestedProduct (Properties ctx, int FTA_SuggestedProduct_ID, String trxName)
@@ -41,6 +41,7 @@ public class X_FTA_SuggestedProduct extends PO implements I_FTA_SuggestedProduct
       /** if (FTA_SuggestedProduct_ID == 0)
         {
 			setFTA_SuggestedProduct_ID (0);
+			setName (null);
         } */
     }
 
@@ -72,26 +73,46 @@ public class X_FTA_SuggestedProduct extends PO implements I_FTA_SuggestedProduct
       return sb.toString();
     }
 
-	public I_M_Product getCateg() throws RuntimeException
+	public I_M_Product getCategory() throws RuntimeException
     {
 		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
-			.getPO(getCategory(), get_TrxName());	}
+			.getPO(getCategory_ID(), get_TrxName());	}
 
 	/** Set Category.
-		@param Category Category	  */
-	public void setCategory (int Category)
+		@param Category_ID Category	  */
+	public void setCategory_ID (int Category_ID)
 	{
-		set_Value (COLUMNNAME_Category, Integer.valueOf(Category));
+		if (Category_ID < 1) 
+			set_Value (COLUMNNAME_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_Category_ID, Integer.valueOf(Category_ID));
 	}
 
 	/** Get Category.
 		@return Category	  */
-	public int getCategory () 
+	public int getCategory_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Category);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Category_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Comments.
+		@param Comments 
+		Comments or additional information
+	  */
+	public void setComments (String Comments)
+	{
+		set_Value (COLUMNNAME_Comments, Comments);
+	}
+
+	/** Get Comments.
+		@return Comments or additional information
+	  */
+	public String getComments () 
+	{
+		return (String)get_Value(COLUMNNAME_Comments);
 	}
 
 	/** Set Day From.
@@ -277,6 +298,23 @@ public class X_FTA_SuggestedProduct extends PO implements I_FTA_SuggestedProduct
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Name.
+		@param Name 
+		Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name)
+	{
+		set_Value (COLUMNNAME_Name, Name);
+	}
+
+	/** Get Name.
+		@return Alphanumeric identifier of the entity
+	  */
+	public String getName () 
+	{
+		return (String)get_Value(COLUMNNAME_Name);
 	}
 
 	/** Set Qty Dosage.

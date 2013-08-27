@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for FTA_FarmingStage
+/** Generated Interface for FTA_CategoryCalc
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS
  */
-public interface I_FTA_FarmingStage 
+public interface I_FTA_CategoryCalc 
 {
 
-    /** TableName=FTA_FarmingStage */
-    public static final String Table_Name = "FTA_FarmingStage";
+    /** TableName=FTA_CategoryCalc */
+    public static final String Table_Name = "FTA_CategoryCalc";
 
-    /** AD_Table_ID=53512 */
+    /** AD_Table_ID=53568 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,16 +63,16 @@ public interface I_FTA_FarmingStage
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Category_ID */
-    public static final String COLUMNNAME_Category_ID = "Category_ID";
+    /** Column name AD_Rule_ID */
+    public static final String COLUMNNAME_AD_Rule_ID = "AD_Rule_ID";
 
-	/** Set Category	  */
-	public void setCategory_ID (int Category_ID);
+	/** Set Rule	  */
+	public void setAD_Rule_ID (int AD_Rule_ID);
 
-	/** Get Category	  */
-	public int getCategory_ID();
+	/** Get Rule	  */
+	public int getAD_Rule_ID();
 
-	public I_M_Product getCategory() throws RuntimeException;
+	public I_AD_Rule getAD_Rule() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -90,32 +90,40 @@ public interface I_FTA_FarmingStage
 	  */
 	public int getCreatedBy();
 
-    /** Column name DayFrom */
-    public static final String COLUMNNAME_DayFrom = "DayFrom";
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
 
-	/** Set Day From	  */
-	public void setDayFrom (BigDecimal DayFrom);
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
 
-	/** Get Day From	  */
-	public BigDecimal getDayFrom();
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
 
-    /** Column name DayTo */
-    public static final String COLUMNNAME_DayTo = "DayTo";
+    /** Column name EventType */
+    public static final String COLUMNNAME_EventType = "EventType";
 
-	/** Set Day To	  */
-	public void setDayTo (BigDecimal DayTo);
+	/** Set Event Type.
+	  * Type of Event
+	  */
+	public void setEventType (String EventType);
 
-	/** Get Day To	  */
-	public BigDecimal getDayTo();
+	/** Get Event Type.
+	  * Type of Event
+	  */
+	public String getEventType();
 
-    /** Column name FTA_FarmingStage_ID */
-    public static final String COLUMNNAME_FTA_FarmingStage_ID = "FTA_FarmingStage_ID";
+    /** Column name FTA_CategoryCalc_ID */
+    public static final String COLUMNNAME_FTA_CategoryCalc_ID = "FTA_CategoryCalc_ID";
 
-	/** Set Farming Stage	  */
-	public void setFTA_FarmingStage_ID (int FTA_FarmingStage_ID);
+	/** Set Category Calc	  */
+	public void setFTA_CategoryCalc_ID (int FTA_CategoryCalc_ID);
 
-	/** Get Farming Stage	  */
-	public int getFTA_FarmingStage_ID();
+	/** Get Category Calc	  */
+	public int getFTA_CategoryCalc_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -130,6 +138,21 @@ public interface I_FTA_FarmingStage
 	  */
 	public boolean isActive();
 
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws RuntimeException;
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -142,30 +165,6 @@ public interface I_FTA_FarmingStage
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
-
-    /** Column name SeqNo */
-    public static final String COLUMNNAME_SeqNo = "SeqNo";
-
-	/** Set Sequence.
-	  * Method of ordering records;
- lowest number comes first
-	  */
-	public void setSeqNo (int SeqNo);
-
-	/** Get Sequence.
-	  * Method of ordering records;
- lowest number comes first
-	  */
-	public int getSeqNo();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -182,17 +181,4 @@ public interface I_FTA_FarmingStage
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name Value */
-    public static final String COLUMNNAME_Value = "Value";
-
-	/** Set Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value);
-
-	/** Get Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public String getValue();
 }

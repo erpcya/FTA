@@ -24,10 +24,10 @@ import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 
-/** Generated Model for FTA_FarmerCredit
+/** Generated Model for FTA_FarmerLiquidation
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Persistent 
+public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidation, I_Persistent 
 {
 
 	/**
@@ -36,26 +36,29 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	private static final long serialVersionUID = 20130827L;
 
     /** Standard Constructor */
-    public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
+    public X_FTA_FarmerLiquidation (Properties ctx, int FTA_FarmerLiquidation_ID, String trxName)
     {
-      super (ctx, FTA_FarmerCredit_ID, trxName);
-      /** if (FTA_FarmerCredit_ID == 0)
+      super (ctx, FTA_FarmerLiquidation_ID, trxName);
+      /** if (FTA_FarmerLiquidation_ID == 0)
         {
 			setAmt (Env.ZERO);
 			setC_BPartner_ID (0);
 			setC_DocType_ID (0);
+			setC_Invoice_ID (0);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 			setDocAction (null);
 // CO
 			setDocStatus (null);
 // DR
 			setFTA_FarmerCredit_ID (0);
-			setQty (Env.ZERO);
+			setFTA_FarmerLiquidation_ID (0);
+			setM_Product_ID (0);
+			setNetWeight (Env.ZERO);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_FarmerCredit (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_FarmerLiquidation (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -77,7 +80,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_FarmerCredit[")
+      StringBuffer sb = new StringBuffer ("X_FTA_FarmerLiquidation[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -102,34 +105,6 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return bd;
 	}
 
-	public I_C_BPartner getBeneficiary() throws RuntimeException
-    {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
-			.getPO(getBeneficiary_ID(), get_TrxName());	}
-
-	/** Set Beneficiary.
-		@param Beneficiary_ID 
-		Business Partner to whom payment is made
-	  */
-	public void setBeneficiary_ID (int Beneficiary_ID)
-	{
-		if (Beneficiary_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_Beneficiary_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_Beneficiary_ID, Integer.valueOf(Beneficiary_ID));
-	}
-
-	/** Get Beneficiary.
-		@return Business Partner to whom payment is made
-	  */
-	public int getBeneficiary_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Beneficiary_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
 		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
@@ -142,9 +117,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
 		if (C_BPartner_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -153,34 +128,6 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public int getC_BPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Charge getC_Charge() throws RuntimeException
-    {
-		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
-			.getPO(getC_Charge_ID(), get_TrxName());	}
-
-	/** Set Charge.
-		@param C_Charge_ID 
-		Additional document charges
-	  */
-	public void setC_Charge_ID (int C_Charge_ID)
-	{
-		if (C_Charge_ID < 1) 
-			set_Value (COLUMNNAME_C_Charge_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
-	}
-
-	/** Get Charge.
-		@return Additional document charges
-	  */
-	public int getC_Charge_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -214,79 +161,32 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws RuntimeException
+	public I_C_Invoice getC_Invoice() throws RuntimeException
     {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
-			.getPO(getC_Order_ID(), get_TrxName());	}
+		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
-	/** Set Order.
-		@param C_Order_ID 
-		Order
+	/** Set Invoice.
+		@param C_Invoice_ID 
+		Invoice Identifier
 	  */
-	public void setC_Order_ID (int C_Order_ID)
+	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Order_ID < 1) 
-			set_Value (COLUMNNAME_C_Order_ID, null);
+		if (C_Invoice_ID < 1) 
+			set_Value (COLUMNNAME_C_Invoice_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
-	/** Get Order.
-		@return Order
+	/** Get Invoice.
+		@return Invoice Identifier
 	  */
-	public int getC_Order_ID () 
+	public int getC_Invoice_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	public I_C_UOM getC_UOM() throws RuntimeException
-    {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
-			.getPO(getC_UOM_ID(), get_TrxName());	}
-
-	/** Set UOM.
-		@param C_UOM_ID 
-		Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID)
-	{
-		if (C_UOM_ID < 1) 
-			set_Value (COLUMNNAME_C_UOM_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
-	}
-
-	/** Get UOM.
-		@return Unit of Measure
-	  */
-	public int getC_UOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Current balance.
-		@param CurrentBalance 
-		Current Balance
-	  */
-	public void setCurrentBalance (BigDecimal CurrentBalance)
-	{
-		throw new IllegalArgumentException ("CurrentBalance is virtual column");	}
-
-	/** Get Current balance.
-		@return Current Balance
-	  */
-	public BigDecimal getCurrentBalance () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentBalance);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Document Date.
@@ -304,23 +204,6 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public Timestamp getDateDoc () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
-	}
-
-	/** Set Description.
-		@param Description 
-		Optional short description of the record
-	  */
-	public void setDescription (String Description)
-	{
-		set_Value (COLUMNNAME_Description, Description);
-	}
-
-	/** Get Description.
-		@return Optional short description of the record
-	  */
-	public String getDescription () 
-	{
-		return (String)get_Value(COLUMNNAME_Description);
 	}
 
 	/** DocAction AD_Reference_ID=135 */
@@ -421,7 +304,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
+		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
 	/** Get Document No.
@@ -432,30 +315,10 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
-	public org.spin.model.I_FTA_CreditDefinition getFTA_CreditDefinition() throws RuntimeException
+	public org.spin.model.I_FTA_FarmerCredit getFTA_FarmerCredit() throws RuntimeException
     {
-		return (org.spin.model.I_FTA_CreditDefinition)MTable.get(getCtx(), org.spin.model.I_FTA_CreditDefinition.Table_Name)
-			.getPO(getFTA_CreditDefinition_ID(), get_TrxName());	}
-
-	/** Set Credit Definition.
-		@param FTA_CreditDefinition_ID Credit Definition	  */
-	public void setFTA_CreditDefinition_ID (int FTA_CreditDefinition_ID)
-	{
-		if (FTA_CreditDefinition_ID < 1) 
-			set_Value (COLUMNNAME_FTA_CreditDefinition_ID, null);
-		else 
-			set_Value (COLUMNNAME_FTA_CreditDefinition_ID, Integer.valueOf(FTA_CreditDefinition_ID));
-	}
-
-	/** Get Credit Definition.
-		@return Credit Definition	  */
-	public int getFTA_CreditDefinition_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CreditDefinition_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+		return (org.spin.model.I_FTA_FarmerCredit)MTable.get(getCtx(), org.spin.model.I_FTA_FarmerCredit.Table_Name)
+			.getPO(getFTA_FarmerCredit_ID(), get_TrxName());	}
 
 	/** Set Farmer Credit/Debt.
 		@param FTA_FarmerCredit_ID 
@@ -464,9 +327,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID)
 	{
 		if (FTA_FarmerCredit_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_FarmerCredit_ID, null);
+			set_Value (COLUMNNAME_FTA_FarmerCredit_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_FarmerCredit_ID, Integer.valueOf(FTA_FarmerCredit_ID));
+			set_Value (COLUMNNAME_FTA_FarmerCredit_ID, Integer.valueOf(FTA_FarmerCredit_ID));
 	}
 
 	/** Get Farmer Credit/Debt.
@@ -478,6 +341,71 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Farmer Liquidation.
+		@param FTA_FarmerLiquidation_ID Farmer Liquidation	  */
+	public void setFTA_FarmerLiquidation_ID (int FTA_FarmerLiquidation_ID)
+	{
+		if (FTA_FarmerLiquidation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_FarmerLiquidation_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FTA_FarmerLiquidation_ID, Integer.valueOf(FTA_FarmerLiquidation_ID));
+	}
+
+	/** Get Farmer Liquidation.
+		@return Farmer Liquidation	  */
+	public int getFTA_FarmerLiquidation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_FarmerLiquidation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_Product getM_Product() throws RuntimeException
+    {
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
+
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Net Weight.
+		@param NetWeight Net Weight	  */
+	public void setNetWeight (BigDecimal NetWeight)
+	{
+		set_Value (COLUMNNAME_NetWeight, NetWeight);
+	}
+
+	/** Get Net Weight.
+		@return Net Weight	  */
+	public BigDecimal getNetWeight () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_NetWeight);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Processed.
@@ -502,46 +430,5 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** Set Process Now.
-		@param Processing Process Now	  */
-	public void setProcessing (boolean Processing)
-	{
-		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
-	}
-
-	/** Get Process Now.
-		@return Process Now	  */
-	public boolean isProcessing () 
-	{
-		Object oo = get_Value(COLUMNNAME_Processing);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Quantity.
-		@param Qty 
-		Quantity
-	  */
-	public void setQty (BigDecimal Qty)
-	{
-		set_Value (COLUMNNAME_Qty, Qty);
-	}
-
-	/** Get Quantity.
-		@return Quantity
-	  */
-	public BigDecimal getQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Qty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 }

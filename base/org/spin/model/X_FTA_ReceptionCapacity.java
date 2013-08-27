@@ -19,15 +19,15 @@ package org.spin.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_VehicleType
+/** Generated Model for FTA_ReceptionCapacity
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_VehicleType extends PO implements I_FTA_VehicleType, I_Persistent 
+public class X_FTA_ReceptionCapacity extends PO implements I_FTA_ReceptionCapacity, I_Persistent 
 {
 
 	/**
@@ -36,20 +36,20 @@ public class X_FTA_VehicleType extends PO implements I_FTA_VehicleType, I_Persis
 	private static final long serialVersionUID = 20130827L;
 
     /** Standard Constructor */
-    public X_FTA_VehicleType (Properties ctx, int FTA_VehicleType_ID, String trxName)
+    public X_FTA_ReceptionCapacity (Properties ctx, int FTA_ReceptionCapacity_ID, String trxName)
     {
-      super (ctx, FTA_VehicleType_ID, trxName);
-      /** if (FTA_VehicleType_ID == 0)
+      super (ctx, FTA_ReceptionCapacity_ID, trxName);
+      /** if (FTA_ReceptionCapacity_ID == 0)
         {
-			setFTA_VehicleType_ID (0);
-			setLoadCapacity (Env.ZERO);
-			setName (null);
-			setValue (null);
+			setFTA_ReceptionCapacity_ID (0);
+			setM_Warehouse_ID (0);
+			setQty (Env.ZERO);
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_VehicleType (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_ReceptionCapacity (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -71,7 +71,7 @@ public class X_FTA_VehicleType extends PO implements I_FTA_VehicleType, I_Persis
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_VehicleType[")
+      StringBuffer sb = new StringBuffer ("X_FTA_ReceptionCapacity[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -93,82 +93,88 @@ public class X_FTA_VehicleType extends PO implements I_FTA_VehicleType, I_Persis
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Vehicle Type.
-		@param FTA_VehicleType_ID Vehicle Type	  */
-	public void setFTA_VehicleType_ID (int FTA_VehicleType_ID)
+	/** Set Reception Capacity.
+		@param FTA_ReceptionCapacity_ID Reception Capacity	  */
+	public void setFTA_ReceptionCapacity_ID (int FTA_ReceptionCapacity_ID)
 	{
-		if (FTA_VehicleType_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleType_ID, null);
+		if (FTA_ReceptionCapacity_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_ReceptionCapacity_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleType_ID, Integer.valueOf(FTA_VehicleType_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_ReceptionCapacity_ID, Integer.valueOf(FTA_ReceptionCapacity_ID));
 	}
 
-	/** Get Vehicle Type.
-		@return Vehicle Type	  */
-	public int getFTA_VehicleType_ID () 
+	/** Get Reception Capacity.
+		@return Reception Capacity	  */
+	public int getFTA_ReceptionCapacity_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_VehicleType_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_ReceptionCapacity_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	/** Set Load Capacity.
-		@param LoadCapacity Load Capacity	  */
-	public void setLoadCapacity (BigDecimal LoadCapacity)
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException
+    {
+		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
+
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		set_Value (COLUMNNAME_LoadCapacity, LoadCapacity);
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
-	/** Get Load Capacity.
-		@return Load Capacity	  */
-	public BigDecimal getLoadCapacity () 
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_LoadCapacity);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Quantity.
+		@param Qty 
+		Quantity
+	  */
+	public void setQty (BigDecimal Qty)
+	{
+		set_Value (COLUMNNAME_Qty, Qty);
+	}
+
+	/** Get Quantity.
+		@return Quantity
+	  */
+	public BigDecimal getQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Qty);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
 	}
 
-	/** Set Name.
-		@param Name 
-		Alphanumeric identifier of the entity
+	/** Set Valid from.
+		@param ValidFrom 
+		Valid from including this date (first day)
 	  */
-	public void setName (String Name)
+	public void setValidFrom (Timestamp ValidFrom)
 	{
-		set_Value (COLUMNNAME_Name, Name);
+		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
 	}
 
-	/** Get Name.
-		@return Alphanumeric identifier of the entity
+	/** Get Valid from.
+		@return Valid from including this date (first day)
 	  */
-	public String getName () 
+	public Timestamp getValidFrom () 
 	{
-		return (String)get_Value(COLUMNNAME_Name);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
-
-	/** Set Search Key.
-		@param Value 
-		Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value)
-	{
-		set_Value (COLUMNNAME_Value, Value);
-	}
-
-	/** Get Search Key.
-		@return Search key for the record in the format required - must be unique
-	  */
-	public String getValue () 
-	{
-		return (String)get_Value(COLUMNNAME_Value);
+		return (Timestamp)get_Value(COLUMNNAME_ValidFrom);
 	}
 }

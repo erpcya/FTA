@@ -63,16 +63,29 @@ public interface I_FTA_SuggestedProduct
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Category */
-    public static final String COLUMNNAME_Category = "Category";
+    /** Column name Category_ID */
+    public static final String COLUMNNAME_Category_ID = "Category_ID";
 
 	/** Set Category	  */
-	public void setCategory (int Category);
+	public void setCategory_ID (int Category_ID);
 
 	/** Get Category	  */
-	public int getCategory();
+	public int getCategory_ID();
 
-	public I_M_Product getCateg() throws RuntimeException;
+	public I_M_Product getCategory() throws RuntimeException;
+
+    /** Column name Comments */
+    public static final String COLUMNNAME_Comments = "Comments";
+
+	/** Set Comments.
+	  * Comments or additional information
+	  */
+	public void setComments (String Comments);
+
+	/** Get Comments.
+	  * Comments or additional information
+	  */
+	public String getComments();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -192,6 +205,19 @@ public interface I_FTA_SuggestedProduct
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
+
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name);
+
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public String getName();
 
     /** Column name QtyDosage */
     public static final String COLUMNNAME_QtyDosage = "QtyDosage";

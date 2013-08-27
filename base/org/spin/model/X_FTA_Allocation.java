@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.spin.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
-import org.compiere.util.Env;
 
-/** Generated Model for FTA_CreditDefinition
+/** Generated Model for FTA_Allocation
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition, I_Persistent 
+public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persistent 
 {
 
 	/**
@@ -35,24 +34,28 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	private static final long serialVersionUID = 20130827L;
 
     /** Standard Constructor */
-    public X_FTA_CreditDefinition (Properties ctx, int FTA_CreditDefinition_ID, String trxName)
+    public X_FTA_Allocation (Properties ctx, int FTA_Allocation_ID, String trxName)
     {
-      super (ctx, FTA_CreditDefinition_ID, trxName);
-      /** if (FTA_CreditDefinition_ID == 0)
+      super (ctx, FTA_Allocation_ID, trxName);
+      /** if (FTA_Allocation_ID == 0)
         {
-			setAmt (Env.ZERO);
+			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 			setDocAction (null);
 // CO
 			setDocStatus (null);
 // DR
-			setFTA_CreditDefinition_ID (0);
-			setName (null);
-			setPlantingCycle_ID (0);
+			setDocumentNo (null);
+			setFTA_Allocation_ID (0);
+			setFTA_FarmerCredit_ID (0);
+			setFTA_FarmerLiquidation_ID (0);
+			setIsApproved (false);
+// N
+			setProcessed (false);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_CreditDefinition (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_Allocation (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -74,29 +77,26 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_CreditDefinition[")
+      StringBuffer sb = new StringBuffer ("X_FTA_Allocation[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	/** Set Amount.
-		@param Amt 
-		Amount
+	/** Set Document Date.
+		@param DateDoc 
+		Date of the Document
 	  */
-	public void setAmt (BigDecimal Amt)
+	public void setDateDoc (Timestamp DateDoc)
 	{
-		set_Value (COLUMNNAME_Amt, Amt);
+		set_Value (COLUMNNAME_DateDoc, DateDoc);
 	}
 
-	/** Get Amount.
-		@return Amount
+	/** Get Document Date.
+		@return Date of the Document
 	  */
-	public BigDecimal getAmt () 
+	public Timestamp getDateDoc () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Amt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
 	}
 
 	/** Set Description.
@@ -208,66 +208,118 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		return (String)get_Value(COLUMNNAME_DocStatus);
 	}
 
-	/** Set Credit Definition.
-		@param FTA_CreditDefinition_ID Credit Definition	  */
-	public void setFTA_CreditDefinition_ID (int FTA_CreditDefinition_ID)
+	/** Set Document No.
+		@param DocumentNo 
+		Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo)
 	{
-		if (FTA_CreditDefinition_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_CreditDefinition_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_CreditDefinition_ID, Integer.valueOf(FTA_CreditDefinition_ID));
+		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
-	/** Get Credit Definition.
-		@return Credit Definition	  */
-	public int getFTA_CreditDefinition_ID () 
+	/** Get Document No.
+		@return Document sequence number of the document
+	  */
+	public String getDocumentNo () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CreditDefinition_ID);
+		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
+	/** Set Liquidation Allocation.
+		@param FTA_Allocation_ID Liquidation Allocation	  */
+	public void setFTA_Allocation_ID (int FTA_Allocation_ID)
+	{
+		if (FTA_Allocation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_Allocation_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FTA_Allocation_ID, Integer.valueOf(FTA_Allocation_ID));
+	}
+
+	/** Get Liquidation Allocation.
+		@return Liquidation Allocation	  */
+	public int getFTA_Allocation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_Allocation_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	/** Set Name.
-		@param Name 
-		Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name)
-	{
-		set_Value (COLUMNNAME_Name, Name);
-	}
-
-	/** Get Name.
-		@return Alphanumeric identifier of the entity
-	  */
-	public String getName () 
-	{
-		return (String)get_Value(COLUMNNAME_Name);
-	}
-
-	public I_M_Lot getPlantingCycle() throws RuntimeException
+	public org.spin.model.I_FTA_FarmerCredit getFTA_FarmerCredit() throws RuntimeException
     {
-		return (I_M_Lot)MTable.get(getCtx(), I_M_Lot.Table_Name)
-			.getPO(getPlantingCycle_ID(), get_TrxName());	}
+		return (org.spin.model.I_FTA_FarmerCredit)MTable.get(getCtx(), org.spin.model.I_FTA_FarmerCredit.Table_Name)
+			.getPO(getFTA_FarmerCredit_ID(), get_TrxName());	}
 
-	/** Set Planting Cycle.
-		@param PlantingCycle_ID Planting Cycle	  */
-	public void setPlantingCycle_ID (int PlantingCycle_ID)
+	/** Set Farmer Credit/Debt.
+		@param FTA_FarmerCredit_ID 
+		Farmer Credit or Debts
+	  */
+	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID)
 	{
-		if (PlantingCycle_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PlantingCycle_ID, null);
+		if (FTA_FarmerCredit_ID < 1) 
+			set_Value (COLUMNNAME_FTA_FarmerCredit_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_PlantingCycle_ID, Integer.valueOf(PlantingCycle_ID));
+			set_Value (COLUMNNAME_FTA_FarmerCredit_ID, Integer.valueOf(FTA_FarmerCredit_ID));
 	}
 
-	/** Get Planting Cycle.
-		@return Planting Cycle	  */
-	public int getPlantingCycle_ID () 
+	/** Get Farmer Credit/Debt.
+		@return Farmer Credit or Debts
+	  */
+	public int getFTA_FarmerCredit_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PlantingCycle_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_FarmerCredit_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	public org.spin.model.I_FTA_FarmerLiquidation getFTA_FarmerLiquidation() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_FarmerLiquidation)MTable.get(getCtx(), org.spin.model.I_FTA_FarmerLiquidation.Table_Name)
+			.getPO(getFTA_FarmerLiquidation_ID(), get_TrxName());	}
+
+	/** Set Farmer Liquidation.
+		@param FTA_FarmerLiquidation_ID Farmer Liquidation	  */
+	public void setFTA_FarmerLiquidation_ID (int FTA_FarmerLiquidation_ID)
+	{
+		if (FTA_FarmerLiquidation_ID < 1) 
+			set_Value (COLUMNNAME_FTA_FarmerLiquidation_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_FarmerLiquidation_ID, Integer.valueOf(FTA_FarmerLiquidation_ID));
+	}
+
+	/** Get Farmer Liquidation.
+		@return Farmer Liquidation	  */
+	public int getFTA_FarmerLiquidation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_FarmerLiquidation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Approved.
+		@param IsApproved 
+		Indicates if this document requires approval
+	  */
+	public void setIsApproved (boolean IsApproved)
+	{
+		set_Value (COLUMNNAME_IsApproved, Boolean.valueOf(IsApproved));
+	}
+
+	/** Get Approved.
+		@return Indicates if this document requires approval
+	  */
+	public boolean isApproved () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsApproved);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Processed.
