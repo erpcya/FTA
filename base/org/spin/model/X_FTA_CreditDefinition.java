@@ -41,11 +41,13 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
       /** if (FTA_CreditDefinition_ID == 0)
         {
 			setAmt (Env.ZERO);
+			setCategory_ID (0);
 			setDocAction (null);
 // CO
 			setDocStatus (null);
 // DR
 			setFTA_CreditDefinition_ID (0);
+			setIsApproved (false);
 			setM_PriceList_ID (0);
 			setName (null);
 			setPlantingCycle_ID (0);
@@ -98,6 +100,31 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public I_M_Product getCategory() throws RuntimeException
+    {
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getCategory_ID(), get_TrxName());	}
+
+	/** Set Category.
+		@param Category_ID Category	  */
+	public void setCategory_ID (int Category_ID)
+	{
+		if (Category_ID < 1) 
+			set_Value (COLUMNNAME_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_Category_ID, Integer.valueOf(Category_ID));
+	}
+
+	/** Get Category.
+		@return Category	  */
+	public int getCategory_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Category_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Description.
@@ -209,6 +236,23 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		return (String)get_Value(COLUMNNAME_DocStatus);
 	}
 
+	/** Set Document No.
+		@param DocumentNo 
+		Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo)
+	{
+		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
+	}
+
+	/** Get Document No.
+		@return Document sequence number of the document
+	  */
+	public String getDocumentNo () 
+	{
+		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
 	/** Set Credit Definition.
 		@param FTA_CreditDefinition_ID Credit Definition	  */
 	public void setFTA_CreditDefinition_ID (int FTA_CreditDefinition_ID)
@@ -227,6 +271,30 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Approved.
+		@param IsApproved 
+		Indicates if this document requires approval
+	  */
+	public void setIsApproved (boolean IsApproved)
+	{
+		set_Value (COLUMNNAME_IsApproved, Boolean.valueOf(IsApproved));
+	}
+
+	/** Get Approved.
+		@return Indicates if this document requires approval
+	  */
+	public boolean isApproved () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsApproved);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public I_M_PriceList getM_PriceList() throws RuntimeException

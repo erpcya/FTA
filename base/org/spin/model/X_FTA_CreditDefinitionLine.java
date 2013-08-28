@@ -44,6 +44,7 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 			setC_UOM_ID (0);
 			setFTA_CreditDefinition_ID (0);
 			setFTA_CreditDefinitionLine_ID (0);
+			setLine (0);
 			setPrice (Env.ZERO);
 			setQty (Env.ZERO);
 // 1
@@ -154,6 +155,23 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 		return ii.intValue();
 	}
 
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
+	}
+
 	public org.spin.model.I_FTA_CreditDefinition getFTA_CreditDefinition() throws RuntimeException
     {
 		return (org.spin.model.I_FTA_CreditDefinition)MTable.get(getCtx(), org.spin.model.I_FTA_CreditDefinition.Table_Name)
@@ -194,6 +212,26 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 	public int getFTA_CreditDefinitionLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CreditDefinitionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Line No.
+		@param Line 
+		Unique line for this document
+	  */
+	public void setLine (int Line)
+	{
+		set_Value (COLUMNNAME_Line, Integer.valueOf(Line));
+	}
+
+	/** Get Line No.
+		@return Unique line for this document
+	  */
+	public int getLine () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Line);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

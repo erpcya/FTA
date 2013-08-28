@@ -76,6 +76,17 @@ public interface I_FTA_CreditDefinition
 	  */
 	public BigDecimal getAmt();
 
+    /** Column name Category_ID */
+    public static final String COLUMNNAME_Category_ID = "Category_ID";
+
+	/** Set Category	  */
+	public void setCategory_ID (int Category_ID);
+
+	/** Get Category	  */
+	public int getCategory_ID();
+
+	public I_M_Product getCategory() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -131,6 +142,19 @@ public interface I_FTA_CreditDefinition
 	  */
 	public String getDocStatus();
 
+    /** Column name DocumentNo */
+    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
+
+	/** Set Document No.
+	  * Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo);
+
+	/** Get Document No.
+	  * Document sequence number of the document
+	  */
+	public String getDocumentNo();
+
     /** Column name FTA_CreditDefinition_ID */
     public static final String COLUMNNAME_FTA_CreditDefinition_ID = "FTA_CreditDefinition_ID";
 
@@ -152,6 +176,19 @@ public interface I_FTA_CreditDefinition
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsApproved */
+    public static final String COLUMNNAME_IsApproved = "IsApproved";
+
+	/** Set Approved.
+	  * Indicates if this document requires approval
+	  */
+	public void setIsApproved (boolean IsApproved);
+
+	/** Get Approved.
+	  * Indicates if this document requires approval
+	  */
+	public boolean isApproved();
 
     /** Column name M_PriceList_ID */
     public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";

@@ -22,11 +22,6 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.model.I_M_RMALine;
-import org.compiere.model.MDocType;
-import org.compiere.model.MInOut;
-import org.compiere.model.MRMA;
-import org.compiere.model.MRMALine;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
@@ -72,84 +67,8 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	@Override
-	public boolean processIt(String action) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean unlockIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean invalidateIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String prepareIt() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean approveIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean rejectIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String completeIt() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean voidIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean closeIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean reverseCorrectIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean reverseAccrualIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean reActivateIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String getSummary() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	/** Lines					*/
+	private MFTACreditDefinitionLine[]		m_lines = null;
 
 	@Override
 	public String getDocumentNo() {
@@ -181,12 +100,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	}
 
 	@Override
-	public String getProcessMsg() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getDoc_User_ID() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -196,12 +109,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	public int getC_Currency_ID() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public BigDecimal getApprovalAmt() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -235,7 +142,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	public boolean unlockIt()
 	{
 		log.info("unlockIt - " + toString());
-		setProcessing(false);
 		return true;
 	}	//	unlockIt
 
@@ -260,19 +166,11 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 
-		MRMALine[] lines = getLines(false);
+		MFTACreditDefinitionLine[] lines = getLines(false);
 		if (lines.length == 0)
 		{
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
-		}
-		
-		for (MRMALine line : lines)
-		{
-			if (!line.checkQty()) {
-				m_processMsg = "@AmtReturned>Shipped@";
-				return DocAction.STATUS_Invalid;
-			}
 		}
 
         // Updates Amount
@@ -330,21 +228,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if (!isApproved())
 			approveIt();
 		log.info("completeIt - " + toString());
-		//
-		/*
-		Flow for the creation of the credit memo document changed
-        if (true)
-		{
-			m_processMsg = "Need to code creating the credit memo";
-			return DocAction.STATUS_InProgress;
-		}
-        */
-
-		//		Counter Documents
-		MRMA counter = createCounterDoc();
-		if (counter != null)
-			m_processMsg = "@CounterDoc@: RMA=" + counter.getDocumentNo();
-
+		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -352,10 +236,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 			m_processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
-
-		// Set the definite document number after completed (if needed)
-		setDefiniteDocumentNo();
-
 		//
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
@@ -374,14 +254,14 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if (m_processMsg != null)
 			return false;
 
-		MRMALine lines[] = getLines(true);
+		MFTACreditDefinitionLine lines[] = getLines(true);
 		// Set Qty and Amt on all lines to be Zero
-		for (MRMALine rmaLine : lines)
+		for (MFTACreditDefinitionLine creditLine : lines)
 		{
-		    rmaLine.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + rmaLine.getQty() + ")");
-		    rmaLine.setQty(Env.ZERO);
-		    rmaLine.setAmt(Env.ZERO);
-		    rmaLine.saveEx();
+		    creditLine.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + creditLine.getQty() + ")");
+		    creditLine.setQty(Env.ZERO);
+		    creditLine.setAmt(Env.ZERO);
+		    creditLine.saveEx();
 		}
 
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
@@ -513,13 +393,13 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
      */
     public BigDecimal getTotalAmount()
     {
-        MRMALine lines[] = this.getLines(true);
+    	MFTACreditDefinitionLine lines[] = this.getLines(true);
 
         BigDecimal amt = Env.ZERO;
 
-        for (MRMALine line : lines)
+        for (MFTACreditDefinitionLine line : lines)
         {
-            amt = amt.add(line.getLineNetAmt());
+            amt = amt.add(line.getAmt());
         }
 
         return amt;
@@ -544,7 +424,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		//	: Total Lines = 123.00 (#1)
 		sb.append(": ").
 			append(Msg.translate(getCtx(),"Amt")).append("=").append(getAmt())
-			.append(" (#").append(getLines(false)..append(")");
+			.append(" (#").append(getLines(false).length).append(")");
 		//	 - Description
 		if (getDescription() != null && getDescription().length() > 0)
 			sb.append(" - ").append(getDescription());
@@ -601,30 +481,25 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 				setDocumentNo(value);
 		}
 	}*/
-
-	/** Lines					*/
-	private MRMALine[]		m_lines = null;
-	/** The Shipment			*/
-	private MInOut			m_inout = null;
-
+	
 	/**
 	 * 	Get Lines
 	 *	@param requery requery
 	 *	@return lines
 	 */
-	public MRMALine[] getLines (boolean requery)
+	public MFTACreditDefinitionLine[] getLines (boolean requery)
 	{
 		if (m_lines != null && !requery)
 		{
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		List<MFTACreditDefinitionLine> list = new Query(getCtx(), I_FTA_CreditDefinitionLine.Table_Name, "M_RMA_ID=?", get_TrxName())
-		.setParameters(getM_RMA_ID())
+		List<MFTACreditDefinitionLine> list = new Query(getCtx(), MFTACreditDefinitionLine.Table_Name, "FTA_CreditDefinition_ID=?", get_TrxName())
+		.setParameters(getFTA_CreditDefinition_ID())
 		.setOrderBy(MFTACreditDefinitionLine.COLUMNNAME_Line)
 		.list();
 
-		m_lines = new MRMALine[list.size ()];
+		m_lines = new MFTACreditDefinitionLine[list.size ()];
 		list.toArray (m_lines);
 		return m_lines;
 	}	//	getLines

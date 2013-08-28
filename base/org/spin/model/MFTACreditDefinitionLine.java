@@ -106,4 +106,17 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 		return updateHeader();
 	}
 
+	/**
+     *  Add to Description
+     *  @param description text
+     */
+    public void addDescription (String description)
+    {
+        String desc = getDescription();
+        if (desc == null)
+            setDescription(description);
+        else
+            setDescription(desc + " | " + description);
+    }   //  addDescription
+	
 }
