@@ -19,6 +19,9 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.Env;
+
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
@@ -53,6 +56,21 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide {
 	public MFTAMobilizationGuide(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * Valid Weight
+	 */
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		if(getQtyToDeliver() == null
+				|| getQtyToDeliver().equals(Env.ZERO)) {
+			throw new AdempiereException("@QtyToDeliver@ = @0@");
+		} else if(getQtyToDeliver().compareTo(getFTA_VehicleType().getLoadCapacity()) > 0){ 
+			throw new AdempiereException("@QtyToDeliver@ > @LoadCapacity@ @of@ @FTA_VehicleType_ID@");
+		}
+		return true;
 	}
 
 }
