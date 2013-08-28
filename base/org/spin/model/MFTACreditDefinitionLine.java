@@ -19,6 +19,9 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.DB;
+
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
@@ -53,6 +56,56 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 	public MFTACreditDefinitionLine(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 		// TODO Auto-generated constructor stub
+	}
+	
+	/**	Credit Definition	*/
+	private MFTACreditDefinition m_parent = null;
+	
+	/**
+	 * Update Header
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 28/08/2013, 10:24:36
+	 * @return
+	 * @return boolean
+	 */
+	private boolean updateHeader(){
+		//	Recalculate Header
+		//	Update Credit Definition Header
+		String sql = "UPDATE FTA_CreditDefinition cd" + 
+				" SET Amt=" + 
+				"(SELECT COALESCE(SUM(cdl.Amt),0) " +
+				"FROM FTA_CreditDefinitionLine cdl WHERE cdl.FTA_CreditDefinition_ID=cd.FTA_CreditDefinition_ID) "
+			+ "WHERE cd.FTA_CreditDefinition_ID=" + getFTA_CreditDefinition_ID();
+		int no = DB.executeUpdate(sql, get_TrxName());
+		if (no != 1)
+			log.warning("(1) #" + no);
+		return no == 1;
+	}	//	updateHeaderTax
+	
+	/**
+	 * 	Get Parent
+	 *	@return parent
+	 */
+	public MFTACreditDefinition getParent()
+	{
+		if (m_parent == null)
+			m_parent = new MFTACreditDefinition(getCtx(), getFTA_CreditDefinition_ID(), get_TrxName());
+		return m_parent;
+	}	//	getParent
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		if(getC_Charge_ID() == 0
+				&& getM_Product_Category_ID() == 0
+				&& getM_Product_ID() == 0)
+			throw new AdempiereException("@C_Charge_ID@ = @M_Product_Category_ID@ = @M_Product_ID@ = 0");
+		return true;
+	}
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		super.afterSave(newRecord, success);
+		return updateHeader();
 	}
 
 }
