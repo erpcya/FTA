@@ -98,24 +98,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		}
 		return null;
 	}
-
-	@Override
-	public int getDoc_User_ID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getC_Currency_ID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public String getDocAction() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 	/**************************************************************************
@@ -503,5 +485,17 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		list.toArray (m_lines);
 		return m_lines;
 	}	//	getLines
+
+	@Override
+	public int getDoc_User_ID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getC_Currency_ID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }
