@@ -43,7 +43,6 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 	public MFTACreditDefinitionLine(Properties ctx,
 			int FTA_CreditDefinitionLine_ID, String trxName) {
 		super(ctx, FTA_CreditDefinitionLine_ID, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -55,7 +54,6 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 	 */
 	public MFTACreditDefinitionLine(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**	Credit Definition	*/

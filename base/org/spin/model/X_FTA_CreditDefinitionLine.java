@@ -32,7 +32,7 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130827L;
+	private static final long serialVersionUID = 20130828L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinitionLine (Properties ctx, int FTA_CreditDefinitionLine_ID, String trxName)
@@ -44,7 +44,9 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 			setC_UOM_ID (0);
 			setFTA_CreditDefinition_ID (0);
 			setFTA_CreditDefinitionLine_ID (0);
+			setPrice (Env.ZERO);
 			setQty (Env.ZERO);
+// 1
         } */
     }
 
@@ -251,6 +253,26 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Price.
+		@param Price 
+		Price
+	  */
+	public void setPrice (BigDecimal Price)
+	{
+		set_Value (COLUMNNAME_Price, Price);
+	}
+
+	/** Get Price.
+		@return Price
+	  */
+	public BigDecimal getPrice () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Price);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Processed.
