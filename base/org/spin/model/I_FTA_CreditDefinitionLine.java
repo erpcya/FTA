@@ -185,6 +185,19 @@ public interface I_FTA_CreditDefinitionLine
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name Price */
+    public static final String COLUMNNAME_Price = "Price";
+
+	/** Set Price.
+	  * Price
+	  */
+	public void setPrice (BigDecimal Price);
+
+	/** Get Price.
+	  * Price
+	  */
+	public BigDecimal getPrice();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
