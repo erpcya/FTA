@@ -19,6 +19,9 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.Env;
+
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
@@ -53,6 +56,19 @@ public class MFTAVehicleType extends X_FTA_VehicleType {
 	public MFTAVehicleType(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * Valid Capacity
+	 */
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		if(getLoadCapacity() == null
+				|| getLoadCapacity().equals(Env.ZERO)) {
+			throw new AdempiereException("@LoadCapacity@ = @0@");
+		}
+		return true;
 	}
 
 }

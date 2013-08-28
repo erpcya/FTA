@@ -19,6 +19,9 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.Env;
+
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
@@ -53,6 +56,21 @@ public class MFTAFarmDivision extends X_FTA_FarmDivision {
 	public MFTAFarmDivision(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * Valid Area
+	 */
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		if(getArea() == null
+				|| getArea().equals(Env.ZERO)) {
+			throw new AdempiereException("@Area@ = @0@");
+		} else if(getArea().compareTo(getFTA_Farm().getArea()) > 0){
+			throw new AdempiereException("@Area@ > @Area@ @of@ @FTA_Farm_ID@");
+		}
+		return true;
 	}
 
 }
