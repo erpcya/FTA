@@ -297,6 +297,28 @@ public interface I_FTA_FarmerCredit
 	  */
 	public boolean isActive();
 
+    /** Column name IsApproved */
+    public static final String COLUMNNAME_IsApproved = "IsApproved";
+
+	/** Set Approved.
+	  * Indicates if this document requires approval
+	  */
+	public void setIsApproved (boolean IsApproved);
+
+	/** Get Approved.
+	  * Indicates if this document requires approval
+	  */
+	public boolean isApproved();
+
+    /** Column name IsCredit */
+    public static final String COLUMNNAME_IsCredit = "IsCredit";
+
+	/** Set Is Credit	  */
+	public void setIsCredit (boolean IsCredit);
+
+	/** Get Is Credit	  */
+	public boolean isCredit();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
