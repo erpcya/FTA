@@ -99,7 +99,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		return null;
 	}
 	
-	
 	/**************************************************************************
 	 * 	Process document
 	 *	@param processAction document action
@@ -349,7 +348,9 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
         super.setProcessed (processed);
         if (get_ID() <= 0)
             return;
-        int noLine = DB.executeUpdateEx("UPDATE M_RMALine SET Processed=? WHERE M_RMA_ID=?",
+        int noLine = DB.executeUpdateEx("UPDATE FTA_CreditDefinitionLine " +
+        		"SET Processed=? " +
+        		"WHERE FTA_CreditDefinition_ID=?",
         		new Object[]{processed, get_ID()},
         		get_TrxName());
         m_lines = null;
