@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130828L;
+	private static final long serialVersionUID = 20130829L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -50,6 +50,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 			setDocStatus (null);
 // DR
 			setFTA_FarmerCredit_ID (0);
+			setIsApproved (false);
 			setQty (Env.ZERO);
         } */
     }
@@ -478,6 +479,51 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Approved.
+		@param IsApproved 
+		Indicates if this document requires approval
+	  */
+	public void setIsApproved (boolean IsApproved)
+	{
+		set_Value (COLUMNNAME_IsApproved, Boolean.valueOf(IsApproved));
+	}
+
+	/** Get Approved.
+		@return Indicates if this document requires approval
+	  */
+	public boolean isApproved () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsApproved);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Credit.
+		@param IsCredit Is Credit	  */
+	public void setIsCredit (boolean IsCredit)
+	{
+		set_Value (COLUMNNAME_IsCredit, Boolean.valueOf(IsCredit));
+	}
+
+	/** Get Is Credit.
+		@return Is Credit	  */
+	public boolean isCredit () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCredit);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Processed.

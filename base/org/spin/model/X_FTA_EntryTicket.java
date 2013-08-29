@@ -31,7 +31,7 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130828L;
+	private static final long serialVersionUID = 20130829L;
 
     /** Standard Constructor */
     public X_FTA_EntryTicket (Properties ctx, int FTA_EntryTicket_ID, String trxName)
@@ -117,9 +117,9 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
 		if (C_DocType_ID < 0) 
-			set_Value (COLUMNNAME_C_DocType_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.

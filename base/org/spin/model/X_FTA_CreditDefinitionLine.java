@@ -32,7 +32,7 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130828L;
+	private static final long serialVersionUID = 20130829L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinitionLine (Properties ctx, int FTA_CreditDefinitionLine_ID, String trxName)
@@ -45,6 +45,7 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 			setFTA_CreditDefinition_ID (0);
 			setFTA_CreditDefinitionLine_ID (0);
 			setLine (0);
+// @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM FTA_CreditDefinitionLine WHERE FTA_CreditDefinition_ID=@FTA_CreditDefinition_ID@
 			setPrice (Env.ZERO);
 			setQty (Env.ZERO);
 // 1

@@ -21,7 +21,13 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.model.MDocType;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.ModelValidator;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -44,7 +50,6 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 	public MFTAFarmerCredit(Properties ctx, int FTA_FarmerCredit_ID,
 			String trxName) {
 		super(ctx, FTA_FarmerCredit_ID, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -56,178 +61,407 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 	 */
 	public MFTAFarmerCredit(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#processIt(java.lang.String)
+	/**
+	 * 	Get Document Info
+	 *	@return document info (untranslated)
 	 */
-	@Override
-	public boolean processIt(String action) throws Exception {
-		System.out.println("processIt");
-		return false;
-	}
+	public String getDocumentInfo()
+	{
+		MDocType dt = MDocType.get(getCtx(), 0);
+		return dt.getName() + " " + getDocumentNo();
+	}	//	getDocumentInfo
 
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#unlockIt()
+	/**
+	 * 	Create PDF
+	 *	@return File or null
 	 */
-	@Override
-	public boolean unlockIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#invalidateIt()
-	 */
-	@Override
-	public boolean invalidateIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#prepareIt()
-	 */
-	@Override
-	public String prepareIt() {
-		System.out.println("prepareIt");
-		return "IP";
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#approveIt()
-	 */
-	@Override
-	public boolean approveIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#rejectIt()
-	 */
-	@Override
-	public boolean rejectIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#completeIt()
-	 */
-	@Override
-	public String completeIt() {
-		System.out.println("completeIt");
+	public File createPDF ()
+	{
+		try
+		{
+			File temp = File.createTempFile(get_TableName()+get_ID()+"_", ".pdf");
+			return createPDF (temp);
+		}
+		catch (Exception e)
+		{
+			log.severe("Could not create PDF - " + e.getMessage());
+		}
 		return null;
-	}
+	}	//	getPDF
 
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#voidIt()
+	/**
+	 * 	Create PDF file
+	 *	@param file output file
+	 *	@return file if success
 	 */
-	@Override
-	public boolean voidIt() {
-		// TODO Auto-generated method stub
+	public File createPDF (File file)
+	{
+	//	ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.INVOICE, getC_Invoice_ID());
+	//	if (re == null)
+			return null;
+	//	return re.getPDF(file);
+	}	//	createPDF
+
+	
+	/**************************************************************************
+	 * 	Process document
+	 *	@param processAction document action
+	 *	@return true if performed
+	 */
+	public boolean processIt (String processAction)
+	{
+		m_processMsg = null;
+		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
+		return engine.processIt (processAction, getDocAction());
+	}	//	processIt
+	
+	/**	Process Message 			*/
+	private String		m_processMsg = null;
+	/**	Just Prepared Flag			*/
+	private boolean		m_justPrepared = false;
+
+	/**
+	 * 	Unlock Document.
+	 * 	@return true if success 
+	 */
+	public boolean unlockIt()
+	{
+		log.info("unlockIt - " + toString());
+	//	setProcessing(false);
+		return true;
+	}	//	unlockIt
+	
+	/**
+	 * 	Invalidate Document
+	 * 	@return true if success 
+	 */
+	public boolean invalidateIt()
+	{
+		log.info("invalidateIt - " + toString());
+	//	setDocAction(DOCACTION_Prepare);
+		return true;
+	}	//	invalidateIt
+	
+	/**
+	 *	Prepare Document
+	 * 	@return new status (In Progress or Invalid) 
+	 */
+	public String prepareIt()
+	{
+		log.info(toString());
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		/**
+		MDocType dt = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
+
+		//	Std Period open?
+		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType()))
+		{
+			m_processMsg = "@PeriodClosed@";
+			return DocAction.STATUS_Invalid;
+		}
+		MLine[] lines = getLines(false);
+		if (lines.length == 0)
+		{
+			m_processMsg = "@NoLines@";
+			return DocAction.STATUS_Invalid;
+		}
+		**/
+		//	Add up Amounts
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		m_justPrepared = true;
+		if (!DOCACTION_Complete.equals(getDocAction()))
+			setDocAction(DOCACTION_Complete);
+		return DocAction.STATUS_InProgress;
+	}	//	prepareIt
+	
+	/**
+	 * 	Approve Document
+	 * 	@return true if success 
+	 */
+	public boolean  approveIt()
+	{
+		log.info("approveIt - " + toString());
+		setIsApproved(true);
+		return true;
+	}	//	approveIt
+	
+	/**
+	 * 	Reject Approval
+	 * 	@return true if success 
+	 */
+	public boolean rejectIt()
+	{
+		log.info("rejectIt - " + toString());
+		setIsApproved(false);
+		return true;
+	}	//	rejectIt
+	
+	/**
+	 * 	Complete Document
+	 * 	@return new status (Complete, In Progress, Invalid, Waiting ..)
+	 */
+	public String completeIt()
+	{
+		//	Re-Check
+		if (!m_justPrepared)
+		{
+			String status = prepareIt();
+			if (!DocAction.STATUS_InProgress.equals(status))
+				return status;
+		}
+
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		
+		if(isCredit()
+				&& getFTA_CreditDefinition_ID() == 0){
+			m_processMsg = "@FTA_CreditDefinition_ID@";
+			return DocAction.STATUS_InProgress;
+		}
+		//	Valid Amount
+		if(getAmt() == null
+				|| getAmt().equals(Env.ZERO)){
+			m_processMsg = "@Amt@ = @0@";
+			return DocAction.STATUS_InProgress;
+		}
+		//	Implicit Approval
+		if (!isApproved())
+			approveIt();
+		log.info(toString());
+		//
+		
+		//	User Validation
+		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
+		if (valid != null)
+		{
+			m_processMsg = valid;
+			return DocAction.STATUS_Invalid;
+		}
+		// setDefiniteDocumentNo();
+
+		setProcessed(true);
+		setDocAction(DOCACTION_Close);
+		return DocAction.STATUS_Completed;
+	}	//	completeIt
+	
+	/**
+	 * 	Set the definite document number after completed
+	 */
+	/*
+	private void setDefiniteDocumentNo() {
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		if (dt.isOverwriteDateOnComplete()) {
+			setDateInvoiced(new Timestamp (System.currentTimeMillis()));
+		}
+		if (dt.isOverwriteSeqOnComplete()) {
+			String value = null;
+			int index = p_info.getColumnIndex("C_DocType_ID");
+			if (index == -1)
+				index = p_info.getColumnIndex("C_DocTypeTarget_ID");
+			if (index != -1)		//	get based on Doc Type (might return null)
+				value = DB.getDocumentNo(get_ValueAsInt(index), get_TrxName(), true);
+			if (value != null) {
+				setDocumentNo(value);
+			}
+		}
+	}
+	*/
+
+	/**
+	 * 	Void Document.
+	 * 	Same as Close.
+	 * 	@return true if success 
+	 */
+	public boolean voidIt()
+	{
+		log.info("voidIt - " + toString());
+		// Before Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (m_processMsg != null)
+			return false;
+		
+		addDescription(Msg.getMsg(getCtx(), "Voided"));
+		setAmt(Env.ZERO);
+
+		// After Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (m_processMsg != null)
+			return false;
+
+		setProcessed(true);
+        setDocAction(DOCACTION_None);
+		return true;
+	}	//	voidIt
+	
+	/**
+	 * 	Close Document.
+	 * 	Cancel not delivered Qunatities
+	 * 	@return true if success 
+	 */
+	public boolean closeIt()
+	{
+		log.info("closeIt - " + toString());
+		// Before Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (m_processMsg != null)
+			return false;
+		// After Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (m_processMsg != null)
+			return false;
+
+		return true;
+	}	//	closeIt
+	
+	/**
+	 * 	Reverse Correction
+	 * 	@return true if success 
+	 */
+	public boolean reverseCorrectIt()
+	{
+		log.info("reverseCorrectIt - " + toString());
+		// Before reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+
 		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#closeIt()
+	}	//	reverseCorrectionIt
+	
+	/**
+	 * 	Reverse Accrual - none
+	 * 	@return true if success 
 	 */
-	@Override
-	public boolean closeIt() {
-		// TODO Auto-generated method stub
+	public boolean reverseAccrualIt()
+	{
+		log.info("reverseAccrualIt - " + toString());
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+
 		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#reverseCorrectIt()
+	}	//	reverseAccrualIt
+	
+	/** 
+	 * 	Re-activate
+	 * 	@return true if success 
 	 */
-	@Override
-	public boolean reverseCorrectIt() {
-		// TODO Auto-generated method stub
+	public boolean reActivateIt()
+	{
+		log.info("reActivateIt - " + toString());
+	//	setProcessed(false);
+		if (reverseCorrectIt())
+			return true;
 		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#reverseAccrualIt()
+	}	//	reActivateIt
+	
+	
+	/*************************************************************************
+	 * 	Get Summary
+	 *	@return Summary of Document
 	 */
-	@Override
-	public boolean reverseAccrualIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public String getSummary()
+	{
+		StringBuffer sb = new StringBuffer();
+	//	sb.append(getDocumentNo());
+		//	: Total Lines = 123.00 (#1)
+	//	sb.append(": ")
+	//		.append(Msg.translate(getCtx(),"TotalLines")).append("=").append(getTotalLines())
+	//		.append(" (#").append(getLines(false).length).append(")");
+		//	 - Description
+	//	if (getDescription() != null && getDescription().length() > 0)
+	//		sb.append(" - ").append(getDescription());
+		return sb.toString();
+	}	//	getSummary
 
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#reActivateIt()
+	/**
+	 * 	Get Document no
+	 *	@return Document No
 	 */
-	@Override
-	public boolean reActivateIt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public String getDocumentNo()
+	{
+		return "-";
+	}	//	getDocumentNo
 
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#getSummary()
+	/**
+	 * 	Get Process Message
+	 *	@return clear text error message
 	 */
-	@Override
-	public String getSummary() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#getDocumentInfo()
+	public String getProcessMsg()
+	{
+		return m_processMsg;
+	}	//	getProcessMsg
+	
+	/**
+	 * 	Get Document Owner (Responsible)
+	 *	@return AD_User_ID
 	 */
-	@Override
-	public String getDocumentInfo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#createPDF()
-	 */
-	@Override
-	public File createPDF() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#getProcessMsg()
-	 */
-	@Override
-	public String getProcessMsg() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#getDoc_User_ID()
-	 */
-	@Override
-	public int getDoc_User_ID() {
-		// TODO Auto-generated method stub
+	public int getDoc_User_ID()
+	{
+	//	return getSalesRep_ID();
 		return 0;
-	}
+	}	//	getDoc_User_ID
 
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#getC_Currency_ID()
+	/**
+	 * 	Get Document Approval Amount
+	 *	@return amount
 	 */
-	@Override
-	public int getC_Currency_ID() {
-		// TODO Auto-generated method stub
+	public BigDecimal getApprovalAmt()
+	{
+		return null;	//getTotalLines();
+	}	//	getApprovalAmt
+	
+	/**
+	 * 	Get Document Currency
+	 *	@return C_Currency_ID
+	 */
+	public int getC_Currency_ID()
+	{
+	//	MPriceList pl = MPriceList.get(getCtx(), getM_PriceList_ID());
+	//	return pl.getC_Currency_ID();
 		return 0;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.DocAction#getApprovalAmt()
+	}	//	getC_Currency_ID
+	
+	/**
+     *  Add to Description
+     *  @param description text
+     */
+    public void addDescription (String description)
+    {
+        String desc = getDescription();
+        if (desc == null)
+            setDescription(description);
+        else
+            setDescription(desc + " | " + description);
+    }   //  addDescription
+    
+    /**
+	 * 	Document Status is Complete or Closed
+	 *	@return true if CO, CL or RE
 	 */
-	@Override
-	public BigDecimal getApprovalAmt() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	public boolean isComplete()
+	{
+		String ds = getDocStatus();
+		return DOCSTATUS_Completed.equals(ds)
+			|| DOCSTATUS_Closed.equals(ds)
+			|| DOCSTATUS_Reversed.equals(ds);
+	}	//	isComplete
 }
