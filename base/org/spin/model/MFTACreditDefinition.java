@@ -52,7 +52,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	public MFTACreditDefinition(Properties ctx, int FTA_CreditDefinition_ID,
 			String trxName) {
 		super(ctx, FTA_CreditDefinition_ID, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -64,7 +63,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	 */
 	public MFTACreditDefinition(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/** Lines					*/
@@ -424,15 +422,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	}	//	getProcessMsg
 
 	/**
-	 * 	Get Document Owner (Responsible)
-	 *	@return AD_User_ID
-	 */
-	/*public int getDoc_User_ID()
-	{
-		return getSalesRep_ID();
-	}	//	getDoc_User_ID*/
-
-	/**
 	 * 	Get Document Approval Amount
 	 *	@return amount
 	 */
@@ -452,18 +441,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
-	
-	/**
-	 * 	Set the definite document number after completed
-	 */
-	/*private void setDefiniteDocumentNo() {
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		if (dt.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
-			if (value != null)
-				setDocumentNo(value);
-		}
-	}*/
 	
 	/**
 	 * 	Get Lines
