@@ -19,11 +19,13 @@ package org.spin.model;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
+import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.Env;
@@ -62,6 +64,9 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 	public MFTAFarmerCredit(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
+	
+	/** Lines					*/
+	private MFTAFarming[]		m_lines = null;
 
 	/**
 	 * 	Get Document Info
@@ -170,6 +175,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 			return DocAction.STATUS_Invalid;
 		}
 		**/
+		
 		//	Add up Amounts
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
@@ -220,10 +226,17 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
-		if(isCredit()
-				&& getFTA_CreditDefinition_ID() == 0){
-			m_processMsg = "@FTA_CreditDefinition_ID@";
-			return DocAction.STATUS_InProgress;
+		if(isCredit()){
+			if(getFTA_CreditDefinition_ID() == 0){
+				m_processMsg = "@FTA_CreditDefinition_ID@";
+				return DocAction.STATUS_InProgress;
+			}
+			//	Very Lines
+			MFTAFarming[] lines = getLines(false);
+			if (lines.length == 0){
+				m_processMsg = "@NoLines@";
+				return DocAction.STATUS_Invalid;
+			}
 		}
 		//	Valid Amount
 		if(getAmt() == null
@@ -231,6 +244,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 			m_processMsg = "@Amt@ = @0@";
 			return DocAction.STATUS_InProgress;
 		}
+		
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -381,14 +395,14 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 	public String getSummary()
 	{
 		StringBuffer sb = new StringBuffer();
-	//	sb.append(getDocumentNo());
+		sb.append(getDocumentNo());
 		//	: Total Lines = 123.00 (#1)
-	//	sb.append(": ")
-	//		.append(Msg.translate(getCtx(),"TotalLines")).append("=").append(getTotalLines())
-	//		.append(" (#").append(getLines(false).length).append(")");
+		sb.append(": ")
+			.append(Msg.translate(getCtx(),"Amt")).append("=").append(getAmt())
+			.append(" (#").append(getLines(false).length).append(")");
 		//	 - Description
-	//	if (getDescription() != null && getDescription().length() > 0)
-	//		sb.append(" - ").append(getDescription());
+		if (getDescription() != null && getDescription().length() > 0)
+			sb.append(" - ").append(getDescription());
 		return sb.toString();
 	}	//	getSummary
 
@@ -464,4 +478,25 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
+	
+	/**
+	 * 	Get Lines
+	 *	@param requery requery
+	 *	@return lines
+	 */
+	public MFTAFarming[] getLines (boolean requery)
+	{
+		if (m_lines != null && !requery)
+		{
+			set_TrxName(m_lines, get_TrxName());
+			return m_lines;
+		}
+		List<MFTAFarming> list = new Query(getCtx(), MFTAFarming.Table_Name, "FTA_FarmerCredit_ID=?", get_TrxName())
+		.setParameters(getFTA_FarmerCredit_ID())
+		.list();
+
+		m_lines = new MFTAFarming[list.size ()];
+		list.toArray (m_lines);
+		return m_lines;
+	}	//	getLines
 }

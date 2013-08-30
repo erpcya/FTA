@@ -162,21 +162,4 @@ public class X_FTA_FarmDivision extends PO implements I_FTA_FarmDivision, I_Pers
     {
         return new KeyNamePair(get_ID(), getName());
     }
-
-	/** Set Search Key.
-		@param Value 
-		Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value)
-	{
-		set_Value (COLUMNNAME_Value, Value);
-	}
-
-	/** Get Search Key.
-		@return Search key for the record in the format required - must be unique
-	  */
-	public String getValue () 
-	{
-		return (String)get_Value(COLUMNNAME_Value);
-	}
 }
