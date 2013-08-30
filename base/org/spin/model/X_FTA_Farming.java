@@ -264,6 +264,34 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_FTA_FarmerCredit getFTA_FarmerCredit() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_FarmerCredit)MTable.get(getCtx(), org.spin.model.I_FTA_FarmerCredit.Table_Name)
+			.getPO(getFTA_FarmerCredit_ID(), get_TrxName());	}
+
+	/** Set Farmer Credit/Debt.
+		@param FTA_FarmerCredit_ID 
+		Farmer Credit or Debts
+	  */
+	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID)
+	{
+		if (FTA_FarmerCredit_ID < 1) 
+			set_Value (COLUMNNAME_FTA_FarmerCredit_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_FarmerCredit_ID, Integer.valueOf(FTA_FarmerCredit_ID));
+	}
+
+	/** Get Farmer Credit/Debt.
+		@return Farmer Credit or Debts
+	  */
+	public int getFTA_FarmerCredit_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_FarmerCredit_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Farming.
 		@param FTA_Farming_ID Farming	  */
 	public void setFTA_Farming_ID (int FTA_Farming_ID)

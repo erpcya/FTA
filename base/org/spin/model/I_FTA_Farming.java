@@ -174,6 +174,21 @@ public interface I_FTA_Farming
 
 	public org.spin.model.I_FTA_FarmDivision getFTA_FarmDivision() throws RuntimeException;
 
+    /** Column name FTA_FarmerCredit_ID */
+    public static final String COLUMNNAME_FTA_FarmerCredit_ID = "FTA_FarmerCredit_ID";
+
+	/** Set Farmer Credit/Debt.
+	  * Farmer Credit or Debts
+	  */
+	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID);
+
+	/** Get Farmer Credit/Debt.
+	  * Farmer Credit or Debts
+	  */
+	public int getFTA_FarmerCredit_ID();
+
+	public org.spin.model.I_FTA_FarmerCredit getFTA_FarmerCredit() throws RuntimeException;
+
     /** Column name FTA_Farming_ID */
     public static final String COLUMNNAME_FTA_Farming_ID = "FTA_Farming_ID";
 
