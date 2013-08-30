@@ -32,7 +32,7 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130829L;
+	private static final long serialVersionUID = 20130830L;
 
     /** Standard Constructor */
     public X_FTA_TechnicalForm (Properties ctx, int FTA_TechnicalForm_ID, String trxName)
@@ -166,6 +166,23 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 	public Timestamp getDateDoc () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
+	}
+
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
 	}
 
 	/** DocAction AD_Reference_ID=135 */

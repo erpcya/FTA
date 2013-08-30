@@ -182,6 +182,15 @@ public interface I_FTA_TechnicalFormLine
 	  */
 	public boolean isProcessed();
 
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
