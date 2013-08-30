@@ -33,7 +33,7 @@ public class X_FTA_ProductsToApply extends PO implements I_FTA_ProductsToApply, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130829L;
+	private static final long serialVersionUID = 20130830L;
 
     /** Standard Constructor */
     public X_FTA_ProductsToApply (Properties ctx, int FTA_ProductsToApply_ID, String trxName)
@@ -248,9 +248,9 @@ public class X_FTA_ProductsToApply extends PO implements I_FTA_ProductsToApply, 
 	public void setM_Product_ID (int M_Product_ID)
 	{
 		if (M_Product_ID < 1) 
-			set_Value (COLUMNNAME_M_Product_ID, null);
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
