@@ -19,6 +19,7 @@ package org.spin.model;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,6 +29,7 @@ import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -258,7 +260,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 			m_processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
-		// setDefiniteDocumentNo();
+		setDefiniteDocumentNo();
 
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
@@ -268,11 +270,10 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 	/**
 	 * 	Set the definite document number after completed
 	 */
-	/*
 	private void setDefiniteDocumentNo() {
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		if (dt.isOverwriteDateOnComplete()) {
-			setDateInvoiced(new Timestamp (System.currentTimeMillis()));
+			setDateDoc(new Timestamp (System.currentTimeMillis()));
 		}
 		if (dt.isOverwriteSeqOnComplete()) {
 			String value = null;
@@ -286,7 +287,6 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 			}
 		}
 	}
-	*/
 
 	/**
 	 * 	Void Document.

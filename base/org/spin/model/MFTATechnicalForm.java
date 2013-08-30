@@ -19,6 +19,7 @@ package org.spin.model;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
@@ -247,7 +248,7 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction 
 			m_processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
-		// setDefiniteDocumentNo();
+		setDefiniteDocumentNo();
 
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
@@ -257,11 +258,10 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction 
 	/**
 	 * 	Set the definite document number after completed
 	 */
-	/*
 	private void setDefiniteDocumentNo() {
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		if (dt.isOverwriteDateOnComplete()) {
-			setDateInvoiced(new Timestamp (System.currentTimeMillis()));
+			setDateDoc(new Timestamp (System.currentTimeMillis()));
 		}
 		if (dt.isOverwriteSeqOnComplete()) {
 			String value = null;
@@ -275,7 +275,6 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction 
 			}
 		}
 	}
-	*/
 
 	/**
 	 * 	Void Document.
