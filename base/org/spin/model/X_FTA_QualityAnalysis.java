@@ -31,7 +31,7 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130830L;
+	private static final long serialVersionUID = 20130904L;
 
     /** Standard Constructor */
     public X_FTA_QualityAnalysis (Properties ctx, int FTA_QualityAnalysis_ID, String trxName)
@@ -46,10 +46,8 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 			setFTA_QualityAnalysis_ID (0);
 			setIsApproved (false);
 // 'N'
-			setIsValid (false);
-			setM_Product_ID (0);
 			setProductStatus (null);
-			setQualityAnalysis_ID (0);
+// A
         } */
     }
 
@@ -93,9 +91,9 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
 		if (C_DocType_ID < 0) 
-			set_Value (COLUMNNAME_C_DocType_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -114,8 +112,8 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
 			.getPO(getChuteQualityAnalysis_ID(), get_TrxName());	}
 
-	/** Set Chute Quality Analysis ID.
-		@param ChuteQualityAnalysis_ID Chute Quality Analysis ID	  */
+	/** Set Chute Quality Analysis.
+		@param ChuteQualityAnalysis_ID Chute Quality Analysis	  */
 	public void setChuteQualityAnalysis_ID (int ChuteQualityAnalysis_ID)
 	{
 		if (ChuteQualityAnalysis_ID < 1) 
@@ -124,8 +122,8 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 			set_Value (COLUMNNAME_ChuteQualityAnalysis_ID, Integer.valueOf(ChuteQualityAnalysis_ID));
 	}
 
-	/** Get Chute Quality Analysis ID.
-		@return Chute Quality Analysis ID	  */
+	/** Get Chute Quality Analysis.
+		@return Chute Quality Analysis	  */
 	public int getChuteQualityAnalysis_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_ChuteQualityAnalysis_ID);
@@ -168,12 +166,43 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** DocAction AD_Reference_ID=135 */
+	public static final int DOCACTION_AD_Reference_ID=135;
+	/** Complete = CO */
+	public static final String DOCACTION_Complete = "CO";
+	/** Approve = AP */
+	public static final String DOCACTION_Approve = "AP";
+	/** Reject = RJ */
+	public static final String DOCACTION_Reject = "RJ";
+	/** Post = PO */
+	public static final String DOCACTION_Post = "PO";
+	/** Void = VO */
+	public static final String DOCACTION_Void = "VO";
+	/** Close = CL */
+	public static final String DOCACTION_Close = "CL";
+	/** Reverse - Correct = RC */
+	public static final String DOCACTION_Reverse_Correct = "RC";
+	/** Reverse - Accrual = RA */
+	public static final String DOCACTION_Reverse_Accrual = "RA";
+	/** Invalidate = IN */
+	public static final String DOCACTION_Invalidate = "IN";
+	/** Re-activate = RE */
+	public static final String DOCACTION_Re_Activate = "RE";
+	/** <None> = -- */
+	public static final String DOCACTION_None = "--";
+	/** Prepare = PR */
+	public static final String DOCACTION_Prepare = "PR";
+	/** Unlock = XL */
+	public static final String DOCACTION_Unlock = "XL";
+	/** Wait Complete = WC */
+	public static final String DOCACTION_WaitComplete = "WC";
 	/** Set Document Action.
 		@param DocAction 
 		The targeted status of the document
 	  */
 	public void setDocAction (String DocAction)
 	{
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -256,9 +285,9 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	public void setFTA_EntryTicket_ID (int FTA_EntryTicket_ID)
 	{
 		if (FTA_EntryTicket_ID < 1) 
-			set_Value (COLUMNNAME_FTA_EntryTicket_ID, null);
+			set_ValueNoCheck (COLUMNNAME_FTA_EntryTicket_ID, null);
 		else 
-			set_Value (COLUMNNAME_FTA_EntryTicket_ID, Integer.valueOf(FTA_EntryTicket_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_EntryTicket_ID, Integer.valueOf(FTA_EntryTicket_ID));
 	}
 
 	/** Get Entry Ticket.
@@ -306,30 +335,6 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	public boolean isApproved () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsApproved);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Valid.
-		@param IsValid 
-		Element is valid
-	  */
-	public void setIsValid (boolean IsValid)
-	{
-		set_Value (COLUMNNAME_IsValid, Boolean.valueOf(IsValid));
-	}
-
-	/** Get Valid.
-		@return Element is valid
-	  */
-	public boolean isValid () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsValid);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

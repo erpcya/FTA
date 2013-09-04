@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
+import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
@@ -161,22 +162,35 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		/**
-		MDocType dt = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
+		
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
+		
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType()))
+		if (!MPeriod.isOpen(getCtx(), getDateDoc(), dt.getDocBaseType(), getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
-		MLine[] lines = getLines(false);
-		if (lines.length == 0)
-		{
-			m_processMsg = "@NoLines@";
-			return DocAction.STATUS_Invalid;
+		
+		if(isCredit()){
+			if(getFTA_CreditDefinition_ID() == 0){
+				m_processMsg = "@FTA_CreditDefinition_ID@";
+				return DocAction.STATUS_InProgress;
+			}
+			//	Very Lines
+			MFTAFarming[] lines = getLines(false);
+			if (lines.length == 0){
+				m_processMsg = "@NoLines@";
+				return DocAction.STATUS_Invalid;
+			}
 		}
-		**/
+		//	Valid Amount
+		if(getAmt() == null
+				|| getAmt().equals(Env.ZERO)){
+			m_processMsg = "@Amt@ = @0@";
+			return DocAction.STATUS_InProgress;
+		}
 		
 		//	Add up Amounts
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
@@ -227,25 +241,6 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction {
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		
-		if(isCredit()){
-			if(getFTA_CreditDefinition_ID() == 0){
-				m_processMsg = "@FTA_CreditDefinition_ID@";
-				return DocAction.STATUS_InProgress;
-			}
-			//	Very Lines
-			MFTAFarming[] lines = getLines(false);
-			if (lines.length == 0){
-				m_processMsg = "@NoLines@";
-				return DocAction.STATUS_Invalid;
-			}
-		}
-		//	Valid Amount
-		if(getAmt() == null
-				|| getAmt().equals(Env.ZERO)){
-			m_processMsg = "@Amt@ = @0@";
-			return DocAction.STATUS_InProgress;
-		}
 		
 		//	Implicit Approval
 		if (!isApproved())

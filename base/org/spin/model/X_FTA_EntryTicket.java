@@ -31,7 +31,7 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130830L;
+	private static final long serialVersionUID = 20130904L;
 
     /** Standard Constructor */
     public X_FTA_EntryTicket (Properties ctx, int FTA_EntryTicket_ID, String trxName)
@@ -45,7 +45,7 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 // @#Date@
 			setFTA_EntryTicket_ID (0);
 			setFTA_MobilizationGuide_ID (0);
-			setIsValid (false);
+			setIsApproved (false);
         } */
     }
 
@@ -335,21 +335,21 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Valid.
-		@param IsValid 
-		Element is valid
+	/** Set Approved.
+		@param IsApproved 
+		Indicates if this document requires approval
 	  */
-	public void setIsValid (boolean IsValid)
+	public void setIsApproved (boolean IsApproved)
 	{
-		set_Value (COLUMNNAME_IsValid, Boolean.valueOf(IsValid));
+		set_Value (COLUMNNAME_IsApproved, Boolean.valueOf(IsApproved));
 	}
 
-	/** Get Valid.
-		@return Element is valid
+	/** Get Approved.
+		@return Indicates if this document requires approval
 	  */
-	public boolean isValid () 
+	public boolean isApproved () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsValid);
+		Object oo = get_Value(COLUMNNAME_IsApproved);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

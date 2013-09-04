@@ -262,19 +262,6 @@ public interface I_FTA_RecordWeight
 	  */
 	public boolean isApproved();
 
-    /** Column name IsValid */
-    public static final String COLUMNNAME_IsValid = "IsValid";
-
-	/** Set Valid.
-	  * Element is valid
-	  */
-	public void setIsValid (boolean IsValid);
-
-	/** Get Valid.
-	  * Element is valid
-	  */
-	public boolean isValid();
-
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 

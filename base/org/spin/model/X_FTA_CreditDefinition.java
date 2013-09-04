@@ -19,6 +19,7 @@ package org.spin.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.Env;
@@ -32,7 +33,7 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130830L;
+	private static final long serialVersionUID = 20130904L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinition (Properties ctx, int FTA_CreditDefinition_ID, String trxName)
@@ -42,6 +43,9 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
         {
 			setAmt (Env.ZERO);
 			setCategory_ID (0);
+			setC_DocType_ID (0);
+			setDateDoc (new Timestamp( System.currentTimeMillis() ));
+// @#Date@
 			setDocAction (null);
 // CO
 			setDocStatus (null);
@@ -125,6 +129,51 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	public I_C_DocType getC_DocType() throws RuntimeException
+    {
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ID(), get_TrxName());	}
+
+	/** Set Document Type.
+		@param C_DocType_ID 
+		Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID)
+	{
+		if (C_DocType_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+	}
+
+	/** Get Document Type.
+		@return Document type or rules
+	  */
+	public int getC_DocType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Document Date.
+		@param DateDoc 
+		Date of the Document
+	  */
+	public void setDateDoc (Timestamp DateDoc)
+	{
+		set_Value (COLUMNNAME_DateDoc, DateDoc);
+	}
+
+	/** Get Document Date.
+		@return Date of the Document
+	  */
+	public Timestamp getDateDoc () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
 	}
 
 	/** Set Description.

@@ -87,6 +87,21 @@ public interface I_FTA_CreditDefinition
 
 	public I_M_Product getCategory() throws RuntimeException;
 
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
+
+	public I_C_DocType getC_DocType() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -102,6 +117,19 @@ public interface I_FTA_CreditDefinition
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name DateDoc */
+    public static final String COLUMNNAME_DateDoc = "DateDoc";
+
+	/** Set Document Date.
+	  * Date of the Document
+	  */
+	public void setDateDoc (Timestamp DateDoc);
+
+	/** Get Document Date.
+	  * Date of the Document
+	  */
+	public Timestamp getDateDoc();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

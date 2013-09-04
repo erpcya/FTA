@@ -19,9 +19,12 @@ package org.spin.model;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.compiere.model.MDocType;
+import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
@@ -145,6 +148,15 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+
+		//	Std Period open?
+		if (!MPeriod.isOpen(getCtx(), getDateDoc(), dt.getDocBaseType(), getAD_Org_ID()))
+		{
+			m_processMsg = "@PeriodClosed@";
+			return DocAction.STATUS_Invalid;
+		}
+		
 		MFTACreditDefinitionLine[] lines = getLines(false);
 		if (lines.length == 0)
 		{
@@ -251,11 +263,33 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if (m_processMsg != null)
 			return false;
 
+		setDefiniteDocumentNo();
 		setProcessed(true);
         setDocAction(DOCACTION_None);
 		return true;
 	}	//	voidIt
 
+	/**
+	 * 	Set the definite document number after completed
+	 */
+	private void setDefiniteDocumentNo() {
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		if (dt.isOverwriteDateOnComplete()) {
+			setDateDoc(new Timestamp (System.currentTimeMillis()));
+		}
+		if (dt.isOverwriteSeqOnComplete()) {
+			String value = null;
+			int index = p_info.getColumnIndex("C_DocType_ID");
+			if (index == -1)
+				index = p_info.getColumnIndex("C_DocTypeTarget_ID");
+			if (index != -1)		//	get based on Doc Type (might return null)
+				value = DB.getDocumentNo(get_ValueAsInt(index), get_TrxName(), true);
+			if (value != null) {
+				setDocumentNo(value);
+			}
+		}
+	}
+	
 	/**
 	 * 	Close Document.
 	 * 	Cancel not delivered Qunatities

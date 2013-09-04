@@ -33,7 +33,7 @@ public class X_FTA_FarmingStage extends PO implements I_FTA_FarmingStage, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130830L;
+	private static final long serialVersionUID = 20130904L;
 
     /** Standard Constructor */
     public X_FTA_FarmingStage (Properties ctx, int FTA_FarmingStage_ID, String trxName)

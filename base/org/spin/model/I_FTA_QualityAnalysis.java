@@ -81,10 +81,10 @@ public interface I_FTA_QualityAnalysis
     /** Column name ChuteQualityAnalysis_ID */
     public static final String COLUMNNAME_ChuteQualityAnalysis_ID = "ChuteQualityAnalysis_ID";
 
-	/** Set Chute Quality Analysis ID	  */
+	/** Set Chute Quality Analysis	  */
 	public void setChuteQualityAnalysis_ID (int ChuteQualityAnalysis_ID);
 
-	/** Get Chute Quality Analysis ID	  */
+	/** Get Chute Quality Analysis	  */
 	public int getChuteQualityAnalysis_ID();
 
 	public I_M_AttributeSetInstance getChuteQualityAnalysis() throws RuntimeException;
@@ -215,19 +215,6 @@ public interface I_FTA_QualityAnalysis
 	  * Indicates if this document requires approval
 	  */
 	public boolean isApproved();
-
-    /** Column name IsValid */
-    public static final String COLUMNNAME_IsValid = "IsValid";
-
-	/** Set Valid.
-	  * Element is valid
-	  */
-	public void setIsValid (boolean IsValid);
-
-	/** Get Valid.
-	  * Element is valid
-	  */
-	public boolean isValid();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";

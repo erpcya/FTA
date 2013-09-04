@@ -216,18 +216,18 @@ public interface I_FTA_EntryTicket
 	  */
 	public boolean isActive();
 
-    /** Column name IsValid */
-    public static final String COLUMNNAME_IsValid = "IsValid";
+    /** Column name IsApproved */
+    public static final String COLUMNNAME_IsApproved = "IsApproved";
 
-	/** Set Valid.
-	  * Element is valid
+	/** Set Approved.
+	  * Indicates if this document requires approval
 	  */
-	public void setIsValid (boolean IsValid);
+	public void setIsApproved (boolean IsApproved);
 
-	/** Get Valid.
-	  * Element is valid
+	/** Get Approved.
+	  * Indicates if this document requires approval
 	  */
-	public boolean isValid();
+	public boolean isApproved();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
