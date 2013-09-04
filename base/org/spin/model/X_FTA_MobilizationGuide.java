@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_MobilizationGuide
  *  @author Adempiere (generated) 
@@ -33,7 +34,7 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130830L;
+	private static final long serialVersionUID = 20130904L;
 
     /** Standard Constructor */
     public X_FTA_MobilizationGuide (Properties ctx, int FTA_MobilizationGuide_ID, String trxName)
@@ -156,6 +157,14 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getDateDoc()));
+    }
 
 	/** Set Description.
 		@param Description 

@@ -31,7 +31,7 @@ public class X_FTA_TechnicalFormLine extends PO implements I_FTA_TechnicalFormLi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130830L;
+	private static final long serialVersionUID = 20130904L;
 
     /** Standard Constructor */
     public X_FTA_TechnicalFormLine (Properties ctx, int FTA_TechnicalFormLine_ID, String trxName)
@@ -43,6 +43,7 @@ public class X_FTA_TechnicalFormLine extends PO implements I_FTA_TechnicalFormLi
 			setFTA_Farming_ID (0);
 			setFTA_FarmingStage_ID (0);
 			setFTA_ObservationType_ID (0);
+			setFTA_TechnicalForm_ID (0);
 			setFTA_TechnicalFormLine_ID (0);
         } */
     }
@@ -210,9 +211,9 @@ public class X_FTA_TechnicalFormLine extends PO implements I_FTA_TechnicalFormLi
 	public void setFTA_TechnicalForm_ID (int FTA_TechnicalForm_ID)
 	{
 		if (FTA_TechnicalForm_ID < 1) 
-			set_Value (COLUMNNAME_FTA_TechnicalForm_ID, null);
+			set_ValueNoCheck (COLUMNNAME_FTA_TechnicalForm_ID, null);
 		else 
-			set_Value (COLUMNNAME_FTA_TechnicalForm_ID, Integer.valueOf(FTA_TechnicalForm_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_TechnicalForm_ID, Integer.valueOf(FTA_TechnicalForm_ID));
 	}
 
 	/** Get Technical Form.
