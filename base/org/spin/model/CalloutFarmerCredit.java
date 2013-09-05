@@ -30,6 +30,17 @@ import org.compiere.util.Env;
  */
 public class CalloutFarmerCredit extends CalloutEngine {
 
+	/**
+	 * Set Credit Type from DocBaseType
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/09/2013, 11:47:15
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
 	public String docType (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		Integer m_C_DocType_ID = (Integer)value;
 		if (m_C_DocType_ID == null || m_C_DocType_ID.intValue() == 0)
