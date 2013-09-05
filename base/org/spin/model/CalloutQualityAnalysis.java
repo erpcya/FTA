@@ -21,7 +21,9 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MDocType;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -29,7 +31,17 @@ import org.compiere.util.DB;
  */
 public class CalloutQualityAnalysis extends CalloutEngine {
 
-	
+	/**
+	 * Set Product from Entry Ticket
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/09/2013, 11:43:33
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
 	public String entryTicket (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		Integer m_FTA_EntryTicket_ID = (Integer)value;
 		if (m_FTA_EntryTicket_ID == null || m_FTA_EntryTicket_ID.intValue() == 0)
@@ -45,9 +57,32 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 		int m_Category_ID = DB.getSQLValue(null, sql, m_FTA_EntryTicket_ID);
 		//	Set Business Partner
 		mTab.setValue("M_Product_ID", m_Category_ID);
-
+		return "";
+	}
+	
+	/**
+	 * Set Original Analysis from DocBaseType
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/09/2013, 11:48:17
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String docType (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		Integer m_C_DocType_ID = (Integer)value;
+		if (m_C_DocType_ID == null || m_C_DocType_ID.intValue() == 0)
+			return "";
 		
+		MDocType m_DocType = MDocType.get(ctx, m_C_DocType_ID.intValue());
+		//	Set Context
+		Env.setContext(ctx, WindowNo, "DocBaseType", m_DocType.getDocBaseType());
+		//	Set Analysis Type
+		String m_AnalysisType = m_DocType.getDocBaseType().substring(1);
 		
+		mTab.setValue("AnalysisType", m_AnalysisType);
 		return "";
 	}
 }
