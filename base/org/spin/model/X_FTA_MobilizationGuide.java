@@ -302,9 +302,9 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	public void setFTA_Farming_ID (int FTA_Farming_ID)
 	{
 		if (FTA_Farming_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_Farming_ID, null);
+			set_Value (COLUMNNAME_FTA_Farming_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_Farming_ID, Integer.valueOf(FTA_Farming_ID));
+			set_Value (COLUMNNAME_FTA_Farming_ID, Integer.valueOf(FTA_Farming_ID));
 	}
 
 	/** Get Farming.

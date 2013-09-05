@@ -380,9 +380,9 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	public void setOrig_QualityAnalysis_ID (int Orig_QualityAnalysis_ID)
 	{
 		if (Orig_QualityAnalysis_ID < 1) 
-			set_Value (COLUMNNAME_Orig_QualityAnalysis_ID, null);
+			set_ValueNoCheck (COLUMNNAME_Orig_QualityAnalysis_ID, null);
 		else 
-			set_Value (COLUMNNAME_Orig_QualityAnalysis_ID, Integer.valueOf(Orig_QualityAnalysis_ID));
+			set_ValueNoCheck (COLUMNNAME_Orig_QualityAnalysis_ID, Integer.valueOf(Orig_QualityAnalysis_ID));
 	}
 
 	/** Get Original Quality Analysis.
