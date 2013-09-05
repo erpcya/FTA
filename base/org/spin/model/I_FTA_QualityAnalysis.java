@@ -63,6 +63,15 @@ public interface I_FTA_QualityAnalysis
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AnalysisType */
+    public static final String COLUMNNAME_AnalysisType = "AnalysisType";
+
+	/** Set Analysis Type	  */
+	public void setAnalysisType (String AnalysisType);
+
+	/** Get Analysis Type	  */
+	public String getAnalysisType();
+
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -77,17 +86,6 @@ public interface I_FTA_QualityAnalysis
 	public int getC_DocType_ID();
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
-
-    /** Column name ChuteQualityAnalysis_ID */
-    public static final String COLUMNNAME_ChuteQualityAnalysis_ID = "ChuteQualityAnalysis_ID";
-
-	/** Set Chute Quality Analysis	  */
-	public void setChuteQualityAnalysis_ID (int ChuteQualityAnalysis_ID);
-
-	/** Get Chute Quality Analysis	  */
-	public int getChuteQualityAnalysis_ID();
-
-	public I_M_AttributeSetInstance getChuteQualityAnalysis() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -230,6 +228,17 @@ public interface I_FTA_QualityAnalysis
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name Orig_QualityAnalysis_ID */
+    public static final String COLUMNNAME_Orig_QualityAnalysis_ID = "Orig_QualityAnalysis_ID";
+
+	/** Set Original Quality Analysis	  */
+	public void setOrig_QualityAnalysis_ID (int Orig_QualityAnalysis_ID);
+
+	/** Get Original Quality Analysis	  */
+	public int getOrig_QualityAnalysis_ID();
+
+	public org.spin.model.I_FTA_QualityAnalysis getOrig_QualityAnalysis() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

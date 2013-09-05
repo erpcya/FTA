@@ -31,7 +31,7 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130904L;
+	private static final long serialVersionUID = 20130905L;
 
     /** Standard Constructor */
     public X_FTA_QualityAnalysis (Properties ctx, int FTA_QualityAnalysis_ID, String trxName)
@@ -39,6 +39,8 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
       super (ctx, FTA_QualityAnalysis_ID, trxName);
       /** if (FTA_QualityAnalysis_ID == 0)
         {
+			setAnalysisType (null);
+// QA
 			setC_DocType_ID (0);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
@@ -79,6 +81,27 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
       return sb.toString();
     }
 
+	/** AnalysisType AD_Reference_ID=53539 */
+	public static final int ANALYSISTYPE_AD_Reference_ID=53539;
+	/** Quality Analysis = QA */
+	public static final String ANALYSISTYPE_QualityAnalysis = "QA";
+	/** Chute Analysis = CA */
+	public static final String ANALYSISTYPE_ChuteAnalysis = "CA";
+	/** Set Analysis Type.
+		@param AnalysisType Analysis Type	  */
+	public void setAnalysisType (String AnalysisType)
+	{
+
+		set_Value (COLUMNNAME_AnalysisType, AnalysisType);
+	}
+
+	/** Get Analysis Type.
+		@return Analysis Type	  */
+	public String getAnalysisType () 
+	{
+		return (String)get_Value(COLUMNNAME_AnalysisType);
+	}
+
 	public I_C_DocType getC_DocType() throws RuntimeException
     {
 		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
@@ -102,31 +125,6 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_AttributeSetInstance getChuteQualityAnalysis() throws RuntimeException
-    {
-		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
-			.getPO(getChuteQualityAnalysis_ID(), get_TrxName());	}
-
-	/** Set Chute Quality Analysis.
-		@param ChuteQualityAnalysis_ID Chute Quality Analysis	  */
-	public void setChuteQualityAnalysis_ID (int ChuteQualityAnalysis_ID)
-	{
-		if (ChuteQualityAnalysis_ID < 1) 
-			set_Value (COLUMNNAME_ChuteQualityAnalysis_ID, null);
-		else 
-			set_Value (COLUMNNAME_ChuteQualityAnalysis_ID, Integer.valueOf(ChuteQualityAnalysis_ID));
-	}
-
-	/** Get Chute Quality Analysis.
-		@return Chute Quality Analysis	  */
-	public int getChuteQualityAnalysis_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ChuteQualityAnalysis_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -367,6 +365,31 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_FTA_QualityAnalysis getOrig_QualityAnalysis() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_QualityAnalysis)MTable.get(getCtx(), org.spin.model.I_FTA_QualityAnalysis.Table_Name)
+			.getPO(getOrig_QualityAnalysis_ID(), get_TrxName());	}
+
+	/** Set Original Quality Analysis.
+		@param Orig_QualityAnalysis_ID Original Quality Analysis	  */
+	public void setOrig_QualityAnalysis_ID (int Orig_QualityAnalysis_ID)
+	{
+		if (Orig_QualityAnalysis_ID < 1) 
+			set_Value (COLUMNNAME_Orig_QualityAnalysis_ID, null);
+		else 
+			set_Value (COLUMNNAME_Orig_QualityAnalysis_ID, Integer.valueOf(Orig_QualityAnalysis_ID));
+	}
+
+	/** Get Original Quality Analysis.
+		@return Original Quality Analysis	  */
+	public int getOrig_QualityAnalysis_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Orig_QualityAnalysis_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
