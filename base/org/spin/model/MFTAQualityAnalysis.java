@@ -27,6 +27,7 @@ import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
@@ -35,7 +36,7 @@ import org.compiere.util.Msg;
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAction {
+public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAction, DocOptions {
 
 	/**
 	 * 
@@ -448,4 +449,27 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
+	
+	@Override
+	public int customizeValidActions(String docStatus, Object processing,
+			String orderType, String isSOTrx, int AD_Table_ID,
+			String[] docAction, String[] options, int index) {
+		//	Valid Document Action
+		if (AD_Table_ID == Table_ID){
+			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+				{
+					options[index++] = DocumentEngine.ACTION_Prepare;
+				}
+				//	Complete                    ..  CO
+				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+				{
+					options[index++] = DocumentEngine.ACTION_Void;
+					options[index++] = DocumentEngine.ACTION_ReActivate;
+				}
+		}
+		
+		return index;
+	}
 }
