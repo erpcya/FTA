@@ -270,6 +270,10 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 		if (m_processMsg != null)
 			return false;
 		
+		m_processMsg = validReference();
+		if(m_processMsg != null)
+			return false;
+		
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 
 		// After Void
@@ -281,6 +285,21 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
         setDocAction(DOCACTION_None);
 		return true;
 	}	//	voidIt
+	
+	/**
+	 * Valid Reference in another record
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 16:05:21
+	 * @return
+	 * @return String
+	 */
+	private String validReference(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
+				"FROM FTA_QualityAnalysis qa " +
+				"WHERE qa.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
+		if(m_Reference_ID != 0)
+			return "@SQLErrorReferenced@";
+		return null;
+	}
 	
 	/**
 	 * 	Close Document.
@@ -349,10 +368,12 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	public boolean reActivateIt()
 	{
 		log.info("reActivateIt - " + toString());
-	//	setProcessed(false);
-		if (reverseCorrectIt())
-			return true;
-		return false;
+		setProcessed(false);
+		//	
+		m_processMsg = validReference();
+		if(m_processMsg != null)
+			return false;
+		return true;
 	}	//	reActivateIt
 	
 	
