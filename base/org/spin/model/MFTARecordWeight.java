@@ -23,8 +23,13 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
-import org.compiere.model.MRMA;
+import org.compiere.model.MStorage;
+import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.process.DocAction;
@@ -219,29 +224,15 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
+		//	Valid Weight
+		String status = validWeight();
+		if(m_processMsg != null)
+			return status;
+		
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
-		log.info(toString());
-		//
-		//	Valid Weight
-		if (getGrossWeight() == null
-				|| getGrossWeight().equals(Env.ZERO)) {
-			m_processMsg = "@GrossWeight@ = @0@";
-			return DocAction.STATUS_InProgress;
-		} else if(getTareWeight() == null
-				|| getTareWeight().equals(Env.ZERO)) {
-			m_processMsg = "@TareWeight@ = @0@";
-			return DocAction.STATUS_InProgress;
-		} else if(getNetWeight() == null
-				|| getNetWeight().equals(Env.ZERO)) {
-			m_processMsg = "@NetWeight@ = @0@";
-			return DocAction.STATUS_Invalid;
-		} else if(getNetWeight().compareTo(Env.ZERO) < 0) {
-			m_processMsg = "@NetWeight@ < @0@";
-			return DocAction.STATUS_Invalid;
-		}
-		
+		log.info(toString());		
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -256,6 +247,34 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
+	
+	/**
+	 * Valid Weight
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 14:27:34
+	 * @return
+	 * @return String
+	 */
+	private String validWeight(){
+		//	Valid Weight
+		if (getGrossWeight() == null
+				|| getGrossWeight().equals(Env.ZERO)) {
+			m_processMsg = "@GrossWeight@ = @0@";
+			return (!isSOTrx()? DocAction.STATUS_Invalid: DocAction.STATUS_InProgress);
+		} else if(getTareWeight() == null
+				|| getTareWeight().equals(Env.ZERO)) {
+			m_processMsg = "@TareWeight@ = @0@";
+			return (!isSOTrx()? DocAction.STATUS_InProgress: DocAction.STATUS_Invalid);
+		} else if(getNetWeight() == null
+				|| getNetWeight().equals(Env.ZERO)) {
+			m_processMsg = "@NetWeight@ = @0@";
+			return DocAction.STATUS_Invalid;
+		} else if(getNetWeight().compareTo(Env.ZERO) < 0) {
+			m_processMsg = "@NetWeight@ < @0@";
+			return DocAction.STATUS_Invalid;
+		}
+		return null;
+	}
+	
 	
 	/**
 	 * 	Set the definite document number after completed
@@ -486,4 +505,53 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		
 		return index;
 	}
+	
+	private MInOut createShipment(MOrder order, MDocType dt, Timestamp movementDate)
+	{
+		log.info("For " + dt);
+		MInOut shipment = new MInOut (order, dt.getC_DocTypeShipment_ID(), movementDate);
+	//	shipment.setDateAcct(getDateAcct());
+		if (!shipment.save(get_TrxName()))
+		{
+			m_processMsg = "Could not create Shipment";
+			return null;
+		}
+		
+		MOrderLine[] oLines = order.getLines(true, null);
+		MOrderLine oLine = oLines[0];
+			//
+		MInOutLine ioLine = new MInOutLine(shipment);
+			//	Qty = Ordered - Delivered
+		BigDecimal MovementQty = oLine.getQtyOrdered().subtract(oLine.getQtyDelivered()); 
+			//	Location
+		int M_Locator_ID = MStorage.getM_Locator_ID (oLine.getM_Warehouse_ID(), 
+				oLine.getM_Product_ID(), oLine.getM_AttributeSetInstance_ID(), 
+				MovementQty, get_TrxName());
+		if (M_Locator_ID == 0)		//	Get default Location
+		{
+			MWarehouse wh = MWarehouse.get(getCtx(), oLine.getM_Warehouse_ID());
+			M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
+		}
+		//
+		ioLine.setOrderLine(oLine, M_Locator_ID, MovementQty);
+		ioLine.setQty(MovementQty);
+		if (oLine.getQtyEntered().compareTo(oLine.getQtyOrdered()) != 0)
+			ioLine.setQtyEntered(MovementQty
+				.multiply(oLine.getQtyEntered())
+				.divide(oLine.getQtyOrdered(), 6, BigDecimal.ROUND_HALF_UP));
+		if (!ioLine.save(get_TrxName()))
+		{
+			m_processMsg = "Could not create Shipment Line";
+			return null;
+		}
+		//	Manually Process Shipment
+		shipment.processIt(DocAction.ACTION_Complete);
+		shipment.saveEx(get_TrxName());
+		if (!DOCSTATUS_Completed.equals(shipment.getDocStatus()))
+		{
+			m_processMsg = "@M_InOut_ID@: " + shipment.getProcessMsg();
+			return null;
+		}
+		return shipment;
+	}	//	createShipment
 }

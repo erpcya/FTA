@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
+import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.process.DocAction;
@@ -160,6 +161,15 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+
+		//	Std Period open?
+		if (!MPeriod.isOpen(getCtx(), getDateDoc(), dt.getDocBaseType(), getAD_Org_ID()))
+		{
+			m_processMsg = "@PeriodClosed@";
+			return DocAction.STATUS_Invalid;
+		}
+		
 		//	Valid Qty
 		m_processMsg = validQtyToDeliver();
 		if(m_processMsg != null)
@@ -463,6 +473,8 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 			return "@QtyToDeliver@ = @0@";
 		else if(getQtyToDeliver().compareTo(getFTA_VehicleType().getLoadCapacity()) > 0) 
 			return "@QtyToDeliver@ > @LoadCapacity@ @of@ @FTA_VehicleType_ID@";
+		else if(getQtyToDeliver().compareTo(getFTA_Farming().getArea()) > 0)
+			return "@QtyToDeliver@ > @Area@ @of@ @FTA_Farming_ID@";
 		return null;
 	}
 

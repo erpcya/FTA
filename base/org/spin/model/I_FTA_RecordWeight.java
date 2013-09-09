@@ -262,6 +262,19 @@ public interface I_FTA_RecordWeight
 	  */
 	public boolean isApproved();
 
+    /** Column name IsSOTrx */
+    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
+
+	/** Set Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public void setIsSOTrx (boolean IsSOTrx);
+
+	/** Get Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public boolean isSOTrx();
+
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 
