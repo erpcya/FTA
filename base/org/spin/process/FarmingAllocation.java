@@ -25,6 +25,8 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.spin.model.MFTACreditDefinition;
+import org.spin.model.MFTACreditDefinitionLine;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAFarming;
 
@@ -55,6 +57,11 @@ public class FarmingAllocation extends SvrProcess {
 		//Current Farmer Credit
 		MFTAFarmerCredit credit = new MFTAFarmerCredit(ctx, getRecord_ID(), get_TrxName());
 		
+		//Credit Definition
+		MFTACreditDefinition creditdef= new  MFTACreditDefinition(ctx, credit.getFTA_CreditDefinition_ID(), get_TrxName());
+		
+		
+		
 		filter.append((m_FTA_Farming_ID==0?
 				"/*Framing Category Equals Credit Definition Category */ " 
 				+"FTA_Farming.Category_ID In (Select CD.Category_ID From FTA_CreditDefinition CD Where FTA_CreditDefinition_ID="+credit.getFTA_CreditDefinition_ID()+") " 
@@ -75,8 +82,42 @@ public class FarmingAllocation extends SvrProcess {
 		for (MFTAFarming farming:farmings)
 		{
 			//Set Farmer Credit
-			farming.setFTA_FarmerCredit_ID((farming.getFTA_FarmerCredit_ID()==0?credit.getFTA_FarmerCredit_ID():0));
+			if(farming.getFTA_FarmerCredit_ID()==0)
+			{
+				farming.setFTA_FarmerCredit_ID(credit.getFTA_FarmerCredit_ID());
+				credit.setQty(credit.getQty().add(farming.getArea()));
+				
+				//Set Amt from Credit Definition
+				for (MFTACreditDefinitionLine creditdefline:creditdef.getLines(false) )
+				{
+					credit.setAmt(
+							credit.getAmt().add(
+									farming.getArea().multiply(creditdefline.getPrice())
+													 .divide(creditdefline.getQty())
+											    )
+								 );
+				}
+			}
+			else
+			{
+				farming.setFTA_FarmerCredit_ID(0);
+				credit.setQty(credit.getQty().subtract(farming.getArea()));
+				
+				//Set Amt from Credit Definition
+				for (MFTACreditDefinitionLine creditdefline:creditdef.getLines(false) )
+				{
+					credit.setAmt(
+							credit.getAmt().subtract(
+									farming.getArea().multiply(creditdefline.getPrice())
+													 .divide(creditdefline.getQty())
+											    )
+								 );
+				}
+			}
+			
 			farming.save(get_TrxName());
+			credit.save(get_TrxName());
+			
 			m_Updted++;
 		}
 		
