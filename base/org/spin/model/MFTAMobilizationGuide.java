@@ -493,7 +493,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		else if(getQtyToDeliver().compareTo(getFTA_VehicleType().getLoadCapacity()) > 0) 
 			return "@QtyToDeliver@ > @LoadCapacity@ @of@ @FTA_VehicleType_ID@";
 		else if(getQtyToDeliver().compareTo(getFTA_Farming().getEstimatedQty()) > 0)
-			return "@QtyToDeliver@ > @Area@ @of@ @EstimatedQty@";
+			return "@QtyToDeliver@ > @EstimatedQty@";
 		return null;
 	}
 
