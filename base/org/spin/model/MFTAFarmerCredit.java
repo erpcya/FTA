@@ -38,6 +38,7 @@ import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
+import org.compiere.model.X_C_Order;
 import org.compiere.model.X_M_InOut;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
@@ -290,15 +291,11 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		po.setClientOrg(getAD_Client_ID(), getAD_Org_ID());
 		po.setIsSOTrx(false);
 		po.setC_DocTypeTarget_ID(m_docType.get_ValueAsInt("C_DocTypeOrder_ID"));
+		po.setDateAcct(getDateDoc());
+		po.setDateOrdered(getDateDoc());
 		//
 		po.setDescription(getDescription());
 		//po.setSalesRep_ID(getSalesRep_ID());
-		
-		/*MWarehouse [] m_Warehouse = MWarehouse.getForOrg(getCtx(), getAD_Org_ID());
-		if(m_Warehouse == null)
-			return "@M_Warehouse_ID@ = @0@";
-		
-		po.setM_Warehouse_ID(m_Warehouse[0].getM_Warehouse_ID());*/
 		//	Set Vendor
 		MBPartner vendor = (MBPartner) getC_BPartner();
 		po.setBPartner(vendor);
@@ -328,22 +325,25 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				"AND fr.FTA_FarmerCredit_ID=?", getFTA_FarmerCredit_ID());
 		
 		MOrderLine poLine = new MOrderLine (po);
-		poLine.setM_Product_ID(product.getM_Product_ID());
+		poLine.setProduct(product);
 		poLine.setC_UOM_ID(m_ClientInfo.getC_UOM_Weight_ID());
 		//	Rate Convert
 		BigDecimal rate = MUOMConversion.convert(m_ClientInfo.getC_UOM_Weight_ID(), 
 				product.getC_UOM_ID(), new BigDecimal(1), false);
 		
 		if(rate == null)
-			return "@C_UOM_ID@ @to@ @C_UOM_To_ID@ = null";
-		//	Set Quantity
-		poLine.setQtyEntered(m_EstimatedQty);
-		poLine.setQtyOrdered(m_EstimatedQty.multiply(rate));
+			return "@NoUOMConversion@";
+		
 		poLine.setPrice();
+		
+		//	Set Quantity
+		poLine.setQty(m_EstimatedQty.multiply(rate));
+		poLine.setQtyOrdered(m_EstimatedQty.multiply(rate));
+		//
 		poLine.saveEx();
 		
-		po.setDocAction(X_M_InOut.DOCACTION_Complete);
-		po.processIt(X_M_InOut.DOCACTION_Complete);
+		po.setDocAction(X_C_Order.DOCACTION_Complete);
+		po.processIt(X_C_Order.DOCACTION_Complete);
 		po.saveEx();
 		
 		return null;
