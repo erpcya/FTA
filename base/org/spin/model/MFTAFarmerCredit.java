@@ -23,11 +23,22 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MClientInfo;
 import org.compiere.model.MDocType;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPeriod;
+import org.compiere.model.MProduct;
+import org.compiere.model.MUOM;
+import org.compiere.model.MUOMConversion;
+import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
+import org.compiere.model.X_M_InOut;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
@@ -174,25 +185,6 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			return DocAction.STATUS_Invalid;
 		}
 		
-		if(isCredit()){
-			if(getFTA_CreditDefinition_ID() == 0){
-				m_processMsg = "@FTA_CreditDefinition_ID@";
-				return DocAction.STATUS_InProgress;
-			}
-			//	Very Lines
-			MFTAFarming[] lines = getLines(false);
-			if (lines.length == 0){
-				m_processMsg = "@NoLines@";
-				return DocAction.STATUS_Invalid;
-			}
-		}
-		//	Valid Amount
-		if(getAmt() == null
-				|| getAmt().equals(Env.ZERO)){
-			m_processMsg = "@Amt@ = @0@";
-			return DocAction.STATUS_InProgress;
-		}
-		
 		//	Add up Amounts
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
@@ -248,7 +240,29 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			approveIt();
 		log.info(toString());
 		//
+		if(isCredit()){
+			if(getFTA_CreditDefinition_ID() == 0){
+				m_processMsg = "@FTA_CreditDefinition_ID@";
+				return DocAction.STATUS_Invalid;
+			}
+			//	Very Lines
+			MFTAFarming[] lines = getLines(false);
+			if (lines.length == 0){
+				m_processMsg = "@NoLines@";
+				return DocAction.STATUS_Invalid;
+			}
+		}
+		//	Valid Amount
+		if(getAmt() == null
+				|| getAmt().equals(Env.ZERO)){
+			m_processMsg = "@Amt@ = @0@";
+			return DocAction.STATUS_Invalid;
+		}
 		
+		m_processMsg = createOrder();
+		if(m_processMsg != null){
+			return DocAction.STATUS_Invalid;
+		}
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -262,6 +276,78 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
+	
+	/**
+	 * Create Purchase Order From Farmer Credit
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 10/09/2013, 11:39:05
+	 * @return
+	 * @return String
+	 */
+	private String createOrder(){
+		MDocType m_docType = MDocType.get(getCtx(), getC_DocType_ID());
+		
+		MOrder po = new MOrder (getCtx(), 0, get_TrxName());
+		po.setClientOrg(getAD_Client_ID(), getAD_Org_ID());
+		po.setIsSOTrx(false);
+		po.setC_DocTypeTarget_ID(m_docType.get_ValueAsInt("C_DocTypeOrder_ID"));
+		//
+		po.setDescription(getDescription());
+		//po.setSalesRep_ID(getSalesRep_ID());
+		
+		/*MWarehouse [] m_Warehouse = MWarehouse.getForOrg(getCtx(), getAD_Org_ID());
+		if(m_Warehouse == null)
+			return "@M_Warehouse_ID@ = @0@";
+		
+		po.setM_Warehouse_ID(m_Warehouse[0].getM_Warehouse_ID());*/
+		//	Set Vendor
+		MBPartner vendor = (MBPartner) getC_BPartner();
+		po.setBPartner(vendor);
+		
+		// get default drop ship warehouse
+		MOrgInfo orginfo = MOrgInfo.get(getCtx(), po.getAD_Org_ID(), get_TrxName());
+		if (orginfo.getM_Warehouse_ID() != 0)
+			po.setM_Warehouse_ID(orginfo.getM_Warehouse_ID());
+		else
+			return "@M_Warehouse_ID@ = @0@";
+		
+		//	Set Farmer Credit
+		po.set_ValueOfColumn("FTA_FarmerCredit_ID", getFTA_FarmerCredit_ID());
+		
+		po.saveEx();
+		
+		MProduct product = MProduct.get(getCtx(), getFTA_CreditDefinition().getCategory_ID());
+		
+		MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
+		if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
+			return "@C_UOM_Weight_ID@ = @0@";
+		
+		//	Get Quantity
+		BigDecimal m_EstimatedQty = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(fr.EstimatedQty) " +
+				"FROM FTA_Farming fr " +
+				"WHERE fr.Status = 'A' " +
+				"AND fr.FTA_FarmerCredit_ID=?", getFTA_FarmerCredit_ID());
+		
+		MOrderLine poLine = new MOrderLine (po);
+		poLine.setM_Product_ID(product.getM_Product_ID());
+		poLine.setC_UOM_ID(m_ClientInfo.getC_UOM_Weight_ID());
+		//	Rate Convert
+		BigDecimal rate = MUOMConversion.convert(m_ClientInfo.getC_UOM_Weight_ID(), 
+				product.getC_UOM_ID(), new BigDecimal(1), false);
+		
+		if(rate == null)
+			return "@C_UOM_ID@ @to@ @C_UOM_To_ID@ = null";
+		//	Set Quantity
+		poLine.setQtyEntered(m_EstimatedQty);
+		poLine.setQtyOrdered(m_EstimatedQty.multiply(rate));
+		poLine.setPrice();
+		poLine.saveEx();
+		
+		po.setDocAction(X_M_InOut.DOCACTION_Complete);
+		po.processIt(X_M_InOut.DOCACTION_Complete);
+		po.saveEx();
+		
+		return null;
+	}
 	
 	/**
 	 * 	Set the definite document number after completed
@@ -298,7 +384,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			return false;
 		
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
-		setAmt(Env.ZERO);
+		//setAmt(Env.ZERO);
 
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);

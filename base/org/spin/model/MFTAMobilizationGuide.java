@@ -284,8 +284,12 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		if (m_processMsg != null)
 			return false;
 		
+		m_processMsg = validReference();
+		if(m_processMsg != null)
+			return false;
+		
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
-		setQtyToDeliver(Env.ZERO);
+		//setQtyToDeliver(Env.ZERO);
 
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
@@ -296,6 +300,21 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
         setDocAction(DOCACTION_None);
 		return true;
 	}	//	voidIt
+	
+	/**
+	 * Valid Reference in another record
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 16:05:21
+	 * @return
+	 * @return String
+	 */
+	private String validReference(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(et.FTA_EntryTicket_ID) " +
+				"FROM FTA_EntryTicket et " +
+				"WHERE et.FTA_MobilizationGuide_ID = ?", getFTA_MobilizationGuide_ID());
+		if(m_Reference_ID != 0)
+			return "@SQLErrorReferenced@";
+		return null;
+	}
 	
 	/**
 	 * 	Close Document.
@@ -473,8 +492,8 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 			return "@QtyToDeliver@ = @0@";
 		else if(getQtyToDeliver().compareTo(getFTA_VehicleType().getLoadCapacity()) > 0) 
 			return "@QtyToDeliver@ > @LoadCapacity@ @of@ @FTA_VehicleType_ID@";
-		else if(getQtyToDeliver().compareTo(getFTA_Farming().getArea()) > 0)
-			return "@QtyToDeliver@ > @Area@ @of@ @FTA_Farming_ID@";
+		else if(getQtyToDeliver().compareTo(getFTA_Farming().getEstimatedQty()) > 0)
+			return "@QtyToDeliver@ > @Area@ @of@ @EstimatedQty@";
 		return null;
 	}
 
