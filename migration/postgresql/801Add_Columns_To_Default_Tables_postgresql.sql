@@ -1,0 +1,10 @@
+-- Sep 11, 2013 8:57:26 AM VET
+-- SFAndroid Contribution
+ALTER TABLE C_DocType ADD COLUMN C_DocTypeOrder_ID NUMERIC(10) DEFAULT NULL 
+;
+
+-- Sep 11, 2013 8:57:59 AM VET
+-- SFAndroid Contribution
+ALTER TABLE C_Order ADD COLUMN FTA_FarmerCredit_ID NUMERIC(10) DEFAULT NULL 
+;
+
