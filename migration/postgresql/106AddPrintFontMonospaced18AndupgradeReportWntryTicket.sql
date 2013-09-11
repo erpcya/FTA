@@ -448,11 +448,6 @@ UPDATE AD_PrintFormatItem_Trl SET PrintName='Observación:',PrintNameSuffix=NULL
 UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsNextLine='Y', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_TIMESTAMP('2013-09-11 14:59:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=54324
 ;
 
--- 11/09/2013 03:00:14 PM VET
--- SFAndroid Contribution
-UPDATE FTA_EntryTicket SET Description='sdfghjkkmnbvcxwertyuikmnbvcxwertyujnbvqwertyui23456789edrftghjkxcvbnm,sdfghjk345678ertyuisdfghj',Updated=TO_TIMESTAMP('2013-09-11 15:00:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE FTA_EntryTicket_ID=1000000
-;
-
 -- 11/09/2013 03:00:59 PM VET
 -- SFAndroid Contribution
 UPDATE AD_PrintFormatItem SET FieldAlignmentType='B', IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_TIMESTAMP('2013-09-11 15:00:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=54324
@@ -621,16 +616,6 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', PrintName='Creado:
 -- 11/09/2013 03:12:13 PM VET
 -- SFAndroid Contribution
 UPDATE AD_PrintFormatItem_Trl SET PrintName='Creado:',PrintNameSuffix=NULL,IsTranslated='Y' WHERE AD_PrintFormatItem_ID=54322
-;
-
--- 11/09/2013 03:12:34 PM VET
--- SFAndroid Contribution
-UPDATE FTA_EntryTicket SET Description=NULL,Updated=TO_TIMESTAMP('2013-09-11 15:12:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE FTA_EntryTicket_ID=1000000
-;
-
--- 11/09/2013 03:12:49 PM VET
--- SFAndroid Contribution
-UPDATE FTA_EntryTicket SET Description='sdfghjkkmnbvcxwertyuikmnbvcxwertyujnbvqwertyui23456789edrftghjkxcvbnm,sdfghjk345678ertyuisdfghj',Updated=TO_TIMESTAMP('2013-09-11 15:12:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE FTA_EntryTicket_ID=1000000
 ;
 
 -- 11/09/2013 03:29:16 PM VET
