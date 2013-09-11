@@ -29,6 +29,15 @@ import org.compiere.util.DB;
  */
 public class FarmingGuideGenerate extends SvrProcess {
 
+	/**	Organization				*/
+	private int 		m_AD_Org_ID				= 0;
+	
+	/**	Warehouse					*/
+	private int 		m_M_Warehouse_ID		= 0;
+	
+	/**	Document Type Target		*/
+	private int 		m_C_DocTypeTarget_ID	= 0;
+	
 	/**	Document Date				*/
 	private Timestamp 	m_DateDoc 				= null;
 	
@@ -41,18 +50,29 @@ public class FarmingGuideGenerate extends SvrProcess {
 	/**	Farming						*/
 	private int 		m_FTA_Farming_ID		= 0;
 	
+	/**	Business Partner			*/
+	private int 		m_C_BPartner_ID			= 0;
+	
 	@Override
 	protected void prepare() {
 		for (ProcessInfoParameter para:getParameter()){
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
+			else if (name.equals("AD_Org_ID"))
+				m_AD_Org_ID = para.getParameterAsInt();
+			else if (name.equals("M_Warehouse_ID"))
+				m_M_Warehouse_ID = para.getParameterAsInt();
+			else if (name.equals("C_DocTypeTarget_ID"))
+				m_C_DocTypeTarget_ID = para.getParameterAsInt();
 			else if (name.equals("DateDoc"))
 				m_DateDoc = (Timestamp) para.getParameter();
 			else if (name.equals("FTA_VehicleType_ID"))
 				m_FTA_VehicleType_ID = para.getParameterAsInt();
 			else if (name.equals("MaxQty"))
 				m_MaxQty = para.getParameterAsInt();
+			else if (name.equals("C_BPartner_ID"))
+				m_C_BPartner_ID = para.getParameterAsInt();
 		}
 		//	Get Record Identifier
 		m_FTA_Farming_ID = getRecord_ID();
