@@ -92,8 +92,7 @@ public class FarmingAllocation extends SvrProcess {
 				{
 					credit.setAmt(
 							credit.getAmt().add(
-									farming.getArea().multiply(creditdefline.getPrice())
-													 .divide(creditdefline.getQty())
+									farming.getArea().multiply(creditdefline.getAmt())
 											    )
 								 );
 				}
@@ -108,8 +107,7 @@ public class FarmingAllocation extends SvrProcess {
 				{
 					credit.setAmt(
 							credit.getAmt().subtract(
-									farming.getArea().multiply(creditdefline.getPrice())
-													 .divide(creditdefline.getQty())
+									farming.getArea().multiply(creditdefline.getAmt())
 											    )
 								 );
 				}
