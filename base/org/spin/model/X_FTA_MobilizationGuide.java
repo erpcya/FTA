@@ -34,7 +34,7 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130909L;
+	private static final long serialVersionUID = 20130911L;
 
     /** Standard Constructor */
     public X_FTA_MobilizationGuide (Properties ctx, int FTA_MobilizationGuide_ID, String trxName)
@@ -302,9 +302,9 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	public void setFTA_Farming_ID (int FTA_Farming_ID)
 	{
 		if (FTA_Farming_ID < 1) 
-			set_Value (COLUMNNAME_FTA_Farming_ID, null);
+			set_ValueNoCheck (COLUMNNAME_FTA_Farming_ID, null);
 		else 
-			set_Value (COLUMNNAME_FTA_Farming_ID, Integer.valueOf(FTA_Farming_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_Farming_ID, Integer.valueOf(FTA_Farming_ID));
 	}
 
 	/** Get Farming.

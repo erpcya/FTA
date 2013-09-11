@@ -150,6 +150,19 @@ public interface I_FTA_FarmerLiquidation
 	  */
 	public Timestamp getDateDoc();
 
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
+
     /** Column name DocAction */
     public static final String COLUMNNAME_DocAction = "DocAction";
 
