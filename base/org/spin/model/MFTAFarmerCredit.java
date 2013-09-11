@@ -286,6 +286,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		MOrder po = new MOrder (getCtx(), 0, get_TrxName());
 		po.setClientOrg(getAD_Client_ID(), getAD_Org_ID());
 		po.setIsSOTrx(false);
+		if(m_docType.get_ValueAsInt("C_DocTypeOrder_ID") == 0)
+			;
 		po.setC_DocTypeTarget_ID(m_docType.get_ValueAsInt("C_DocTypeOrder_ID"));
 		po.setDateAcct(getDateDoc());
 		po.setDateOrdered(getDateDoc());
@@ -301,7 +303,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if (orginfo.getM_Warehouse_ID() != 0)
 			po.setM_Warehouse_ID(orginfo.getM_Warehouse_ID());
 		else
-			return "@M_Warehouse_ID@ = @0@";
+			return "@M_Warehouse_ID@ = @NotFound@";
 		
 		//	Set Farmer Credit
 		po.set_ValueOfColumn("FTA_FarmerCredit_ID", getFTA_FarmerCredit_ID());
@@ -312,7 +314,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		
 		MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
 		if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
-			return "@C_UOM_Weight_ID@ = @0@";
+			return "@C_UOM_Weight_ID@ = @NotFound@";
 		
 		//	Get Quantity
 		BigDecimal m_EstimatedQty = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(fr.EstimatedQty) " +
@@ -324,8 +326,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		poLine.setProduct(product);
 		poLine.setC_UOM_ID(m_ClientInfo.getC_UOM_Weight_ID());
 		//	Rate Convert
-		BigDecimal rate = MUOMConversion.convert(m_ClientInfo.getC_UOM_Weight_ID(), 
-				product.getC_UOM_ID(), new BigDecimal(1), false);
+		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+				product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
 		
 		if(rate == null)
 			return "@NoUOMConversion@";
@@ -577,6 +579,22 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		list.toArray (m_lines);
 		return m_lines;
 	}	//	getLines
+	
+	/**
+	 * Get PurchaseOrder
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 11/09/2013, 10:41:32
+	 * @return
+	 * @return MOrder
+	 */
+	public MOrder getPOGenerated(){
+		return new Query(getCtx(), X_C_Order.Table_Name, 
+				"FTA_FarmerCredit_ID" + "=? " +
+				"AND DocStatus='CO' " +
+				"AND IsSOTrx='N'", get_TrxName())
+			.setOnlyActiveRecords(true)
+			.setParameters(getFTA_FarmerCredit_ID())
+			.<MOrder>first();
+	}
 	
 	@Override
 	public int customizeValidActions(String docStatus, Object processing,

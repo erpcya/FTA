@@ -129,9 +129,3 @@ UPDATE AD_Column SET IsAlwaysUpdateable='Y',Updated=TO_DATE('2013-09-09 15:52:19
 -- Farming Technical Assistance
 UPDATE AD_Column SET IsAlwaysUpdateable='Y',Updated=TO_DATE('2013-09-09 15:52:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=66911
 ;
-
--- Sep 9, 2013 5:04:31 PM VET
--- Farming Technical Assistance
-UPDATE AD_Field SET DisplayLogic='@DocBaseType@=''SOO'' | @DocBaseType@=''POO'' | @DocBaseType@=''FRW''',Updated=TO_DATE('2013-09-09 17:04:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=3073
-;
-

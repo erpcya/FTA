@@ -22,13 +22,16 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.compiere.model.MClientInfo;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
+import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
+import org.compiere.model.MUOMConversion;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -232,7 +235,18 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
-		log.info(toString());		
+		log.info(toString());	
+		
+		int m_FTA_FarmerCredit_ID = DB.getSQLValue(get_TrxName(), "SELECT fr.FTA_FarmerCredit_ID " +
+				"FROM FTA_Farming fr " +
+				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = fr.FTA_Farming_ID) " +
+				"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
+				"WHERE et.FTA_EntryTicket_ID=?", getFTA_EntryTicket_ID());
+		
+		MFTAFarmerCredit m_FarmerCredit = new MFTAFarmerCredit(getCtx(), m_FTA_FarmerCredit_ID, get_TrxName());
+		m_processMsg = createMaterialReceipt(m_FarmerCredit.getPOGenerated());
+		if(m_processMsg != null)
+			return DocAction.STATUS_Invalid;
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -506,52 +520,63 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		return index;
 	}
 	
-	private MInOut createShipment(MOrder order, MDocType dt, Timestamp movementDate)
-	{
-		log.info("For " + dt);
-		MInOut shipment = new MInOut (order, dt.getC_DocTypeShipment_ID(), movementDate);
-	//	shipment.setDateAcct(getDateAcct());
-		if (!shipment.save(get_TrxName()))
-		{
-			m_processMsg = "Could not create Shipment";
-			return null;
-		}
+	/**
+	 * Create a Material Receipt from the Record Weight
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 11/09/2013, 11:02:53
+	 * @param order
+	 * @return
+	 * @return String
+	 */
+	private String createMaterialReceipt(MOrder order) {
+		if(order == null)
+			return "@C_Order_ID@ @NotFound@";
+		
+		MDocType m_DocType = MDocType.get(getCtx(), order.getC_DocType_ID());
+		
+		if(m_DocType.getC_DocTypeShipment_ID() == 0)
+			return "@C_DocTypeShipment_ID@ @NotFound@";
+		
+		MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
+		m_Receipt.setDateAcct(getDateDoc());
+		m_Receipt.saveEx(get_TrxName());
 		
 		MOrderLine[] oLines = order.getLines(true, null);
 		MOrderLine oLine = oLines[0];
 			//
-		MInOutLine ioLine = new MInOutLine(shipment);
-			//	Qty = Ordered - Delivered
-		BigDecimal MovementQty = oLine.getQtyOrdered().subtract(oLine.getQtyDelivered()); 
+		MInOutLine ioLine = new MInOutLine(m_Receipt);
+		
+		MProduct product = MProduct.get(getCtx(), oLine.getM_Product_ID());
+		//	Rate Convert
+		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+				product.getM_Product_ID(), getC_UOM_ID());
+		
+		if(rate == null)
+			return "@NoUOMConversion@";
+		
+		BigDecimal m_MovementQty = getNetWeight().multiply(rate);
 			//	Location
 		int M_Locator_ID = MStorage.getM_Locator_ID (oLine.getM_Warehouse_ID(), 
 				oLine.getM_Product_ID(), oLine.getM_AttributeSetInstance_ID(), 
-				MovementQty, get_TrxName());
+				m_MovementQty, get_TrxName());
 		if (M_Locator_ID == 0)		//	Get default Location
 		{
 			MWarehouse wh = MWarehouse.get(getCtx(), oLine.getM_Warehouse_ID());
 			M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
 		}
 		//
-		ioLine.setOrderLine(oLine, M_Locator_ID, MovementQty);
-		ioLine.setQty(MovementQty);
-		if (oLine.getQtyEntered().compareTo(oLine.getQtyOrdered()) != 0)
-			ioLine.setQtyEntered(MovementQty
-				.multiply(oLine.getQtyEntered())
-				.divide(oLine.getQtyOrdered(), 6, BigDecimal.ROUND_HALF_UP));
-		if (!ioLine.save(get_TrxName()))
-		{
-			m_processMsg = "Could not create Shipment Line";
-			return null;
-		}
+		ioLine.setC_OrderLine_ID(oLine.getC_OrderLine_ID());
+		ioLine.setQtyEntered(getNetWeight());
+		ioLine.setMovementQty(m_MovementQty);
+		ioLine.saveEx(get_TrxName());
 		//	Manually Process Shipment
-		shipment.processIt(DocAction.ACTION_Complete);
-		shipment.saveEx(get_TrxName());
-		if (!DOCSTATUS_Completed.equals(shipment.getDocStatus()))
+		m_Receipt.processIt(DocAction.ACTION_Complete);
+		m_Receipt.saveEx(get_TrxName());
+		if (!DOCSTATUS_Completed.equals(m_Receipt.getDocStatus()))
 		{
-			m_processMsg = "@M_InOut_ID@: " + shipment.getProcessMsg();
+			m_processMsg = "@M_InOut_ID@: " + m_Receipt.getProcessMsg();
 			return null;
 		}
-		return shipment;
-	}	//	createShipment
+		System.out.println(m_Receipt);
+		return null;
+	}	//	createMaterialReceipt
 }
