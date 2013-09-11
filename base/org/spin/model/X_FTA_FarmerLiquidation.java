@@ -33,7 +33,7 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130909L;
+	private static final long serialVersionUID = 20130911L;
 
     /** Standard Constructor */
     public X_FTA_FarmerLiquidation (Properties ctx, int FTA_FarmerLiquidation_ID, String trxName)
@@ -44,7 +44,6 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 			setAmt (Env.ZERO);
 			setC_BPartner_ID (0);
 			setC_DocType_ID (0);
-			setC_Invoice_ID (0);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 			setDocAction (null);
 // CO
@@ -204,6 +203,23 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 	public Timestamp getDateDoc () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
+	}
+
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
 	}
 
 	/** DocAction AD_Reference_ID=135 */

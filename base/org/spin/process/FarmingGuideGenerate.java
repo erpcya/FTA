@@ -14,45 +14,62 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Yamel Senih www.erpconsultoresyasociados.com               *
  *****************************************************************************/
-package org.spin.model;
+package org.spin.process;
 
-import java.util.Properties;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
-import org.compiere.model.CalloutEngine;
-import org.compiere.model.GridField;
-import org.compiere.model.GridTab;
-import org.compiere.model.MDocType;
-import org.compiere.util.Env;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class CalloutFarmerCredit extends CalloutEngine {
+public class FarmingGuideGenerate extends SvrProcess {
 
-	/**
-	 * Set Credit Type from DocBaseType
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/09/2013, 11:47:15
-	 * @param ctx
-	 * @param WindowNo
-	 * @param mTab
-	 * @param mField
-	 * @param value
-	 * @return
-	 * @return String
-	 */
-	public String docType (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
-		Integer m_C_DocType_ID = (Integer)value;
-		if (m_C_DocType_ID == null || m_C_DocType_ID.intValue() == 0)
-			return "";
-		
-		MDocType m_DocType = MDocType.get(ctx, m_C_DocType_ID.intValue());
-		//	Set Context
-		Env.setContext(ctx, WindowNo, "DocBaseType", m_DocType.getDocBaseType());
-		//	Set Credit Type
-		String m_CreditType = m_DocType.getDocBaseType().substring(2);
-		mTab.setValue("CreditType", m_CreditType);
-		return "";
-	}
+	/**	Document Date				*/
+	private Timestamp 	m_DateDoc 				= null;
 	
+	/**	Vehicle Type				*/
+	private int 		m_FTA_VehicleType_ID 	= 0;
+	
+	/**	Max Quantity				*/
+	private int 		m_MaxQty				= 0;
+	
+	/**	Farming						*/
+	private int 		m_FTA_Farming_ID		= 0;
+	
+	@Override
+	protected void prepare() {
+		for (ProcessInfoParameter para:getParameter()){
+			String name = para.getParameterName();
+			if (para.getParameter() == null)
+				;
+			else if (name.equals("DateDoc"))
+				m_DateDoc = (Timestamp) para.getParameter();
+			else if (name.equals("FTA_VehicleType_ID"))
+				m_FTA_VehicleType_ID = para.getParameterAsInt();
+			else if (name.equals("MaxQty"))
+				m_MaxQty = para.getParameterAsInt();
+		}
+		//	Get Record Identifier
+		m_FTA_Farming_ID = getRecord_ID();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.compiere.process.SvrProcess#doIt()
+	 */
+	@Override
+	protected String doIt() throws Exception {
+		BigDecimal m_MaxReceipt = DB.getSQLValueBD(get_TrxName(), "SELECT rc.Qty " +
+				"FROM FTA_ReceptionCapacity rc " +
+				"WHERE rc.ValidFrom <= ? " +
+				"AND rc.IsActive = 'Y'", m_DateDoc);
+		
+		
+		return null;
+	}
+
 }

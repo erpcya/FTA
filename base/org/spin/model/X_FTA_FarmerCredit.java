@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130909L;
+	private static final long serialVersionUID = 20130911L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -44,7 +44,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 			setAmt (Env.ZERO);
 			setC_BPartner_ID (0);
 			setC_DocType_ID (0);
+			setCreditType (null);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
+// @#Date@
 			setDocAction (null);
 // CO
 			setDocStatus (null);
@@ -243,6 +245,32 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return ii.intValue();
 	}
 
+	/** CreditType AD_Reference_ID=53549 */
+	public static final int CREDITTYPE_AD_Reference_ID=53549;
+	/** Credit = C */
+	public static final String CREDITTYPE_Credit = "C";
+	/** Loan = L */
+	public static final String CREDITTYPE_Loan = "L";
+	/** Reception Agreement = R */
+	public static final String CREDITTYPE_ReceptionAgreement = "R";
+	/** Set Credit Type.
+		@param CreditType 
+		If is Credit, Loan and other
+	  */
+	public void setCreditType (String CreditType)
+	{
+
+		set_Value (COLUMNNAME_CreditType, CreditType);
+	}
+
+	/** Get Credit Type.
+		@return If is Credit, Loan and other
+	  */
+	public String getCreditType () 
+	{
+		return (String)get_Value(COLUMNNAME_CreditType);
+	}
+
 	public I_C_UOM getC_UOM() throws RuntimeException
     {
 		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
@@ -433,6 +461,23 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
+	/** Set Farming Allocation.
+		@param FarmingAlloc 
+		Farming Allocation
+	  */
+	public void setFarmingAlloc (String FarmingAlloc)
+	{
+		set_Value (COLUMNNAME_FarmingAlloc, FarmingAlloc);
+	}
+
+	/** Get Farming Allocation.
+		@return Farming Allocation
+	  */
+	public String getFarmingAlloc () 
+	{
+		return (String)get_Value(COLUMNNAME_FarmingAlloc);
+	}
+
 	public org.spin.model.I_FTA_CreditDefinition getFTA_CreditDefinition() throws RuntimeException
     {
 		return (org.spin.model.I_FTA_CreditDefinition)MTable.get(getCtx(), org.spin.model.I_FTA_CreditDefinition.Table_Name)
@@ -443,9 +488,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public void setFTA_CreditDefinition_ID (int FTA_CreditDefinition_ID)
 	{
 		if (FTA_CreditDefinition_ID < 1) 
-			set_Value (COLUMNNAME_FTA_CreditDefinition_ID, null);
+			set_ValueNoCheck (COLUMNNAME_FTA_CreditDefinition_ID, null);
 		else 
-			set_Value (COLUMNNAME_FTA_CreditDefinition_ID, Integer.valueOf(FTA_CreditDefinition_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_CreditDefinition_ID, Integer.valueOf(FTA_CreditDefinition_ID));
 	}
 
 	/** Get Credit Definition.
@@ -496,27 +541,6 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public boolean isApproved () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsApproved);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Is Credit.
-		@param IsCredit Is Credit	  */
-	public void setIsCredit (boolean IsCredit)
-	{
-		set_Value (COLUMNNAME_IsCredit, Boolean.valueOf(IsCredit));
-	}
-
-	/** Get Is Credit.
-		@return Is Credit	  */
-	public boolean isCredit () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsCredit);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

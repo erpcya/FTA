@@ -22,7 +22,6 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
-import org.compiere.model.MClientInfo;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
@@ -236,15 +235,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if (!isApproved())
 			approveIt();
 		log.info(toString());	
-		
-		int m_FTA_FarmerCredit_ID = DB.getSQLValue(get_TrxName(), "SELECT fr.FTA_FarmerCredit_ID " +
-				"FROM FTA_Farming fr " +
-				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = fr.FTA_Farming_ID) " +
-				"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
-				"WHERE et.FTA_EntryTicket_ID=?", getFTA_EntryTicket_ID());
-		
-		MFTAFarmerCredit m_FarmerCredit = new MFTAFarmerCredit(getCtx(), m_FTA_FarmerCredit_ID, get_TrxName());
-		m_processMsg = createMaterialReceipt(m_FarmerCredit.getPOGenerated());
+		//	Generate Material Receipt
+		m_processMsg = createMaterialReceipt();
 		if(m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
@@ -527,7 +519,17 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return
 	 * @return String
 	 */
-	private String createMaterialReceipt(MOrder order) {
+	private String createMaterialReceipt() {
+		int m_FTA_FarmerCredit_ID = DB.getSQLValue(get_TrxName(), "SELECT fr.FTA_FarmerCredit_ID " +
+				"FROM FTA_Farming fr " +
+				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = fr.FTA_Farming_ID) " +
+				"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
+				"WHERE et.FTA_EntryTicket_ID=?", getFTA_EntryTicket_ID());
+		
+		MFTAFarmerCredit m_FarmerCredit = new MFTAFarmerCredit(getCtx(), m_FTA_FarmerCredit_ID, get_TrxName());
+		//	Get Order
+		MOrder order = m_FarmerCredit.getPOGenerated();
+		
 		if(order == null)
 			return "@C_Order_ID@ @NotFound@";
 		
@@ -538,6 +540,10 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		
 		MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
 		m_Receipt.setDateAcct(getDateDoc());
+		//	Set Farmer Credit and Record Weight
+		m_Receipt.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_FarmerCredit_ID);
+		m_Receipt.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
+		//	Save
 		m_Receipt.saveEx(get_TrxName());
 		
 		MOrderLine[] oLines = order.getLines(true, null);
@@ -563,7 +569,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			MWarehouse wh = MWarehouse.get(getCtx(), oLine.getM_Warehouse_ID());
 			M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
 		}
-		//
+		//	Set Quality Analysis
+		ioLine.setM_AttributeSetInstance_ID(getFTA_QualityAnalysis().getQualityAnalysis_ID());
+		
 		ioLine.setC_OrderLine_ID(oLine.getC_OrderLine_ID());
 		ioLine.setQtyEntered(getNetWeight());
 		ioLine.setMovementQty(m_MovementQty);
@@ -576,7 +584,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			m_processMsg = "@M_InOut_ID@: " + m_Receipt.getProcessMsg();
 			return null;
 		}
-		System.out.println(m_Receipt);
 		return null;
 	}	//	createMaterialReceipt
 }
