@@ -237,7 +237,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			approveIt();
 		log.info(toString());
 		//
-		if(isCredit()){
+		if(getCreditType().equals(CREDITTYPE_Credit)
+				|| getCreditType().equals(CREDITTYPE_ReceptionAgreement)){
 			if(getFTA_CreditDefinition_ID() == 0){
 				m_processMsg = "@FTA_CreditDefinition_ID@";
 				return DocAction.STATUS_Invalid;
@@ -248,6 +249,11 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				m_processMsg = "@NoLines@";
 				return DocAction.STATUS_Invalid;
 			}
+			//	Generate Purchase Order
+			m_processMsg = createOrder();
+			if(m_processMsg != null){
+				return DocAction.STATUS_Invalid;
+			}
 		}
 		//	Valid Amount
 		if(getAmt() == null
@@ -256,10 +262,6 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			return DocAction.STATUS_Invalid;
 		}
 		
-		m_processMsg = createOrder();
-		if(m_processMsg != null){
-			return DocAction.STATUS_Invalid;
-		}
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -287,7 +289,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		po.setClientOrg(getAD_Client_ID(), getAD_Org_ID());
 		po.setIsSOTrx(false);
 		if(m_docType.get_ValueAsInt("C_DocTypeOrder_ID") == 0)
-			;
+			return "@C_DocTypeOrder_ID@ @NotFound@";
+		
 		po.setC_DocTypeTarget_ID(m_docType.get_ValueAsInt("C_DocTypeOrder_ID"));
 		po.setDateAcct(getDateDoc());
 		po.setDateOrdered(getDateDoc());

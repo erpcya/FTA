@@ -167,6 +167,19 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getCreatedBy();
 
+    /** Column name CreditType */
+    public static final String COLUMNNAME_CreditType = "CreditType";
+
+	/** Set Credit Type.
+	  * If is Credit, Loan and other
+	  */
+	public void setCreditType (String CreditType);
+
+	/** Get Credit Type.
+	  * If is Credit, Loan and other
+	  */
+	public String getCreditType();
+
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 
@@ -260,6 +273,19 @@ public interface I_FTA_FarmerCredit
 	  */
 	public String getDocumentNo();
 
+    /** Column name FarmingAlloc */
+    public static final String COLUMNNAME_FarmingAlloc = "FarmingAlloc";
+
+	/** Set Farming Allocation.
+	  * Farming Allocation
+	  */
+	public void setFarmingAlloc (String FarmingAlloc);
+
+	/** Get Farming Allocation.
+	  * Farming Allocation
+	  */
+	public String getFarmingAlloc();
+
     /** Column name FTA_CreditDefinition_ID */
     public static final String COLUMNNAME_FTA_CreditDefinition_ID = "FTA_CreditDefinition_ID";
 
@@ -309,15 +335,6 @@ public interface I_FTA_FarmerCredit
 	  * Indicates if this document requires approval
 	  */
 	public boolean isApproved();
-
-    /** Column name IsCredit */
-    public static final String COLUMNNAME_IsCredit = "IsCredit";
-
-	/** Set Is Credit	  */
-	public void setIsCredit (boolean IsCredit);
-
-	/** Get Is Credit	  */
-	public boolean isCredit();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
