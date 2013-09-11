@@ -83,10 +83,14 @@ public class FarmingGuideGenerate extends SvrProcess {
 	 */
 	@Override
 	protected String doIt() throws Exception {
-		BigDecimal m_MaxReceipt = DB.getSQLValueBD(get_TrxName(), "SELECT rc.Qty " +
+		BigDecimal m_MaxReceipt = DB.getSQLValueBD(get_TrxName(), "SELECT rc.Qty - SUM(COALESCE(mg.QtyToDeliver, 0)) " +
 				"FROM FTA_ReceptionCapacity rc " +
+				"LEFT JOIN FTA_MobilizationGuide mg ON(mg.M_Warehouse_ID = rc.M_Warehouse_ID) " +
 				"WHERE rc.ValidFrom <= ? " +
-				"AND rc.IsActive = 'Y'", m_DateDoc);
+				"AND rc.IsActive = 'Y' " +
+				"AND mg.DateDoc >= rc.ValidFrom " +
+				"GROUP BY rc.Qty, rc.ValidFrom " +
+				"ORDER BY rc.ValidFrom DESC", m_DateDoc);
 		
 		
 		return null;
