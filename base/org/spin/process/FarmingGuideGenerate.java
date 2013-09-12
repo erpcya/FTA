@@ -105,9 +105,18 @@ public class FarmingGuideGenerate extends SvrProcess {
 				"AND mg.DateDoc >= rc.ValidFrom " +
 				"AND (mg.DocStatus IN('CO', 'CL') OR mg.DocStatus IS NULL) " +
 				"GROUP BY rc.Qty, rc.ValidFrom " +
-				"ORDER BY rc.ValidFrom DESC", p_AD_Org_ID, p_M_Warehouse_ID, p_DateDoc);		
+				"ORDER BY rc.ValidFrom DESC", p_AD_Org_ID, p_M_Warehouse_ID, p_DateDoc);
+		
+		log.fine("MaxReceipt=" + m_MaxReceipt);
+		
+		if(m_MaxReceipt.compareTo(Env.ZERO) <= 0)
+			throw new AdempiereException("@FTA_ReceptionCapacity_ID@ <= @0@");
+		
 		//	Get Estimated Quantity
 		BigDecimal m_EstimatedQty = m_Farming.getEstimatedQty();
+		
+		log.fine("EstimatedQty=" + m_EstimatedQty);
+		
 		//	Valid Estimated Quantity
 		if(m_EstimatedQty == null
 				|| m_EstimatedQty.equals(Env.ZERO))
@@ -118,12 +127,18 @@ public class FarmingGuideGenerate extends SvrProcess {
 				"WHERE mg.FTA_Farming_ID = ?" +
 				"AND mg.DocStatus IN('CO', 'CL') ", 
 				p_FTA_Farming_ID);
+		
+		log.fine("WeightDelivered=" + m_WeightDelivered);
+		
 		//	Valid Quantity Delivered
 		if(m_WeightDelivered == null)
 			m_WeightDelivered = Env.ZERO;
 		
 		//	Max Weight to Generate
 		BigDecimal m_MaxWeight = m_EstimatedQty.subtract(m_WeightDelivered);
+		
+		log.fine("MaxWeight=" + m_MaxWeight);
+		
 		if(m_MaxWeight.compareTo(Env.ZERO) <= 0)
 			throw new AdempiereException("@EstimatedQty@ <= @QtyDelivered@");
 		
@@ -132,8 +147,10 @@ public class FarmingGuideGenerate extends SvrProcess {
 		
 		//	Valid the Minimum to Generate
 		if(m_MaxReceipt != null
-				&& m_MaxReceipt.compareTo(m_MaxWeight) >= 0)
+				&& m_MaxReceipt.compareTo(m_MaxWeight) <= 0)
 			m_MaxWeight = m_MaxReceipt;
+		
+		log.fine("New MaxWeight=" + m_MaxWeight);
 		
 		//	Weight Generated
 		BigDecimal m_WeightGenerated = Env.ZERO;
