@@ -56,7 +56,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("DateInvoiced"))
+			else if (name.equals("DateDoc"))
 				p_DateDoc = (Timestamp)para.getParameter();
 			else if(name.equals("DocStatus"))
 				p_DocStatus = para.getParameter().toString();
@@ -101,7 +101,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"Inner Join FTA_Farm f On fd.FTA_Farm_ID=f.FTA_Farm_ID \n "
 				+"Where  \n "
 				+"/*Current Process Instance*/ \n "
-				+"ts.AD_PInstance_ID=1000020 \n "
+				+"ts.AD_PInstance_ID=? \n "
 				+"/*Record Weight Completed Or Closed*/ \n "
 				+"And  \n "
 				+"rw.DocStatus In ('CO','CL') \n "
@@ -175,7 +175,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		liquidation.setM_Product_ID(rs.getInt("Category_ID"));
 		liquidation.setNetWeight(Env.ZERO);
 		liquidation.setAmt(Env.ZERO);
-		liquidation.saveEx();
+		liquidation.saveEx(get_TrxName());
 		return liquidation;
 	}
 	
@@ -191,7 +191,6 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 	{
 		MFTAFarmerLiquidationLine liquidationline = new MFTAFarmerLiquidationLine(ctx,0,get_TrxName());
 		
-		liquidationline.set_ValueOfColumn("DocAffected_ID", rs.getInt("T_Selection_ID"));
 		liquidationline.setFTA_FarmerLiquidation_ID(liquidation.getFTA_FarmerLiquidation_ID());
 		liquidationline.setFTA_RecordWeight_ID(rs.getInt("FTA_RecordWeight_ID"));
 		liquidationline.setFTA_CategoryCalc_ID(0);
@@ -204,7 +203,9 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		liquidation.setNetWeight(liquidation.getNetWeight().add(liquidationline.getNetWeight()));
 		liquidation.setAmt(liquidation.getAmt().add(liquidationline.getPrice().multiply(liquidationline.getPayWeight())));
 		
-		liquidationline.saveEx();		
+		liquidationline.saveEx(get_TrxName());
+		liquidation.saveEx(get_TrxName());
+		
 		
 	}
 
@@ -221,7 +222,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		if(!p_DocStatus.equals(DocumentEngine.STATUS_Drafted)){
 			liquidation.setDocAction(p_DocStatus);
 			//liquidation.processIt(p_DocStatus);
-			liquidation.saveEx();
+			liquidation.saveEx(get_TrxName());
 			addLog (liquidation.getC_Invoice_ID(), liquidation.getUpdated(), null, 
 					liquidation.getDocumentNo() /*+ 
 					(liquidation.getProcessMsg() != null && liquidation.getProcessMsg().length() !=0
@@ -234,7 +235,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 	private Timestamp	p_DateDoc			=	null;
 	
 	/**	Document Status				*/
-	private String		p_DocStatus			=	"CO";
+	private String		p_DocStatus			=	"DR";
 	
 	/** Logger	 */
 	private CLogger log = CLogger.getCLogger(FarmerLiquidationGenerate.class);
