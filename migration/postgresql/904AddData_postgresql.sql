@@ -238,11 +238,6 @@ UPDATE AD_WF_Activity SET Processed='Y',Updated=TO_TIMESTAMP('2013-09-12 20:20:4
 UPDATE AD_WF_Process SET Processed='Y', WFState='CC',Updated=TO_TIMESTAMP('2013-09-12 20:20:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_WF_Process_ID=1000009
 ;
 
--- 12/09/2013 08:26:01 PM VET
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO C_DocType (AD_Client_ID,AD_Org_ID,C_DocType_ID,Created,CreatedBy,DocBaseType,DocumentCopies,GL_Category_ID,HasCharges,HasProforma,IsActive,IsCreateCounter,IsDefault,IsDefaultCounterDoc,IsDocNoControlled,IsIndexed,IsInTransit,IsOverwriteDateOnComplete,IsOverwriteSeqOnComplete,IsPickQAConfirm,IsPrepareSplitDocument,IsShipConfirm,IsSOTrx,IsSplitWhenDifference,Name,PrintName,Updated,UpdatedBy) VALUES (11,50001,1000015,TO_TIMESTAMP('2013-09-12 20:26:01','YYYY-MM-DD HH24:MI:SS'),100,'FMG',1,108,'N','N','Y','Y','N','N','Y','Y','N','N','N','N','Y','N','N','N','Guía de Movilización','Guía de Movilización',TO_TIMESTAMP('2013-09-12 20:26:01','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
 -- 12/09/2013 08:26:16 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO C_DocType (AD_Client_ID,AD_Org_ID,C_DocType_ID,Created,CreatedBy,DocBaseType,DocumentCopies,GL_Category_ID,HasCharges,HasProforma,IsActive,IsCreateCounter,IsDefault,IsDefaultCounterDoc,IsDocNoControlled,IsIndexed,IsInTransit,IsOverwriteDateOnComplete,IsOverwriteSeqOnComplete,IsPickQAConfirm,IsPrepareSplitDocument,IsShipConfirm,IsSOTrx,IsSplitWhenDifference,Name,PrintName,Updated,UpdatedBy) VALUES (11,50001,1000016,TO_TIMESTAMP('2013-09-12 20:26:15','YYYY-MM-DD HH24:MI:SS'),100,'FMG',1,108,'N','N','Y','Y','N','N','Y','Y','N','N','N','N','Y','N','N','N','Guías de Movilización','Guía de Movilización',TO_TIMESTAMP('2013-09-12 20:26:15','YYYY-MM-DD HH24:MI:SS'),100)
