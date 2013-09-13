@@ -109,7 +109,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 		
 		log.fine("MaxReceipt=" + m_MaxReceipt);
 		
-		if(m_MaxReceipt.compareTo(Env.ZERO) <= 0)
+		if(m_MaxReceipt != null
+				&& m_MaxReceipt.compareTo(Env.ZERO) <= 0)
 			throw new AdempiereException("@FTA_ReceptionCapacity_ID@ <= @0@");
 		
 		//	Get Estimated Quantity
@@ -157,8 +158,15 @@ public class FarmingGuideGenerate extends SvrProcess {
 		//	Quantity of Guides to Generate
 		int count = 0;
 		// Generate
-		while(m_MaxWeight.compareTo(m_WeightGenerated.add(m_VehicleType.getLoadCapacity())) > 0
+		while(m_MaxWeight.compareTo(m_WeightGenerated) > 0
 				&& p_MaxQty > count){
+
+			//	Valid Remainder
+			BigDecimal m_QtyDeliver = m_VehicleType.getLoadCapacity();
+			if(m_QtyDeliver.add(m_WeightGenerated).compareTo(m_MaxWeight) > 0)
+				m_QtyDeliver = m_MaxWeight.subtract(m_WeightGenerated);
+			if(m_QtyDeliver.compareTo(Env.ZERO) <= 0)
+				break;
 			
 			MFTAMobilizationGuide m_MobilizationGuide = new MFTAMobilizationGuide(getCtx(), 0, get_TrxName());
 			m_MobilizationGuide.setC_DocType_ID(p_C_DocTypeTarget_ID);
@@ -166,7 +174,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_MobilizationGuide.setFTA_Farming_ID(p_FTA_Farming_ID);
 			m_MobilizationGuide.setFTA_VehicleType_ID(p_FTA_VehicleType_ID);
 			m_MobilizationGuide.setM_Warehouse_ID(p_M_Warehouse_ID);
-			m_MobilizationGuide.setQtyToDeliver(m_VehicleType.getLoadCapacity());
+			m_MobilizationGuide.setQtyToDeliver(m_QtyDeliver);
 			//	Verify if Business Partner is not null
 			if(p_C_BPartner_ID != 0)
 				m_MobilizationGuide.setC_BPartner_ID(p_C_BPartner_ID);
@@ -175,7 +183,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_MobilizationGuide.processIt(DocAction.ACTION_Complete);
 			m_MobilizationGuide.saveEx();
 			//	Add Weight
-			m_WeightGenerated = m_WeightGenerated.add(m_VehicleType.getLoadCapacity());
+			m_WeightGenerated = m_WeightGenerated.add(m_QtyDeliver);
 			count ++;
 		}
 		
