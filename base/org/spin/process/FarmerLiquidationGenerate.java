@@ -67,7 +67,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"tsb.PayWeight,/*Pay Weight*/ \n "
 				+"tsb.Price,/*Price*/ \n "
 				+"qa.QualityAnalysis_ID,/*Identifier Quality Analisis*/ \n "
-				+"cc.FTA_CategoryCalc_ID, /*Identifier Category Calc*/ \n "
+				+"cc.FTA_CategoryCalc_ID /*Identifier Category Calc*/ \n "
 				+"From  \n "
 				+"/*Selection Browse*/ \n "
 				+"T_Selection ts  \n "
