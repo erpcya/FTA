@@ -31,6 +31,7 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;
 import org.compiere.model.MRole;
 import org.compiere.process.DocAction;
+import org.compiere.swing.CComboBox;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -49,6 +50,7 @@ public class FarmerCreditAllocation
 	private boolean     m_calculating = false;
 	public int         	m_C_Currency_ID = 0;
 	public int         	m_C_BPartner_ID = 0;
+	protected int 		m_FTA_FarmerCredit_ID = 0;
 	private int         m_noInvoices = 0;
 	private int         m_noPayments = 0;
 	public BigDecimal	totalInv = new BigDecimal(0.0);
@@ -60,11 +62,11 @@ public class FarmerCreditAllocation
 	//  Index	changed if multi-currency
 	private int         i_payment = 7;
 	//
-	private int         i_open = 6;
-	private int         i_discount = 7;
-	private int         i_writeOff = 8; 
-	private int         i_applied = 9;
-	private int 		i_overUnder = 10;
+	private int         i_open = 4;
+	private int         i_discount = 5;
+	private int         i_writeOff = 6; 
+	private int         i_applied = 7;
+	private int 		i_overUnder = 8;
 //	private int			i_multiplier = 10;
 	
 	public int         	m_AD_Org_ID = 0;
@@ -134,7 +136,7 @@ public class FarmerCreditAllocation
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, m_C_BPartner_ID);
-			pstmt.setInt(2, m_C_BPartner_ID);
+			pstmt.setInt(2, m_FTA_FarmerCredit_ID);
 			//if (!isMultiCurrency)
 				//pstmt.setInt(6, m_C_Currency_ID);
 			ResultSet rs = pstmt.executeQuery();
@@ -150,8 +152,8 @@ public class FarmerCreditAllocation
 					line.add(rs.getString(4));      //  3-Currency
 					line.add(rs.getBigDecimal(5));  //  4-PayAmt
 				}*/
-				line.add(rs.getBigDecimal(6));      //  3/5-ConvAmt
-				BigDecimal available = rs.getBigDecimal(7);
+				line.add(rs.getBigDecimal(4));      //  3/5-ConvAmt
+				BigDecimal available = rs.getBigDecimal(5);
 				if (available == null || available.signum() == 0)	//	nothing available
 					continue;
 				line.add(available);				//  4/6-ConvOpen/Available
@@ -243,7 +245,9 @@ public class FarmerCreditAllocation
 			+ "i.MultiplierAP "
 			+ "FROM C_Invoice_v i"		//  corrected for CM/Split
 			+ " INNER JOIN C_Currency c ON (i.C_Currency_ID=c.C_Currency_ID) "
-			+ "WHERE i.IsPaid='N' AND i.Processed='Y'"
+			+ "WHERE i.IsPaid='N' AND i.Processed='Y' " +
+			//	Add Trx
+			"AND i.IsSOTrx = 'Y' AND i.FTA_FarmerCredit_ID = " + m_FTA_FarmerCredit_ID
 			+ " AND i.C_BPartner_ID=?");                                            //  #7
 		//if (!isMultiCurrency)
 			//sql.append(" AND i.C_Currency_ID=?");                                   //  #8
@@ -352,6 +356,41 @@ public class FarmerCreditAllocation
 //		invoiceTable.setColumnClass(i++, BigDecimal.class, true);      	//  10-Multiplier
 		//  Table UI
 		invoiceTable.autoSize();
+	}
+	
+	protected int loadFarmerCredit(CComboBox comboSearch, int p_C_BPartner_ID) {
+		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
+		
+		log.config("getData");
+		
+		try	{
+			PreparedStatement pstmt = DB.prepareStatement("SELECT cr.FTA_FarmerCredit_ID, cr.DocumentNo " +
+					"FROM FTA_FarmerCredit cr " +
+					"WHERE cr.C_BPartner_ID = ?", null);
+			pstmt.setInt(1, p_C_BPartner_ID);
+			ResultSet rs = pstmt.executeQuery();
+			//
+			while (rs.next()) {
+				KeyNamePair pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
+				data.add(pp);
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		comboSearch.removeAllItems();
+		int m_ID = 0;
+		for(KeyNamePair pp : data) {
+			comboSearch.addItem(pp);
+		}
+		
+		if (comboSearch.getItemCount() != 0) {
+			comboSearch.setSelectedIndex(0);
+			KeyNamePair pp = (KeyNamePair) comboSearch.getSelectedItem();
+			m_ID = (pp != null? pp.getKey(): 0);
+		}
+		return m_ID;
 	}
 	
 	public void calculate()
