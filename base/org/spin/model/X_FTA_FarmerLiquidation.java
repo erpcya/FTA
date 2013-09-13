@@ -33,7 +33,7 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130911L;
+	private static final long serialVersionUID = 20130912L;
 
     /** Standard Constructor */
     public X_FTA_FarmerLiquidation (Properties ctx, int FTA_FarmerLiquidation_ID, String trxName)
@@ -331,14 +331,39 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
+	public org.spin.model.I_FTA_CategoryCalc getFTA_CategoryCalc() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_CategoryCalc)MTable.get(getCtx(), org.spin.model.I_FTA_CategoryCalc.Table_Name)
+			.getPO(getFTA_CategoryCalc_ID(), get_TrxName());	}
+
+	/** Set Category Calc.
+		@param FTA_CategoryCalc_ID Category Calc	  */
+	public void setFTA_CategoryCalc_ID (int FTA_CategoryCalc_ID)
+	{
+		if (FTA_CategoryCalc_ID < 1) 
+			set_Value (COLUMNNAME_FTA_CategoryCalc_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_CategoryCalc_ID, Integer.valueOf(FTA_CategoryCalc_ID));
+	}
+
+	/** Get Category Calc.
+		@return Category Calc	  */
+	public int getFTA_CategoryCalc_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CategoryCalc_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_FTA_FarmerCredit getFTA_FarmerCredit() throws RuntimeException
     {
 		return (org.spin.model.I_FTA_FarmerCredit)MTable.get(getCtx(), org.spin.model.I_FTA_FarmerCredit.Table_Name)
 			.getPO(getFTA_FarmerCredit_ID(), get_TrxName());	}
 
-	/** Set Farmer Credit/Debt.
+	/** Set Credit/Loan.
 		@param FTA_FarmerCredit_ID 
-		Farmer Credit or Debts
+		Farmer Credit or Loan
 	  */
 	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID)
 	{
@@ -348,8 +373,8 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 			set_Value (COLUMNNAME_FTA_FarmerCredit_ID, Integer.valueOf(FTA_FarmerCredit_ID));
 	}
 
-	/** Get Farmer Credit/Debt.
-		@return Farmer Credit or Debts
+	/** Get Credit/Loan.
+		@return Farmer Credit or Loan
 	  */
 	public int getFTA_FarmerCredit_ID () 
 	{

@@ -32,7 +32,7 @@ public class X_FTA_FarmerLiquidationLine extends PO implements I_FTA_FarmerLiqui
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130911L;
+	private static final long serialVersionUID = 20130912L;
 
     /** Standard Constructor */
     public X_FTA_FarmerLiquidationLine (Properties ctx, int FTA_FarmerLiquidationLine_ID, String trxName)
@@ -40,7 +40,6 @@ public class X_FTA_FarmerLiquidationLine extends PO implements I_FTA_FarmerLiqui
       super (ctx, FTA_FarmerLiquidationLine_ID, trxName);
       /** if (FTA_FarmerLiquidationLine_ID == 0)
         {
-			setFTA_CategoryCalc_ID (0);
 			setFTA_FarmerLiquidation_ID (0);
 			setFTA_FarmerLiquidationLine_ID (0);
 			setFTA_RecordWeight_ID (0);
@@ -79,31 +78,6 @@ public class X_FTA_FarmerLiquidationLine extends PO implements I_FTA_FarmerLiqui
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public org.spin.model.I_FTA_CategoryCalc getFTA_CategoryCalc() throws RuntimeException
-    {
-		return (org.spin.model.I_FTA_CategoryCalc)MTable.get(getCtx(), org.spin.model.I_FTA_CategoryCalc.Table_Name)
-			.getPO(getFTA_CategoryCalc_ID(), get_TrxName());	}
-
-	/** Set Category Calc.
-		@param FTA_CategoryCalc_ID Category Calc	  */
-	public void setFTA_CategoryCalc_ID (int FTA_CategoryCalc_ID)
-	{
-		if (FTA_CategoryCalc_ID < 1) 
-			set_Value (COLUMNNAME_FTA_CategoryCalc_ID, null);
-		else 
-			set_Value (COLUMNNAME_FTA_CategoryCalc_ID, Integer.valueOf(FTA_CategoryCalc_ID));
-	}
-
-	/** Get Category Calc.
-		@return Category Calc	  */
-	public int getFTA_CategoryCalc_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CategoryCalc_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public org.spin.model.I_FTA_FarmerLiquidation getFTA_FarmerLiquidation() throws RuntimeException
     {
