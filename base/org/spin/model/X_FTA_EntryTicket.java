@@ -31,7 +31,7 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130911L;
+	private static final long serialVersionUID = 20130912L;
 
     /** Standard Constructor */
     public X_FTA_EntryTicket (Properties ctx, int FTA_EntryTicket_ID, String trxName)

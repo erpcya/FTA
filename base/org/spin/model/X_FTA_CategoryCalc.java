@@ -30,7 +30,7 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130911L;
+	private static final long serialVersionUID = 20130912L;
 
     /** Standard Constructor */
     public X_FTA_CategoryCalc (Properties ctx, int FTA_CategoryCalc_ID, String trxName)

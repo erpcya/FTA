@@ -17,8 +17,9 @@ fm.Category_ID,/*Identifier Product*/
 fd.FTA_FarmDivision_ID,/*Identifier Farm Division*/
 f.FTA_Farm_ID,/*Identifier Farm*/
 f.C_BPartner_ID, /*Identifier Business Partner*/
-0.00 As PayWeight,/*Pay Weight*/
-0.00 As Price /*Price*/
+cc.FTA_CategoryCalc_ID, /*Identifier Category Calc*/
+0.00 As PayWeight,
+0.00 As Price
 From 
 /*Record Weight*/
 FTA_RecordWeight rw
@@ -35,6 +36,7 @@ Inner Join FTA_FarmDivision fd On fm.FTA_FarmDivision_ID=fd.FTA_FarmDivision_ID
 /*Farm*/
 Inner Join FTA_Farm f On fd.FTA_Farm_ID=f.FTA_Farm_ID
 /*Category Calc*/
+Inner Join FTA_CategoryCalc cc On fm.Category_ID=cc.M_Product_ID
 Where 
 /*Record Weight Completed Or Closed*/
 rw.DocStatus In ('CO','CL')
@@ -45,4 +47,7 @@ Not Exists (Select 1
 	    Inner Join FTA_FarmerLiquidationLine fll On fl.FTA_FarmerLiquidation_ID= fll.FTA_FarmerLiquidation_ID
 	    Where fll.FTA_RecordWeight_ID=rw.FTA_RecordWeight_ID And fl.DocStatus In ('CO','CL')
 	    )
+/*Only Active Category Calcs*/
+And 
+cc.IsActive='Y'
 ;

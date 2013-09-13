@@ -34,7 +34,7 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130911L;
+	private static final long serialVersionUID = 20130912L;
 
     /** Standard Constructor */
     public X_FTA_Farming (Properties ctx, int FTA_Farming_ID, String trxName)
@@ -120,34 +120,6 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	public int getCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Category_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Order getC_Order() throws RuntimeException
-    {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
-			.getPO(getC_Order_ID(), get_TrxName());	}
-
-	/** Set Order.
-		@param C_Order_ID 
-		Order
-	  */
-	public void setC_Order_ID (int C_Order_ID)
-	{
-		if (C_Order_ID < 1) 
-			set_Value (COLUMNNAME_C_Order_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
-	}
-
-	/** Get Order.
-		@return Order
-	  */
-	public int getC_Order_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -269,9 +241,9 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 		return (org.spin.model.I_FTA_FarmerCredit)MTable.get(getCtx(), org.spin.model.I_FTA_FarmerCredit.Table_Name)
 			.getPO(getFTA_FarmerCredit_ID(), get_TrxName());	}
 
-	/** Set Farmer Credit/Debt.
+	/** Set Credit/Loan.
 		@param FTA_FarmerCredit_ID 
-		Farmer Credit or Debts
+		Farmer Credit or Loan
 	  */
 	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID)
 	{
@@ -281,8 +253,8 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 			set_Value (COLUMNNAME_FTA_FarmerCredit_ID, Integer.valueOf(FTA_FarmerCredit_ID));
 	}
 
-	/** Get Farmer Credit/Debt.
-		@return Farmer Credit or Debts
+	/** Get Credit/Loan.
+		@return Farmer Credit or Loan
 	  */
 	public int getFTA_FarmerCredit_ID () 
 	{
