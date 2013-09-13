@@ -83,21 +83,6 @@ public interface I_FTA_Farming
 
 	public I_M_Product getCategory() throws RuntimeException;
 
-    /** Column name C_Order_ID */
-    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
-
-	/** Set Order.
-	  * Order
-	  */
-	public void setC_Order_ID (int C_Order_ID);
-
-	/** Get Order.
-	  * Order
-	  */
-	public int getC_Order_ID();
-
-	public I_C_Order getC_Order() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -177,13 +162,13 @@ public interface I_FTA_Farming
     /** Column name FTA_FarmerCredit_ID */
     public static final String COLUMNNAME_FTA_FarmerCredit_ID = "FTA_FarmerCredit_ID";
 
-	/** Set Farmer Credit/Debt.
-	  * Farmer Credit or Debts
+	/** Set Credit/Loan.
+	  * Farmer Credit or Loan
 	  */
 	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID);
 
-	/** Get Farmer Credit/Debt.
-	  * Farmer Credit or Debts
+	/** Get Credit/Loan.
+	  * Farmer Credit or Loan
 	  */
 	public int getFTA_FarmerCredit_ID();
 

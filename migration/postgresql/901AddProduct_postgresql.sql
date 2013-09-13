@@ -5565,7 +5565,7 @@ UPDATE AD_WF_EventAudit SET EventType='SC', TextMsg=NULL, WFState='OR',Updated=T
 
 -- 11/09/2013 12:00:36 PM VET
 -- Farming Technical Assistance
-UPDATE FTA_CreditDefinitionLine SET Processed=Y WHERE FTA_CreditDefinition_ID=1000001
+UPDATE FTA_CreditDefinitionLine SET Processed='Y' WHERE FTA_CreditDefinition_ID=1000001
 ;
 
 -- 11/09/2013 12:00:36 PM VET

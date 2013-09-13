@@ -31,7 +31,7 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130911L;
+	private static final long serialVersionUID = 20130912L;
 
     /** Standard Constructor */
     public X_FTA_Allocation (Properties ctx, int FTA_Allocation_ID, String trxName)
@@ -250,9 +250,9 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 		return (org.spin.model.I_FTA_FarmerCredit)MTable.get(getCtx(), org.spin.model.I_FTA_FarmerCredit.Table_Name)
 			.getPO(getFTA_FarmerCredit_ID(), get_TrxName());	}
 
-	/** Set Farmer Credit/Debt.
+	/** Set Credit/Loan.
 		@param FTA_FarmerCredit_ID 
-		Farmer Credit or Debts
+		Farmer Credit or Loan
 	  */
 	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID)
 	{
@@ -262,8 +262,8 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 			set_Value (COLUMNNAME_FTA_FarmerCredit_ID, Integer.valueOf(FTA_FarmerCredit_ID));
 	}
 
-	/** Get Farmer Credit/Debt.
-		@return Farmer Credit or Debts
+	/** Get Credit/Loan.
+		@return Farmer Credit or Loan
 	  */
 	public int getFTA_FarmerCredit_ID () 
 	{
