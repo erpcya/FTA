@@ -47,10 +47,12 @@ import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.plaf.CompiereColor;
+import org.compiere.swing.CComboBox;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextField;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
@@ -117,13 +119,15 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 	//private JLabel currencyLabel = new JLabel();
 	//private VLookup currencyPick = null;
 	//private JCheckBox multiCurrency = new JCheckBox();
-	//private JLabel allocCurrencyLabel = new JLabel();
+	private JLabel allocCurrencyLabel = new JLabel();
 	private StatusBar statusBar = new StatusBar();
 	private JLabel dateLabel = new JLabel();
 	private VDate dateField = new VDate();
 	//private JCheckBox autoWriteOff = new JCheckBox();
 	private JLabel organizationLabel = new JLabel();
 	private VLookup organizationPick = null;
+	private JLabel farmerCreditLabel = new JLabel();
+	private CComboBox farmerCreditSearch = new CComboBox();
 	
 	/**
 	 *  Static Init
@@ -140,6 +144,7 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		autoWriteOff.setText(Msg.getMsg(Env.getCtx(), "AutoWriteOff", true));
 		autoWriteOff.setToolTipText(Msg.getMsg(Env.getCtx(), "AutoWriteOff", false));*/
 		//
+		farmerCreditLabel.setText(Msg.translate(Env.getCtx(), "FTA_FarmerCredit_ID"));
 		parameterPanel.setLayout(parameterLayout);
 		allocationPanel.setLayout(allocationLayout);
 		bpartnerLabel.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
@@ -166,25 +171,28 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		/*currencyLabel.setText(Msg.translate(Env.getCtx(), "C_Currency_ID"));
 		multiCurrency.setText(Msg.getMsg(Env.getCtx(), "MultiCurrency"));
 		multiCurrency.addActionListener(this);*/
-		//allocCurrencyLabel.setText(".");
+		allocCurrencyLabel.setText(".");
 		invoiceScrollPane.setPreferredSize(new Dimension(200, 200));
 		paymentScrollPane.setPreferredSize(new Dimension(200, 200));
 		mainPanel.add(parameterPanel, BorderLayout.NORTH);
 		
 		//org filter
 		organizationLabel.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
-		parameterPanel.add(organizationLabel, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+		parameterPanel.add(organizationLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5,5,5,5), 0, 0));
-		parameterPanel.add(organizationPick, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+		parameterPanel.add(organizationPick, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5,5,5,5), 0, 0));
-		
-		parameterPanel.add(bpartnerLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(bpartnerSearch, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		parameterPanel.add(dateLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(dateField, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		parameterPanel.add(bpartnerLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(bpartnerSearch, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		parameterPanel.add(farmerCreditLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(farmerCreditSearch, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		/*parameterPanel.add(currencyLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
@@ -193,16 +201,16 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		parameterPanel.add(multiCurrency, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		parameterPanel.add(autoWriteOff, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		mainPanel.add(allocationPanel, BorderLayout.SOUTH);*/
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));*/
+		mainPanel.add(allocationPanel, BorderLayout.SOUTH);
 		allocationPanel.add(differenceLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
 		allocationPanel.add(differenceField, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		allocationPanel.add(allocateButton, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		/*allocationPanel.add(allocCurrencyLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));*/
+		allocationPanel.add(allocCurrencyLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		paymentPanel.add(paymentLabel, BorderLayout.NORTH);
 		paymentPanel.add(paymentInfo, BorderLayout.SOUTH);
 		paymentPanel.add(paymentScrollPane, BorderLayout.CENTER);
@@ -267,6 +275,8 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		//  Date set to Login Date
 		dateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		dateField.addVetoableChangeListener(this);
+		
+		farmerCreditSearch.addActionListener(this);
 	}   //  dynInit
 	
 	/**************************************************************************
@@ -288,6 +298,11 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 			saveData();
 			loadBPartner();
 			allocateButton.setEnabled(true);
+		}
+		else if(e.getSource().equals(farmerCreditSearch)){
+			KeyNamePair pp = (KeyNamePair) farmerCreditSearch.getSelectedItem();
+			m_FTA_FarmerCredit_ID = (pp != null? pp.getKey(): 0);
+			loadBPartner();
 		}
 	}   //  actionPerformed
 
@@ -350,6 +365,8 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		{
 			bpartnerSearch.setValue(value);
 			m_C_BPartner_ID = ((Integer)value).intValue();
+			
+			m_FTA_FarmerCredit_ID = loadFarmerCredit(farmerCreditSearch, m_C_BPartner_ID);
 			loadBPartner();
 		}
 		//	Currency
