@@ -156,13 +156,13 @@ public interface I_FTA_Allocation
     /** Column name FTA_FarmerCredit_ID */
     public static final String COLUMNNAME_FTA_FarmerCredit_ID = "FTA_FarmerCredit_ID";
 
-	/** Set Farmer Credit/Debt.
-	  * Farmer Credit or Debts
+	/** Set Credit/Loan.
+	  * Farmer Credit or Loan
 	  */
 	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID);
 
-	/** Get Farmer Credit/Debt.
-	  * Farmer Credit or Debts
+	/** Get Credit/Loan.
+	  * Farmer Credit or Loan
 	  */
 	public int getFTA_FarmerCredit_ID();
 

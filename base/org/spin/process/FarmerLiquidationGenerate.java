@@ -21,12 +21,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.List;
+
 import java.util.Properties;
 
-import org.compiere.model.MInvoice;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.Query;
 import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -34,12 +31,9 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.spin.model.MFTACreditDefinition;
-import org.spin.model.MFTACreditDefinitionLine;
-import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAFarmerLiquidation;
 import org.spin.model.MFTAFarmerLiquidationLine;
-import org.spin.model.MFTAFarming;
+
 
 
 /**
@@ -72,7 +66,8 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"rw.NetWeight,/*Net Weight*/ \n "
 				+"tsb.PayWeight,/*Pay Weight*/ \n "
 				+"tsb.Price,/*Price*/ \n "
-				+"qa.QualityAnalysis_ID/*Identifier Quality Analisis*/ \n "
+				+"qa.QualityAnalysis_ID,/*Identifier Quality Analisis*/ \n "
+				+"cc.FTA_CategoryCalc_ID, /*Identifier Category Calc*/ \n "
 				+"From  \n "
 				+"/*Selection Browse*/ \n "
 				+"T_Selection ts  \n "
@@ -99,6 +94,8 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"Inner Join FTA_FarmDivision fd On fm.FTA_FarmDivision_ID=fd.FTA_FarmDivision_ID \n "
 				+"/*Farm*/ \n "
 				+"Inner Join FTA_Farm f On fd.FTA_Farm_ID=f.FTA_Farm_ID \n "
+				+"/*Category Calc*/ \n "
+				+"Inner Join FTA_CategoryCalc cc On fm.Category_ID=cc.M_Product_ID \n "
 				+"Where  \n "
 				+"/*Current Process Instance*/ \n "
 				+"ts.AD_PInstance_ID=? \n "
@@ -112,6 +109,8 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"	    Inner Join FTA_FarmerLiquidationLine fll On fl.FTA_FarmerLiquidation_ID= fll.FTA_FarmerLiquidation_ID \n "
 				+"	    Where fll.FTA_RecordWeight_ID=rw.FTA_RecordWeight_ID And fl.DocStatus In ('CO','CL') \n "
 				+"	    ) \n "
+				+"And \n " 
+				+"cc.IsActive='Y' \n "
 				+"Order By f.C_BPartner_ID, \n "
 				+"	 fm.Category_ID	" );
 		log.fine("SQL Farmer Liquidation Generate=" + sql);
@@ -175,7 +174,9 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		liquidation.setM_Product_ID(rs.getInt("Category_ID"));
 		liquidation.setNetWeight(Env.ZERO);
 		liquidation.setAmt(Env.ZERO);
+		liquidation.setFTA_CategoryCalc_ID(rs.getInt("FTA_CategoryCalc_ID"));
 		liquidation.saveEx(get_TrxName());
+		
 		return liquidation;
 	}
 	
@@ -193,7 +194,6 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		
 		liquidationline.setFTA_FarmerLiquidation_ID(liquidation.getFTA_FarmerLiquidation_ID());
 		liquidationline.setFTA_RecordWeight_ID(rs.getInt("FTA_RecordWeight_ID"));
-		liquidationline.setFTA_CategoryCalc_ID(0);
 		liquidationline.setNetWeight(rs.getBigDecimal("NetWeight"));
 		liquidationline.setPayWeight(rs.getBigDecimal("PayWeight"));
 		liquidationline.setPriceList(rs.getBigDecimal("Price"));

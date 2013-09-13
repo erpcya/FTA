@@ -202,16 +202,27 @@ public interface I_FTA_FarmerLiquidation
 	  */
 	public String getDocumentNo();
 
+    /** Column name FTA_CategoryCalc_ID */
+    public static final String COLUMNNAME_FTA_CategoryCalc_ID = "FTA_CategoryCalc_ID";
+
+	/** Set Category Calc	  */
+	public void setFTA_CategoryCalc_ID (int FTA_CategoryCalc_ID);
+
+	/** Get Category Calc	  */
+	public int getFTA_CategoryCalc_ID();
+
+	public org.spin.model.I_FTA_CategoryCalc getFTA_CategoryCalc() throws RuntimeException;
+
     /** Column name FTA_FarmerCredit_ID */
     public static final String COLUMNNAME_FTA_FarmerCredit_ID = "FTA_FarmerCredit_ID";
 
-	/** Set Farmer Credit/Debt.
-	  * Farmer Credit or Debts
+	/** Set Credit/Loan.
+	  * Farmer Credit or Loan
 	  */
 	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID);
 
-	/** Get Farmer Credit/Debt.
-	  * Farmer Credit or Debts
+	/** Get Credit/Loan.
+	  * Farmer Credit or Loan
 	  */
 	public int getFTA_FarmerCredit_ID();
 
