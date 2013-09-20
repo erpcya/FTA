@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE VIEW FTA_RV_Liquidation AS
+CREATE OR REPLACE VIEW FTA_RV_Liquidation AS
 SELECT 	
 	-- Documento Liquidación
 	fl.FTA_FarmerLiquidation_ID,  
@@ -61,11 +61,8 @@ SELECT
 	fll.NetWeight,  
 	PayWeight,  
 	Price,  
-	PriceList,  
-	 
-	QualityAnalysis_ID,
-
-	fll.FTA_CategoryCalc_ID,  
+	PriceList,
+	
 	fll.FTA_FarmerLiquidation_ID,  
 	
 	fll.FTA_RecordWeight_ID, 
@@ -73,11 +70,10 @@ SELECT
 	--Almacen
 	io.M_InOut_ID,
 	io.M_WareHouse_ID,
-	M_Locator_ID
-	
+	M_Locator_ID	
 FROM FTA_FarmerLiquidationLine fll
 INNER JOIN FTA_FarmerLiquidation fl ON (fll.FTA_FarmerLiquidation_ID =fl.FTA_FarmerLiquidation_ID)
-INNER JOIN FTA_CategoryCalc cc ON (cc.FTA_CategoryCalc_ID = fll.FTA_CategoryCalc_ID)
+INNER JOIN FTA_CategoryCalc cc ON (cc.FTA_CategoryCalc_ID = fl.FTA_CategoryCalc_ID)
 INNER JOIN FTA_RecordWeight rw ON (rw.FTA_RecordWeight_ID = fll.FTA_RecordWeight_ID)
 LEFT JOIN M_InOut io ON (io.M_InOut_ID= rw.M_InOut_ID)
 LEFT JOIN M_WareHouse wh ON (wh.M_WareHouse_ID  = io.M_WareHouse_ID)
