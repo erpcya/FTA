@@ -384,6 +384,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if (m_processMsg != null)
 			return false;
 		
+		unAllocateLines();
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 		//setAmt(Env.ZERO);
 
@@ -396,6 +397,19 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
         setDocAction(DOCACTION_None);
 		return true;
 	}	//	voidIt
+	
+	/**
+	 * UnAllocate Lines before Void It
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 25/09/2013, 10:55:22
+	 * @return void
+	 */
+	private void unAllocateLines(){
+		MFTAFarming [] m_Lines = getLines(true);
+		for(MFTAFarming m_FTA_Farming : m_Lines){
+			m_FTA_Farming.setFTA_FarmerCredit_ID(0);
+			m_FTA_Farming.saveEx(get_TrxName());
+		}
+	}
 	
 	/**
 	 * 	Close Document.
@@ -428,7 +442,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
 		if (m_processMsg != null)
 			return false;
-
+		voidIt();
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
 		if (m_processMsg != null)
@@ -448,7 +462,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
 		if (m_processMsg != null)
 			return false;
-
+		voidIt();
 		// After reverseAccrual
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
 		if (m_processMsg != null)
