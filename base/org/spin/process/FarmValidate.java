@@ -23,14 +23,12 @@ import org.compiere.process.SvrProcess;
  *
  */
 public class FarmValidate extends SvrProcess {
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.SvrProcess#prepare()
-	 */
+	
+	private int 	p_FTA_Farming_ID = 0;
+	
 	@Override
 	protected void prepare() {
-		// TODO Auto-generated method stub
-
+		p_FTA_Farming_ID = getRecord_ID();
 	}
 
 	/* (non-Javadoc)
@@ -38,7 +36,7 @@ public class FarmValidate extends SvrProcess {
 	 */
 	@Override
 	protected String doIt() throws Exception {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
