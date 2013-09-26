@@ -31,7 +31,7 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130912L;
+	private static final long serialVersionUID = 20130926L;
 
     /** Standard Constructor */
     public X_FTA_QualityAnalysis (Properties ctx, int FTA_QualityAnalysis_ID, String trxName)

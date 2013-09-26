@@ -33,7 +33,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130912L;
+	private static final long serialVersionUID = 20130926L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeight (Properties ctx, int FTA_RecordWeight_ID, String trxName)
@@ -43,6 +43,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
         {
 			setC_DocType_ID (0);
 			setC_UOM_ID (0);
+// @SQL=SELECT MAX(ws.C_UOM_ID) FROM FTA_WeightScale ws INNER JOIN FTA_WeightScale_Role wsr ON(wsr.FTA_WeightScale_ID = ws.FTA_WeightScale_ID) WHERE wsr.AD_Role_ID = @#AD_Role_ID@
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setDocAction (null);

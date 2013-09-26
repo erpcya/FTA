@@ -157,7 +157,7 @@ public class FarmerCreditAllocation
 				if (available == null || available.signum() == 0)	//	nothing available
 					continue;
 				line.add(available);				//  4/6-ConvOpen/Available
-				line.add(Env.ZERO);					//  5/7-Payment
+				line.add(available);				//  5/7-Payment
 //				line.add(rs.getBigDecimal(8));		//  6/8-Multiplier
 				//
 				data.add(line);
@@ -294,8 +294,8 @@ public class FarmerCreditAllocation
 					discount = Env.ZERO;
 				line.add(discount);					//  5/7-ConvAllowedDisc
 				line.add(Env.ZERO);      			//  6/8-WriteOff
-				line.add(Env.ZERO);					// 7/9-Applied
-				line.add(open);				    //  8/10-OverUnder
+				line.add(open);						// 7/9-Applied
+				line.add(open);				    	//  8/10-OverUnder
 
 //				line.add(rs.getBigDecimal(9));		//	8/10-Multiplier
 				//	Add when open <> 0 (i.e. not if no conversion rate)
@@ -358,15 +358,26 @@ public class FarmerCreditAllocation
 		invoiceTable.autoSize();
 	}
 	
+	/**
+	 * Load Data from Farmer Credit
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 26/09/2013, 15:56:12
+	 * @param comboSearch
+	 * @param p_C_BPartner_ID
+	 * @return
+	 * @return int
+	 */
 	protected int loadFarmerCredit(CComboBox comboSearch, int p_C_BPartner_ID) {
 		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
 		
 		log.config("getData");
 		
 		try	{
-			PreparedStatement pstmt = DB.prepareStatement("SELECT cr.FTA_FarmerCredit_ID, cr.DocumentNo " +
+			PreparedStatement pstmt = DB.prepareStatement("SELECT cr.FTA_FarmerCredit_ID, l.Name || ' - ' || cr.DocumentNo " +
 					"FROM FTA_FarmerCredit cr " +
-					"WHERE cr.C_BPartner_ID = ?", null);
+					"INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = cr.FTA_CreditDefinition_ID) " +
+					"INNER JOIN M_Lot l ON(l.M_Lot_ID = cd.PlantingCycle_ID) " +
+					"WHERE cr.C_BPartner_ID = ? " +
+					"AND cr.CreditType IN('C', 'E', 'R')", null);
 			pstmt.setInt(1, p_C_BPartner_ID);
 			ResultSet rs = pstmt.executeQuery();
 			//
@@ -374,8 +385,7 @@ public class FarmerCreditAllocation
 				KeyNamePair pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
 				data.add(pp);
 			}
-			rs.close();
-			pstmt.close();
+			DB.close(rs, pstmt);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

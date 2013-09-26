@@ -139,6 +139,15 @@ public interface I_FTA_Farming
 	/** Get Estimated Yield	  */
 	public BigDecimal getEstimatedYield();
 
+    /** Column name FarmingValidate */
+    public static final String COLUMNNAME_FarmingValidate = "FarmingValidate";
+
+	/** Set Farming Validate	  */
+	public void setFarmingValidate (String FarmingValidate);
+
+	/** Get Farming Validate	  */
+	public String getFarmingValidate();
+
     /** Column name FinancingType */
     public static final String COLUMNNAME_FinancingType = "FinancingType";
 
@@ -222,6 +231,19 @@ public interface I_FTA_Farming
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsValid */
+    public static final String COLUMNNAME_IsValid = "IsValid";
+
+	/** Set Valid.
+	  * Element is valid
+	  */
+	public void setIsValid (boolean IsValid);
+
+	/** Get Valid.
+	  * Element is valid
+	  */
+	public boolean isValid();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

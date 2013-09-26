@@ -63,6 +63,11 @@ public class MFTAFarm extends X_FTA_Farm {
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
+		//	Set Default Values
+		if(newRecord){
+			setIsValid(false);
+		}
+		//	
 		if(getArea() == null
 				|| getArea().equals(Env.ZERO)) {
 			throw new AdempiereException("@Area@ = @0@");

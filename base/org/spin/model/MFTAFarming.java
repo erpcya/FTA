@@ -42,7 +42,12 @@ public class MFTAFarming extends X_FTA_Farming {
 	 */
 	public MFTAFarming(Properties ctx, int FTA_Farming_ID, String trxName) {
 		super(ctx, FTA_Farming_ID, trxName);
-		// TODO Auto-generated constructor stub
+		//	Set Initial Value
+		if(FTA_Farming_ID == 0){
+			setIsValid(false);
+			setFTA_FarmerCredit_ID(0);
+			setStatus(X_FTA_Farming.STATUS_Active);
+		}
 	}
 
 	/**
@@ -63,6 +68,13 @@ public class MFTAFarming extends X_FTA_Farming {
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
+		//	Set Default Values
+		if(newRecord){
+			setIsValid(false);
+			setFTA_FarmerCredit_ID(0);
+			setStatus(X_FTA_Farming.STATUS_Active);
+		}
+		//		
 		if(getArea() == null
 				|| getArea().equals(Env.ZERO)) {
 			throw new AdempiereException("@Area@ = @0@");

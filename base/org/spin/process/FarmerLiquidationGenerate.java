@@ -44,7 +44,6 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 
 	@Override
 	protected void prepare() {
-		// TODO Auto-generated method stub
 		for (ProcessInfoParameter para:getParameter()){
 			String name = para.getParameterName();
 

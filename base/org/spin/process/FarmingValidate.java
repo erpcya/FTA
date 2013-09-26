@@ -16,30 +16,63 @@
  *****************************************************************************/
 package org.spin.process;
 
+import java.math.BigDecimal;
+
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.spin.model.MFTAFarmDivision;
+import org.spin.model.MFTAFarming;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
 public class FarmingValidate extends SvrProcess {
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.SvrProcess#prepare()
-	 */
+	/**	Farming		*/
+	private int 	p_FTA_Farming_ID = 0;
+	
 	@Override
 	protected void prepare() {
-		// TODO Auto-generated method stub
-
+		p_FTA_Farming_ID = getRecord_ID();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.compiere.process.SvrProcess#doIt()
-	 */
+	
 	@Override
 	protected String doIt() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		//	
+		if(p_FTA_Farming_ID == 0)
+			throw new AdempiereException("@FTA_Farming_ID@ = 0");
+		MFTAFarming m_FTA_Farming = new MFTAFarming(getCtx(), p_FTA_Farming_ID, get_TrxName());
+		//	Valid
+		if(m_FTA_Farming.isValid())
+			return "@IsValid@";
+		//	
+		MFTAFarmDivision m_FTA_FarmDivision = (MFTAFarmDivision) m_FTA_Farming.getFTA_FarmDivision();
+		
+		if(!m_FTA_FarmDivision.getFTA_Farm().isValid())
+			throw new AdempiereException("@FTA_Farm_ID@ @invalid@");
+			
+		BigDecimal m_FarmingArea = m_FTA_Farming.getArea();
+		BigDecimal m_Area = m_FTA_FarmDivision.getArea();
+		//	Get Area
+		BigDecimal m_TotalFarmingArea = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(frm.Area) " +
+				"FROM FTA_Farming frm " +
+				"WHERE frm.FTA_Farming_ID <> ? " +
+				"AND frm.FTA_FarmDivision_ID = ? " +
+				"AND frm.Status = ? " +
+				"AND frm.IsActive = ?", 
+				new Object[]{p_FTA_Farming_ID, m_FTA_FarmDivision.getFTA_FarmDivision_ID(), "A", "Y"});
+		//	Set Default Value
+		if(m_TotalFarmingArea == null)
+			m_TotalFarmingArea = Env.ZERO;
+		//	Compare Area
+		if(m_Area.compareTo(m_TotalFarmingArea.add(m_FarmingArea)) > 0){
+			m_FTA_Farming.setIsValid(true);
+			m_FTA_Farming.saveEx();
+		} else
+			throw new AdempiereException("@Area@ > @Area@ @of@ @FTA_FarmDivision_ID@");
+		return "@IsValid@";
 	}
-
 }

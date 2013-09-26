@@ -325,6 +325,10 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				"WHERE fr.Status = 'A' " +
 				"AND fr.FTA_FarmerCredit_ID=?", getFTA_FarmerCredit_ID());
 		
+		if(m_EstimatedQty == null
+				|| m_EstimatedQty.compareTo(Env.ZERO) <= 0)
+			return "@EstimatedQty@ <= @0@";
+		
 		MOrderLine poLine = new MOrderLine (po);
 		poLine.setProduct(product);
 		poLine.setC_UOM_ID(m_ClientInfo.getC_UOM_Weight_ID());
@@ -384,6 +388,10 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if (m_processMsg != null)
 			return false;
 		
+		m_processMsg = validReference();
+		if(m_processMsg != null)
+			return false;
+		
 		unAllocateLines();
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 		//setAmt(Env.ZERO);
@@ -397,6 +405,23 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
         setDocAction(DOCACTION_None);
 		return true;
 	}	//	voidIt
+	
+	/**
+	 * Valid Reference in another record
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 26/09/2013, 15:39:20
+	 * @return
+	 * @return String
+	 */
+	private String validReference(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(et.FTA_EntryTicket_ID) " +
+				"FROM FTA_Farming frm " +
+				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = frm.FTA_Farming_ID) " +
+				"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
+				"WHERE frm.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
+		if(m_Reference_ID != 0)
+			return "@SQLErrorReferenced@";
+		return null;
+	}
 	
 	/**
 	 * UnAllocate Lines before Void It

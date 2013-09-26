@@ -34,7 +34,7 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130912L;
+	private static final long serialVersionUID = 20130926L;
 
     /** Standard Constructor */
     public X_FTA_Farming (Properties ctx, int FTA_Farming_ID, String trxName)
@@ -190,6 +190,20 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 		return bd;
 	}
 
+	/** Set Farming Validate.
+		@param FarmingValidate Farming Validate	  */
+	public void setFarmingValidate (String FarmingValidate)
+	{
+		set_Value (COLUMNNAME_FarmingValidate, FarmingValidate);
+	}
+
+	/** Get Farming Validate.
+		@return Farming Validate	  */
+	public String getFarmingValidate () 
+	{
+		return (String)get_Value(COLUMNNAME_FarmingValidate);
+	}
+
 	/** FinancingType AD_Reference_ID=53515 */
 	public static final int FINANCINGTYPE_AD_Reference_ID=53515;
 	/** Self-financed = S */
@@ -324,6 +338,30 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	public Timestamp getHarvestStartDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_HarvestStartDate);
+	}
+
+	/** Set Valid.
+		@param IsValid 
+		Element is valid
+	  */
+	public void setIsValid (boolean IsValid)
+	{
+		set_Value (COLUMNNAME_IsValid, Boolean.valueOf(IsValid));
+	}
+
+	/** Get Valid.
+		@return Element is valid
+	  */
+	public boolean isValid () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsValid);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Name.
