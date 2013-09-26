@@ -363,13 +363,6 @@ REFERENCES M_Product (M_Product_ID)
 ON UPDATE CASCADE 
 ON DELETE RESTRICT;
 
-
-ALTER TABLE FTA_FarmerLiquidationLine ADD CONSTRAINT FK_FarmerLiquidationLine_CategoryCalc FOREIGN KEY (FTA_CategoryCalc_ID)
-REFERENCES FTA_CategoryCalc (FTA_CategoryCalc_ID)
-ON UPDATE CASCADE 
-ON DELETE RESTRICT;
-
-
 ALTER TABLE FTA_FarmerLiquidationLine ADD CONSTRAINT FK_FarmerLiquidationLine_FarmerLiquidation FOREIGN KEY (FTA_FarmerLiquidation_ID)
 REFERENCES FTA_FarmerLiquidation (FTA_FarmerLiquidation_ID)
 ON UPDATE CASCADE 
