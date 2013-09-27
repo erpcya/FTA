@@ -91,6 +91,9 @@ public class FarmingGuideGenerate extends SvrProcess {
 	protected String doIt() throws Exception {
 		//	Get Farming
 		MFTAFarming m_Farming = new MFTAFarming(getCtx(), p_FTA_Farming_ID, get_TrxName());
+		//	Valid Credit
+		if(m_Farming.getFTA_FarmerCredit_ID() == 0)
+			throw new AdempiereException("@FTA_FarmerCredit_ID@ = @0@");
 		//	Get Vehicle Type
 		MFTAVehicleType m_VehicleType = new MFTAVehicleType(getCtx(), p_FTA_VehicleType_ID, get_TrxName());
 		
