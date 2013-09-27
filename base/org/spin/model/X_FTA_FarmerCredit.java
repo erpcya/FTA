@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130926L;
+	private static final long serialVersionUID = 20130927L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -253,6 +253,8 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public static final String CREDITTYPE_Loan = "L";
 	/** Reception Agreement = R */
 	public static final String CREDITTYPE_ReceptionAgreement = "R";
+	/** Extension = E */
+	public static final String CREDITTYPE_Extension = "E";
 	/** Set Credit Type.
 		@param CreditType 
 		If is Credit, Loan and other
