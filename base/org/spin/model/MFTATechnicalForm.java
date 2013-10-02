@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
+import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
@@ -163,22 +164,15 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		/**
-		MDocType dt = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
+		
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType()))
+		if (!MPeriod.isOpen(getCtx(), getDateDoc(), dt.getDocBaseType(), getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
-		MLine[] lines = getLines(false);
-		if (lines.length == 0)
-		{
-			m_processMsg = "@NoLines@";
-			return DocAction.STATUS_Invalid;
-		}
-		**/
 		
 		//	Add up Amounts
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
@@ -237,8 +231,8 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 			return DocAction.STATUS_Invalid;
 		}
 		//	Implicit Approval
-		//if (!isApproved())
-			//approveIt();
+		if (!isApproved())
+			approveIt();
 		log.info(toString());
 		//
 		
@@ -332,7 +326,8 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
 		if (m_processMsg != null)
 			return false;
-
+		//	Void It
+		voidIt();
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
 		if (m_processMsg != null)
@@ -352,7 +347,8 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
 		if (m_processMsg != null)
 			return false;
-
+		//	Void It
+		voidIt();
 		// After reverseAccrual
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
 		if (m_processMsg != null)
@@ -368,11 +364,35 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 	public boolean reActivateIt()
 	{
 		log.info("reActivateIt - " + toString());
-	//	setProcessed(false);
-		if (reverseCorrectIt())
-			return true;
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+		m_processMsg = validReference();
+		if(m_processMsg != null)
+			return false;
+		// After reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+
 		return false;
 	}	//	reActivateIt
+	
+	/**
+	 * Valid Reference in another record
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 16:05:21
+	 * @return
+	 * @return String
+	 */
+	private String validReference(){
+		/*int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(et.FTA_EntryTicket_ID) " +
+				"FROM FTA_EntryTicket et " +
+				"WHERE et.FTA_MobilizationGuide_ID = ?", getFTA_MobilizationGuide_ID());
+		if(m_Reference_ID != 0)
+			return "@SQLErrorReferenced@";*/
+		return null;
+	}
 	
 	
 	/*************************************************************************

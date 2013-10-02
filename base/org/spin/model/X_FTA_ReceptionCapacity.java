@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_ReceptionCapacity
  *  @author Adempiere (generated) 
@@ -33,7 +34,7 @@ public class X_FTA_ReceptionCapacity extends PO implements I_FTA_ReceptionCapaci
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130927L;
+	private static final long serialVersionUID = 20131002L;
 
     /** Standard Constructor */
     public X_FTA_ReceptionCapacity (Properties ctx, int FTA_ReceptionCapacity_ID, String trxName)
@@ -177,4 +178,12 @@ public class X_FTA_ReceptionCapacity extends PO implements I_FTA_ReceptionCapaci
 	{
 		return (Timestamp)get_Value(COLUMNNAME_ValidFrom);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getValidFrom()));
+    }
 }

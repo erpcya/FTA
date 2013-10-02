@@ -32,7 +32,7 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20130927L;
+	private static final long serialVersionUID = 20131002L;
 
     /** Standard Constructor */
     public X_FTA_TechnicalForm (Properties ctx, int FTA_TechnicalForm_ID, String trxName)
@@ -45,6 +45,8 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 			setFTA_Farm_ID (0);
 			setFTA_TechnicalForm_ID (0);
+			setIsApproved (false);
+// N
 			setProcessed (false);
 			setSalesRep_ID (0);
         } */
@@ -362,6 +364,30 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 	public String getGenerateOrder () 
 	{
 		return (String)get_Value(COLUMNNAME_GenerateOrder);
+	}
+
+	/** Set Approved.
+		@param IsApproved 
+		Indicates if this document requires approval
+	  */
+	public void setIsApproved (boolean IsApproved)
+	{
+		set_Value (COLUMNNAME_IsApproved, Boolean.valueOf(IsApproved));
+	}
+
+	/** Get Approved.
+		@return Indicates if this document requires approval
+	  */
+	public boolean isApproved () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsApproved);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Processed.
