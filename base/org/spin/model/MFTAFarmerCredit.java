@@ -343,7 +343,6 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		
 		//	Set Quantity
 		poLine.setQty(m_EstimatedQty.multiply(rate));
-		poLine.setQtyOrdered(m_EstimatedQty.multiply(rate));
 		//
 		poLine.saveEx();
 		
@@ -516,8 +515,10 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
-
-		return false;
+		
+		setDocAction(DOCACTION_Complete);
+		setProcessed(false);
+		return true;
 	}	//	reActivateIt
 	
 	

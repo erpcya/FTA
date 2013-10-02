@@ -408,8 +408,10 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
-
-		return false;
+		
+		setDocAction(DOCACTION_Complete);
+		setProcessed(false);
+		return true;
 	}	//	reActivateIt
 	
 	

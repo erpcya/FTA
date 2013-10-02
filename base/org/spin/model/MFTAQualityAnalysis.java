@@ -380,11 +380,20 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 	public boolean reActivateIt()
 	{
 		log.info("reActivateIt - " + toString());
-		setProcessed(false);
-		//	
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
 		m_processMsg = validReference();
 		if(m_processMsg != null)
 			return false;
+		// After reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+		
+		setDocAction(DOCACTION_Complete);
+		setProcessed(false);
 		return true;
 	}	//	reActivateIt
 	
