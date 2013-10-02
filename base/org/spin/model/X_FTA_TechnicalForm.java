@@ -92,9 +92,9 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
 		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -120,9 +120,9 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
 		if (C_DocType_ID < 0) 
-			set_Value (COLUMNNAME_C_DocType_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -314,9 +314,9 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 	public void setFTA_Farm_ID (int FTA_Farm_ID)
 	{
 		if (FTA_Farm_ID < 1) 
-			set_Value (COLUMNNAME_FTA_Farm_ID, null);
+			set_ValueNoCheck (COLUMNNAME_FTA_Farm_ID, null);
 		else 
-			set_Value (COLUMNNAME_FTA_Farm_ID, Integer.valueOf(FTA_Farm_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_Farm_ID, Integer.valueOf(FTA_Farm_ID));
 	}
 
 	/** Get Farm.

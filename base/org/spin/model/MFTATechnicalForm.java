@@ -191,7 +191,7 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 	public boolean  approveIt()
 	{
 		log.info("approveIt - " + toString());
-		//setIsApproved(true);
+		setIsApproved(true);
 		return true;
 	}	//	approveIt
 	
@@ -368,15 +368,19 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
+		
 		m_processMsg = validReference();
 		if(m_processMsg != null)
 			return false;
+		
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
-
-		return false;
+		
+		setDocAction(DOCACTION_Complete);
+		setProcessed(false);
+		return true;
 	}	//	reActivateIt
 	
 	/**
