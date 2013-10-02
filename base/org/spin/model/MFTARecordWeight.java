@@ -359,7 +359,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
 		if (m_processMsg != null)
 			return false;
-
+		//	Void It
+		voidIt();
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
 		if (m_processMsg != null)
@@ -379,7 +380,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
 		if (m_processMsg != null)
 			return false;
-
+		//	Void It
+		voidIt();
 		// After reverseAccrual
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
 		if (m_processMsg != null)
@@ -395,12 +397,36 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	public boolean reActivateIt()
 	{
 		log.info("reActivateIt - " + toString());
-	//	setProcessed(false);
-		if (reverseCorrectIt())
-			return true;
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+		m_processMsg = validReference();
+		if(m_processMsg != null)
+			return false;
+		// After reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+
 		return false;
 	}	//	reActivateIt
 	
+	
+	/**
+	 * Valid Reference in another record
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 16:05:21
+	 * @return
+	 * @return String
+	 */
+	private String validReference(){
+		/*int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(et.FTA_EntryTicket_ID) " +
+				"FROM FTA_EntryTicket et " +
+				"WHERE et.FTA_MobilizationGuide_ID = ?", getFTA_MobilizationGuide_ID());
+		if(m_Reference_ID != 0)
+			return "@SQLErrorReferenced@";*/
+		return null;
+	}
 	
 	/*************************************************************************
 	 * 	Get Summary
