@@ -68,7 +68,7 @@ public class FarmingValidate extends SvrProcess {
 		if(m_TotalFarmingArea == null)
 			m_TotalFarmingArea = Env.ZERO;
 		//	Compare Area
-		if(m_Area.compareTo(m_TotalFarmingArea.add(m_FarmingArea)) > 0){
+		if(m_Area.compareTo(m_TotalFarmingArea.add(m_FarmingArea)) >= 0){
 			m_FTA_Farming.setIsValid(true);
 			m_FTA_Farming.saveEx();
 		} else

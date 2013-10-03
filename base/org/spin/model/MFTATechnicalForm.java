@@ -523,8 +523,9 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 			set_TrxName(m_productsToApply, get_TrxName());
 			return m_productsToApply;
 		}
-		List<MFTAProductsToApply> list = new Query(getCtx(), MFTAProductsToApply.Table_Name, "FTA_TechnicalForm_ID=?", get_TrxName())
+		List<MFTAProductsToApply> list = new Query(getCtx(), X_FTA_ProductsToApply.Table_Name, "FTA_TechnicalForm_ID=?", get_TrxName())
 		.setParameters(getFTA_TechnicalForm_ID())
+		.setOrderBy(X_FTA_ProductsToApply.COLUMNNAME_FTA_TechnicalFormLine_ID)
 		.list();
 
 		m_productsToApply = new MFTAProductsToApply[list.size ()];
