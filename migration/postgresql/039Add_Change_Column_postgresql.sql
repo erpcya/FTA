@@ -113,16 +113,6 @@ DELETE FROM AD_Column_Trl WHERE AD_Column_ID=66532
 DELETE FROM AD_Column WHERE AD_Column_ID=66532
 ;
 
--- Aug 12, 2013 11:14:23 AM VET
--- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Beneficiario',PrintName='Beneficiario',Description='Socio del Negocio a quién se hace el pago',Updated=TO_TIMESTAMP('2013-08-12 11:14:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56104 AND AD_Language='es_MX'
-;
-
--- Aug 12, 2013 11:14:39 AM VET
--- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Help='El beneficiario indica el socio del negocio a quién se hará el pago.',Updated=TO_TIMESTAMP('2013-08-12 11:14:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56104 AND AD_Language='es_MX'
-;
-
 -- Aug 12, 2013 11:14:59 AM VET
 -- SFAndroid Contribution
 UPDATE AD_Column SET AD_Element_ID=56104, ColumnName='Beneficiary_ID', Description='Business Partner to whom payment is made', Help='The Beneficiary indicates the Business Partner to whom payment will be made.', Name='Beneficiary',Updated=TO_TIMESTAMP('2013-08-12 11:14:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=66577
