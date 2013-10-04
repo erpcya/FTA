@@ -57,7 +57,8 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 	private int 		m_FTA_TechnicalFormLine_ID = 0;
 	/**	Default Credit			*/
 	private int 		m_defaultFarmerCredit_ID = 0;
-	
+	/**	Generated				*/
+	private int 		m_Created = 0;
 	
 	@Override
 	protected void prepare() {
@@ -149,7 +150,7 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 		m_TechnicalForm.setGenerateOrder("Y");
 		m_TechnicalForm.saveEx();
 		
-		return "";
+		return "@Created@=" + m_Created;
 	}
 	
 	/**
@@ -221,6 +222,7 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 			m_Order.setDocAction(p_DocAction);
 			m_Order.processIt(p_DocAction);
 			m_Order.saveEx();
+			m_Created ++;
 		}
 	}
 }

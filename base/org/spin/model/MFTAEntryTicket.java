@@ -295,7 +295,8 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	private String validReference(){
 		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
 				"FROM FTA_QualityAnalysis qa " +
-				"WHERE qa.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
+				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
+				"AND qa.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
 		if(m_Reference_ID != 0)
 			return "@SQLErrorReferenced@";
 		return null;

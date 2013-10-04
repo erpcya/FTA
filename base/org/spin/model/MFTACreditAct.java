@@ -20,61 +20,51 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Properties;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
-import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction, DocOptions {
+public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOptions {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3057927736413234013L;
+	private static final long serialVersionUID = -4834345645611206771L;
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 13/08/2013, 17:02:52
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 03/10/2013, 21:00:31
 	 * @param ctx
-	 * @param FTA_TechnicalForm_ID
+	 * @param FTA_CreditAct_ID
 	 * @param trxName
 	 */
-	public MFTATechnicalForm(Properties ctx, int FTA_TechnicalForm_ID,
-			String trxName) {
-		super(ctx, FTA_TechnicalForm_ID, trxName);
-		// TODO Auto-generated constructor stub
+	public MFTACreditAct(Properties ctx, int FTA_CreditAct_ID, String trxName) {
+		super(ctx, FTA_CreditAct_ID, trxName);
 	}
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 13/08/2013, 17:02:52
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 03/10/2013, 21:00:31
 	 * @param ctx
 	 * @param rs
 	 * @param trxName
 	 */
-	public MFTATechnicalForm(Properties ctx, ResultSet rs, String trxName) {
+	public MFTACreditAct(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
-	/** Lines					*/
-	private MFTATechnicalFormLine[]		m_lines = null;
-	private MFTAProductsToApply[]		m_productsToApply = null;
 	/**
 	 * 	Get Document Info
 	 *	@return document info (untranslated)
@@ -166,7 +156,6 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
 		//	Std Period open?
@@ -204,7 +193,7 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 	public boolean rejectIt()
 	{
 		log.info("rejectIt - " + toString());
-		//setIsApproved(false);
+		setIsApproved(false);
 		return true;
 	}	//	rejectIt
 	
@@ -226,12 +215,6 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
-		//	Very Lines
-		MFTATechnicalFormLine[] lines = getLines(false);
-		if (lines.length == 0){
-			m_processMsg = "@NoLines@";
-			return DocAction.STATUS_Invalid;
-		}
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -291,6 +274,7 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 			return false;
 		
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
+
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
@@ -300,6 +284,22 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
         setDocAction(DOCACTION_None);
 		return true;
 	}	//	voidIt
+	
+	/**
+	 * Valid Reference in another record
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 16:05:21
+	 * @return
+	 * @return String
+	 */
+	private String validReference(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fc.FTA_FarmerCredit_ID) " +
+				"FROM FTA_FarmerCredit fc " +
+				"WHERE fc.DocStatus NOT IN('VO', 'RE') " +
+				"AND fc.FTA_CreditAct_ID = ?", getFTA_CreditAct_ID());
+		if(m_Reference_ID != 0)
+			return "@SQLErrorReferenced@";
+		return null;
+	}
 	
 	/**
 	 * 	Close Document.
@@ -355,6 +355,7 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 			return false;
 		//	Void It
 		voidIt();
+		
 		// After reverseAccrual
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
 		if (m_processMsg != null)
@@ -374,11 +375,9 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
-		
 		/*m_processMsg = validReference();
 		if(m_processMsg != null)
 			return false;*/
-		
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
@@ -389,22 +388,6 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		return true;
 	}	//	reActivateIt
 	
-	/**
-	 * Valid Reference in another record
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 16:05:21
-	 * @return
-	 * @return String
-	 */
-	private String validReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(o.C_Order_ID) " +
-				"FROM C_Order o " +
-				"WHERE o.DocStatus NOT IN('VO', 'RE') " +
-				"AND o.FTA_TechnicalForm_ID = ?", getFTA_TechnicalForm_ID());
-		if(m_Reference_ID != 0)
-			return "@SQLErrorReferenced@";
-		return null;
-	}
-	
 	
 	/*************************************************************************
 	 * 	Get Summary
@@ -414,9 +397,6 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append(getDocumentNo());
-		//	: Total Lines = 123.00 (#1)
-		sb.append(": ")
-			.append(" (#").append(getLines(false).length).append(")");
 		//	 - Description
 		if (getDescription() != null && getDescription().length() > 0)
 			sb.append(" - ").append(getDescription());
@@ -496,89 +476,7 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
 	
-	/**
-	 * 	Get Lines
-	 *	@param requery requery
-	 *	@return lines
-	 */
-	public MFTATechnicalFormLine[] getLines (boolean requery)
-	{
-		if (m_lines != null && !requery)
-		{
-			set_TrxName(m_lines, get_TrxName());
-			return m_lines;
-		}
-		List<MFTATechnicalFormLine> list = new Query(getCtx(), MFTATechnicalFormLine.Table_Name, "FTA_TechnicalForm_ID=?", get_TrxName())
-		.setParameters(getFTA_TechnicalForm_ID())
-		.list();
-
-		m_lines = new MFTATechnicalFormLine[list.size ()];
-		list.toArray (m_lines);
-		return m_lines;
-	}	//	getLines
-	
-	
-	/**
-	 * 	Get Lines of Product to Apply
-	 *	@param requery requery
-	 *	@return lines
-	 */
-	public MFTAProductsToApply[] getProductToApply (boolean requery)
-	{
-		if (m_productsToApply != null && !requery)
-		{
-			set_TrxName(m_productsToApply, get_TrxName());
-			return m_productsToApply;
-		}
-		List<MFTAProductsToApply> list = new Query(getCtx(), X_FTA_ProductsToApply.Table_Name, "FTA_TechnicalForm_ID=?", get_TrxName())
-		.setParameters(getFTA_TechnicalForm_ID())
-		.setOrderBy(X_FTA_ProductsToApply.COLUMNNAME_FTA_TechnicalFormLine_ID)
-		.list();
-
-		m_productsToApply = new MFTAProductsToApply[list.size ()];
-		list.toArray (m_productsToApply);
-		return m_productsToApply;
-	}	//	getLines
-	
-	
 	@Override
-	protected boolean beforeSave(boolean newRecord) {
-		super.beforeSave(newRecord);
-		//	Set Default Values
-		if(newRecord){
-			setGenerateOrder("N");
-		}
-		return true;
-	}
-	
-	/**
-     *  Set Processed.
-     *  Propagate to Lines
-     *  @param processed processed
-     */
-    public void setProcessed (boolean processed)
-    {
-        super.setProcessed (processed);
-        if (get_ID() <= 0)
-            return;
-        int noLine = DB.executeUpdateEx("UPDATE FTA_TechnicalFormLine " +
-        		"SET Processed=? " +
-        		"WHERE FTA_TechnicalForm_ID=?",
-        		new Object[]{processed, get_ID()},
-        		get_TrxName());
-        m_lines = null;
-        log.fine("setProcessed - " + processed + " - Lines=" + noLine);
-        
-        noLine = DB.executeUpdateEx("UPDATE FTA_ProductsToApply " +
-        		"SET Processed=? " +
-        		"WHERE FTA_TechnicalForm_ID=?",
-        		new Object[]{processed, get_ID()},
-        		get_TrxName());
-        m_productsToApply = null;
-        log.fine("setProcessed - " + processed + " - ProductsToApply=" + noLine);
-    }   //  setProcessed
-    
-    @Override
 	public int customizeValidActions(String docStatus, Object processing,
 			String orderType, String isSOTrx, int AD_Table_ID,
 			String[] docAction, String[] options, int index) {
@@ -600,4 +498,5 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		
 		return index;
 	}
+	
 }
