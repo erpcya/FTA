@@ -246,6 +246,10 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if (m_processMsg != null)
 			return false;
 
+		m_processMsg = validReference();
+		if(m_processMsg != null)
+			return false;
+		
 		MFTACreditDefinitionLine lines[] = getLines(true);
 		// Set Qty and Amt on all lines to be Zero
 		for (MFTACreditDefinitionLine creditLine : lines)
@@ -269,6 +273,23 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
         setDocAction(DOCACTION_None);
 		return true;
 	}	//	voidIt
+	
+
+	/**
+	 * Valid Reference in another record
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 16:05:21
+	 * @return
+	 * @return String
+	 */
+	private String validReference(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fc.FTA_FarmerCredit_ID) " +
+				"FROM FTA_FarmerCredit fc " +
+				"WHERE fc.DocStatus NOT IN('VO', 'RE') " +
+				"AND fc.FTA_CreditDefinition_ID = ?", getFTA_CreditDefinition_ID());
+		if(m_Reference_ID != 0)
+			return "@SQLErrorReferenced@";
+		return null;
+	}
 
 	/**
 	 * 	Set the definite document number after completed

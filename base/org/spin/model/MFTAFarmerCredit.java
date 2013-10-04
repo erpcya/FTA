@@ -416,7 +416,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				"FROM FTA_Farming frm " +
 				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = frm.FTA_Farming_ID) " +
 				"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
-				"WHERE frm.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
+				"WHERE frm.DocStatus NOT IN('VO', 'RE') " +
+				"AND frm.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
 		if(m_Reference_ID != 0)
 			return "@SQLErrorReferenced@";
 		return null;
