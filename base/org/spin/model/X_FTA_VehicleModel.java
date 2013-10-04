@@ -20,11 +20,12 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_CategoryCalc
+/** Generated Model for FTA_VehicleModel
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Persistent 
+public class X_FTA_VehicleModel extends PO implements I_FTA_VehicleModel, I_Persistent 
 {
 
 	/**
@@ -33,21 +34,19 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 	private static final long serialVersionUID = 20131004L;
 
     /** Standard Constructor */
-    public X_FTA_CategoryCalc (Properties ctx, int FTA_CategoryCalc_ID, String trxName)
+    public X_FTA_VehicleModel (Properties ctx, int FTA_VehicleModel_ID, String trxName)
     {
-      super (ctx, FTA_CategoryCalc_ID, trxName);
-      /** if (FTA_CategoryCalc_ID == 0)
+      super (ctx, FTA_VehicleModel_ID, trxName);
+      /** if (FTA_VehicleModel_ID == 0)
         {
-			setAD_Rule_ID (0);
-			setEventType (null);
-			setFTA_CategoryCalc_ID (0);
-			setM_Product_ID (0);
+			setFTA_VehicleBrand_ID (0);
+			setFTA_VehicleModel_ID (0);
 			setName (null);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_CategoryCalc (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_VehicleModel (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -69,35 +68,10 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_CategoryCalc[")
+      StringBuffer sb = new StringBuffer ("X_FTA_VehicleModel[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public I_AD_Rule getAD_Rule() throws RuntimeException
-    {
-		return (I_AD_Rule)MTable.get(getCtx(), I_AD_Rule.Table_Name)
-			.getPO(getAD_Rule_ID(), get_TrxName());	}
-
-	/** Set Rule.
-		@param AD_Rule_ID Rule	  */
-	public void setAD_Rule_ID (int AD_Rule_ID)
-	{
-		if (AD_Rule_ID < 1) 
-			set_Value (COLUMNNAME_AD_Rule_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
-	}
-
-	/** Get Rule.
-		@return Rule	  */
-	public int getAD_Rule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Rule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Description.
 		@param Description 
@@ -116,79 +90,71 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** EventType AD_Reference_ID=53532 */
-	public static final int EVENTTYPE_AD_Reference_ID=53532;
-	/** Liquidation = LI */
-	public static final String EVENTTYPE_Liquidation = "LI";
-	/** Estimate = E */
-	public static final String EVENTTYPE_Estimate = "E";
-	/** Entry Weight = EW */
-	public static final String EVENTTYPE_EntryWeight = "EW";
-	/** Out Weight = OW */
-	public static final String EVENTTYPE_OutWeight = "OW";
-	/** Dried = DR */
-	public static final String EVENTTYPE_Dried = "DR";
-	/** Set Event Type.
-		@param EventType 
-		Type of Event
-	  */
-	public void setEventType (String EventType)
-	{
+	public org.spin.model.I_FTA_VehicleBrand getFTA_VehicleBrand() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_VehicleBrand)MTable.get(getCtx(), org.spin.model.I_FTA_VehicleBrand.Table_Name)
+			.getPO(getFTA_VehicleBrand_ID(), get_TrxName());	}
 
-		set_Value (COLUMNNAME_EventType, EventType);
-	}
-
-	/** Get Event Type.
-		@return Type of Event
-	  */
-	public String getEventType () 
+	/** Set Vehicle Brand.
+		@param FTA_VehicleBrand_ID Vehicle Brand	  */
+	public void setFTA_VehicleBrand_ID (int FTA_VehicleBrand_ID)
 	{
-		return (String)get_Value(COLUMNNAME_EventType);
-	}
-
-	/** Set Category Calc.
-		@param FTA_CategoryCalc_ID Category Calc	  */
-	public void setFTA_CategoryCalc_ID (int FTA_CategoryCalc_ID)
-	{
-		if (FTA_CategoryCalc_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_CategoryCalc_ID, null);
+		if (FTA_VehicleBrand_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_VehicleBrand_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_CategoryCalc_ID, Integer.valueOf(FTA_CategoryCalc_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_VehicleBrand_ID, Integer.valueOf(FTA_VehicleBrand_ID));
 	}
 
-	/** Get Category Calc.
-		@return Category Calc	  */
-	public int getFTA_CategoryCalc_ID () 
+	/** Get Vehicle Brand.
+		@return Vehicle Brand	  */
+	public int getFTA_VehicleBrand_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CategoryCalc_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_VehicleBrand_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
-    {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
-			.getPO(getM_Product_ID(), get_TrxName());	}
-
-	/** Set Product.
-		@param M_Product_ID 
-		Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID)
+	/** Set Vehicle Model.
+		@param FTA_VehicleModel_ID Vehicle Model	  */
+	public void setFTA_VehicleModel_ID (int FTA_VehicleModel_ID)
 	{
-		if (M_Product_ID < 1) 
-			set_Value (COLUMNNAME_M_Product_ID, null);
+		if (FTA_VehicleModel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_VehicleModel_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_VehicleModel_ID, Integer.valueOf(FTA_VehicleModel_ID));
 	}
 
-	/** Get Product.
-		@return Product, Service, Item
-	  */
-	public int getM_Product_ID () 
+	/** Get Vehicle Model.
+		@return Vehicle Model	  */
+	public int getFTA_VehicleModel_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_VehicleModel_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_FTA_VehicleType getFTA_VehicleType() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_VehicleType)MTable.get(getCtx(), org.spin.model.I_FTA_VehicleType.Table_Name)
+			.getPO(getFTA_VehicleType_ID(), get_TrxName());	}
+
+	/** Set Vehicle Type.
+		@param FTA_VehicleType_ID Vehicle Type	  */
+	public void setFTA_VehicleType_ID (int FTA_VehicleType_ID)
+	{
+		if (FTA_VehicleType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_VehicleType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FTA_VehicleType_ID, Integer.valueOf(FTA_VehicleType_ID));
+	}
+
+	/** Get Vehicle Type.
+		@return Vehicle Type	  */
+	public int getFTA_VehicleType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_VehicleType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -210,4 +176,12 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 	{
 		return (String)get_Value(COLUMNNAME_Name);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getName());
+    }
 }

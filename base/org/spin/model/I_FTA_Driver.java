@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for FTA_EntryTicket
+/** Generated Interface for FTA_Driver
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS
  */
-public interface I_FTA_EntryTicket 
+public interface I_FTA_Driver 
 {
 
-    /** TableName=FTA_EntryTicket */
-    public static final String Table_Name = "FTA_EntryTicket";
+    /** TableName=FTA_Driver */
+    public static final String Table_Name = "FTA_Driver";
 
-    /** AD_Table_ID=53559 */
+    /** AD_Table_ID=53611 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -78,21 +78,6 @@ public interface I_FTA_EntryTicket
 
 	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
-
-	public I_C_DocType getC_DocType() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -109,19 +94,6 @@ public interface I_FTA_EntryTicket
 	  */
 	public int getCreatedBy();
 
-    /** Column name DateDoc */
-    public static final String COLUMNNAME_DateDoc = "DateDoc";
-
-	/** Set Document Date.
-	  * Date of the Document
-	  */
-	public void setDateDoc (Timestamp DateDoc);
-
-	/** Get Document Date.
-	  * Date of the Document
-	  */
-	public Timestamp getDateDoc();
-
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -135,54 +107,6 @@ public interface I_FTA_EntryTicket
 	  */
 	public String getDescription();
 
-    /** Column name DocAction */
-    public static final String COLUMNNAME_DocAction = "DocAction";
-
-	/** Set Document Action.
-	  * The targeted status of the document
-	  */
-	public void setDocAction (String DocAction);
-
-	/** Get Document Action.
-	  * The targeted status of the document
-	  */
-	public String getDocAction();
-
-    /** Column name DocStatus */
-    public static final String COLUMNNAME_DocStatus = "DocStatus";
-
-	/** Set Document Status.
-	  * The current status of the document
-	  */
-	public void setDocStatus (String DocStatus);
-
-	/** Get Document Status.
-	  * The current status of the document
-	  */
-	public String getDocStatus();
-
-    /** Column name DocumentNo */
-    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
-
-	/** Set Document No.
-	  * Document sequence number of the document
-	  */
-	public void setDocumentNo (String DocumentNo);
-
-	/** Get Document No.
-	  * Document sequence number of the document
-	  */
-	public String getDocumentNo();
-
-    /** Column name Ext_Guide */
-    public static final String COLUMNNAME_Ext_Guide = "Ext_Guide";
-
-	/** Set Ext. Guide	  */
-	public void setExt_Guide (String Ext_Guide);
-
-	/** Get Ext. Guide	  */
-	public String getExt_Guide();
-
     /** Column name FTA_Driver_ID */
     public static final String COLUMNNAME_FTA_Driver_ID = "FTA_Driver_ID";
 
@@ -191,39 +115,6 @@ public interface I_FTA_EntryTicket
 
 	/** Get Driver	  */
 	public int getFTA_Driver_ID();
-
-	public org.spin.model.I_FTA_Driver getFTA_Driver() throws RuntimeException;
-
-    /** Column name FTA_EntryTicket_ID */
-    public static final String COLUMNNAME_FTA_EntryTicket_ID = "FTA_EntryTicket_ID";
-
-	/** Set Entry Ticket	  */
-	public void setFTA_EntryTicket_ID (int FTA_EntryTicket_ID);
-
-	/** Get Entry Ticket	  */
-	public int getFTA_EntryTicket_ID();
-
-    /** Column name FTA_MobilizationGuide_ID */
-    public static final String COLUMNNAME_FTA_MobilizationGuide_ID = "FTA_MobilizationGuide_ID";
-
-	/** Set Mobilization Guide	  */
-	public void setFTA_MobilizationGuide_ID (int FTA_MobilizationGuide_ID);
-
-	/** Get Mobilization Guide	  */
-	public int getFTA_MobilizationGuide_ID();
-
-	public org.spin.model.I_FTA_MobilizationGuide getFTA_MobilizationGuide() throws RuntimeException;
-
-    /** Column name FTA_Vehicle_ID */
-    public static final String COLUMNNAME_FTA_Vehicle_ID = "FTA_Vehicle_ID";
-
-	/** Set Vehicle	  */
-	public void setFTA_Vehicle_ID (int FTA_Vehicle_ID);
-
-	/** Get Vehicle	  */
-	public int getFTA_Vehicle_ID();
-
-	public org.spin.model.I_FTA_Vehicle getFTA_Vehicle() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -237,19 +128,6 @@ public interface I_FTA_EntryTicket
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name IsApproved */
-    public static final String COLUMNNAME_IsApproved = "IsApproved";
-
-	/** Set Approved.
-	  * Indicates if this document requires approval
-	  */
-	public void setIsApproved (boolean IsApproved);
-
-	/** Get Approved.
-	  * Indicates if this document requires approval
-	  */
-	public boolean isApproved();
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
@@ -266,31 +144,18 @@ public interface I_FTA_EntryTicket
 
 	public I_M_Shipper getM_Shipper() throws RuntimeException;
 
-    /** Column name Processed */
-    public static final String COLUMNNAME_Processed = "Processed";
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
 
-	/** Set Processed.
-	  * The document has been processed
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public void setProcessed (boolean Processed);
+	public void setName (String Name);
 
-	/** Get Processed.
-	  * The document has been processed
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public boolean isProcessed();
-
-    /** Column name ReferenceNo */
-    public static final String COLUMNNAME_ReferenceNo = "ReferenceNo";
-
-	/** Set Reference No.
-	  * Your customer or vendor number at the Business Partner's site
-	  */
-	public void setReferenceNo (String ReferenceNo);
-
-	/** Get Reference No.
-	  * Your customer or vendor number at the Business Partner's site
-	  */
-	public String getReferenceNo();
+	public String getName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -307,4 +172,17 @@ public interface I_FTA_EntryTicket
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }

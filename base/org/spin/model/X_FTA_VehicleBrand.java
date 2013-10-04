@@ -22,10 +22,10 @@ import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_ObservationType
+/** Generated Model for FTA_VehicleBrand
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_ObservationType extends PO implements I_FTA_ObservationType, I_Persistent 
+public class X_FTA_VehicleBrand extends PO implements I_FTA_VehicleBrand, I_Persistent 
 {
 
 	/**
@@ -34,19 +34,18 @@ public class X_FTA_ObservationType extends PO implements I_FTA_ObservationType, 
 	private static final long serialVersionUID = 20131004L;
 
     /** Standard Constructor */
-    public X_FTA_ObservationType (Properties ctx, int FTA_ObservationType_ID, String trxName)
+    public X_FTA_VehicleBrand (Properties ctx, int FTA_VehicleBrand_ID, String trxName)
     {
-      super (ctx, FTA_ObservationType_ID, trxName);
-      /** if (FTA_ObservationType_ID == 0)
+      super (ctx, FTA_VehicleBrand_ID, trxName);
+      /** if (FTA_VehicleBrand_ID == 0)
         {
-			setFTA_ObservationType_ID (0);
+			setFTA_VehicleBrand_ID (0);
 			setName (null);
-			setValue (null);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_ObservationType (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_VehicleBrand (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -68,7 +67,7 @@ public class X_FTA_ObservationType extends PO implements I_FTA_ObservationType, 
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_ObservationType[")
+      StringBuffer sb = new StringBuffer ("X_FTA_VehicleBrand[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -90,21 +89,21 @@ public class X_FTA_ObservationType extends PO implements I_FTA_ObservationType, 
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Observation Type.
-		@param FTA_ObservationType_ID Observation Type	  */
-	public void setFTA_ObservationType_ID (int FTA_ObservationType_ID)
+	/** Set Vehicle Brand.
+		@param FTA_VehicleBrand_ID Vehicle Brand	  */
+	public void setFTA_VehicleBrand_ID (int FTA_VehicleBrand_ID)
 	{
-		if (FTA_ObservationType_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_ObservationType_ID, null);
+		if (FTA_VehicleBrand_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_VehicleBrand_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_ObservationType_ID, Integer.valueOf(FTA_ObservationType_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_VehicleBrand_ID, Integer.valueOf(FTA_VehicleBrand_ID));
 	}
 
-	/** Get Observation Type.
-		@return Observation Type	  */
-	public int getFTA_ObservationType_ID () 
+	/** Get Vehicle Brand.
+		@return Vehicle Brand	  */
+	public int getFTA_VehicleBrand_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_ObservationType_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_VehicleBrand_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -134,21 +133,4 @@ public class X_FTA_ObservationType extends PO implements I_FTA_ObservationType, 
     {
         return new KeyNamePair(get_ID(), getName());
     }
-
-	/** Set Search Key.
-		@param Value 
-		Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value)
-	{
-		set_Value (COLUMNNAME_Value, Value);
-	}
-
-	/** Get Search Key.
-		@return Search key for the record in the format required - must be unique
-	  */
-	public String getValue () 
-	{
-		return (String)get_Value(COLUMNNAME_Value);
-	}
 }

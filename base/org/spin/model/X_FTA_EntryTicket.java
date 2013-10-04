@@ -31,7 +31,7 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131002L;
+	private static final long serialVersionUID = 20131004L;
 
     /** Standard Constructor */
     public X_FTA_EntryTicket (Properties ctx, int FTA_EntryTicket_ID, String trxName)
@@ -43,8 +43,10 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 			setC_DocType_ID (0);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
+			setFTA_Driver_ID (0);
 			setFTA_EntryTicket_ID (0);
 			setFTA_MobilizationGuide_ID (0);
+			setFTA_Vehicle_ID (0);
 			setIsApproved (false);
         } */
     }
@@ -290,6 +292,31 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 		return (String)get_Value(COLUMNNAME_Ext_Guide);
 	}
 
+	public org.spin.model.I_FTA_Driver getFTA_Driver() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_Driver)MTable.get(getCtx(), org.spin.model.I_FTA_Driver.Table_Name)
+			.getPO(getFTA_Driver_ID(), get_TrxName());	}
+
+	/** Set Driver.
+		@param FTA_Driver_ID Driver	  */
+	public void setFTA_Driver_ID (int FTA_Driver_ID)
+	{
+		if (FTA_Driver_ID < 1) 
+			set_Value (COLUMNNAME_FTA_Driver_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_Driver_ID, Integer.valueOf(FTA_Driver_ID));
+	}
+
+	/** Get Driver.
+		@return Driver	  */
+	public int getFTA_Driver_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_Driver_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Entry Ticket.
 		@param FTA_EntryTicket_ID Entry Ticket	  */
 	public void setFTA_EntryTicket_ID (int FTA_EntryTicket_ID)
@@ -335,6 +362,31 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_FTA_Vehicle getFTA_Vehicle() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_Vehicle)MTable.get(getCtx(), org.spin.model.I_FTA_Vehicle.Table_Name)
+			.getPO(getFTA_Vehicle_ID(), get_TrxName());	}
+
+	/** Set Vehicle.
+		@param FTA_Vehicle_ID Vehicle	  */
+	public void setFTA_Vehicle_ID (int FTA_Vehicle_ID)
+	{
+		if (FTA_Vehicle_ID < 1) 
+			set_Value (COLUMNNAME_FTA_Vehicle_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_Vehicle_ID, Integer.valueOf(FTA_Vehicle_ID));
+	}
+
+	/** Get Vehicle.
+		@return Vehicle	  */
+	public int getFTA_Vehicle_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_Vehicle_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Approved.
 		@param IsApproved 
 		Indicates if this document requires approval
@@ -357,6 +409,34 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	public I_M_Shipper getM_Shipper() throws RuntimeException
+    {
+		return (I_M_Shipper)MTable.get(getCtx(), I_M_Shipper.Table_Name)
+			.getPO(getM_Shipper_ID(), get_TrxName());	}
+
+	/** Set Shipper.
+		@param M_Shipper_ID 
+		Method or manner of product delivery
+	  */
+	public void setM_Shipper_ID (int M_Shipper_ID)
+	{
+		if (M_Shipper_ID < 1) 
+			set_Value (COLUMNNAME_M_Shipper_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
+	}
+
+	/** Get Shipper.
+		@return Method or manner of product delivery
+	  */
+	public int getM_Shipper_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Shipper_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Processed.

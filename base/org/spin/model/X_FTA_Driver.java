@@ -20,11 +20,12 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_CategoryCalc
+/** Generated Model for FTA_Driver
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Persistent 
+public class X_FTA_Driver extends PO implements I_FTA_Driver, I_Persistent 
 {
 
 	/**
@@ -33,21 +34,19 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 	private static final long serialVersionUID = 20131004L;
 
     /** Standard Constructor */
-    public X_FTA_CategoryCalc (Properties ctx, int FTA_CategoryCalc_ID, String trxName)
+    public X_FTA_Driver (Properties ctx, int FTA_Driver_ID, String trxName)
     {
-      super (ctx, FTA_CategoryCalc_ID, trxName);
-      /** if (FTA_CategoryCalc_ID == 0)
+      super (ctx, FTA_Driver_ID, trxName);
+      /** if (FTA_Driver_ID == 0)
         {
-			setAD_Rule_ID (0);
-			setEventType (null);
-			setFTA_CategoryCalc_ID (0);
-			setM_Product_ID (0);
+			setFTA_Driver_ID (0);
 			setName (null);
+			setValue (null);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_CategoryCalc (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_Driver (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -69,31 +68,34 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_CategoryCalc[")
+      StringBuffer sb = new StringBuffer ("X_FTA_Driver[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	public I_AD_Rule getAD_Rule() throws RuntimeException
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_AD_Rule)MTable.get(getCtx(), I_AD_Rule.Table_Name)
-			.getPO(getAD_Rule_ID(), get_TrxName());	}
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
-	/** Set Rule.
-		@param AD_Rule_ID Rule	  */
-	public void setAD_Rule_ID (int AD_Rule_ID)
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (AD_Rule_ID < 1) 
-			set_Value (COLUMNNAME_AD_Rule_ID, null);
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
-			set_Value (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
-	/** Get Rule.
-		@return Rule	  */
-	public int getAD_Rule_ID () 
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Rule_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -116,79 +118,49 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** EventType AD_Reference_ID=53532 */
-	public static final int EVENTTYPE_AD_Reference_ID=53532;
-	/** Liquidation = LI */
-	public static final String EVENTTYPE_Liquidation = "LI";
-	/** Estimate = E */
-	public static final String EVENTTYPE_Estimate = "E";
-	/** Entry Weight = EW */
-	public static final String EVENTTYPE_EntryWeight = "EW";
-	/** Out Weight = OW */
-	public static final String EVENTTYPE_OutWeight = "OW";
-	/** Dried = DR */
-	public static final String EVENTTYPE_Dried = "DR";
-	/** Set Event Type.
-		@param EventType 
-		Type of Event
-	  */
-	public void setEventType (String EventType)
+	/** Set Driver.
+		@param FTA_Driver_ID Driver	  */
+	public void setFTA_Driver_ID (int FTA_Driver_ID)
 	{
-
-		set_Value (COLUMNNAME_EventType, EventType);
-	}
-
-	/** Get Event Type.
-		@return Type of Event
-	  */
-	public String getEventType () 
-	{
-		return (String)get_Value(COLUMNNAME_EventType);
-	}
-
-	/** Set Category Calc.
-		@param FTA_CategoryCalc_ID Category Calc	  */
-	public void setFTA_CategoryCalc_ID (int FTA_CategoryCalc_ID)
-	{
-		if (FTA_CategoryCalc_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_CategoryCalc_ID, null);
+		if (FTA_Driver_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_Driver_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_CategoryCalc_ID, Integer.valueOf(FTA_CategoryCalc_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_Driver_ID, Integer.valueOf(FTA_Driver_ID));
 	}
 
-	/** Get Category Calc.
-		@return Category Calc	  */
-	public int getFTA_CategoryCalc_ID () 
+	/** Get Driver.
+		@return Driver	  */
+	public int getFTA_Driver_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CategoryCalc_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_Driver_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public I_M_Shipper getM_Shipper() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
-			.getPO(getM_Product_ID(), get_TrxName());	}
+		return (I_M_Shipper)MTable.get(getCtx(), I_M_Shipper.Table_Name)
+			.getPO(getM_Shipper_ID(), get_TrxName());	}
 
-	/** Set Product.
-		@param M_Product_ID 
-		Product, Service, Item
+	/** Set Shipper.
+		@param M_Shipper_ID 
+		Method or manner of product delivery
 	  */
-	public void setM_Product_ID (int M_Product_ID)
+	public void setM_Shipper_ID (int M_Shipper_ID)
 	{
-		if (M_Product_ID < 1) 
-			set_Value (COLUMNNAME_M_Product_ID, null);
+		if (M_Shipper_ID < 1) 
+			set_Value (COLUMNNAME_M_Shipper_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+			set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
 	}
 
-	/** Get Product.
-		@return Product, Service, Item
+	/** Get Shipper.
+		@return Method or manner of product delivery
 	  */
-	public int getM_Product_ID () 
+	public int getM_Shipper_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Shipper_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -210,4 +182,29 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 	{
 		return (String)get_Value(COLUMNNAME_Name);
 	}
+
+	/** Set Search Key.
+		@param Value 
+		Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value)
+	{
+		set_Value (COLUMNNAME_Value, Value);
+	}
+
+	/** Get Search Key.
+		@return Search key for the record in the format required - must be unique
+	  */
+	public String getValue () 
+	{
+		return (String)get_Value(COLUMNNAME_Value);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getValue());
+    }
 }
