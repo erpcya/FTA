@@ -32,7 +32,7 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131002L;
+	private static final long serialVersionUID = 20131004L;
 
     /** Standard Constructor */
     public X_FTA_TechnicalForm (Properties ctx, int FTA_TechnicalForm_ID, String trxName)
@@ -43,6 +43,7 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 			setC_BPartner_ID (0);
 			setC_DocType_ID (0);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
+// @#Date@
 			setFTA_Farm_ID (0);
 			setFTA_TechnicalForm_ID (0);
 			setIsApproved (false);

@@ -275,21 +275,6 @@ public interface I_FTA_RecordWeight
 	  */
 	public boolean isSOTrx();
 
-    /** Column name M_InOut_ID */
-    public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
-
-	/** Set Shipment/Receipt.
-	  * Material Shipment Document
-	  */
-	public void setM_InOut_ID (int M_InOut_ID);
-
-	/** Get Shipment/Receipt.
-	  * Material Shipment Document
-	  */
-	public int getM_InOut_ID();
-
-	public I_M_InOut getM_InOut() throws RuntimeException;
-
     /** Column name NetWeight */
     public static final String COLUMNNAME_NetWeight = "NetWeight";
 

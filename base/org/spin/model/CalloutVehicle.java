@@ -21,18 +21,16 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class CallOutEntryTicket extends CalloutEngine {
+public class CalloutVehicle extends CalloutEngine {
 
 	/**
-	 * Set the Business PArtner in the Entry Ticket
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 04/09/2013, 10:44:16
+	 * Set Vehicle Name from Brand and Model
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 04/10/2013, 15:45:27
 	 * @param ctx
 	 * @param WindowNo
 	 * @param mTab
@@ -41,44 +39,33 @@ public class CallOutEntryTicket extends CalloutEngine {
 	 * @return
 	 * @return String
 	 */
-	public String mobilizationGuide (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
-		Integer m_FTA_MobilizationGuide_ID = (Integer)value;
-		if (m_FTA_MobilizationGuide_ID == null || m_FTA_MobilizationGuide_ID.intValue() == 0)
+	public String name (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		Integer m_ID = (Integer)value;
+		if (m_ID == null || m_ID.intValue() == 0)
 			return "";
 		
-		//	get Mobilization Guide
-		String sql = new String("SELECT f.C_BPartner_ID " +
-				"FROM FTA_Farm f " +
-				"INNER JOIN FTA_FarmDivision fd ON(fd.FTA_Farm_ID = f.FTA_Farm_ID) " +
-				"INNER JOIN FTA_Farming fg ON(fg.FTA_FarmDivision_ID = fd.FTA_FarmDivision_ID) " +
-				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = fg.FTA_Farming_ID) " +
-				"WHERE mg.FTA_MobilizationGuide_ID = ?");
-		//
-		int m_C_BPartner_ID = DB.getSQLValue(null, sql, m_FTA_MobilizationGuide_ID);
-		//	Set Business Partner
-		mTab.setValue("C_BPartner_ID", m_C_BPartner_ID);
+		String name = mTab.get_ValueAsString("Name");
+		
+		//	Brand
+		Integer m_FTA_VehicleBrand_ID = (Integer) mTab.getValue("FTA_VehicleBrand_ID");
+		if (m_FTA_VehicleBrand_ID != null 
+				&& m_FTA_VehicleBrand_ID.intValue() != 0){
+			MFTAVehicleBrand brand = new MFTAVehicleBrand(ctx, m_FTA_VehicleBrand_ID.intValue(), null);
+			name = brand.getName();
+		}
+		//	Model
+		Integer m_FTA_VehicleModel_ID = (Integer) mTab.getValue("FTA_VehicleModel_ID");
+		if (m_FTA_VehicleModel_ID != null 
+				&& m_FTA_VehicleModel_ID.intValue() != 0){
+			MFTAVehicleModel model = new MFTAVehicleModel(ctx, m_FTA_VehicleModel_ID.intValue(), null);
+			if(name != null)
+				name += " " + model.getName();
+			else
+				name = model.getName();
+		}
+		
+		mTab.setValue("Name", name);
 		
 		return "";
 	}
-	
-	/**
-	 * Set Concext Shipper
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 04/10/2013, 16:19:10
-	 * @param ctx
-	 * @param WindowNo
-	 * @param mTab
-	 * @param mField
-	 * @param value
-	 * @return
-	 * @return String
-	 */
-	public String shipper (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
-		Integer m_M_Shipper_ID = (Integer)value;
-		if (m_M_Shipper_ID == null || m_M_Shipper_ID.intValue() == 0)
-			Env.setContext(ctx, WindowNo, "M_Shipper_ID", 1);
-		
-		return "";
-	}
-	
-	
 }
