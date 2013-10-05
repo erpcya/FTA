@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_CreditAct
  *  @author Adempiere (generated) 
@@ -31,7 +32,7 @@ public class X_FTA_CreditAct extends PO implements I_FTA_CreditAct, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131004L;
+	private static final long serialVersionUID = 20131005L;
 
     /** Standard Constructor */
     public X_FTA_CreditAct (Properties ctx, int FTA_CreditAct_ID, String trxName)
@@ -249,6 +250,14 @@ public class X_FTA_CreditAct extends PO implements I_FTA_CreditAct, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getDocumentNo());
+    }
 
 	/** Set Credit Act.
 		@param FTA_CreditAct_ID Credit Act	  */

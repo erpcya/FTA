@@ -19,10 +19,13 @@ package org.spin.process;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MClientInfo;
+import org.compiere.model.MProduct;
+import org.compiere.model.MUOMConversion;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.spin.model.MFTAFarming;
@@ -93,7 +96,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 		MFTAFarming m_Farming = new MFTAFarming(getCtx(), p_FTA_Farming_ID, get_TrxName());
 		//	Valid Credit
 		if(m_Farming.getFTA_FarmerCredit_ID() == 0)
-			throw new AdempiereException("@FTA_FarmerCredit_ID@ = @0@");
+			throw new AdempiereUserError("@FTA_FarmerCredit_ID@ = @0@");
 		//	Get Vehicle Type
 		MFTAVehicleType m_VehicleType = new MFTAVehicleType(getCtx(), p_FTA_VehicleType_ID, get_TrxName());
 		
@@ -114,17 +117,33 @@ public class FarmingGuideGenerate extends SvrProcess {
 		
 		if(m_MaxReceipt != null
 				&& m_MaxReceipt.compareTo(Env.ZERO) <= 0)
-			throw new AdempiereException("@FTA_ReceptionCapacity_ID@ <= @0@");
+			throw new AdempiereUserError("@FTA_ReceptionCapacity_ID@ <= @0@");
+		
+		MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
+		if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
+			return "@C_UOM_Weight_ID@ = @NotFound@";
 		
 		//	Get Estimated Quantity
 		BigDecimal m_EstimatedQty = m_Farming.getEstimatedQty();
+		
+		MProduct product = (MProduct) m_Farming.getCategory();
+		//	Rate Convert
+		BigDecimal rate = MUOMConversion.getProductRateTo(Env.getCtx(), 
+				product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
+		//	Valid Conversion
+		if(rate == null)
+			throw new AdempiereUserError("@NoUOMConversion@");
 		
 		log.fine("EstimatedQty=" + m_EstimatedQty);
 		
 		//	Valid Estimated Quantity
 		if(m_EstimatedQty == null
 				|| m_EstimatedQty.equals(Env.ZERO))
-			throw new AdempiereException("@EstimatedQty@ = @0@");
+			throw new AdempiereUserError("@EstimatedQty@ = @0@");
+
+		//	Convert
+		m_EstimatedQty = m_EstimatedQty.multiply(rate);
+		
 		//	Quantity Delivered
 		BigDecimal m_WeightDelivered = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(mg.QtyToDeliver) " +
 				"FROM FTA_MobilizationGuide mg " +
@@ -144,10 +163,10 @@ public class FarmingGuideGenerate extends SvrProcess {
 		log.fine("MaxWeight=" + m_MaxWeight);
 		
 		if(m_MaxWeight.compareTo(Env.ZERO) <= 0)
-			throw new AdempiereException("@EstimatedQty@ <= @QtyDelivered@");
+			throw new AdempiereUserError("@EstimatedQty@ <= @QtyDelivered@");
 		
 		if(p_MaxQty <= 0)
-			throw new AdempiereException("@MaxQty@ <= @0@");
+			throw new AdempiereUserError("@MaxQty@ <= @0@");
 		
 		//	Valid the Minimum to Generate
 		if(m_MaxReceipt != null

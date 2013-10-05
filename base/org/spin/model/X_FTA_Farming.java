@@ -34,7 +34,7 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131004L;
+	private static final long serialVersionUID = 20131005L;
 
     /** Standard Constructor */
     public X_FTA_Farming (Properties ctx, int FTA_Farming_ID, String trxName)
@@ -125,6 +125,34 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException
+    {
+		return (I_C_OrderLine)MTable.get(getCtx(), I_C_OrderLine.Table_Name)
+			.getPO(getC_OrderLine_ID(), get_TrxName());	}
+
+	/** Set Sales Order Line.
+		@param C_OrderLine_ID 
+		Sales Order Line
+	  */
+	public void setC_OrderLine_ID (int C_OrderLine_ID)
+	{
+		if (C_OrderLine_ID < 1) 
+			set_Value (COLUMNNAME_C_OrderLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+	}
+
+	/** Get Sales Order Line.
+		@return Sales Order Line
+	  */
+	public int getC_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -188,6 +216,20 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Estimate Quantity.
+		@param EstimateQty Estimate Quantity	  */
+	public void setEstimateQty (String EstimateQty)
+	{
+		set_Value (COLUMNNAME_EstimateQty, EstimateQty);
+	}
+
+	/** Get Estimate Quantity.
+		@return Estimate Quantity	  */
+	public String getEstimateQty () 
+	{
+		return (String)get_Value(COLUMNNAME_EstimateQty);
 	}
 
 	/** Set Farming Validate.
@@ -440,27 +482,6 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	public Timestamp getPlantingStartDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_PlantingStartDate);
-	}
-
-	/** Set Process Now.
-		@param Processing Process Now	  */
-	public void setProcessing (boolean Processing)
-	{
-		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
-	}
-
-	/** Get Process Now.
-		@return Process Now	  */
-	public boolean isProcessing () 
-	{
-		Object oo = get_Value(COLUMNNAME_Processing);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	/** Set Quantity.

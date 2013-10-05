@@ -29,9 +29,7 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
-import org.compiere.model.MStorage;
 import org.compiere.model.MUOMConversion;
-import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.process.DocAction;
@@ -237,8 +235,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		log.info(toString());	
 		//	Generate Material Receipt
 		m_processMsg = createMaterialReceipt();
-		if(m_processMsg != null)
-			return DocAction.STATUS_Invalid;
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -549,15 +545,16 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return String
 	 */
 	private String createMaterialReceipt() {
-		int m_FTA_FarmerCredit_ID = DB.getSQLValue(get_TrxName(), "SELECT fr.FTA_FarmerCredit_ID " +
+		int m_FTA_Farming_ID = DB.getSQLValue(get_TrxName(), "SELECT fr.FTA_Farming_ID " +
 				"FROM FTA_Farming fr " +
 				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = fr.FTA_Farming_ID) " +
 				"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
 				"WHERE et.FTA_EntryTicket_ID=?", getFTA_EntryTicket_ID());
 		
-		MFTAFarmerCredit m_FarmerCredit = new MFTAFarmerCredit(getCtx(), m_FTA_FarmerCredit_ID, get_TrxName());
-		//	Get Order
-		MOrder order = m_FarmerCredit.getPOGenerated();
+		MFTAFarming m_Farming = new MFTAFarming(getCtx(), m_FTA_Farming_ID, get_TrxName());
+		//	Get Order and Line
+		MOrderLine oLine = (MOrderLine) m_Farming.getC_OrderLine();
+		MOrder order = oLine.getParent();
 		
 		if(order == null)
 			return "@C_Order_ID@ @NotFound@";
@@ -570,17 +567,14 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
 		m_Receipt.setDateAcct(getDateDoc());
 		//	Set Farmer Credit and Record Weight
-		m_Receipt.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_FarmerCredit_ID);
+		m_Receipt.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_Farming_ID);
 		m_Receipt.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
 		//	Save
 		m_Receipt.saveEx(get_TrxName());
-		
-		MOrderLine[] oLines = order.getLines(true, null);
-		MOrderLine oLine = oLines[0];
-			//
+		//
 		MInOutLine ioLine = new MInOutLine(m_Receipt);
 		
-		MProduct product = MProduct.get(getCtx(), oLine.getM_Product_ID());
+		MProduct product = (MProduct) oLine.getM_Product();
 		//	Rate Convert
 		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
 				product.getM_Product_ID(), getC_UOM_ID());
@@ -589,30 +583,20 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			return "@NoUOMConversion@";
 		
 		BigDecimal m_MovementQty = getNetWeight().multiply(rate);
-			//	Location
-		int M_Locator_ID = MStorage.getM_Locator_ID (oLine.getM_Warehouse_ID(), 
-				oLine.getM_Product_ID(), oLine.getM_AttributeSetInstance_ID(), 
-				m_MovementQty, get_TrxName());
-		if (M_Locator_ID == 0)		//	Get default Location
-		{
-			MWarehouse wh = MWarehouse.get(getCtx(), oLine.getM_Warehouse_ID());
-			M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
-		}
+		//	Set Product
+		ioLine.setProduct(product);
 		//	Set Quality Analysis
 		ioLine.setM_AttributeSetInstance_ID(getFTA_QualityAnalysis().getQualityAnalysis_ID());
-		
 		ioLine.setC_OrderLine_ID(oLine.getC_OrderLine_ID());
-		ioLine.setQtyEntered(getNetWeight());
-		ioLine.setMovementQty(m_MovementQty);
+		//	Set Locator
+		ioLine.setM_Locator_ID(m_MovementQty);
+		//	Set Quantity
+		ioLine.setQty(m_MovementQty);
 		ioLine.saveEx(get_TrxName());
 		//	Manually Process Shipment
 		m_Receipt.processIt(DocAction.ACTION_Complete);
 		m_Receipt.saveEx(get_TrxName());
-		if (!DOCSTATUS_Completed.equals(m_Receipt.getDocStatus()))
-		{
-			m_processMsg = "@M_InOut_ID@: " + m_Receipt.getProcessMsg();
-			return null;
-		}
-		return null;
+		
+		return "@M_InOut_ID@: " + m_Receipt.getDocumentNo();
 	}	//	createMaterialReceipt
 }

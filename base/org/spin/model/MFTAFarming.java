@@ -71,6 +71,7 @@ public class MFTAFarming extends X_FTA_Farming {
 		//	Set Default Values
 		if(newRecord){
 			setIsValid(false);
+			setEstimateQty("N");
 			setFTA_FarmerCredit_ID(0);
 			setStatus(X_FTA_Farming.STATUS_Active);
 		}

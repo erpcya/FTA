@@ -136,21 +136,6 @@ public interface I_FTA_FarmerCredit
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name C_Order_ID */
-    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
-
-	/** Set Order.
-	  * Order
-	  */
-	public void setC_Order_ID (int C_Order_ID);
-
-	/** Get Order.
-	  * Order
-	  */
-	public int getC_Order_ID();
-
-	public I_C_Order getC_Order() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -285,6 +270,17 @@ public interface I_FTA_FarmerCredit
 	  * Farming Allocation
 	  */
 	public String getFarmingAlloc();
+
+    /** Column name FTA_CreditAct_ID */
+    public static final String COLUMNNAME_FTA_CreditAct_ID = "FTA_CreditAct_ID";
+
+	/** Set Credit Act	  */
+	public void setFTA_CreditAct_ID (int FTA_CreditAct_ID);
+
+	/** Get Credit Act	  */
+	public int getFTA_CreditAct_ID();
+
+	public org.spin.model.I_FTA_CreditAct getFTA_CreditAct() throws RuntimeException;
 
     /** Column name FTA_CreditDefinition_ID */
     public static final String COLUMNNAME_FTA_CreditDefinition_ID = "FTA_CreditDefinition_ID";
