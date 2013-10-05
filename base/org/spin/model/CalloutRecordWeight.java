@@ -68,8 +68,12 @@ public class CalloutRecordWeight extends CalloutEngine {
 	 * @return String
 	 */
 	public String weight (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
-		BigDecimal tareWeight =  (BigDecimal) (mTab.getValue("TareWeight") != null? mTab.getValue("TareWeight"): Env.ZERO);
-	    BigDecimal grossWeight = (BigDecimal) (mTab.getValue("GrossWeight") != null? mTab.getValue("GrossWeight"): Env.ZERO);
+		BigDecimal tareWeight = (BigDecimal) (mTab.getValue("TareWeight") != null
+				? mTab.getValue("TareWeight")
+				: Env.ZERO);
+	    BigDecimal grossWeight = (BigDecimal) (mTab.getValue("GrossWeight") != null
+	    		? mTab.getValue("GrossWeight")
+	    		: Env.ZERO);
 	    BigDecimal netWeight = grossWeight.subtract(tareWeight);
 	    //	Set Net Weight
 	    mTab.setValue("NetWeight",netWeight);
@@ -79,9 +83,11 @@ public class CalloutRecordWeight extends CalloutEngine {
 	    Timestamp today = new Timestamp(System.currentTimeMillis());  
 	    //	Set Day
 	    if(!isSOTrx){
-	    	if(mField.getColumnName().equals("TareWeight")){
+	    	if(mField.getColumnName().equals("TareWeight")
+	    			&& !tareWeight.equals(Env.ZERO)){
 	    		mTab.setValue("OutDate", today);
-	    	}else if(mField.getColumnName().equals("GrossWeight")){
+	    	}else if(mField.getColumnName().equals("GrossWeight")
+	    			&& !grossWeight.equals(Env.ZERO)){
 	    		mTab.setValue("InDate", today);
 	    	}
 	    	//	Valid Weight Status
@@ -92,16 +98,18 @@ public class CalloutRecordWeight extends CalloutEngine {
 	    	else
 	    		mTab.setValue("WeightStatus", X_FTA_RecordWeight.WEIGHTSTATUS_Completed);	    	
 	    } else{
-	    	if(mField.getColumnName().equals("TareWeight")){
+	    	if(mField.getColumnName().equals("TareWeight")
+	    			&& !tareWeight.equals(Env.ZERO)){
 	    		mTab.setValue("InDate", today);
-	    	}else if(mField.getColumnName().equals("GrossWeight")){
+	    	}else if(mField.getColumnName().equals("GrossWeight")
+	    			&& !grossWeight.equals(Env.ZERO)){
 	    		mTab.setValue("OutDate", today);
 	    	}
 	    	//	Valid Weight Status
 	    	if(tareWeight.equals(Env.ZERO))
-	    		mTab.setValue("WeightStatus", X_FTA_RecordWeight.WEIGHTSTATUS_WaitingForGrossWeight);
-	    	else if(grossWeight.equals(Env.ZERO))
 	    		mTab.setValue("WeightStatus", X_FTA_RecordWeight.WEIGHTSTATUS_WaitingForTareWeight);
+	    	else if(grossWeight.equals(Env.ZERO))
+	    		mTab.setValue("WeightStatus", X_FTA_RecordWeight.WEIGHTSTATUS_WaitingForGrossWeight);
 	    	else
 	    		mTab.setValue("WeightStatus", X_FTA_RecordWeight.WEIGHTSTATUS_Completed);
 	    }    

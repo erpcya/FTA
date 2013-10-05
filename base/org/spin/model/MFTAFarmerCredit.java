@@ -24,14 +24,12 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MBPartner;
-import org.compiere.model.MClientInfo;
 import org.compiere.model.MDocType;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
-import org.compiere.model.MUOMConversion;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
@@ -249,11 +247,17 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				m_processMsg = "@NoLines@";
 				return DocAction.STATUS_Invalid;
 			}
+			//	Valid Credit Act
+			if(getFTA_CreditAct_ID() == 0){
+				m_processMsg = "@FTA_CreditAct_ID@ @NotFound@";
+				return DocAction.STATUS_InProgress;
+			} else if(!getFTA_CreditAct().getDocStatus()
+								.equals(X_FTA_CreditAct.DOCSTATUS_Completed)){
+				m_processMsg = "@FTA_CreditAct_ID@ @No@ @completed@";
+				return DocAction.STATUS_InProgress;
+			}
 			//	Generate Purchase Order
 			m_processMsg = createOrder();
-			if(m_processMsg != null){
-				return DocAction.STATUS_Invalid;
-			}
 		}
 		//	Valid Amount
 		if(getAmt() == null
@@ -313,44 +317,35 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		
 		po.saveEx();
 		
-		MProduct product = MProduct.get(getCtx(), getFTA_CreditDefinition().getCategory_ID());
+		//	Create Line
+		MFTAFarming[] lines = getLines(true, "Status = 'A' AND EstimateQty = 'Y'");
 		
-		MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
-		if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
-			return "@C_UOM_Weight_ID@ = @NotFound@";
-		
-		//	Get Quantity
-		BigDecimal m_EstimatedQty = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(fr.EstimatedQty) " +
-				"FROM FTA_Farming fr " +
-				"WHERE fr.Status = 'A' " +
-				"AND fr.FTA_FarmerCredit_ID=?", getFTA_FarmerCredit_ID());
-		
-		if(m_EstimatedQty == null
-				|| m_EstimatedQty.compareTo(Env.ZERO) <= 0)
-			return "@EstimatedQty@ <= @0@";
-		
-		MOrderLine poLine = new MOrderLine (po);
-		poLine.setProduct(product);
-		poLine.setC_UOM_ID(m_ClientInfo.getC_UOM_Weight_ID());
-		//	Rate Convert
-		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
-				product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
-		
-		if(rate == null)
-			return "@NoUOMConversion@";
-		
-		poLine.setPrice();
-		
-		//	Set Quantity
-		poLine.setQty(m_EstimatedQty.multiply(rate));
-		//
-		poLine.saveEx();
-		
+		for(MFTAFarming farmingLine : lines){
+			//	Get Quantity
+			BigDecimal m_Qty = farmingLine.getQty();
+			if(m_Qty == null
+					|| m_Qty.compareTo(Env.ZERO) <= 0)
+				continue;
+			//	
+			MOrderLine poLine = new MOrderLine (po);
+			
+			MProduct product = (MProduct) farmingLine.getCategory();
+			
+			poLine.setProduct(product);
+			poLine.setQty(m_Qty);
+			poLine.setPrice();
+			poLine.saveEx();
+			//	Set Line on Farming
+			farmingLine.setC_OrderLine_ID(poLine.getC_OrderLine_ID());
+			farmingLine.saveEx();
+		}
+		//	Process Order
 		po.setDocAction(X_C_Order.DOCACTION_Complete);
 		po.processIt(X_C_Order.DOCACTION_Complete);
 		po.saveEx();
 		
-		return null;
+		return "@C_Order_ID@: " + po.getDocumentNo() + 
+				" - @GrandTotal@ = " + po.getGrandTotal();
 	}
 	
 	/**
@@ -416,7 +411,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				"FROM FTA_Farming frm " +
 				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = frm.FTA_Farming_ID) " +
 				"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
-				"WHERE frm.DocStatus NOT IN('VO', 'RE') " +
+				"WHERE et.DocStatus NOT IN('VO', 'RE') " +
 				"AND frm.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
 		if(m_Reference_ID != 0)
 			return "@SQLErrorReferenced@";
@@ -617,22 +612,36 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	/**
 	 * 	Get Lines
 	 *	@param requery requery
+	 *	@param whereClause
 	 *	@return lines
 	 */
-	public MFTAFarming[] getLines (boolean requery)
+	public MFTAFarming[] getLines (boolean requery, String whereClause)
 	{
 		if (m_lines != null && !requery)
 		{
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		List<MFTAFarming> list = new Query(getCtx(), MFTAFarming.Table_Name, "FTA_FarmerCredit_ID=?", get_TrxName())
+		List<MFTAFarming> list = new Query(getCtx(), MFTAFarming.Table_Name, "FTA_FarmerCredit_ID=?"
+				+ (whereClause != null && whereClause.length() != 0? " AND " + whereClause: ""), get_TrxName())
 		.setParameters(getFTA_FarmerCredit_ID())
 		.list();
 
 		m_lines = new MFTAFarming[list.size ()];
 		list.toArray (m_lines);
 		return m_lines;
+	}	//	getLines
+	
+	/**
+	 * Get Lines
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/10/2013, 12:30:09
+	 * @param requery
+	 * @return
+	 * @return MFTAFarming[]
+	 */
+	public MFTAFarming[] getLines (boolean requery)
+	{
+		return getLines(requery, null);
 	}	//	getLines
 	
 	/**

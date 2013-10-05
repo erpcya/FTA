@@ -83,6 +83,21 @@ public interface I_FTA_Farming
 
 	public I_M_Product getCategory() throws RuntimeException;
 
+    /** Column name C_OrderLine_ID */
+    public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
+
+	/** Set Sales Order Line.
+	  * Sales Order Line
+	  */
+	public void setC_OrderLine_ID (int C_OrderLine_ID);
+
+	/** Get Sales Order Line.
+	  * Sales Order Line
+	  */
+	public int getC_OrderLine_ID();
+
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -138,6 +153,15 @@ public interface I_FTA_Farming
 
 	/** Get Estimated Yield	  */
 	public BigDecimal getEstimatedYield();
+
+    /** Column name EstimateQty */
+    public static final String COLUMNNAME_EstimateQty = "EstimateQty";
+
+	/** Set Estimate Quantity	  */
+	public void setEstimateQty (String EstimateQty);
+
+	/** Get Estimate Quantity	  */
+	public String getEstimateQty();
 
     /** Column name FarmingValidate */
     public static final String COLUMNNAME_FarmingValidate = "FarmingValidate";
@@ -286,15 +310,6 @@ public interface I_FTA_Farming
 
 	/** Get Planting Start Date	  */
 	public Timestamp getPlantingStartDate();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

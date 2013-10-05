@@ -75,7 +75,7 @@ public class CallOutEntryTicket extends CalloutEngine {
 	public String shipper (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		Integer m_M_Shipper_ID = (Integer)value;
 		if (m_M_Shipper_ID == null || m_M_Shipper_ID.intValue() == 0)
-			Env.setContext(ctx, WindowNo, "M_Shipper_ID", 1);
+			Env.setContext(ctx, WindowNo, "M_Shipper_ID", 0);
 		
 		return "";
 	}

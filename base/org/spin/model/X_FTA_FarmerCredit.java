@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131004L;
+	private static final long serialVersionUID = 20131005L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -212,34 +212,6 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Order getC_Order() throws RuntimeException
-    {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
-			.getPO(getC_Order_ID(), get_TrxName());	}
-
-	/** Set Order.
-		@param C_Order_ID 
-		Order
-	  */
-	public void setC_Order_ID (int C_Order_ID)
-	{
-		if (C_Order_ID < 1) 
-			set_Value (COLUMNNAME_C_Order_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
-	}
-
-	/** Get Order.
-		@return Order
-	  */
-	public int getC_Order_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -478,6 +450,31 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public String getFarmingAlloc () 
 	{
 		return (String)get_Value(COLUMNNAME_FarmingAlloc);
+	}
+
+	public org.spin.model.I_FTA_CreditAct getFTA_CreditAct() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_CreditAct)MTable.get(getCtx(), org.spin.model.I_FTA_CreditAct.Table_Name)
+			.getPO(getFTA_CreditAct_ID(), get_TrxName());	}
+
+	/** Set Credit Act.
+		@param FTA_CreditAct_ID Credit Act	  */
+	public void setFTA_CreditAct_ID (int FTA_CreditAct_ID)
+	{
+		if (FTA_CreditAct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_CreditAct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FTA_CreditAct_ID, Integer.valueOf(FTA_CreditAct_ID));
+	}
+
+	/** Get Credit Act.
+		@return Credit Act	  */
+	public int getFTA_CreditAct_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CreditAct_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.spin.model.I_FTA_CreditDefinition getFTA_CreditDefinition() throws RuntimeException
