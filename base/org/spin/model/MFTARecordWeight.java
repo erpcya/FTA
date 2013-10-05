@@ -22,9 +22,11 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
+import org.compiere.model.MLot;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
@@ -574,7 +576,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//
 		MInOutLine ioLine = new MInOutLine(m_Receipt);
 		
-		MProduct product = (MProduct) oLine.getM_Product();
+		MProduct product = MProduct.get(getCtx(), oLine.getM_Product_ID());
 		//	Rate Convert
 		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
 				product.getM_Product_ID(), getC_UOM_ID());
@@ -586,7 +588,19 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	Set Product
 		ioLine.setProduct(product);
 		//	Set Quality Analysis
-		ioLine.setM_AttributeSetInstance_ID(getFTA_QualityAnalysis().getQualityAnalysis_ID());
+		MFTAQualityAnalysis qa = new MFTAQualityAnalysis(getCtx(), getFTA_QualityAnalysis_ID(), get_TrxName());
+		//	Set Instance
+		MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), qa.getQualityAnalysis_ID(), get_TrxName());
+		//	Set Lot
+		MLot lot = new MLot(getCtx(), m_Farming.getPlantingCycle_ID(), get_TrxName());
+		//	
+		asi.setM_Lot_ID(m_Farming.getPlantingCycle_ID());
+		asi.setLot(lot.getName());
+		//	
+		asi.setDescription();
+		//	Save
+		asi.saveEx(get_TrxName());
+		ioLine.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
 		ioLine.setC_OrderLine_ID(oLine.getC_OrderLine_ID());
 		//	Set Locator
 		ioLine.setM_Locator_ID(m_MovementQty);
