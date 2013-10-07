@@ -96,7 +96,10 @@ public class FarmingGuideGenerate extends SvrProcess {
 		MFTAFarming m_Farming = new MFTAFarming(getCtx(), p_FTA_Farming_ID, get_TrxName());
 		//	Valid Credit
 		if(m_Farming.getFTA_FarmerCredit_ID() == 0)
-			throw new AdempiereUserError("@FTA_FarmerCredit_ID@ = @0@");
+			throw new AdempiereUserError("@FTA_FarmerCredit_ID@ @NotFound@");
+		//	Valid Purchase Order
+		if(m_Farming.getC_OrderLine_ID() == 0)
+			throw new AdempiereUserError("@C_OrderLine_ID@ @NotFound@");
 		//	Get Vehicle Type
 		MFTAVehicleType m_VehicleType = new MFTAVehicleType(getCtx(), p_FTA_VehicleType_ID, get_TrxName());
 		

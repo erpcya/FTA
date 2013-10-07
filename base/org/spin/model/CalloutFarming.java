@@ -56,7 +56,7 @@ public class CalloutFarming extends CalloutEngine {
 		BigDecimal m_EstimatedQty = m_EstimatedYield.multiply(m_Area);
 		//	Set Quantity
 		mTab.setValue("EstimatedQty", m_EstimatedQty);
-		mTab.setValue("Qty", m_EstimatedYield);
+		mTab.setValue("Qty", m_EstimatedQty);
 		return "";
 	}
 }
