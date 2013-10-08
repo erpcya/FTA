@@ -318,7 +318,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		po.saveEx();
 		
 		//	Create Line
-		MFTAFarming[] lines = getLines(true, "Status = 'A' AND EstimateQty = 'Y'");
+		MFTAFarming[] lines = getLines(true, "Status = 'A'");
 		
 		for(MFTAFarming farmingLine : lines){
 			//	Get Quantity
