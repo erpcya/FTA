@@ -23,6 +23,7 @@ import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -70,10 +71,21 @@ public class FTAModelValidator implements ModelValidator {
 
 	@Override
 	public String modelChange(PO po, int type) throws Exception {
-		/*if (po.get_TableName().equals("C_BPartner") && type == TYPE_AFTER_NEW) {
-			MBPartner bpartner = (MBPartner) po;
-		}*/
-		
+		if (po.get_TableName().equals("C_Invoice") 
+				&& type == TYPE_BEFORE_NEW) {
+			MInvoice invoice = (MInvoice) po;
+			int m_C_Order_ID = invoice.getC_Order_ID();
+			if(m_C_Order_ID != 0){
+				MOrder order = new MOrder(Env.getCtx(), m_C_Order_ID, invoice.get_TableName());
+				int m_FTA_FarmerCredit_ID = order.get_ValueAsInt("FTA_FarmerCredit_ID");
+				if(m_FTA_FarmerCredit_ID != 0) {
+					invoice.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_FarmerCredit_ID);
+					invoice.saveEx();
+				}
+				//	
+				log.info(po.toString());
+			}
+		}
 		return null;
 	}
 	
