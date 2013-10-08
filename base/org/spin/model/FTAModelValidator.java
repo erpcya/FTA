@@ -72,7 +72,9 @@ public class FTAModelValidator implements ModelValidator {
 	@Override
 	public String modelChange(PO po, int type) throws Exception {
 		if (po.get_TableName().equals("C_Invoice") 
-				&& type == TYPE_BEFORE_NEW) {
+				&& 
+				(type == TYPE_BEFORE_NEW
+						|| type == TYPE_BEFORE_CHANGE)) {
 			MInvoice invoice = (MInvoice) po;
 			int m_C_Order_ID = invoice.getC_Order_ID();
 			if(m_C_Order_ID != 0){
@@ -80,7 +82,6 @@ public class FTAModelValidator implements ModelValidator {
 				int m_FTA_FarmerCredit_ID = order.get_ValueAsInt("FTA_FarmerCredit_ID");
 				if(m_FTA_FarmerCredit_ID != 0) {
 					invoice.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_FarmerCredit_ID);
-					invoice.saveEx();
 				}
 				//	
 				log.info(po.toString());
