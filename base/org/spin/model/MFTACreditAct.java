@@ -20,12 +20,14 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
+import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
@@ -499,4 +501,32 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 		return index;
 	}
 	
+	/**
+	 * Complete Farmer Credits
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 08/10/2013, 05:35:32
+	 * @return
+	 * @return int
+	 */
+	public int setDocStatusFarmerCredit(String p_DocStatus)
+	{
+		StringBuffer filter=new StringBuffer();
+		int m_Completed=0;
+		filter.append("FTA_CreditAct_ID=?");
+		
+		List<MFTAFarmerCredit> credits = new Query(p_ctx,MFTAFarmerCredit.Table_Name,filter.toString(),get_TrxName())
+		.setOnlyActiveRecords(true)
+		.setParameters(getFTA_CreditAct_ID())
+		.list();
+
+		for (MFTAFarmerCredit credit:credits)
+		{
+			//Completed Farmer Credit
+			if(!p_DocStatus.equals(DocumentEngine.STATUS_Drafted)){
+				credit.setDocAction(p_DocStatus);
+				credit.processIt(p_DocStatus);
+				credit.saveEx(get_TrxName());
+			}
+		}
+		return m_Completed;
+	}
 }
