@@ -16,6 +16,11 @@
  *****************************************************************************/
 package org.spin.model;
 
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+
 import org.compiere.model.MClient;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
@@ -23,6 +28,7 @@ import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -98,7 +104,7 @@ public class FTAModelValidator implements ModelValidator {
 				MOrder ord = (MOrder) po;
 				if(ord.isSOTrx()
 						&& ord.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
-					
+					return MFTAFact.createOrderFact(Env.getCtx(), ord, ord.get_TrxName());
 				}
 			} else if(po.get_TableName().equals(MInvoice.Table_Name)){
 				MInvoice inv = (MInvoice) po;
