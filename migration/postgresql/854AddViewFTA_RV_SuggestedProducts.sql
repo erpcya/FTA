@@ -1,4 +1,4 @@
-Create Or Replace View FTA_RV_SuggestedProducts As 
+﻿Create Or Replace View FTA_RV_SuggestedProducts As 
 Select  tfl.AD_Client_ID,		--Client ID
 	tfl.AD_Org_ID,			--Org
 	fming.Category_ID,   		--Category Farm
@@ -14,12 +14,13 @@ Select  tfl.AD_Client_ID,		--Client ID
 	fsp.QtyDosage,			--Qty Dosage
 	fsp.Dosage_Uom_ID,		--Uom Dosage
 	sp.M_Product_Category_ID,	--Product Category
-	FTA_TechnicalFormLine_ID,	--Technical Form Line
+	tfl.FTA_TechnicalFormLine_ID,	--Technical Form Line
 	fming.FTA_Farming_ID,		--Farming
-	fs.DayFrom,			--Day From Farming Stage
-	fs.DayTo,			--Day To Farming Stage
-	fming.StartDate + Cast(fs.DayFrom || ' day' as interval)  As DateFrom, --Date From Suggested Product Applicate
-	fming.StartDate + Cast(fs.DayTo || ' day' as interval) AS DateTo      --Date To Suggested Product Applicate
+	Coalesce(fs.DayFrom,fsp.DayFrom) DayFrom,			--Day From Farming Stage
+	Coalesce(fs.DayTo,fsp.DayTo) DayTo,			--Day To Farming Stage
+	fming.StartDate + Cast(Coalesce(fs.DayFrom,fsp.DayFrom) || ' day' as interval)  As DateFrom, --Date From Suggested Product Applicate
+	fming.StartDate + Cast(Coalesce(fs.DayTo,fsp.DayTo) || ' day' as interval) AS DateTo,      --Date To Suggested Product Applicate
+	Cast('Y' AS Char(1)) As Suggested
 From 
 FTA_TechnicalFormLine tfl 
 Inner Join FTA_Farming fming On tfl.FTA_Farming_ID=fming.FTA_Farming_ID
@@ -50,4 +51,32 @@ Not Exists (Select 1 From
 	    And 
 	    (tfl.FTA_FarmingStage_ID=sps.FTA_FarmingStage_ID OR sps.FTA_FarmingStage_ID Is Null)
 	    )
+Union
+Select  tfl.AD_Client_ID,		--Client ID
+	tfl.AD_Org_ID,			--Org
+	fming.Category_ID,   		--Category Farm
+	pc.Name As ProductName, 	--Category Name
+	fming.StartDate,		--Start Farm
+	fming.PlantingCycle_ID,		--Planting Cycle
+	fming.FinancingType,		--Financing Type
+	fming.Status,			--Farming Status
+	mp.M_Product_ID,		--Suggested Product
+	Cast(null As Numeric(10,0))FTA_FarmingStage_ID,	--Farming Stage
+	Cast(null As Numeric(10,0)) FTA_ObservationType_ID,	--Observation Type
+	Cast(0 As Numeric(10,0)) SeqNo,			--Sequence
+	Cast(null As Numeric) QtyDosage,			--Qty Dosage
+	Cast(null As Numeric(10,0)) Dosage_Uom_ID,		--Uom Dosage
+	mp.M_Product_Category_ID,	--Product Category
+	tfl.FTA_TechnicalFormLine_ID,	--Technical Form Line
+	fming.FTA_Farming_ID,		--Farming
+	Cast(null As Numeric) DayFrom,			--Day From Farming Stage
+	Cast(null As Numeric) DayTo,			--Day To Farming Stage
+	fming.StartDate + Cast(null || ' day' as interval)  As DateFrom, --Date From Suggested Product Applicate
+	fming.StartDate + Cast(null || ' day' as interval) AS DateTo,      --Date To Suggested Product Applicate
+	Cast('N' AS Char(1))  As Suggested
+From 
+FTA_TechnicalFormLine tfl 
+Inner Join FTA_Farming fming On tfl.FTA_Farming_ID=fming.FTA_Farming_ID
+Inner Join M_Product pc On pc.M_Product_ID=fming.Category_ID
+,M_Product mp 
 ;
