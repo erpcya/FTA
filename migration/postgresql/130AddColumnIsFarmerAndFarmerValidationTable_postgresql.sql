@@ -15,7 +15,7 @@ ALTER TABLE C_BPartner ADD COLUMN IsFarmer CHAR(1) DEFAULT NULL CHECK (IsFarmer 
 
 -- 07-oct-2013 15:01:00 VET
 -- SFAndroid Contribution
-UPDATE AD_Tab SET WhereClause='IsFarmer=''Y''',Updated=TO_TIMESTAMP('2013-10-07 15:01:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53667
+UPDATE AD_Tab SET WhereClause='C_BPartner.IsFarmer=''Y''',Updated=TO_TIMESTAMP('2013-10-07 15:01:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53667
 ;
 
 -- 07-oct-2013 15:01:10 VET
