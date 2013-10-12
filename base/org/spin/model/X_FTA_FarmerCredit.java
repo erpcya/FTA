@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131005L;
+	private static final long serialVersionUID = 20131011L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -523,6 +523,23 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Generate Order.
+		@param GenerateOrder 
+		Generate Order
+	  */
+	public void setGenerateOrder (String GenerateOrder)
+	{
+		set_Value (COLUMNNAME_GenerateOrder, GenerateOrder);
+	}
+
+	/** Get Generate Order.
+		@return Generate Order
+	  */
+	public String getGenerateOrder () 
+	{
+		return (String)get_Value(COLUMNNAME_GenerateOrder);
 	}
 
 	/** Set Approved.

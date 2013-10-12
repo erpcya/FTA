@@ -34,7 +34,7 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131005L;
+	private static final long serialVersionUID = 20131011L;
 
     /** Standard Constructor */
     public X_FTA_Farming (Properties ctx, int FTA_Farming_ID, String trxName)
@@ -218,20 +218,6 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 		return bd;
 	}
 
-	/** Set Estimate Quantity.
-		@param EstimateQty Estimate Quantity	  */
-	public void setEstimateQty (String EstimateQty)
-	{
-		set_Value (COLUMNNAME_EstimateQty, EstimateQty);
-	}
-
-	/** Get Estimate Quantity.
-		@return Estimate Quantity	  */
-	public String getEstimateQty () 
-	{
-		return (String)get_Value(COLUMNNAME_EstimateQty);
-	}
-
 	/** Set Farming Validate.
 		@param FarmingValidate Farming Validate	  */
 	public void setFarmingValidate (String FarmingValidate)
@@ -406,6 +392,23 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 		return false;
 	}
 
+	/** Set Max Quantity.
+		@param MaxQty Max Quantity	  */
+	public void setMaxQty (BigDecimal MaxQty)
+	{
+		set_Value (COLUMNNAME_MaxQty, MaxQty);
+	}
+
+	/** Get Max Quantity.
+		@return Max Quantity	  */
+	public BigDecimal getMaxQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MaxQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -499,6 +502,23 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	public BigDecimal getQty () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Qty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Re-Estimated Qty.
+		@param Re_EstimatedQty Re-Estimated Qty	  */
+	public void setRe_EstimatedQty (BigDecimal Re_EstimatedQty)
+	{
+		set_Value (COLUMNNAME_Re_EstimatedQty, Re_EstimatedQty);
+	}
+
+	/** Get Re-Estimated Qty.
+		@return Re-Estimated Qty	  */
+	public BigDecimal getRe_EstimatedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Re_EstimatedQty);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

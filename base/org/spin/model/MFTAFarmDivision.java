@@ -70,6 +70,13 @@ public class MFTAFarmDivision extends X_FTA_FarmDivision {
 		} else if(getArea().compareTo(getFTA_Farm().getArea()) > 0){
 			throw new AdempiereException("@Area@ > @Area@ @of@ @FTA_Farm_ID@");
 		}
+		//	Farm Validation
+		if(newRecord 
+				|| is_ValueChanged("Area")) {
+			MFTAFarm m_Farm = new MFTAFarm(getCtx(), getFTA_Farm_ID(), get_TrxName());
+			m_Farm.setIsValid(false);
+			return m_Farm.save();
+		}
 		return true;
 	}
 

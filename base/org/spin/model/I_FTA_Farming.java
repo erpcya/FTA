@@ -154,15 +154,6 @@ public interface I_FTA_Farming
 	/** Get Estimated Yield	  */
 	public BigDecimal getEstimatedYield();
 
-    /** Column name EstimateQty */
-    public static final String COLUMNNAME_EstimateQty = "EstimateQty";
-
-	/** Set Estimate Quantity	  */
-	public void setEstimateQty (String EstimateQty);
-
-	/** Get Estimate Quantity	  */
-	public String getEstimateQty();
-
     /** Column name FarmingValidate */
     public static final String COLUMNNAME_FarmingValidate = "FarmingValidate";
 
@@ -269,6 +260,15 @@ public interface I_FTA_Farming
 	  */
 	public boolean isValid();
 
+    /** Column name MaxQty */
+    public static final String COLUMNNAME_MaxQty = "MaxQty";
+
+	/** Set Max Quantity	  */
+	public void setMaxQty (BigDecimal MaxQty);
+
+	/** Get Max Quantity	  */
+	public BigDecimal getMaxQty();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -323,6 +323,15 @@ public interface I_FTA_Farming
 	  * Quantity
 	  */
 	public BigDecimal getQty();
+
+    /** Column name Re_EstimatedQty */
+    public static final String COLUMNNAME_Re_EstimatedQty = "Re_EstimatedQty";
+
+	/** Set Re-Estimated Qty	  */
+	public void setRe_EstimatedQty (BigDecimal Re_EstimatedQty);
+
+	/** Get Re-Estimated Qty	  */
+	public BigDecimal getRe_EstimatedQty();
 
     /** Column name StartDate */
     public static final String COLUMNNAME_StartDate = "StartDate";

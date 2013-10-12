@@ -16,11 +16,6 @@
  *****************************************************************************/
 package org.spin.model;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-
 import org.compiere.model.MClient;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
@@ -28,7 +23,6 @@ import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -98,7 +92,7 @@ public class FTAModelValidator implements ModelValidator {
 	
 	@Override
 	public String docValidate(PO po, int timing) {
-		if(timing == TIMING_BEFORE_PREPARE){
+		if(timing == TIMING_BEFORE_COMPLETE){
 			//	Order
 			if(po.get_TableName().equals(MOrder.Table_Name)){
 				MOrder ord = (MOrder) po;
@@ -108,8 +102,24 @@ public class FTAModelValidator implements ModelValidator {
 				}
 			} else if(po.get_TableName().equals(MInvoice.Table_Name)){
 				MInvoice inv = (MInvoice) po;
-				if(inv.isSOTrx()){
-					
+				if(inv.isSOTrx()
+						&& inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
+					return MFTAFact.createInvoiceFact(Env.getCtx(), inv, inv.get_TrxName());
+				}
+			}
+		} else if(timing == TIMING_BEFORE_REACTIVATE
+				|| timing == TIMING_BEFORE_VOID){
+			if(po.get_TableName().equals(MOrder.Table_Name)){
+				MOrder ord = (MOrder) po;
+				if(ord.isSOTrx()
+						&& ord.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
+					MFTAFact.deleteFact(MOrder.Table_ID, ord.getC_Order_ID(), ord.get_TrxName());
+				}
+			} else if(po.get_TableName().equals(MInvoice.Table_Name)){
+				MInvoice inv = (MInvoice) po;
+				if(inv.isSOTrx()
+						&& inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
+					MFTAFact.deleteFact(MInvoice.Table_ID, inv.getC_Order_ID(), inv.get_TrxName());
 				}
 			}
 		}

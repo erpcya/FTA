@@ -69,9 +69,9 @@ public class MFTAFarming extends X_FTA_Farming {
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
 		//	Set Default Values
-		if(newRecord){
+		if(newRecord
+				|| is_ValueChanged("Area")){
 			setIsValid(false);
-			setEstimateQty("N");
 			setFTA_FarmerCredit_ID(0);
 			setStatus(X_FTA_Farming.STATUS_Active);
 		}

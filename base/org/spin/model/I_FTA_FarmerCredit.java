@@ -306,6 +306,19 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getFTA_FarmerCredit_ID();
 
+    /** Column name GenerateOrder */
+    public static final String COLUMNNAME_GenerateOrder = "GenerateOrder";
+
+	/** Set Generate Order.
+	  * Generate Order
+	  */
+	public void setGenerateOrder (String GenerateOrder);
+
+	/** Get Generate Order.
+	  * Generate Order
+	  */
+	public String getGenerateOrder();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
