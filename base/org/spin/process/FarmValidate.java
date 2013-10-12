@@ -58,7 +58,7 @@ public class FarmValidate extends SvrProcess {
 		if(m_TotalFarmDivisionArea == null)
 			m_TotalFarmDivisionArea = Env.ZERO;
 		//	Compare Area
-		if(m_FarmArea.compareTo(m_TotalFarmDivisionArea) > 0){
+		if(m_FarmArea.compareTo(m_TotalFarmDivisionArea) >= 0){
 			m_FTA_Farm.setIsValid(true);
 			m_FTA_Farm.saveEx();
 		} else
