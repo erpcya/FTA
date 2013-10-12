@@ -40,6 +40,8 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 
 	/**	Organization			*/
 	private int 		p_AD_Org_ID = 0;
+	/**	Warehouse				*/
+	private int 		p_M_Warehouse_ID = 0;
 	/**	Farmer Credit			*/
 	private int 		p_FTA_FarmerCredit_ID = 0;
 	/**	Document Date			*/
@@ -60,6 +62,8 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 				;
 			else if(name.equals("AD_Org_ID"))
 				p_AD_Org_ID = para.getParameterAsInt();
+			else if(name.equals("M_Warehouse_ID"))
+				p_M_Warehouse_ID = para.getParameterAsInt();
 			else if(name.equals("FTA_FarmerCredit_ID"))
 				p_FTA_FarmerCredit_ID = para.getParameterAsInt();
 			else if (name.equals("DateDoc"))
@@ -80,6 +84,13 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 	
 	@Override
 	protected String doIt() throws Exception {
+		//	Organization
+		if(p_AD_Org_ID == 0)
+			throw new AdempiereUserError("@AD_Org_ID@ @NotFount@");
+		//	Valid Warehouse
+		if(p_M_Warehouse_ID == 0)
+			throw new AdempiereUserError("@M_Warehouse_ID@ @NotFount@");
+		//	Farmer Credit
 		if(p_FTA_FarmerCredit_ID == 0)
 			throw new AdempiereUserError("@FTA_FarmerCredit_ID@ @NotFount@");
 		//	Valid Document Type Target
@@ -91,7 +102,9 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 		//	Valid Price List
 		if(p_M_PriceList_ID == 0)
 			throw new AdempiereUserError("@M_PriceList_ID@ @NotFount@");
-		
+		//	Document Action
+		if(p_DocAction == null)
+			throw new AdempiereUserError("@DocAction@ @NotFount@");
 		
 		MFTAFarmerCredit m_FTA_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
 		//	If is Generated
@@ -118,11 +131,16 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 		po.setBPartner(vendor);
 		
 		// get default drop ship warehouse
-		MOrgInfo orginfo = MOrgInfo.get(getCtx(), po.getAD_Org_ID(), get_TrxName());
-		if (orginfo.getM_Warehouse_ID() != 0)
-			po.setM_Warehouse_ID(orginfo.getM_Warehouse_ID());
-		else
-			return "@M_Warehouse_ID@ = @NotFound@";
+		if(p_M_Warehouse_ID == 0) {
+			MOrgInfo orginfo = MOrgInfo.get(getCtx(), po.getAD_Org_ID(), get_TrxName());
+			if (orginfo.getM_Warehouse_ID() != 0)
+				p_M_Warehouse_ID = orginfo.getM_Warehouse_ID();
+			else
+				return "@M_Warehouse_ID@ = @NotFound@";
+		}
+		
+		//	Set Warehouse
+		po.setM_Warehouse_ID(p_M_Warehouse_ID);
 		
 		//	Set Farmer Credit
 		po.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
