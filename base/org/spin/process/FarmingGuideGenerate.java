@@ -102,9 +102,54 @@ public class FarmingGuideGenerate extends SvrProcess {
 			throw new AdempiereUserError("@C_OrderLine_ID@ @NotFound@");
 		//	Get Vehicle Type
 		MFTAVehicleType m_VehicleType = new MFTAVehicleType(getCtx(), p_FTA_VehicleType_ID, get_TrxName());
+		//	Declare Objects
+		BigDecimal m_MaxReceipt;
+		BigDecimal m_Qty;
+		BigDecimal m_QtyDelivered;
+		BigDecimal m_QtyToDeliver;
+		BigDecimal m_Farming_MaxQty;
+		BigDecimal m_MaxQty;
+		BigDecimal m_Re_EstimatedQty;
+		BigDecimal m_Diff_Re_EstimatedQty;
+		
+		//	Get Estimated Quantity
+		m_Qty = m_Farming.getQty();
+		log.fine("Qty=" + m_Qty);
+		//	Get Max Quantity
+		m_Farming_MaxQty = m_Farming.getMaxQty();
+		log.fine("Farming MaxQty=" + m_Farming_MaxQty);
+		
+		//	Get Re-Estimated Quantity
+		m_Re_EstimatedQty = m_Farming.getRe_EstimatedQty();
+		if(m_Re_EstimatedQty == null)
+			m_Re_EstimatedQty = Env.ZERO;
+		
+		m_Diff_Re_EstimatedQty = Env.ZERO;
+		
+		if(m_Farming_MaxQty == null)
+			m_Farming_MaxQty = Env.ZERO;
+		
+		//	Valid Quantity
+		if(m_Qty == null
+				|| m_Qty.equals(Env.ZERO))
+			throw new AdempiereUserError("@Qty@ = @0@");
+		
+		
+		MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
+		if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
+			return "@C_UOM_Weight_ID@ = @NotFound@";
+		
+		//	Get Category
+		MProduct product = MProduct.get(getCtx(), m_Farming.getCategory_ID());
+		//	Rate Convert
+		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+				product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
+		//	Valid Conversion
+		if(rate == null)
+			throw new AdempiereUserError("@NoUOMConversion@");
 		
 		//	Max Warehouse Receipt
-		BigDecimal m_MaxReceipt = DB.getSQLValueBD(get_TrxName(), "SELECT rc.Qty - SUM(COALESCE(mg.QtyToDeliver, 0)) " +
+		m_MaxReceipt = DB.getSQLValueBD(get_TrxName(), "SELECT rc.Qty - SUM(COALESCE(mg.QtyToDeliver, 0)) " +
 				"FROM FTA_ReceptionCapacity rc " +
 				"LEFT JOIN FTA_MobilizationGuide mg ON(mg.M_Warehouse_ID = rc.M_Warehouse_ID) " +
 				"WHERE rc.AD_Org_ID = ? " +
@@ -121,76 +166,69 @@ public class FarmingGuideGenerate extends SvrProcess {
 		if(m_MaxReceipt != null
 				&& m_MaxReceipt.compareTo(Env.ZERO) <= 0)
 			throw new AdempiereUserError("@FTA_ReceptionCapacity_ID@ <= @0@");
+		//	Convert to UOM of Product
 		
-		MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
-		if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
-			return "@C_UOM_Weight_ID@ = @NotFound@";
-		
-		//	Get Estimated Quantity
-		BigDecimal m_EstimatedQty = m_Farming.getEstimatedQty();
-		
-		MProduct product = (MProduct) m_Farming.getCategory();
-		//	Rate Convert
-		BigDecimal rate = MUOMConversion.getProductRateTo(Env.getCtx(), 
-				product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
-		//	Valid Conversion
-		if(rate == null)
-			throw new AdempiereUserError("@NoUOMConversion@");
-		
-		log.fine("EstimatedQty=" + m_EstimatedQty);
-		
-		//	Valid Estimated Quantity
-		if(m_EstimatedQty == null
-				|| m_EstimatedQty.equals(Env.ZERO))
-			throw new AdempiereUserError("@EstimatedQty@ = @0@");
-
-		//	Convert
-		m_EstimatedQty = m_EstimatedQty.multiply(rate);
+		if(m_MaxReceipt != null)
+			m_MaxReceipt = m_MaxReceipt.multiply(rate);
 		
 		//	Quantity Delivered
-		BigDecimal m_WeightDelivered = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(mg.QtyToDeliver) " +
+		m_QtyDelivered = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(mg.QtyToDeliver) " +
 				"FROM FTA_MobilizationGuide mg " +
 				"WHERE mg.FTA_Farming_ID = ?" +
 				"AND mg.DocStatus IN('CO', 'CL') ", 
 				p_FTA_Farming_ID);
 		
-		log.fine("WeightDelivered=" + m_WeightDelivered);
+		log.fine("WeightDelivered=" + m_QtyDelivered);
 		
 		//	Valid Quantity Delivered
-		if(m_WeightDelivered == null)
-			m_WeightDelivered = Env.ZERO;
+		if(m_QtyDelivered == null)
+			m_QtyDelivered = Env.ZERO;
 		
-		//	Max Weight to Generate
-		BigDecimal m_MaxWeight = m_EstimatedQty.subtract(m_WeightDelivered);
+		//	Max Quantity to Generate
+		m_MaxQty = m_Qty.subtract(m_QtyDelivered);
 		
-		log.fine("MaxWeight=" + m_MaxWeight);
+		log.fine("MaxWeight=" + m_MaxQty);
 		
-		if(m_MaxWeight.compareTo(Env.ZERO) <= 0)
-			throw new AdempiereUserError("@EstimatedQty@ <= @QtyDelivered@");
+		if(m_MaxQty.compareTo(Env.ZERO) <= 0)
+			throw new AdempiereUserError("@Qty@ <= @QtyToDeliver@");
 		
 		if(p_MaxQty <= 0)
 			throw new AdempiereUserError("@MaxQty@ <= @0@");
 		
 		//	Valid the Minimum to Generate
 		if(m_MaxReceipt != null
-				&& m_MaxReceipt.compareTo(m_MaxWeight) <= 0)
-			m_MaxWeight = m_MaxReceipt;
+				&& m_MaxReceipt.compareTo(m_MaxQty) <= 0)
+			m_MaxQty = m_MaxReceipt;
 		
-		log.fine("New MaxWeight=" + m_MaxWeight);
+		//	Get Load Capacity
+		m_QtyToDeliver = m_VehicleType.getLoadCapacity();
+		//	Convert
+		m_QtyToDeliver = m_QtyToDeliver.multiply(rate);
+		
+		log.fine("New MaxWeight=" + m_MaxQty);
 		
 		//	Weight Generated
 		BigDecimal m_WeightGenerated = Env.ZERO;
 		//	Quantity of Guides to Generate
 		int count = 0;
 		// Generate
-		while(m_MaxWeight.compareTo(m_WeightGenerated) > 0
+		while(m_MaxQty.compareTo(m_WeightGenerated) > 0
 				&& p_MaxQty > count){
 
 			//	Valid Remainder
-			BigDecimal m_QtyDeliver = m_VehicleType.getLoadCapacity();
-			if(m_QtyDeliver.add(m_WeightGenerated).compareTo(m_MaxWeight) > 0)
-				m_QtyDeliver = m_MaxWeight.subtract(m_WeightGenerated);
-			if(m_QtyDeliver.compareTo(Env.ZERO) <= 0)
+			if(m_QtyToDeliver.add(m_WeightGenerated).compareTo(m_MaxQty) > 0)
+				m_QtyToDeliver = m_MaxQty.subtract(m_WeightGenerated);
+			if(m_QtyToDeliver.compareTo(Env.ZERO) <= 0)
+				break;
+			
+			//	Calculate Re-EstimatedQty
+			m_Diff_Re_EstimatedQty = m_Farming_MaxQty
+					.add(m_Re_EstimatedQty)
+					.subtract(m_QtyDelivered)
+					.subtract(m_WeightGenerated.add(m_QtyToDeliver));
+			
+			if(!m_Farming_MaxQty.equals(Env.ZERO) 
+					&& m_Diff_Re_EstimatedQty.compareTo(Env.ZERO) < 0)
 				break;
 			
 			MFTAMobilizationGuide m_MobilizationGuide = new MFTAMobilizationGuide(getCtx(), 0, get_TrxName());
@@ -199,7 +237,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_MobilizationGuide.setFTA_Farming_ID(p_FTA_Farming_ID);
 			m_MobilizationGuide.setFTA_VehicleType_ID(p_FTA_VehicleType_ID);
 			m_MobilizationGuide.setM_Warehouse_ID(p_M_Warehouse_ID);
-			m_MobilizationGuide.setQtyToDeliver(m_QtyDeliver);
+			m_MobilizationGuide.setQtyToDeliver(m_QtyToDeliver);
 			//	Verify if Business Partner is not null
 			if(p_C_BPartner_ID != 0)
 				m_MobilizationGuide.setC_BPartner_ID(p_C_BPartner_ID);
@@ -208,8 +246,23 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_MobilizationGuide.processIt(DocAction.ACTION_Complete);
 			m_MobilizationGuide.saveEx();
 			//	Add Weight
-			m_WeightGenerated = m_WeightGenerated.add(m_QtyDeliver);
+			m_WeightGenerated = m_WeightGenerated.add(m_QtyToDeliver);
 			count ++;
+		}
+		
+		BigDecimal m_ToptoDeliver = m_QtyToDeliver.multiply(new BigDecimal(p_MaxQty));
+		//	Diff
+		if(m_ToptoDeliver.compareTo(m_Qty) < 0)
+			m_Qty = m_ToptoDeliver;
+		
+		//	Valid Max Qty
+		if(!m_Farming_MaxQty.equals(Env.ZERO) 
+				&& m_Diff_Re_EstimatedQty.compareTo(Env.ZERO) < 0){
+			String msg = "@Created@ = " + count + " [@QtyDelivered@ > @MaxQty@ @MustGenerate@ @a@ @Re_EstimatedQty@ @of@ = " 
+					+ m_Qty.subtract(m_Farming_MaxQty).doubleValue() + "]";
+			//	Log
+			addLog (0, null, null, msg);
+			return msg;
 		}
 		
 		return "@Created@ = " + count;

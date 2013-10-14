@@ -377,7 +377,8 @@ public class FarmerCreditAllocation
 					"INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = cr.FTA_CreditDefinition_ID) " +
 					"INNER JOIN M_Lot l ON(l.M_Lot_ID = cd.PlantingCycle_ID) " +
 					"WHERE cr.C_BPartner_ID = ? " +
-					"AND cr.CreditType IN('C', 'E', 'R')", null);
+					"AND cr.Parent_FarmerCredit_ID IS NULL " +
+					"AND cr.DocStatus = 'CO'", null);
 			pstmt.setInt(1, p_C_BPartner_ID);
 			ResultSet rs = pstmt.executeQuery();
 			//

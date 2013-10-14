@@ -207,18 +207,14 @@ public interface I_FTA_Fact
 	  */
 	public boolean isActive();
 
-    /** Column name IsManual */
-    public static final String COLUMNNAME_IsManual = "IsManual";
+    /** Column name IsCreditFactManual */
+    public static final String COLUMNNAME_IsCreditFactManual = "IsCreditFactManual";
 
-	/** Set Manual.
-	  * This is a manual process
-	  */
-	public void setIsManual (boolean IsManual);
+	/** Set Is Credit Fact Manual	  */
+	public void setIsCreditFactManual (boolean IsCreditFactManual);
 
-	/** Get Manual.
-	  * This is a manual process
-	  */
-	public boolean isManual();
+	/** Get Is Credit Fact Manual	  */
+	public boolean isCreditFactManual();
 
     /** Column name Line_ID */
     public static final String COLUMNNAME_Line_ID = "Line_ID";

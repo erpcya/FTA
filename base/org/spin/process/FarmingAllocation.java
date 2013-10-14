@@ -39,7 +39,6 @@ public class FarmingAllocation extends SvrProcess {
 
 	@Override
 	protected void prepare() {
-		// TODO Auto-generated method stub
 		for (ProcessInfoParameter para:getParameter()){
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
@@ -71,6 +70,11 @@ public class FarmingAllocation extends SvrProcess {
 				+"/*Not In Another Credit*/ "
 				+"And (FTA_Farming.FTA_FarmerCredit_ID Is Null Or FTA_Farming.FTA_FarmerCredit_ID="+credit.getFTA_FarmerCredit_ID()+")":
 				"FTA_Farming_ID="+m_FTA_Farming_ID));
+		
+		//	Yamel Senih 2013-10-14, 00:46:06
+		//	Add Filter, just active and Valid
+		filter.append(" AND Status = 'A' AND IsValid = 'Y'");
+		//	End Yamel Senih
 		
 		log.fine(filter.toString());
 

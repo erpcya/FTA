@@ -55,4 +55,13 @@ public class CalloutFarmerCredit extends CalloutEngine {
 		return "";
 	}
 	
+	public String bpartner (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		Integer m_C_BPartner_ID = (Integer)value;
+		if (m_C_BPartner_ID == null || m_C_BPartner_ID.intValue() == 0)
+			return "";
+		//	
+		mTab.setValue("Parent_FarmerCredit_ID", null);
+		return "";
+	}
+	
 }
