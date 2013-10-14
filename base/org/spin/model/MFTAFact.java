@@ -25,6 +25,7 @@ import java.util.Properties;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -64,18 +65,40 @@ public class MFTAFact extends X_FTA_Fact {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 10/10/2013, 14:15:21
 	 * @param p_AD_Table_ID
 	 * @param p_Record_ID
+	 * @param from
+	 * @param to
+	 * @param trxName
+	 * @return
+	 * @return int
+	 */
+	public static int deleteFact(int p_AD_Table_ID, int p_Record_ID, Timestamp from, Timestamp to, String trxName){
+		//	Delete Old Movements
+		StringBuffer deleteSQL = new StringBuffer ("DELETE FROM FTA_Fact ")
+			.append("WHERE AD_Table_ID = ").append(p_AD_Table_ID).append(" ")
+			.append("AND IsCreditFactManual = 'N' ");
+		if(p_Record_ID != 0)	
+			deleteSQL.append("AND Record_ID = ").append(p_Record_ID);
+		else {
+			if(from != null)
+				deleteSQL.append("AND DateDoc => ").append(DB.TO_DATE(from));
+			if(to != null)
+				deleteSQL.append("AND DateDoc <= ").append(DB.TO_DATE(to));
+		}
+		return DB.executeUpdate(deleteSQL.toString(), trxName);
+	}
+
+	/**
+	 * Delete Old Record
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 14/10/2013, 02:44:14
+	 * @param p_AD_Table_ID
+	 * @param p_Record_ID
 	 * @param trxName
 	 * @return
 	 * @return int
 	 */
 	public static int deleteFact(int p_AD_Table_ID, int p_Record_ID, String trxName){
-		//	Delete Old Movements
-		StringBuffer deleteSQL = new StringBuffer ("DELETE FROM FTA_Fact ")
-			.append("WHERE AD_Table_ID = ").append(p_AD_Table_ID).append(" ")
-			.append("AND Record_ID = ").append(p_Record_ID);
-		return DB.executeUpdate(deleteSQL.toString(), trxName);
+		return deleteFact(p_AD_Table_ID, p_Record_ID, null, null, trxName);
 	}
-	
 	
 	/**
 	 * Verify is Manual
@@ -100,17 +123,30 @@ public class MFTAFact extends X_FTA_Fact {
 	 * Crete Fact for Order
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/10/2013, 18:04:42
 	 * @param order
+	 * @param from
+	 * @param to
 	 * @return
 	 * @return String
 	 */
-	public static String createOrderFact(Properties ctx, MOrder order, String trxName) {
+	public static String createOrderFact(Properties ctx, MOrder order, Timestamp from, Timestamp to, String trxName) {
 		//
-		if(isManual(MOrder.Table_ID, 
-				order.getC_Order_ID(), trxName))
-			return null;
-		
+		String sqlWhere = "";
+		int record_ID = 0;
+		if(order != null){
+			//	Is Manual
+			if(order.get_ValueAsBoolean("IsCreditFactManual"))
+				return null;
+			
+			record_ID = order.getC_Order_ID();
+			sqlWhere = "AND o.C_Order_ID = " + record_ID + " ";
+		} else {
+			if(from != null)
+				sqlWhere += "AND o.DateOrdered >= ? ";
+			if(to != null)
+				sqlWhere += "AND o.DateOrdered <= ? ";
+		}
 		//	Delete Old Movements
-		deleteFact(MOrder.Table_ID, order.getC_Order_ID(), trxName);
+		deleteFact(MOrder.Table_ID, record_ID, trxName);
 		
 		//	SQL
 		String sql = new String("SELECT o.AD_Org_ID, o.C_BPartner_ID, o.DateOrdered DateDoc, o.Description, " +
@@ -124,20 +160,32 @@ public class MFTAFact extends X_FTA_Fact {
 				"INNER JOIN C_Tax t ON(t.C_Tax_ID = ol.C_Tax_ID) " + 
 				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) " +
 				"LEFT JOIN M_Product pr ON(pr.M_Product_ID = ol.M_Product_ID) " +
-				"WHERE o.C_Order_ID = ? " +
-				"AND (cdl.M_Product_ID = ol.M_Product_ID " +
-				"		AND ol.M_Product_ID IS NOT NULL) " +
-				"OR (cdl.M_Product_Category_ID = pr.M_Product_Category_ID " +
-				"		AND pr.M_Product_Category_ID IS NOT NULL) " +
-				"OR (cdl.C_Charge_ID = ol.C_charge_ID " +
-				"		AND ol.C_Charge_ID IS NOT NULL)");
+				"WHERE o.AD_Client_ID = ? " +
+				//	Add Record Identifier
+				sqlWhere +
+				"AND o.IsCreditFactManual = 'N' " +
+				"AND o.IsSOTrx = 'Y' " +
+				"AND (" +
+				"		(cdl.M_Product_ID = ol.M_Product_ID " +
+				"			AND ol.M_Product_ID IS NOT NULL) " +
+				"		OR (cdl.M_Product_Category_ID = pr.M_Product_Category_ID " +
+				"			AND pr.M_Product_Category_ID IS NOT NULL) " +
+				"		OR (cdl.C_Charge_ID = ol.C_charge_ID " +
+				"			AND ol.C_Charge_ID IS NOT NULL)" +
+				"	)");
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement(sql, trxName);
 			//	Add Parameters
-			pstmt.setInt(1, order.getC_Order_ID());
+			int i = 1;
+			pstmt.setInt(i++, Env.getAD_Client_ID(ctx));
+			//	
+			if(from != null)
+				pstmt.setTimestamp(i++, from);
+			if(to != null)
+				pstmt.setTimestamp(i++, to);
 			//	
 			rs = pstmt.executeQuery();
 			if(rs != null){
@@ -166,6 +214,7 @@ public class MFTAFact extends X_FTA_Fact {
 					m_fta_Fact.setLine_ID(m_Line_ID);
 					m_fta_Fact.setAD_Table_ID(MOrder.Table_ID);
 					m_fta_Fact.setAmt(m_Amt);
+					m_fta_Fact.setIsCreditFactManual(false);
 					//	Save
 					m_fta_Fact.saveEx();
 				}
@@ -181,22 +230,47 @@ public class MFTAFact extends X_FTA_Fact {
 	}
 	
 	/**
-	 * Create Invoice Fact
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 10/10/2013, 13:50:14
+	 * Create Order Fact
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 14/10/2013, 02:39:40
 	 * @param ctx
-	 * @param invoice
+	 * @param order
 	 * @param trxName
 	 * @return
 	 * @return String
 	 */
-	public static String createInvoiceFact(Properties ctx, MInvoice invoice, String trxName) {
+	public static String createOrderFact(Properties ctx, MOrder order, String trxName) {
+		return createOrderFact(ctx, order, null, null, trxName);
+	}
+	
+	/**
+	 * Create Invoice Fact
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 10/10/2013, 13:50:14
+	 * @param ctx
+	 * @param invoice
+	 * @param from
+	 * @param to
+	 * @param trxName
+	 * @return
+	 * @return String
+	 */
+	public static String createInvoiceFact(Properties ctx, MInvoice invoice, Timestamp from, Timestamp to, String trxName) {
 		//
-		if(isManual(MInvoice.Table_ID, 
-				invoice.getC_Order_ID(), trxName))
-			return null;
-		
+		String sqlWhere = "";
+		int record_ID = 0;
+		if(invoice != null){
+			//	Is Manual
+			if(invoice.get_ValueAsBoolean("IsCreditFactManual"))
+				return null;
+			record_ID = invoice.getC_Invoice_ID();
+			sqlWhere = "AND i.C_Invoice_ID = " + record_ID + " ";
+		} else {
+			if(from != null)
+				sqlWhere += "AND i.DateInvoiced >= ? ";
+			if(to != null)
+				sqlWhere += "AND i.DateInvoiced <= ? ";
+		}
 		//	Delete Old Movements
-		deleteFact(MInvoice.Table_ID, invoice.getC_Order_ID(), trxName);
+		deleteFact(MInvoice.Table_ID, record_ID, trxName);
 		
 		//	SQL
 		String sql = new String("SELECT i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced DateDoc, i.Description, " +
@@ -210,20 +284,32 @@ public class MFTAFact extends X_FTA_Fact {
 				"INNER JOIN C_Tax t ON(t.C_Tax_ID = il.C_Tax_ID) " + 
 				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) " +
 				"LEFT JOIN M_Product pr ON(pr.M_Product_ID = il.M_Product_ID) " +
-				"WHERE i.C_Invoice_ID = ? " +
-				"AND (cdl.M_Product_ID = il.M_Product_ID " +
-				"		AND il.M_Product_ID IS NOT NULL) " +
-				"OR (cdl.M_Product_Category_ID = pr.M_Product_Category_ID " +
-				"		AND pr.M_Product_Category_ID IS NOT NULL) " +
-				"OR (cdl.C_Charge_ID = il.C_charge_ID " +
-				"		AND il.C_Charge_ID IS NOT NULL)");
+				"WHERE i.AD_Client_ID = ? " +
+				//	Add Record Identifier
+				sqlWhere +
+				"AND i.IsCreditFactManual = 'N' " +
+				"AND i.IsSOTrx = 'Y' " +
+				"AND (" +
+				"		(cdl.M_Product_ID = il.M_Product_ID " +
+				"			AND il.M_Product_ID IS NOT NULL) " +
+				"		OR (cdl.M_Product_Category_ID = pr.M_Product_Category_ID " +
+				"			AND pr.M_Product_Category_ID IS NOT NULL) " +
+				"		OR (cdl.C_Charge_ID = il.C_charge_ID " +
+				"			AND il.C_Charge_ID IS NOT NULL)" +
+				"	)");
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement(sql, trxName);
 			//	Add Parameters
-			pstmt.setInt(1, invoice.getC_Invoice_ID());
+			int i = 1;
+			pstmt.setInt(i++, Env.getAD_Client_ID(ctx));
+			//	
+			if(from != null)
+				pstmt.setTimestamp(i++, from);
+			if(to != null)
+				pstmt.setTimestamp(i++, to);
 			//	
 			rs = pstmt.executeQuery();
 			if(rs != null){
@@ -252,6 +338,7 @@ public class MFTAFact extends X_FTA_Fact {
 					m_fta_Fact.setLine_ID(m_Line_ID);
 					m_fta_Fact.setAD_Table_ID(MInvoice.Table_ID);
 					m_fta_Fact.setAmt(m_Amt);
+					m_fta_Fact.setIsCreditFactManual(false);
 					//	Save
 					m_fta_Fact.saveEx();
 				}
@@ -264,6 +351,19 @@ public class MFTAFact extends X_FTA_Fact {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Create Invoice Fact
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 14/10/2013, 02:39:40
+	 * @param ctx
+	 * @param invoice
+	 * @param trxName
+	 * @return
+	 * @return String
+	 */
+	public static String createInvoiceFact(Properties ctx, MInvoice invoice, String trxName) {
+		return createInvoiceFact(ctx, invoice, null, null, trxName);
 	}
 	
 }

@@ -54,8 +54,9 @@ public class FTAModelValidator implements ModelValidator {
 			log.info("Initializing global validator: " + this.toString());
 		}
 		//	Add Timing change in C_Order and C_Invoice
-		engine.addDocValidate(MOrder.Table_Name, this);		
+		engine.addDocValidate(MOrder.Table_Name, this);
 		engine.addModelChange(MInvoice.Table_Name, this);
+		engine.addDocValidate(MInvoice.Table_Name, this);
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public class FTAModelValidator implements ModelValidator {
 	
 	@Override
 	public String docValidate(PO po, int timing) {
-		if(timing == TIMING_BEFORE_COMPLETE){
+		if(timing == TIMING_AFTER_COMPLETE){
 			//	Order
 			if(po.get_TableName().equals(MOrder.Table_Name)){
 				MOrder ord = (MOrder) po;
@@ -107,19 +108,13 @@ public class FTAModelValidator implements ModelValidator {
 					return MFTAFact.createInvoiceFact(Env.getCtx(), inv, inv.get_TrxName());
 				}
 			}
-		} else if(timing == TIMING_BEFORE_REACTIVATE
-				|| timing == TIMING_BEFORE_VOID){
+		} else if(timing == TIMING_AFTER_REACTIVATE
+				|| timing == TIMING_AFTER_VOID){
 			if(po.get_TableName().equals(MOrder.Table_Name)){
 				MOrder ord = (MOrder) po;
 				if(ord.isSOTrx()
 						&& ord.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
 					MFTAFact.deleteFact(MOrder.Table_ID, ord.getC_Order_ID(), ord.get_TrxName());
-				}
-			} else if(po.get_TableName().equals(MInvoice.Table_Name)){
-				MInvoice inv = (MInvoice) po;
-				if(inv.isSOTrx()
-						&& inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
-					MFTAFact.deleteFact(MInvoice.Table_ID, inv.getC_Order_ID(), inv.get_TrxName());
 				}
 			}
 		}

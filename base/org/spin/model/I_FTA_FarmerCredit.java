@@ -345,6 +345,21 @@ public interface I_FTA_FarmerCredit
 	  */
 	public boolean isApproved();
 
+    /** Column name Parent_FarmerCredit_ID */
+    public static final String COLUMNNAME_Parent_FarmerCredit_ID = "Parent_FarmerCredit_ID";
+
+	/** Set Parent Credit/Loan.
+	  * Parent Farmer Credit or Loan
+	  */
+	public void setParent_FarmerCredit_ID (int Parent_FarmerCredit_ID);
+
+	/** Get Parent Credit/Loan.
+	  * Parent Farmer Credit or Loan
+	  */
+	public int getParent_FarmerCredit_ID();
+
+	public org.spin.model.I_FTA_FarmerCredit getParent_FarmerCredit() throws RuntimeException;
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 

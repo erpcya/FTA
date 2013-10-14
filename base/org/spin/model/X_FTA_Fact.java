@@ -33,7 +33,7 @@ public class X_FTA_Fact extends PO implements I_FTA_Fact, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131011L;
+	private static final long serialVersionUID = 20131014L;
 
     /** Standard Constructor */
     public X_FTA_Fact (Properties ctx, int FTA_Fact_ID, String trxName)
@@ -289,21 +289,18 @@ public class X_FTA_Fact extends PO implements I_FTA_Fact, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Manual.
-		@param IsManual 
-		This is a manual process
-	  */
-	public void setIsManual (boolean IsManual)
+	/** Set Is Credit Fact Manual.
+		@param IsCreditFactManual Is Credit Fact Manual	  */
+	public void setIsCreditFactManual (boolean IsCreditFactManual)
 	{
-		set_Value (COLUMNNAME_IsManual, Boolean.valueOf(IsManual));
+		set_Value (COLUMNNAME_IsCreditFactManual, Boolean.valueOf(IsCreditFactManual));
 	}
 
-	/** Get Manual.
-		@return This is a manual process
-	  */
-	public boolean isManual () 
+	/** Get Is Credit Fact Manual.
+		@return Is Credit Fact Manual	  */
+	public boolean isCreditFactManual () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsManual);
+		Object oo = get_Value(COLUMNNAME_IsCreditFactManual);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
