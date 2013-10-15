@@ -243,11 +243,13 @@ public class FarmerCreditAllocation
 			+ "currencyConvert(invoiceDiscount"                               //  8       AllowedDiscount
 			+ "(i.C_Invoice_ID,?,C_InvoicePaySchedule_ID),i.C_Currency_ID,?,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID)*i.Multiplier*i.MultiplierAP,"               //  #5, #6
 			+ "i.MultiplierAP "
-			+ "FROM C_Invoice_v i"		//  corrected for CM/Split
+			+ "FROM FTA_RV_C_Invoice i"		//  corrected for CM/Split
 			+ " INNER JOIN C_Currency c ON (i.C_Currency_ID=c.C_Currency_ID) "
-			+ "WHERE i.IsPaid='N' AND i.Processed='Y' " +
+			+ "WHERE i.IsPaid='N' AND i.Processed='Y' "
 			//	Add Trx
-			"AND i.IsSOTrx = 'Y' AND i.FTA_FarmerCredit_ID = " + m_FTA_FarmerCredit_ID
+			+ "AND i.IsSOTrx = 'Y' " 
+			+ "AND (i.FTA_FarmerCredit_ID = " + m_FTA_FarmerCredit_ID 
+			+ " 		OR i.Parent_FarmerCredit_ID = " + m_FTA_FarmerCredit_ID + ")"
 			+ " AND i.C_BPartner_ID=?");                                            //  #7
 		//if (!isMultiCurrency)
 			//sql.append(" AND i.C_Currency_ID=?");                                   //  #8
