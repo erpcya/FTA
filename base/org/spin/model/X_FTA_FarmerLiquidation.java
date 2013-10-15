@@ -33,7 +33,7 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131014L;
+	private static final long serialVersionUID = 20131015L;
 
     /** Standard Constructor */
     public X_FTA_FarmerLiquidation (Properties ctx, int FTA_FarmerLiquidation_ID, String trxName)
@@ -51,6 +51,8 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 // DR
 			setFTA_FarmerCredit_ID (0);
 			setFTA_FarmerLiquidation_ID (0);
+			setIsApproved (false);
+// N
 			setM_Product_ID (0);
 			setNetWeight (Env.ZERO);
         } */
@@ -402,6 +404,30 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Approved.
+		@param IsApproved 
+		Indicates if this document requires approval
+	  */
+	public void setIsApproved (boolean IsApproved)
+	{
+		set_Value (COLUMNNAME_IsApproved, Boolean.valueOf(IsApproved));
+	}
+
+	/** Get Approved.
+		@return Indicates if this document requires approval
+	  */
+	public boolean isApproved () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsApproved);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public I_M_Product getM_Product() throws RuntimeException

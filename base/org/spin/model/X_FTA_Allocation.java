@@ -17,10 +17,12 @@
 /** Generated Model - DO NOT CHANGE */
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.Env;
 
 /** Generated Model for FTA_Allocation
  *  @author Adempiere (generated) 
@@ -31,7 +33,7 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131014L;
+	private static final long serialVersionUID = 20131015L;
 
     /** Standard Constructor */
     public X_FTA_Allocation (Properties ctx, int FTA_Allocation_ID, String trxName)
@@ -39,6 +41,7 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
       super (ctx, FTA_Allocation_ID, trxName);
       /** if (FTA_Allocation_ID == 0)
         {
+			setApprovalAmt (Env.ZERO);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 			setDocAction (null);
 // CO
@@ -81,6 +84,26 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Approval Amount.
+		@param ApprovalAmt 
+		Document Approval Amount
+	  */
+	public void setApprovalAmt (BigDecimal ApprovalAmt)
+	{
+		set_Value (COLUMNNAME_ApprovalAmt, ApprovalAmt);
+	}
+
+	/** Get Approval Amount.
+		@return Document Approval Amount
+	  */
+	public BigDecimal getApprovalAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ApprovalAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	/** Set Document Date.
 		@param DateDoc 

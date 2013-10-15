@@ -191,16 +191,16 @@ public interface I_FTA_Vehicle
 	  */
 	public int getUpdatedBy();
 
-    /** Column name Value */
-    public static final String COLUMNNAME_Value = "Value";
+    /** Column name VehiclePlate */
+    public static final String COLUMNNAME_VehiclePlate = "VehiclePlate";
 
-	/** Set Search Key.
-	  * Search key for the record in the format required - must be unique
+	/** Set Vehicle Plate.
+	  * Vehicle Plate or Identifier
 	  */
-	public void setValue (String Value);
+	public void setVehiclePlate (String VehiclePlate);
 
-	/** Get Search Key.
-	  * Search key for the record in the format required - must be unique
+	/** Get Vehicle Plate.
+	  * Vehicle Plate or Identifier
 	  */
-	public String getValue();
+	public String getVehiclePlate();
 }

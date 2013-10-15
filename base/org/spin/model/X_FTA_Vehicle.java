@@ -31,7 +31,7 @@ public class X_FTA_Vehicle extends PO implements I_FTA_Vehicle, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131014L;
+	private static final long serialVersionUID = 20131015L;
 
     /** Standard Constructor */
     public X_FTA_Vehicle (Properties ctx, int FTA_Vehicle_ID, String trxName)
@@ -42,7 +42,7 @@ public class X_FTA_Vehicle extends PO implements I_FTA_Vehicle, I_Persistent
 			setFTA_Vehicle_ID (0);
 			setFTA_VehicleType_ID (0);
 			setName (null);
-			setValue (null);
+			setVehiclePlate (null);
         } */
     }
 
@@ -231,21 +231,21 @@ public class X_FTA_Vehicle extends PO implements I_FTA_Vehicle, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Set Search Key.
-		@param Value 
-		Search key for the record in the format required - must be unique
+	/** Set Vehicle Plate.
+		@param VehiclePlate 
+		Vehicle Plate or Identifier
 	  */
-	public void setValue (String Value)
+	public void setVehiclePlate (String VehiclePlate)
 	{
-		set_Value (COLUMNNAME_Value, Value);
+		set_Value (COLUMNNAME_VehiclePlate, VehiclePlate);
 	}
 
-	/** Get Search Key.
-		@return Search key for the record in the format required - must be unique
+	/** Get Vehicle Plate.
+		@return Vehicle Plate or Identifier
 	  */
-	public String getValue () 
+	public String getVehiclePlate () 
 	{
-		return (String)get_Value(COLUMNNAME_Value);
+		return (String)get_Value(COLUMNNAME_VehiclePlate);
 	}
 
     /** Get Record ID/ColumnName
@@ -253,6 +253,6 @@ public class X_FTA_Vehicle extends PO implements I_FTA_Vehicle, I_Persistent
       */
     public KeyNamePair getKeyNamePair() 
     {
-        return new KeyNamePair(get_ID(), getValue());
+        return new KeyNamePair(get_ID(), getVehiclePlate());
     }
 }
