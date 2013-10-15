@@ -586,6 +586,22 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			.<MOrder>first();
 	}
 	
+	/**
+	 * Valid Area
+	 */
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		//	Set Default Values
+		if(newRecord){
+			setGenerateOrder("N");
+			setFTA_CreditAct_ID(0);
+		}
+		if(getCreditType().equals(CREDITTYPE_Loan))
+			setQty(Env.ONE);
+		return true;
+	}
+	
 	@Override
 	public int customizeValidActions(String docStatus, Object processing,
 			String orderType, String isSOTrx, int AD_Table_ID,
