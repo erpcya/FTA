@@ -70,7 +70,7 @@ UPDATE AD_Reference_Trl SET Name='FTA_Productores',Updated=TO_DATE('2013-10-07 1
 
 -- 07-oct-2013 15:06:32 VET
 -- SFAndroid Contribution
-INSERT INTO AD_Ref_Table (AD_Client_ID,AD_Display,AD_Key,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsValueDisplayed,Updated,UpdatedBy,WhereClause) VALUES (0,2902,2893,0,53570,291,53237,TO_DATE('2013-10-07 15:06:31','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','N',TO_DATE('2013-10-07 15:06:31','YYYY-MM-DD HH24:MI:SS'),100,'IsFarmer=''Y''')
+INSERT INTO AD_Ref_Table (AD_Client_ID,AD_Display,AD_Key,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsValueDisplayed,Updated,UpdatedBy,WhereClause) VALUES (0,2902,2893,0,53570,291,53237,TO_DATE('2013-10-07 15:06:31','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','N',TO_DATE('2013-10-07 15:06:31','YYYY-MM-DD HH24:MI:SS'),100,'C_BPartner.IsFarmer=''Y''')
 ;
 
 -- 07-oct-2013 15:06:55 VET
