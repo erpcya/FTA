@@ -39,6 +39,8 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.spin.model.MFTAAllocation;
+import org.spin.model.MFTAAllocationLine;
 
 public class FarmerCreditAllocation
 {
@@ -60,7 +62,7 @@ public class FarmerCreditAllocation
 	public Timestamp allocDate = null;
 
 	//  Index	changed if multi-currency
-	private int         i_payment = 7;
+	private int         i_liquidation = 7;
 	//
 	private int         i_open = 4;
 	private int         i_discount = 5;
@@ -210,7 +212,7 @@ public class FarmerCreditAllocation
 //		paymentTable.setColumnClass(i++, BigDecimal.class, true);      	//  8-Multiplier
 
 		//
-		i_payment = 5;
+		i_liquidation = 5;
 		
 
 		//  Table UI
@@ -433,7 +435,7 @@ public class FarmerCreditAllocation
 		if (!isInvoice)
 		{
 			BigDecimal open = (BigDecimal)payment.getValueAt(row, i_open);
-			BigDecimal applied = (BigDecimal)payment.getValueAt(row, i_payment);
+			BigDecimal applied = (BigDecimal)payment.getValueAt(row, i_liquidation);
 			
 			if (col == 0)
 			{
@@ -451,7 +453,7 @@ public class FarmerCreditAllocation
 			}
 			
 			
-			if (col == i_payment)
+			if (col == i_liquidation)
 			{
 				if ( applied.signum() == -open.signum() )
 					applied = applied.negate();
@@ -459,7 +461,7 @@ public class FarmerCreditAllocation
 							applied = open;
 			}
 			
-			payment.setValueAt(applied, row, i_payment);
+			payment.setValueAt(applied, row, i_liquidation);
 		}
 
 		//  Invoice
@@ -592,7 +594,7 @@ public class FarmerCreditAllocation
 				Timestamp ts = (Timestamp)payment.getValueAt(i, 1);
 				//if ( !isMultiCurrency )  // the converted amounts are only valid for the selected date
 					//allocDate = TimeUtil.max(allocDate, ts);
-				BigDecimal bd = (BigDecimal)payment.getValueAt(i, i_payment);
+				BigDecimal bd = (BigDecimal)payment.getValueAt(i, i_liquidation);
 				totalPay = totalPay.add(bd);  //  Applied Pay
 				m_noPayments++;
 				log.fine("Payment_" + i + " = " + bd + " - Total=" + totalPay);
@@ -629,7 +631,7 @@ public class FarmerCreditAllocation
 	/**************************************************************************
 	 *  Save Data
 	 */
-	public String saveData(int m_WindowNo, Object date, IMiniTable payment, IMiniTable invoice, String trxName)
+	public String saveData(int m_WindowNo, Object date, IMiniTable liquidation, IMiniTable invoice, String trxName)
 	{
 		if (m_noInvoices + m_noPayments == 0)
 			return "";
@@ -641,7 +643,7 @@ public class FarmerCreditAllocation
 		int C_Order_ID = 0;
 		int C_CashLine_ID = 0;
 		Timestamp DateTrx = (Timestamp)date;
-		int C_Currency_ID = m_C_Currency_ID;	//	the allocation currency
+		//int C_Currency_ID = m_C_Currency_ID;	//	the allocation currency
 		//
 		if (AD_Org_ID == 0)
 		{
@@ -653,37 +655,37 @@ public class FarmerCreditAllocation
 			+ ", BPartner=" + C_BPartner_ID + ", Date=" + DateTrx);
 
 		//  Payment - Loop and add them to paymentList/amountList
-		int pRows = payment.getRowCount();
-		ArrayList<Integer> paymentList = new ArrayList<Integer>(pRows);
+		int pRows = liquidation.getRowCount();
+		ArrayList<Integer> liquidationList = new ArrayList<Integer>(pRows);
 		ArrayList<BigDecimal> amountList = new ArrayList<BigDecimal>(pRows);
-		BigDecimal paymentAppliedAmt = Env.ZERO;
+		BigDecimal liquidationAppliedAmt = Env.ZERO;
 		for (int i = 0; i < pRows; i++)
 		{
 			//  Payment line is selected
-			if (((Boolean)payment.getValueAt(i, 0)).booleanValue())
+			if (((Boolean)liquidation.getValueAt(i, 0)).booleanValue())
 			{
-				KeyNamePair pp = (KeyNamePair)payment.getValueAt(i, 2);   //  Value
-				//  Payment variables
+				KeyNamePair pp = (KeyNamePair)liquidation.getValueAt(i, 2);   //  Value
+				//  Liquidation variables
 				int C_Payment_ID = pp.getKey();
-				paymentList.add(new Integer(C_Payment_ID));
+				liquidationList.add(new Integer(C_Payment_ID));
 				//
-				BigDecimal PaymentAmt = (BigDecimal)payment.getValueAt(i, i_payment);  //  Applied Payment
-				amountList.add(PaymentAmt);
+				BigDecimal m_LiquidationAmt = (BigDecimal)liquidation.getValueAt(i, i_liquidation);  //  Applied Payment
+				amountList.add(m_LiquidationAmt);
 				//
-				paymentAppliedAmt = paymentAppliedAmt.add(PaymentAmt);
+				liquidationAppliedAmt = liquidationAppliedAmt.add(m_LiquidationAmt);
 				//
 				log.fine("C_Payment_ID=" + C_Payment_ID 
-					+ " - PaymentAmt=" + PaymentAmt); // + " * " + Multiplier + " = " + PaymentAmtAbs);
+					+ " - PaymentAmt=" + m_LiquidationAmt); // + " * " + Multiplier + " = " + PaymentAmtAbs);
 			}
 		}
-		log.config("Number of Payments=" + paymentList.size() + " - Total=" + paymentAppliedAmt);
+		log.config("Number of Liquidation=" + liquidationList.size() + " - Total=" + liquidationAppliedAmt);
 
 		//  Invoices - Loop and generate allocations
 		int iRows = invoice.getRowCount();
 		
 		//	Create Allocation
-		MAllocationHdr alloc = new MAllocationHdr (Env.getCtx(), true,	//	manual
-			DateTrx, C_Currency_ID, Env.getContext(Env.getCtx(), "#AD_User_Name"), trxName);
+		MFTAAllocation alloc = new MFTAAllocation(Env.getCtx(), true,	//	manual
+			DateTrx, 0, Env.getContext(Env.getCtx(), "#AD_User_Name"), trxName);
 		alloc.setAD_Org_ID(AD_Org_ID);
 		alloc.saveEx();
 		//	For all invoices
@@ -709,9 +711,9 @@ public class FarmerCreditAllocation
 				log.config("Invoice #" + i + " - AppliedAmt=" + AppliedAmt);// + " -> " + AppliedAbs);
 				//  loop through all payments until invoice applied
 				
-				for (int j = 0; j < paymentList.size() && AppliedAmt.signum() != 0; j++)
+				for (int j = 0; j < liquidationList.size() && AppliedAmt.signum() != 0; j++)
 				{
-					int C_Payment_ID = ((Integer)paymentList.get(j)).intValue();
+					int C_Payment_ID = ((Integer)liquidationList.get(j)).intValue();
 					BigDecimal PaymentAmt = (BigDecimal)amountList.get(j);
 					if (PaymentAmt.signum() == AppliedAmt.signum())	// only match same sign (otherwise appliedAmt increases)
 					{												// and not zero (appliedAmt was checked earlier)
@@ -722,7 +724,7 @@ public class FarmerCreditAllocation
 							amount = PaymentAmt;							// than left in the payment
 						
 						//	Allocation Line
-						MAllocationLine aLine = new MAllocationLine (alloc, amount, 
+						MFTAAllocationLine aLine = new MFTAAllocationLine (alloc, amount, 
 							DiscountAmt, WriteOffAmt, OverUnderAmt);
 						aLine.setDocInfo(C_BPartner_ID, C_Order_ID, C_Invoice_ID);
 						aLine.setPaymentInfo(C_Payment_ID, C_CashLine_ID);
@@ -745,7 +747,7 @@ public class FarmerCreditAllocation
 					int C_Payment_ID = 0;
 					
 					//	Allocation Line
-					MAllocationLine aLine = new MAllocationLine (alloc, AppliedAmt, 
+					MFTAAllocationLine aLine = new MFTAAllocationLine (alloc, AppliedAmt, 
 						DiscountAmt, WriteOffAmt, OverUnderAmt);
 					aLine.setDocInfo(C_BPartner_ID, C_Order_ID, C_Invoice_ID);
 					aLine.setPaymentInfo(C_Payment_ID, C_CashLine_ID);
@@ -757,16 +759,16 @@ public class FarmerCreditAllocation
 		}   //  invoice loop
 
 		// check for unapplied payment amounts (eg from payment reversals)
-		for (int i = 0; i < paymentList.size(); i++)	{
+		for (int i = 0; i < liquidationList.size(); i++)	{
 			BigDecimal payAmt = (BigDecimal) amountList.get(i);
 			if ( payAmt.signum() == 0 )
 					continue;
-			int C_Payment_ID = ((Integer)paymentList.get(i)).intValue();
+			int C_Payment_ID = ((Integer)liquidationList.get(i)).intValue();
 			log.fine("Payment=" + C_Payment_ID  
 					+ ", Amount=" + payAmt);
 
 			//	Allocation Line
-			MAllocationLine aLine = new MAllocationLine (alloc, payAmt, 
+			MFTAAllocationLine aLine = new MFTAAllocationLine (alloc, payAmt, 
 				Env.ZERO, Env.ZERO, Env.ZERO);
 			aLine.setDocInfo(C_BPartner_ID, 0, 0);
 			aLine.setPaymentInfo(C_Payment_ID, 0);
@@ -806,16 +808,16 @@ public class FarmerCreditAllocation
 			}
 		}
 		//  Test/Set Payment is fully allocated
-		for (int i = 0; i < paymentList.size(); i++)
+		for (int i = 0; i < liquidationList.size(); i++)
 		{
-			int C_Payment_ID = ((Integer)paymentList.get(i)).intValue();
+			int C_Payment_ID = ((Integer)liquidationList.get(i)).intValue();
 			MPayment pay = new MPayment (Env.getCtx(), C_Payment_ID, trxName);
 			if (pay.testAllocation())
 				pay.saveEx();
 			log.config("Payment #" + i + (pay.isAllocated() ? " not" : " is") 
 					+ " fully allocated");
 		}
-		paymentList.clear();
+		liquidationList.clear();
 		amountList.clear();
 		
 		return alloc.getDocumentNo();

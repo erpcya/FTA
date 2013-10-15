@@ -63,6 +63,19 @@ public interface I_FTA_Allocation
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name ApprovalAmt */
+    public static final String COLUMNNAME_ApprovalAmt = "ApprovalAmt";
+
+	/** Set Approval Amount.
+	  * Document Approval Amount
+	  */
+	public void setApprovalAmt (BigDecimal ApprovalAmt);
+
+	/** Get Approval Amount.
+	  * Document Approval Amount
+	  */
+	public BigDecimal getApprovalAmt();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

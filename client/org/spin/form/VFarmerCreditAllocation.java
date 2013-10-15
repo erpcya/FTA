@@ -28,6 +28,7 @@ import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -123,7 +124,7 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 	private StatusBar statusBar = new StatusBar();
 	private JLabel dateLabel = new JLabel();
 	private VDate dateField = new VDate();
-	//private JCheckBox autoWriteOff = new JCheckBox();
+	private JCheckBox autoWriteOff = new JCheckBox();
 	private JLabel organizationLabel = new JLabel();
 	private VLookup organizationPick = null;
 	private JLabel farmerCreditLabel = new JLabel();
@@ -140,9 +141,9 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		mainPanel.setLayout(mainLayout);
 		dateLabel.setText(Msg.getMsg(Env.getCtx(), "Date"));
 		dateLabel.setToolTipText(Msg.getMsg(Env.getCtx(), "AllocDate", false));
-		/*autoWriteOff.setSelected(false);
+		autoWriteOff.setSelected(false);
 		autoWriteOff.setText(Msg.getMsg(Env.getCtx(), "AutoWriteOff", true));
-		autoWriteOff.setToolTipText(Msg.getMsg(Env.getCtx(), "AutoWriteOff", false));*/
+		autoWriteOff.setToolTipText(Msg.getMsg(Env.getCtx(), "AutoWriteOff", false));
 		//
 		farmerCreditLabel.setText(Msg.translate(Env.getCtx(), "FTA_FarmerCredit_ID"));
 		parameterPanel.setLayout(parameterLayout);
@@ -199,9 +200,9 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		parameterPanel.add(currencyPick, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		parameterPanel.add(multiCurrency, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));*/
 		parameterPanel.add(autoWriteOff, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));*/
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		mainPanel.add(allocationPanel, BorderLayout.SOUTH);
 		allocationPanel.add(differenceLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
@@ -324,11 +325,11 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		int row = e.getFirstRow();
 		int col = e.getColumn();
 		boolean isInvoice = (e.getSource().equals(invoiceTable.getModel()));
-		//boolean isAutoWriteOff = autoWriteOff.isSelected();
+		boolean isAutoWriteOff = autoWriteOff.isSelected();
 		
-		/*String msg = writeOff(row, col, isInvoice, paymentTable, invoiceTable, isAutoWriteOff);
+		String msg = writeOff(row, col, isInvoice, paymentTable, invoiceTable, isAutoWriteOff);
 		if(msg != null && msg.length() > 0)
-			ADialog.warn(m_WindowNo, panel, "AllocationWriteOffWarn");*/
+			ADialog.warn(m_WindowNo, panel, "AllocationWriteOffWarn");
 		
 		calculate();
 	}   //  tableChanged
