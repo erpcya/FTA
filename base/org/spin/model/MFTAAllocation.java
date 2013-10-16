@@ -689,7 +689,7 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		sb.append(getDocumentNo());
 		//	: Total Lines = 123.00 (#1)
 		sb.append(": ")
-			.append(Msg.translate(getCtx(),"ApprovalAmt")).append("=").append(getApprovalAmt())
+			//.append(Msg.translate(getCtx(),"ApprovalAmt")).append("=").append(getApprovalAmt())
 			.append(" (#").append(getLines(false).length).append(")");
 		//	 - Description
 		if (getDescription() != null && getDescription().length() > 0)
@@ -811,15 +811,11 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 
 	@Override
 	public int getC_Currency_ID() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public BigDecimal getApprovalAmt() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 }
