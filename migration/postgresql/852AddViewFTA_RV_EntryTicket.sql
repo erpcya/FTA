@@ -20,15 +20,10 @@ SELECT
 	et.FTA_Driver_ID,
 	et.FTA_Vehicle_ID,
 	et.M_Shipper_ID,
-	et.ReferenceNO, -- Numero de Patio
-	
-	
-	
+	et.ReferenceNO, -- Numero de Patio	
 	--Organización
 	oi.c_location_id AS org_location_id, 
-	oi.taxid,
-	
-	
+	oi.taxid,	
 	--Socio del Negocio
 	et.C_BPartner_ID,
 	COALESCE(bp.Value,bp.TaxID) AS BPTaxID,
@@ -37,12 +32,15 @@ SELECT
 	et.C_DocType_ID,  
 	dt.PrintName AS DocumentType	,
 	-- Guia de Movilizacion
-	et.FTA_MobilizationGuide_ID
+	et.FTA_MobilizationGuide_ID,
+	p.M_Product_ID
 
 FROM FTA_EntryTicket et 
 INNER JOIN C_DocType dt ON (dt.C_DocType_ID = et.C_DocType_ID)
 INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID = et.C_BPartner_ID)
 INNER JOIN FTA_MobilizationGuide mg ON (mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
+INNER JOIN FTA_Farming f ON (f.FTA_Farming_ID = mg.FTA_Farming_ID) 
+INNER JOIN M_Product p ON (p.M_Product_ID = f.Category_ID)
 INNER JOIN AD_OrgInfo  oi ON (oi.AD_Org_ID = et.AD_Org_ID)
 LEFT JOIN M_Shipper s ON (s.M_Shipper_ID = et.M_Shipper_ID)
 ;
