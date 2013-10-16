@@ -25,8 +25,6 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.MAllocationHdr;
-import org.compiere.model.MAllocationLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;
 import org.compiere.model.MRole;
@@ -642,7 +640,7 @@ public class FarmerCreditAllocation
 		int C_BPartner_ID = m_C_BPartner_ID;
 		int C_Order_ID = 0;
 		int C_CashLine_ID = 0;
-		Timestamp DateTrx = (Timestamp)date;
+		Timestamp m_DateDoc = (Timestamp)date;
 		//int C_Currency_ID = m_C_Currency_ID;	//	the allocation currency
 		//
 		if (AD_Org_ID == 0)
@@ -652,7 +650,7 @@ public class FarmerCreditAllocation
 		}
 		//
 		log.config("Client=" + AD_Client_ID + ", Org=" + AD_Org_ID
-			+ ", BPartner=" + C_BPartner_ID + ", Date=" + DateTrx);
+			+ ", BPartner=" + C_BPartner_ID + ", Date=" + m_DateDoc);
 
 		//  Payment - Loop and add them to paymentList/amountList
 		int pRows = liquidation.getRowCount();
@@ -685,8 +683,10 @@ public class FarmerCreditAllocation
 		
 		//	Create Allocation
 		MFTAAllocation alloc = new MFTAAllocation(Env.getCtx(), true,	//	manual
-			DateTrx, 0, Env.getContext(Env.getCtx(), "#AD_User_Name"), trxName);
+			m_DateDoc, 0, Env.getContext(Env.getCtx(), "#AD_User_Name"), trxName);
 		alloc.setAD_Org_ID(AD_Org_ID);
+		//	FTA
+		alloc.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit_ID);
 		alloc.saveEx();
 		//	For all invoices
 		int invoiceLines = 0;
@@ -713,21 +713,21 @@ public class FarmerCreditAllocation
 				
 				for (int j = 0; j < liquidationList.size() && AppliedAmt.signum() != 0; j++)
 				{
-					int C_Payment_ID = ((Integer)liquidationList.get(j)).intValue();
-					BigDecimal PaymentAmt = (BigDecimal)amountList.get(j);
-					if (PaymentAmt.signum() == AppliedAmt.signum())	// only match same sign (otherwise appliedAmt increases)
+					int m_FTA_FarmerLiquidation_ID = ((Integer)liquidationList.get(j)).intValue();
+					BigDecimal liquidationAmt = (BigDecimal)amountList.get(j);
+					if (liquidationAmt.signum() == AppliedAmt.signum())	// only match same sign (otherwise appliedAmt increases)
 					{												// and not zero (appliedAmt was checked earlier)
-						log.config(".. with payment #" + j + ", Amt=" + PaymentAmt);
+						log.config(".. with liquidation #" + j + ", Amt=" + liquidationAmt);
 						
 						BigDecimal amount = AppliedAmt;
-						if (amount.abs().compareTo(PaymentAmt.abs()) > 0)  // if there's more open on the invoice
-							amount = PaymentAmt;							// than left in the payment
+						if (amount.abs().compareTo(liquidationAmt.abs()) > 0)  // if there's more open on the invoice
+							amount = liquidationAmt;							// than left in the payment
 						
 						//	Allocation Line
 						MFTAAllocationLine aLine = new MFTAAllocationLine (alloc, amount, 
 							DiscountAmt, WriteOffAmt, OverUnderAmt);
 						aLine.setDocInfo(C_BPartner_ID, C_Order_ID, C_Invoice_ID);
-						aLine.setPaymentInfo(C_Payment_ID, C_CashLine_ID);
+						aLine.setLiquidationInfo(m_FTA_FarmerLiquidation_ID, C_CashLine_ID);
 						aLine.saveEx();
 
 						//  Apply Discounts and WriteOff only first time
@@ -735,22 +735,22 @@ public class FarmerCreditAllocation
 						WriteOffAmt = Env.ZERO;
 						//  subtract amount from Payment/Invoice
 						AppliedAmt = AppliedAmt.subtract(amount);
-						PaymentAmt = PaymentAmt.subtract(amount);
-						log.fine("Allocation Amount=" + amount + " - Remaining  Applied=" + AppliedAmt + ", Payment=" + PaymentAmt);
-						amountList.set(j, PaymentAmt);  //  update
+						liquidationAmt = liquidationAmt.subtract(amount);
+						log.fine("Allocation Amount=" + amount + " - Remaining  Applied=" + AppliedAmt + ", Payment=" + liquidationAmt);
+						amountList.set(j, liquidationAmt);  //  update
 					}	//	for all applied amounts
 				}	//	loop through payments for invoice
 				
 				if ( AppliedAmt.signum() == 0 && DiscountAmt.signum() == 0 && WriteOffAmt.signum() == 0)
 					continue;
 				else {			// remainder will need to match against other invoices
-					int C_Payment_ID = 0;
+					int m_FTA_FarmerLiquidation_ID = 0;
 					
 					//	Allocation Line
 					MFTAAllocationLine aLine = new MFTAAllocationLine (alloc, AppliedAmt, 
 						DiscountAmt, WriteOffAmt, OverUnderAmt);
 					aLine.setDocInfo(C_BPartner_ID, C_Order_ID, C_Invoice_ID);
-					aLine.setPaymentInfo(C_Payment_ID, C_CashLine_ID);
+					aLine.setLiquidationInfo(m_FTA_FarmerLiquidation_ID, C_CashLine_ID);
 					aLine.saveEx();
 					log.fine("Allocation Amount=" + AppliedAmt);
 					unmatchedApplied = unmatchedApplied.add(AppliedAmt);
@@ -763,15 +763,15 @@ public class FarmerCreditAllocation
 			BigDecimal payAmt = (BigDecimal) amountList.get(i);
 			if ( payAmt.signum() == 0 )
 					continue;
-			int C_Payment_ID = ((Integer)liquidationList.get(i)).intValue();
-			log.fine("Payment=" + C_Payment_ID  
+			int m_FTA_FarmerLiquidation_ID = ((Integer)liquidationList.get(i)).intValue();
+			log.fine("Payment=" + m_FTA_FarmerLiquidation_ID  
 					+ ", Amount=" + payAmt);
 
 			//	Allocation Line
 			MFTAAllocationLine aLine = new MFTAAllocationLine (alloc, payAmt, 
 				Env.ZERO, Env.ZERO, Env.ZERO);
 			aLine.setDocInfo(C_BPartner_ID, 0, 0);
-			aLine.setPaymentInfo(C_Payment_ID, 0);
+			aLine.setLiquidationInfo(m_FTA_FarmerLiquidation_ID, 0);
 			aLine.saveEx();
 			unmatchedApplied = unmatchedApplied.subtract(payAmt);
 		}		
@@ -808,7 +808,7 @@ public class FarmerCreditAllocation
 			}
 		}
 		//  Test/Set Payment is fully allocated
-		for (int i = 0; i < liquidationList.size(); i++)
+		/*for (int i = 0; i < liquidationList.size(); i++)
 		{
 			int C_Payment_ID = ((Integer)liquidationList.get(i)).intValue();
 			MPayment pay = new MPayment (Env.getCtx(), C_Payment_ID, trxName);
@@ -816,7 +816,7 @@ public class FarmerCreditAllocation
 				pay.saveEx();
 			log.config("Payment #" + i + (pay.isAllocated() ? " not" : " is") 
 					+ " fully allocated");
-		}
+		}*/
 		liquidationList.clear();
 		amountList.clear();
 		

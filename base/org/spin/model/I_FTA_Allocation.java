@@ -181,17 +181,6 @@ public interface I_FTA_Allocation
 
 	public org.spin.model.I_FTA_FarmerCredit getFTA_FarmerCredit() throws RuntimeException;
 
-    /** Column name FTA_FarmerLiquidation_ID */
-    public static final String COLUMNNAME_FTA_FarmerLiquidation_ID = "FTA_FarmerLiquidation_ID";
-
-	/** Set Farmer Liquidation	  */
-	public void setFTA_FarmerLiquidation_ID (int FTA_FarmerLiquidation_ID);
-
-	/** Get Farmer Liquidation	  */
-	public int getFTA_FarmerLiquidation_ID();
-
-	public org.spin.model.I_FTA_FarmerLiquidation getFTA_FarmerLiquidation() throws RuntimeException;
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
