@@ -25,8 +25,6 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MPayment;
 import org.compiere.model.MRole;
 import org.compiere.process.DocAction;
 import org.compiere.swing.CComboBox;
@@ -36,6 +34,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
 import org.spin.model.MFTAAllocation;
 import org.spin.model.MFTAAllocationLine;
@@ -52,7 +51,7 @@ public class FarmerCreditAllocation
 	public int         	m_C_BPartner_ID = 0;
 	protected int 		m_FTA_FarmerCredit_ID = 0;
 	private int         m_noInvoices = 0;
-	private int         m_noPayments = 0;
+	private int         m_noLiquidations = 0;
 	public BigDecimal	totalInv = new BigDecimal(0.0);
 	public BigDecimal 	totalPay = new BigDecimal(0.0);
 	public BigDecimal	totalDiff = new BigDecimal(0.0);
@@ -62,16 +61,16 @@ public class FarmerCreditAllocation
 	//  Index	changed if multi-currency
 	private int         i_liquidation = 7;
 	//
-	private int         i_open = 4;
-	private int         i_discount = 5;
-	private int         i_writeOff = 6; 
-	private int         i_applied = 7;
-	private int 		i_overUnder = 8;
+	private int         i_open = 6;
+	private int         i_discount = 7;
+	private int         i_writeOff = 8; 
+	private int         i_applied = 9;
+	private int 		i_overUnder = 10;
 //	private int			i_multiplier = 10;
 	
 	public int         	m_AD_Org_ID = 0;
 
-	private ArrayList<Integer>	m_bpartnerCheck = new ArrayList<Integer>(); 
+	//private ArrayList<Integer>	m_bpartnerCheck = new ArrayList<Integer>(); 
 
 	public void dynInit() throws Exception
 	{
@@ -84,10 +83,10 @@ public class FarmerCreditAllocation
 	
 	/**
 	 *  Load Business Partner Info
-	 *  - Payments
+	 *  - Liquidations
 	 *  - Invoices
 	 */
-	public void checkBPartner()
+	/*public void checkBPartner()
 	{		
 		log.config("BPartner=" + m_C_BPartner_ID + ", Cur=" + m_C_Currency_ID);
 		//  Need to have both values
@@ -102,28 +101,34 @@ public class FarmerCreditAllocation
 			{
 				public void run()
 				{
-					MPayment.setIsAllocated (Env.getCtx(), m_C_BPartner_ID, null);
+					MFTAFarmerLiquidation.setIsAllocated (Env.getCtx(), m_C_BPartner_ID, null);
 					MInvoice.setIsPaid (Env.getCtx(), m_C_BPartner_ID, null);
 				}
 			}.start();
 			m_bpartnerCheck.add(key);
 		}
-	}
+	}*/
 	
-	public Vector<Vector<Object>> getLiquidationData(Object date, IMiniTable paymentTable)
+	public Vector<Vector<Object>> getLiquidationData(boolean isMultiCurrency, Object date, IMiniTable liquidationTable)
 	{		
 		/********************************
-		 *  Load unallocated Payments
+		 *  Load unallocated Liquidations
 		 *      1-TrxDate, 2-DocumentNo, (3-Currency, 4-PayAmt,)
 		 *      5-ConvAmt, 6-ConvOpen, 7-Allocated
 		 */
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		StringBuffer sql = new StringBuffer("SELECT lq.DateDoc, lq.DocumentNo, lq.FTA_FarmerLiquidation_ID, lq.Amt, lq.Amt, lq.Amt " +
-				"FROM FTA_FarmerLiquidation lq " +
-				"WHERE lq.C_BPartner_ID = ? " +
-				"AND lq.FTA_FarmerCredit_ID = ?");                   		//      #5
-		//if (!isMultiCurrency)
-			//sql.append(" AND p.C_Currency_ID=?");				//      #6
+		StringBuffer sql = new StringBuffer("SELECT lq.DateDoc,lq.DocumentNo,lq.FTA_FarmerLiquidation_ID,"  //  1..3
+			+ "c.ISO_Code,lq.Amt,"                            //  4..5
+			+ "currencyConvert(lq.Amt,lq.C_Currency_ID,?,?,lq.C_ConversionType_ID,lq.AD_Client_ID,lq.AD_Org_ID),"//  6   #1, #2
+			+ "currencyConvert(liquidationAvailable(lq.FTA_FarmerLiquidation_ID),lq.C_Currency_ID,?,?,lq.C_ConversionType_ID,lq.AD_Client_ID,lq.AD_Org_ID) "  //  7   #3, #4
+			//+ "lq.MultiplierAP "
+			+ "FROM FTA_FarmerLiquidation lq "		//	Corrected for AP/AR
+			+ "INNER JOIN C_Currency c ON (lq.C_Currency_ID=c.C_Currency_ID) "
+			+ "WHERE lq.Processed='Y'"
+			+ "AND lq.FTA_FarmerCredit_ID = ? "
+			+ " AND lq.C_BPartner_ID=?");                   		//      #5
+		if (!isMultiCurrency)
+			sql.append(" AND lq.C_Currency_ID=?");				//      #6
 		if (m_AD_Org_ID != 0 )
 			sql.append(" AND lq.AD_Org_ID=" + m_AD_Org_ID);
 		sql.append(" ORDER BY lq.DateDoc, lq.DocumentNo");
@@ -131,14 +136,18 @@ public class FarmerCreditAllocation
 		// role security
 		sql = new StringBuffer( MRole.getDefault(Env.getCtx(), false).addAccessSQL( sql.toString(), "lq", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO ) );
 		
-		log.fine("LiquidationSQL=" + sql.toString());
+		log.fine("PaySQL=" + sql.toString());
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
-			pstmt.setInt(1, m_C_BPartner_ID);
-			pstmt.setInt(2, m_FTA_FarmerCredit_ID);
-			//if (!isMultiCurrency)
-				//pstmt.setInt(6, m_C_Currency_ID);
+			pstmt.setInt(1, m_C_Currency_ID);
+			pstmt.setTimestamp(2, (Timestamp)date);
+			pstmt.setInt(3, m_C_Currency_ID);
+			pstmt.setTimestamp(4, (Timestamp)date);
+			pstmt.setInt(5, m_FTA_FarmerCredit_ID);
+			pstmt.setInt(6, m_C_BPartner_ID);
+			if (!isMultiCurrency)
+				pstmt.setInt(7, m_C_Currency_ID);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -147,17 +156,17 @@ public class FarmerCreditAllocation
 				line.add(rs.getTimestamp(1));       //  1-TrxDate
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(2));
 				line.add(pp);                       //  2-DocumentNo
-				/*if (isMultiCurrency)
+				if (isMultiCurrency)
 				{
 					line.add(rs.getString(4));      //  3-Currency
 					line.add(rs.getBigDecimal(5));  //  4-PayAmt
-				}*/
-				line.add(rs.getBigDecimal(4));      //  3/5-ConvAmt
-				BigDecimal available = rs.getBigDecimal(5);
+				}
+				line.add(rs.getBigDecimal(6));      //  3/5-ConvAmt
+				BigDecimal available = rs.getBigDecimal(7);
 				if (available == null || available.signum() == 0)	//	nothing available
 					continue;
 				line.add(available);				//  4/6-ConvOpen/Available
-				line.add(available);				//  5/7-Payment
+				line.add(Env.ZERO);					//  5/7-Liquidation
 //				line.add(rs.getBigDecimal(8));		//  6/8-Multiplier
 				//
 				data.add(line);
@@ -173,18 +182,18 @@ public class FarmerCreditAllocation
 		return data;
 	}
 	
-	public Vector<String> getPaymentColumnNames()
+	public Vector<String> getLiquidationColumnNames(boolean isMultiCurrency)
 	{	
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Date"));
 		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
-		/*if (isMultiCurrency)
+		if (isMultiCurrency)
 		{
 			columnNames.add(Msg.getMsg(Env.getCtx(), "TrxCurrency"));
 			columnNames.add(Msg.translate(Env.getCtx(), "Amount"));
-		}*/
+		}
 		columnNames.add(Msg.getMsg(Env.getCtx(), "ConvertedAmount"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "OpenAmt"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "AppliedAmt"));
@@ -193,31 +202,31 @@ public class FarmerCreditAllocation
 		return columnNames;
 	}
 	
-	public void setPaymentColumnClass(IMiniTable paymentTable)
+	public void setLiquidationColumnClass(IMiniTable liquidationTable, boolean isMultiCurrency)
 	{
 		int i = 0;
-		paymentTable.setColumnClass(i++, Boolean.class, false);         //  0-Selection
-		paymentTable.setColumnClass(i++, Timestamp.class, true);        //  1-TrxDate
-		paymentTable.setColumnClass(i++, String.class, true);           //  2-Value
-		/*if (isMultiCurrency)
+		liquidationTable.setColumnClass(i++, Boolean.class, false);         //  0-Selection
+		liquidationTable.setColumnClass(i++, Timestamp.class, true);        //  1-TrxDate
+		liquidationTable.setColumnClass(i++, String.class, true);           //  2-Value
+		if (isMultiCurrency)
 		{
-			paymentTable.setColumnClass(i++, String.class, true);       //  3-Currency
-			paymentTable.setColumnClass(i++, BigDecimal.class, true);   //  4-PayAmt
-		}*/
-		paymentTable.setColumnClass(i++, BigDecimal.class, true);       //  5-ConvAmt
-		paymentTable.setColumnClass(i++, BigDecimal.class, true);       //  6-ConvOpen
-		paymentTable.setColumnClass(i++, BigDecimal.class, false);      //  7-Allocated
-//		paymentTable.setColumnClass(i++, BigDecimal.class, true);      	//  8-Multiplier
+			liquidationTable.setColumnClass(i++, String.class, true);       //  3-Currency
+			liquidationTable.setColumnClass(i++, BigDecimal.class, true);   //  4-PayAmt
+		}
+		liquidationTable.setColumnClass(i++, BigDecimal.class, true);       //  5-ConvAmt
+		liquidationTable.setColumnClass(i++, BigDecimal.class, true);       //  6-ConvOpen
+		liquidationTable.setColumnClass(i++, BigDecimal.class, false);      //  7-Allocated
+//		liquidationTable.setColumnClass(i++, BigDecimal.class, true);      	//  8-Multiplier
 
 		//
-		i_liquidation = 5;
+		i_liquidation = isMultiCurrency ? 7 : 5;
 		
 
 		//  Table UI
-		paymentTable.autoSize();
+		liquidationTable.autoSize();
 	}
 	
-	public Vector<Vector<Object>> getInvoiceData(Object date, IMiniTable invoiceTable)
+	public Vector<Vector<Object>> getInvoiceData(boolean isMultiCurrency, Object date, IMiniTable invoiceTable)
 	{
 		/********************************
 		 *  Load unpaid Invoices
@@ -227,8 +236,8 @@ public class FarmerCreditAllocation
 		 SELECT i.DateInvoiced,i.DocumentNo,i.C_Invoice_ID,c.ISO_Code,
 		 i.GrandTotal*i.MultiplierAP "GrandTotal", 
 		 currencyConvert(i.GrandTotal*i.MultiplierAP,i.C_Currency_ID,i.C_Currency_ID,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID) "GrandTotal $", 
-		 invoiceOpen(C_Invoice_ID,C_InvoicePaySchedule_ID) "Open",
-		 currencyConvert(invoiceOpen(C_Invoice_ID,C_InvoicePaySchedule_ID),i.C_Currency_ID,i.C_Currency_ID,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID)*i.MultiplierAP "Open $", 
+		 invoiceOpenFTA(C_Invoice_ID,C_InvoicePaySchedule_ID) "Open",
+		 currencyConvert(invoiceOpenFTA(C_Invoice_ID,C_InvoicePaySchedule_ID),i.C_Currency_ID,i.C_Currency_ID,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID)*i.MultiplierAP "Open $", 
 		 invoiceDiscount(i.C_Invoice_ID,SysDate,C_InvoicePaySchedule_ID) "Discount",
 		 currencyConvert(invoiceDiscount(i.C_Invoice_ID,SysDate,C_InvoicePaySchedule_ID),i.C_Currency_ID,i.C_Currency_ID,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID)*i.Multiplier*i.MultiplierAP "Discount $",
 		 i.MultiplierAP, i.Multiplier 
@@ -239,20 +248,20 @@ public class FarmerCreditAllocation
 		StringBuffer sql = new StringBuffer("SELECT i.DateInvoiced,i.DocumentNo,i.C_Invoice_ID," //  1..3
 			+ "c.ISO_Code,i.GrandTotal*i.MultiplierAP, "                            //  4..5    Orig Currency
 			+ "currencyConvert(i.GrandTotal*i.MultiplierAP,i.C_Currency_ID,?,?,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID), " //  6   #1  Converted, #2 Date
-			+ "currencyConvert(invoiceOpen(C_Invoice_ID,C_InvoicePaySchedule_ID),i.C_Currency_ID,?,?,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID)*i.MultiplierAP, "  //  7   #3, #4  Converted Open
+			+ "currencyConvert(invoiceOpenFTA(C_Invoice_ID,C_InvoicePaySchedule_ID),i.C_Currency_ID,?,?,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID)*i.MultiplierAP, "  //  7   #3, #4  Converted Open
 			+ "currencyConvert(invoiceDiscount"                               //  8       AllowedDiscount
 			+ "(i.C_Invoice_ID,?,C_InvoicePaySchedule_ID),i.C_Currency_ID,?,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID)*i.Multiplier*i.MultiplierAP,"               //  #5, #6
 			+ "i.MultiplierAP "
 			+ "FROM FTA_RV_C_Invoice i"		//  corrected for CM/Split
 			+ " INNER JOIN C_Currency c ON (i.C_Currency_ID=c.C_Currency_ID) "
-			+ "WHERE i.IsPaid='N' AND i.Processed='Y' "
+			+ "WHERE i.IsPaid='N' AND i.Processed='Y'"
 			//	Add Trx
 			+ "AND i.IsSOTrx = 'Y' " 
 			+ "AND (i.FTA_FarmerCredit_ID = " + m_FTA_FarmerCredit_ID 
-			+ " 		OR i.Parent_FarmerCredit_ID = " + m_FTA_FarmerCredit_ID + ")"
-			+ " AND i.C_BPartner_ID=?");                                            //  #7
-		//if (!isMultiCurrency)
-			//sql.append(" AND i.C_Currency_ID=?");                                   //  #8
+			+ " 		OR i.Parent_FarmerCredit_ID = " + m_FTA_FarmerCredit_ID + ") "
+			+ "AND i.C_BPartner_ID=? ");                                            //  #7
+		if (!isMultiCurrency)
+			sql.append("AND i.C_Currency_ID=?");                                   //  #8
 		if (m_AD_Org_ID != 0 ) 
 			sql.append(" AND i.AD_Org_ID=" + m_AD_Org_ID);
 		sql.append(" ORDER BY i.DateInvoiced, i.DocumentNo");
@@ -271,8 +280,8 @@ public class FarmerCreditAllocation
 			pstmt.setTimestamp(5, (Timestamp)date);
 			pstmt.setInt(6, m_C_Currency_ID);
 			pstmt.setInt(7, m_C_BPartner_ID);
-			//if (!isMultiCurrency)
-				//pstmt.setInt(8, m_C_Currency_ID);
+			if (!isMultiCurrency)
+				pstmt.setInt(8, m_C_Currency_ID);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -281,11 +290,11 @@ public class FarmerCreditAllocation
 				line.add(rs.getTimestamp(1));       //  1-TrxDate
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(2));
 				line.add(pp);                       //  2-Value
-				/*if (isMultiCurrency)
+				if (isMultiCurrency)
 				{
 					line.add(rs.getString(4));      //  3-Currency
 					line.add(rs.getBigDecimal(5));  //  4-Orig Amount
-				}*/
+				}
 				line.add(rs.getBigDecimal(6));      //  3/5-ConvAmt
 				BigDecimal open = rs.getBigDecimal(7);
 				if (open == null)		//	no conversion rate
@@ -296,8 +305,8 @@ public class FarmerCreditAllocation
 					discount = Env.ZERO;
 				line.add(discount);					//  5/7-ConvAllowedDisc
 				line.add(Env.ZERO);      			//  6/8-WriteOff
-				line.add(open);						// 7/9-Applied
-				line.add(open);				    	//  8/10-OverUnder
+				line.add(Env.ZERO);					// 7/9-Applied
+				line.add(open);				    //  8/10-OverUnder
 
 //				line.add(rs.getBigDecimal(9));		//	8/10-Multiplier
 				//	Add when open <> 0 (i.e. not if no conversion rate)
@@ -315,18 +324,18 @@ public class FarmerCreditAllocation
 		return data;
 	}
 
-	public Vector<String> getInvoiceColumnNames()
+	public Vector<String> getInvoiceColumnNames(boolean isMultiCurrency)
 	{
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Date"));
 		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
-		/*if (isMultiCurrency)
+		if (isMultiCurrency)
 		{
 			columnNames.add(Msg.getMsg(Env.getCtx(), "TrxCurrency"));
 			columnNames.add(Msg.translate(Env.getCtx(), "Amount"));
-		}*/
+		}
 		columnNames.add(Msg.getMsg(Env.getCtx(), "ConvertedAmount"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "OpenAmt"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Discount"));
@@ -338,17 +347,17 @@ public class FarmerCreditAllocation
 		return columnNames;
 	}
 	
-	public void setInvoiceColumnClass(IMiniTable invoiceTable)
+	public void setInvoiceColumnClass(IMiniTable invoiceTable, boolean isMultiCurrency)
 	{
 		int i = 0;
 		invoiceTable.setColumnClass(i++, Boolean.class, false);         //  0-Selection
 		invoiceTable.setColumnClass(i++, Timestamp.class, true);        //  1-TrxDate
 		invoiceTable.setColumnClass(i++, String.class, true);           //  2-Value
-		/*if (isMultiCurrency)
+		if (isMultiCurrency)
 		{
 			invoiceTable.setColumnClass(i++, String.class, true);       //  3-Currency
 			invoiceTable.setColumnClass(i++, BigDecimal.class, true);   //  4-Amt
-		}*/
+		}
 		invoiceTable.setColumnClass(i++, BigDecimal.class, true);       //  5-ConvAmt
 		invoiceTable.setColumnClass(i++, BigDecimal.class, true);       //  6-ConvAmt Open
 		invoiceTable.setColumnClass(i++, BigDecimal.class, false);      //  7-Conv Discount
@@ -406,17 +415,17 @@ public class FarmerCreditAllocation
 		return m_ID;
 	}
 	
-	public void calculate()
+	public void calculate(boolean isMultiCurrency)
 	{
-		i_open = 4;
-		i_discount = 5;
-		i_writeOff = 6;
-		i_applied = 7;
-		i_overUnder = 8;
+		i_open = isMultiCurrency ? 6 : 4;
+		i_discount = isMultiCurrency ? 7 : 5;
+		i_writeOff = isMultiCurrency ? 8 : 6;
+		i_applied = isMultiCurrency ? 9 : 7;
+		i_overUnder = isMultiCurrency ? 10 : 8;
 //		i_multiplier = isMultiCurrency ? 10 : 8;
 	}   //  loadBPartner
 	
-	public String writeOff(int row, int col, boolean isInvoice, IMiniTable payment, IMiniTable invoice, boolean isAutoWriteOff)
+	public String writeOff(int row, int col, boolean isInvoice, IMiniTable liquidation, IMiniTable invoice, boolean isAutoWriteOff)
 	{
 		String msg = "";
 		/**
@@ -429,16 +438,16 @@ public class FarmerCreditAllocation
 		log.config("Row=" + row 
 			+ ", Col=" + col + ", InvoiceTable=" + isInvoice);
         
-		//  Payments
+		//  Liquidations
 		if (!isInvoice)
 		{
-			BigDecimal open = (BigDecimal)payment.getValueAt(row, i_open);
-			BigDecimal applied = (BigDecimal)payment.getValueAt(row, i_liquidation);
+			BigDecimal open = (BigDecimal)liquidation.getValueAt(row, i_open);
+			BigDecimal applied = (BigDecimal)liquidation.getValueAt(row, i_liquidation);
 			
 			if (col == 0)
 			{
-				// selection of payment row
-				if (((Boolean)payment.getValueAt(row, 0)).booleanValue())
+				// selection of liquidation row
+				if (((Boolean)liquidation.getValueAt(row, 0)).booleanValue())
 				{
 					applied = open;   //  Open Amount
 					if (totalDiff.abs().compareTo(applied.abs()) < 0			// where less is available to allocate than open
@@ -459,7 +468,7 @@ public class FarmerCreditAllocation
 							applied = open;
 			}
 			
-			payment.setValueAt(applied, row, i_liquidation);
+			liquidation.setValueAt(applied, row, i_liquidation);
 		}
 
 		//  Invoice
@@ -577,32 +586,32 @@ public class FarmerCreditAllocation
 	/**
 	 *  Calculate Allocation info
 	 */
-	public String calculatePayment(IMiniTable payment)
+	public String calculateLiquidation(IMiniTable liquidation, boolean isMultiCurrency)
 	{
 		log.config("");
 
-		//  Payment
+		//  Liquidation
 		totalPay = new BigDecimal(0.0);
-		int rows = payment.getRowCount();
-		m_noPayments = 0;
+		int rows = liquidation.getRowCount();
+		m_noLiquidations = 0;
 		for (int i = 0; i < rows; i++)
 		{
-			if (((Boolean)payment.getValueAt(i, 0)).booleanValue())
+			if (((Boolean)liquidation.getValueAt(i, 0)).booleanValue())
 			{
-				Timestamp ts = (Timestamp)payment.getValueAt(i, 1);
-				//if ( !isMultiCurrency )  // the converted amounts are only valid for the selected date
-					//allocDate = TimeUtil.max(allocDate, ts);
-				BigDecimal bd = (BigDecimal)payment.getValueAt(i, i_liquidation);
+				Timestamp ts = (Timestamp)liquidation.getValueAt(i, 1);
+				if ( !isMultiCurrency )  // the converted amounts are only valid for the selected date
+					allocDate = TimeUtil.max(allocDate, ts);
+				BigDecimal bd = (BigDecimal)liquidation.getValueAt(i, i_liquidation);
 				totalPay = totalPay.add(bd);  //  Applied Pay
-				m_noPayments++;
-				log.fine("Payment_" + i + " = " + bd + " - Total=" + totalPay);
+				m_noLiquidations++;
+				log.fine("Liquidation_" + i + " = " + bd + " - Total=" + totalPay);
 			}
 		}
-		return String.valueOf(m_noPayments) + " - "
+		return String.valueOf(m_noLiquidations) + " - "
 			+ Msg.getMsg(Env.getCtx(), "Sum") + "  " + format.format(totalPay) + " ";
 	}
 	
-	public String calculateInvoice(IMiniTable invoice)
+	public String calculateInvoice(IMiniTable invoice, boolean isMultiCurrency)
 	{		
 		//  Invoices
 		totalInv = new BigDecimal(0.0);
@@ -614,8 +623,8 @@ public class FarmerCreditAllocation
 			if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
 			{
 				Timestamp ts = (Timestamp)invoice.getValueAt(i, 1);
-				//if ( !isMultiCurrency )  // converted amounts only valid for selected date
-					//allocDate = TimeUtil.max(allocDate, ts);
+				if ( !isMultiCurrency )  // converted amounts only valid for selected date
+					allocDate = TimeUtil.max(allocDate, ts);
 				BigDecimal bd = (BigDecimal)invoice.getValueAt(i, i_applied);
 				totalInv = totalInv.add(bd);  //  Applied Inv
 				m_noInvoices++;
@@ -631,7 +640,7 @@ public class FarmerCreditAllocation
 	 */
 	public String saveData(int m_WindowNo, Object date, IMiniTable liquidation, IMiniTable invoice, String trxName)
 	{
-		if (m_noInvoices + m_noPayments == 0)
+		if (m_noInvoices + m_noLiquidations == 0)
 			return "";
 
 		//  fixed fields
@@ -641,49 +650,49 @@ public class FarmerCreditAllocation
 		int C_Order_ID = 0;
 		int C_CashLine_ID = 0;
 		Timestamp m_DateDoc = (Timestamp)date;
-		//int C_Currency_ID = m_C_Currency_ID;	//	the allocation currency
+		int C_Currency_ID = m_C_Currency_ID;	//	the allocation currency
 		//
 		if (AD_Org_ID == 0)
 		{
 			//ADialog.error(m_WindowNo, this, "Org0NotAllowed", null);
-			new AdempiereException("@Org0NotAllowed@");
+			throw new AdempiereException("@Org0NotAllowed@");
 		}
 		//
 		log.config("Client=" + AD_Client_ID + ", Org=" + AD_Org_ID
 			+ ", BPartner=" + C_BPartner_ID + ", Date=" + m_DateDoc);
 
-		//  Payment - Loop and add them to paymentList/amountList
+		//  Liquidation - Loop and add them to liquidationList/amountList
 		int pRows = liquidation.getRowCount();
 		ArrayList<Integer> liquidationList = new ArrayList<Integer>(pRows);
 		ArrayList<BigDecimal> amountList = new ArrayList<BigDecimal>(pRows);
 		BigDecimal liquidationAppliedAmt = Env.ZERO;
 		for (int i = 0; i < pRows; i++)
 		{
-			//  Payment line is selected
+			//  Liquidation line is selected
 			if (((Boolean)liquidation.getValueAt(i, 0)).booleanValue())
 			{
 				KeyNamePair pp = (KeyNamePair)liquidation.getValueAt(i, 2);   //  Value
 				//  Liquidation variables
-				int C_Payment_ID = pp.getKey();
-				liquidationList.add(new Integer(C_Payment_ID));
+				int C_Liquidation_ID = pp.getKey();
+				liquidationList.add(new Integer(C_Liquidation_ID));
 				//
-				BigDecimal m_LiquidationAmt = (BigDecimal)liquidation.getValueAt(i, i_liquidation);  //  Applied Payment
-				amountList.add(m_LiquidationAmt);
+				BigDecimal LiquidationAmt = (BigDecimal)liquidation.getValueAt(i, i_liquidation);  //  Applied Liquidation
+				amountList.add(LiquidationAmt);
 				//
-				liquidationAppliedAmt = liquidationAppliedAmt.add(m_LiquidationAmt);
+				liquidationAppliedAmt = liquidationAppliedAmt.add(LiquidationAmt);
 				//
-				log.fine("C_Payment_ID=" + C_Payment_ID 
-					+ " - PaymentAmt=" + m_LiquidationAmt); // + " * " + Multiplier + " = " + PaymentAmtAbs);
+				log.fine("C_Liquidation_ID=" + C_Liquidation_ID 
+					+ " - LiquidationAmt=" + LiquidationAmt); // + " * " + Multiplier + " = " + LiquidationAmtAbs);
 			}
 		}
-		log.config("Number of Liquidation=" + liquidationList.size() + " - Total=" + liquidationAppliedAmt);
+		log.config("Number of Liquidations=" + liquidationList.size() + " - Total=" + liquidationAppliedAmt);
 
 		//  Invoices - Loop and generate allocations
 		int iRows = invoice.getRowCount();
 		
 		//	Create Allocation
-		MFTAAllocation alloc = new MFTAAllocation(Env.getCtx(), true,	//	manual
-			m_DateDoc, 0, Env.getContext(Env.getCtx(), "#AD_User_Name"), trxName);
+		MFTAAllocation alloc = new MFTAAllocation (Env.getCtx(), true,	//	manual
+			m_DateDoc, C_Currency_ID, Env.getContext(Env.getCtx(), "#AD_User_Name"), trxName);
 		alloc.setAD_Org_ID(AD_Org_ID);
 		//	FTA
 		alloc.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit_ID);
@@ -709,48 +718,48 @@ public class FarmerCreditAllocation
 					.subtract(AppliedAmt).subtract(DiscountAmt).subtract(WriteOffAmt);
 				
 				log.config("Invoice #" + i + " - AppliedAmt=" + AppliedAmt);// + " -> " + AppliedAbs);
-				//  loop through all payments until invoice applied
+				//  loop through all liquidations until invoice applied
 				
 				for (int j = 0; j < liquidationList.size() && AppliedAmt.signum() != 0; j++)
 				{
-					int m_FTA_FarmerLiquidation_ID = ((Integer)liquidationList.get(j)).intValue();
-					BigDecimal liquidationAmt = (BigDecimal)amountList.get(j);
-					if (liquidationAmt.signum() == AppliedAmt.signum())	// only match same sign (otherwise appliedAmt increases)
+					int C_Liquidation_ID = ((Integer)liquidationList.get(j)).intValue();
+					BigDecimal LiquidationAmt = (BigDecimal)amountList.get(j);
+					if (LiquidationAmt.signum() == AppliedAmt.signum())	// only match same sign (otherwise appliedAmt increases)
 					{												// and not zero (appliedAmt was checked earlier)
-						log.config(".. with liquidation #" + j + ", Amt=" + liquidationAmt);
+						log.config(".. with liquidation #" + j + ", Amt=" + LiquidationAmt);
 						
 						BigDecimal amount = AppliedAmt;
-						if (amount.abs().compareTo(liquidationAmt.abs()) > 0)  // if there's more open on the invoice
-							amount = liquidationAmt;							// than left in the payment
+						if (amount.abs().compareTo(LiquidationAmt.abs()) > 0)  // if there's more open on the invoice
+							amount = LiquidationAmt;							// than left in the liquidation
 						
 						//	Allocation Line
 						MFTAAllocationLine aLine = new MFTAAllocationLine (alloc, amount, 
 							DiscountAmt, WriteOffAmt, OverUnderAmt);
 						aLine.setDocInfo(C_BPartner_ID, C_Order_ID, C_Invoice_ID);
-						aLine.setLiquidationInfo(m_FTA_FarmerLiquidation_ID, C_CashLine_ID);
+						aLine.setLiquidationInfo(C_Liquidation_ID, C_CashLine_ID);
 						aLine.saveEx();
 
 						//  Apply Discounts and WriteOff only first time
 						DiscountAmt = Env.ZERO;
 						WriteOffAmt = Env.ZERO;
-						//  subtract amount from Payment/Invoice
+						//  subtract amount from Liquidation/Invoice
 						AppliedAmt = AppliedAmt.subtract(amount);
-						liquidationAmt = liquidationAmt.subtract(amount);
-						log.fine("Allocation Amount=" + amount + " - Remaining  Applied=" + AppliedAmt + ", Payment=" + liquidationAmt);
-						amountList.set(j, liquidationAmt);  //  update
+						LiquidationAmt = LiquidationAmt.subtract(amount);
+						log.fine("Allocation Amount=" + amount + " - Remaining  Applied=" + AppliedAmt + ", Liquidation=" + LiquidationAmt);
+						amountList.set(j, LiquidationAmt);  //  update
 					}	//	for all applied amounts
-				}	//	loop through payments for invoice
+				}	//	loop through liquidations for invoice
 				
 				if ( AppliedAmt.signum() == 0 && DiscountAmt.signum() == 0 && WriteOffAmt.signum() == 0)
 					continue;
 				else {			// remainder will need to match against other invoices
-					int m_FTA_FarmerLiquidation_ID = 0;
+					int C_Liquidation_ID = 0;
 					
 					//	Allocation Line
 					MFTAAllocationLine aLine = new MFTAAllocationLine (alloc, AppliedAmt, 
 						DiscountAmt, WriteOffAmt, OverUnderAmt);
 					aLine.setDocInfo(C_BPartner_ID, C_Order_ID, C_Invoice_ID);
-					aLine.setLiquidationInfo(m_FTA_FarmerLiquidation_ID, C_CashLine_ID);
+					aLine.setLiquidationInfo(C_Liquidation_ID, C_CashLine_ID);
 					aLine.saveEx();
 					log.fine("Allocation Amount=" + AppliedAmt);
 					unmatchedApplied = unmatchedApplied.add(AppliedAmt);
@@ -758,20 +767,20 @@ public class FarmerCreditAllocation
 			}   //  invoice selected
 		}   //  invoice loop
 
-		// check for unapplied payment amounts (eg from payment reversals)
+		// check for unapplied liquidation amounts (eg from liquidation reversals)
 		for (int i = 0; i < liquidationList.size(); i++)	{
 			BigDecimal payAmt = (BigDecimal) amountList.get(i);
 			if ( payAmt.signum() == 0 )
 					continue;
-			int m_FTA_FarmerLiquidation_ID = ((Integer)liquidationList.get(i)).intValue();
-			log.fine("Payment=" + m_FTA_FarmerLiquidation_ID  
+			int C_Liquidation_ID = ((Integer)liquidationList.get(i)).intValue();
+			log.fine("Liquidation=" + C_Liquidation_ID  
 					+ ", Amount=" + payAmt);
 
 			//	Allocation Line
 			MFTAAllocationLine aLine = new MFTAAllocationLine (alloc, payAmt, 
 				Env.ZERO, Env.ZERO, Env.ZERO);
 			aLine.setDocInfo(C_BPartner_ID, 0, 0);
-			aLine.setLiquidationInfo(m_FTA_FarmerLiquidation_ID, 0);
+			aLine.setLiquidationInfo(C_Liquidation_ID, 0);
 			aLine.saveEx();
 			unmatchedApplied = unmatchedApplied.subtract(payAmt);
 		}		
@@ -795,31 +804,32 @@ public class FarmerCreditAllocation
 				KeyNamePair pp = (KeyNamePair)invoice.getValueAt(i, 2);    //  Value
 				//  Invoice variables
 				int C_Invoice_ID = pp.getKey();
-				String sql = "SELECT invoiceOpen(C_Invoice_ID, 0) "
+				String sql = "SELECT invoiceOpenFTA(C_Invoice_ID, 0) "
 					+ "FROM C_Invoice WHERE C_Invoice_ID=?";
 				BigDecimal open = DB.getSQLValueBD(trxName, sql, C_Invoice_ID);
-				if (open != null && open.signum() == 0)	{
+				log.config("Invoice #" + i + " is not paid - " + open);
+				/*if (open != null && open.signum() == 0)	{
 					sql = "UPDATE C_Invoice SET IsPaid='Y' "
 						+ "WHERE C_Invoice_ID=" + C_Invoice_ID;
 					int no = DB.executeUpdate(sql, trxName);
 					log.config("Invoice #" + i + " is paid - updated=" + no);
 				} else
-					log.config("Invoice #" + i + " is not paid - " + open);
+					log.config("Invoice #" + i + " is not paid - " + open);*/
 			}
 		}
-		//  Test/Set Payment is fully allocated
+		//  Test/Set Liquidation is fully allocated
 		/*for (int i = 0; i < liquidationList.size(); i++)
 		{
-			int C_Payment_ID = ((Integer)liquidationList.get(i)).intValue();
-			MPayment pay = new MPayment (Env.getCtx(), C_Payment_ID, trxName);
-			if (pay.testAllocation())
-				pay.saveEx();
-			log.config("Payment #" + i + (pay.isAllocated() ? " not" : " is") 
+			int FTA_FarmerLiquidation_ID = ((Integer)liquidationList.get(i)).intValue();
+			MFTAFarmerLiquidation liq = new MFTAFarmerLiquidation (Env.getCtx(), FTA_FarmerLiquidation_ID, trxName);
+			if (liq.testAllocation())
+				liq.saveEx();
+			log.config("Liquidation #" + i + (liq.isAllocated() ? " not" : " is") 
 					+ " fully allocated");
 		}*/
 		liquidationList.clear();
 		amountList.clear();
 		
-		return alloc.getDocumentNo();
+		return Msg.translate(Env.getCtx(), "FTA_Allocation_ID") + ": " + alloc.getDocumentNo();
 	}   //  saveData
 }

@@ -101,25 +101,25 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 	private JLabel bpartnerLabel = new JLabel();
 	private VLookup bpartnerSearch = null;
 	private MiniTable invoiceTable = new MiniTable();
-	private MiniTable paymentTable = new MiniTable();
+	private MiniTable liquidationTable = new MiniTable();
 	private JSplitPane infoPanel = new JSplitPane();
-	private CPanel paymentPanel = new CPanel();
+	private CPanel liquidationPanel = new CPanel();
 	private CPanel invoicePanel = new CPanel();
-	private JLabel paymentLabel = new JLabel();
+	private JLabel liquidationLabel = new JLabel();
 	private JLabel invoiceLabel = new JLabel();
-	private BorderLayout paymentLayout = new BorderLayout();
+	private BorderLayout liquidationLayout = new BorderLayout();
 	private BorderLayout invoiceLayout = new BorderLayout();
-	private JLabel paymentInfo = new JLabel();
+	private JLabel liquidationInfo = new JLabel();
 	private JLabel invoiceInfo = new JLabel();
-	private JScrollPane paymentScrollPane = new JScrollPane();
+	private JScrollPane liquidationScrollPane = new JScrollPane();
 	private JScrollPane invoiceScrollPane = new JScrollPane();
 	private GridBagLayout allocationLayout = new GridBagLayout();
 	private JLabel differenceLabel = new JLabel();
 	private CTextField differenceField = new CTextField();
 	private JButton allocateButton = new JButton();
-	//private JLabel currencyLabel = new JLabel();
-	//private VLookup currencyPick = null;
-	//private JCheckBox multiCurrency = new JCheckBox();
+	private JLabel currencyLabel = new JLabel();
+	private VLookup currencyPick = null;
+	private JCheckBox multiCurrency = new JCheckBox();
 	private JLabel allocCurrencyLabel = new JLabel();
 	private StatusBar statusBar = new StatusBar();
 	private JLabel dateLabel = new JLabel();
@@ -127,8 +127,10 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 	private JCheckBox autoWriteOff = new JCheckBox();
 	private JLabel organizationLabel = new JLabel();
 	private VLookup organizationPick = null;
+	//	FTA
 	private JLabel farmerCreditLabel = new JLabel();
 	private CComboBox farmerCreditSearch = new CComboBox();
+	
 	
 	/**
 	 *  Static Init
@@ -149,18 +151,18 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		parameterPanel.setLayout(parameterLayout);
 		allocationPanel.setLayout(allocationLayout);
 		bpartnerLabel.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
-		paymentLabel.setRequestFocusEnabled(false);
-		paymentLabel.setText(" " + Msg.translate(Env.getCtx(), "FTA_FarmerLiquidation_ID"));
+		liquidationLabel.setRequestFocusEnabled(false);
+		liquidationLabel.setText(" " + Msg.translate(Env.getCtx(), "C_Payment_ID"));
 		invoiceLabel.setRequestFocusEnabled(false);
 		invoiceLabel.setText(" " + Msg.translate(Env.getCtx(), "C_Invoice_ID"));
-		paymentPanel.setLayout(paymentLayout);
+		liquidationPanel.setLayout(liquidationLayout);
 		invoicePanel.setLayout(invoiceLayout);
 		invoiceInfo.setHorizontalAlignment(SwingConstants.RIGHT);
 		invoiceInfo.setHorizontalTextPosition(SwingConstants.RIGHT);
 		invoiceInfo.setText(".");
-		paymentInfo.setHorizontalAlignment(SwingConstants.RIGHT);
-		paymentInfo.setHorizontalTextPosition(SwingConstants.RIGHT);
-		paymentInfo.setText(".");
+		liquidationInfo.setHorizontalAlignment(SwingConstants.RIGHT);
+		liquidationInfo.setHorizontalTextPosition(SwingConstants.RIGHT);
+		liquidationInfo.setText(".");
 		differenceLabel.setText(Msg.getMsg(Env.getCtx(), "Difference"));
 		differenceField.setBackground(AdempierePLAF.getFieldBackground_Inactive());
 		differenceField.setEditable(false);
@@ -169,39 +171,44 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		differenceField.setHorizontalAlignment(SwingConstants.RIGHT);
 		allocateButton.setText(Msg.getMsg(Env.getCtx(), "Process"));
 		allocateButton.addActionListener(this);
-		/*currencyLabel.setText(Msg.translate(Env.getCtx(), "C_Currency_ID"));
+		currencyLabel.setText(Msg.translate(Env.getCtx(), "C_Currency_ID"));
 		multiCurrency.setText(Msg.getMsg(Env.getCtx(), "MultiCurrency"));
-		multiCurrency.addActionListener(this);*/
+		multiCurrency.addActionListener(this);
 		allocCurrencyLabel.setText(".");
 		invoiceScrollPane.setPreferredSize(new Dimension(200, 200));
-		paymentScrollPane.setPreferredSize(new Dimension(200, 200));
+		liquidationScrollPane.setPreferredSize(new Dimension(200, 200));
 		mainPanel.add(parameterPanel, BorderLayout.NORTH);
 		
-		//org filter
+		//Org filter
 		organizationLabel.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
 		parameterPanel.add(organizationLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5,5,5,5), 0, 0));
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5,5,5,5), 0, 0));
 		parameterPanel.add(organizationPick, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5,5,5,5), 0, 0));
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5,5,5,5), 0, 0));
+		//	Date
 		parameterPanel.add(dateLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(dateField, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Farmer
 		parameterPanel.add(bpartnerLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(bpartnerSearch, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Farmer Credit
 		parameterPanel.add(farmerCreditLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(farmerCreditSearch, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		/*parameterPanel.add(currencyLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+		//	Currency
+		parameterPanel.add(currencyLabel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(currencyPick, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+		parameterPanel.add(currencyPick, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		parameterPanel.add(multiCurrency, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));*/
-		parameterPanel.add(autoWriteOff, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+		//	MultiCurrency
+		parameterPanel.add(multiCurrency, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		parameterPanel.add(autoWriteOff, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		mainPanel.add(allocationPanel, BorderLayout.SOUTH);
 		allocationPanel.add(differenceLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
@@ -212,10 +219,10 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		allocationPanel.add(allocCurrencyLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		paymentPanel.add(paymentLabel, BorderLayout.NORTH);
-		paymentPanel.add(paymentInfo, BorderLayout.SOUTH);
-		paymentPanel.add(paymentScrollPane, BorderLayout.CENTER);
-		paymentScrollPane.getViewport().add(paymentTable, null);
+		liquidationPanel.add(liquidationLabel, BorderLayout.NORTH);
+		liquidationPanel.add(liquidationInfo, BorderLayout.SOUTH);
+		liquidationPanel.add(liquidationScrollPane, BorderLayout.CENTER);
+		liquidationScrollPane.getViewport().add(liquidationTable, null);
 		invoicePanel.add(invoiceLabel, BorderLayout.NORTH);
 		invoicePanel.add(invoiceInfo, BorderLayout.SOUTH);
 		invoicePanel.add(invoiceScrollPane, BorderLayout.CENTER);
@@ -224,9 +231,9 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		mainPanel.add(infoPanel, BorderLayout.CENTER);
 		infoPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		infoPanel.setBorder(BorderFactory.createEtchedBorder());
-		infoPanel.setTopComponent(paymentPanel);
+		infoPanel.setTopComponent(liquidationPanel);
 		infoPanel.setBottomComponent(invoicePanel);
-		infoPanel.add(paymentPanel, JSplitPane.TOP);
+		infoPanel.add(liquidationPanel, JSplitPane.TOP);
 		infoPanel.add(invoicePanel, JSplitPane.BOTTOM);
 		infoPanel.setContinuousLayout(true);
 		infoPanel.setPreferredSize(new Dimension(800,250));
@@ -251,10 +258,10 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 	{
 		//  Currency
 		int AD_Column_ID = 3505;    //  C_Invoice.C_Currency_ID
-		/*MLookup lookupCur = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
+		MLookup lookupCur = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
 		currencyPick = new VLookup("C_Currency_ID", true, false, true, lookupCur);
 		currencyPick.setValue(new Integer(m_C_Currency_ID));
-		currencyPick.addVetoableChangeListener(this);*/
+		currencyPick.addVetoableChangeListener(this);
 
 		// Organization filter selection
 		AD_Column_ID = 839; //C_Period.AD_Org_ID (needed to allow org 0)
@@ -276,7 +283,7 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		//  Date set to Login Date
 		dateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		dateField.addVetoableChangeListener(this);
-		
+		//	
 		farmerCreditSearch.addActionListener(this);
 	}   //  dynInit
 	
@@ -289,11 +296,10 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 	public void actionPerformed(ActionEvent e)
 	{
 		log.config("");
-		/*if (e.getSource().equals(multiCurrency))
-			loadBPartner();*/
+		if (e.getSource().equals(multiCurrency))
+			loadBPartner();
 		//	Allocate
-		//else 
-		if (e.getSource().equals(allocateButton))
+		else if (e.getSource().equals(allocateButton))
 		{
 			allocateButton.setEnabled(false);
 			saveData();
@@ -327,7 +333,7 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		boolean isInvoice = (e.getSource().equals(invoiceTable.getModel()));
 		boolean isAutoWriteOff = autoWriteOff.isSelected();
 		
-		String msg = writeOff(row, col, isInvoice, paymentTable, invoiceTable, isAutoWriteOff);
+		String msg = writeOff(row, col, isInvoice, liquidationTable, invoiceTable, isAutoWriteOff);
 		if(msg != null && msg.length() > 0)
 			ADialog.warn(m_WindowNo, panel, "AllocationWriteOffWarn");
 		
@@ -376,29 +382,29 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 			loadBPartner();
 		}
 		//	Date for Multi-Currency
-		/*else if (name.equals("Date") && multiCurrency.isSelected())
-			loadBPartner();*/
+		else if (name.equals("Date") && multiCurrency.isSelected())
+			loadBPartner();
 	}   //  vetoableChange
 	
 	public void loadBPartner()
 	{
-		checkBPartner();
+		//checkBPartner();
 		
-		Vector<Vector<Object>> data = getLiquidationData(dateField.getValue(), paymentTable);
-		Vector<String> columnNames = getPaymentColumnNames();
+		Vector<Vector<Object>> data = getLiquidationData(multiCurrency.isSelected(), dateField.getValue(), liquidationTable);
+		Vector<String> columnNames = getLiquidationColumnNames(multiCurrency.isSelected());
 		
 		//  Remove previous listeners
-		paymentTable.getModel().removeTableModelListener(this);
+		liquidationTable.getModel().removeTableModelListener(this);
 		
 		//  Set Model
 		DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
 		modelP.addTableModelListener(this);
-		paymentTable.setModel(modelP);
-		setPaymentColumnClass(paymentTable);
+		liquidationTable.setModel(modelP);
+		setLiquidationColumnClass(liquidationTable, multiCurrency.isSelected());
 		//
 
-		data = getInvoiceData(dateField.getValue(), invoiceTable);
-		columnNames = getInvoiceColumnNames();
+		data = getInvoiceData(multiCurrency.isSelected(), dateField.getValue(), invoiceTable);
+		columnNames = getInvoiceColumnNames(multiCurrency.isSelected());
 		
 		//  Remove previous listeners
 		invoiceTable.getModel().removeTableModelListener(this);
@@ -407,10 +413,10 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		DefaultTableModel modelI = new DefaultTableModel(data, columnNames);
 		modelI.addTableModelListener(this);
 		invoiceTable.setModel(modelI);
-		setInvoiceColumnClass(invoiceTable);
+		setInvoiceColumnClass(invoiceTable, multiCurrency.isSelected());
 		//
 		
-		calculate();
+		calculate(multiCurrency.isSelected());
 		
 		//  Calculate Totals
 		calculate();
@@ -420,14 +426,14 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 	{
 		allocDate = null;
 		
-		paymentInfo.setText(calculatePayment(paymentTable));
-		invoiceInfo.setText(calculateInvoice(invoiceTable));
+		liquidationInfo.setText(calculateLiquidation(liquidationTable, multiCurrency.isSelected()));
+		invoiceInfo.setText(calculateInvoice(invoiceTable, multiCurrency.isSelected()));
 		
 		//	Set AllocationDate
 		if (allocDate != null)
 			dateField.setValue(allocDate);
 		//  Set Allocation Currency
-		//allocCurrencyLabel.setText(currencyPick.getDisplay());
+		allocCurrencyLabel.setText(currencyPick.getDisplay());
 		//  Difference
 		totalDiff = totalPay.subtract(totalInv);
 		differenceField.setText(format.format(totalDiff));
@@ -443,13 +449,17 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 	 */
 	public void saveData()
 	{
+		if (m_AD_Org_ID > 0)
+			Env.setContext(Env.getCtx(), m_WindowNo, "AD_Org_ID", m_AD_Org_ID);
+		else
+			Env.setContext(Env.getCtx(), m_WindowNo, "AD_Org_ID", "");
 		try
 		{
 			Trx.run(new TrxRunnable() 
 			{
 				public void run(String trxName)
 				{
-					statusBar.setStatusLine(saveData(m_WindowNo, dateField.getValue(), paymentTable, invoiceTable, trxName));
+					statusBar.setStatusLine(saveData(m_WindowNo, dateField.getValue(), liquidationTable, invoiceTable, trxName));
 				}
 			});
 		}
