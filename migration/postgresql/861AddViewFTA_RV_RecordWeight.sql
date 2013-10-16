@@ -7,8 +7,8 @@ rw.FTA_RecordWeight_ID, rw.GrossWeight, rw.InDate, rw.IsSOTrx, rw.NetWeight, rw.
 rw.TareWeight, rw.WeightStatus, dr.FTA_Driver_ID, dr.Value, vh.FTA_Vehicle_ID, vh.VehiclePlate, 
 cp.C_BPartner_ID, cp.Value BPTaxID, cp.Name, et.FTA_MobilizationGuide_ID, qa.M_Product_ID, qa.QualityAnalysis_ID,
 oi.C_Location_ID AS Org_Location_ID, oi.TaxID,mg.M_Warehouse_ID, rw.FTA_RecordWeight_ID AS FTA_RV_RecordWeight_ID,
-TO_CHAR(rw.InDate,'HH:MM') InTime,
-TO_CHAR(rw.OutDate,'HH:MM') OutTime
+rw.InDate InTime,
+rw.OutDate OutTime
 
 FROM FTA_RecordWeight rw
 INNER JOIN FTA_EntryTicket et ON(et.FTA_EntryTicket_ID = rw.FTA_EntryTicket_ID)
