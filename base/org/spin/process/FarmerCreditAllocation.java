@@ -63,10 +63,10 @@ public class FarmerCreditAllocation extends SvrProcess {
 						
 			credit.save(get_TrxName());
 			
-			m_Updted++;
+			m_Updated++;
 		}
 		
-		return "@Upated@="+m_Updted;
+		return "@Updated@="+m_Updated;
 	}
 
 	/** credit	 */
@@ -82,5 +82,5 @@ public class FarmerCreditAllocation extends SvrProcess {
 	private Properties ctx = Env.getCtx();
 	
 	/** Records Updated	 */
-	private int m_Updted=0;
+	private int m_Updated=0;
 }//FarmingAllocation
