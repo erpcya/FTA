@@ -26,6 +26,7 @@ import java.util.Properties;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.Query;
 import org.compiere.process.SvrProcess;
@@ -34,9 +35,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.spin.model.MFTACreditDefinitionLine;
 import org.spin.model.MFTAFact;
-import org.spin.model.MFTAFarming;
-import org.spin.model.MFTAProductsToApply;
-import org.spin.model.MFTATechnicalFormLine;
 
 
 /**
@@ -100,7 +98,7 @@ public class CreditSOAllocation extends SvrProcess {
 				int C_BPartner_ID=rs.getInt("C_BPartner_ID");
 				int C_InvoiceLine_ID=rs.getInt("C_InvoiceLine_ID");
 				int C_OrderLine_ID=rs.getInt("C_OrderLine_ID");
-				int AD_Table_ID=(C_OrderLine_ID==0?MInvoiceLine.Table_ID:MOrderLine.Table_ID);
+				int AD_Table_ID=(C_OrderLine_ID==0?MInvoice.Table_ID:MOrder.Table_ID);
 				int FTA_FarmerCredit_ID =rs.getInt("FTA_FarmerCredit_ID");
 				boolean IsManual= rs.getString("IsManual").equals("Y");
 				BigDecimal AllocatedAmt = rs.getBigDecimal("AllocatedAmt");
