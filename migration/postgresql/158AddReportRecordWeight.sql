@@ -528,11 +528,6 @@ INSERT INTO AD_PrintFormatItem_Trl (AD_Language,AD_PrintFormatItem_ID, PrintName
 UPDATE AD_PrintFormatItem_Trl SET PrintName = (SELECT e.PrintName FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=AD_PrintFormatItem_Trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=68897) WHERE AD_PrintFormatItem_ID = 55546 AND EXISTS (SELECT * FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=AD_PrintFormatItem_Trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=68897 AND AD_PrintFormatItem_Trl.AD_PrintFormatItem_ID = 55546) AND EXISTS (SELECT * FROM AD_Client WHERE AD_Client_ID=AD_PrintFormatItem_Trl.AD_Client_ID AND IsMultiLingualDocument='Y')
 ;
 
--- 15/10/2013 03:28:40 PM VET
--- Farming Technical Assistance
-INSERT INTO FTA_Vehicle (AD_Client_ID,AD_Org_ID,Created,CreatedBy,FTA_Vehicle_ID,FTA_VehicleType_ID,IsActive,M_Shipper_ID,Name,Updated,UpdatedBy,VehiclePlate) VALUES (1000000,1000000,TO_TIMESTAMP('2013-10-15 15:28:36','YYYY-MM-DD HH24:MI:SS'),100,50000,50000,'Y',1000000,'dddd',TO_TIMESTAMP('2013-10-15 15:28:36','YYYY-MM-DD HH24:MI:SS'),100,'ddd')
-;
-
 -- 15/10/2013 03:31:36 PM VET
 -- Farming Technical Assistance
 UPDATE AD_PrintFormat SET Name='Registro de Peso',Updated=TO_TIMESTAMP('2013-10-15 15:31:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormat_ID=50159
@@ -1446,16 +1441,6 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', SortNo=0, XPositio
 -- 15/10/2013 04:18:33 PM VET
 -- Farming Technical Assistance
 UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=400, XSpace=0, YSpace=0,Updated=TO_TIMESTAMP('2013-10-15 16:18:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55526
-;
-
--- 15/10/2013 04:18:48 PM VET
--- Farming Technical Assistance
-UPDATE FTA_RecordWeight SET GrossWeight=29.000000000000, InDate=TO_TIMESTAMP('2013-10-15 16:18:43','YYYY-MM-DD HH24:MI:SS'), NetWeight=29.000000000000, WeightStatus='T',Updated=TO_TIMESTAMP('2013-10-15 16:18:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE FTA_RecordWeight_ID=50000
-;
-
--- 15/10/2013 04:18:55 PM VET
--- Farming Technical Assistance
-UPDATE FTA_RecordWeight SET NetWeight=-10.000000000000, OutDate=TO_TIMESTAMP('2013-10-15 16:18:52','YYYY-MM-DD HH24:MI:SS'), TareWeight=39.000000000000, WeightStatus='C',Updated=TO_TIMESTAMP('2013-10-15 16:18:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE FTA_RecordWeight_ID=50000
 ;
 
 -- 15/10/2013 04:19:09 PM VET
@@ -2612,6 +2597,47 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 -- Farming Technical Assistance
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=68916 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
 ;
+
+-- 16/10/2013 07:42:36 AM VET
+-- CGI Anca
+DELETE FROM AD_Column_Trl WHERE AD_Column_ID=68915
+;
+
+-- 16/10/2013 07:42:37 AM VET
+-- CGI Anca
+DELETE FROM AD_Column WHERE AD_Column_ID=68915
+;
+
+-- 16/10/2013 07:42:51 AM VET
+-- CGI Anca
+DELETE FROM AD_Element_Trl WHERE AD_Element_ID=56486
+;
+
+-- 16/10/2013 07:42:51 AM VET
+-- CGI Anca
+DELETE FROM AD_Element WHERE AD_Element_ID=56486
+;
+
+-- 16/10/2013 07:43:17 AM VET
+-- CGI Anca
+DELETE FROM AD_Column_Trl WHERE AD_Column_ID=68916
+;
+
+-- 16/10/2013 07:43:17 AM VET
+-- CGI Anca
+DELETE FROM AD_Column WHERE AD_Column_ID=68916
+;
+
+-- 16/10/2013 07:43:23 AM VET
+-- CGI Anca
+DELETE FROM AD_Element_Trl WHERE AD_Element_ID=56487
+;
+
+-- 16/10/2013 07:43:23 AM VET
+-- CGI Anca
+DELETE FROM AD_Element WHERE AD_Element_ID=56487
+;
+
 
 -- 15/10/2013 05:47:16 PM VET
 -- Farming Technical Assistance

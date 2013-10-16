@@ -6,7 +6,8 @@ CASE
 	WHEN att.AttributeValueType = 'N' THEN CAST(ROUND(atti.ValueNumber, 2) AS TEXT)
 	WHEN att.AttributeValueType = 'L' THEN attv.Name
 END AS AttributeValue, 
-atti.Value, atti.ValueNumber, attv.Name AttributeName
+atti.Value, atti.ValueNumber, attv.Name AttributeName,
+attsi.M_AttributeSetInstance_ID QualityAnalysis_ID
 FROM M_AttributeSetInstance attsi
 INNER JOIN M_AttributeInstance atti ON(atti.M_AttributeSetInstance_ID = attsi.M_AttributeSetInstance_ID)
 INNER JOIN M_Attribute att ON(att.M_Attribute_ID = atti.M_Attribute_ID)
