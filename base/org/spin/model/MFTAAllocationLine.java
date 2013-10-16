@@ -153,13 +153,13 @@ public class MFTAAllocationLine extends X_FTA_AllocationLine {
 	
 	/**
 	 * 	Set Payment Info
-	 *	@param C_Payment_ID payment
+	 *	@param p_FTA_FarmerLiquidation_ID payment
 	 *	@param C_CashLine_ID cash line
 	 */
-	public void setPaymentInfo (int C_Payment_ID, int C_CashLine_ID)
+	public void setLiquidationInfo (int p_FTA_FarmerLiquidation_ID, int C_CashLine_ID)
 	{
-		if (C_Payment_ID != 0)
-			setC_Payment_ID(C_Payment_ID);
+		if (p_FTA_FarmerLiquidation_ID != 0)
+			setFTA_FarmerLiquidation_ID(p_FTA_FarmerLiquidation_ID);
 		if (C_CashLine_ID != 0)
 			setC_CashLine_ID(C_CashLine_ID);
 	}	//	setPaymentInfo

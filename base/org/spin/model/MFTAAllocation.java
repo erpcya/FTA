@@ -803,7 +803,6 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
 				{
 					options[index++] = DocumentEngine.ACTION_Void;
-					options[index++] = DocumentEngine.ACTION_ReActivate;
 				}
 		}
 		

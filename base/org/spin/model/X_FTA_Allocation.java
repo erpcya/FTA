@@ -33,7 +33,7 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131015L;
+	private static final long serialVersionUID = 20131016L;
 
     /** Standard Constructor */
     public X_FTA_Allocation (Properties ctx, int FTA_Allocation_ID, String trxName)
@@ -50,7 +50,6 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 			setDocumentNo (null);
 			setFTA_Allocation_ID (0);
 			setFTA_FarmerCredit_ID (0);
-			setFTA_FarmerLiquidation_ID (0);
 			setIsApproved (false);
 // N
 			setProcessed (false);
@@ -291,31 +290,6 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 	public int getFTA_FarmerCredit_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_FarmerCredit_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.spin.model.I_FTA_FarmerLiquidation getFTA_FarmerLiquidation() throws RuntimeException
-    {
-		return (org.spin.model.I_FTA_FarmerLiquidation)MTable.get(getCtx(), org.spin.model.I_FTA_FarmerLiquidation.Table_Name)
-			.getPO(getFTA_FarmerLiquidation_ID(), get_TrxName());	}
-
-	/** Set Farmer Liquidation.
-		@param FTA_FarmerLiquidation_ID Farmer Liquidation	  */
-	public void setFTA_FarmerLiquidation_ID (int FTA_FarmerLiquidation_ID)
-	{
-		if (FTA_FarmerLiquidation_ID < 1) 
-			set_Value (COLUMNNAME_FTA_FarmerLiquidation_ID, null);
-		else 
-			set_Value (COLUMNNAME_FTA_FarmerLiquidation_ID, Integer.valueOf(FTA_FarmerLiquidation_ID));
-	}
-
-	/** Get Farmer Liquidation.
-		@return Farmer Liquidation	  */
-	public int getFTA_FarmerLiquidation_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_FarmerLiquidation_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
