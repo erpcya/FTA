@@ -698,14 +698,14 @@ public class FarmerCreditAllocation
 		alloc.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit_ID);
 		alloc.saveEx();
 		//	For all invoices
-		int invoiceLines = 0;
+		//int invoiceLines = 0;
 		BigDecimal unmatchedApplied = Env.ZERO;
 		for (int i = 0; i < iRows; i++)
 		{
 			//  Invoice line is selected
 			if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
 			{
-				invoiceLines++;
+				//invoiceLines++;
 				KeyNamePair pp = (KeyNamePair)invoice.getValueAt(i, 2);    //  Value
 				//  Invoice variables
 				int C_Invoice_ID = pp.getKey();
