@@ -1,4 +1,4 @@
--- Oct 14, 2013 7:28:00 PM VET
+﻿-- Oct 14, 2013 7:28:00 PM VET
 -- Farming Technical Assistance
 INSERT INTO AD_PrintFormat (AD_Client_ID,AD_Org_ID,AD_PrintColor_ID,AD_PrintFont_ID,AD_PrintFormat_ID,AD_PrintPaper_ID,AD_ReportView_ID,AD_Table_ID,Created,CreatedBy,FooterMargin,HeaderMargin,IsActive,IsDefault,IsForm,IsStandardHeaderFooter,IsTableBased,Name,Updated,UpdatedBy) VALUES (11,11,100,130,50155,100,53075,53620,TO_TIMESTAMP('2013-10-14 19:27:57','YYYY-MM-DD HH24:MI:SS'),100,0,0,'Y','N','N','Y','Y','Mobilization Guide',TO_TIMESTAMP('2013-10-14 19:27:57','YYYY-MM-DD HH24:MI:SS'),100)
 ;
@@ -560,7 +560,7 @@ UPDATE AD_PrintFormatItem_Trl SET PrintName = (SELECT e.PrintName FROM AD_Elemen
 
 -- Oct 14, 2013 7:31:25 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Column SET AD_Reference_ID=18, AD_Reference_Value_ID=NULL, AD_Val_Rule_ID=52212,Updated=TO_TIMESTAMP('2013-10-14 19:31:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=68806
+UPDATE AD_Column SET AD_Reference_ID=18, AD_Reference_Value_ID=NULL,Updated=TO_TIMESTAMP('2013-10-14 19:31:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=68806
 ;
 
 -- Oct 14, 2013 7:35:21 PM VET
@@ -1133,49 +1133,9 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', PrintAreaType='H',
 UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsNextLine='Y', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_TIMESTAMP('2013-10-14 19:59:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55458
 ;
 
--- 14/10/2013 08:06:16 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68819,1000000,0,14,53620,'chargecapacity',TO_TIMESTAMP('2013-10-14 20:06:13','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',2147483647,'Y','N','N','N','N','N','N','N','N','N','chargecapacity',TO_TIMESTAMP('2013-10-14 20:06:13','YYYY-MM-DD HH24:MI:SS'),100,0)
-;
-
--- 14/10/2013 08:06:16 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=68819 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- 14/10/2013 08:06:17 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68820,1000001,0,13,53620,'FTA_RV_MobilizationGuide_ID',TO_TIMESTAMP('2013-10-14 20:06:16','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',10,'Y','N','N','N','Y','N','N','N','N','N','View Mobilization Guide',TO_TIMESTAMP('2013-10-14 20:06:16','YYYY-MM-DD HH24:MI:SS'),100,0)
-;
-
--- 14/10/2013 08:06:17 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=68820 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
 -- 14/10/2013 08:06:58 PM VET
 -- Farming Technical Assistance
 UPDATE AD_Column SET AD_Reference_ID=18, AD_Reference_Value_ID=53516,Updated=TO_TIMESTAMP('2013-10-14 20:06:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=68802
-;
-
--- 14/10/2013 08:10:08 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_PrintFormatItem (AD_Client_ID,AD_Column_ID,AD_Org_ID,AD_PrintColor_ID,AD_PrintFont_ID,AD_PrintFormat_ID,AD_PrintFormatItem_ID,ArcDiameter,BelowColumn,Created,CreatedBy,FieldAlignmentType,ImageIsAttached,IsActive,IsAveraged,IsCentrallyMaintained,IsCounted,IsDeviationCalc,IsFilledRectangle,IsFixedWidth,IsGroupBy,IsHeightOneLine,IsImageField,IsMaxCalc,IsMinCalc,IsNextLine,IsNextPage,IsOrderBy,IsPageBreak,IsPrinted,IsRelativePosition,IsRunningTotal,IsSetNLPosition,IsSummarized,IsSuppressNull,IsSuppressRepeats,IsVarianceCalc,LineAlignmentType,LineWidth,MaxHeight,MaxWidth,Name,PrintAreaType,PrintFormatType,PrintName,RunningTotalLines,SeqNo,ShapeType,SortNo,Updated,UpdatedBy,XPosition,XSpace,YPosition,YSpace) VALUES (11,68819,11,100,130,50155,55463,0,0,TO_TIMESTAMP('2013-10-14 20:10:05','YYYY-MM-DD HH24:MI:SS'),100,'D','N','Y','N','N','N','N','N','N','N','Y','N','N','N','Y','N','N','N','Y','Y','N','N','N','N','N','N','X',1,0,0,'Capacity of Charge','C','F','Capacity of Charge',20,190,'N',0,TO_TIMESTAMP('2013-10-14 20:10:05','YYYY-MM-DD HH24:MI:SS'),100,0,0,0,0)
-;
-
--- 14/10/2013 08:10:08 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_PrintFormatItem_Trl (AD_Language,AD_PrintFormatItem_ID, PrintName,PrintNameSuffix, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_PrintFormatItem_ID, t.PrintName,t.PrintNameSuffix, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_PrintFormatItem t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_PrintFormatItem_ID=55463 AND NOT EXISTS (SELECT * FROM AD_PrintFormatItem_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_PrintFormatItem_ID=t.AD_PrintFormatItem_ID)
-;
-
--- 14/10/2013 08:10:08 PM VET
--- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName = (SELECT e.PrintName FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=AD_PrintFormatItem_Trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=68819) WHERE AD_PrintFormatItem_ID = 55463 AND EXISTS (SELECT * FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=AD_PrintFormatItem_Trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=68819 AND AD_PrintFormatItem_Trl.AD_PrintFormatItem_ID = 55463) AND EXISTS (SELECT * FROM AD_Client WHERE AD_Client_ID=AD_PrintFormatItem_Trl.AD_Client_ID AND IsMultiLingualDocument='Y')
-;
-
--- 14/10/2013 08:10:16 PM VET
--- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Capacidad de Carga:',Updated=TO_TIMESTAMP('2013-10-14 20:10:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55463 AND AD_Language='es_MX'
 ;
 
 -- 14/10/2013 08:10:26 PM VET
