@@ -1723,11 +1723,6 @@ INSERT INTO AD_PrintFormatItem_Trl (AD_Language,AD_PrintFormatItem_ID, PrintName
 UPDATE AD_PrintFormatItem_Trl SET PrintName = (SELECT e.PrintName FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=AD_PrintFormatItem_Trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=67720) WHERE AD_PrintFormatItem_ID = 55696 AND EXISTS (SELECT * FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=AD_PrintFormatItem_Trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=67720 AND AD_PrintFormatItem_Trl.AD_PrintFormatItem_ID = 55696) AND EXISTS (SELECT * FROM AD_Client WHERE AD_Client_ID=AD_PrintFormatItem_Trl.AD_Client_ID AND IsMultiLingualDocument='Y')
 ;
 
--- 16/10/2013 12:10:56 PM VET
--- Farming Technical Assistance
-UPDATE AD_PrintFormat SET AD_Table_ID=53585,Updated=TO_TIMESTAMP('2013-10-16 12:10:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormat_ID=50162
-;
-
 -- 16/10/2013 12:11:11 PM VET
 -- Farming Technical Assistance
 DELETE FROM AD_PrintFormat WHERE AD_PrintFormat_ID=50163
@@ -1736,16 +1731,6 @@ DELETE FROM AD_PrintFormat WHERE AD_PrintFormat_ID=50163
 -- 16/10/2013 12:11:18 PM VET
 -- Farming Technical Assistance
 UPDATE AD_PrintFormat SET AD_Table_ID=53585,Updated=TO_TIMESTAMP('2013-10-16 12:11:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormat_ID=50162
-;
-
--- 16/10/2013 12:11:35 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_PrintFormat (AD_Client_ID,AD_Org_ID,AD_PrintColor_ID,AD_PrintFont_ID,AD_PrintFormat_ID,AD_PrintPaper_ID,AD_ReportView_ID,AD_Table_ID,Created,CreatedBy,FooterMargin,HeaderMargin,IsActive,IsDefault,IsForm,IsStandardHeaderFooter,IsTableBased,Name,Updated,UpdatedBy) VALUES (1000000,1000000,100,130,50164,100,53078,53585,TO_TIMESTAMP('2013-10-16 12:11:34','YYYY-MM-DD HH24:MI:SS'),100,0,0,'Y','N','N','Y','Y','Hoja de Muestreo',TO_TIMESTAMP('2013-10-16 12:11:34','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
--- 16/10/2013 12:11:51 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_PrintFormat (AD_Client_ID,AD_Org_ID,AD_PrintColor_ID,AD_PrintFont_ID,AD_PrintFormat_ID,AD_PrintPaper_ID,AD_ReportView_ID,AD_Table_ID,Created,CreatedBy,FooterMargin,HeaderMargin,IsActive,IsDefault,IsForm,IsStandardHeaderFooter,IsTableBased,Name,Updated,UpdatedBy) VALUES (1000000,1000000,100,130,50165,100,53078,53585,TO_TIMESTAMP('2013-10-16 12:11:49','YYYY-MM-DD HH24:MI:SS'),100,0,0,'Y','N','N','Y','Y','Hoja de Muestreo',TO_TIMESTAMP('2013-10-16 12:11:49','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 16/10/2013 12:13:19 PM VET
@@ -1843,46 +1828,6 @@ UPDATE AD_PrintFormatItem SET IsActive='Y', IsGroupBy='N', IsPageBreak='N', Sort
 UPDATE AD_PrintFormatItem SET IsActive='N', IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_TIMESTAMP('2013-10-16 12:20:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55663
 ;
 
--- 16/10/2013 12:20:31 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68941,56441,0,19,53585,'FTA_Driver_ID',TO_TIMESTAMP('2013-10-16 12:20:29','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',10,'Y','N','N','N','N','N','N','N','N','N','Driver',TO_TIMESTAMP('2013-10-16 12:20:29','YYYY-MM-DD HH24:MI:SS'),100,0)
-;
-
--- 16/10/2013 12:20:31 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=68941 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- 16/10/2013 12:20:33 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68942,56440,0,19,53585,'FTA_Vehicle_ID',TO_TIMESTAMP('2013-10-16 12:20:31','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',10,'Y','N','N','N','N','N','N','N','N','N','Vehicle',TO_TIMESTAMP('2013-10-16 12:20:31','YYYY-MM-DD HH24:MI:SS'),100,0)
-;
-
--- 16/10/2013 12:20:33 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=68942 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- 16/10/2013 12:20:34 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68943,455,0,19,53585,'M_Shipper_ID',TO_TIMESTAMP('2013-10-16 12:20:33','YYYY-MM-DD HH24:MI:SS'),100,'Method or manner of product delivery','ECA02',10,'The Shipper indicates the method of delivering product','Y','N','N','N','N','N','N','N','N','N','Shipper',TO_TIMESTAMP('2013-10-16 12:20:33','YYYY-MM-DD HH24:MI:SS'),100,0)
-;
-
--- 16/10/2013 12:20:34 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=68943 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- 16/10/2013 12:20:36 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68944,540,0,10,53585,'ReferenceNo',TO_TIMESTAMP('2013-10-16 12:20:34','YYYY-MM-DD HH24:MI:SS'),100,'Your customer or vendor number at the Business Partner''s site','ECA02',60,'The reference number can be printed on orders and invoices to allow your business partner to faster identify your records.','Y','N','N','N','N','N','N','N','N','N','Reference No',TO_TIMESTAMP('2013-10-16 12:20:34','YYYY-MM-DD HH24:MI:SS'),100,0)
-;
-
--- 16/10/2013 12:20:36 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=68944 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
 -- 16/10/2013 12:20:38 PM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68945,454,0,19,53585,'M_Product_ID',TO_TIMESTAMP('2013-10-16 12:20:36','YYYY-MM-DD HH24:MI:SS'),100,'Product, Service, Item','ECA02',10,'Identifies an item which is either purchased or sold in this organization.','Y','N','N','N','N','N','N','N','N','N','Product',TO_TIMESTAMP('2013-10-16 12:20:36','YYYY-MM-DD HH24:MI:SS'),100,0)
@@ -1906,21 +1851,6 @@ UPDATE AD_Column SET AD_Reference_ID=18, AD_Reference_Value_ID=53537,Updated=TO_
 -- 16/10/2013 12:22:54 PM VET
 -- Farming Technical Assistance
 UPDATE AD_Column SET AD_Reference_ID=18, AD_Reference_Value_ID=53516,Updated=TO_TIMESTAMP('2013-10-16 12:22:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=67742
-;
-
--- 16/10/2013 12:23:31 PM VET
--- Farming Technical Assistance
-UPDATE AD_PrintFormatItem SET AD_Column_ID=68941, IsActive='Y', IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_TIMESTAMP('2013-10-16 12:23:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55663
-;
-
--- 16/10/2013 12:23:42 PM VET
--- Farming Technical Assistance
-UPDATE AD_PrintFormatItem SET AD_Column_ID=68942, IsActive='Y', IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_TIMESTAMP('2013-10-16 12:23:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55664
-;
-
--- 16/10/2013 12:24:15 PM VET
--- Farming Technical Assistance
-UPDATE FTA_EntryTicket SET Description='wertyuiolkjhgfdsaqwertyuikmnbvcdxsasdftgyhujkl',Updated=TO_TIMESTAMP('2013-10-16 12:24:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE FTA_EntryTicket_ID=50000
 ;
 
 -- 16/10/2013 12:24:49 PM VET
