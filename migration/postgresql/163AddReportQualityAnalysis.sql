@@ -1,4 +1,4 @@
--- 16/10/2013 09:35:49 AM VET
+﻿-- 16/10/2013 09:35:49 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,68921,56441,0,19,53623,'FTA_Driver_ID',TO_TIMESTAMP('2013-10-16 09:35:46','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',10,'Y','N','N','N','N','N','N','N','N','N','Driver',TO_TIMESTAMP('2013-10-16 09:35:46','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
@@ -1133,11 +1133,6 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsNextLi
 UPDATE AD_PrintFormatItem_Trl SET PrintName='Observacion:',Updated=TO_TIMESTAMP('2013-10-16 10:42:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55585 AND AD_Language='es_MX'
 ;
 
--- 16/10/2013 10:42:26 AM VET
--- Farming Technical Assistance
-UPDATE FTA_QualityAnalysis SET Description='ertyuiopñ.,mnbvcdwertyuiopñ,mnbvcxsdfghjk123456789qwertyuivbnmsdfghj2345678',Updated=TO_TIMESTAMP('2013-10-16 10:42:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE FTA_QualityAnalysis_ID=1000000
-;
-
 -- 16/10/2013 10:43:16 AM VET
 -- Farming Technical Assistance
 UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', PrintAreaType='H', SortNo=0, XPosition=0, YPosition=0,Updated=TO_TIMESTAMP('2013-10-16 10:43:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55585
@@ -1586,11 +1581,6 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsNextLi
 -- 16/10/2013 11:14:46 AM VET
 -- Farming Technical Assistance
 UPDATE AD_PrintFormatItem_Trl SET PrintName='Observación:',Updated=TO_TIMESTAMP('2013-10-16 11:14:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55518 AND AD_Language='es_MX'
-;
-
--- 16/10/2013 11:15:02 AM VET
--- Farming Technical Assistance
-UPDATE FTA_RecordWeight SET Description='wertyuiolkmnbvcxzawertyuikmnbvcxzsdfghjk',Updated=TO_TIMESTAMP('2013-10-16 11:15:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE FTA_RecordWeight_ID=50000
 ;
 
 -- 16/10/2013 11:15:15 AM VET

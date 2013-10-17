@@ -4,16 +4,16 @@
 
 SELECT * FROM AD_PrintFormat WHERE AD_PrintFormat_ID IN (50155,
 50159,
-50160 );
+50160,50161 );
 
 UPDATE AD_PrintFormat SET AD_Client_ID= 0,AD_Org_ID = 0 WHERE AD_PrintFormat_ID IN (50155,
 50159,
-50160);
+50160,50161);
 
 SELECT * FROM AD_PrintFormatItem WHERE AD_PrintFormat_ID IN (
 	SELECT AD_PrintFormat_ID FROM AD_PrintFormat WHERE AD_PrintFormat_ID IN (50155,
 50159,
-50160)
+50160,50161)
 );
 
 
