@@ -13,41 +13,6 @@ INSERT INTO AD_Process (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Repo
 INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Process_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Process t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Process_ID=53497 AND NOT EXISTS (SELECT * FROM AD_Process_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Process_ID=t.AD_Process_ID)
 ;
 
--- 16/10/2013 11:39:16 AM VET
--- Farming Technical Assistance
-INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,Created,CreatedBy,IsActive,Updated,UpdatedBy) VALUES (0,0,53497,0,TO_DATE('2013-10-16 11:39:16','YYYY-MM-DD HH24:MI:SS'),100,'Y',TO_DATE('2013-10-16 11:39:16','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
--- 16/10/2013 11:39:17 AM VET
--- Farming Technical Assistance
-INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,Created,CreatedBy,IsActive,Updated,UpdatedBy) VALUES (11,0,53497,102,TO_DATE('2013-10-16 11:39:16','YYYY-MM-DD HH24:MI:SS'),100,'Y',TO_DATE('2013-10-16 11:39:16','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
--- 16/10/2013 11:39:17 AM VET
--- Farming Technical Assistance
-INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,Created,CreatedBy,IsActive,Updated,UpdatedBy) VALUES (11,0,53497,103,TO_DATE('2013-10-16 11:39:17','YYYY-MM-DD HH24:MI:SS'),100,'Y',TO_DATE('2013-10-16 11:39:17','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
--- 16/10/2013 11:39:17 AM VET
--- Farming Technical Assistance
-INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,Created,CreatedBy,IsActive,Updated,UpdatedBy) VALUES (0,0,53497,50001,TO_DATE('2013-10-16 11:39:17','YYYY-MM-DD HH24:MI:SS'),100,'Y',TO_DATE('2013-10-16 11:39:17','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
--- 16/10/2013 11:39:17 AM VET
--- Farming Technical Assistance
-INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,Created,CreatedBy,IsActive,Updated,UpdatedBy) VALUES (0,0,53497,50002,TO_DATE('2013-10-16 11:39:17','YYYY-MM-DD HH24:MI:SS'),100,'Y',TO_DATE('2013-10-16 11:39:17','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
--- 16/10/2013 11:39:18 AM VET
--- Farming Technical Assistance
-INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,Created,CreatedBy,IsActive,Updated,UpdatedBy) VALUES (1000000,0,53497,1000000,TO_DATE('2013-10-16 11:39:17','YYYY-MM-DD HH24:MI:SS'),100,'Y',TO_DATE('2013-10-16 11:39:17','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
--- 16/10/2013 11:39:18 AM VET
--- Farming Technical Assistance
-INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,Created,CreatedBy,IsActive,Updated,UpdatedBy) VALUES (1000000,0,53497,1000001,TO_DATE('2013-10-16 11:39:18','YYYY-MM-DD HH24:MI:SS'),100,'Y',TO_DATE('2013-10-16 11:39:18','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
 -- 16/10/2013 11:39:33 AM VET
 -- Farming Technical Assistance
 UPDATE AD_Process_Trl SET Name='Hoja de Muestreo',Updated=TO_DATE('2013-10-16 11:39:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53497 AND AD_Language='es_MX'
@@ -186,11 +151,6 @@ INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,
 -- 16/10/2013 11:43:03 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Process_Para_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Process_Para t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Process_Para_ID=54153 AND NOT EXISTS (SELECT * FROM AD_Process_Para_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Process_Para_ID=t.AD_Process_Para_ID)
-;
-
--- 16/10/2013 11:44:16 AM VET
--- Farming Technical Assistance
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,56129,0,53497,54154,30,'FTA_EntryTicket_ID',TO_DATE('2013-10-16 11:44:15','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',0,'Y','Y','N','N','Entry Ticket',3,TO_DATE('2013-10-16 11:44:15','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 16/10/2013 11:44:24 AM VET
