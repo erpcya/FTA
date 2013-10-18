@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.spin.process;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.compiere.model.MBPartner;
@@ -27,6 +28,7 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.Env;
 import org.spin.model.MFTAFarmerCredit;
+import org.spin.model.X_FTA_FarmerCredit;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -44,6 +46,12 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	private Timestamp 	p_DateDoc = null;
 	/**	Farmer Credit						*/
 	private int 		p_FTA_FarmerCredit_ID = 0;
+	/**	Document Base Type					*/
+	//private String 		p_DocBaseType = null;
+	/**	Charge								*/
+	private int 		p_C_Charge_ID = 0;
+	/**	Amount								*/
+	private BigDecimal	p_Amt = null;
 	
 	@Override
 	protected void prepare() {
@@ -54,12 +62,20 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				;
 			else if(name.equals("AD_Org_ID"))
 				p_AD_Org_ID = para.getParameterAsInt();
-			else if (name.equals("DateDoc"))
-				p_DateDoc = (Timestamp)para.getParameter();
+			/*else if(name.equals("DocBaseType"))
+				p_DocBaseType = (String) para.getParameter();*/
+			else if(name.equals("FTA_FarmerCredit_ID"))
+				p_FTA_FarmerCredit_ID = para.getParameterAsInt();
 			else if(name.equals("C_DocTypeTarget_ID"))
 				p_C_DocTypeInvoice_ARI_ID = para.getParameterAsInt();
 			else if(name.equals("C_DocTypeInvoice_ID"))
 				p_C_DocTypeInvoice_API_ID = para.getParameterAsInt();
+			else if(name.equals("C_Charge_ID"))
+				p_C_Charge_ID = para.getParameterAsInt();
+			else if(name.equals("Amt"))
+				p_Amt = (BigDecimal)para.getParameter();
+			else if (name.equals("DateDoc"))
+				p_DateDoc = (Timestamp)para.getParameter();
 		}
 		//	Get Technical From Identifier
 		if(p_FTA_FarmerCredit_ID == 0)
@@ -82,10 +98,14 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		MFTAFarmerCredit m_FTA_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
 		//	Valid AP Invoice
 		if(m_FTA_FarmerCredit.getBeneficiary_ID() != 0
+				&& m_FTA_FarmerCredit.getCreditType()
+					.equals(X_FTA_FarmerCredit.CREDITTYPE_Loan)
 				&& p_C_DocTypeInvoice_API_ID == 0)
-			throw new AdempiereUserError("@M_PriceList_ID@ @NotFound@");
+			throw new AdempiereUserError("@C_DocTypeInvoice_ID@ @NotFound@");
 		
-		if(m_FTA_FarmerCredit.isProcessing())
+		if(m_FTA_FarmerCredit.isProcessing()
+				&& m_FTA_FarmerCredit.getCreditType()
+					.equals(X_FTA_FarmerCredit.CREDITTYPE_Loan))
 			return "";
 		
 		//	Generated
@@ -103,11 +123,19 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_ARInvoice.saveEx();
 		//	Create Line
 		MInvoiceLine m_ARinvoiceLine = new MInvoiceLine(m_ARInvoice);
-		m_ARinvoiceLine.setC_Charge_ID(m_FTA_FarmerCredit.getC_Charge_ID());
+		//	Set Charge
+		if(p_C_Charge_ID == 0)
+			p_C_Charge_ID = m_FTA_FarmerCredit.getC_Charge_ID();
+		
+		m_ARinvoiceLine.setC_Charge_ID(p_C_Charge_ID);
 		m_ARinvoiceLine.setQty(Env.ONE);
 		//	Each
 		m_ARinvoiceLine.setC_UOM_ID(100);
-		m_ARinvoiceLine.setPrice(m_FTA_FarmerCredit.getAmt());
+		//	Set Amount
+		if(p_Amt == null)
+			p_Amt = m_FTA_FarmerCredit.getAmt();
+		m_ARinvoiceLine.setPrice(p_Amt);
+		//	
 		m_ARinvoiceLine.setTaxAmt();
 		m_ARinvoiceLine.saveEx();
 		
