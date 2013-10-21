@@ -234,6 +234,7 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
+		
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
@@ -507,10 +508,9 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 	 * @return
 	 * @return int
 	 */
-	public int setDocStatusFarmerCredit(String p_DocStatus)
+	public void setDocStatusFarmerCredit(String p_DocStatus)
 	{
 		StringBuffer filter=new StringBuffer();
-		int m_Completed=0;
 		filter.append("FTA_CreditAct_ID=?");
 		
 		List<MFTAFarmerCredit> credits = new Query(p_ctx,MFTAFarmerCredit.Table_Name,filter.toString(),get_TrxName())
@@ -520,13 +520,30 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 
 		for (MFTAFarmerCredit credit:credits)
 		{
-			//Completed Farmer Credit
-			if(!p_DocStatus.equals(DocumentEngine.STATUS_Drafted)){
+			//Process Farmer Credit
+			String l_docStatus = credit.getDocStatus();
+			if(((l_docStatus.equals(STATUS_Drafted)
+					|| l_docStatus.equals(STATUS_InProgress)
+					|| l_docStatus.equals(STATUS_Invalid))
+				&&(p_DocStatus.equals(STATUS_Completed)||p_DocStatus.equals(STATUS_Closed)))
+				
+				||(l_docStatus.equals(STATUS_Completed) && (p_DocStatus.equals(STATUS_Closed) || p_DocStatus.equals(STATUS_Voided) || p_DocStatus.equals(STATUS_InProgress))))
+			{
+				p_DocStatus= (p_DocStatus==STATUS_InProgress?ACTION_ReActivate:p_DocStatus);
 				credit.setDocAction(p_DocStatus);
 				credit.processIt(p_DocStatus);
 				credit.saveEx(get_TrxName());
 			}
 		}
-		return m_Completed;
+	}
+	
+	/** Carlos Parada Completed After Save Credit Act*/
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		// TODO Auto-generated method stub
+		if (getDocStatus()!=STATUS_Drafted)
+			setDocStatusFarmerCredit(getDocStatus());
+		
+		return true;
 	}
 }

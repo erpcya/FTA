@@ -95,7 +95,7 @@ public class SuggestedProducts extends SvrProcess {
 				if (product==null){
 					product = new MFTAProductsToApply(getCtx(), 0, get_TrxName());
 					product.setFTA_TechnicalForm_ID(tfl.getFTA_TechnicalForm_ID());
-					product.setFTA_TechnicalForm_ID(tfl.getFTA_TechnicalFormLine_ID());
+					product.setFTA_TechnicalFormLine_ID(tfl.getFTA_TechnicalFormLine_ID());
 					product.setM_Product_ID(rs.getInt("T_Selection_ID"));
 					product.setDateFrom(rs.getTimestamp("SP_DateFrom"));
 					product.setDateTo(rs.getTimestamp("SP_DateTo"));
