@@ -1,4 +1,4 @@
-Create Or Replace View FTA_RV_CreditSOAllocation AS 
+﻿Create Or Replace View FTA_RV_CreditSOAllocation AS 
 --Invoice
 Select  ci.AD_Client_ID,				--Client
 	ci.AD_Org_ID,					--ORg
@@ -9,7 +9,7 @@ Select  ci.AD_Client_ID,				--Client
 	Cast(Null As Numeric(10,0)) C_OrderLine_ID,	--Order
 	ci.DocStatus,					--DocStatus
 	ci.DocAction,					--DocAction
-	ci.FTA_FarmerCredit_ID,				--Farmer Credit
+	fc.FTA_FarmerCredit_ID,				--Farmer Credit
 	cil.Line,					--Line
 	Case 
 	  When mp.M_Product_Category_ID Is Not Null 
@@ -38,14 +38,15 @@ Select  ci.AD_Client_ID,				--Client
 		  End
 		) AllocatedAmt,		--Allocated
 		ci.IsSoTrx,
-		cdl.FTA_CreditDefinitionLine_ID
+		cdl.FTA_CreditDefinitionLine_ID,
+	cil.LineNetAmt
 From
 C_Invoice ci 
 Inner Join C_InvoiceLine cil On ci.C_Invoice_ID=cil.C_Invoice_ID
 Left Join M_Product mp On cil.M_Product_ID=mp.M_Product_ID 
 Left Join M_Product_Category mpc On mp.M_Product_Category_ID=mpc.M_Product_Category_ID
 Left Join C_Charge cch On cch.C_Charge_ID=cil.C_Charge_ID
-Inner Join FTA_FarmerCredit fc On fc.FTA_FarmerCredit_ID=ci.FTA_FarmerCredit_ID
+Right Join FTA_FarmerCredit fc On fc.FTA_FarmerCredit_ID=ci.FTA_FarmerCredit_ID Or ci.FTA_FarmerCredit_ID Is Null
 Inner Join FTA_Farming fming On fming.FTA_FarmerCredit_ID=fc.FTA_FarmerCredit_ID
 Inner Join FTA_CreditDefinition cd On cd.FTA_CreditDefinition_ID=fc.FTA_CreditDefinition_ID
 Right Join FTA_CreditDefinitionLine cdl On 
@@ -83,7 +84,7 @@ Select  co.AD_Client_ID,				--Client
 	col.C_OrderLine_ID,				--Order Line
 	co.DocStatus,					--DocStatus
 	co.DocAction,					--DocAction
-	co.FTA_FarmerCredit_ID,				--Farmer Credit
+	fc.FTA_FarmerCredit_ID,				--Farmer Credit
 	col.Line,					--Line
 	Case 
 	  When mp.M_Product_Category_ID Is Not Null 
@@ -109,14 +110,15 @@ Select  co.AD_Client_ID,				--Client
 		  End
 		) AllocatedAmt,		--Allocated
 		co.IsSoTrx,
-		cdl.FTA_CreditDefinitionLine_ID
+		cdl.FTA_CreditDefinitionLine_ID,
+	col.LineNetAmt
 From
 C_Order co 
 Inner Join C_OrderLine col On co.C_Order_ID=col.C_Order_ID
 Left Join M_Product mp On col.M_Product_ID=mp.M_Product_ID 
 Left Join M_Product_Category mpc On mp.M_Product_Category_ID=mpc.M_Product_Category_ID
 Left Join C_Charge cch On cch.C_Charge_ID=col.C_Charge_ID
-Inner Join FTA_FarmerCredit fc On fc.FTA_FarmerCredit_ID=co.FTA_FarmerCredit_ID
+Right Join FTA_FarmerCredit fc On (fc.FTA_FarmerCredit_ID=co.FTA_FarmerCredit_ID Or co.FTA_FarmerCredit_ID Is Null)
 Inner Join FTA_Farming fming On fming.FTA_FarmerCredit_ID=fc.FTA_FarmerCredit_ID
 Inner Join FTA_CreditDefinition cd On cd.FTA_CreditDefinition_ID=fc.FTA_CreditDefinition_ID
 Right Join FTA_CreditDefinitionLine cdl On 
