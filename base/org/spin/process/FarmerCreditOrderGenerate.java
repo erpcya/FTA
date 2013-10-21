@@ -27,6 +27,7 @@ import org.compiere.model.MProduct;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAFarming;
@@ -108,8 +109,15 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 		
 		MFTAFarmerCredit m_FTA_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
 		//	If is Generated
+		int order_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(o.C_Order_ID) " +
+				"FROM C_Order o " +
+				"WHERE o.DocStatus NOT IN('VO', 'RE') " +
+				"AND o.IsSOTrx = 'N' " +
+				"AND o.FTA_FarmerCredit_ID = ?", m_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
+		
 		if(m_FTA_FarmerCredit.getGenerateOrder() != null
-				&& m_FTA_FarmerCredit.getGenerateOrder().equals("Y"))
+				&& m_FTA_FarmerCredit.getGenerateOrder().equals("Y")
+				&& order_ID != 0)
 			return "";
 		
 		MOrder po = new MOrder (getCtx(), 0, get_TrxName());

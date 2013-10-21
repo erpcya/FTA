@@ -94,8 +94,14 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 		
 		MFTATechnicalForm m_TechnicalForm = new MFTATechnicalForm(getCtx(), p_FTA_TechnicalForm_ID, get_TrxName());
 		//	Valid Generated
+		int order_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(o.C_Order_ID) " +
+				"FROM C_Order o " +
+				"WHERE o.DocStatus NOT IN('VO', 'RE') " +
+				"AND o.IsSOTrx = 'Y' " +
+				"AND o.FTA_TechnicalForm_ID = ?", m_TechnicalForm.getFTA_TechnicalForm_ID());		
 		if(m_TechnicalForm.getGenerateOrder() != null
-				&& m_TechnicalForm.getGenerateOrder().equals("Y"))
+				&& m_TechnicalForm.getGenerateOrder().equals("Y")
+				&& order_ID != 0)
 			return "";
 		//	Get Default Farmer Credit
 		m_defaultFarmerCredit_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fm.FTA_FarmerCredit_ID) " +

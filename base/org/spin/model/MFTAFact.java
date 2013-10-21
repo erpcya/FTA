@@ -24,6 +24,7 @@ import java.util.Properties;
 
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
+import org.compiere.model.PO;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -101,25 +102,6 @@ public class MFTAFact extends X_FTA_Fact {
 	}
 	
 	/**
-	 * Verify is Manual
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 10/10/2013, 14:22:21
-	 * @param p_AD_Table_ID
-	 * @param p_Record_ID
-	 * @param trxName
-	 * @return
-	 * @return boolean
-	 */
-	public static boolean isManual(int p_AD_Table_ID, int p_Record_ID, String trxName){
-		StringBuffer manualSQL = new StringBuffer ("SELECT 1 FROM FTA_Fact ")
-		.append("WHERE AD_Table_ID = ").append(p_AD_Table_ID).append(" ")
-		.append("AND Record_ID = ").append(p_Record_ID)
-		.append("AND IsManual = 'Y'");
-		//	
-		int manual = DB.getSQLValue(trxName, manualSQL.toString());
-		return (manual != 0);
-	}
-	
-	/**
 	 * Crete Fact for Order
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/10/2013, 18:04:42
 	 * @param order
@@ -160,6 +142,7 @@ public class MFTAFact extends X_FTA_Fact {
 				"INNER JOIN C_Tax t ON(t.C_Tax_ID = ol.C_Tax_ID) " + 
 				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) " +
 				"LEFT JOIN M_Product pr ON(pr.M_Product_ID = ol.M_Product_ID) " +
+				"LEFT JOIN C_Charge cr ON(cr.C_Charge_ID = ol.C_Charge_ID) " +
 				"WHERE o.AD_Client_ID = ? " +
 				//	Add Record Identifier
 				sqlWhere +
@@ -171,7 +154,9 @@ public class MFTAFact extends X_FTA_Fact {
 				"		OR (cdl.M_Product_Category_ID = pr.M_Product_Category_ID " +
 				"			AND pr.M_Product_Category_ID IS NOT NULL) " +
 				"		OR (cdl.C_Charge_ID = ol.C_charge_ID " +
-				"			AND ol.C_Charge_ID IS NOT NULL)" +
+				"			AND ol.C_Charge_ID IS NOT NULL) " +
+				"		OR (cdl.C_ChargeType_ID = cr.C_chargeType_ID " +
+				"			AND cr.C_ChargeType_ID IS NOT NULL) " +
 				"	)");
 		
 		PreparedStatement pstmt = null;
@@ -259,8 +244,15 @@ public class MFTAFact extends X_FTA_Fact {
 		int record_ID = 0;
 		if(invoice != null){
 			//	Is Manual
-			if(invoice.get_ValueAsBoolean("IsCreditFactManual"))
-				return null;
+			if(invoice.get_ValueAsBoolean("IsCreditFactManual")){
+				MOrder ord = new MOrder(ctx, invoice.getC_Order_ID(), trxName);
+				if(!invoice.getGrandTotal().equals(ord.getGrandTotal()))
+					return "@InvoiceOrderInconsistent@";
+				else
+					return copyFromFact(ctx, ord.getC_Order_ID(), 
+							invoice.getC_Invoice_ID(), 
+							trxName);
+			}
 			record_ID = invoice.getC_Invoice_ID();
 			sqlWhere = "AND i.C_Invoice_ID = " + record_ID + " ";
 		} else {
@@ -284,6 +276,7 @@ public class MFTAFact extends X_FTA_Fact {
 				"INNER JOIN C_Tax t ON(t.C_Tax_ID = il.C_Tax_ID) " + 
 				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) " +
 				"LEFT JOIN M_Product pr ON(pr.M_Product_ID = il.M_Product_ID) " +
+				"LEFT JOIN C_Charge cr ON(cr.C_Charge_ID = il.C_Charge_ID) " +
 				"WHERE i.AD_Client_ID = ? " +
 				//	Add Record Identifier
 				sqlWhere +
@@ -296,6 +289,8 @@ public class MFTAFact extends X_FTA_Fact {
 				"			AND pr.M_Product_Category_ID IS NOT NULL) " +
 				"		OR (cdl.C_Charge_ID = il.C_charge_ID " +
 				"			AND il.C_Charge_ID IS NOT NULL)" +
+				"		OR (cdl.C_ChargeType_ID = cr.C_chargeType_ID " +
+				"			AND cr.C_ChargeType_ID IS NOT NULL) " +
 				"	)");
 		
 		PreparedStatement pstmt = null;
@@ -364,6 +359,54 @@ public class MFTAFact extends X_FTA_Fact {
 	 */
 	public static String createInvoiceFact(Properties ctx, MInvoice invoice, String trxName) {
 		return createInvoiceFact(ctx, invoice, null, null, trxName);
+	}
+	
+	/**	
+	 * Copy Fact
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 21/10/2013, 09:58:55
+	 * @param ctx
+	 * @param p_C_Order_ID
+	 * @param p_C_Invoice_ID
+	 * @param trxName
+	 * @return
+	 * @return String
+	 */
+	public static String copyFromFact(Properties ctx, int p_C_Order_ID, int p_C_Invoice_ID, String trxName){
+		String sql = new String("SELECT f.* FTA_Fact f " +
+				"WHERE f.AD_Table_ID = ? " +
+				"AND f.Record_ID = ?");
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = DB.prepareStatement(sql, trxName);
+			//	Add Parameters
+			pstmt.setInt(1, MOrder.Table_ID);
+			pstmt.setInt(2, p_C_Order_ID);
+			//	
+			rs = pstmt.executeQuery();
+			if(rs != null){
+				while(rs.next()){
+					//	Create Fact
+					MFTAFact m_fta_FactFrom = new MFTAFact(ctx, rs, trxName);
+					MFTAFact m_fta_FactTarget = new MFTAFact(ctx, 0, trxName);
+					
+					PO.copyValues(m_fta_FactFrom, m_fta_FactTarget);
+					//	
+					//	Set Values
+					m_fta_FactTarget.setAD_Table_ID(MInvoice.Table_ID);
+					m_fta_FactTarget.setRecord_ID(p_C_Invoice_ID);
+					//	Save
+					m_fta_FactTarget.saveEx();
+				}
+			}
+			//	Close DB
+			DB.close(rs, pstmt);
+		} catch (Exception e) {
+			DB.close(rs, pstmt);
+			return e.getMessage();
+		}
+		return null;
 	}
 	
 }

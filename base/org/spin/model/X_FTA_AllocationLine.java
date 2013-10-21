@@ -33,7 +33,7 @@ public class X_FTA_AllocationLine extends PO implements I_FTA_AllocationLine, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131016L;
+	private static final long serialVersionUID = 20131021L;
 
     /** Standard Constructor */
     public X_FTA_AllocationLine (Properties ctx, int FTA_AllocationLine_ID, String trxName)
@@ -43,7 +43,6 @@ public class X_FTA_AllocationLine extends PO implements I_FTA_AllocationLine, I_
         {
 			setAmount (Env.ZERO);
 			setC_Invoice_ID (0);
-			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 			setDiscountAmt (Env.ZERO);
 			setFTA_Allocation_ID (0);
 			setFTA_AllocationLine_ID (0);

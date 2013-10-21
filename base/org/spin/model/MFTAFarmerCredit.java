@@ -596,6 +596,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if(newRecord){
 			setGenerateOrder("N");
 			setFTA_CreditAct_ID(0);
+			setQty(Env.ZERO);
+			setAmt(Env.ZERO);
 		}
 		if(getCreditType().equals(CREDITTYPE_Loan))
 			setQty(Env.ONE);

@@ -91,6 +91,17 @@ public interface I_FTA_CreditDefinitionLine
 
 	public I_C_Charge getC_Charge() throws RuntimeException;
 
+    /** Column name C_ChargeType_ID */
+    public static final String COLUMNNAME_C_ChargeType_ID = "C_ChargeType_ID";
+
+	/** Set Charge Type	  */
+	public void setC_ChargeType_ID (int C_ChargeType_ID);
+
+	/** Get Charge Type	  */
+	public int getC_ChargeType_ID();
+
+	public I_C_ChargeType getC_ChargeType() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

@@ -32,7 +32,7 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131016L;
+	private static final long serialVersionUID = 20131021L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinitionLine (Properties ctx, int FTA_CreditDefinitionLine_ID, String trxName)
@@ -123,6 +123,31 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 	public int getC_Charge_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_ChargeType getC_ChargeType() throws RuntimeException
+    {
+		return (I_C_ChargeType)MTable.get(getCtx(), I_C_ChargeType.Table_Name)
+			.getPO(getC_ChargeType_ID(), get_TrxName());	}
+
+	/** Set Charge Type.
+		@param C_ChargeType_ID Charge Type	  */
+	public void setC_ChargeType_ID (int C_ChargeType_ID)
+	{
+		if (C_ChargeType_ID < 1) 
+			set_Value (COLUMNNAME_C_ChargeType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ChargeType_ID, Integer.valueOf(C_ChargeType_ID));
+	}
+
+	/** Get Charge Type.
+		@return Charge Type	  */
+	public int getC_ChargeType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ChargeType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
