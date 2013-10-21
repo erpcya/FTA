@@ -19,7 +19,8 @@ f.FTA_Farm_ID,/*Identifier Farm*/
 f.C_BPartner_ID, /*Identifier Business Partner*/
 cc.FTA_CategoryCalc_ID, /*Identifier Category Calc*/
 0.00 As PayWeight,
-0.00 As Price
+0.00 As Price,
+fm.Category_ID As M_Product_ID /*Identifier Product*/
 From 
 /*Record Weight*/
 FTA_RecordWeight rw
@@ -36,7 +37,7 @@ Inner Join FTA_FarmDivision fd On fm.FTA_FarmDivision_ID=fd.FTA_FarmDivision_ID
 /*Farm*/
 Inner Join FTA_Farm f On fd.FTA_Farm_ID=f.FTA_Farm_ID
 /*Category Calc*/
-Inner Join FTA_CategoryCalc cc On fm.Category_ID=cc.M_Product_ID
+Left Join FTA_CategoryCalc cc On fm.Category_ID=cc.M_Product_ID
 Where 
 /*Record Weight Completed Or Closed*/
 rw.DocStatus In ('CO','CL')
