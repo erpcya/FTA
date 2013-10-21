@@ -121,7 +121,7 @@ public class CreditSOAllocation extends SvrProcess {
 												.setOnlyActiveRecords(true)
 												.setParameters(FTA_CreditDefinitionLine_ID,
 																C_BPartner_ID,
-																(C_OrderLine_ID==0?C_OrderLine_ID:C_OrderLine_ID),
+																(C_OrderLine_ID==0?C_InvoiceLine_ID:C_OrderLine_ID),
 																AD_Table_ID,
 																FTA_FarmerCredit_ID
 																)
