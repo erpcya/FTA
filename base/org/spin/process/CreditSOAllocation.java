@@ -111,6 +111,11 @@ public class CreditSOAllocation extends SvrProcess {
 				boolean IsManual= rs.getString("IsManual").equals("Y");
 				BigDecimal AllocatedAmt = rs.getBigDecimal("AllocatedAmt");
 				
+				if (AD_Table_ID==0){
+					m_processMsg = Msg.translate(getCtx(), "Invalid") + " " + Msg.translate(getCtx(), "SelectDocument") ;
+					return -1;
+				}
+				
 				filter = "FTA_CreditDefinitionLine_ID=? AND "
 							+"C_BPartner_ID=? AND "
 							+"Line_ID=? AND "
