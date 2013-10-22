@@ -195,13 +195,14 @@ public class CreditSOAllocation extends SvrProcess {
 				updates++;
 			}
 			
-			BigDecimal Line = inValidLines(Record_ID,AD_Table_ID);
-			if (!Line.equals(Env.ZERO)){
-				rollback();
-				m_processMsg= Msg.translate(getCtx(), "amount.difference") +" " + Line;
-				return -1;
+			if (AD_Table_ID!=0){
+				BigDecimal Line = inValidLines(Record_ID,AD_Table_ID);
+				if (!Line.equals(Env.ZERO)){
+					rollback();
+					m_processMsg= Msg.translate(getCtx(), "amount.difference") +" " + Line;
+					return -1;
+				}
 			}
-			
 			ps.close();
 			rs.close();
 		}catch (SQLException e){
