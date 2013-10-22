@@ -23,11 +23,12 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_FarmerLiquidation
+/** Generated Model for FTA_BillOfExchange
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidation, I_Persistent 
+public class X_FTA_BillOfExchange extends PO implements I_FTA_BillOfExchange, I_Persistent 
 {
 
 	/**
@@ -36,32 +37,29 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 	private static final long serialVersionUID = 20131022L;
 
     /** Standard Constructor */
-    public X_FTA_FarmerLiquidation (Properties ctx, int FTA_FarmerLiquidation_ID, String trxName)
+    public X_FTA_BillOfExchange (Properties ctx, int FTA_BillOfExchange_ID, String trxName)
     {
-      super (ctx, FTA_FarmerLiquidation_ID, trxName);
-      /** if (FTA_FarmerLiquidation_ID == 0)
+      super (ctx, FTA_BillOfExchange_ID, trxName);
+      /** if (FTA_BillOfExchange_ID == 0)
         {
 			setAmt (Env.ZERO);
 			setC_BPartner_ID (0);
-			setC_Currency_ID (0);
-// @C_Currency_ID@
 			setC_DocType_ID (0);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
+// @#Date@
 			setDocAction (null);
 // CO
 			setDocStatus (null);
 // DR
-			setFTA_FarmerCredit_ID (0);
-			setFTA_FarmerLiquidation_ID (0);
+			setDocumentNo (null);
+			setFTA_BillOfExchange_ID (0);
 			setIsApproved (false);
-// N
-			setM_Product_ID (0);
-			setNetWeight (Env.ZERO);
+			setStatus (null);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_FarmerLiquidation (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_BillOfExchange (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -83,7 +81,7 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_FarmerLiquidation[")
+      StringBuffer sb = new StringBuffer ("X_FTA_BillOfExchange[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -136,62 +134,6 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException
-    {
-		return (I_C_ConversionType)MTable.get(getCtx(), I_C_ConversionType.Table_Name)
-			.getPO(getC_ConversionType_ID(), get_TrxName());	}
-
-	/** Set Currency Type.
-		@param C_ConversionType_ID 
-		Currency Conversion Rate Type
-	  */
-	public void setC_ConversionType_ID (int C_ConversionType_ID)
-	{
-		if (C_ConversionType_ID < 1) 
-			set_Value (COLUMNNAME_C_ConversionType_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
-	}
-
-	/** Get Currency Type.
-		@return Currency Conversion Rate Type
-	  */
-	public int getC_ConversionType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ConversionType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Currency getC_Currency() throws RuntimeException
-    {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
-			.getPO(getC_Currency_ID(), get_TrxName());	}
-
-	/** Set Currency.
-		@param C_Currency_ID 
-		The Currency for this record
-	  */
-	public void setC_Currency_ID (int C_Currency_ID)
-	{
-		if (C_Currency_ID < 1) 
-			set_Value (COLUMNNAME_C_Currency_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
-	}
-
-	/** Get Currency.
-		@return The Currency for this record
-	  */
-	public int getC_Currency_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Currency_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_DocType getC_DocType() throws RuntimeException
     {
 		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
@@ -220,34 +162,6 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException
-    {
-		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
-			.getPO(getC_Invoice_ID(), get_TrxName());	}
-
-	/** Set Invoice.
-		@param C_Invoice_ID 
-		Invoice Identifier
-	  */
-	public void setC_Invoice_ID (int C_Invoice_ID)
-	{
-		if (C_Invoice_ID < 1) 
-			set_Value (COLUMNNAME_C_Invoice_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
-	}
-
-	/** Get Invoice.
-		@return Invoice Identifier
-	  */
-	public int getC_Invoice_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Document Date.
 		@param DateDoc 
 		Date of the Document
@@ -264,6 +178,14 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getDateDoc()));
+    }
 
 	/** Set Description.
 		@param Description 
@@ -391,26 +313,21 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
-	public org.spin.model.I_FTA_CategoryCalc getFTA_CategoryCalc() throws RuntimeException
-    {
-		return (org.spin.model.I_FTA_CategoryCalc)MTable.get(getCtx(), org.spin.model.I_FTA_CategoryCalc.Table_Name)
-			.getPO(getFTA_CategoryCalc_ID(), get_TrxName());	}
-
-	/** Set Category Calc.
-		@param FTA_CategoryCalc_ID Category Calc	  */
-	public void setFTA_CategoryCalc_ID (int FTA_CategoryCalc_ID)
+	/** Set Bill of Exchange.
+		@param FTA_BillOfExchange_ID Bill of Exchange	  */
+	public void setFTA_BillOfExchange_ID (int FTA_BillOfExchange_ID)
 	{
-		if (FTA_CategoryCalc_ID < 1) 
-			set_Value (COLUMNNAME_FTA_CategoryCalc_ID, null);
+		if (FTA_BillOfExchange_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_BillOfExchange_ID, null);
 		else 
-			set_Value (COLUMNNAME_FTA_CategoryCalc_ID, Integer.valueOf(FTA_CategoryCalc_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_BillOfExchange_ID, Integer.valueOf(FTA_BillOfExchange_ID));
 	}
 
-	/** Get Category Calc.
-		@return Category Calc	  */
-	public int getFTA_CategoryCalc_ID () 
+	/** Get Bill of Exchange.
+		@return Bill of Exchange	  */
+	public int getFTA_BillOfExchange_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CategoryCalc_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_BillOfExchange_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -444,26 +361,6 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		return ii.intValue();
 	}
 
-	/** Set Farmer Liquidation.
-		@param FTA_FarmerLiquidation_ID Farmer Liquidation	  */
-	public void setFTA_FarmerLiquidation_ID (int FTA_FarmerLiquidation_ID)
-	{
-		if (FTA_FarmerLiquidation_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_FarmerLiquidation_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_FarmerLiquidation_ID, Integer.valueOf(FTA_FarmerLiquidation_ID));
-	}
-
-	/** Get Farmer Liquidation.
-		@return Farmer Liquidation	  */
-	public int getFTA_FarmerLiquidation_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_FarmerLiquidation_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Approved.
 		@param IsApproved 
 		Indicates if this document requires approval
@@ -488,51 +385,6 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
-    {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
-			.getPO(getM_Product_ID(), get_TrxName());	}
-
-	/** Set Product.
-		@param M_Product_ID 
-		Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID)
-	{
-		if (M_Product_ID < 1) 
-			set_Value (COLUMNNAME_M_Product_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
-	}
-
-	/** Get Product.
-		@return Product, Service, Item
-	  */
-	public int getM_Product_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Net Weight.
-		@param NetWeight Net Weight	  */
-	public void setNetWeight (BigDecimal NetWeight)
-	{
-		set_Value (COLUMNNAME_NetWeight, NetWeight);
-	}
-
-	/** Get Net Weight.
-		@return Net Weight	  */
-	public BigDecimal getNetWeight () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_NetWeight);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -555,5 +407,42 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Status AD_Reference_ID=53575 */
+	public static final int STATUS_AD_Reference_ID=53575;
+	/** Set Status.
+		@param Status 
+		Status of the currently running check
+	  */
+	public void setStatus (String Status)
+	{
+
+		set_Value (COLUMNNAME_Status, Status);
+	}
+
+	/** Get Status.
+		@return Status of the currently running check
+	  */
+	public String getStatus () 
+	{
+		return (String)get_Value(COLUMNNAME_Status);
+	}
+
+	/** Set Valid to.
+		@param ValidTo 
+		Valid to including this date (last day)
+	  */
+	public void setValidTo (Timestamp ValidTo)
+	{
+		set_Value (COLUMNNAME_ValidTo, ValidTo);
+	}
+
+	/** Get Valid to.
+		@return Valid to including this date (last day)
+	  */
+	public Timestamp getValidTo () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_ValidTo);
 	}
 }

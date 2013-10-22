@@ -8,7 +8,7 @@ CASE
 	WHEN cdl.M_Product_ID IS NOT NULL THEN pr.Name 
 	WHEN cdl.C_Charge_ID IS NOT NULL THEN cr.Name
 	WHEN cdl.C_ChargeType_ID IS NOT NULL THEN ct.Name
-END || COALESCE(cdl.Description, '') LineDescription
+END || COALESCE(cdl.Description, '') LineDescription, cdl.C_UOM_ID, cdl.Price, cdl.Amt, cdl.Qty
 FROM FTA_CreditDefinitionLine cdl 
 LEFT JOIN M_Product_Category pc ON(pc.M_Product_Category_ID = cdl.M_Product_Category_ID)
 LEFT JOIN M_Product pr ON(pr.M_Product_ID = cdl.M_Product_ID)
