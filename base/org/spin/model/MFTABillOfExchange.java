@@ -278,7 +278,8 @@ public class MFTABillOfExchange extends X_FTA_BillOfExchange implements DocActio
 		m_processMsg = validReference();
 		if(m_processMsg != null)
 			return false;
-		
+		//	Set Status
+		setStatus(X_FTA_BillOfExchange.STATUS_Voided);
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 
 		// After Void
