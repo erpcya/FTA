@@ -23,6 +23,7 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.spin.model.MFTABillOfExchange;
+import org.spin.model.MFTACreditAct;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.X_FTA_BillOfExchange;
 
@@ -72,7 +73,11 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 		if(p_FTA_FarmerCredit_ID == 0
 				&& getTable_ID() == MFTAFarmerCredit.Table_ID)
 			p_FTA_FarmerCredit_ID = getRecord_ID();
-
+		//	
+		if(p_FTA_CreditAct_ID == 0
+				&& getTable_ID() == MFTACreditAct.Table_ID)
+			p_FTA_CreditAct_ID = getRecord_ID();
+		
 	}
 
 	
@@ -92,7 +97,12 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 			MFTAFarmerCredit m_FTA_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
 			addBillOfExchange(m_FTA_FarmerCredit);
 		} else if(p_FTA_CreditAct_ID != 0) {
-			
+			MFTACreditAct m_CredtAct = new MFTACreditAct(getCtx(), p_FTA_CreditAct_ID, get_TrxName());
+			MFTAFarmerCredit [] m_credits = m_CredtAct.getLines(true, "DocStatus = 'CO'");
+			//	Create Bill of Exchange
+			for (MFTAFarmerCredit m_FarmerCredit : m_credits) {
+				addBillOfExchange(m_FarmerCredit);
+			}
 		}
 
 		return "@Created@=" + m_Created;

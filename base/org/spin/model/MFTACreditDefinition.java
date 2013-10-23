@@ -72,12 +72,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	/** Lines					*/
 	private MFTACreditDefinitionLine[]		m_lines = null;
 
-	@Override
-	public String getDocumentNo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * 	Get Document Info
 	 *	@return document info (untranslated)
