@@ -44,6 +44,7 @@ public class X_FTA_BillOfExchange extends PO implements I_FTA_BillOfExchange, I_
         {
 			setAmt (Env.ZERO);
 			setC_BPartner_ID (0);
+			setC_BPartner_Location_ID (0);
 			setC_DocType_ID (0);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
@@ -54,7 +55,6 @@ public class X_FTA_BillOfExchange extends PO implements I_FTA_BillOfExchange, I_
 			setDocumentNo (null);
 			setFTA_BillOfExchange_ID (0);
 			setIsApproved (false);
-			setStatus (null);
         } */
     }
 
@@ -134,6 +134,34 @@ public class X_FTA_BillOfExchange extends PO implements I_FTA_BillOfExchange, I_
 		return ii.intValue();
 	}
 
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+    {
+		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
+
+	/** Set Partner Location.
+		@param C_BPartner_Location_ID 
+		Identifies the (ship to) address for this Business Partner
+	  */
+	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
+	{
+		if (C_BPartner_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+	}
+
+	/** Get Partner Location.
+		@return Identifies the (ship to) address for this Business Partner
+	  */
+	public int getC_BPartner_Location_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_DocType getC_DocType() throws RuntimeException
     {
 		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
@@ -178,14 +206,6 @@ public class X_FTA_BillOfExchange extends PO implements I_FTA_BillOfExchange, I_
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getDateDoc()));
-    }
 
 	/** Set Description.
 		@param Description 
@@ -313,6 +333,14 @@ public class X_FTA_BillOfExchange extends PO implements I_FTA_BillOfExchange, I_
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getDocumentNo());
+    }
+
 	/** Set Bill of Exchange.
 		@param FTA_BillOfExchange_ID Bill of Exchange	  */
 	public void setFTA_BillOfExchange_ID (int FTA_BillOfExchange_ID)
@@ -411,6 +439,20 @@ public class X_FTA_BillOfExchange extends PO implements I_FTA_BillOfExchange, I_
 
 	/** Status AD_Reference_ID=53575 */
 	public static final int STATUS_AD_Reference_ID=53575;
+	/** Generated = G */
+	public static final String STATUS_Generated = "G";
+	/** Waiting for Signature = W */
+	public static final String STATUS_WaitingForSignature = "W";
+	/** Signed = S */
+	public static final String STATUS_Signed = "S";
+	/** Bank Delivered = B */
+	public static final String STATUS_BankDelivered = "B";
+	/** Received from Bank = R */
+	public static final String STATUS_ReceivedFromBank = "R";
+	/** Voided = V */
+	public static final String STATUS_Voided = "V";
+	/** Farmer Delivered = F */
+	public static final String STATUS_FarmerDelivered = "F";
 	/** Set Status.
 		@param Status 
 		Status of the currently running check

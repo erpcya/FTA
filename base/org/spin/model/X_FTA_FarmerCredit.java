@@ -105,6 +105,40 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return bd;
 	}
 
+	/** Set Approved Amount.
+		@param ApprovedAmt Approved Amount	  */
+	public void setApprovedAmt (BigDecimal ApprovedAmt)
+	{
+		set_Value (COLUMNNAME_ApprovedAmt, ApprovedAmt);
+	}
+
+	/** Get Approved Amount.
+		@return Approved Amount	  */
+	public BigDecimal getApprovedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ApprovedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Approved Quantity.
+		@param ApprovedQty Approved Quantity	  */
+	public void setApprovedQty (BigDecimal ApprovedQty)
+	{
+		set_Value (COLUMNNAME_ApprovedQty, ApprovedQty);
+	}
+
+	/** Get Approved Quantity.
+		@return Approved Quantity	  */
+	public BigDecimal getApprovedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ApprovedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_C_BPartner getBeneficiary() throws RuntimeException
     {
 		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
