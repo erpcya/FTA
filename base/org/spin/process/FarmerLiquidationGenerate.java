@@ -55,6 +55,8 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				p_DocStatus = para.getParameter().toString();
 			else if(name.equals("C_DocType_ID"))
 				p_C_DocType_ID = para.getParameterAsInt();
+			else if(name.equals("C_Currency_ID"))
+				p_C_Currency_ID = para.getParameterAsInt();
 		}
 		
 		sql.append("Select \n "
@@ -66,7 +68,8 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"tsb.PayWeight,/*Pay Weight*/ \n "
 				+"tsb.Price,/*Price*/ \n "
 				+"qa.QualityAnalysis_ID,/*Identifier Quality Analisis*/ \n "
-				+"cc.FTA_CategoryCalc_ID /*Identifier Category Calc*/ \n "
+				+"cc.FTA_CategoryCalc_ID, /*Identifier Category Calc*/ \n "
+				+"tsb.PayAnalysis_ID "
 				+"From  \n "
 				+"/*Selection Browse*/ \n "
 				+"T_Selection ts  \n "
@@ -74,7 +77,8 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"Inner Join (Select  tsb.AD_PInstance_ID, \n "
 				+"		    tsb.T_Selection_ID, \n "
 				+"		    Sum(Case When tsb.ColumnName = 'RWUL_Price' Then tsb.Value_Number Else 0 End) As Price, \n "
-				+"		    Sum(Case When tsb.ColumnName = 'RWUL_PayWeight' Then tsb.Value_Number Else 0 End) As PayWeight \n "
+				+"		    Sum(Case When tsb.ColumnName = 'RWUL_PayWeight' Then tsb.Value_Number Else 0 End) As PayWeight, \n "
+				+"		    Max(Case When tsb.ColumnName = 'RWUL_PayAnalysis_ID' Then tsb.Value_Number Else 0 End) As PayAnalysis_ID \n "
 				+"	    From T_Selection_Browse tsb  \n "
 				+"	    Group By  \n "
 				+"	    tsb.AD_PInstance_ID, \n "
@@ -94,7 +98,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"/*Farm*/ \n "
 				+"Inner Join FTA_Farm f On fd.FTA_Farm_ID=f.FTA_Farm_ID \n "
 				+"/*Category Calc*/ \n "
-				+"Inner Join FTA_CategoryCalc cc On fm.Category_ID=cc.M_Product_ID \n "
+				+"Left Join FTA_CategoryCalc cc On fm.Category_ID=cc.M_Product_ID \n "
 				+"Where  \n "
 				+"/*Current Process Instance*/ \n "
 				+"ts.AD_PInstance_ID=? \n "
@@ -174,8 +178,8 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		liquidation.setNetWeight(Env.ZERO);
 		liquidation.setAmt(Env.ZERO);
 		liquidation.setFTA_CategoryCalc_ID(rs.getInt("FTA_CategoryCalc_ID"));
+		liquidation.setC_Currency_ID(p_C_Currency_ID);
 		liquidation.saveEx(get_TrxName());
-		
 		return liquidation;
 	}
 	
@@ -197,7 +201,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		liquidationline.setPayWeight(rs.getBigDecimal("PayWeight"));
 		liquidationline.setPriceList(rs.getBigDecimal("Price"));
 		liquidationline.setPrice(rs.getBigDecimal("Price"));
-		liquidationline.setQualityAnalysis_ID(rs.getInt("QualityAnalysis_ID"));
+		liquidationline.setQualityAnalysis_ID(rs.getInt("PayAnalysis_ID"));
 		
 		liquidation.setNetWeight(liquidation.getNetWeight().add(liquidationline.getNetWeight()));
 		liquidation.setAmt(liquidation.getAmt().add(liquidationline.getPrice().multiply(liquidationline.getPayWeight())));
@@ -220,13 +224,10 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		
 		if(!p_DocStatus.equals(DocumentEngine.STATUS_Drafted)){
 			liquidation.setDocAction(p_DocStatus);
-			//liquidation.processIt(p_DocStatus);
+			liquidation.processIt(p_DocStatus);
 			liquidation.saveEx(get_TrxName());
 			addLog (liquidation.getC_Invoice_ID(), liquidation.getUpdated(), null, 
-					liquidation.getDocumentNo() /*+ 
-					(liquidation.getProcessMsg() != null && liquidation.getProcessMsg().length() !=0
-							? ": Error " + liquidation.getProcessMsg()
-							:" --> " + Msg.translate(ctx, "OK"))*/);
+					liquidation.getDocumentNo());
 		}
 	}
 
@@ -250,5 +251,9 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 	
 	/** Document Type for Liquidation*/
 	private int p_C_DocType_ID=0;
+	
+	/** Currency */
+	private int p_C_Currency_ID = 0;
+	
 	
 }//FarmerLiquidationGenerate

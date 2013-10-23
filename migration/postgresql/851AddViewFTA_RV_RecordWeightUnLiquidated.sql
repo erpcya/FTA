@@ -1,4 +1,4 @@
--- Sep 12, 2013 5:19:30 AM VET
+﻿-- Sep 12, 2013 5:19:30 AM VET
 -- SFAndroid Contribution
 Create or Replace View FTA_RV_RecordWeightUnLiquidated as 
 Select
@@ -19,8 +19,9 @@ f.FTA_Farm_ID,/*Identifier Farm*/
 f.C_BPartner_ID, /*Identifier Business Partner*/
 cc.FTA_CategoryCalc_ID, /*Identifier Category Calc*/
 0.00 As PayWeight,
-0.00 As Price,
-fm.Category_ID As M_Product_ID /*Identifier Product*/
+Coalesce(col.PriceList,0.00) As Price,
+fm.Category_ID As M_Product_ID, /*Identifier Product*/
+Cast(Null AS Numeric(10)) As PayAnalysis_ID /*Pay Analysis*/
 From 
 /*Record Weight*/
 FTA_RecordWeight rw
@@ -32,6 +33,8 @@ Inner Join FTA_EntryTicket et On qa.FTA_EntryTicket_ID=et.FTA_EntryTicket_ID
 Inner Join FTA_MobilizationGuide mg On et.FTA_MobilizationGuide_ID=mg.FTA_MobilizationGuide_ID
 /*Farming*/
 Inner Join FTA_Farming fm On mg.FTA_Farming_ID=fm.FTA_Farming_ID
+/*Order Line*/
+Left Join C_OrderLine col On col.C_OrderLine_ID=fm.C_OrderLine_ID
 /*Farm Division*/
 Inner Join FTA_FarmDivision fd On fm.FTA_FarmDivision_ID=fd.FTA_FarmDivision_ID
 /*Farm*/

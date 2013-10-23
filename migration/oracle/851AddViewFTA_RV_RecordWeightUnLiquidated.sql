@@ -20,7 +20,8 @@ f.C_BPartner_ID, /*Identifier Business Partner*/
 cc.FTA_CategoryCalc_ID, /*Identifier Category Calc*/
 0.00 As PayWeight,
 0.00 As Price,
-fm.Category_ID As M_Product_ID /*Identifier Product*/
+fm.Category_ID As M_Product_ID, /*Identifier Product*/
+Null As PayAnalysis_ID /*Pay Analysis*/
 From 
 /*Record Weight*/
 FTA_RecordWeight rw
