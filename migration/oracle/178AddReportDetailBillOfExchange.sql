@@ -443,11 +443,6 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', IsPrinted='Y', Seq
 UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', IsPrinted='Y', SeqNo=60, SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2013-10-22 18:52:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55876
 ;
 
--- 22/10/2013 06:52:49 PM VET
--- Farming Technical Assistance
-UPDATE AD_PrintFormat SET AD_PrintPaper_ID=1000001, IsForm='Y', IsStandardHeaderFooter='N',Updated=TO_DATE('2013-10-22 18:52:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormat_ID=50172
-;
-
 -- 22/10/2013 06:53:05 PM VET
 -- Farming Technical Assistance
 UPDATE AD_PrintFormat SET HeaderMargin=1000,Updated=TO_DATE('2013-10-22 18:53:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormat_ID=50172
