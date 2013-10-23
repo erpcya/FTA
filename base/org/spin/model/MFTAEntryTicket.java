@@ -405,15 +405,6 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	}	//	getSummary
 
 	/**
-	 * 	Get Document no
-	 *	@return Document No
-	 */
-	public String getDocumentNo()
-	{
-		return "-";
-	}	//	getDocumentNo
-
-	/**
 	 * 	Get Process Message
 	 *	@return clear text error message
 	 */

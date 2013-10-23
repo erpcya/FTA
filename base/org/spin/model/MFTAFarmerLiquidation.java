@@ -419,15 +419,6 @@ public class MFTAFarmerLiquidation extends X_FTA_FarmerLiquidation implements Do
 	}	//	getSummary
 
 	/**
-	 * 	Get Document no
-	 *	@return Document No
-	 */
-	public String getDocumentNo()
-	{
-		return "-";
-	}	//	getDocumentNo
-
-	/**
 	 * 	Get Process Message
 	 *	@return clear text error message
 	 */

@@ -444,15 +444,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	}	//	getSummary
 
 	/**
-	 * 	Get Document no
-	 *	@return Document No
-	 */
-	public String getDocumentNo()
-	{
-		return "-";
-	}	//	getDocumentNo
-
-	/**
 	 * 	Get Process Message
 	 *	@return clear text error message
 	 */

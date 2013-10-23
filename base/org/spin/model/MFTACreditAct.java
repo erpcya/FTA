@@ -66,6 +66,9 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 	public MFTACreditAct(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
+	
+	/** Lines					*/
+	private MFTAFarmerCredit[]		m_lines = null;
 
 	/**
 	 * 	Get Document Info
@@ -540,10 +543,32 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 	/** Carlos Parada Completed After Save Credit Act*/
 	@Override
 	protected boolean afterSave(boolean newRecord, boolean success) {
-		// TODO Auto-generated method stub
 		if (getDocStatus()!=STATUS_Drafted)
-			setDocStatusFarmerCredit(getDocStatus());
-		
+			setDocStatusFarmerCredit(getDocStatus());	
 		return true;
 	}
+	
+	/**
+	 * 	Get Lines
+	 *	@param requery requery
+	 *	@param whereClause
+	 *	@return lines
+	 */
+	public MFTAFarmerCredit[] getLines (boolean requery, String whereClause)
+	{
+		if (m_lines != null && !requery)
+		{
+			set_TrxName(m_lines, get_TrxName());
+			return m_lines;
+		}
+		List<MFTAFarmerCredit> list = new Query(getCtx(), MFTAFarmerCredit.Table_Name, "FTA_CreditAct_ID=?"
+				+ (whereClause != null && whereClause.length() != 0? " AND " + whereClause: ""), get_TrxName())
+		.setParameters(getFTA_CreditAct_ID())
+		.list();
+
+		m_lines = new MFTAFarmerCredit[list.size ()];
+		list.toArray (m_lines);
+		return m_lines;
+	}	//	getLines
+	
 }

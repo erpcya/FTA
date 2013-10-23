@@ -422,15 +422,6 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 	}	//	getSummary
 
 	/**
-	 * 	Get Document no
-	 *	@return Document No
-	 */
-	public String getDocumentNo()
-	{
-		return "-";
-	}	//	getDocumentNo
-
-	/**
 	 * 	Get Process Message
 	 *	@return clear text error message
 	 */

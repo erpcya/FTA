@@ -415,15 +415,6 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 	}	//	getSummary
 
 	/**
-	 * 	Get Document no
-	 *	@return Document No
-	 */
-	public String getDocumentNo()
-	{
-		return "-";
-	}	//	getDocumentNo
-
-	/**
 	 * 	Get Process Message
 	 *	@return clear text error message
 	 */
