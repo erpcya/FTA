@@ -76,6 +76,24 @@ public interface I_FTA_FarmerCredit
 	  */
 	public BigDecimal getAmt();
 
+    /** Column name ApprovedAmt */
+    public static final String COLUMNNAME_ApprovedAmt = "ApprovedAmt";
+
+	/** Set Approved Amount	  */
+	public void setApprovedAmt (BigDecimal ApprovedAmt);
+
+	/** Get Approved Amount	  */
+	public BigDecimal getApprovedAmt();
+
+    /** Column name ApprovedQty */
+    public static final String COLUMNNAME_ApprovedQty = "ApprovedQty";
+
+	/** Set Approved Quantity	  */
+	public void setApprovedQty (BigDecimal ApprovedQty);
+
+	/** Get Approved Quantity	  */
+	public BigDecimal getApprovedQty();
+
     /** Column name Beneficiary_ID */
     public static final String COLUMNNAME_Beneficiary_ID = "Beneficiary_ID";
 
