@@ -37,7 +37,8 @@ SELECT
 	p.C_Uom_ID,
 	mg.QtyToDeliver,
 	ROUND(mg.QtyToDeliver,2) AS Tonne,
-	mg.FTA_MobilizationGuide_ID AS FTA_RV_MobilizationGuide_ID
+	mg.FTA_MobilizationGuide_ID AS FTA_RV_MobilizationGuide_ID,
+	mg.DateDoc
 	
 FROM FTA_MobilizationGuide mg
 INNER JOIN FTA_Farming f ON (f.FTA_Farming_ID = mg.FTA_Farming_ID)
