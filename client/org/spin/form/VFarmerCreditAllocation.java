@@ -152,7 +152,7 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		allocationPanel.setLayout(allocationLayout);
 		bpartnerLabel.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		liquidationLabel.setRequestFocusEnabled(false);
-		liquidationLabel.setText(" " + Msg.translate(Env.getCtx(), "C_Payment_ID"));
+		liquidationLabel.setText(" " + Msg.translate(Env.getCtx(), "FTA_FarmerLiquidation_ID"));
 		invoiceLabel.setRequestFocusEnabled(false);
 		invoiceLabel.setText(" " + Msg.translate(Env.getCtx(), "C_Invoice_ID"));
 		liquidationPanel.setLayout(liquidationLayout);
