@@ -124,9 +124,10 @@ public class FarmerCreditAllocation
 			//+ "lq.MultiplierAP "
 			+ "FROM FTA_FarmerLiquidation lq "		//	Corrected for AP/AR
 			+ "INNER JOIN C_Currency c ON (lq.C_Currency_ID=c.C_Currency_ID) "
-			+ "WHERE lq.Processed='Y'"
+			+ "WHERE lq.Processed='Y' " 
+			+ "AND lq.DocStatus = 'CO' "
 			+ "AND lq.FTA_FarmerCredit_ID = ? "
-			+ " AND lq.C_BPartner_ID=?");                   		//      #5
+			+ "AND lq.C_BPartner_ID=?");                   		//      #5
 		if (!isMultiCurrency)
 			sql.append(" AND lq.C_Currency_ID=?");				//      #6
 		if (m_AD_Org_ID != 0 )

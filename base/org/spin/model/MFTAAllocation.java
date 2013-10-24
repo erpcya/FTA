@@ -215,7 +215,7 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		{
 			setDateDoc (DateDoc);
 		}
-		//setC_Currency_ID (C_Currency_ID);
+		setC_Currency_ID (C_Currency_ID);
 		if (description != null)
 			setDescription(description);
 	}	//  create Allocation
