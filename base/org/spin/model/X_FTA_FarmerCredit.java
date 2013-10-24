@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131022L;
+	private static final long serialVersionUID = 20131024L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -307,25 +307,6 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Current balance.
-		@param CurrentBalance 
-		Current Balance
-	  */
-	public void setCurrentBalance (BigDecimal CurrentBalance)
-	{
-		throw new IllegalArgumentException ("CurrentBalance is virtual column");	}
-
-	/** Get Current balance.
-		@return Current Balance
-	  */
-	public BigDecimal getCurrentBalance () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentBalance);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Document Date.
 		@param DateDoc 
 		Date of the Document
@@ -559,6 +540,20 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Generate Bill of Exchange.
+		@param GenerateBillOfEx Generate Bill of Exchange	  */
+	public void setGenerateBillOfEx (String GenerateBillOfEx)
+	{
+		set_Value (COLUMNNAME_GenerateBillOfEx, GenerateBillOfEx);
+	}
+
+	/** Get Generate Bill of Exchange.
+		@return Generate Bill of Exchange	  */
+	public String getGenerateBillOfEx () 
+	{
+		return (String)get_Value(COLUMNNAME_GenerateBillOfEx);
+	}
+
 	/** Set Generate Order.
 		@param GenerateOrder 
 		Generate Order
@@ -598,6 +593,34 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	public I_M_Product getM_Product() throws RuntimeException
+    {
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
+
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.spin.model.I_FTA_FarmerCredit getParent_FarmerCredit() throws RuntimeException
