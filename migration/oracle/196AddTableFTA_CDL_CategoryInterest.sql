@@ -106,11 +106,6 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 DELETE  FROM  AD_Element_Trl WHERE AD_Element_ID=56549
 ;
 
--- Oct 24, 2013 9:12:08 AM VET
--- Farming Technical Assistance
-DELETE FROM AD_Element WHERE AD_Element_ID=56549
-;
-
 -- Oct 24, 2013 9:12:14 AM VET
 -- Farming Technical Assistance
 DELETE  FROM  AD_Column_Trl WHERE AD_Column_ID=69343
