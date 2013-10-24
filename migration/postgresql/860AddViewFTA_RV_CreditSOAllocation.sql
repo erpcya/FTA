@@ -1,4 +1,4 @@
-﻿/*Drop View FTA_RV_CreditSOAllocation;
+﻿Drop View FTA_RV_CreditSOAllocation;
 Create Or Replace View FTA_RV_CreditSOAllocation AS 
 --Invoice
 Select  ci.AD_Client_ID,				--Client
@@ -18,7 +18,7 @@ Select  ci.AD_Client_ID,				--Client
 	ci.IsSoTrx,
 	cdl.FTA_CreditDefinitionLine_ID,
 	Case 
-	  When mp.M_Product_Category_ID Is Not Null 
+	  When cdl.M_Product_Category_ID Is Not Null 
 	    Then mpc.Name 
 	  When cdl.M_Product_ID Is Not Null 
 	    Then mp.Name 
@@ -47,7 +47,7 @@ Left Join (Select FTA_CreditDefinitionLine_ID,C_BPartner_ID,FTA_FarmerCredit_ID,
 		
 Left Join (Select FTA_CreditDefinitionLine_ID,C_BPartner_ID,FTA_FarmerCredit_ID,Record_ID,Sum(Amt) Amt
 	   From FTA_Fact 
-	   Where AD_Table_ID=318 And Line_ID Is Null
+	   Where AD_Table_ID=318
 	   Group By
 	   FTA_CreditDefinitionLine_ID,C_BPartner_ID,FTA_FarmerCredit_ID,Record_ID
 	   )fa_alloc On fa_alloc.FTA_CreditDefinitionLine_ID=cdl.FTA_CreditDefinitionLine_ID
@@ -109,17 +109,3 @@ Left Join (Select FTA_CreditDefinitionLine_ID,C_BPartner_ID,FTA_FarmerCredit_ID,
 		And fa_alloc.C_BPartner_ID=fc.C_BPartner_ID
 		And fa_alloc.FTA_FarmerCredit_ID=fc.FTA_FarmerCredit_ID
 		And fa_alloc.Record_ID=co.C_Order_ID;
-
---Select * from FTA_RV_CreditSOAllocation
-
-Select * From AD_Column Where Exists (Select 1 From AD_Table Where TableName ='FTA_RV_CreditSOAllocation' And AD_Table.AD_Table_ID =AD_Column.AD_Table_ID)
-And Not Exists(
-Select 1 from information_schema.columns where table_name='fta_rv_creditsoallocation'
-And lower(AD_Column.ColumnName)=column_name
-)
-
-Select * from information_schema.columns where table_name='fta_rv_creditsoallocation'
-And Not Exists(
-Select 1 From AD_Column Where Exists (Select 1 From AD_Table Where TableName ='FTA_RV_CreditSOAllocation' And AD_Table.AD_Table_ID =AD_Column.AD_Table_ID)
-And lower(AD_Column.ColumnName)=column_name
-)*/
