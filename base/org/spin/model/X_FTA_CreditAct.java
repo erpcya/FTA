@@ -32,7 +32,7 @@ public class X_FTA_CreditAct extends PO implements I_FTA_CreditAct, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131022L;
+	private static final long serialVersionUID = 20131024L;
 
     /** Standard Constructor */
     public X_FTA_CreditAct (Properties ctx, int FTA_CreditAct_ID, String trxName)
@@ -277,6 +277,20 @@ public class X_FTA_CreditAct extends PO implements I_FTA_CreditAct, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Generate Bill of Exchange.
+		@param GenerateBillOfEx Generate Bill of Exchange	  */
+	public void setGenerateBillOfEx (String GenerateBillOfEx)
+	{
+		set_Value (COLUMNNAME_GenerateBillOfEx, GenerateBillOfEx);
+	}
+
+	/** Get Generate Bill of Exchange.
+		@return Generate Bill of Exchange	  */
+	public String getGenerateBillOfEx () 
+	{
+		return (String)get_Value(COLUMNNAME_GenerateBillOfEx);
 	}
 
 	/** Set Approved.
