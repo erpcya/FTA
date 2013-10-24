@@ -92,7 +92,7 @@ BEGIN
 		FROM	FTA_AllocationLine al
 		INNER JOIN FTA_Allocation a ON (al.FTA_Allocation_ID=a.FTA_Allocation_ID)
 		WHERE	al.C_Invoice_ID = p_C_Invoice_ID
-          	AND   a.IsActive='Y'
+          	AND   a.IsActive='Y' AND a.DocStatus IN('CO', 'CL')
 	LOOP
         v_Temp := ar.Amount + ar.DisCountAmt + ar.WriteOffAmt;
 		v_PaidAmt := v_PaidAmt
