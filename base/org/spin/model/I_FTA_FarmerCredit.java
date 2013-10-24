@@ -198,19 +198,6 @@ public interface I_FTA_FarmerCredit
 
 	public I_C_UOM getC_UOM() throws RuntimeException;
 
-    /** Column name CurrentBalance */
-    public static final String COLUMNNAME_CurrentBalance = "CurrentBalance";
-
-	/** Set Current balance.
-	  * Current Balance
-	  */
-	public void setCurrentBalance (BigDecimal CurrentBalance);
-
-	/** Get Current balance.
-	  * Current Balance
-	  */
-	public BigDecimal getCurrentBalance();
-
     /** Column name DateDoc */
     public static final String COLUMNNAME_DateDoc = "DateDoc";
 
@@ -324,6 +311,15 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getFTA_FarmerCredit_ID();
 
+    /** Column name GenerateBillOfEx */
+    public static final String COLUMNNAME_GenerateBillOfEx = "GenerateBillOfEx";
+
+	/** Set Generate Bill of Exchange	  */
+	public void setGenerateBillOfEx (String GenerateBillOfEx);
+
+	/** Get Generate Bill of Exchange	  */
+	public String getGenerateBillOfEx();
+
     /** Column name GenerateOrder */
     public static final String COLUMNNAME_GenerateOrder = "GenerateOrder";
 
@@ -362,6 +358,21 @@ public interface I_FTA_FarmerCredit
 	  * Indicates if this document requires approval
 	  */
 	public boolean isApproved();
+
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Parent_FarmerCredit_ID */
     public static final String COLUMNNAME_Parent_FarmerCredit_ID = "Parent_FarmerCredit_ID";
