@@ -168,6 +168,15 @@ public interface I_FTA_CreditAct
 	/** Get Credit Act	  */
 	public int getFTA_CreditAct_ID();
 
+    /** Column name GenerateBillOfEx */
+    public static final String COLUMNNAME_GenerateBillOfEx = "GenerateBillOfEx";
+
+	/** Set Generate Bill of Exchange	  */
+	public void setGenerateBillOfEx (String GenerateBillOfEx);
+
+	/** Get Generate Bill of Exchange	  */
+	public String getGenerateBillOfEx();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 

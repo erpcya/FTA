@@ -68,15 +68,17 @@ public class MFTAFact extends X_FTA_Fact {
 	 * @param p_Record_ID
 	 * @param from
 	 * @param to
+	 * @param p_All
 	 * @param trxName
 	 * @return
 	 * @return int
 	 */
-	public static int deleteFact(int p_AD_Table_ID, int p_Record_ID, Timestamp from, Timestamp to, String trxName){
+	public static int deleteFact(int p_AD_Table_ID, int p_Record_ID, Timestamp from, Timestamp to, boolean p_All, String trxName){
 		//	Delete Old Movements
 		StringBuffer deleteSQL = new StringBuffer ("DELETE FROM FTA_Fact ")
-			.append("WHERE AD_Table_ID = ").append(p_AD_Table_ID).append(" ")
-			.append("AND IsCreditFactManual = 'N' ");
+			.append("WHERE AD_Table_ID = ").append(p_AD_Table_ID).append(" ");
+		if(!p_All)
+			deleteSQL.append("AND IsCreditFactManual = 'N'");
 		if(p_Record_ID != 0)	
 			deleteSQL.append("AND Record_ID = ").append(p_Record_ID);
 		else {
@@ -93,12 +95,13 @@ public class MFTAFact extends X_FTA_Fact {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 14/10/2013, 02:44:14
 	 * @param p_AD_Table_ID
 	 * @param p_Record_ID
+	 * @param p_All
 	 * @param trxName
 	 * @return
 	 * @return int
 	 */
-	public static int deleteFact(int p_AD_Table_ID, int p_Record_ID, String trxName){
-		return deleteFact(p_AD_Table_ID, p_Record_ID, null, null, trxName);
+	public static int deleteFact(int p_AD_Table_ID, int p_Record_ID, boolean p_All, String trxName){
+		return deleteFact(p_AD_Table_ID, p_Record_ID, null, null, p_All, trxName);
 	}
 	
 	/**
@@ -128,7 +131,7 @@ public class MFTAFact extends X_FTA_Fact {
 				sqlWhere += "AND o.DateOrdered <= ? ";
 		}
 		//	Delete Old Movements
-		deleteFact(MOrder.Table_ID, record_ID, trxName);
+		deleteFact(MOrder.Table_ID, record_ID, false, trxName);
 		
 		//	SQL
 		String sql = new String("SELECT o.AD_Org_ID, o.C_BPartner_ID, o.DateOrdered DateDoc, o.Description, " +
@@ -262,7 +265,7 @@ public class MFTAFact extends X_FTA_Fact {
 				sqlWhere += "AND i.DateInvoiced <= ? ";
 		}
 		//	Delete Old Movements
-		deleteFact(MInvoice.Table_ID, record_ID, trxName);
+		deleteFact(MInvoice.Table_ID, record_ID, false, trxName);
 		
 		//	SQL
 		String sql = new String("SELECT i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced DateDoc, i.Description, " +
