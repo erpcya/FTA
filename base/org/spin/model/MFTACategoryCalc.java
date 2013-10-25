@@ -25,7 +25,6 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MRule;
 import org.compiere.model.Scriptlet;
-import org.eevolution.model.MHRAttribute;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>

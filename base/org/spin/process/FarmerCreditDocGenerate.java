@@ -302,7 +302,12 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		paymentRequest.setC_BPartner_ID(m_FTA_FarmerCredit.getC_BPartner_ID());
 		paymentRequest.setPayAmt(p_Amt);
 		paymentRequest.setName(Msg.parseTranslation(getCtx(), "@FTA_PaymentRequest_ID@ @to@") 
-				+ ":" + bpartner.getName());
+				+ ": " + bpartner.getName());
+		if(p_C_Charge_ID != 0)
+			paymentRequest.setC_Charge_ID(p_C_Charge_ID);
+		else if(p_M_Product_ID != 0)
+			paymentRequest.setM_Product_ID(p_M_Product_ID);
+		
 		paymentRequest.setDocAction(X_FTA_PaymentRequest.DOCACTION_Complete);
 		paymentRequest.processIt(X_FTA_PaymentRequest.DOCACTION_Complete);
 		paymentRequest.saveEx();
