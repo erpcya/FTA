@@ -50,7 +50,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	/**	Farmer Credit						*/
 	private int 		p_FTA_FarmerCredit_ID = 0;
 	/**	Document Base Type					*/
-	//private String 		p_DocBaseType = null;
+	private String 		p_GeneratePaySelect = null;
 	/**	Charge								*/
 	private int 		p_C_Charge_ID = 0;
 	/**	Product								*/
@@ -74,8 +74,6 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				;
 			else if(name.equals("AD_Org_ID"))
 				p_AD_Org_ID = para.getParameterAsInt();
-			/*else if(name.equals("DocBaseType"))
-				p_DocBaseType = (String) para.getParameter();*/
 			else if(name.equals("FTA_FarmerCredit_ID"))
 				p_FTA_FarmerCredit_ID = para.getParameterAsInt();
 			else if(name.equals("C_DocTypeTarget_ID"))
@@ -90,6 +88,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				p_Amt = (BigDecimal)para.getParameter();
 			else if (name.equals("DateDoc"))
 				p_DateDoc = (Timestamp)para.getParameter();
+			else if(name.equals("GeneratePaySelect"))
+				p_GeneratePaySelect = (String) para.getParameter();
 		}
 		//	Get Technical From Identifier
 		if(p_FTA_FarmerCredit_ID == 0)
@@ -132,6 +132,9 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		//	
 		if(reference_ID == 0){
 			addCredit();
+			if(p_GeneratePaySelect != null
+					&& p_GeneratePaySelect.equals("Y"))
+				generatePaySelect();
 		}
 		//	
 		if(m_FTA_FarmerCredit.getBeneficiary_ID() != 0){
@@ -260,6 +263,9 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 			}
 		} else
 			throw new AdempiereException("@C_Charge_ID@ / @M_Product_ID@ @NotFound@");
+	}
+	
+	private void generatePaySelect(){
 		
 	}
 }
