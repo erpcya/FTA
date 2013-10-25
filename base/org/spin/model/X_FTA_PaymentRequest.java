@@ -17,10 +17,12 @@
 /** Generated Model - DO NOT CHANGE */
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_PaymentRequest
@@ -32,7 +34,7 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131024L;
+	private static final long serialVersionUID = 20131025L;
 
     /** Standard Constructor */
     public X_FTA_PaymentRequest (Properties ctx, int FTA_PaymentRequest_ID, String trxName)
@@ -48,10 +50,12 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 // CO
 			setDocStatus (null);
 // DR
-			setDocumentNo (null);
+			setFTA_FarmerCredit_ID (0);
 			setFTA_PaymentRequest_ID (0);
 			setIsApproved (false);
 // N
+			setName (null);
+			setPayAmt (Env.ZERO);
         } */
     }
 
@@ -156,12 +160,60 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
 	}
 
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** DocAction AD_Reference_ID=135 */
+	public static final int DOCACTION_AD_Reference_ID=135;
+	/** Complete = CO */
+	public static final String DOCACTION_Complete = "CO";
+	/** Approve = AP */
+	public static final String DOCACTION_Approve = "AP";
+	/** Reject = RJ */
+	public static final String DOCACTION_Reject = "RJ";
+	/** Post = PO */
+	public static final String DOCACTION_Post = "PO";
+	/** Void = VO */
+	public static final String DOCACTION_Void = "VO";
+	/** Close = CL */
+	public static final String DOCACTION_Close = "CL";
+	/** Reverse - Correct = RC */
+	public static final String DOCACTION_Reverse_Correct = "RC";
+	/** Reverse - Accrual = RA */
+	public static final String DOCACTION_Reverse_Accrual = "RA";
+	/** Invalidate = IN */
+	public static final String DOCACTION_Invalidate = "IN";
+	/** Re-activate = RE */
+	public static final String DOCACTION_Re_Activate = "RE";
+	/** <None> = -- */
+	public static final String DOCACTION_None = "--";
+	/** Prepare = PR */
+	public static final String DOCACTION_Prepare = "PR";
+	/** Unlock = XL */
+	public static final String DOCACTION_Unlock = "XL";
+	/** Wait Complete = WC */
+	public static final String DOCACTION_WaitComplete = "WC";
 	/** Set Document Action.
 		@param DocAction 
 		The targeted status of the document
 	  */
 	public void setDocAction (String DocAction)
 	{
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -337,6 +389,43 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Name.
+		@param Name 
+		Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name)
+	{
+		set_Value (COLUMNNAME_Name, Name);
+	}
+
+	/** Get Name.
+		@return Alphanumeric identifier of the entity
+	  */
+	public String getName () 
+	{
+		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** Set Payment amount.
+		@param PayAmt 
+		Amount being paid
+	  */
+	public void setPayAmt (BigDecimal PayAmt)
+	{
+		set_Value (COLUMNNAME_PayAmt, PayAmt);
+	}
+
+	/** Get Payment amount.
+		@return Amount being paid
+	  */
+	public BigDecimal getPayAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PayAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Processed.

@@ -31,42 +31,41 @@ import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class MFTABillOfExchange extends X_FTA_BillOfExchange implements DocAction, DocOptions {
-	
+public class MFTAPaymentRequest extends X_FTA_PaymentRequest implements DocAction, DocOptions {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5520540845955700374L;
+	private static final long serialVersionUID = 7569888779052635894L;
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 22/10/2013, 10:12:07
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/10/2013, 23:28:20
 	 * @param ctx
-	 * @param FTA_BillOfExchange_ID
+	 * @param FTA_PaymentRequest_ID
 	 * @param trxName
 	 */
-	public MFTABillOfExchange(Properties ctx, int FTA_BillOfExchange_ID,
+	public MFTAPaymentRequest(Properties ctx, int FTA_PaymentRequest_ID,
 			String trxName) {
-		super(ctx, FTA_BillOfExchange_ID, trxName);
+		super(ctx, FTA_PaymentRequest_ID, trxName);
 	}
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 22/10/2013, 10:12:07
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/10/2013, 23:28:20
 	 * @param ctx
 	 * @param rs
 	 * @param trxName
 	 */
-	public MFTABillOfExchange(Properties ctx, ResultSet rs, String trxName) {
+	public MFTAPaymentRequest(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
-	
+
 	/**
 	 * 	Get Document Info
 	 *	@return document info (untranslated)
@@ -222,8 +221,8 @@ public class MFTABillOfExchange extends X_FTA_BillOfExchange implements DocActio
 			approveIt();
 		log.info(toString());
 		//	Valid Amount
-		if(getAmt() == null
-				|| getAmt().equals(Env.ZERO)){
+		if(getPayAmt() == null
+				|| getPayAmt().equals(Env.ZERO)){
 			m_processMsg = "@Amt@ = @0@";
 			return DocAction.STATUS_Invalid;
 		}
@@ -279,8 +278,7 @@ public class MFTABillOfExchange extends X_FTA_BillOfExchange implements DocActio
 		if(m_processMsg != null)
 			return false;
 		//	Set Status
-		setStatus(X_FTA_BillOfExchange.STATUS_Voided);
-		addDescription(Msg.getMsg(getCtx(), "Voided"));
+		//addDescription(Msg.getMsg(getCtx(), "Voided"));
 
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
@@ -405,8 +403,8 @@ public class MFTABillOfExchange extends X_FTA_BillOfExchange implements DocActio
 		StringBuffer sb = new StringBuffer();
 		sb.append(getDocumentNo());
 		//	 - Description
-		if (getDescription() != null && getDescription().length() > 0)
-			sb.append(" - ").append(getDescription());
+		//if (getDescription() != null && getDescription().length() > 0)
+			//sb.append(" - ").append(getDescription());
 		return sb.toString();
 	}	//	getSummary
 
@@ -453,14 +451,14 @@ public class MFTABillOfExchange extends X_FTA_BillOfExchange implements DocActio
      *  Add to Description
      *  @param description text
      */
-    public void addDescription (String description)
+    /*public void addDescription (String description)
     {
         String desc = getDescription();
         if (desc == null)
             setDescription(description);
         else
             setDescription(desc + " | " + description);
-    }   //  addDescription
+    }   //  addDescription*/
     
     /**
 	 * 	Document Status is Complete or Closed
@@ -495,4 +493,5 @@ public class MFTABillOfExchange extends X_FTA_BillOfExchange implements DocActio
 		
 		return index;
 	}
+
 }

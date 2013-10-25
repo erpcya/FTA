@@ -122,6 +122,19 @@ public interface I_FTA_PaymentRequest
 	  */
 	public Timestamp getDateDoc();
 
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
+
     /** Column name DocAction */
     public static final String COLUMNNAME_DocAction = "DocAction";
 
@@ -221,6 +234,32 @@ public interface I_FTA_PaymentRequest
 	  * Indicates if this document requires approval
 	  */
 	public boolean isApproved();
+
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
+
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name);
+
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public String getName();
+
+    /** Column name PayAmt */
+    public static final String COLUMNNAME_PayAmt = "PayAmt";
+
+	/** Set Payment amount.
+	  * Amount being paid
+	  */
+	public void setPayAmt (BigDecimal PayAmt);
+
+	/** Get Payment amount.
+	  * Amount being paid
+	  */
+	public BigDecimal getPayAmt();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
