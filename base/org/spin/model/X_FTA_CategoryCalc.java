@@ -30,7 +30,7 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131022L;
+	private static final long serialVersionUID = 20131024L;
 
     /** Standard Constructor */
     public X_FTA_CategoryCalc (Properties ctx, int FTA_CategoryCalc_ID, String trxName)
@@ -120,8 +120,8 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 	public static final int EVENTTYPE_AD_Reference_ID=53532;
 	/** Liquidation = LI */
 	public static final String EVENTTYPE_Liquidation = "LI";
-	/** Estimate = E */
-	public static final String EVENTTYPE_Estimate = "E";
+	/** Estimate = ES */
+	public static final String EVENTTYPE_Estimate = "ES";
 	/** Entry Weight = EW */
 	public static final String EVENTTYPE_EntryWeight = "EW";
 	/** Out Weight = OW */

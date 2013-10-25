@@ -25,7 +25,8 @@ Select  ci.AD_Client_ID,				--Client
 	  When cdl.C_Charge_ID Is Not Null 
 	    Then cch.Name
 	End || COALESCE(cdl.Description, '') LineDescription,
-	ci.GrandTotal
+	ci.GrandTotal,
+	cdl.FTA_CDL_Category_ID
 From
 C_Invoice ci 
 Right Join FTA_FarmerCredit fc On fc.FTA_FarmerCredit_ID=ci.FTA_FarmerCredit_ID Or ci.FTA_FarmerCredit_ID Is Null
@@ -81,7 +82,8 @@ Select  co.AD_Client_ID,				--Client
 	  When cdl.C_Charge_ID Is Not Null 
 	    Then cch.Name
 	End || COALESCE(cdl.Description, '') LineDescription,--Description Invoice
-	co.GrandTotal
+	co.GrandTotal,
+	cdl.FTA_CDL_Category_ID
 From
 C_Order co 
 Right Join FTA_FarmerCredit fc On (fc.FTA_FarmerCredit_ID=co.FTA_FarmerCredit_ID Or co.FTA_FarmerCredit_ID Is Null)

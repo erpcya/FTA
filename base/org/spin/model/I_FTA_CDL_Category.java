@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for FTA_CreditAct
+/** Generated Interface for FTA_CDL_Category
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS
  */
-public interface I_FTA_CreditAct 
+public interface I_FTA_CDL_Category 
 {
 
-    /** TableName=FTA_CreditAct */
-    public static final String Table_Name = "FTA_CreditAct";
+    /** TableName=FTA_CDL_Category */
+    public static final String Table_Name = "FTA_CDL_Category";
 
-    /** AD_Table_ID=53597 */
+    /** AD_Table_ID=53645 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,21 +63,6 @@ public interface I_FTA_CreditAct
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
-
-	public I_C_DocType getC_DocType() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -94,19 +79,6 @@ public interface I_FTA_CreditAct
 	  */
 	public int getCreatedBy();
 
-    /** Column name DateDoc */
-    public static final String COLUMNNAME_DateDoc = "DateDoc";
-
-	/** Set Document Date.
-	  * Date of the Document
-	  */
-	public void setDateDoc (Timestamp DateDoc);
-
-	/** Get Document Date.
-	  * Date of the Document
-	  */
-	public Timestamp getDateDoc();
-
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -120,62 +92,14 @@ public interface I_FTA_CreditAct
 	  */
 	public String getDescription();
 
-    /** Column name DocAction */
-    public static final String COLUMNNAME_DocAction = "DocAction";
+    /** Column name FTA_CDL_Category_ID */
+    public static final String COLUMNNAME_FTA_CDL_Category_ID = "FTA_CDL_Category_ID";
 
-	/** Set Document Action.
-	  * The targeted status of the document
-	  */
-	public void setDocAction (String DocAction);
+	/** Set Credit Definition Line Category	  */
+	public void setFTA_CDL_Category_ID (int FTA_CDL_Category_ID);
 
-	/** Get Document Action.
-	  * The targeted status of the document
-	  */
-	public String getDocAction();
-
-    /** Column name DocStatus */
-    public static final String COLUMNNAME_DocStatus = "DocStatus";
-
-	/** Set Document Status.
-	  * The current status of the document
-	  */
-	public void setDocStatus (String DocStatus);
-
-	/** Get Document Status.
-	  * The current status of the document
-	  */
-	public String getDocStatus();
-
-    /** Column name DocumentNo */
-    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
-
-	/** Set Document No.
-	  * Document sequence number of the document
-	  */
-	public void setDocumentNo (String DocumentNo);
-
-	/** Get Document No.
-	  * Document sequence number of the document
-	  */
-	public String getDocumentNo();
-
-    /** Column name FTA_CreditAct_ID */
-    public static final String COLUMNNAME_FTA_CreditAct_ID = "FTA_CreditAct_ID";
-
-	/** Set Credit Act	  */
-	public void setFTA_CreditAct_ID (int FTA_CreditAct_ID);
-
-	/** Get Credit Act	  */
-	public int getFTA_CreditAct_ID();
-
-    /** Column name GenerateBillOfEx */
-    public static final String COLUMNNAME_GenerateBillOfEx = "GenerateBillOfEx";
-
-	/** Set Generate Bill of Exchange	  */
-	public void setGenerateBillOfEx (String GenerateBillOfEx);
-
-	/** Get Generate Bill of Exchange	  */
-	public String getGenerateBillOfEx();
+	/** Get Credit Definition Line Category	  */
+	public int getFTA_CDL_Category_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -190,40 +114,18 @@ public interface I_FTA_CreditAct
 	  */
 	public boolean isActive();
 
-    /** Column name IsApproved */
-    public static final String COLUMNNAME_IsApproved = "IsApproved";
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
 
-	/** Set Approved.
-	  * Indicates if this document requires approval
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public void setIsApproved (boolean IsApproved);
+	public void setName (String Name);
 
-	/** Get Approved.
-	  * Indicates if this document requires approval
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public boolean isApproved();
-
-    /** Column name Processed */
-    public static final String COLUMNNAME_Processed = "Processed";
-
-	/** Set Processed.
-	  * The document has been processed
-	  */
-	public void setProcessed (boolean Processed);
-
-	/** Get Processed.
-	  * The document has been processed
-	  */
-	public boolean isProcessed();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
+	public String getName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -240,4 +142,17 @@ public interface I_FTA_CreditAct
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }

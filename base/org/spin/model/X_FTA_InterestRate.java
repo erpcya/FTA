@@ -23,12 +23,11 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_ReceptionCapacity
+/** Generated Model for FTA_InterestRate
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_ReceptionCapacity extends PO implements I_FTA_ReceptionCapacity, I_Persistent 
+public class X_FTA_InterestRate extends PO implements I_FTA_InterestRate, I_Persistent 
 {
 
 	/**
@@ -37,20 +36,20 @@ public class X_FTA_ReceptionCapacity extends PO implements I_FTA_ReceptionCapaci
 	private static final long serialVersionUID = 20131024L;
 
     /** Standard Constructor */
-    public X_FTA_ReceptionCapacity (Properties ctx, int FTA_ReceptionCapacity_ID, String trxName)
+    public X_FTA_InterestRate (Properties ctx, int FTA_InterestRate_ID, String trxName)
     {
-      super (ctx, FTA_ReceptionCapacity_ID, trxName);
-      /** if (FTA_ReceptionCapacity_ID == 0)
+      super (ctx, FTA_InterestRate_ID, trxName);
+      /** if (FTA_InterestRate_ID == 0)
         {
-			setFTA_ReceptionCapacity_ID (0);
-			setM_Warehouse_ID (0);
-			setQty (Env.ZERO);
+			setFTA_InterestRate_ID (0);
+			setFTA_InterestType_ID (0);
+			setRate (Env.ZERO);
 			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_ReceptionCapacity (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_InterestRate (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -72,91 +71,71 @@ public class X_FTA_ReceptionCapacity extends PO implements I_FTA_ReceptionCapaci
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_ReceptionCapacity[")
+      StringBuffer sb = new StringBuffer ("X_FTA_InterestRate[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	/** Set Description.
-		@param Description 
-		Optional short description of the record
-	  */
-	public void setDescription (String Description)
+	/** Set Interest Rate.
+		@param FTA_InterestRate_ID Interest Rate	  */
+	public void setFTA_InterestRate_ID (int FTA_InterestRate_ID)
 	{
-		set_Value (COLUMNNAME_Description, Description);
-	}
-
-	/** Get Description.
-		@return Optional short description of the record
-	  */
-	public String getDescription () 
-	{
-		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set Reception Capacity.
-		@param FTA_ReceptionCapacity_ID Reception Capacity	  */
-	public void setFTA_ReceptionCapacity_ID (int FTA_ReceptionCapacity_ID)
-	{
-		if (FTA_ReceptionCapacity_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_ReceptionCapacity_ID, null);
+		if (FTA_InterestRate_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_InterestRate_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_ReceptionCapacity_ID, Integer.valueOf(FTA_ReceptionCapacity_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_InterestRate_ID, Integer.valueOf(FTA_InterestRate_ID));
 	}
 
-	/** Get Reception Capacity.
-		@return Reception Capacity	  */
-	public int getFTA_ReceptionCapacity_ID () 
+	/** Get Interest Rate.
+		@return Interest Rate	  */
+	public int getFTA_InterestRate_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_ReceptionCapacity_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_InterestRate_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException
+	public org.spin.model.I_FTA_InterestType getFTA_InterestType() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
-			.getPO(getM_Warehouse_ID(), get_TrxName());	}
+		return (org.spin.model.I_FTA_InterestType)MTable.get(getCtx(), org.spin.model.I_FTA_InterestType.Table_Name)
+			.getPO(getFTA_InterestType_ID(), get_TrxName());	}
 
-	/** Set Warehouse.
-		@param M_Warehouse_ID 
-		Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID)
+	/** Set Interest Type.
+		@param FTA_InterestType_ID Interest Type	  */
+	public void setFTA_InterestType_ID (int FTA_InterestType_ID)
 	{
-		if (M_Warehouse_ID < 1) 
-			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		if (FTA_InterestType_ID < 1) 
+			set_Value (COLUMNNAME_FTA_InterestType_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+			set_Value (COLUMNNAME_FTA_InterestType_ID, Integer.valueOf(FTA_InterestType_ID));
 	}
 
-	/** Get Warehouse.
-		@return Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID () 
+	/** Get Interest Type.
+		@return Interest Type	  */
+	public int getFTA_InterestType_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_InterestType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	/** Set Quantity.
-		@param Qty 
-		Quantity
+	/** Set Rate.
+		@param Rate 
+		Rate or Tax or Exchange
 	  */
-	public void setQty (BigDecimal Qty)
+	public void setRate (BigDecimal Rate)
 	{
-		set_Value (COLUMNNAME_Qty, Qty);
+		set_Value (COLUMNNAME_Rate, Rate);
 	}
 
-	/** Get Quantity.
-		@return Quantity
+	/** Get Rate.
+		@return Rate or Tax or Exchange
 	  */
-	public BigDecimal getQty () 
+	public BigDecimal getRate () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Qty);
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Rate);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -178,12 +157,4 @@ public class X_FTA_ReceptionCapacity extends PO implements I_FTA_ReceptionCapaci
 	{
 		return (Timestamp)get_Value(COLUMNNAME_ValidFrom);
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getValidFrom()));
-    }
 }
