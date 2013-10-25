@@ -32,7 +32,7 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131022L;
+	private static final long serialVersionUID = 20131024L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinitionLine (Properties ctx, int FTA_CreditDefinitionLine_ID, String trxName)
@@ -42,6 +42,7 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
         {
 			setAmt (Env.ZERO);
 			setC_UOM_ID (0);
+			setFTA_CDL_Category_ID (0);
 			setFTA_CreditDefinition_ID (0);
 			setFTA_CreditDefinitionLine_ID (0);
 			setLine (0);
@@ -196,6 +197,31 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	public org.spin.model.I_FTA_CDL_Category getFTA_CDL_Category() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_CDL_Category)MTable.get(getCtx(), org.spin.model.I_FTA_CDL_Category.Table_Name)
+			.getPO(getFTA_CDL_Category_ID(), get_TrxName());	}
+
+	/** Set Credit Definition Line Category.
+		@param FTA_CDL_Category_ID Credit Definition Line Category	  */
+	public void setFTA_CDL_Category_ID (int FTA_CDL_Category_ID)
+	{
+		if (FTA_CDL_Category_ID < 1) 
+			set_Value (COLUMNNAME_FTA_CDL_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_CDL_Category_ID, Integer.valueOf(FTA_CDL_Category_ID));
+	}
+
+	/** Get Credit Definition Line Category.
+		@return Credit Definition Line Category	  */
+	public int getFTA_CDL_Category_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CDL_Category_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.spin.model.I_FTA_CreditDefinition getFTA_CreditDefinition() throws RuntimeException

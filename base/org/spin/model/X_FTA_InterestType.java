@@ -17,17 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.spin.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_FarmDivision
+/** Generated Model for FTA_InterestType
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_FarmDivision extends PO implements I_FTA_FarmDivision, I_Persistent 
+public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Persistent 
 {
 
 	/**
@@ -36,20 +33,20 @@ public class X_FTA_FarmDivision extends PO implements I_FTA_FarmDivision, I_Pers
 	private static final long serialVersionUID = 20131024L;
 
     /** Standard Constructor */
-    public X_FTA_FarmDivision (Properties ctx, int FTA_FarmDivision_ID, String trxName)
+    public X_FTA_InterestType (Properties ctx, int FTA_InterestType_ID, String trxName)
     {
-      super (ctx, FTA_FarmDivision_ID, trxName);
-      /** if (FTA_FarmDivision_ID == 0)
+      super (ctx, FTA_InterestType_ID, trxName);
+      /** if (FTA_InterestType_ID == 0)
         {
-			setArea (Env.ZERO);
-			setFTA_FarmDivision_ID (0);
-			setFTA_Farm_ID (0);
+			setFTA_InterestType_ID (0);
 			setName (null);
+			setType (null);
+			setValue (null);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_FarmDivision (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_InterestType (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -71,68 +68,26 @@ public class X_FTA_FarmDivision extends PO implements I_FTA_FarmDivision, I_Pers
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_FarmDivision[")
+      StringBuffer sb = new StringBuffer ("X_FTA_InterestType[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	/** Set Area.
-		@param Area Area	  */
-	public void setArea (BigDecimal Area)
+	/** Set Interest Type.
+		@param FTA_InterestType_ID Interest Type	  */
+	public void setFTA_InterestType_ID (int FTA_InterestType_ID)
 	{
-		set_Value (COLUMNNAME_Area, Area);
-	}
-
-	/** Get Area.
-		@return Area	  */
-	public BigDecimal getArea () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Area);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Farm Division.
-		@param FTA_FarmDivision_ID Farm Division	  */
-	public void setFTA_FarmDivision_ID (int FTA_FarmDivision_ID)
-	{
-		if (FTA_FarmDivision_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_FarmDivision_ID, null);
+		if (FTA_InterestType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_InterestType_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_FarmDivision_ID, Integer.valueOf(FTA_FarmDivision_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_InterestType_ID, Integer.valueOf(FTA_InterestType_ID));
 	}
 
-	/** Get Farm Division.
-		@return Farm Division	  */
-	public int getFTA_FarmDivision_ID () 
+	/** Get Interest Type.
+		@return Interest Type	  */
+	public int getFTA_InterestType_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_FarmDivision_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.spin.model.I_FTA_Farm getFTA_Farm() throws RuntimeException
-    {
-		return (org.spin.model.I_FTA_Farm)MTable.get(getCtx(), org.spin.model.I_FTA_Farm.Table_Name)
-			.getPO(getFTA_Farm_ID(), get_TrxName());	}
-
-	/** Set Farm.
-		@param FTA_Farm_ID Farm	  */
-	public void setFTA_Farm_ID (int FTA_Farm_ID)
-	{
-		if (FTA_Farm_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_Farm_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_Farm_ID, Integer.valueOf(FTA_Farm_ID));
-	}
-
-	/** Get Farm.
-		@return Farm	  */
-	public int getFTA_Farm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_Farm_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_InterestType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -155,11 +110,42 @@ public class X_FTA_FarmDivision extends PO implements I_FTA_FarmDivision, I_Pers
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
+	/** Type AD_Reference_ID=53580 */
+	public static final int TYPE_AD_Reference_ID=53580;
+	/** Farmer Credit = FC */
+	public static final String TYPE_FarmerCredit = "FC";
+	/** Set Type.
+		@param Type 
+		Type of Validation (SQL, Java Script, Java Language)
+	  */
+	public void setType (String Type)
+	{
+
+		set_Value (COLUMNNAME_Type, Type);
+	}
+
+	/** Get Type.
+		@return Type of Validation (SQL, Java Script, Java Language)
+	  */
+	public String getType () 
+	{
+		return (String)get_Value(COLUMNNAME_Type);
+	}
+
+	/** Set Search Key.
+		@param Value 
+		Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value)
+	{
+		set_Value (COLUMNNAME_Value, Value);
+	}
+
+	/** Get Search Key.
+		@return Search key for the record in the format required - must be unique
+	  */
+	public String getValue () 
+	{
+		return (String)get_Value(COLUMNNAME_Value);
+	}
 }

@@ -20,12 +20,11 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
-import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_VehicleBrand
+/** Generated Model for FTA_CDL_CategoryInterest
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_VehicleBrand extends PO implements I_FTA_VehicleBrand, I_Persistent 
+public class X_FTA_CDL_CategoryInterest extends PO implements I_FTA_CDL_CategoryInterest, I_Persistent 
 {
 
 	/**
@@ -34,18 +33,18 @@ public class X_FTA_VehicleBrand extends PO implements I_FTA_VehicleBrand, I_Pers
 	private static final long serialVersionUID = 20131024L;
 
     /** Standard Constructor */
-    public X_FTA_VehicleBrand (Properties ctx, int FTA_VehicleBrand_ID, String trxName)
+    public X_FTA_CDL_CategoryInterest (Properties ctx, int FTA_CDL_CategoryInterest_ID, String trxName)
     {
-      super (ctx, FTA_VehicleBrand_ID, trxName);
-      /** if (FTA_VehicleBrand_ID == 0)
+      super (ctx, FTA_CDL_CategoryInterest_ID, trxName);
+      /** if (FTA_CDL_CategoryInterest_ID == 0)
         {
-			setFTA_VehicleBrand_ID (0);
-			setName (null);
+			setFTA_CDL_Category_ID (0);
+			setFTA_InterestType_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_VehicleBrand (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_CDL_CategoryInterest (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -67,70 +66,58 @@ public class X_FTA_VehicleBrand extends PO implements I_FTA_VehicleBrand, I_Pers
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_VehicleBrand[")
+      StringBuffer sb = new StringBuffer ("X_FTA_CDL_CategoryInterest[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	/** Set Description.
-		@param Description 
-		Optional short description of the record
-	  */
-	public void setDescription (String Description)
-	{
-		set_Value (COLUMNNAME_Description, Description);
-	}
+	public org.spin.model.I_FTA_CDL_Category getFTA_CDL_Category() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_CDL_Category)MTable.get(getCtx(), org.spin.model.I_FTA_CDL_Category.Table_Name)
+			.getPO(getFTA_CDL_Category_ID(), get_TrxName());	}
 
-	/** Get Description.
-		@return Optional short description of the record
-	  */
-	public String getDescription () 
+	/** Set Credit Definition Line Category.
+		@param FTA_CDL_Category_ID Credit Definition Line Category	  */
+	public void setFTA_CDL_Category_ID (int FTA_CDL_Category_ID)
 	{
-		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set Vehicle Brand.
-		@param FTA_VehicleBrand_ID Vehicle Brand	  */
-	public void setFTA_VehicleBrand_ID (int FTA_VehicleBrand_ID)
-	{
-		if (FTA_VehicleBrand_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleBrand_ID, null);
+		if (FTA_CDL_Category_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_CDL_Category_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleBrand_ID, Integer.valueOf(FTA_VehicleBrand_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_CDL_Category_ID, Integer.valueOf(FTA_CDL_Category_ID));
 	}
 
-	/** Get Vehicle Brand.
-		@return Vehicle Brand	  */
-	public int getFTA_VehicleBrand_ID () 
+	/** Get Credit Definition Line Category.
+		@return Credit Definition Line Category	  */
+	public int getFTA_CDL_Category_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_VehicleBrand_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CDL_Category_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	/** Set Name.
-		@param Name 
-		Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name)
-	{
-		set_Value (COLUMNNAME_Name, Name);
-	}
-
-	/** Get Name.
-		@return Alphanumeric identifier of the entity
-	  */
-	public String getName () 
-	{
-		return (String)get_Value(COLUMNNAME_Name);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
+	public org.spin.model.I_FTA_InterestType getFTA_InterestType() throws RuntimeException
     {
-        return new KeyNamePair(get_ID(), getName());
-    }
+		return (org.spin.model.I_FTA_InterestType)MTable.get(getCtx(), org.spin.model.I_FTA_InterestType.Table_Name)
+			.getPO(getFTA_InterestType_ID(), get_TrxName());	}
+
+	/** Set Interest Type.
+		@param FTA_InterestType_ID Interest Type	  */
+	public void setFTA_InterestType_ID (int FTA_InterestType_ID)
+	{
+		if (FTA_InterestType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_InterestType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FTA_InterestType_ID, Integer.valueOf(FTA_InterestType_ID));
+	}
+
+	/** Get Interest Type.
+		@return Interest Type	  */
+	public int getFTA_InterestType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_InterestType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 }

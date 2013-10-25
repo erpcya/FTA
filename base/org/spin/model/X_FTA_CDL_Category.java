@@ -20,12 +20,11 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
-import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_VehicleModel
+/** Generated Model for FTA_CDL_Category
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_VehicleModel extends PO implements I_FTA_VehicleModel, I_Persistent 
+public class X_FTA_CDL_Category extends PO implements I_FTA_CDL_Category, I_Persistent 
 {
 
 	/**
@@ -34,19 +33,19 @@ public class X_FTA_VehicleModel extends PO implements I_FTA_VehicleModel, I_Pers
 	private static final long serialVersionUID = 20131024L;
 
     /** Standard Constructor */
-    public X_FTA_VehicleModel (Properties ctx, int FTA_VehicleModel_ID, String trxName)
+    public X_FTA_CDL_Category (Properties ctx, int FTA_CDL_Category_ID, String trxName)
     {
-      super (ctx, FTA_VehicleModel_ID, trxName);
-      /** if (FTA_VehicleModel_ID == 0)
+      super (ctx, FTA_CDL_Category_ID, trxName);
+      /** if (FTA_CDL_Category_ID == 0)
         {
-			setFTA_VehicleBrand_ID (0);
-			setFTA_VehicleModel_ID (0);
+			setFTA_CDL_Category_ID (0);
 			setName (null);
+			setValue (null);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_VehicleModel (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_CDL_Category (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -68,7 +67,7 @@ public class X_FTA_VehicleModel extends PO implements I_FTA_VehicleModel, I_Pers
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_VehicleModel[")
+      StringBuffer sb = new StringBuffer ("X_FTA_CDL_Category[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -90,71 +89,21 @@ public class X_FTA_VehicleModel extends PO implements I_FTA_VehicleModel, I_Pers
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public org.spin.model.I_FTA_VehicleBrand getFTA_VehicleBrand() throws RuntimeException
-    {
-		return (org.spin.model.I_FTA_VehicleBrand)MTable.get(getCtx(), org.spin.model.I_FTA_VehicleBrand.Table_Name)
-			.getPO(getFTA_VehicleBrand_ID(), get_TrxName());	}
-
-	/** Set Vehicle Brand.
-		@param FTA_VehicleBrand_ID Vehicle Brand	  */
-	public void setFTA_VehicleBrand_ID (int FTA_VehicleBrand_ID)
+	/** Set Credit Definition Line Category.
+		@param FTA_CDL_Category_ID Credit Definition Line Category	  */
+	public void setFTA_CDL_Category_ID (int FTA_CDL_Category_ID)
 	{
-		if (FTA_VehicleBrand_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleBrand_ID, null);
+		if (FTA_CDL_Category_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_CDL_Category_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleBrand_ID, Integer.valueOf(FTA_VehicleBrand_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_CDL_Category_ID, Integer.valueOf(FTA_CDL_Category_ID));
 	}
 
-	/** Get Vehicle Brand.
-		@return Vehicle Brand	  */
-	public int getFTA_VehicleBrand_ID () 
+	/** Get Credit Definition Line Category.
+		@return Credit Definition Line Category	  */
+	public int getFTA_CDL_Category_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_VehicleBrand_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Vehicle Model.
-		@param FTA_VehicleModel_ID Vehicle Model	  */
-	public void setFTA_VehicleModel_ID (int FTA_VehicleModel_ID)
-	{
-		if (FTA_VehicleModel_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleModel_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleModel_ID, Integer.valueOf(FTA_VehicleModel_ID));
-	}
-
-	/** Get Vehicle Model.
-		@return Vehicle Model	  */
-	public int getFTA_VehicleModel_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_VehicleModel_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.spin.model.I_FTA_VehicleType getFTA_VehicleType() throws RuntimeException
-    {
-		return (org.spin.model.I_FTA_VehicleType)MTable.get(getCtx(), org.spin.model.I_FTA_VehicleType.Table_Name)
-			.getPO(getFTA_VehicleType_ID(), get_TrxName());	}
-
-	/** Set Vehicle Type.
-		@param FTA_VehicleType_ID Vehicle Type	  */
-	public void setFTA_VehicleType_ID (int FTA_VehicleType_ID)
-	{
-		if (FTA_VehicleType_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleType_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleType_ID, Integer.valueOf(FTA_VehicleType_ID));
-	}
-
-	/** Get Vehicle Type.
-		@return Vehicle Type	  */
-	public int getFTA_VehicleType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_VehicleType_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CDL_Category_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -177,11 +126,20 @@ public class X_FTA_VehicleModel extends PO implements I_FTA_VehicleModel, I_Pers
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
+	/** Set Search Key.
+		@param Value 
+		Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value)
+	{
+		set_Value (COLUMNNAME_Value, Value);
+	}
+
+	/** Get Search Key.
+		@return Search key for the record in the format required - must be unique
+	  */
+	public String getValue () 
+	{
+		return (String)get_Value(COLUMNNAME_Value);
+	}
 }

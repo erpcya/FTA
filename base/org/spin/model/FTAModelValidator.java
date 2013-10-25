@@ -84,7 +84,6 @@ public class FTAModelValidator implements ModelValidator {
 				boolean m_IsCreditFactManual = order.get_ValueAsBoolean("IsCreditFactManual");
 				if(m_FTA_FarmerCredit_ID != 0) {
 					invoice.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_FarmerCredit_ID);
-					invoice.set_ValueOfColumn("IsCreditFactManual", m_IsCreditFactManual);
 				}
 				//	
 				log.info(po.toString());
@@ -116,7 +115,7 @@ public class FTAModelValidator implements ModelValidator {
 				MOrder ord = (MOrder) po;
 				if(ord.isSOTrx()
 						&& ord.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
-					MFTAFact.deleteFact(MOrder.Table_ID, ord.getC_Order_ID(), ord.get_TrxName());
+					MFTAFact.deleteFact(MOrder.Table_ID, ord.getC_Order_ID(), false,ord.get_TrxName());
 				}
 			}
 		}

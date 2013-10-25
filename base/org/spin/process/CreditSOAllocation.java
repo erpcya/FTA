@@ -21,15 +21,11 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MInvoice;
-import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MTable;
-import org.compiere.model.Query;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -52,8 +48,8 @@ public class CreditSOAllocation extends SvrProcess {
 				"ts.AD_PInstance_ID , \n"+
 				"ts.T_Selection_ID AS FTA_CreditDefinitionLine_ID, \n"+
 				"tsb.C_BPartner_ID, \n"+
-				"tsb.C_OrderLine_ID, \n"+
-				"tsb.C_InvoiceLine_ID, \n"+
+				"tsb.C_Order_ID, \n"+
+				"tsb.C_Invoice_ID, \n"+
 				"tsb.FTA_FarmerCredit_ID, \n"+
 				"tsb.AllocatedAmt, \n"+
 				"'Y' IsManual, \n"+
@@ -62,8 +58,8 @@ public class CreditSOAllocation extends SvrProcess {
 				"T_Selection ts \n"+ 
 				"Inner Join (Select  tsb.AD_PInstance_ID, \n"+
 				"	tsb.T_Selection_ID, \n"+
-				"	Max(Case When tsb.ColumnName = 'CSOALL_C_OrderLine_ID' Then tsb.Value_Number Else Null End) As C_OrderLine_ID, \n"+ 
-				"	Max(Case When tsb.ColumnName = 'CSOALL_C_InvoiceLine_ID' Then tsb.Value_Number Else Null End) As C_InvoiceLine_ID,  \n"+
+				"	Max(Case When tsb.ColumnName = 'CSOALL_C_Order_ID' Then tsb.Value_Number Else Null End) As C_Order_ID, \n"+ 
+				"	Max(Case When tsb.ColumnName = 'CSOALL_C_Invoice_ID' Then tsb.Value_Number Else Null End) As C_Invoice_ID,  \n"+
 				"	Max(Case When tsb.ColumnName = 'CSOALL_C_BPartner_ID' Then tsb.Value_Number Else Null End) As C_BPartner_ID,  \n"+
 				"	Max(Case When tsb.ColumnName = 'CSOALL_FTA_FarmerCredit_ID' Then tsb.Value_Number Else Null End) As FTA_FarmerCredit_ID,  \n"+
 				"	Max(Case When tsb.ColumnName = 'CSOALL_AllocatedAmt' Then tsb.Value_Number Else Null End) As AllocatedAmt,  \n"+
@@ -104,9 +100,9 @@ public class CreditSOAllocation extends SvrProcess {
 				//Get Facts
 				FTA_CreditDefinitionLine_ID =rs.getInt("FTA_CreditDefinitionLine_ID");
 				C_BPartner_ID=rs.getInt("C_BPartner_ID");
-				C_InvoiceLine_ID=rs.getInt("C_InvoiceLine_ID");
-				C_OrderLine_ID=rs.getInt("C_OrderLine_ID");
-				AD_Table_ID=(C_OrderLine_ID==0?MInvoice.Table_ID:MOrder.Table_ID);
+				C_Invoice_ID=rs.getInt("C_Invoice_ID");
+				C_Order_ID=rs.getInt("C_Order_ID");
+				AD_Table_ID=(C_Order_ID==0?MInvoice.Table_ID:MOrder.Table_ID);
 				FTA_FarmerCredit_ID =rs.getInt("FTA_FarmerCredit_ID");
 				boolean IsManual= rs.getString("IsManual").equals("Y");
 				BigDecimal AllocatedAmt = rs.getBigDecimal("AllocatedAmt");
@@ -116,36 +112,26 @@ public class CreditSOAllocation extends SvrProcess {
 					return -1;
 				}
 				
-				filter = "FTA_CreditDefinitionLine_ID=? AND "
-							+"C_BPartner_ID=? AND "
-							+"Line_ID=? AND "
-							+"AD_Table_ID=? AND "
-							+"FTA_FarmerCredit_ID=? "
-						;
-				MFTAFact fact= new Query(ctx,MFTAFact.Table_Name,filter.toString(),get_TrxName())
-												.setOnlyActiveRecords(true)
-												.setParameters(FTA_CreditDefinitionLine_ID,
-																C_BPartner_ID,
-																(C_OrderLine_ID==0?C_InvoiceLine_ID:C_OrderLine_ID),
-																AD_Table_ID,
-																FTA_FarmerCredit_ID
-																)
-												.firstOnly();
-				if (fact==null){
-					fact = new MFTAFact(getCtx(), 0, get_TrxName());
+				//Delete Fact When First Record of ResultSet
+				if (Record_ID==0)
+					MFTAFact.deleteFact(AD_Table_ID, (C_Order_ID==0?C_Invoice_ID:C_Order_ID),true, get_TrxName());
+				
+				MFTAFact fact=  new MFTAFact(getCtx(), 0, get_TrxName());
+
+				
+				
+				if (fact!=null)
+				{
+					System.out.println(fact.getAmt());
+					
 					fact.setAD_Table_ID(AD_Table_ID);
 					fact.setAmt(AllocatedAmt);
 					fact.setC_BPartner_ID(C_BPartner_ID);
 					fact.setFTA_CreditDefinitionLine_ID(FTA_CreditDefinitionLine_ID);
 					fact.setFTA_FarmerCredit_ID(FTA_FarmerCredit_ID);
-				}
-				
-				
-				if (fact!=null)
-				{
 					fact.setIsCreditFactManual(IsManual);
-					fact.setAmt(AllocatedAmt);
 					
+					System.out.println(fact.getAmt());
 					
 					//Set Credit Definition
 					MFTACreditDefinitionLine cdfl = new MFTACreditDefinitionLine(getCtx(), FTA_CreditDefinitionLine_ID, get_TrxName());
@@ -153,15 +139,13 @@ public class CreditSOAllocation extends SvrProcess {
 						fact.setFTA_CreditDefinition_ID(cdfl.getFTA_CreditDefinition_ID());
 					
 					//Set Document
-					if (C_InvoiceLine_ID!=0){
+					if (C_Invoice_ID!=0){
 						//Invoice
-						MInvoiceLine il = new MInvoiceLine(getCtx(), C_InvoiceLine_ID, get_TrxName());
-						if (il.getC_InvoiceLine_ID()!=0){
-							fact.setLine_ID(C_InvoiceLine_ID);
-							fact.setRecord_ID(il.getC_Invoice_ID());
-							fact.setDateDoc(il.getC_Invoice().getDateInvoiced());
-							fact.setDescription(il.getDescription());
-							MInvoice in = new MInvoice(getCtx(),il.getC_Invoice_ID(),get_TrxName()) ;
+						MInvoice in = new MInvoice(getCtx(), C_Invoice_ID, get_TrxName());
+						if (in.getC_Invoice_ID()!=0){
+							fact.setRecord_ID(in.getC_Invoice_ID());
+							fact.setDateDoc(in.getDateInvoiced());
+							fact.setDescription(in.getDescription());
 							in.set_ValueOfColumn("FTA_FarmerCredit_ID", FTA_FarmerCredit_ID);
 							in.save(get_TrxName());
 							Record_ID = in.getC_Invoice_ID();
@@ -171,15 +155,13 @@ public class CreditSOAllocation extends SvrProcess {
 							}
 						}
 					}
-					else if(C_OrderLine_ID!=0) {
+					else if(C_Order_ID!=0) {
 						//Order
-						MOrderLine ol = new MOrderLine(getCtx(), C_OrderLine_ID, get_TrxName());
-						if (ol.getC_OrderLine_ID()!=0){
-							fact.setLine_ID(C_OrderLine_ID);
-							fact.setRecord_ID(ol.getC_Order_ID());
-							fact.setDateDoc(ol.getC_Order().getDateOrdered());
-							fact.setDescription(ol.getDescription());
-							MOrder or = new MOrder(getCtx(),ol.getC_Order_ID(),get_TrxName()) ;
+						MOrder or = new MOrder(getCtx(), C_Order_ID, get_TrxName());
+						if (or.getC_Order_ID()!=0){
+							fact.setRecord_ID(or.getC_Order_ID());
+							fact.setDateDoc(or.getDateOrdered());
+							fact.setDescription(or.getDescription());
 							or.set_ValueOfColumn("FTA_FarmerCredit_ID", FTA_FarmerCredit_ID);
 							or.save(get_TrxName());
 							Record_ID = or.getC_Order_ID();
@@ -192,6 +174,7 @@ public class CreditSOAllocation extends SvrProcess {
 					
 				}
 				fact.saveEx(get_TrxName());
+				System.out.println(fact.getAmt());
 				updates++;
 			}
 			
@@ -217,7 +200,7 @@ public class CreditSOAllocation extends SvrProcess {
 		return updates;
 	}
 	
-	private BigDecimal getFactBalance(int C_BPartner_ID,int FTA_FarmerCredit_ID,int Line_ID,int Record_ID)
+	private BigDecimal getFactBalance(int C_BPartner_ID,int FTA_FarmerCredit_ID,int FTA_CreditDefinitionLine_ID,int AD_Table_ID,int Record_ID)
 	{
 			//	Get Area
 			BigDecimal m_TotalFarmingArea = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(Amt) " +
@@ -263,16 +246,10 @@ public class CreditSOAllocation extends SvrProcess {
 	}
 	
 	private CLogger log = CLogger.getCLogger(CreditSOAllocation.class);
-	
-	/** Sql Filter	 */
-	private String filter = new String();
-	
+		
 	/** Sql **/
 	private StringBuffer sql = new StringBuffer();
 	
-	/** Context	 */
-	private Properties ctx = Env.getCtx();
-
 	/** Record ID*/
 	int Record_ID=0;
 	
@@ -289,10 +266,10 @@ public class CreditSOAllocation extends SvrProcess {
 	int C_BPartner_ID=0;
 	
 	/** Invoice Line */
-	int C_InvoiceLine_ID=0;
+	int C_Invoice_ID=0;
 	
 	/** Order Line */
-	int C_OrderLine_ID= 0;
+	int C_Order_ID= 0;
 	
 	/**Process Msg*/
 	String m_processMsg="";
