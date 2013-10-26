@@ -52,7 +52,7 @@ public class BrowseCalloutRecordWeight extends BrowserCalloutEngine {
 		if (value==oldValue && value!=null)
 			return "";
 		
-		BigDecimal paidWeight=null;
+		BigDecimal paidWeight=Env.ZERO;
 		//get Category Calc
 		Object fieldCategoryCalc=mRow.getValueofColumn("FTA_CategoryCalc_ID",current_Row);
 		Object fieldNetWeight=mRow.getValueofColumn("NetWeight",current_Row);
