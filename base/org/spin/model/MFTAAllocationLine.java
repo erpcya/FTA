@@ -103,7 +103,7 @@ public class MFTAAllocationLine extends X_FTA_AllocationLine {
 	}	//	MAllocationLine
 	
 	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MFTAAllocationLine.class);
+	//private static CLogger	s_log	= CLogger.getCLogger (MFTAAllocationLine.class);
 	/**	Invoice info			*/
 	private MInvoice		m_invoice = null; 
 	/** Allocation Header		*/

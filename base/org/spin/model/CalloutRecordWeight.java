@@ -24,6 +24,7 @@ import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MDocType;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -53,6 +54,36 @@ public class CalloutRecordWeight extends CalloutEngine {
 		Env.setContext(ctx, WindowNo, "DocBaseType", m_DocType.getDocBaseType());
 		//	Is SO Trx
 		mTab.setValue("IsSOTrx", m_DocType.isSOTrx());
+		return "";
+	}
+	
+	/**
+	 * Set Default Quality Analysis
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/10/2013, 23:33:40
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String entryTicket (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		Integer m_FTA_EntryTicket_ID = (Integer)value;
+		if (m_FTA_EntryTicket_ID == null || m_FTA_EntryTicket_ID.intValue() == 0)
+			return "";
+		
+		//	get Mobilization Guide
+		String sql = new String("SELECT qa.FTA_QualityAnalysis_ID " +
+				"FROM FTA_EntryTicket et " +
+				"INNER JOIN FTA_QualityAnalysis qa ON(qa.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID) " +
+				"WHERE et.FTA_EntryTicket_ID = ? " +
+				"AND qa.DocStatus = 'CO' " +
+				"ORDER BY qa.DateDoc DESC");
+		//
+		int m_FTA_QualityAnalysis_ID = DB.getSQLValue(null, sql, m_FTA_EntryTicket_ID);
+		//	Set Business Partner
+		mTab.setValue("FTA_QualityAnalysis_ID", m_FTA_QualityAnalysis_ID);
 		return "";
 	}
 	
