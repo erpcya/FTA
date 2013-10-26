@@ -55,8 +55,23 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 				"WHERE et.FTA_EntryTicket_ID = ?");
 		//
 		int m_Category_ID = DB.getSQLValue(null, sql, m_FTA_EntryTicket_ID);
-		//	Set Business Partner
 		mTab.setValue("M_Product_ID", m_Category_ID);
+		
+		//	Get Analysis Type
+		String m_AnalysisType = (String) mTab.getValue("AnalysisType");
+		//	
+		if(m_AnalysisType != null
+				&& m_AnalysisType.equals("CA")){
+			//	
+			sql = "SELECT qa.FTA_QualityAnalysis_ID " +
+					"FROM FTA_EntryTicket et " +
+					"INNER JOIN FTA_QualityAnalysis qa ON(qa.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID) " +
+					"WHERE et.FTA_EntryTicket_ID = ?";
+			//	
+			int m_Orig_QualityAnalysis_ID = DB.getSQLValue(null, sql, m_FTA_EntryTicket_ID);
+			
+			mTab.setValue("Orig_QualityAnalysis_ID", m_Orig_QualityAnalysis_ID);	
+		}
 		return "";
 	}
 	

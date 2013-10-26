@@ -33,7 +33,7 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131024L;
+	private static final long serialVersionUID = 20131025L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinition (Properties ctx, int FTA_CreditDefinition_ID, String trxName)
@@ -53,7 +53,6 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 			setFTA_CreditDefinition_ID (0);
 			setIsApproved (false);
 			setM_PriceList_ID (0);
-			setName (null);
 			setPlantingCycle_ID (0);
         } */
     }
@@ -372,23 +371,6 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Name.
-		@param Name 
-		Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name)
-	{
-		set_Value (COLUMNNAME_Name, Name);
-	}
-
-	/** Get Name.
-		@return Alphanumeric identifier of the entity
-	  */
-	public String getName () 
-	{
-		return (String)get_Value(COLUMNNAME_Name);
 	}
 
 	public I_M_Lot getPlantingCycle() throws RuntimeException
