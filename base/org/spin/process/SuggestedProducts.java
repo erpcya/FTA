@@ -61,7 +61,7 @@ public class SuggestedProducts extends SvrProcess {
 								+"tsb.AD_PInstance_ID, \n" 
 								+"tsb.T_Selection_ID) tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID \n"  
 					+"Inner Join M_Product mp On mp.M_Product_ID = ts.T_Selection_ID ");
-		sql.append("Where ts.AD_PInstance_ID=?");
+		sql.append("Where ts.AD_PInstance_ID=? And SP_QtyDosage Is Not Null ");
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class SuggestedProducts extends SvrProcess {
 				//Get Product to Apply
 				MFTAProductsToApply product = new Query(ctx,MFTAProductsToApply.Table_Name,filter.toString(),get_TrxName())
 												.setOnlyActiveRecords(true)
-												.setParameters(rs.getInt("T_Selection_ID"),getRecord_ID())
+												.setParameters(getRecord_ID(),rs.getInt("T_Selection_ID"))
 												.firstOnly();
 				if (product==null){
 					product = new MFTAProductsToApply(getCtx(), 0, get_TrxName());
