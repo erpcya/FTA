@@ -1,4 +1,4 @@
-﻿Create Or Replace View FTA_RV_SuggestedProducts As 
+CREATE Or Replace View FTA_RV_SuggestedProducts As 
 Select  tfl.AD_Client_ID,		--Client ID
 	tfl.AD_Org_ID,			--Org
 	fming.Category_ID,   		--Category Farm
@@ -64,7 +64,7 @@ Select  tfl.AD_Client_ID,		--Client ID
 	Cast(null As Numeric(10,0))FTA_FarmingStage_ID,	--Farming Stage
 	Cast(null As Numeric(10,0)) FTA_ObservationType_ID,	--Observation Type
 	Cast(0 As Numeric(10,0)) SeqNo,			--Sequence
-	Cast(null As Numeric) QtyDosage,			--Qty Dosage
+	Cast(0 As Numeric) QtyDosage,			--Qty Dosage
 	Cast(null As Numeric(10,0)) Dosage_Uom_ID,		--Uom Dosage
 	mp.M_Product_Category_ID,	--Product Category
 	tfl.FTA_TechnicalFormLine_ID,	--Technical Form Line
