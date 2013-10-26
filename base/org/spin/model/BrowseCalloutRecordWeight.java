@@ -54,8 +54,8 @@ public class BrowseCalloutRecordWeight extends BrowserCalloutEngine {
 		
 		BigDecimal paidWeight=null;
 		//get Category Calc
-		Object fieldCategoryCalc=mRow.getValueofColumn("FTA_CategoryCalc_ID");
-		Object fieldNetWeight=mRow.getValueofColumn("NetWeight");
+		Object fieldCategoryCalc=mRow.getValueofColumn("FTA_CategoryCalc_ID",current_Row);
+		Object fieldNetWeight=mRow.getValueofColumn("NetWeight",current_Row);
 		
 		if(fieldCategoryCalc!=null){
 			GridField gField = (GridField)fieldCategoryCalc;

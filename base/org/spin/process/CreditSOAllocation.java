@@ -122,16 +122,12 @@ public class CreditSOAllocation extends SvrProcess {
 				
 				if (fact!=null)
 				{
-					System.out.println(fact.getAmt());
-					
 					fact.setAD_Table_ID(AD_Table_ID);
 					fact.setAmt(AllocatedAmt);
 					fact.setC_BPartner_ID(C_BPartner_ID);
 					fact.setFTA_CreditDefinitionLine_ID(FTA_CreditDefinitionLine_ID);
 					fact.setFTA_FarmerCredit_ID(FTA_FarmerCredit_ID);
 					fact.setIsCreditFactManual(IsManual);
-					
-					System.out.println(fact.getAmt());
 					
 					//Set Credit Definition
 					MFTACreditDefinitionLine cdfl = new MFTACreditDefinitionLine(getCtx(), FTA_CreditDefinitionLine_ID, get_TrxName());

@@ -17,12 +17,12 @@
 
 package org.spin.process;
 
-import java.util.List;
-import java.util.Properties;
-
-import org.compiere.model.Query;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.spin.model.MFTAFarmerCredit;
 
@@ -35,40 +35,68 @@ public class FarmerCreditAllocation extends SvrProcess {
 
 	@Override
 	protected void prepare() {
+		sql.append("Select \n"+ 
+				"ts.AD_PInstance_ID , \n"+
+				"ts.T_Selection_ID AS FTA_FarmerCredit_ID, \n"+
+				"tsb.ApprovedQty, \n"+
+				"tsb.ApprovedAmt \n"+
+				"From   \n"+
+				"T_Selection ts \n"+ 
+				"Inner Join (Select  tsb.AD_PInstance_ID, \n"+
+				"	tsb.T_Selection_ID, \n"+
+				"	Max(Case When tsb.ColumnName = 'ACA_ApprovedQty' Then tsb.Value_Number Else Null End) As ApprovedQty, \n"+ 
+				"	Max(Case When tsb.ColumnName = 'ACA_ApprovedAmt' Then tsb.Value_Number Else Null End) As ApprovedAmt  \n"+
+				"	From T_Selection_Browse tsb  \n"+
+				"	Group By \n"+
+				"	tsb.AD_PInstance_ID, \n"+
+				"	tsb.T_Selection_ID)  \n"+
+				"tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID ");
+		sql.append("Where ts.AD_PInstance_ID=?");
+		log.fine(sql.toString());
 		// TODO Auto-generated method stub		
 	}
 
 	@Override
 	protected String doIt() throws Exception {
 		// TODO Auto-generated method stub
-		
+		String result="";
 		m_FTA_CreditAct_ID = getRecord_ID();
-		filter.append("Exists (Select 1 From T_Selection Where AD_PInstance_ID=? AND T_Selection_ID=FTA_FarmerCredit_ID)");
+		PreparedStatement ps=null;
+		ResultSet rs =null;
 		
-		log.fine(filter.toString());
-
-		//Get list of credit from farmer
-		List<MFTAFarmerCredit> credits = new Query(ctx,MFTAFarmerCredit.Table_Name,filter.toString(),get_TrxName())
-										.setOnlyActiveRecords(true)
-										.setParameters(getAD_PInstance_ID())
-										.list();
-		
-		for (MFTAFarmerCredit credit:credits)
-		{
-			//Set Farmer Credit
-			if(credit.getFTA_CreditAct_ID()==0)
-				credit.setFTA_CreditAct_ID(m_FTA_CreditAct_ID);
-			else
-				credit.setFTA_CreditAct_ID(0);
-						
-			credit.save(get_TrxName());
+		try{
+			ps = DB.prepareStatement(sql.toString(), get_TrxName());
+			ps.setInt(1, getAD_PInstance_ID());
+			rs = ps.executeQuery();
 			
-			m_Updated++;
+			while(rs.next()){
+				MFTAFarmerCredit fc = new MFTAFarmerCredit(getCtx(), rs.getInt("FTA_FarmerCredit_ID"), get_TrxName());
+				if(fc.getFTA_CreditAct_ID()==0){
+					fc.setFTA_CreditAct_ID(m_FTA_CreditAct_ID);
+					fc.setApprovedAmt(rs.getBigDecimal("ApprovedAmt"));
+					fc.setApprovedQty(rs.getBigDecimal("ApprovedQty"));
+				}
+				else{
+					fc.setFTA_CreditAct_ID(0);
+					fc.setApprovedAmt(Env.ZERO);
+					fc.setApprovedQty(Env.ZERO);
+				}
+				m_Updated++;
+				fc.save(get_TrxName());
+			}
+			result ="@Updated@="+m_Updated;
 		}
+		catch (SQLException e){
+			result = e.getMessage();
+		}
+		finally{
+    		DB.close(rs, ps);
+    		rs = null; ps= null;
+    	}
 		
-		return "@Updated@="+m_Updated;
+		return result;
 	}
-
+	
 	/** credit	 */
 	private int m_FTA_CreditAct_ID =0;
 	
@@ -76,10 +104,8 @@ public class FarmerCreditAllocation extends SvrProcess {
 	private CLogger log = CLogger.getCLogger(FarmerCreditAllocation.class);
 	
 	/** Sql Filter	 */
-	private StringBuffer filter = new StringBuffer();
-	
-	/** Context	 */
-	private Properties ctx = Env.getCtx();
+	private StringBuffer sql = new StringBuffer();
+
 	
 	/** Records Updated	 */
 	private int m_Updated=0;
