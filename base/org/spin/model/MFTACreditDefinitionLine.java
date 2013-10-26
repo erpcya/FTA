@@ -90,7 +90,7 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 		return m_parent;
 	}	//	getParent
 	
-	@Override
+	/*@Override
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
 		if(getC_ChargeType_ID() == 0
@@ -99,7 +99,7 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 				&& getM_Product_ID() == 0)
 			throw new AdempiereException("@C_Charge_ID@ = @M_Product_Category_ID@ = @M_Product_ID@ = @C_ChargeType_ID@ = @NotFound@");
 		return true;
-	}
+	}*/
 	
 	@Override
 	protected boolean afterSave(boolean newRecord, boolean success) {

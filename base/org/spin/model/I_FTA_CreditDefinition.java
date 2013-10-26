@@ -233,19 +233,6 @@ public interface I_FTA_CreditDefinition
 
 	public I_M_PriceList getM_PriceList() throws RuntimeException;
 
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name);
-
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public String getName();
-
     /** Column name PlantingCycle_ID */
     public static final String COLUMNNAME_PlantingCycle_ID = "PlantingCycle_ID";
 

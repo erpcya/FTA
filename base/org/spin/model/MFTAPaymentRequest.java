@@ -20,59 +20,51 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
-import org.compiere.model.MOrder;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
-import org.compiere.model.Query;
-import org.compiere.model.X_C_Order;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, DocOptions {
-	
+public class MFTAPaymentRequest extends X_FTA_PaymentRequest implements DocAction, DocOptions {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1598715547742531997L;
+	private static final long serialVersionUID = 7569888779052635894L;
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 13/08/2013, 16:09:01
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/10/2013, 23:28:20
 	 * @param ctx
-	 * @param FTA_FarmerCredit_ID
+	 * @param FTA_PaymentRequest_ID
 	 * @param trxName
 	 */
-	public MFTAFarmerCredit(Properties ctx, int FTA_FarmerCredit_ID,
+	public MFTAPaymentRequest(Properties ctx, int FTA_PaymentRequest_ID,
 			String trxName) {
-		super(ctx, FTA_FarmerCredit_ID, trxName);
+		super(ctx, FTA_PaymentRequest_ID, trxName);
 	}
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 13/08/2013, 16:09:01
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/10/2013, 23:28:20
 	 * @param ctx
 	 * @param rs
 	 * @param trxName
 	 */
-	public MFTAFarmerCredit(Properties ctx, ResultSet rs, String trxName) {
+	public MFTAPaymentRequest(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
-	
-	/** Lines					*/
-	private MFTAFarming[]		m_lines = null;
 
 	/**
 	 * 	Get Document Info
@@ -165,10 +157,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
-		
 		//	Std Period open?
 		if (!MPeriod.isOpen(getCtx(), getDateDoc(), dt.getDocBaseType(), getAD_Org_ID()))
 		{
@@ -230,43 +220,18 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if (!isApproved())
 			approveIt();
 		log.info(toString());
-		//
-		if(getCreditType().equals(CREDITTYPE_Credit)
-				|| getCreditType().equals(CREDITTYPE_ReceptionAgreement)
-				|| getCreditType().equals(CREDITTYPE_Extension)){
-			if(getFTA_CreditDefinition_ID() == 0){
-				m_processMsg = "@FTA_CreditDefinition_ID@";
-				return DocAction.STATUS_Invalid;
-			}
-			//	Very Lines
-			MFTAFarming[] lines = getLines(false);
-			if (lines.length == 0){
-				m_processMsg = "@NoLines@";
-				return DocAction.STATUS_Invalid;
-			}
-			//	Valid Credit Act
-			if(getFTA_CreditAct_ID() == 0){
-				m_processMsg = "@FTA_CreditAct_ID@ @NotFound@";
-				return DocAction.STATUS_InProgress;
-			} else if(!getFTA_CreditAct().getDocStatus()
-								.equals(X_FTA_CreditAct.DOCSTATUS_Completed)){
-				m_processMsg = "@FTA_CreditAct_ID@ @No@ @completed@";
-				return DocAction.STATUS_InProgress;
-			}
-		} else if(getCreditType().equals(CREDITTYPE_Loan)) {
-			if(getM_Product_ID() == 0
-					&& getC_Charge_ID() == 0) {
-				m_processMsg = "@C_Charge_ID@ @M_Product_ID@ @NotFound@";
-				return DocAction.STATUS_InProgress;
-			}		
-		}
 		//	Valid Amount
-		if(getAmt() == null
-				|| getAmt().equals(Env.ZERO)){
+		if(getPayAmt() == null
+				|| getPayAmt().equals(Env.ZERO)){
 			m_processMsg = "@Amt@ = @0@";
 			return DocAction.STATUS_Invalid;
 		}
-		
+		//	Valid Product or Charge
+		if(getM_Product_ID() == 0
+				&& getC_Charge_ID() == 0) {
+			m_processMsg = "@C_Charge_ID@ @M_Product_ID@ @NotFound@";
+			return DocAction.STATUS_InProgress;
+		}
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -318,10 +283,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		m_processMsg = validReference();
 		if(m_processMsg != null)
 			return false;
-		
-		unAllocateLines();
-		addDescription(Msg.getMsg(getCtx(), "Voided"));
-		//setAmt(Env.ZERO);
+		//	Set Status
+		//addDescription(Msg.getMsg(getCtx(), "Voided"));
 
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
@@ -335,33 +298,18 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	
 	/**
 	 * Valid Reference in another record
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 26/09/2013, 15:39:20
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 16:05:21
 	 * @return
 	 * @return String
 	 */
 	private String validReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(et.FTA_EntryTicket_ID) " +
-				"FROM FTA_Farming frm " +
-				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = frm.FTA_Farming_ID) " +
-				"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
-				"WHERE et.DocStatus NOT IN('VO', 'RE') " +
-				"AND frm.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
+		/*int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
+				"FROM FTA_QualityAnalysis qa " +
+				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
+				"AND qa.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
 		if(m_Reference_ID != 0)
-			return "@SQLErrorReferenced@";
+			return "@SQLErrorReferenced@";*/
 		return null;
-	}
-	
-	/**
-	 * UnAllocate Lines before Void It
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 25/09/2013, 10:55:22
-	 * @return void
-	 */
-	private void unAllocateLines(){
-		MFTAFarming [] m_Lines = getLines(true);
-		for(MFTAFarming m_FTA_Farming : m_Lines){
-			m_FTA_Farming.setFTA_FarmerCredit_ID(0);
-			m_FTA_Farming.saveEx(get_TrxName());
-		}
 	}
 	
 	/**
@@ -418,6 +366,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			return false;
 		//	Void It
 		voidIt();
+		
 		// After reverseAccrual
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
 		if (m_processMsg != null)
@@ -459,13 +408,9 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append(getDocumentNo());
-		//	: Total Lines = 123.00 (#1)
-		sb.append(": ")
-			.append(Msg.translate(getCtx(),"Amt")).append("=").append(getAmt())
-			.append(" (#").append(getLines(false).length).append(")");
 		//	 - Description
-		if (getDescription() != null && getDescription().length() > 0)
-			sb.append(" - ").append(getDescription());
+		//if (getDescription() != null && getDescription().length() > 0)
+			//sb.append(" - ").append(getDescription());
 		return sb.toString();
 	}	//	getSummary
 
@@ -512,14 +457,14 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
      *  Add to Description
      *  @param description text
      */
-    public void addDescription (String description)
+    /*public void addDescription (String description)
     {
         String desc = getDescription();
         if (desc == null)
             setDescription(description);
         else
             setDescription(desc + " | " + description);
-    }   //  addDescription
+    }   //  addDescription*/
     
     /**
 	 * 	Document Status is Complete or Closed
@@ -533,75 +478,6 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
 	
-	/**
-	 * 	Get Lines
-	 *	@param requery requery
-	 *	@param whereClause
-	 *	@return lines
-	 */
-	public MFTAFarming[] getLines (boolean requery, String whereClause)
-	{
-		if (m_lines != null && !requery)
-		{
-			set_TrxName(m_lines, get_TrxName());
-			return m_lines;
-		}
-		List<MFTAFarming> list = new Query(getCtx(), MFTAFarming.Table_Name, "FTA_FarmerCredit_ID=?"
-				+ (whereClause != null && whereClause.length() != 0? " AND " + whereClause: ""), get_TrxName())
-		.setParameters(getFTA_FarmerCredit_ID())
-		.list();
-
-		m_lines = new MFTAFarming[list.size ()];
-		list.toArray (m_lines);
-		return m_lines;
-	}	//	getLines
-	
-	/**
-	 * Get Lines
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/10/2013, 12:30:09
-	 * @param requery
-	 * @return
-	 * @return MFTAFarming[]
-	 */
-	public MFTAFarming[] getLines (boolean requery)
-	{
-		return getLines(requery, null);
-	}	//	getLines
-	
-	/**
-	 * Get PurchaseOrder
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 11/09/2013, 10:41:32
-	 * @return
-	 * @return MOrder
-	 */
-	public MOrder getPOGenerated(){
-		return new Query(getCtx(), X_C_Order.Table_Name, 
-				"FTA_FarmerCredit_ID" + "=? " +
-				"AND DocStatus='CO' " +
-				"AND IsSOTrx='N'", get_TrxName())
-			.setOnlyActiveRecords(true)
-			.setParameters(getFTA_FarmerCredit_ID())
-			.<MOrder>first();
-	}
-	
-	/**
-	 * Valid Area
-	 */
-	@Override
-	protected boolean beforeSave(boolean newRecord) {
-		super.beforeSave(newRecord);
-		//	Set Default Values
-		if(newRecord){
-			setGenerateOrder("N");
-			setFTA_CreditAct_ID(0);
-			setQty(Env.ZERO);
-			setAmt(Env.ZERO);
-		}
-		if(getCreditType().equals(CREDITTYPE_Loan))
-			setQty(Env.ONE);
-		return true;
-	}
-	
 	@Override
 	public int customizeValidActions(String docStatus, Object processing,
 			String orderType, String isSOTrx, int AD_Table_ID,
@@ -612,16 +488,16 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
 					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
 				{
-					options[index++] = DocumentEngine.ACTION_Prepare;
+					//options[index++] = DocumentEngine.ACTION_Prepare;
 				}
 				//	Complete                    ..  CO
 				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
 				{
 					options[index++] = DocumentEngine.ACTION_Void;
-					options[index++] = DocumentEngine.ACTION_ReActivate;
 				}
 		}
 		
 		return index;
 	}
+
 }
