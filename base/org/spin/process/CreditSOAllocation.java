@@ -170,15 +170,21 @@ public class CreditSOAllocation extends SvrProcess {
 					
 				}
 				fact.saveEx(get_TrxName());
-				System.out.println(fact.getAmt());
 				updates++;
 			}
 			
 			if (AD_Table_ID!=0){
-				BigDecimal Line = inValidLines(Record_ID,AD_Table_ID);
-				if (!Line.equals(Env.ZERO)){
+				BigDecimal Difference = inValidDocument(Record_ID,AD_Table_ID);
+				if (!Difference.equals(Env.ZERO)){
 					rollback();
-					m_processMsg= Msg.translate(getCtx(), "amount.difference") +" " + Line;
+					m_processMsg= "@Error@ : " + Msg.translate(getCtx(), "amount.difference") +" " + Difference;
+					return -1;
+				}
+				
+				String Category =getInvalidCategory(FTA_FarmerCredit_ID, FTA_CreditDefinitionLine_ID);
+				if (Category!=null){
+					rollback();
+					m_processMsg= "@Error@ : " + Msg.translate(getCtx(), "FTA_FarmerCredit_ID")+ " "+ Msg.translate(getCtx(), "CreditLimitOver") +" " + Category;
 					return -1;
 				}
 			}
@@ -196,21 +202,41 @@ public class CreditSOAllocation extends SvrProcess {
 		return updates;
 	}
 	
-	private BigDecimal getFactBalance(int C_BPartner_ID,int FTA_FarmerCredit_ID,int FTA_CreditDefinitionLine_ID,int AD_Table_ID,int Record_ID)
+	private String getInvalidCategory(int FTA_FarmerCredit_ID,int FTA_CreditDefinitionLine_ID)
 	{
 			//	Get Area
-			BigDecimal m_TotalFarmingArea = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(Amt) " +
-					"FROM FTA_Fact fact " +
-					"WHERE fact.FTA_FarmerCredit_ID = ? " +
-					"AND fact.FTA_CreditDefinitionLine_ID = ? " +
-					"AND fact.C_BPartner_ID = ? " +
-					"AND fact.C_Order_ID <> ? " +
-					"AND fact.C_OrderLine_ID <> ? " +
-					"AND fact.C_Invoice_ID <> ? " +
-					"AND fact.C_invoiceLine_ID <> ? ", 
-					new Object[]{FTA_FarmerCredit_ID, FTA_CreditDefinitionLine_ID});
+			String m_NameCategory = DB.getSQLValueString(get_TrxName(), "Select Credits.Name From "
+									+"(Select fact.C_BPartner_ID "
+									+",fact.FTA_FarmerCredit_ID "
+									+",fact.FTA_CreditDefinition_ID "
+									+",fact.FTA_CreditDefinitionLine_ID "
+									+",Sum(fact.Amt)  As Amt "
+									+"From FTA_Fact fact "
+									+"Where fact.AD_Table_ID=? "
+									+"Group By "
+									+"fact.C_BPartner_ID "
+									+",fact.FTA_FarmerCredit_ID "
+									+",fact.FTA_CreditDefinition_ID "
+									+",fact.FTA_CreditDefinitionLine_ID "
+									+") Facts Inner Join  "
+									+"(Select fc.C_BPArtner_ID, "
+									+"fc.FTA_FarmerCredit_ID, "
+									+"fc.FTA_CreditDefinition_ID, "
+									+"cdfl.FTA_CreditDefinitionLine_ID, "
+									+"cc.Name, "
+									+"(cdfl.Amt * Coalesce(fc.ApprovedQty,0)) As Amt "
+									+"From  "
+									+"FTA_FarmerCredit fc "
+									+"Inner Join FTA_CreditDefinitionLine cdfl On fc.FTA_CreditDefinition_ID=cdfl.FTA_CreditDefinition_ID "
+									+"Inner Join FTA_CDL_Category cc On cc.FTA_CDL_Category_ID=cdfl.FTA_CDL_Category_ID "
+									+"Where fc.DocStatus In ('CO','CL'))  "
+									+"Credits On Facts.C_BPartner_ID=Credits.C_BPartner_ID " 
+									+"AND Facts.FTA_FarmerCredit_ID=Credits.FTA_FarmerCredit_ID "
+									+"AND Facts.FTA_CreditDefinitionLine_ID=Credits.FTA_CreditDefinitionLine_ID "
+									+"Where Facts.Amt>Credits.Amt AND Facts.FTA_FarmerCredit_ID=? AND Facts.FTA_CreditDefinitionLine_ID=?", 
+									new Object[]{MInvoice.Table_ID,FTA_FarmerCredit_ID, FTA_CreditDefinitionLine_ID});
 			
-			return m_TotalFarmingArea;
+			return m_NameCategory;
 	}
 	
 	/**
@@ -221,20 +247,20 @@ public class CreditSOAllocation extends SvrProcess {
 	 * @return
 	 * @return int
 	 */
-	private BigDecimal inValidLines(int Record_ID,int AD_Table_ID)
+	private BigDecimal inValidDocument(int Record_ID,int AD_Table_ID)
 	{
 		
 		MTable table = new MTable(getCtx(), AD_Table_ID, get_TrxName());
 		
 		BigDecimal Line = DB.getSQLValueBD(get_TrxName(), "SELECT Coalesce(fact.Amt,0)-Coalesce(doc.Amt,0) " +
-				" FROM (Select fact.AD_Table_ID,fact.Record_ID,fact.Line_ID,Sum(fact.Amt) As Amt From FTA_Fact fact " +
+				" FROM (Select fact.AD_Table_ID,fact.Record_ID,Sum(fact.Amt) As Amt From FTA_Fact fact " +
 				" Where fact.Record_ID = ? " +
 				" AND fact.AD_Table_ID=?" +
-				" Group By fact.AD_Table_ID,fact.Record_ID,fact.Line_ID) fact Inner Join " +
-				" (Select Line,"+table.getAD_Table_ID()+" AD_Table_ID," + table.getTableName()+ "_ID Record_ID," + table.getTableName()+ "Line_ID Line_ID,Sum(LineNetAmt) Amt From " + table.getTableName()+ "Line " +
+				" Group By fact.AD_Table_ID,fact.Record_ID) fact Inner Join " +
+				" (Select "+table.getAD_Table_ID()+" AD_Table_ID," + table.getTableName()+ "_ID Record_ID,Sum(LineNetAmt) Amt From " + table.getTableName()+ "Line " +
 				" Where " + table.getTableName()+ "_ID =" + Record_ID +
-				" Group By Line," + table.getTableName()+ "_ID," + table.getTableName()+ "Line_ID) doc  "+
-				" On fact.AD_Table_ID=doc.AD_Table_ID AND fact.Record_ID=doc.Record_ID AND fact.Line_ID=doc.Line_ID "+
+				" Group By " + table.getTableName()+ "_ID) doc  "+
+				" On fact.AD_Table_ID=doc.AD_Table_ID AND fact.Record_ID=doc.Record_ID  "+
 				" Where Coalesce(fact.Amt,0)-Coalesce(doc.Amt,0)<>0 "
 				, 
 				new Object[]{Record_ID, AD_Table_ID});
