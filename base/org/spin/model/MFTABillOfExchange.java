@@ -495,6 +495,4 @@ public class MFTABillOfExchange extends X_FTA_BillOfExchange implements DocActio
 		
 		return index;
 	}
-
-
 }
