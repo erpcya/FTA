@@ -1,4 +1,4 @@
-﻿Drop View FTA_RV_CreditSOAllocation;
+DROP View FTA_RV_CreditSOAllocation;
 Create Or Replace View FTA_RV_CreditSOAllocation AS 
 --Invoice
 Select  ci.AD_Client_ID,				--Client
@@ -10,7 +10,7 @@ Select  ci.AD_Client_ID,				--Client
 	ci.DocAction,					--DocAction
 	fc.FTA_FarmerCredit_ID,				--Farmer Credit
 	cdl.Line,					--Line
-	(cdl.Amt * fming.Area)  SO_CreditLimit,		--Credit Limit
+	(cdl.Amt * fc.ApprovedQty)  SO_CreditLimit,		--Credit Limit
 	Coalesce(fa.Amt,0) SO_CreditUsed,		--CreditUsed
 	Coalesce(
 		fa_Alloc.Amt,0
@@ -30,7 +30,6 @@ Select  ci.AD_Client_ID,				--Client
 From
 C_Invoice ci 
 Right Join FTA_FarmerCredit fc On fc.FTA_FarmerCredit_ID=ci.FTA_FarmerCredit_ID Or ci.FTA_FarmerCredit_ID Is Null
-Inner Join FTA_Farming fming On fming.FTA_FarmerCredit_ID=fc.FTA_FarmerCredit_ID
 Inner Join FTA_CreditDefinition cd On cd.FTA_CreditDefinition_ID=fc.FTA_CreditDefinition_ID
 Right Join FTA_CreditDefinitionLine cdl On 
   (cdl.FTA_CreditDefinition_ID=cd.FTA_CreditDefinition_ID Or cdl.FTA_CreditDefinition_ID Is Null)
@@ -68,7 +67,7 @@ Select  co.AD_Client_ID,				--Client
 	co.DocAction,					--DocAction
 	fc.FTA_FarmerCredit_ID,				--Farmer Credit
 	cdl.Line,					--Line
-	(cdl.Amt * fming.Area)  SO_CreditLimit,		--Credit Limit
+	(cdl.Amt * fc.ApprovedQty)  SO_CreditLimit,		--Credit Limit
 	Coalesce(fa.Amt,0) SO_CreditUsed,		--CreditUsed
 	Coalesce(
 		fa_Alloc.Amt,0) AllocatedAmt,		--Allocated
@@ -87,7 +86,6 @@ Select  co.AD_Client_ID,				--Client
 From
 C_Order co 
 Right Join FTA_FarmerCredit fc On (fc.FTA_FarmerCredit_ID=co.FTA_FarmerCredit_ID Or co.FTA_FarmerCredit_ID Is Null)
-Inner Join FTA_Farming fming On fming.FTA_FarmerCredit_ID=fc.FTA_FarmerCredit_ID
 Inner Join FTA_CreditDefinition cd On cd.FTA_CreditDefinition_ID=fc.FTA_CreditDefinition_ID
 Right Join FTA_CreditDefinitionLine cdl On 
   (cdl.FTA_CreditDefinition_ID=cd.FTA_CreditDefinition_ID Or cdl.FTA_CreditDefinition_ID Is Null)
