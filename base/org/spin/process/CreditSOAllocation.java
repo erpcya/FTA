@@ -257,7 +257,7 @@ public class CreditSOAllocation extends SvrProcess {
 				" Where fact.Record_ID = ? " +
 				" AND fact.AD_Table_ID=?" +
 				" Group By fact.AD_Table_ID,fact.Record_ID) fact Inner Join " +
-				" (Select "+table.getAD_Table_ID()+" AD_Table_ID," + table.getTableName()+ "_ID Record_ID,Sum(LineNetAmt) Amt From " + table.getTableName()+ "Line " +
+				" (Select "+table.getAD_Table_ID()+" AD_Table_ID," + table.getTableName()+ "_ID Record_ID,Sum(GrandTotal) Amt From " + table.getTableName()+ "Line " +
 				" Where " + table.getTableName()+ "_ID =" + Record_ID +
 				" Group By " + table.getTableName()+ "_ID) doc  "+
 				" On fact.AD_Table_ID=doc.AD_Table_ID AND fact.Record_ID=doc.Record_ID  "+
