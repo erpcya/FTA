@@ -1,4 +1,4 @@
-DROP VIEW FTA_RV_AllocationCreditAct;
+﻿--DROP VIEW FTA_RV_AllocationCreditAct;
 CREATE Or Replace View FTA_RV_AllocationCreditAct AS 
 Select 
 fc.AD_Client_ID,
