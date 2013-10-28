@@ -651,6 +651,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		m_Receipt.processIt(DocAction.ACTION_Complete);
 		m_Receipt.saveEx(get_TrxName());
 		
-		return "@M_InOut_ID@: " + m_Receipt.getDocumentNo();
+		return null;
 	}	//	createMaterialReceipt
 }
