@@ -136,8 +136,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	/**	Quality Analysis			*/
 	private MFTAQualityAnalysis m_QualityAnalysis = null;
 	/**	Event Type					*/
-	private final String EVENTTYPE = "EW";
-
+	private final String EVENTTYPE_RECEIPT = "EW";
+	private final String EVENTTYPE_SHIPMENT = "OW";
 	/**
 	 * 	Unlock Document.
 	 * 	@return true if success 
@@ -245,9 +245,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		
 		log.info(toString());	
 		//	Generate Material Receipt
-		m_processMsg = createMaterialReceipt();
+		String msg = createMaterialReceipt();
 		if(m_processMsg != null)
 			return DocAction.STATUS_Invalid;
+		else
+			m_processMsg = msg;
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -271,7 +273,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 */
 	private String calculatePayWeight(){
 		MFTAQualityAnalysis qa = getQualityAnalysis(true);
-		MFTACategoryCalc m_CC = MFTACategoryCalc.get(getCtx(), qa.getM_Product_ID(), EVENTTYPE, get_TrxName());
+		//	
+		MFTACategoryCalc m_CC = MFTACategoryCalc.get(getCtx(), qa.getM_Product_ID(), 
+				(isSOTrx()? EVENTTYPE_SHIPMENT: EVENTTYPE_RECEIPT), 
+				get_TrxName());
+		//	
 		MAttributeSetInstance att = qa.getAttributeSetInstance();
 		//	Valid Attribute Set Instance
 		if(att == null)
@@ -599,12 +605,12 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		MOrder order = oLine.getParent();
 		
 		if(order == null)
-			return "@C_Order_ID@ @NotFound@";
+			m_processMsg = "@C_Order_ID@ @NotFound@";
 		
 		MDocType m_DocType = MDocType.get(getCtx(), order.getC_DocType_ID());
 		
 		if(m_DocType.getC_DocTypeShipment_ID() == 0)
-			return "@C_DocTypeShipment_ID@ @NotFound@";
+			m_processMsg = "@C_DocTypeShipment_ID@ @NotFound@";
 		
 		MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
 		m_Receipt.setDateAcct(getDateDoc());
@@ -622,7 +628,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				product.getM_Product_ID(), getC_UOM_ID());
 		
 		if(rate == null)
-			return "@NoUOMConversion@";
+			m_processMsg = "@NoUOMConversion@";
 		
 		BigDecimal m_MovementQty = getNetWeight().multiply(rate);
 		//	Set Product
@@ -651,6 +657,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		m_Receipt.processIt(DocAction.ACTION_Complete);
 		m_Receipt.saveEx(get_TrxName());
 		
-		return null;
+		return "@M_InOut_ID@: " + m_Receipt.getDocumentNo();
 	}	//	createMaterialReceipt
 }

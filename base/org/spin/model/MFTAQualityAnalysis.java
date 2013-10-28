@@ -509,9 +509,9 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 	 * @return MAttributeSetInstance
 	 */
 	public MAttributeSetInstance getAttributeSetInstance(){
-		if(getQualityAnalysis_ID() != 0
-				&& getM_Product_ID() != 0)
-			return MAttributeSetInstance.get(getCtx(), getQualityAnalysis_ID(), getM_Product_ID());
-		else return null;
+		if(getQualityAnalysis_ID() != 0)
+			return new MAttributeSetInstance(getCtx(), getQualityAnalysis_ID(), get_TrxName());
+		else 
+			return null;
 	}
 }
