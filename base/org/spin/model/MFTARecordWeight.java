@@ -239,11 +239,15 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if (!isApproved())
 			approveIt();
 		
-		
+		m_processMsg = calculatePayWeight();
+		if(m_processMsg != null)
+			return DocAction.STATUS_Invalid;
 		
 		log.info(toString());	
 		//	Generate Material Receipt
 		m_processMsg = createMaterialReceipt();
+		if(m_processMsg != null)
+			return DocAction.STATUS_Invalid;
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -259,19 +263,25 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	/**
+	 * Caluculate Payment Weight
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 28/10/2013, 11:54:02
+	 * @return
+	 * @return String
+	 */
 	private String calculatePayWeight(){
 		MFTAQualityAnalysis qa = getQualityAnalysis(true);
 		MFTACategoryCalc m_CC = MFTACategoryCalc.get(getCtx(), qa.getM_Product_ID(), EVENTTYPE, get_TrxName());
 		MAttributeSetInstance att = qa.getAttributeSetInstance();
 		//	Valid Attribute Set Instance
 		if(att == null)
-			;
+			return "@M_AttributeSetInstance_ID@ @NotFound@";
 		//	Valid Category Calc
 		if(m_CC == null)
-			;
+			return "@FTA_CategoryCalc_ID@ @NotFound@";
 			
 		BigDecimal m_PayWeight = m_CC.getPaidWeight(getNetWeight(), att);
-		
+		setPayWeight(m_PayWeight);
 		return null;
 	}
 	
