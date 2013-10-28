@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_CreditDefinition
  *  @author Adempiere (generated) 
@@ -33,7 +34,7 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131025L;
+	private static final long serialVersionUID = 20131028L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinition (Properties ctx, int FTA_CreditDefinition_ID, String trxName)
@@ -300,6 +301,14 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getDocumentNo());
+    }
 
 	/** Set Credit Definition.
 		@param FTA_CreditDefinition_ID Credit Definition	  */

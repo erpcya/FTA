@@ -227,6 +227,15 @@ public interface I_FTA_RecordWeight
 	/** Get Gross Weight	  */
 	public BigDecimal getGrossWeight();
 
+    /** Column name ImportWeight */
+    public static final String COLUMNNAME_ImportWeight = "ImportWeight";
+
+	/** Set Import Weight	  */
+	public void setImportWeight (BigDecimal ImportWeight);
+
+	/** Get Import Weight	  */
+	public BigDecimal getImportWeight();
+
     /** Column name InDate */
     public static final String COLUMNNAME_InDate = "InDate";
 
@@ -293,6 +302,15 @@ public interface I_FTA_RecordWeight
 	/** Get Out Date	  */
 	public Timestamp getOutDate();
 
+    /** Column name PayWeight */
+    public static final String COLUMNNAME_PayWeight = "PayWeight";
+
+	/** Set Pay Weight	  */
+	public void setPayWeight (BigDecimal PayWeight);
+
+	/** Get Pay Weight	  */
+	public BigDecimal getPayWeight();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -305,6 +323,15 @@ public interface I_FTA_RecordWeight
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name SelectionWeight */
+    public static final String COLUMNNAME_SelectionWeight = "SelectionWeight";
+
+	/** Set Selection Weight	  */
+	public void setSelectionWeight (String SelectionWeight);
+
+	/** Get Selection Weight	  */
+	public String getSelectionWeight();
 
     /** Column name TareWeight */
     public static final String COLUMNNAME_TareWeight = "TareWeight";

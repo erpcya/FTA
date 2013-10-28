@@ -33,7 +33,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131025L;
+	private static final long serialVersionUID = 20131028L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeight (Properties ctx, int FTA_RecordWeight_ID, String trxName)
@@ -394,6 +394,23 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		return bd;
 	}
 
+	/** Set Import Weight.
+		@param ImportWeight Import Weight	  */
+	public void setImportWeight (BigDecimal ImportWeight)
+	{
+		set_Value (COLUMNNAME_ImportWeight, ImportWeight);
+	}
+
+	/** Get Import Weight.
+		@return Import Weight	  */
+	public BigDecimal getImportWeight () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ImportWeight);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set In Date.
 		@param InDate In Date	  */
 	public void setInDate (Timestamp InDate)
@@ -487,6 +504,23 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		return (Timestamp)get_Value(COLUMNNAME_OutDate);
 	}
 
+	/** Set Pay Weight.
+		@param PayWeight Pay Weight	  */
+	public void setPayWeight (BigDecimal PayWeight)
+	{
+		set_Value (COLUMNNAME_PayWeight, PayWeight);
+	}
+
+	/** Get Pay Weight.
+		@return Pay Weight	  */
+	public BigDecimal getPayWeight () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PayWeight);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -509,6 +543,27 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** SelectionWeight AD_Reference_ID=53587 */
+	public static final int SELECTIONWEIGHT_AD_Reference_ID=53587;
+	/** Payment Weight = P */
+	public static final String SELECTIONWEIGHT_PaymentWeight = "P";
+	/** Import Weight = I */
+	public static final String SELECTIONWEIGHT_ImportWeight = "I";
+	/** Set Selection Weight.
+		@param SelectionWeight Selection Weight	  */
+	public void setSelectionWeight (String SelectionWeight)
+	{
+
+		set_Value (COLUMNNAME_SelectionWeight, SelectionWeight);
+	}
+
+	/** Get Selection Weight.
+		@return Selection Weight	  */
+	public String getSelectionWeight () 
+	{
+		return (String)get_Value(COLUMNNAME_SelectionWeight);
 	}
 
 	/** Set Tare Weight.

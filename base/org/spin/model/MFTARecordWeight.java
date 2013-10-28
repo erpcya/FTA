@@ -133,6 +133,10 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	private String		m_processMsg = null;
 	/**	Just Prepared Flag			*/
 	private boolean		m_justPrepared = false;
+	/**	Quality Analysis			*/
+	private MFTAQualityAnalysis m_QualityAnalysis = null;
+	/**	Event Type					*/
+	private final String EVENTTYPE = "EW";
 
 	/**
 	 * 	Unlock Document.
@@ -256,8 +260,35 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	}	//	completeIt
 	
 	private String calculatePayWeight(){
-		MFTACategoryCalc.get(getCtx(), 1, "", get_TrxName());
+		MFTAQualityAnalysis qa = getQualityAnalysis(true);
+		MFTACategoryCalc m_CC = MFTACategoryCalc.get(getCtx(), qa.getM_Product_ID(), EVENTTYPE, get_TrxName());
+		MAttributeSetInstance att = qa.getAttributeSetInstance();
+		//	Valid Attribute Set Instance
+		if(att == null)
+			;
+		//	Valid Category Calc
+		if(m_CC == null)
+			;
+			
+		BigDecimal m_PayWeight = m_CC.getPaidWeight(getNetWeight(), att);
+		
 		return null;
+	}
+	
+	/**
+	 * Get Quality Analysis
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 28/10/2013, 10:44:52
+	 * @param reQuery
+	 * @return
+	 * @return MFTAQualityAnalysis
+	 */
+	public MFTAQualityAnalysis getQualityAnalysis(boolean reQuery){
+		if(reQuery
+				|| m_QualityAnalysis == null) {
+			m_QualityAnalysis = new MFTAQualityAnalysis(getCtx(), getFTA_QualityAnalysis_ID(), get_TrxName());
+		}
+		//	Return
+		return m_QualityAnalysis;
 	}
 	
 	/**
@@ -587,7 +618,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	Set Product
 		ioLine.setProduct(product);
 		//	Set Quality Analysis
-		MFTAQualityAnalysis qa = new MFTAQualityAnalysis(getCtx(), getFTA_QualityAnalysis_ID(), get_TrxName());
+		MFTAQualityAnalysis qa = getQualityAnalysis(true);
 		//	Set Instance
 		MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), qa.getQualityAnalysis_ID(), get_TrxName());
 		//	Set Lot

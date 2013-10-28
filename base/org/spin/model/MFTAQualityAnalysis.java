@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
@@ -499,5 +500,18 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		}
 		
 		return index;
+	}
+	
+	/**
+	 * Get Attribute Set Instance
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 28/10/2013, 10:55:18
+	 * @return
+	 * @return MAttributeSetInstance
+	 */
+	public MAttributeSetInstance getAttributeSetInstance(){
+		if(getQualityAnalysis_ID() != 0
+				&& getM_Product_ID() != 0)
+			return MAttributeSetInstance.get(getCtx(), getQualityAnalysis_ID(), getM_Product_ID());
+		else return null;
 	}
 }

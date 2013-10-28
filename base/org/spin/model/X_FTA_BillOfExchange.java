@@ -34,7 +34,7 @@ public class X_FTA_BillOfExchange extends PO implements I_FTA_BillOfExchange, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131025L;
+	private static final long serialVersionUID = 20131028L;
 
     /** Standard Constructor */
     public X_FTA_BillOfExchange (Properties ctx, int FTA_BillOfExchange_ID, String trxName)
