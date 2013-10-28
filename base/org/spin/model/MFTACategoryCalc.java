@@ -154,7 +154,7 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 	 */
 	public static MFTACategoryCalc get(Properties ctx, int p_Category_ID, String p_EventType, String trxName){
 		MFTACategoryCalc categoryCalc = new Query(ctx, I_FTA_CategoryCalc.Table_Name, 
-				"AND Category_ID=? AND EventType=?"
+				" M_Product_ID=? AND EventType=?"
 				, trxName)
 			.setOnlyActiveRecords(true)
 			.setParameters(p_Category_ID, p_EventType)
