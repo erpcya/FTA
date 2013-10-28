@@ -22,6 +22,7 @@ import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MDocType;
+import org.compiere.model.MProduct;
 import org.compiere.util.Env;
 
 /**
@@ -55,12 +56,33 @@ public class CalloutFarmerCredit extends CalloutEngine {
 		return "";
 	}
 	
+	/**
+	 * Change PArent Farmer Credit
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/10/2013, 09:38:20
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
 	public String bpartner (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		Integer m_C_BPartner_ID = (Integer)value;
 		if (m_C_BPartner_ID == null || m_C_BPartner_ID.intValue() == 0)
 			return "";
 		//	
 		mTab.setValue("Parent_FarmerCredit_ID", null);
+		return "";
+	}
+	
+	public String product (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		Integer m_M_Product_ID = (Integer)value;
+		if (m_M_Product_ID == null || m_M_Product_ID.intValue() == 0)
+			return "";
+		//	
+		MProduct m_M_Product = MProduct.get(ctx, m_M_Product_ID);
+		mTab.setValue("C_UOM_ID", m_M_Product.getC_UOM_ID());
 		return "";
 	}
 	
