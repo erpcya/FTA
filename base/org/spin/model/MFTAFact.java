@@ -22,9 +22,13 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.compiere.model.MCharge;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
+import org.compiere.model.MProduct;
+import org.compiere.model.MProductCategory;
 import org.compiere.model.PO;
+import org.compiere.model.X_C_ChargeType;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -242,6 +246,8 @@ public class MFTAFact extends X_FTA_Fact {
 	 * @return String
 	 */
 	public static String createInvoiceFact(Properties ctx, MInvoice invoice, Timestamp from, Timestamp to, String trxName) {
+		int table_ID = MInvoice.Table_ID;
+		String msg = null;
 		//
 		String sqlWhere = "";
 		int record_ID = 0;
@@ -265,13 +271,13 @@ public class MFTAFact extends X_FTA_Fact {
 				sqlWhere += "AND i.DateInvoiced <= ? ";
 		}
 		//	Delete Old Movements
-		deleteFact(MInvoice.Table_ID, record_ID, false, trxName);
+		deleteFact(table_ID, record_ID, false, trxName);
 		
 		//	SQL
 		String sql = new String("SELECT i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced DateDoc, i.Description, " +
 				"cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, " +
 				"i.C_Invoice_ID Record_ID, il.C_InvoiceLine_ID Line_ID, " +
-				"il.LineNetAmt + (il.LineNetAmt * t.Rate / 100) Amt " +
+				"il.LineNetAmt + (il.LineNetAmt * t.Rate / 100) Amt, (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, COALESCE(SUM(ft.Amt), 0) SO_CreditUsed " +
 				"FROM C_Invoice i " +
 				"INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = i.FTA_FarmerCredit_ID) " +
 				"INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID) " +
@@ -280,6 +286,7 @@ public class MFTAFact extends X_FTA_Fact {
 				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) " +
 				"LEFT JOIN M_Product pr ON(pr.M_Product_ID = il.M_Product_ID) " +
 				"LEFT JOIN C_Charge cr ON(cr.C_Charge_ID = il.C_Charge_ID) " +
+				"LEFT JOIN FTA_Fact ft ON(ft.FTA_CreditDefinitionLine_ID = cdl.FTA_CreditDefinitionLine_ID AND ft.AD_Table_ID = ?) " +
 				"WHERE i.AD_Client_ID = ? " +
 				//	Add Record Identifier
 				sqlWhere +
@@ -294,7 +301,12 @@ public class MFTAFact extends X_FTA_Fact {
 				"			AND il.C_Charge_ID IS NOT NULL)" +
 				"		OR (cdl.C_ChargeType_ID = cr.C_chargeType_ID " +
 				"			AND cr.C_ChargeType_ID IS NOT NULL) " +
-				"	)");
+				"	) " +
+				//	Group by
+				"GROUP BY i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced, i.Description, " +
+				"cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, " +
+				"i.C_Invoice_ID, il.C_InvoiceLine_ID, il.LineNetAmt, t.Rate, cdl.Amt " +
+				"ORDER BY il.C_InvoiceLine_ID, cdl.Line");
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -302,6 +314,7 @@ public class MFTAFact extends X_FTA_Fact {
 			pstmt = DB.prepareStatement(sql, trxName);
 			//	Add Parameters
 			int i = 1;
+			pstmt.setInt(i++, table_ID);
 			pstmt.setInt(i++, Env.getAD_Client_ID(ctx));
 			//	
 			if(from != null)
@@ -311,17 +324,47 @@ public class MFTAFact extends X_FTA_Fact {
 			//	
 			rs = pstmt.executeQuery();
 			if(rs != null){
+				int m_Current_Line_ID = 0;
+				int m_FTA_CreditDefinitionLine_ID = 0;
+				BigDecimal m_RemainingAmt = Env.ZERO;
+				BigDecimal m_SO_CreditLimit = Env.ZERO;
 				while(rs.next()){
 					int m_AD_Org_ID 					= rs.getInt("AD_Org_ID");
 					int m_C_BPartner_ID 				= rs.getInt("C_BPartner_ID");
 					Timestamp m_DateDoc 				= rs.getTimestamp("DateDoc");
 					String m_Description 				= rs.getString("Description");
 					int m_FTA_CreditDefinition_ID 		= rs.getInt("FTA_CreditDefinition_ID");
-					int m_FTA_CreditDefinitionLine_ID 	= rs.getInt("FTA_CreditDefinitionLine_ID");
+					m_FTA_CreditDefinitionLine_ID 		= rs.getInt("FTA_CreditDefinitionLine_ID");
 					int m_FTA_FarmerCredit_ID 			= rs.getInt("FTA_FarmerCredit_ID");
 					int m_Record_ID 					= rs.getInt("Record_ID");
 					int m_Line_ID 						= rs.getInt("Line_ID");
 					BigDecimal m_Amt					= rs.getBigDecimal("Amt");
+					m_SO_CreditLimit					= rs.getBigDecimal("SO_CreditLimit");
+					BigDecimal m_SO_CreditUsed			= rs.getBigDecimal("SO_CreditUsed");
+					//	Current Balance
+					BigDecimal m_Balance = Env.ZERO;
+					
+					if(m_Current_Line_ID != m_Line_ID){
+						if(!m_RemainingAmt.equals(Env.ZERO))
+							break;
+						m_Current_Line_ID = m_Line_ID;
+						m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_Amt));
+						if(m_Balance.compareTo(Env.ZERO) < 0){
+							m_RemainingAmt = m_Balance.abs();
+							m_Amt = m_Amt.add(m_Balance);
+						} else {
+							m_RemainingAmt = Env.ZERO;
+						}
+					} else {
+						m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_RemainingAmt));
+						if(m_Balance.compareTo(Env.ZERO) < 0){
+							m_Amt = m_RemainingAmt.add(m_Balance);
+							m_RemainingAmt = m_Balance.abs();
+						} else {
+							m_Amt = m_RemainingAmt;
+							m_RemainingAmt = Env.ZERO;
+						}
+					}
 					//	Create Fact
 					MFTAFact m_fta_Fact = new MFTAFact(ctx, 0, trxName);
 					//	Set Values
@@ -334,11 +377,36 @@ public class MFTAFact extends X_FTA_Fact {
 					m_fta_Fact.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit_ID);
 					m_fta_Fact.setRecord_ID(m_Record_ID);
 					m_fta_Fact.setLine_ID(m_Line_ID);
-					m_fta_Fact.setAD_Table_ID(MInvoice.Table_ID);
+					m_fta_Fact.setAD_Table_ID(table_ID);
 					m_fta_Fact.setAmt(m_Amt);
 					m_fta_Fact.setIsCreditFactManual(false);
 					//	Save
 					m_fta_Fact.saveEx();
+				}
+				//	Valid Credit Limit
+				if(!m_RemainingAmt.equals(Env.ZERO)){
+					MFTACreditDefinitionLine m_CDLine = new MFTACreditDefinitionLine(ctx, m_FTA_CreditDefinitionLine_ID, trxName);
+					StringBuffer name = new StringBuffer();
+					if(m_CDLine.getC_Charge_ID() != 0){
+						name.append(MCharge.get(ctx, m_CDLine.getC_Charge_ID()).getName());
+					} else if(m_CDLine.getC_ChargeType_ID() != 0){
+						X_C_ChargeType ct = new X_C_ChargeType(ctx, m_CDLine.getC_ChargeType_ID(), trxName);
+						name.append(ct.getName());
+					} else if(m_CDLine.getM_Product_ID() != 0){
+						name.append(MProduct.get(ctx, m_CDLine.getM_Product_ID()).getName());
+					} else if(m_CDLine.getM_Product_Category_ID() != 0){
+						name.append(MProductCategory.get(ctx, m_CDLine.getM_Product_Category_ID()).getName());
+					}
+					if(m_CDLine.getDescription() != null
+							&& m_CDLine.getDescription().length() != 0){
+						if(name.length() != 0)
+							name.append(" ");
+						name.append(m_CDLine.getDescription());
+					}
+					msg = "@Amt@ > @SO_CreditLimit@: " +
+							"@Amt@=" + m_RemainingAmt.doubleValue() + " " +
+							"@SO_CreditLimit@=" + m_SO_CreditLimit.doubleValue() + " " +
+							"@FTA_CreditDefinitionLine_ID@: " + m_CDLine.getLine() + " - " + name;
 				}
 			}
 			//	Close DB
@@ -348,7 +416,7 @@ public class MFTAFact extends X_FTA_Fact {
 			return e.getMessage();
 		}
 		
-		return null;
+		return msg;
 	}
 	
 	/**
