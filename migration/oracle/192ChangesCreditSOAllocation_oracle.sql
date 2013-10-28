@@ -1,10 +1,5 @@
 -- Oct 24, 2013 9:17:08 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? 
-;
-
--- Oct 24, 2013 9:17:08 AM VET
--- SFAndroid Contribution
 DELETE  FROM  AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=53372
 ;
 
@@ -15,22 +10,12 @@ DELETE FROM AD_Browse_Field WHERE AD_Browse_Field_ID=53372
 
 -- Oct 24, 2013 9:17:13 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? 
-;
-
--- Oct 24, 2013 9:17:13 AM VET
--- SFAndroid Contribution
 DELETE  FROM  AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=53371
 ;
 
 -- Oct 24, 2013 9:17:13 AM VET
 -- SFAndroid Contribution
 DELETE FROM AD_Browse_Field WHERE AD_Browse_Field_ID=53371
-;
-
--- Oct 24, 2013 9:17:16 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? 
 ;
 
 -- Oct 24, 2013 9:17:16 AM VET
@@ -95,22 +80,12 @@ UPDATE AD_Browse_Field SET IsDisplayed='Y', SeqNo=70,Updated=TO_DATE('2013-10-24
 
 -- Oct 24, 2013 9:17:44 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? 
-;
-
--- Oct 24, 2013 9:17:44 AM VET
--- SFAndroid Contribution
 DELETE  FROM  AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=53362
 ;
 
 -- Oct 24, 2013 9:17:44 AM VET
 -- SFAndroid Contribution
 DELETE FROM AD_Browse_Field WHERE AD_Browse_Field_ID=53362
-;
-
--- Oct 24, 2013 9:17:48 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? 
 ;
 
 -- Oct 24, 2013 9:17:48 AM VET
@@ -130,11 +105,6 @@ UPDATE AD_Browse_Field SET IsIdentifier='Y',Updated=TO_DATE('2013-10-24 09:18:30
 
 -- Oct 24, 2013 9:18:56 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? 
-;
-
--- Oct 24, 2013 9:18:56 AM VET
--- SFAndroid Contribution
 DELETE  FROM  AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=53354
 ;
 
@@ -145,22 +115,12 @@ DELETE FROM AD_Browse_Field WHERE AD_Browse_Field_ID=53354
 
 -- Oct 24, 2013 9:19:00 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? 
-;
-
--- Oct 24, 2013 9:19:00 AM VET
--- SFAndroid Contribution
 DELETE  FROM  AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=53353
 ;
 
 -- Oct 24, 2013 9:19:00 AM VET
 -- SFAndroid Contribution
 DELETE FROM AD_Browse_Field WHERE AD_Browse_Field_ID=53353
-;
-
--- Oct 24, 2013 9:19:03 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? 
 ;
 
 -- Oct 24, 2013 9:19:03 AM VET
@@ -225,22 +185,12 @@ UPDATE AD_Browse_Field SET IsDisplayed='Y', SeqNo=70,Updated=TO_DATE('2013-10-24
 
 -- Oct 24, 2013 9:19:26 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? 
-;
-
--- Oct 24, 2013 9:19:26 AM VET
--- SFAndroid Contribution
 DELETE  FROM  AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=53344
 ;
 
 -- Oct 24, 2013 9:19:26 AM VET
 -- SFAndroid Contribution
 DELETE FROM AD_Browse_Field WHERE AD_Browse_Field_ID=53344
-;
-
--- Oct 24, 2013 9:19:30 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? 
 ;
 
 -- Oct 24, 2013 9:19:30 AM VET
@@ -260,17 +210,7 @@ UPDATE AD_Browse_Field SET IsIdentifier='Y',Updated=TO_DATE('2013-10-24 09:19:52
 
 -- Oct 24, 2013 9:20:31 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
-;
-
--- Oct 24, 2013 9:20:31 AM VET
--- SFAndroid Contribution
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52211
-;
-
--- Oct 24, 2013 9:20:34 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
 ;
 
 -- Oct 24, 2013 9:20:34 AM VET
@@ -280,27 +220,12 @@ DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52212
 
 -- Oct 24, 2013 9:20:40 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
-;
-
--- Oct 24, 2013 9:20:40 AM VET
--- SFAndroid Contribution
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52200
 ;
 
 -- Oct 24, 2013 9:20:44 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
-;
-
--- Oct 24, 2013 9:20:44 AM VET
--- SFAndroid Contribution
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52202
-;
-
--- Oct 24, 2013 9:20:48 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
 ;
 
 -- Oct 24, 2013 9:20:48 AM VET
@@ -450,17 +375,7 @@ INSERT INTO AD_View_Column (AD_Client_ID,AD_Column_ID,AD_Org_ID,AD_View_Column_I
 
 -- Oct 24, 2013 9:49:54 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
-;
-
--- Oct 24, 2013 9:49:54 AM VET
--- SFAndroid Contribution
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52234
-;
-
--- Oct 24, 2013 9:50:00 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
 ;
 
 -- Oct 24, 2013 9:50:00 AM VET
@@ -470,17 +385,7 @@ DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52233
 
 -- Oct 24, 2013 9:50:05 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
-;
-
--- Oct 24, 2013 9:50:05 AM VET
--- SFAndroid Contribution
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52232
-;
-
--- Oct 24, 2013 9:50:09 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
 ;
 
 -- Oct 24, 2013 9:50:09 AM VET
@@ -490,17 +395,7 @@ DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52231
 
 -- Oct 24, 2013 9:50:12 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
-;
-
--- Oct 24, 2013 9:50:12 AM VET
--- SFAndroid Contribution
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52230
-;
-
--- Oct 24, 2013 9:50:15 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
 ;
 
 -- Oct 24, 2013 9:50:15 AM VET
@@ -510,17 +405,7 @@ DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52228
 
 -- Oct 24, 2013 9:50:27 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
-;
-
--- Oct 24, 2013 9:50:27 AM VET
--- SFAndroid Contribution
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52221
-;
-
--- Oct 24, 2013 9:50:31 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
 ;
 
 -- Oct 24, 2013 9:50:31 AM VET
@@ -530,17 +415,7 @@ DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52222
 
 -- Oct 24, 2013 9:50:33 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
-;
-
--- Oct 24, 2013 9:50:33 AM VET
--- SFAndroid Contribution
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52223
-;
-
--- Oct 24, 2013 9:50:35 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
 ;
 
 -- Oct 24, 2013 9:50:35 AM VET
@@ -550,27 +425,12 @@ DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52224
 
 -- Oct 24, 2013 9:50:39 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
-;
-
--- Oct 24, 2013 9:50:39 AM VET
--- SFAndroid Contribution
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52225
 ;
 
 -- Oct 24, 2013 9:50:43 AM VET
 -- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
-;
-
--- Oct 24, 2013 9:50:43 AM VET
--- SFAndroid Contribution
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52226
-;
-
--- Oct 24, 2013 9:50:45 AM VET
--- SFAndroid Contribution
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? 
 ;
 
 -- Oct 24, 2013 9:50:45 AM VET
