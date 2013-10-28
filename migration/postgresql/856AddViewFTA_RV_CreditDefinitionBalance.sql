@@ -10,9 +10,9 @@ CASE
 	WHEN cdl.M_Product_ID IS NOT NULL THEN pr.Name 
 	WHEN cdl.C_Charge_ID IS NOT NULL THEN cr.Name
 	WHEN cdl.C_ChargeType_ID IS NOT NULL THEN ct.Name
-END || COALESCE(cdl.Description, '') LineDescription, 
+END || COALESCE(' ' || cdl.Description, '') LineDescription, 
 ft.FTA_FarmerCredit_ID, ft.C_BPartner_ID, ft.AD_Table_ID,
-cdl.Amt SO_CreditLimit, SUM(ft.Amt) SO_CreditUsed, cdl.Amt - SUM(ft.Amt) Balance
+cdl.Amt SO_CreditLimit, COALESCE(SUM(ft.Amt), 0) SO_CreditUsed, cdl.Amt - COALESCE(SUM(ft.Amt), 0) Balance
 FROM FTA_CreditDefinition cd
 INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID)
 LEFT JOIN M_Product_Category pc ON(pc.M_Product_Category_ID = cdl.M_Product_Category_ID)
