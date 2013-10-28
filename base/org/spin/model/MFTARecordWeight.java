@@ -234,6 +234,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
+		
+		
+		
 		log.info(toString());	
 		//	Generate Material Receipt
 		m_processMsg = createMaterialReceipt();
@@ -251,6 +254,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
+	
+	private String calculatePayWeight(){
+		MFTACategoryCalc.get(getCtx(), 1, "", get_TrxName());
+		return null;
+	}
 	
 	/**
 	 * Valid Weight

@@ -19,11 +19,13 @@ package org.spin.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MRule;
+import org.compiere.model.Query;
 import org.compiere.model.Scriptlet;
 
 /**
@@ -140,4 +142,25 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 	HashMap<String, Object> m_scriptCtx = new HashMap<String, Object>();
 	
 	Object m_description = null;
+	
+	/**
+	 * Get Category Calc from Category and Event Type
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 28/10/2013, 10:17:06
+	 * @param ctx
+	 * @param p_Category_ID
+	 * @param p_EventType
+	 * @param trxName
+	 * @return
+	 * @return MFTACategoryCalc
+	 */
+	public static MFTACategoryCalc get(Properties ctx, int p_Category_ID, String p_EventType, String trxName){
+		MFTACategoryCalc categoryCalc = new Query(ctx, I_FTA_CategoryCalc.Table_Name, 
+				"AND Category_ID=? AND EventType=?"
+				, trxName)
+			.setOnlyActiveRecords(true)
+			.setParameters(p_Category_ID, p_EventType)
+			.first();
+		//	
+		return categoryCalc;
+	}
 }

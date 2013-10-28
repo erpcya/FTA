@@ -81,7 +81,7 @@ public class FTAModelValidator implements ModelValidator {
 			if(m_C_Order_ID != 0){
 				MOrder order = new MOrder(Env.getCtx(), m_C_Order_ID, invoice.get_TableName());
 				int m_FTA_FarmerCredit_ID = order.get_ValueAsInt("FTA_FarmerCredit_ID");
-				boolean m_IsCreditFactManual = order.get_ValueAsBoolean("IsCreditFactManual");
+				//boolean m_IsCreditFactManual = order.get_ValueAsBoolean("IsCreditFactManual");
 				if(m_FTA_FarmerCredit_ID != 0) {
 					invoice.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_FarmerCredit_ID);
 				}
