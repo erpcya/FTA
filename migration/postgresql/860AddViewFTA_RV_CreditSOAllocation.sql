@@ -1,4 +1,4 @@
-DROP View FTA_RV_CreditSOAllocation;
+--DROP View FTA_RV_CreditSOAllocation;
 Create Or Replace View FTA_RV_CreditSOAllocation AS 
 --Invoice
 Select  ci.AD_Client_ID,				--Client

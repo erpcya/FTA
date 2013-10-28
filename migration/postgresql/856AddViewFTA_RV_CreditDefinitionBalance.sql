@@ -2,7 +2,7 @@
 CREATE OR REPLACE VIEW FTA_RV_CreditDefinitionBalance AS
 SELECT cd.FTA_CreditDefinition_ID, cd.AD_Client_ID, cd.AD_Org_ID, cd.Created, cd.CreatedBy, cd.Updated, cd.UpdatedBy, cd.IsActive,
 cd.C_DocType_ID, cd.DateDoc, cd.DocumentNo, cd.Description, cd.DocStatus, cd.Amt, cd.Category_ID,
-cd.M_PriceList_ID, cd.Name, cd.PlantingCycle_ID, 
+cd.M_PriceList_ID, cd.PlantingCycle_ID, 
 cdl.FTA_CreditDefinitionLine_ID, cdl.Line, 
 cdl.M_Product_Category_ID, cdl.M_Product_ID, cdl.C_Charge_ID, 
 CASE 
@@ -23,7 +23,7 @@ LEFT JOIN C_ChargeType ct ON(ct.C_ChargeType_ID = cdl.C_ChargeType_ID)
 GROUP BY cd.FTA_CreditDefinition_ID, cd.AD_Client_ID, cd.AD_Org_ID, cd.Created, cd.CreatedBy, 
 cd.Updated, cd.UpdatedBy, cd.IsActive,
 cd.C_DocType_ID, cd.DateDoc, cd.DocumentNo, cd.Description, cd.DocStatus, cd.Amt, cd.Category_ID,
-cd.M_PriceList_ID, cd.Name, cd.PlantingCycle_ID, 
+cd.M_PriceList_ID, cd.PlantingCycle_ID, 
 cdl.FTA_CreditDefinitionLine_ID, cdl.Line, 
 cdl.M_Product_Category_ID, cdl.M_Product_ID, cdl.C_Charge_ID, pc.Name, pr.Name, cr.Name,
 cdl.Amt, ft.C_BPartner_ID, ft.AD_Table_ID, ft.FTA_FarmerCredit_ID, ct.Name
