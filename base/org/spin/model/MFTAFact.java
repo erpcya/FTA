@@ -305,7 +305,7 @@ public class MFTAFact extends X_FTA_Fact {
 				//	Group by
 				"GROUP BY i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced, i.Description, " +
 				"cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, " +
-				"i.C_Invoice_ID, il.C_InvoiceLine_ID, il.LineNetAmt, t.Rate, cdl.Amt " +
+				"i.C_Invoice_ID, il.C_InvoiceLine_ID, il.LineNetAmt, t.Rate, cdl.Amt, fc.ApprovedQty, cdl.Line " +
 				"ORDER BY il.C_InvoiceLine_ID, cdl.Line");
 		
 		PreparedStatement pstmt = null;

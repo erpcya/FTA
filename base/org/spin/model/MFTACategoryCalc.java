@@ -48,7 +48,6 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 	public MFTACategoryCalc(Properties ctx, int FTA_CategoryCalc_ID,
 			String trxName) {
 		super(ctx, FTA_CategoryCalc_ID, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -60,7 +59,6 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 	 */
 	public MFTACategoryCalc(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
