@@ -140,10 +140,12 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 		m_scriptCtx.remove("_NetWeight");
 		m_scriptCtx.remove("_AttrSetInstance");
 		m_scriptCtx.remove("_trxName");
+		m_scriptCtx.remove("_stdPrecision");
 		
 		m_scriptCtx.put("_NetWeight", NetWeigh);
 		m_scriptCtx.put("_AttrSetInstance",Attr);
 		m_scriptCtx.put("_trxName",trxName);
+		m_scriptCtx.put("_stdPrecision",getStdPrecision());
 		
 		BigDecimal result;
 		result = (BigDecimal)executeScript(getAD_Rule_ID(), "BigDecimal","new BigDecimal(0)");

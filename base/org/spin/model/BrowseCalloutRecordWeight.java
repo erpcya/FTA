@@ -56,18 +56,23 @@ public class BrowseCalloutRecordWeight extends BrowserCalloutEngine {
 		//get Category Calc
 		Object fieldCategoryCalc=mRow.getValueofColumn("FTA_CategoryCalc_ID",current_Row);
 		Object fieldNetWeight=mRow.getValueofColumn("NetWeight",current_Row);
+		Object fieldInDispute=mRow.getValueofColumn("IsInDispute",current_Row);
 		
-		if(fieldCategoryCalc!=null){
+		
+		if(fieldCategoryCalc!=null && fieldInDispute!=null){
 			GridField gField = (GridField)fieldCategoryCalc;
-			if (gField.getValue()!=null){
-				int M_FTACategoryCalc_ID=Integer.parseInt(gField.getValue().toString());
-				MFTACategoryCalc ccal = new MFTACategoryCalc(ctx, M_FTACategoryCalc_ID, null);
-				
-				if (fieldNetWeight!=null){
-					GridField gFieldNetWeight = (GridField)fieldNetWeight;
+			GridField gFieldDispute = (GridField)fieldInDispute;
+			if (gField.getValue()!=null && gFieldDispute.getValue()!=null){
+				if((Boolean)gFieldDispute.getValue()){
+					int M_FTACategoryCalc_ID=Integer.parseInt(gField.getValue().toString());
+					MFTACategoryCalc ccal = new MFTACategoryCalc(ctx, M_FTACategoryCalc_ID, null);
 					
-					if (gFieldNetWeight.getValue()!=null)
-						paidWeight = ccal.getPaidWeight((BigDecimal)gFieldNetWeight.getValue(), new MAttributeSetInstance(ctx, Integer.parseInt(value.toString()), null));
+					if (fieldNetWeight!=null){
+						GridField gFieldNetWeight = (GridField)fieldNetWeight;
+						
+						if (gFieldNetWeight.getValue()!=null)
+							paidWeight = ccal.getPaidWeight((BigDecimal)gFieldNetWeight.getValue(), new MAttributeSetInstance(ctx, Integer.parseInt(value.toString()), null));
+					}
 				}
 			}
 		}
