@@ -366,6 +366,30 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 		return false;
 	}
 
+	/** Set Printed.
+		@param IsPrinted 
+		Indicates if this document / line is printed
+	  */
+	public void setIsPrinted (boolean IsPrinted)
+	{
+		set_Value (COLUMNNAME_IsPrinted, Boolean.valueOf(IsPrinted));
+	}
+
+	/** Get Printed.
+		@return Indicates if this document / line is printed
+	  */
+	public boolean isPrinted () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPrinted);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	public I_M_Product getM_Product() throws RuntimeException
     {
 		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
