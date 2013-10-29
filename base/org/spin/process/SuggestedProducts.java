@@ -45,7 +45,7 @@ public class SuggestedProducts extends SvrProcess {
 		sql.append("Select \n" 
 					+"ts.AD_PInstance_ID, \n" 
 					+"ts.T_Selection_ID, \n" 
-					+"tsb.SP_QtyDosage, \n" 
+					+"Case When tsb.SP_QtyDosage Is Null Then 0 Else tsb.SP_QtyDosage End As SP_QtyDosage, \n" 
 					+"tsb.SP_DateFrom, \n" 
 					+"tsb.SP_DateTo, \n" 
 					+"MP.C_Uom_ID \n" 
@@ -61,7 +61,7 @@ public class SuggestedProducts extends SvrProcess {
 								+"tsb.AD_PInstance_ID, \n" 
 								+"tsb.T_Selection_ID) tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID \n"  
 					+"Inner Join M_Product mp On mp.M_Product_ID = ts.T_Selection_ID ");
-		sql.append("Where ts.AD_PInstance_ID=? And SP_QtyDosage Is Not Null ");
+		sql.append("Where ts.AD_PInstance_ID=? ");
 	}
 
 	@Override

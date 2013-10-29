@@ -17,6 +17,7 @@
 
 package org.spin.process;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,8 +71,15 @@ public class FarmerCreditAllocation extends SvrProcess {
 			rs = ps.executeQuery();
 			
 			while(rs.next()){
+				
+				
 				MFTAFarmerCredit fc = new MFTAFarmerCredit(getCtx(), rs.getInt("FTA_FarmerCredit_ID"), get_TrxName());
 				if(fc.getFTA_CreditAct_ID()==0){
+					if (rs.getBigDecimal("ApprovedAmt").equals(new BigDecimal("0.00"))){
+						rollback();
+						return "@Error@ : @ApprovedAmt@ = @0@" ;
+					}
+					
 					fc.setFTA_CreditAct_ID(m_FTA_CreditAct_ID);
 					fc.setApprovedAmt(rs.getBigDecimal("ApprovedAmt"));
 					fc.setApprovedQty(rs.getBigDecimal("ApprovedQty"));
