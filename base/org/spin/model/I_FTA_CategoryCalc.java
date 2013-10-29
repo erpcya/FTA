@@ -166,6 +166,19 @@ public interface I_FTA_CategoryCalc
 	  */
 	public String getName();
 
+    /** Column name StdPrecision */
+    public static final String COLUMNNAME_StdPrecision = "StdPrecision";
+
+	/** Set Standard Precision.
+	  * Rule for rounding  calculated amounts
+	  */
+	public void setStdPrecision (int StdPrecision);
+
+	/** Get Standard Precision.
+	  * Rule for rounding  calculated amounts
+	  */
+	public int getStdPrecision();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

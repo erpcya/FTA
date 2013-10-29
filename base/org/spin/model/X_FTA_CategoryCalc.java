@@ -43,6 +43,7 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 			setFTA_CategoryCalc_ID (0);
 			setM_Product_ID (0);
 			setName (null);
+			setStdPrecision (0);
         } */
     }
 
@@ -209,5 +210,25 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** Set Standard Precision.
+		@param StdPrecision 
+		Rule for rounding  calculated amounts
+	  */
+	public void setStdPrecision (int StdPrecision)
+	{
+		set_Value (COLUMNNAME_StdPrecision, Integer.valueOf(StdPrecision));
+	}
+
+	/** Get Standard Precision.
+		@return Rule for rounding  calculated amounts
+	  */
+	public int getStdPrecision () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_StdPrecision);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

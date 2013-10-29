@@ -296,16 +296,6 @@ DELETE FROM AD_Field_Trl WHERE AD_Field_ID=68176
 UPDATE AD_Ref_Table SET AD_Display=65865,Updated=TO_TIMESTAMP('2013-10-28 11:25:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53536
 ;
 
--- Oct 28, 2013 11:26:14 AM VET
--- Farming Technical Assistance
-DELETE FROM AD_Column_Trl WHERE AD_Column_ID=65857
-;
-
--- Oct 28, 2013 11:26:14 AM VET
--- Farming Technical Assistance
-DELETE FROM AD_Column WHERE AD_Column_ID=65857
-;
-
 -- Oct 28, 2013 11:28:18 AM VET
 -- Farming Technical Assistance
 UPDATE AD_Reference SET Name='FTA_InterestType Reference',Updated=TO_TIMESTAMP('2013-10-28 11:28:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53581
