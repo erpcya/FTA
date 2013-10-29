@@ -55,7 +55,6 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 	public MFTATechnicalForm(Properties ctx, int FTA_TechnicalForm_ID,
 			String trxName) {
 		super(ctx, FTA_TechnicalForm_ID, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -67,7 +66,6 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 	 */
 	public MFTATechnicalForm(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/** Lines					*/

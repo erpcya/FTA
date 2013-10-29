@@ -473,6 +473,30 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		return false;
 	}
 
+	/** Set Printed.
+		@param IsPrinted 
+		Indicates if this document / line is printed
+	  */
+	public void setIsPrinted (boolean IsPrinted)
+	{
+		set_Value (COLUMNNAME_IsPrinted, Boolean.valueOf(IsPrinted));
+	}
+
+	/** Get Printed.
+		@return Indicates if this document / line is printed
+	  */
+	public boolean isPrinted () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPrinted);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Sales Transaction.
 		@param IsSOTrx 
 		This is a Sales Transaction

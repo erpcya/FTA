@@ -40,6 +40,8 @@ public class X_FTA_TechnicalFormLine extends PO implements I_FTA_TechnicalFormLi
       /** if (FTA_TechnicalFormLine_ID == 0)
         {
 			setFTA_FarmDivision_ID (0);
+			setFTA_Farm_ID (0);
+// @FTA_Farm_ID@
 			setFTA_Farming_ID (0);
 			setFTA_FarmingStage_ID (0);
 			setFTA_ObservationType_ID (0);
@@ -113,6 +115,31 @@ public class X_FTA_TechnicalFormLine extends PO implements I_FTA_TechnicalFormLi
 	public int getFTA_FarmDivision_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_FarmDivision_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_FTA_Farm getFTA_Farm() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_Farm)MTable.get(getCtx(), org.spin.model.I_FTA_Farm.Table_Name)
+			.getPO(getFTA_Farm_ID(), get_TrxName());	}
+
+	/** Set Farm.
+		@param FTA_Farm_ID Farm	  */
+	public void setFTA_Farm_ID (int FTA_Farm_ID)
+	{
+		if (FTA_Farm_ID < 1) 
+			set_Value (COLUMNNAME_FTA_Farm_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_Farm_ID, Integer.valueOf(FTA_Farm_ID));
+	}
+
+	/** Get Farm.
+		@return Farm	  */
+	public int getFTA_Farm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_Farm_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

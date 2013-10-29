@@ -20,12 +20,14 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
+import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
@@ -65,6 +67,9 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	public MFTAEntryTicket(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
+	
+	/** Lines					*/
+	private MFTAEntryTicketGuide[]		m_lines = null;
 	
 	/**
 	 * 	Get Document Info
@@ -235,6 +240,47 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
+	
+	/**
+	 * 	Get Lines
+	 *	@param requery requery
+	 *	@return lines
+	 */
+	public MFTAEntryTicketGuide[] getLines (boolean requery)
+	{
+		if (m_lines != null && !requery)
+		{
+			set_TrxName(m_lines, get_TrxName());
+			return m_lines;
+		}
+		List<MFTAEntryTicketGuide> list = new Query(getCtx(), MFTAEntryTicketGuide.Table_Name, "FTA_EntryTicket_ID=?", get_TrxName())
+		.setParameters(getFTA_EntryTicket_ID())
+		.list();
+
+		m_lines = new MFTAEntryTicketGuide[list.size ()];
+		list.toArray (m_lines);
+		return m_lines;
+	}	//	getLines
+	
+	/**
+     *  Set Processed.
+     *  Propagate to Lines
+     *  @param processed processed
+     */
+    public void setProcessed (boolean processed)
+    {
+        super.setProcessed (processed);
+        if (get_ID() <= 0)
+            return;
+        int noLine = DB.executeUpdateEx("UPDATE FTA_EntryTicketGuide " +
+        		"SET Processed=? " +
+        		"WHERE FTA_EntryTicket_ID=?",
+        		new Object[]{processed, get_ID()},
+        		get_TrxName());
+        m_lines = null;
+        log.fine("setProcessed - " + processed + " - Lines=" + noLine);
+    }   //  setProcessed
+    
 	
 	/**
 	 * 	Set the definite document number after completed

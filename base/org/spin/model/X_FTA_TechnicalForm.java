@@ -44,7 +44,6 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 			setC_DocType_ID (0);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
-			setFTA_Farm_ID (0);
 			setFTA_TechnicalForm_ID (0);
 			setIsApproved (false);
 // N
@@ -315,9 +314,9 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 	public void setFTA_Farm_ID (int FTA_Farm_ID)
 	{
 		if (FTA_Farm_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_Farm_ID, null);
+			set_Value (COLUMNNAME_FTA_Farm_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_Farm_ID, Integer.valueOf(FTA_Farm_ID));
+			set_Value (COLUMNNAME_FTA_Farm_ID, Integer.valueOf(FTA_Farm_ID));
 	}
 
 	/** Get Farm.
