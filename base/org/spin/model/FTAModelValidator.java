@@ -107,9 +107,14 @@ public class FTAModelValidator implements ModelValidator {
 				if(inv.isSOTrx()
 						&& inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
 					String msg = MFTAFact.createInvoiceFact(Env.getCtx(), inv, inv.get_TrxName());
-					if(msg != null) {
+					if(msg != null){
 						inv.set_ValueOfColumn("IsCreditFactPosted", false);
+						//inv.set_ValueOfColumn("IsCreditLimitExceeded", true);
+					} else{
+						inv.set_ValueOfColumn("IsCreditFactPosted", true);
+						//inv.set_ValueOfColumn("IsCreditLimitExceeded", false);
 					}
+					//System.out.println(msg);
 				}
 			}
 		} else if(timing == TIMING_AFTER_REACTIVATE
