@@ -32,7 +32,7 @@ public class X_FTA_CreditAct extends PO implements I_FTA_CreditAct, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131028L;
+	private static final long serialVersionUID = 20131029L;
 
     /** Standard Constructor */
     public X_FTA_CreditAct (Properties ctx, int FTA_CreditAct_ID, String trxName)

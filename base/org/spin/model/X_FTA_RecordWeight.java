@@ -33,7 +33,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131028L;
+	private static final long serialVersionUID = 20131029L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeight (Properties ctx, int FTA_RecordWeight_ID, String trxName)
@@ -392,6 +392,30 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Imported.
+		@param I_IsImported 
+		Has this import been processed
+	  */
+	public void setI_IsImported (boolean I_IsImported)
+	{
+		set_Value (COLUMNNAME_I_IsImported, Boolean.valueOf(I_IsImported));
+	}
+
+	/** Get Imported.
+		@return Has this import been processed
+	  */
+	public boolean isI_IsImported () 
+	{
+		Object oo = get_Value(COLUMNNAME_I_IsImported);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Import Weight.

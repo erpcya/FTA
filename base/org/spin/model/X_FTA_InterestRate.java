@@ -33,7 +33,7 @@ public class X_FTA_InterestRate extends PO implements I_FTA_InterestRate, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131028L;
+	private static final long serialVersionUID = 20131029L;
 
     /** Standard Constructor */
     public X_FTA_InterestRate (Properties ctx, int FTA_InterestRate_ID, String trxName)

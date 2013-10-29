@@ -31,7 +31,7 @@ public class X_FTA_Driver extends PO implements I_FTA_Driver, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131028L;
+	private static final long serialVersionUID = 20131029L;
 
     /** Standard Constructor */
     public X_FTA_Driver (Properties ctx, int FTA_Driver_ID, String trxName)

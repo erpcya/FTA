@@ -88,8 +88,7 @@ public class MFTAFarming extends X_FTA_Farming {
 	
 	@Override
 	public String toString() {
-		return "Name=" + getName() +
-				"\nFTA_FarmerCredit_ID=" + getFTA_FarmerCredit_ID();
+		return "FTA_FarmerCredit_ID=" + getFTA_FarmerCredit_ID();
 	}
 	
 }

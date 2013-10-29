@@ -188,6 +188,19 @@ public interface I_FTA_QualityAnalysis
 	/** Get Quality Analysis	  */
 	public int getFTA_QualityAnalysis_ID();
 
+    /** Column name I_IsImported */
+    public static final String COLUMNNAME_I_IsImported = "I_IsImported";
+
+	/** Set Imported.
+	  * Has this import been processed
+	  */
+	public void setI_IsImported (boolean I_IsImported);
+
+	/** Get Imported.
+	  * Has this import been processed
+	  */
+	public boolean isI_IsImported();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
