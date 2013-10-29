@@ -24,7 +24,6 @@ import java.util.logging.Level;
 
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
