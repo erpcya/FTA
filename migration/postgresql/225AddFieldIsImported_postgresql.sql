@@ -5,32 +5,32 @@ BigDecimal HumWeight = Env.ZERO;
 BigDecimal ImpWeight = Env.ZERO;
 //Get MAttributeSet
 MAttributeSet mas = _AttrSetInstance.getMAttributeSet();
-
 //Get Attibutes
 MAttribute[] attr = mas.getMAttributes(true);
-
 //Calculate Humidity
 for (int i=0;i<attr.length;i++){
+   if (attr[i]==null) 
+      continue;
    if (attr[i].getName().equals("Humedad")){
       BigDecimal m_Humidity = DB.getSQLValueBD(_trxName, "Select Coalesce(ValueNumber,0) from M_AttributeInstance Where M_AttributeSetInstance_ID=? AND M_Attribute_ID=?",new Object[]{_AttrSetInstance.getM_AttributeSetInstance_ID(),attr[i].getM_Attribute_ID()});
+      m_Humidity = (m_Humidity==null?Env.ZERO:m_Humidity);
       HumWeight= _NetWeight.multiply(m_Humidity.subtract(new BigDecimal(12)).divide(new BigDecimal(88), MathContext.DECIMAL128));
    }
 }
-
 //Calculate Impurity
 for (int i=0;i<attr.length;i++){
    if (attr[i].getName().equals("Impureza")){
+     if (attr[i]==null) 
+       continue;
       BigDecimal m_Impurity = DB.getSQLValueBD(_trxName, "Select Coalesce(ValueNumber,0) from M_AttributeInstance Where M_AttributeSetInstance_ID=? AND M_Attribute_ID=?",new Object[]{_AttrSetInstance.getM_AttributeSetInstance_ID(),attr[i].getM_Attribute_ID()});
+      m_Impurity = (m_Impurity==null?Env.ZERO:m_Impurity);
       ImpWeight= _NetWeight.subtract(HumWeight).multiply(m_Impurity.divide(new BigDecimal(100), MathContext.DECIMAL128));
    }
 }
-
 //Calculate Pay Weight
 payWeight=_NetWeight.subtract(HumWeight).subtract(ImpWeight);
-
 result=payWeight;',Updated=TO_TIMESTAMP('2013-10-29 07:51:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Rule_ID=50019
 ;
-
 -- Oct 29, 2013 7:53:58 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,69435,913,0,20,53559,'I_IsImported',TO_TIMESTAMP('2013-10-29 07:53:51','YYYY-MM-DD HH24:MI:SS'),100,'Has this import been processed','ECA02',1,'The Imported check box indicates if this import has been processed.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Imported',0,TO_TIMESTAMP('2013-10-29 07:53:51','YYYY-MM-DD HH24:MI:SS'),100,0)
