@@ -28,9 +28,10 @@ for (int i=0;i<attr.length;i++){
    }
 }
 //Calculate Pay Weight
-payWeight=_NetWeight.subtract(HumWeight).subtract(ImpWeight);
+payWeight=_NetWeight.subtract(HumWeight).subtract(ImpWeight).setScale(_stdPrecision, BigDecimal.ROUND_HALF_UP);
 result=payWeight;',Updated=TO_TIMESTAMP('2013-10-29 07:51:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Rule_ID=50019
 ;
+
 -- Oct 29, 2013 7:53:58 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,69435,913,0,20,53559,'I_IsImported',TO_TIMESTAMP('2013-10-29 07:53:51','YYYY-MM-DD HH24:MI:SS'),100,'Has this import been processed','ECA02',1,'The Imported check box indicates if this import has been processed.','Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Imported',0,TO_TIMESTAMP('2013-10-29 07:53:51','YYYY-MM-DD HH24:MI:SS'),100,0)
