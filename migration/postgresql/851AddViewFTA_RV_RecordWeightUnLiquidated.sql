@@ -18,7 +18,8 @@ fd.FTA_FarmDivision_ID,/*Identifier Farm Division*/
 f.FTA_Farm_ID,/*Identifier Farm*/
 f.C_BPartner_ID, /*Identifier Business Partner*/
 cc.FTA_CategoryCalc_ID, /*Identifier Category Calc*/
-0.00 As PayWeight,
+--0.00 As PayWeight,
+Case When rw.SelectionWeight='I' Then rw.ImportWeight Else rw.PayWeight End As PayWeight, /*PayWeight*/
 Coalesce(col.PriceList,0.00) As Price,
 fm.Category_ID As M_Product_ID, /*Identifier Product*/
 Cast(Null AS Numeric(10)) As PayAnalysis_ID /*Pay Analysis*/

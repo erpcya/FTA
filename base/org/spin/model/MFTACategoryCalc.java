@@ -113,13 +113,38 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 		s_scriptImport.append(" import ").append(packageName).append(";");
 	}//addScriptImportPackage
 	
+	/**
+	 * Get PaidWeight Without trxName 
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 29/10/2013, 05:43:24
+	 * @param NetWeigh
+	 * @param Attr
+	 * @return
+	 * @return BigDecimal
+	 */
 	public BigDecimal getPaidWeight(BigDecimal NetWeigh,MAttributeSetInstance Attr)
+	{
+		return getPaidWeight(NetWeigh,Attr,null);
+	}
+	
+	/**
+	 * Get PaidWeight 
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 29/10/2013, 05:44:06
+	 * @param NetWeigh
+	 * @param Attr
+	 * @param trxName
+	 * @return
+	 * @return BigDecimal
+	 */
+	public BigDecimal getPaidWeight(BigDecimal NetWeigh,MAttributeSetInstance Attr, String trxName)
 	{
 		m_scriptCtx.remove("_NetWeight");
 		m_scriptCtx.remove("_AttrSetInstance");
+		m_scriptCtx.remove("_trxName");
 		
 		m_scriptCtx.put("_NetWeight", NetWeigh);
 		m_scriptCtx.put("_AttrSetInstance",Attr);
+		m_scriptCtx.put("_trxName",trxName);
+		
 		BigDecimal result;
 		result = (BigDecimal)executeScript(getAD_Rule_ID(), "BigDecimal","new BigDecimal(0)");
 		
