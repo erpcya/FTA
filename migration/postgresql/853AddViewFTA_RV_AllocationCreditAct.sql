@@ -1,6 +1,6 @@
 ﻿--DROP VIEW FTA_RV_AllocationCreditAct;
-CREATE Or Replace View FTA_RV_AllocationCreditAct AS 
-Select 
+CREATE OR REPLACE VIEW FTA_RV_AllocationCreditAct AS 
+SELECT 
 fc.AD_Client_ID,
 fc.AD_Org_ID,
 fc.Amt,
@@ -23,13 +23,12 @@ fc.IsApproved,
 fc.Processed,
 fc.Processing,
 fc.Qty,
-Case When fc.FTA_CreditAct_ID IS Null Then 'N' Else 'Y' End As IsAllocated,
-fc.ApprovedQty,
-fc.ApprovedAmt
-From FTA_FarmerCredit fc 
-Inner Join C_DocType cdt On fc.C_DocType_ID=cdt.C_DocType_ID
-Where fc.DocStatus In('DR','IP') 
+CASE WHEN fc.FTA_CreditAct_ID IS NULL THEN 'N' ELSE 'Y' END AS IsAllocated,
+CASE WHEN fc.ApprovedQty= 0 THEN fc.Qty ELSE fc.ApprovedQty END AS ApprovedQty,
+CASE WHEN fc.ApprovedAmt= 0 THEN fc.Amt ELSE fc.ApprovedAmt END AS ApprovedAmt
+FROM FTA_FarmerCredit fc 
+WHERE fc.DocStatus IN('DR','IP') 
 AND (
-  (Exists (Select 1 From FTA_Farming fming Where fc.FTA_FarmerCredit_ID=fming.FTA_FarmerCredit_ID) And cdt.DocBaseType='FFC') 
-  Or cdt.DocBaseType='FFL')
+  (Exists (Select 1 From FTA_Farming fming Where fc.FTA_FarmerCredit_ID=fming.FTA_FarmerCredit_ID) And fc.CreditType<>'L') 
+  Or fc.CreditType='L')
 ;
