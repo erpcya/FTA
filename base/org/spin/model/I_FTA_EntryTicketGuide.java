@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for FTA_TechnicalFormLine
+/** Generated Interface for FTA_EntryTicketGuide
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS
  */
-public interface I_FTA_TechnicalFormLine 
+public interface I_FTA_EntryTicketGuide 
 {
 
-    /** TableName=FTA_TechnicalFormLine */
-    public static final String Table_Name = "FTA_TechnicalFormLine";
+    /** TableName=FTA_EntryTicketGuide */
+    public static final String Table_Name = "FTA_EntryTicketGuide";
 
-    /** AD_Table_ID=53514 */
+    /** AD_Table_ID=53652 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,19 +63,6 @@ public interface I_FTA_TechnicalFormLine
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Comments */
-    public static final String COLUMNNAME_Comments = "Comments";
-
-	/** Set Comments.
-	  * Comments or additional information
-	  */
-	public void setComments (String Comments);
-
-	/** Get Comments.
-	  * Comments or additional information
-	  */
-	public String getComments();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -92,80 +79,58 @@ public interface I_FTA_TechnicalFormLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name FTA_FarmDivision_ID */
-    public static final String COLUMNNAME_FTA_FarmDivision_ID = "FTA_FarmDivision_ID";
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
 
-	/** Set Farm Division	  */
-	public void setFTA_FarmDivision_ID (int FTA_FarmDivision_ID);
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
 
-	/** Get Farm Division	  */
-	public int getFTA_FarmDivision_ID();
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
 
-	public org.spin.model.I_FTA_FarmDivision getFTA_FarmDivision() throws RuntimeException;
+    /** Column name Ext_Guide */
+    public static final String COLUMNNAME_Ext_Guide = "Ext_Guide";
 
-    /** Column name FTA_Farm_ID */
-    public static final String COLUMNNAME_FTA_Farm_ID = "FTA_Farm_ID";
+	/** Set Ext. Guide	  */
+	public void setExt_Guide (String Ext_Guide);
 
-	/** Set Farm	  */
-	public void setFTA_Farm_ID (int FTA_Farm_ID);
+	/** Get Ext. Guide	  */
+	public String getExt_Guide();
 
-	/** Get Farm	  */
-	public int getFTA_Farm_ID();
+    /** Column name FTA_EntryTicketGuide_ID */
+    public static final String COLUMNNAME_FTA_EntryTicketGuide_ID = "FTA_EntryTicketGuide_ID";
 
-	public org.spin.model.I_FTA_Farm getFTA_Farm() throws RuntimeException;
+	/** Set Guide Detail ID	  */
+	public void setFTA_EntryTicketGuide_ID (int FTA_EntryTicketGuide_ID);
 
-    /** Column name FTA_Farming_ID */
-    public static final String COLUMNNAME_FTA_Farming_ID = "FTA_Farming_ID";
+	/** Get Guide Detail ID	  */
+	public int getFTA_EntryTicketGuide_ID();
 
-	/** Set Farming	  */
-	public void setFTA_Farming_ID (int FTA_Farming_ID);
+    /** Column name FTA_EntryTicket_ID */
+    public static final String COLUMNNAME_FTA_EntryTicket_ID = "FTA_EntryTicket_ID";
 
-	/** Get Farming	  */
-	public int getFTA_Farming_ID();
+	/** Set Entry Ticket	  */
+	public void setFTA_EntryTicket_ID (int FTA_EntryTicket_ID);
 
-	public org.spin.model.I_FTA_Farming getFTA_Farming() throws RuntimeException;
+	/** Get Entry Ticket	  */
+	public int getFTA_EntryTicket_ID();
 
-    /** Column name FTA_FarmingStage_ID */
-    public static final String COLUMNNAME_FTA_FarmingStage_ID = "FTA_FarmingStage_ID";
+	public org.spin.model.I_FTA_EntryTicket getFTA_EntryTicket() throws RuntimeException;
 
-	/** Set Farming Stage	  */
-	public void setFTA_FarmingStage_ID (int FTA_FarmingStage_ID);
+    /** Column name FTA_MobilizationGuide_ID */
+    public static final String COLUMNNAME_FTA_MobilizationGuide_ID = "FTA_MobilizationGuide_ID";
 
-	/** Get Farming Stage	  */
-	public int getFTA_FarmingStage_ID();
+	/** Set Mobilization Guide	  */
+	public void setFTA_MobilizationGuide_ID (int FTA_MobilizationGuide_ID);
 
-	public org.spin.model.I_FTA_FarmingStage getFTA_FarmingStage() throws RuntimeException;
+	/** Get Mobilization Guide	  */
+	public int getFTA_MobilizationGuide_ID();
 
-    /** Column name FTA_ObservationType_ID */
-    public static final String COLUMNNAME_FTA_ObservationType_ID = "FTA_ObservationType_ID";
-
-	/** Set Observation Type	  */
-	public void setFTA_ObservationType_ID (int FTA_ObservationType_ID);
-
-	/** Get Observation Type	  */
-	public int getFTA_ObservationType_ID();
-
-	public org.spin.model.I_FTA_ObservationType getFTA_ObservationType() throws RuntimeException;
-
-    /** Column name FTA_TechnicalForm_ID */
-    public static final String COLUMNNAME_FTA_TechnicalForm_ID = "FTA_TechnicalForm_ID";
-
-	/** Set Technical Form	  */
-	public void setFTA_TechnicalForm_ID (int FTA_TechnicalForm_ID);
-
-	/** Get Technical Form	  */
-	public int getFTA_TechnicalForm_ID();
-
-	public org.spin.model.I_FTA_TechnicalForm getFTA_TechnicalForm() throws RuntimeException;
-
-    /** Column name FTA_TechnicalFormLine_ID */
-    public static final String COLUMNNAME_FTA_TechnicalFormLine_ID = "FTA_TechnicalFormLine_ID";
-
-	/** Set Technical Form Line	  */
-	public void setFTA_TechnicalFormLine_ID (int FTA_TechnicalFormLine_ID);
-
-	/** Get Technical Form Line	  */
-	public int getFTA_TechnicalFormLine_ID();
+	public org.spin.model.I_FTA_MobilizationGuide getFTA_MobilizationGuide() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -192,15 +157,6 @@ public interface I_FTA_TechnicalFormLine
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
