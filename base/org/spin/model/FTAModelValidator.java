@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.spin.model;
 
+import org.compiere.apps.ADialog;
 import org.compiere.model.MClient;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
@@ -24,6 +25,7 @@ import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -114,6 +116,7 @@ public class FTAModelValidator implements ModelValidator {
 						inv.set_ValueOfColumn("IsCreditFactPosted", true);
 						//inv.set_ValueOfColumn("IsCreditLimitExceeded", false);
 					}
+					ADialog.error(0, null, Msg.parseTranslation(Env.getCtx(), msg));
 					//System.out.println(msg);
 				}
 			}
