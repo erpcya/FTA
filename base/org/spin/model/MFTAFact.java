@@ -31,6 +31,7 @@ import org.compiere.model.PO;
 import org.compiere.model.X_C_ChargeType;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Trx;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -311,7 +312,10 @@ public class MFTAFact extends X_FTA_Fact {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		Trx trx = Trx.get("GF-", true);
+		boolean byPass = true;
 		try {
+			
 			pstmt = DB.prepareStatement(sql, trxName);
 			//	Add Parameters
 			int i = 1;
@@ -366,9 +370,12 @@ public class MFTAFact extends X_FTA_Fact {
 							m_RemainingAmt = Env.ZERO;
 						}
 					}
+					//	
+					if(m_Amt.equals(Env.ZERO))
+						break;
 					
 					//	Create Fact
-					MFTAFact m_fta_Fact = new MFTAFact(ctx, 0, trxName);
+					MFTAFact m_fta_Fact = new MFTAFact(ctx, 0, trx.getTrxName());
 					//	Set Values
 					m_fta_Fact.setAD_Org_ID(m_AD_Org_ID);
 					m_fta_Fact.setC_BPartner_ID(m_C_BPartner_ID);
@@ -384,17 +391,18 @@ public class MFTAFact extends X_FTA_Fact {
 					m_fta_Fact.setIsCreditFactManual(false);
 					//	Save
 					m_fta_Fact.saveEx();
-					
+					if(byPass)
+						byPass = false;
 				}
 				//	Valid Credit Limit
 				if(!m_RemainingAmt.equals(Env.ZERO)){
 					//	Update
-					MFTACreditDefinitionLine m_CDLine = new MFTACreditDefinitionLine(ctx, m_FTA_CreditDefinitionLine_ID, trxName);
+					MFTACreditDefinitionLine m_CDLine = new MFTACreditDefinitionLine(ctx, m_FTA_CreditDefinitionLine_ID, trx.getTrxName());
 					StringBuffer name = new StringBuffer();
 					if(m_CDLine.getC_Charge_ID() != 0){
 						name.append(MCharge.get(ctx, m_CDLine.getC_Charge_ID()).getName());
 					} else if(m_CDLine.getC_ChargeType_ID() != 0){
-						X_C_ChargeType ct = new X_C_ChargeType(ctx, m_CDLine.getC_ChargeType_ID(), trxName);
+						X_C_ChargeType ct = new X_C_ChargeType(ctx, m_CDLine.getC_ChargeType_ID(), trx.getTrxName());
 						name.append(ct.getName());
 					} else if(m_CDLine.getM_Product_ID() != 0){
 						name.append(MProduct.get(ctx, m_CDLine.getM_Product_ID()).getName());
@@ -407,16 +415,25 @@ public class MFTAFact extends X_FTA_Fact {
 							name.append(" ");
 						name.append(m_CDLine.getDescription());
 					}
+					//	
 					msg = "@Amt@ > @SO_CreditLimit@: " +
 							"@Amt@=" + m_RemainingAmt.doubleValue() + " " +
 							"@SO_CreditLimit@=" + m_SO_CreditLimit.doubleValue() + " " +
 							"@FTA_CreditDefinitionLine_ID@: " + m_CDLine.getLine() + " - " + name;
-				}
+					//	RollBack
+					trx.rollback();
+				} else if(byPass){
+					msg = "@NoLines@";
+					//	
+					trx.rollback();
+				} else
+					trx.commit();
 			}
 			//	Close DB
 			DB.close(rs, pstmt);
 		} catch (Exception e) {
 			DB.close(rs, pstmt);
+			trx.rollback();
 			return e.getMessage();
 		}
 		
