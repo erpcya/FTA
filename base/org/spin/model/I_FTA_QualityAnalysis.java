@@ -227,6 +227,19 @@ public interface I_FTA_QualityAnalysis
 	  */
 	public boolean isApproved();
 
+    /** Column name IsPrinted */
+    public static final String COLUMNNAME_IsPrinted = "IsPrinted";
+
+	/** Set Printed.
+	  * Indicates if this document / line is printed
+	  */
+	public void setIsPrinted (boolean IsPrinted);
+
+	/** Get Printed.
+	  * Indicates if this document / line is printed
+	  */
+	public boolean isPrinted();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
