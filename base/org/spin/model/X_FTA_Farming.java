@@ -34,7 +34,7 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131028L;
+	private static final long serialVersionUID = 20131029L;
 
     /** Standard Constructor */
     public X_FTA_Farming (Properties ctx, int FTA_Farming_ID, String trxName)
@@ -47,7 +47,6 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 			setFinancingType (null);
 			setFTA_FarmDivision_ID (0);
 			setFTA_Farming_ID (0);
-			setName (null);
 			setPlantingCycle_ID (0);
 			setStartDate (new Timestamp( System.currentTimeMillis() ));
 			setStatus (null);
@@ -124,6 +123,14 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getCategory_ID()));
+    }
 
 	public I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
@@ -408,31 +415,6 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 			 return Env.ZERO;
 		return bd;
 	}
-
-	/** Set Name.
-		@param Name 
-		Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name)
-	{
-		set_Value (COLUMNNAME_Name, Name);
-	}
-
-	/** Get Name.
-		@return Alphanumeric identifier of the entity
-	  */
-	public String getName () 
-	{
-		return (String)get_Value(COLUMNNAME_Name);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
 
 	public I_M_Lot getPlantingCycle() throws RuntimeException
     {

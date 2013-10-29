@@ -227,6 +227,19 @@ public interface I_FTA_RecordWeight
 	/** Get Gross Weight	  */
 	public BigDecimal getGrossWeight();
 
+    /** Column name I_IsImported */
+    public static final String COLUMNNAME_I_IsImported = "I_IsImported";
+
+	/** Set Imported.
+	  * Has this import been processed
+	  */
+	public void setI_IsImported (boolean I_IsImported);
+
+	/** Get Imported.
+	  * Has this import been processed
+	  */
+	public boolean isI_IsImported();
+
     /** Column name ImportWeight */
     public static final String COLUMNNAME_ImportWeight = "ImportWeight";
 

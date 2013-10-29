@@ -32,7 +32,7 @@ public class X_FTA_FarmerLiquidationLine extends PO implements I_FTA_FarmerLiqui
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131028L;
+	private static final long serialVersionUID = 20131029L;
 
     /** Standard Constructor */
     public X_FTA_FarmerLiquidationLine (Properties ctx, int FTA_FarmerLiquidationLine_ID, String trxName)
