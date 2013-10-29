@@ -22,7 +22,8 @@ cc.FTA_CategoryCalc_ID, /*Identifier Category Calc*/
 Case When rw.SelectionWeight='I' Then rw.ImportWeight Else rw.PayWeight End As PayWeight, /*PayWeight*/
 Coalesce(col.PriceList,0.00) As Price,
 fm.Category_ID As M_Product_ID, /*Identifier Product*/
-Cast(Null AS Numeric(10)) As PayAnalysis_ID /*Pay Analysis*/
+Cast(Null AS Numeric(10)) As PayAnalysis_ID, /*Pay Analysis*/
+Cast('N' As Char(1)) AS IsInDispute
 From 
 /*Record Weight*/
 FTA_RecordWeight rw
