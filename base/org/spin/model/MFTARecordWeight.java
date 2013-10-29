@@ -315,12 +315,12 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 */
 	private String validWeight(){
 		//	Valid Weight
-		if (getGrossWeight() == null
-				|| getGrossWeight().equals(Env.ZERO)) {
+		if ((getGrossWeight() == null
+				|| getGrossWeight().equals(Env.ZERO)) && !isI_IsImported()) {
 			m_processMsg = "@GrossWeight@ = @0@";
 			return (!isSOTrx()? DocAction.STATUS_Invalid: DocAction.STATUS_InProgress);
-		} else if(getTareWeight() == null
-				|| getTareWeight().equals(Env.ZERO)) {
+		} else if((getTareWeight() == null
+				|| getTareWeight().equals(Env.ZERO)) && !isI_IsImported()) {
 			m_processMsg = "@TareWeight@ = @0@";
 			return (!isSOTrx()? DocAction.STATUS_InProgress: DocAction.STATUS_Invalid);
 		} else if(getNetWeight() == null
