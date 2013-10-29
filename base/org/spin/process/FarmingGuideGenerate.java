@@ -123,6 +123,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 		m_Re_EstimatedQty = m_Farming.getRe_EstimatedQty();
 		if(m_Re_EstimatedQty == null)
 			m_Re_EstimatedQty = Env.ZERO;
+		m_Re_EstimatedQty = m_Re_EstimatedQty.subtract(m_Qty);
 		
 		m_Diff_Re_EstimatedQty = Env.ZERO;
 		

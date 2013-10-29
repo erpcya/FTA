@@ -106,7 +106,10 @@ public class FTAModelValidator implements ModelValidator {
 				MInvoice inv = (MInvoice) po;
 				if(inv.isSOTrx()
 						&& inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
-					return MFTAFact.createInvoiceFact(Env.getCtx(), inv, inv.get_TrxName());
+					String msg = MFTAFact.createInvoiceFact(Env.getCtx(), inv, inv.get_TrxName());
+					if(msg != null) {
+						inv.set_ValueOfColumn("IsCreditFactPosted", false);
+					}
 				}
 			}
 		} else if(timing == TIMING_AFTER_REACTIVATE
