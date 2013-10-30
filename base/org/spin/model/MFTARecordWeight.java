@@ -20,6 +20,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MAttributeSetInstance;
@@ -34,6 +35,8 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
+import org.compiere.model.Query;
+import org.compiere.model.X_M_InOut;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
@@ -369,8 +372,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if (m_processMsg != null)
 			return false;
 		
+		m_processMsg = reverseInOut();
+		if (m_processMsg != null)
+			return false;
+		
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
-
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
@@ -454,9 +460,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
-		m_processMsg = validReference();
-		if(m_processMsg != null)
-			return false;
+		//m_processMsg = validReference();
+		//if(m_processMsg != null)
+			//return false;
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
@@ -481,6 +487,30 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				"AND re.FTA_RecordWeight_ID = ?", getFTA_RecordWeight_ID());
 		if(m_Reference_ID != 0)
 			return "@SQLErrorReferenced@";
+		return null;
+	}
+	
+	/**
+	 * Reverse Receipt / Delivery
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/10/2013, 20:00:37
+	 * @return
+	 * @return String
+	 */
+	private String reverseInOut(){
+		//	List 
+		List<MInOut> list = new Query(getCtx(), MInOut.Table_Name, "FTA_RecordWeight_ID=? AND DocStatus IN('CO', 'CL')", get_TrxName())
+		.setParameters(getFTA_RecordWeight_ID())
+		.setOrderBy("DocStatus")
+		.list();
+		//	
+		for (MInOut mInOut : list) {
+			if(mInOut.getDocStatus().equals(X_M_InOut.DOCSTATUS_Closed))
+				return "@M_InOut_ID@ @Closed@";
+			mInOut.setDocAction(X_M_InOut.DOCACTION_Reverse_Correct);
+			mInOut.processIt(X_M_InOut.DOCACTION_Reverse_Correct);
+			mInOut.saveEx();
+		}
+		//	
 		return null;
 	}
 	
@@ -593,6 +623,10 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return String
 	 */
 	private String createMaterialReceipt() {
+		//	this yet generated
+		if(validReference() != null)
+			return "";
+		//	
 		int m_FTA_Farming_ID = DB.getSQLValue(get_TrxName(), "SELECT fr.FTA_Farming_ID " +
 				"FROM FTA_Farming fr " +
 				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = fr.FTA_Farming_ID) " +
