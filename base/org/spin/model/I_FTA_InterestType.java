@@ -63,6 +63,36 @@ public interface I_FTA_InterestType
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_Charge_ID */
+    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
+
+	/** Set Charge.
+	  * Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID);
+
+	/** Get Charge.
+	  * Additional document charges
+	  */
+	public int getC_Charge_ID();
+
+	public I_C_Charge getC_Charge() throws RuntimeException;
+
+    /** Column name C_DocTypeTarget_ID */
+    public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
+
+	/** Set Target Document Type.
+	  * Target document type for conversing documents
+	  */
+	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID);
+
+	/** Get Target Document Type.
+	  * Target document type for conversing documents
+	  */
+	public int getC_DocTypeTarget_ID();
+
+	public I_C_DocType getC_DocTypeTarget() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -101,6 +131,21 @@ public interface I_FTA_InterestType
 	  */
 	public boolean isActive();
 
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws RuntimeException;
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -113,6 +158,19 @@ public interface I_FTA_InterestType
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name NetDays */
+    public static final String COLUMNNAME_NetDays = "NetDays";
+
+	/** Set Net Days.
+	  * Net Days in which payment is due
+	  */
+	public void setNetDays (int NetDays);
+
+	/** Get Net Days.
+	  * Net Days in which payment is due
+	  */
+	public int getNetDays();
 
     /** Column name Type */
     public static final String COLUMNNAME_Type = "Type";

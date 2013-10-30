@@ -190,6 +190,15 @@ public interface I_FTA_CreditDefinitionLine
 	  */
 	public boolean isActive();
 
+    /** Column name IsCreditLimitExceeded */
+    public static final String COLUMNNAME_IsCreditLimitExceeded = "IsCreditLimitExceeded";
+
+	/** Set Credit Limit Exceeded	  */
+	public void setIsCreditLimitExceeded (boolean IsCreditLimitExceeded);
+
+	/** Get Credit Limit Exceeded	  */
+	public boolean isCreditLimitExceeded();
+
     /** Column name Line */
     public static final String COLUMNNAME_Line = "Line";
 

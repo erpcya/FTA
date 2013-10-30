@@ -16,47 +16,41 @@
  *****************************************************************************/
 package org.spin.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.Properties;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class MFTAInterestType extends X_FTA_InterestType {
-	
+public class MFTACDLCategoryInterest extends X_FTA_CDL_CategoryInterest {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8308713276192727842L;
+	private static final long serialVersionUID = 8811825591364073646L;
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/10/2013, 21:18:05
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 30/10/2013, 15:18:23
 	 * @param ctx
-	 * @param FTA_InterestType_ID
+	 * @param FTA_CDL_CategoryInterest_ID
 	 * @param trxName
 	 */
-	public MFTAInterestType(Properties ctx, int FTA_InterestType_ID,
-			String trxName) {
-		super(ctx, FTA_InterestType_ID, trxName);
+	public MFTACDLCategoryInterest(Properties ctx,
+			int FTA_CDL_CategoryInterest_ID, String trxName) {
+		super(ctx, FTA_CDL_CategoryInterest_ID, trxName);
 	}
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/10/2013, 21:18:05
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 30/10/2013, 15:18:23
 	 * @param ctx
 	 * @param rs
 	 * @param trxName
 	 */
-	public MFTAInterestType(Properties ctx, ResultSet rs, String trxName) {
+	public MFTACDLCategoryInterest(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-	}
-	
-	public MFTACDLCategoryInterest getCurrentRate(Timestamp p_DateDoc){
-		return null;
 	}
 
 }
