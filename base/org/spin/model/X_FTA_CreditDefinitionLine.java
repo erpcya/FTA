@@ -32,7 +32,7 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131029L;
+	private static final long serialVersionUID = 20131030L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinitionLine (Properties ctx, int FTA_CreditDefinitionLine_ID, String trxName)
@@ -267,6 +267,27 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Credit Limit Exceeded.
+		@param IsCreditLimitExceeded Credit Limit Exceeded	  */
+	public void setIsCreditLimitExceeded (boolean IsCreditLimitExceeded)
+	{
+		set_Value (COLUMNNAME_IsCreditLimitExceeded, Boolean.valueOf(IsCreditLimitExceeded));
+	}
+
+	/** Get Credit Limit Exceeded.
+		@return Credit Limit Exceeded	  */
+	public boolean isCreditLimitExceeded () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCreditLimitExceeded);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Line No.
