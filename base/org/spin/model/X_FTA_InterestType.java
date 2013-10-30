@@ -38,10 +38,11 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
       super (ctx, FTA_InterestType_ID, trxName);
       /** if (FTA_InterestType_ID == 0)
         {
+			setCalculationType (null);
+// C
 			setC_DocTypeTarget_ID (0);
 			setFTA_InterestType_ID (0);
 			setName (null);
-			setNetDays (0);
 			setType (null);
 			setValue (null);
         } */
@@ -74,6 +75,27 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** CalculationType AD_Reference_ID=53590 */
+	public static final int CALCULATIONTYPE_AD_Reference_ID=53590;
+	/** Credit Definition Category = C */
+	public static final String CALCULATIONTYPE_CreditDefinitionCategory = "C";
+	/** Documents = D */
+	public static final String CALCULATIONTYPE_Documents = "D";
+	/** Set Calculation.
+		@param CalculationType Calculation	  */
+	public void setCalculationType (String CalculationType)
+	{
+
+		set_Value (COLUMNNAME_CalculationType, CalculationType);
+	}
+
+	/** Get Calculation.
+		@return Calculation	  */
+	public String getCalculationType () 
+	{
+		return (String)get_Value(COLUMNNAME_CalculationType);
+	}
 
 	public I_C_Charge getC_Charge() throws RuntimeException
     {
@@ -196,24 +218,25 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Set Net Days.
-		@param NetDays 
-		Net Days in which payment is due
-	  */
-	public void setNetDays (int NetDays)
+	/** Set % Fixed.
+		@param RateFixed % Fixed	  */
+	public void setRateFixed (boolean RateFixed)
 	{
-		set_ValueNoCheck (COLUMNNAME_NetDays, Integer.valueOf(NetDays));
+		set_Value (COLUMNNAME_RateFixed, Boolean.valueOf(RateFixed));
 	}
 
-	/** Get Net Days.
-		@return Net Days in which payment is due
-	  */
-	public int getNetDays () 
+	/** Get % Fixed.
+		@return % Fixed	  */
+	public boolean isRateFixed () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_NetDays);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		Object oo = get_Value(COLUMNNAME_RateFixed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Type AD_Reference_ID=53580 */

@@ -63,6 +63,15 @@ public interface I_FTA_InterestType
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name CalculationType */
+    public static final String COLUMNNAME_CalculationType = "CalculationType";
+
+	/** Set Calculation	  */
+	public void setCalculationType (String CalculationType);
+
+	/** Get Calculation	  */
+	public String getCalculationType();
+
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 
@@ -159,18 +168,14 @@ public interface I_FTA_InterestType
 	  */
 	public String getName();
 
-    /** Column name NetDays */
-    public static final String COLUMNNAME_NetDays = "NetDays";
+    /** Column name RateFixed */
+    public static final String COLUMNNAME_RateFixed = "RateFixed";
 
-	/** Set Net Days.
-	  * Net Days in which payment is due
-	  */
-	public void setNetDays (int NetDays);
+	/** Set % Fixed	  */
+	public void setRateFixed (boolean RateFixed);
 
-	/** Get Net Days.
-	  * Net Days in which payment is due
-	  */
-	public int getNetDays();
+	/** Get % Fixed	  */
+	public boolean isRateFixed();
 
     /** Column name Type */
     public static final String COLUMNNAME_Type = "Type";

@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.spin.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.compiere.model.Query;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -55,8 +56,18 @@ public class MFTAInterestType extends X_FTA_InterestType {
 		super(ctx, rs, trxName);
 	}
 	
-	public MFTACDLCategoryInterest getCurrentRate(Timestamp p_DateDoc){
-		return null;
+	/**
+	 * Get Current Rate from Date
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 30/10/2013, 15:54:00
+	 * @param p_DateDoc
+	 * @return
+	 * @return MFTAInterestRate
+	 */
+	public MFTAInterestRate getCurrentInterest(Timestamp p_DateDoc){
+		return new Query(getCtx(), MFTAInterestRate.Table_Name, "FTA_InterestType_ID=? AND ValidFrom <=?", get_TrxName())
+		.setParameters(getFTA_InterestType_ID(), p_DateDoc)
+		.setOrderBy("ValidFrom DESC")
+		.firstOnly();
 	}
 
 }

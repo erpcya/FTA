@@ -19,14 +19,16 @@ package org.spin.process;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import org.compiere.model.MCurrency;
+import org.compiere.model.MSysConfig;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
-import org.spin.model.MFTACDLCategoryInterest;
 import org.spin.model.MFTAFarmerCredit;
+import org.spin.model.MFTAInterestRate;
 import org.spin.model.MFTAInterestType;
 
 /**
@@ -45,9 +47,6 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 	private int 		p_FTA_FarmerCredit_ID = 0;
 	/**	Interest Type						*/
 	private int			p_FTA_InterestType_ID = 0;
-	/**	Generated							*/
-	private int 		generated = 0;
-	
 	private String 			trxName = null;
 	private Trx 			trx = null;
 	
@@ -81,7 +80,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 
 
 	@Override
-	protected String doIt() throws Exception {
+	protected String doIt() throws Exception {		
 		//	Valid Organization
 		if(p_AD_Org_ID == 0)
 			throw new AdempiereUserError("@AD_Org_ID@ @NotFound@");
@@ -97,7 +96,11 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		//	Valid Interes Type
 		if(p_FTA_InterestType_ID == 0)
 			throw new AdempiereUserError("@FTA_InterestType_ID@ @NotFound@");
-		
+		//	Get Precision
+		int precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(getCtx(), "$C_Currency_ID"));
+		//	Get Year Days
+		int yearDays = MSysConfig.getIntValue("FTA_DAYS_FOR_CALCULATE_INTEREST", 0, Env.getAD_Client_ID(Env.getCtx()));
+
 		//	Interest Type
 		MFTAInterestType m_InterestType = new MFTAInterestType(getCtx(), p_FTA_InterestType_ID, trxName);
 		//	Farmer Credit
@@ -117,8 +120,53 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 				|| openAmt.equals(Env.ZERO))
 			return "";
 		//	Net Days
-		int netDays = m_InterestType.getNetDays();
-		MFTACDLCategoryInterest cdlCategoryInterest = m_InterestType.getCurrentRate(p_DateDoc);
+		int netDays = 0;//m_InterestType.getNetDays();
+		//	Valid Net Days
+		if(netDays <= 0)
+			return "@NetDays@ <= @0@";
+		//	Get Rate
+		MFTAInterestRate cdlCategoryRate = m_InterestType.getCurrentInterest(p_DateDoc);
+		if(cdlCategoryRate == null)
+			return "@FTA_CDL_CategoryRate@ @NotFound@";
+		
+		BigDecimal rate = cdlCategoryRate.getRate();
+		//	Valid Rate
+		if(rate == null
+				|| rate.equals(Env.ZERO))
+			return "@Rate@ = @0@";
+		//	Harcode
+		BigDecimal rateDays = new BigDecimal(yearDays);
+		BigDecimal interestRate = rate.divide(rateDays, precision, BigDecimal.ROUND_HALF_UP);
+		//	
+		interestRate = interestRate.multiply(new BigDecimal(netDays));
+		//	
+		BigDecimal interestAmt = openAmt.multiply(interestRate)
+										.setScale(precision, BigDecimal.ROUND_HALF_UP);
+		//	
+		
+		/*MInvoice m_ARInvoice = new MInvoice(getCtx(), 0, trxName);
+		m_ARInvoice.setAD_Org_ID(p_AD_Org_ID);
+		m_ARInvoice.setDateInvoiced(p_DateDoc);
+		m_ARInvoice.setIsSOTrx(true);
+		m_ARInvoice.setC_DocTypeTarget_ID(p_C_DocTypeInvoice_ARI_ID);
+		//	Set Business PArtner
+		
+		m_ARInvoice.setBPartner(bpartner);
+		//	Set Farmer Credit
+		m_ARInvoice.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit_ID);
+		m_ARInvoice.saveEx();
+		//	Create Line
+		MInvoiceLine m_ARinvoiceLine = new MInvoiceLine(m_ARInvoice);
+		//	Set Charge and Product
+		
+		//if(m_InterestType)
+		//	
+		m_ARinvoiceLine.setQty(Env.ONE);
+		
+		m_ARinvoiceLine.setPrice(interestAmt);
+		//	
+		m_ARinvoiceLine.setTaxAmt();
+		m_ARinvoiceLine.saveEx();*/
 		
 		return null;
 	}
