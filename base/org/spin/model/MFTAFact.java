@@ -279,7 +279,7 @@ public class MFTAFact extends X_FTA_Fact {
 				"cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, " +
 				"i.C_Invoice_ID Record_ID, il.C_InvoiceLine_ID Line_ID, " +
 				"il.LineNetAmt + (il.LineNetAmt * t.Rate / 100) Amt, (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, " +
-				"COALESCE(SUM(ft.Amt), 0) SO_CreditUsed " +
+				"COALESCE(SUM(ft.Amt), 0) SO_CreditUsed, cdl.IsCreditLimitExceeded " +
 				"FROM C_Invoice i " +
 				"INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = i.FTA_FarmerCredit_ID) " +
 				"INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID) " +
@@ -308,7 +308,7 @@ public class MFTAFact extends X_FTA_Fact {
 				"GROUP BY i.C_Invoice_ID, i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced, i.Description, " +
 				"cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, " +
 				"i.C_Invoice_ID, il.C_InvoiceLine_ID, il.LineNetAmt, t.Rate, cdl.Amt, fc.ApprovedQty, cdl.Line " +
-				"ORDER BY i.C_Invoice_ID, il.C_InvoiceLine_ID, cdl.Line");
+				"ORDER BY i.C_Invoice_ID, il.C_InvoiceLine_ID, cdl.Line, cdl.IsCreditLimitExceeded");
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -346,6 +346,7 @@ public class MFTAFact extends X_FTA_Fact {
 					BigDecimal m_Amt					= rs.getBigDecimal("Amt");
 					m_SO_CreditLimit					= rs.getBigDecimal("SO_CreditLimit");
 					BigDecimal m_SO_CreditUsed			= rs.getBigDecimal("SO_CreditUsed");
+					String m_IsCreditLimitExceeded		= rs.getString("IsCreditLimitExceeded");
 					//	Current Balance
 					BigDecimal m_Balance = Env.ZERO;
 					

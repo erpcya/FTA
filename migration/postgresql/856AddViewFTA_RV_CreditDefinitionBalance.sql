@@ -5,14 +5,17 @@ cd.C_DocType_ID, cd.DateDoc, cd.DocumentNo, cd.Description, cd.DocStatus, cd.Amt
 cd.M_PriceList_ID, cd.PlantingCycle_ID, 
 cdl.FTA_CreditDefinitionLine_ID, cdl.Line, 
 cdl.M_Product_Category_ID, cdl.M_Product_ID, cdl.C_Charge_ID, 
-cdlc.Name || ' - ' || CASE 
+cdlc.Name || COALESCE(' - ' || CASE 
 	WHEN cdl.M_Product_Category_ID IS NOT NULL THEN pc.Name 
 	WHEN cdl.M_Product_ID IS NOT NULL THEN pr.Name 
 	WHEN cdl.C_Charge_ID IS NOT NULL THEN cr.Name
 	WHEN cdl.C_ChargeType_ID IS NOT NULL THEN ct.Name
-END || COALESCE(' - ' || cdl.Description, '') LineDescription, 
+END, '') || COALESCE(' - ' || cdl.Description, '') LineDescription, 
 ft.FTA_FarmerCredit_ID, ft.C_BPartner_ID, ft.AD_Table_ID,
-(cdl.Amt * fc.ApprovedQty) SO_CreditLimit, COALESCE(SUM(ft.Amt), 0) SO_CreditUsed, (cdl.Amt * fc.ApprovedQty) - COALESCE(SUM(ft.Amt), 0) Balance
+(cdl.Amt * fc.ApprovedQty) SO_CreditLimit, 
+COALESCE(SUM(ft.Amt), 0) SO_CreditUsed, 
+(cdl.Amt * fc.ApprovedQty) - COALESCE(SUM(ft.Amt), 0) Balance, 
+cdl.FTA_CDL_Category_ID
 FROM FTA_CreditDefinition cd
 INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID)
 INNER JOIN FTA_CDL_Category cdlc ON(cdlc.FTA_CDL_Category_ID = cdl.FTA_CDL_Category_ID)
