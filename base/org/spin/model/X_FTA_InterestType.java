@@ -30,7 +30,7 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131029L;
+	private static final long serialVersionUID = 20131030L;
 
     /** Standard Constructor */
     public X_FTA_InterestType (Properties ctx, int FTA_InterestType_ID, String trxName)
@@ -38,8 +38,10 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
       super (ctx, FTA_InterestType_ID, trxName);
       /** if (FTA_InterestType_ID == 0)
         {
+			setC_DocTypeTarget_ID (0);
 			setFTA_InterestType_ID (0);
 			setName (null);
+			setNetDays (0);
 			setType (null);
 			setValue (null);
         } */
@@ -73,6 +75,62 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
       return sb.toString();
     }
 
+	public I_C_Charge getC_Charge() throws RuntimeException
+    {
+		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
+			.getPO(getC_Charge_ID(), get_TrxName());	}
+
+	/** Set Charge.
+		@param C_Charge_ID 
+		Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID)
+	{
+		if (C_Charge_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+	}
+
+	/** Get Charge.
+		@return Additional document charges
+	  */
+	public int getC_Charge_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_DocType getC_DocTypeTarget() throws RuntimeException
+    {
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeTarget_ID(), get_TrxName());	}
+
+	/** Set Target Document Type.
+		@param C_DocTypeTarget_ID 
+		Target document type for conversing documents
+	  */
+	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
+	{
+		if (C_DocTypeTarget_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeTarget_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
+	}
+
+	/** Get Target Document Type.
+		@return Target document type for conversing documents
+	  */
+	public int getC_DocTypeTarget_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Interest Type.
 		@param FTA_InterestType_ID Interest Type	  */
 	public void setFTA_InterestType_ID (int FTA_InterestType_ID)
@@ -93,6 +151,34 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws RuntimeException
+    {
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
+
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -108,6 +194,26 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** Set Net Days.
+		@param NetDays 
+		Net Days in which payment is due
+	  */
+	public void setNetDays (int NetDays)
+	{
+		set_ValueNoCheck (COLUMNNAME_NetDays, Integer.valueOf(NetDays));
+	}
+
+	/** Get Net Days.
+		@return Net Days in which payment is due
+	  */
+	public int getNetDays () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_NetDays);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Type AD_Reference_ID=53580 */
