@@ -17,6 +17,7 @@
 
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -53,6 +54,25 @@ public class BrowseCallOutFTAPayment extends BrowserCalloutEngine{
 			mRow.setValueofColumn("Amt",Env.ZERO , current_Row);
 			throw new AdempiereException("@Amt@ = @Null@");
 		}
+		Object fieldAvailableAmt=mRow.getValueofColumn("AvailableAmt",current_Row);
+		BigDecimal m_Value = (BigDecimal) value;
+		
+		if(fieldAvailableAmt!=null){
+			
+			GridField gFieldAvaiableAmt = (GridField)fieldAvailableAmt;
+			
+			if(gFieldAvaiableAmt.getValue()!=null){
+				BigDecimal m_AvailableAmt = (BigDecimal)gFieldAvaiableAmt.getValue();
+				
+				if (m_Value.compareTo(m_AvailableAmt)==1){
+					mRow.setValueofColumn("PayAmt",m_AvailableAmt, current_Row);
+					throw new AdempiereException("@PayAmt@ > @AvailableAmt@ ");
+				}
+					
+			}
+			
+		}
+		
 		return "";
 	}
 
