@@ -17,8 +17,10 @@
 
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.GridField;
 import org.eevolution.form.BrowserCalloutEngine;
 import org.eevolution.form.BrowserRows;
@@ -45,6 +47,17 @@ public class BrowseCallOutFTAPayment extends BrowserCalloutEngine{
 	 * @return String
 	 */
 	public String evaluatePayAmt(Properties ctx,  int WindowNo,BrowserRows mRow, GridField mField, Object value, Object oldValue,int current_Row, int current_Column){
+		if (value==oldValue)
+			return "";
+		
+		if (value ==null)
+			throw new AdempiereException("@Amt@ = @Null@");
+		
+		BigDecimal m_Value = (BigDecimal) value;
+		if (m_Value.equals(new BigDecimal("0.00"))){
+			mRow.setValueofColumn("Amt",(BigDecimal)oldValue , current_Row);
+			throw new AdempiereException("@Amt@ = @0@");
+		}
 		return "";
 	}
 
