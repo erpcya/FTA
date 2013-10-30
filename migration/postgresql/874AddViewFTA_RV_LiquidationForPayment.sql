@@ -1,5 +1,3 @@
--- Oct 28, 2013 1:12:50 AM VET
--- Farming Technical Assistance
 CREATE OR REPLACE VIEW FTA_RV_LiquidationForPayment AS 
 SELECT fl.AD_Client_ID,
 	fl.AD_Org_ID,
@@ -15,11 +13,11 @@ SELECT fl.AD_Client_ID,
 	fl.FTA_FarmerCredit_ID,
 	fl.FTA_FarmerLiquidation_ID,
 	fl.M_Product_ID,
-	fl.NetWeight
+	fl.NetWeight,
+	LiquidationAvailable(fl.FTA_FarmerLiquidation_ID)-Coalesce(pr.PayAmt,0) AvailableAmt,
+	LiquidationAvailable(fl.FTA_FarmerLiquidation_ID)-Coalesce(pr.PayAmt,0) PayAmt
 FROM 
-FTA_FarmerLiquidation fl 
-WHERE
-NOT EXISTS 
-(Select 1 FROM FTA_PaymentRequest pr 
-	WHERE pr.FTA_FarmerLiquidation_ID =  fl.FTA_FarmerLiquidation_ID 
-	AND pr.DocStatus IN ('CO','CL','DR','IP'));
+FTA_FarmerLiquidation fl
+Left Join (Select FTA_PaymentRequest.FTA_FarmerLiquidation_ID,Sum(PayAmt) PayAmt From FTA_PaymentRequest Group By FTA_PaymentRequest.FTA_FarmerLiquidation_ID) pr On fl.FTA_FarmerLiquidation_ID=pr.FTA_FarmerLiquidation_ID
+Where LiquidationAvailable(fl.FTA_FarmerLiquidation_ID)-Coalesce(pr.PayAmt,0) > 0
+;

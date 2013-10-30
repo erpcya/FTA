@@ -123,7 +123,7 @@ public class FarmingAllocation extends SvrProcess {
 			m_Updted++;
 		}
 		
-		return "@Upated@="+m_Updted;
+		return "@Updated@="+m_Updted;
 	}
 
 	/** Farming	 */
