@@ -121,6 +121,7 @@ public class PaymentForLiquidation extends SvrProcess{
 					pr.processIt (m_DocAction);
 					pr.save(get_TrxName());
 				}
+				m_Created++;
 			}
 			
 		}
