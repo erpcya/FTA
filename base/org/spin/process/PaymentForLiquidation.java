@@ -16,12 +16,17 @@
  *****************************************************************************/
 package org.spin.process;
 
-import java.util.Properties;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
+import org.compiere.util.DB;
+import org.spin.model.MFTAPaymentRequest;
+
 /**
  * Generate Payment Request From Liquidation
  * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a>
@@ -39,34 +44,95 @@ public class PaymentForLiquidation extends SvrProcess{
 				;
 			else if (name.equals("C_Charge_ID"))
 				m_C_Charge_ID = para.getParameterAsInt();
+			else if (name.equals("C_DocType_ID"))
+				m_C_DocType_ID = para.getParameterAsInt();
+			else if (name.equals("DateDoc"))
+				m_DateDoc = (Timestamp) para.getParameter();
+			else if (name.equals("DocAction"))
+				m_DocAction = para.getParameter().toString();
+			
 		}
-		
 		
 		sql.append("Select \n" 
 				+"ts.AD_PInstance_ID, \n" 
-				+"ts.T_Selection_ID, \n" 
+				+"ts.T_Selection_ID As FTA_FarmerLiquidation_ID, \n" 
 				+"tsb.Amt, \n"
-				+"liquidationavailable(fl.FTA_FarmerLiquidation_ID) AvailableAmt, \n"
+				+"tsb.AvailableAmt, \n"
+				+"tsb.PayAmt, \n"
+				+"tsb.C_BPartner_ID, \n"
+				+"tsb.FTA_FarmerCredit_ID \n"
 				+"From  \n" 
 				+"T_Selection ts \n" 
 				+"Inner Join (Select  tsb.AD_PInstance_ID, \n" 
 									+"tsb.T_Selection_ID,  \n" 
-									+"Max(Case When tsb.ColumnName = 'LFP_Amt' Then tsb.Value_Number Else Null End) As Amt \n"  
+									+"Max(Case When tsb.ColumnName = 'LFP_Amt' Then tsb.Value_Number Else Null End) As Amt, \n"  
+									+"Max(Case When tsb.ColumnName = 'LFP_PayAmt' Then tsb.Value_Number Else Null End) As PayAmt, \n"
+									+"Max(Case When tsb.ColumnName = 'LFP_AvailableAmt' Then tsb.Value_Number Else Null End) As AvailableAmt, \n"
+									+"Max(Case When tsb.ColumnName = 'LFP_C_BPartner_ID' Then tsb.Value_Number Else Null End) As C_BPartner_ID, \n"
+									+"Max(Case When tsb.ColumnName = 'LFP_FTA_FarmerCredit_ID' Then tsb.Value_Number Else Null End) As FTA_FarmerCredit_ID \n"
 							+"From T_Selection_Browse tsb   \n" 
 							+"Group By \n" 
 							+"tsb.AD_PInstance_ID, \n" 
 							+"tsb.T_Selection_ID) tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID \n"
-				+"Inner Join FTA_FarmerLiquidation fl On fl.FTA_FarmerLiquidation_ID = ts.T_Selection_ID \n"
-				+"Left Join (Select Sum() FTA_)"
-							);
+				);
 
 	sql.append("Where ts.AD_PInstance_ID=?");
+	log.fine(sql.toString());
+	
 	}
 
 	@Override
 	protected String doIt() throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return createPaymentRequest();
+	}
+	
+	/**
+	 * Create Payment Request
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 30/10/2013, 16:38:07
+	 * @return
+	 * @return String
+	 */
+	private String createPaymentRequest()
+	{
+		
+		PreparedStatement ps =null;
+		ResultSet rs = null;
+		
+		try{
+			ps = DB.prepareStatement(sql.toString(), get_TrxName());
+			ps.setInt(1, getAD_PInstance_ID());
+			rs = ps.executeQuery();
+			
+			while (rs.next()){
+				MFTAPaymentRequest pr = new MFTAPaymentRequest(getCtx(), 0, get_TrxName());
+				pr.setC_DocType_ID(m_C_DocType_ID);
+				pr.setDateDoc(m_DateDoc);
+				pr.setC_BPartner_ID(rs.getInt("C_BPartner_ID"));
+				pr.setFTA_FarmerCredit_ID(rs.getInt("FTA_FarmerCredit_ID"));
+				pr.setFTA_FarmerLiquidation_ID(rs.getInt("FTA_FarmerLiquidation_ID"));
+				pr.setPayAmt(rs.getBigDecimal("PayAmt"));
+				pr.setC_Charge_ID(m_C_Charge_ID);
+				pr.save(get_TrxName());
+				
+				if (m_DocAction != null && m_DocAction.length() > 0)
+				{
+					pr.setDocAction(m_DocAction);
+					pr.processIt (m_DocAction);
+					pr.save(get_TrxName());
+				}
+			}
+			
+		}
+		catch(SQLException ex){
+			return ex.getMessage();
+		}
+		finally{
+			  DB.close(rs, ps);
+		      rs = null; ps = null;
+		}
+	
+		return "@Created@ "+ m_Created;
 	}
 
 	/** Log */
@@ -74,10 +140,20 @@ public class PaymentForLiquidation extends SvrProcess{
 	
 	/** Sql **/
 	private StringBuffer sql = new StringBuffer();
-	
-	/** Context	 */
-	private Properties ctx = Env.getCtx();
-	
+		
 	/** Charge */
 	private int m_C_Charge_ID=0;
+	
+	/** DocType */
+	private int m_C_DocType_ID=0;
+
+	/** DateDoc */
+	private Timestamp m_DateDoc;
+	
+	/** Created */
+	int m_Created = 0;
+
+	String m_DocAction ="";
+	/** Msg Return */
+	String msg = "";
 }
