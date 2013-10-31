@@ -226,9 +226,9 @@ public class MFTAPaymentRequest extends X_FTA_PaymentRequest implements DocActio
 			m_processMsg = "@Amt@ = @0@";
 			return DocAction.STATUS_Invalid;
 		}
-		//	Valid Product or Charge
+		//	Valid Product or Charge for no Liquidation
 		if(getM_Product_ID() == 0
-				&& getC_Charge_ID() == 0) {
+				&& getC_Charge_ID() == 0 && getFTA_FarmerLiquidation_ID()==0) {
 			m_processMsg = "@C_Charge_ID@ @M_Product_ID@ @NotFound@";
 			return DocAction.STATUS_InProgress;
 		}
