@@ -71,9 +71,13 @@ SELECT
 	PriceList,
 	
 	fll.FTA_FarmerLiquidation_ID,  	
-	fll.FTA_RecordWeight_ID 
+	fll.FTA_RecordWeight_ID,
+	mg.M_Warehouse_ID
 	
 FROM FTA_FarmerLiquidationLine fll
 INNER JOIN FTA_FarmerLiquidation fl ON (fll.FTA_FarmerLiquidation_ID =fl.FTA_FarmerLiquidation_ID)
 INNER JOIN FTA_RecordWeight rw ON (rw.FTA_RecordWeight_ID = fll.FTA_RecordWeight_ID)
+INNER JOIN FTA_QualityAnalysis qa ON (qa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID)
+INNER JOIN FTA_EntryTicket et ON (et.FTA_EntryTicket_ID = qa.FTA_EntryTicket_ID)
+INNER JOIN FTA_MobilizationGuide mg ON (mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
 ;
