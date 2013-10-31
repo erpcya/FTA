@@ -128,6 +128,7 @@ public class PaymentForLiquidation extends SvrProcess{
 			
 		}
 		catch(SQLException ex){
+			rollback();
 			return ex.getMessage();
 		}
 		finally{
