@@ -20,9 +20,12 @@ import org.compiere.apps.ADialog;
 import org.compiere.model.MClient;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
+import org.compiere.model.MPaySelectionCheck;
+import org.compiere.model.MPayment;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -59,6 +62,8 @@ public class FTAModelValidator implements ModelValidator {
 		engine.addDocValidate(MOrder.Table_Name, this);
 		engine.addModelChange(MInvoice.Table_Name, this);
 		engine.addDocValidate(MInvoice.Table_Name, this);
+		engine.addModelChange(MPaySelectionCheck.Table_Name, this);
+		
 	}
 
 	@Override
@@ -89,6 +94,34 @@ public class FTAModelValidator implements ModelValidator {
 				}
 				//	
 				log.info(po.toString());
+			}
+		}
+		//Carlos Parada
+		else if(po.get_TableName().equals(MPaySelectionCheck.Table_Name)){
+			MPaySelectionCheck pschk = (MPaySelectionCheck) po;
+			//When Payment != Null  
+			if (pschk.getC_Payment_ID()!=0){
+				
+				//Find Payment Request
+				MFTAPaymentRequest pr = new Query(Env.getCtx(),MFTAPaymentRequest.Table_Name,"C_PaySelectionCheck_ID=?",null)
+				.setOnlyActiveRecords(true)
+				.setParameters(pschk.getC_PaySelectionCheck_ID())
+				.firstOnly();
+				
+				if (pr!=null){
+					//Find One Farming
+					MFTAFarming fming = new Query(Env.getCtx(),MFTAFarming.Table_Name,"FTA_FarmerCredit_ID=?",null)
+					.setOnlyActiveRecords(true)
+					.setParameters(pr.getFTA_FarmerCredit_ID())
+					.firstOnly();
+					
+					if (fming!=null){
+						MPayment pay = new MPayment(Env.getCtx(), pschk.getC_Payment_ID(), null);
+						pay.setC_Order_ID(fming.getC_OrderLine().getC_Order_ID());
+						pay.save();
+					}
+					
+				}
 			}
 		}
 		return null;
