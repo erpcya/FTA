@@ -116,7 +116,7 @@ public class FTAModelValidator implements ModelValidator {
 						inv.set_ValueOfColumn("IsCreditFactPosted", true);
 						//inv.set_ValueOfColumn("IsCreditLimitExceeded", false);
 					}
-					ADialog.error(0, null, Msg.parseTranslation(Env.getCtx(), msg));
+					//ADialog.error(0, null, Msg.parseTranslation(Env.getCtx(), msg));
 					//System.out.println(msg);
 				}
 			}
