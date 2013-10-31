@@ -85,7 +85,7 @@ public class PaySelectionGenerate extends SvrProcess{
 							+"tsb.T_Selection_ID) tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID \n"
 				);
 
-	sql.append("Where ts.AD_PInstance_ID=?");
+	sql.append(" Where ts.AD_PInstance_ID=? Order By tsb.C_BPartner_ID ");
 	log.fine(sql.toString());
 	}
 
@@ -118,22 +118,30 @@ public class PaySelectionGenerate extends SvrProcess{
 			ps.setInt(1, getAD_PInstance_ID());
 			rs = ps.executeQuery();
 			
+			MPaySelectionCheck payselchek =null;
+			
 			while (rs.next()){
-				MPaySelectionCheck payselchek = new MPaySelectionCheck(getCtx(), 0, get_TrxName());
-				payselchek.setC_PaySelection_ID(paysel.getC_PaySelection_ID());
-				payselchek.setC_BPartner_ID(rs.getInt("C_BPartner_ID"));
-				payselchek.setPaymentRule(m_PaymentRule);
-				payselchek.setQty(Env.ONE.intValue());
-				payselchek.setPayAmt(rs.getBigDecimal("PayAmt"));
-				payselchek.setDiscountAmt(Env.ZERO);
-				payselchek.setIsReceipt(m_IsReceipt);
-				payselchek.save(get_TrxName());
-				payselchek.setProcessed(true);
-				m_PayAmt.add(payselchek.getPayAmt());
-				
-				MFTAPaymentRequest pr = new MFTAPaymentRequest(getCtx(), rs.getInt("FTA_PaymentRequest_ID"), get_TrxName());
-				pr.setC_PaySelectionCheck_ID(payselchek.getC_PaySelectionCheck_ID());
-				pr.save(get_TrxName());
+				if (m_C_BPartner_ID!=rs.getInt("C_BPartner_ID")){
+					m_C_BPartner_ID = rs.getInt("C_BPartner_ID");
+					payselchek = new MPaySelectionCheck(getCtx(), 0, get_TrxName());
+					payselchek.setC_PaySelection_ID(paysel.getC_PaySelection_ID());
+					payselchek.setC_BPartner_ID(rs.getInt("C_BPartner_ID"));
+					payselchek.setPaymentRule(m_PaymentRule);
+					payselchek.setQty(Env.ONE.intValue());
+					payselchek.setPayAmt(Env.ZERO);
+					payselchek.setDiscountAmt(Env.ZERO);
+					payselchek.setIsReceipt(m_IsReceipt);
+					payselchek.setProcessed(true);
+				}
+					
+					payselchek.setPayAmt(payselchek.getPayAmt().add(rs.getBigDecimal("PayAmt")));
+					payselchek.save(get_TrxName());
+					
+					m_PayAmt=m_PayAmt.add(payselchek.getPayAmt());
+					
+					MFTAPaymentRequest pr = new MFTAPaymentRequest(getCtx(), rs.getInt("FTA_PaymentRequest_ID"), get_TrxName());
+					pr.setC_PaySelectionCheck_ID(payselchek.getC_PaySelectionCheck_ID());
+					pr.save(get_TrxName());
 				
 			}
 			
@@ -184,5 +192,9 @@ public class PaySelectionGenerate extends SvrProcess{
 	String msg = "";
 	
 	String m_Name = "";
+	
+	/** BPartner*/
+	int m_C_BPartner_ID=0;
+	
 
 }
