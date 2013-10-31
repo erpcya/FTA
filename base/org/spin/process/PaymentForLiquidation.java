@@ -25,6 +25,7 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Msg;
 import org.spin.model.MFTAPaymentRequest;
 
 /**
@@ -113,6 +114,7 @@ public class PaymentForLiquidation extends SvrProcess{
 				pr.setFTA_FarmerLiquidation_ID(rs.getInt("FTA_FarmerLiquidation_ID"));
 				pr.setPayAmt(rs.getBigDecimal("PayAmt"));
 				pr.setC_Charge_ID(m_C_Charge_ID);
+				pr.setName(Msg.translate(getCtx(), "FTA_PaymentRequest_ID")  + " " + Msg.translate(getCtx(), "To") + " " + pr.getC_BPartner().getName());
 				pr.save(get_TrxName());
 				
 				if (m_DocAction != null && m_DocAction.length() > 0)
