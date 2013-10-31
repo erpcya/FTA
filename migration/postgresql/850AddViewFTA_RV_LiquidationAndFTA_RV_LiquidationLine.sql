@@ -65,8 +65,8 @@ SELECT
 	fll.UpdatedBy,
 	fll.IsActive,  
 	fll.Processed, 
-	fll.NetWeight,  
-	PayWeight,  
+	fll.NetWeight, 
+	fll.PayWeight,  
 	Price,  
 	PriceList,
 	
