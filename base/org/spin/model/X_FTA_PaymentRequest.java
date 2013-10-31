@@ -34,7 +34,7 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131030L;
+	private static final long serialVersionUID = 20131031L;
 
     /** Standard Constructor */
     public X_FTA_PaymentRequest (Properties ctx, int FTA_PaymentRequest_ID, String trxName)
@@ -166,6 +166,34 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException
+    {
+		return (I_C_PaySelectionCheck)MTable.get(getCtx(), I_C_PaySelectionCheck.Table_Name)
+			.getPO(getC_PaySelectionCheck_ID(), get_TrxName());	}
+
+	/** Set Pay Selection Check.
+		@param C_PaySelectionCheck_ID 
+		Payment Selection Check
+	  */
+	public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID)
+	{
+		if (C_PaySelectionCheck_ID < 1) 
+			set_Value (COLUMNNAME_C_PaySelectionCheck_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaySelectionCheck_ID, Integer.valueOf(C_PaySelectionCheck_ID));
+	}
+
+	/** Get Pay Selection Check.
+		@return Payment Selection Check
+	  */
+	public int getC_PaySelectionCheck_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySelectionCheck_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
