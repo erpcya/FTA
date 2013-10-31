@@ -30,7 +30,7 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131030L;
+	private static final long serialVersionUID = 20131031L;
 
     /** Standard Constructor */
     public X_FTA_InterestType (Properties ctx, int FTA_InterestType_ID, String trxName)
@@ -87,7 +87,7 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 	public void setCalculationType (String CalculationType)
 	{
 
-		set_Value (COLUMNNAME_CalculationType, CalculationType);
+		set_ValueNoCheck (COLUMNNAME_CalculationType, CalculationType);
 	}
 
 	/** Get Calculation.
@@ -137,9 +137,9 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
 	{
 		if (C_DocTypeTarget_ID < 1) 
-			set_Value (COLUMNNAME_C_DocTypeTarget_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_DocTypeTarget_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
+			set_ValueNoCheck (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
 	}
 
 	/** Get Target Document Type.
@@ -250,7 +250,7 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 	public void setType (String Type)
 	{
 
-		set_Value (COLUMNNAME_Type, Type);
+		set_ValueNoCheck (COLUMNNAME_Type, Type);
 	}
 
 	/** Get Type.
