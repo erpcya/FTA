@@ -137,7 +137,7 @@ public class PaySelectionGenerate extends SvrProcess{
 					payselchek.setPayAmt(payselchek.getPayAmt().add(rs.getBigDecimal("PayAmt")));
 					payselchek.save(get_TrxName());
 					
-					m_PayAmt=m_PayAmt.add(payselchek.getPayAmt());
+					m_PayAmt=m_PayAmt.add(rs.getBigDecimal("PayAmt"));
 					
 					MFTAPaymentRequest pr = new MFTAPaymentRequest(getCtx(), rs.getInt("FTA_PaymentRequest_ID"), get_TrxName());
 					pr.setC_PaySelectionCheck_ID(payselchek.getC_PaySelectionCheck_ID());
