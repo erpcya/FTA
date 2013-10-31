@@ -1038,3 +1038,8 @@ UPDATE AD_Process_Para SET IsMandatory='N', SeqNo=155,Updated=TO_TIMESTAMP('2013
 UPDATE AD_Process_Para SET IsMandatory='N',Updated=TO_TIMESTAMP('2013-10-31 09:13:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=54246
 ;
 
+UPDATE AD_PrintFormat SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE AD_PrintFormat_ID  = 50183;
+UPDATE AD_PrintFormatItem SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE  AD_PrintFormat_ID = 50183;
+UPDATE AD_PrintFormatItem_Trl SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE AD_PrintFormatItem_ID IN(
+SELECT pfi.AD_PrintFormatItem_ID FROM 
+AD_PrintFormatItem pfi WHERE pfi.AD_PrintFormat_ID = 50183);
