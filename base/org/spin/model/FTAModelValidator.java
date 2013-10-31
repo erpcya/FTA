@@ -63,7 +63,6 @@ public class FTAModelValidator implements ModelValidator {
 		engine.addModelChange(MInvoice.Table_Name, this);
 		engine.addDocValidate(MInvoice.Table_Name, this);
 		engine.addModelChange(MPaySelectionCheck.Table_Name, this);
-		
 	}
 
 	@Override
@@ -97,7 +96,8 @@ public class FTAModelValidator implements ModelValidator {
 			}
 		}
 		//Carlos Parada
-		else if(po.get_TableName().equals(MPaySelectionCheck.Table_Name)){
+		else if(po.get_TableName().equals(MPaySelectionCheck.Table_Name)&& 
+				(type == TYPE_BEFORE_CHANGE)){
 			MPaySelectionCheck pschk = (MPaySelectionCheck) po;
 			//When Payment != Null  
 			if (pschk.getC_Payment_ID()!=0){
