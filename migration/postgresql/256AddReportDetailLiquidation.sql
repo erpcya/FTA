@@ -633,3 +633,8 @@ UPDATE AD_Process SET AD_ReportView_ID=53087,Updated=TO_TIMESTAMP('2013-10-31 16
 UPDATE AD_PrintFormat SET AD_ReportView_ID=53087,Updated=TO_TIMESTAMP('2013-10-31 16:41:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormat_ID=50185
 ;
 
+UPDATE AD_PrintFormat SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE AD_PrintFormat_ID = 50185;
+UPDATE AD_PrintFormatItem SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE AD_PrintFormat_ID = 50185;
+UPDATE AD_PrintFormatItem_Trl SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE AD_PrintFormatItem_ID IN(
+SELECT pfi.AD_PrintFormatItem_ID FROM 
+AD_PrintFormatItem pfi WHERE pfi.AD_PrintFormat_ID = 50185);
