@@ -350,6 +350,7 @@ public class MFTAFact extends X_FTA_Fact {
 					//	Current Balance
 					BigDecimal m_Balance = Env.ZERO;
 					
+					//	Change Line
 					if(m_Current_Line_ID != m_Line_ID){
 						if(!m_RemainingAmt.equals(Env.ZERO))
 							break;
