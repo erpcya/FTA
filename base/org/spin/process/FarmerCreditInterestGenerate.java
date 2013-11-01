@@ -129,8 +129,12 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		m_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
 		try {
 			if(m_InterestType.getCalculationType()
-					.equals(MFTAInterestType.CALCULATIONTYPE_CreditDefinitionCategory))
-				out = calculateCDL();
+					.equals(MFTAInterestType.CALCULATIONTYPE_CreditDefinitionCategory)){
+				if(m_InterestType.isRateFixed())
+					out = calculateCDL();
+				else
+					out = calculateCDLforDocument();
+			}
 			trx.commit();
 		} catch (Exception e) {
 			trx.rollback();
@@ -181,10 +185,17 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		BigDecimal interestAmt = openAmt.multiply(rate)
 										.setScale(precision, BigDecimal.ROUND_HALF_UP);
 		//	Create a Document
-		addDocument(interestAmt);
+		addDocument(interestAmt, 0);
 		return "@OK@";
 	}
 	
+	/**
+	 * Calculate for Document
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 31/10/2013, 19:38:37
+	 * @return
+	 * @throws Exception
+	 * @return String
+	 */
 	private String calculateCDLforDocument() throws Exception {
 		//	Get Rate
 		cdlCategoryRate = m_InterestType.getCurrentInterest(p_DateDoc);
@@ -255,7 +266,8 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 							.multiply(new BigDecimal(m_DaysDue))
 							.setScale(precision, BigDecimal.ROUND_HALF_UP);
 					
-					
+					//	Create a Document
+					addDocument(interestAmt, (m_AD_Table_ID == MInvoice.Table_ID? m_Record_ID: 0));
 					
 				}
 			}
@@ -265,8 +277,6 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 			DB.close(rs, pstmt);
 			throw new Exception(e);
 		}
-		//	Create a Document
-		addDocument(interestAmt);
 		return "@OK@";
 	}
 	
