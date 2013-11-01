@@ -153,6 +153,47 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Days due.
+		@param DaysDue 
+		Number of days due (negative: due in number of days)
+	  */
+	public void setDaysDue (int DaysDue)
+	{
+		set_Value (COLUMNNAME_DaysDue, Integer.valueOf(DaysDue));
+	}
+
+	/** Get Days due.
+		@return Number of days due (negative: due in number of days)
+	  */
+	public int getDaysDue () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DaysDue);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Days Fixed.
+		@param DaysFixed Days Fixed	  */
+	public void setDaysFixed (boolean DaysFixed)
+	{
+		set_Value (COLUMNNAME_DaysFixed, Boolean.valueOf(DaysFixed));
+	}
+
+	/** Get Days Fixed.
+		@return Days Fixed	  */
+	public boolean isDaysFixed () 
+	{
+		Object oo = get_Value(COLUMNNAME_DaysFixed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Interest Type.
 		@param FTA_InterestType_ID Interest Type	  */
 	public void setFTA_InterestType_ID (int FTA_InterestType_ID)
@@ -218,15 +259,15 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Set % Fixed.
-		@param RateFixed % Fixed	  */
+	/** Set Percent Fixed.
+		@param RateFixed Percent Fixed	  */
 	public void setRateFixed (boolean RateFixed)
 	{
 		set_Value (COLUMNNAME_RateFixed, Boolean.valueOf(RateFixed));
 	}
 
-	/** Get % Fixed.
-		@return % Fixed	  */
+	/** Get Percent Fixed.
+		@return Percent Fixed	  */
 	public boolean isRateFixed () 
 	{
 		Object oo = get_Value(COLUMNNAME_RateFixed);

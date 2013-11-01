@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
@@ -28,12 +29,15 @@ import org.compiere.model.MCurrency;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.X_C_Invoice;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAInterestRate;
@@ -63,6 +67,8 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 	private MInvoice	m_Invoice = null;
 	/**	Precision							*/
 	private int 		precision = 0;
+	/**	Days for Calculate Rate				*/
+	private int 		daysC_Interes = 0;
 	
 	private MFTAInterestType m_InterestType = null;
 	private MFTAFarmerCredit m_FarmerCredit = null;
@@ -120,17 +126,23 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 			throw new AdempiereUserError("@FTA_FarmerCredit_ID@ @NotFound@");
 		//	Valid Interes Type
 		if(p_FTA_InterestType_ID == 0)
-			throw new AdempiereUserError("@FTA_InterestType_ID@ @NotFound@");
+			throw new AdempiereUserError("@FTA_InterestType_ID@ @NotFound@");		
 		//	Get Precision
 		precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(getCtx(), "$C_Currency_ID"));
 		//	Interest Type
 		m_InterestType = new MFTAInterestType(getCtx(), p_FTA_InterestType_ID, get_TrxName());
+		if(!m_InterestType.isDaysFixed()
+				&& p_ValidFrom_To == null)
+			throw new AdempiereUserError("@DaysFixed@ @ValidFrom@ @to@ @NotFound@");
 		//	Farmer Credit
+		//	Get Standard Days 
+		daysC_Interes= MSysConfig.getIntValue("FTA_DAYS_FOR_CALCULATE_INTEREST", 0, Env.getAD_Client_ID(Env.getCtx()));
+		
 		m_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
 		try {
 			if(m_InterestType.getCalculationType()
 					.equals(MFTAInterestType.CALCULATIONTYPE_CreditDefinitionCategory)){
-				if(m_InterestType.isRateFixed())
+				if(m_InterestType.isDaysFixed())
 					out = calculateCDL();
 				else
 					out = calculateCDLforDocument();
@@ -180,12 +192,22 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		if(openAmt == null
 				|| openAmt.equals(Env.ZERO))
 			return "@OpenAmt@ = @0@";
-		//	
+
+		//	Divide
+		if(!m_InterestType.isRateFixed())
+			rate = rate.divide(new BigDecimal(daysC_Interes));
+		//	Multiply for Days
+		if(m_InterestType.isDaysFixed())
+			rate.multiply(new BigDecimal(m_InterestType.getDaysDue()));
+		
 		rate = rate.divide(Env.ONEHUNDRED);
+		
 		BigDecimal interestAmt = openAmt.multiply(rate)
 										.setScale(precision, BigDecimal.ROUND_HALF_UP);
 		//	Create a Document
-		addDocument(interestAmt, 0);
+		addDocument(interestAmt, 0, null);
+		//	Complete Document
+		completeDoument();
 		return "@OK@";
 	}
 	
@@ -197,24 +219,11 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 	 * @return String
 	 */
 	private String calculateCDLforDocument() throws Exception {
-		//	Get Rate
-		cdlCategoryRate = m_InterestType.getCurrentInterest(p_DateDoc);
-		if(cdlCategoryRate == null)
-			return "@FTA_CDL_CategoryRate@ @NotFound@";
-		
-		BigDecimal rate = cdlCategoryRate.getRate();
-		//	Valid Rate
-		if(rate == null
-				|| rate.equals(Env.ZERO))
-			return "@Rate@ = @0@";
-			
+		//	
 		if(m_InterestType.getCalculationType() == null)
 			return "@CalculationType@ @NotFound@";
 		
-		//	Calculate Rate
-		rate = rate.divide(Env.ONEHUNDRED);
-		
-		String sql = new String("SELECT ft.Record_ID, ft.AD_Table_ID, ft.DateDoc, " +
+		StringBuffer sql = new StringBuffer("SELECT ft.Record_ID, ft.AD_Table_ID, ft.DateDoc, " +
 				"ft.Amt, abs(daysbetween(ft.DateDoc, ?)) DaysDue " +
 				"FROM FTA_Fact ft " +
 				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinitionLine_ID = ft.FTA_CreditDefinitionLine_ID) " +
@@ -224,15 +233,20 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 				"WHERE ft.AD_Table_ID <> ? " +
 				"AND ft.C_BPartner_ID = ? " + 
 				"AND ft.FTA_FarmerCredit_ID = ? " + 
-				"AND it.FTA_InterestType_ID = ? " +
-				"AND ft.DateDoc >= ? AND ft.DateDoc <= ? " +
+				"AND it.FTA_InterestType_ID = ? ");
+		if(p_ValidFrom != null)
+				sql.append("AND ft.DateDoc >= ? ");
+		//	
+		sql.append("AND ft.DateDoc <= ? " +
 				"GROUP BY ft.Record_ID, ft.AD_Table_ID, ft.DateDoc, ft.Amt " +
 				"ORDER BY ft.DateDoc");
 		
 		log.fine("SQL=" + sql);
 		
+		SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
+		
 		PreparedStatement pstmt = null;
-		pstmt = DB.prepareStatement(sql, get_TrxName());
+		pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 		ResultSet rs = null;
 		//	
 		try {
@@ -243,7 +257,10 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 			pstmt.setInt(i++, m_FarmerCredit.getC_BPartner_ID());
 			pstmt.setInt(i++, m_FarmerCredit.getFTA_FarmerCredit_ID());
 			pstmt.setInt(i++, m_InterestType.getFTA_InterestType_ID());
-			pstmt.setTimestamp(i++, p_ValidFrom);
+			//	Set Valid From
+			if(p_ValidFrom != null)
+				pstmt.setTimestamp(i++, p_ValidFrom);
+			//	
 			pstmt.setTimestamp(i++, p_ValidFrom_To);
 			
 			rs = pstmt.executeQuery();
@@ -262,14 +279,43 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 					if(m_Invoice == null)
 						;
 					
+					log.fine("Record_ID=" + m_Record_ID);
+					log.fine("AD_Table_ID=" + m_AD_Table_ID);
+					log.fine("DateDoc=" + m_DateDoc);
+					log.fine("Amt=" + m_Amt);
+					log.fine("DaysDue=" + m_DaysDue);
+					
+					cdlCategoryRate = m_InterestType.getCurrentInterest(m_DateDoc);
+					if(cdlCategoryRate == null)
+						continue;
+					
+					BigDecimal rate = cdlCategoryRate.getRate();
+					//	Valid Rate
+					if(rate == null
+							|| rate.equals(Env.ZERO))
+						return "@Rate@ = @0@";
+					//	Calculate Rate
+					if(!m_InterestType.isRateFixed())
+						rate = rate.divide(new BigDecimal(daysC_Interes));
+					//	Multiply for Days
+					if(m_InterestType.isDaysFixed())
+						rate.multiply(new BigDecimal(m_InterestType.getDaysDue()));
+					
+					rate = rate.divide(Env.ONEHUNDRED);
+					
 					BigDecimal interestAmt = m_Amt.multiply(rate)
-							.multiply(new BigDecimal(m_DaysDue))
 							.setScale(precision, BigDecimal.ROUND_HALF_UP);
 					
+					String description = Msg.parseTranslation(getCtx(), 
+							"@DateDoc@: " + format.format(m_DateDoc) + 
+							" - @GrandTotal@: " + m_Amt.doubleValue() + 
+							" - @DaysDue@: " + m_DaysDue);
 					//	Create a Document
-					addDocument(interestAmt, (m_AD_Table_ID == MInvoice.Table_ID? m_Record_ID: 0));
+					addDocument(interestAmt, (m_AD_Table_ID == MInvoice.Table_ID? m_Record_ID: 0), description);
 					
 				}
+				//	Complete Document
+				completeDoument();
 			}
 			//	Close DB
 			DB.close(rs, pstmt);
@@ -282,11 +328,13 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 	
 	/**
 	 * Add Document
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 31/10/2013, 11:03:30
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 31/10/2013, 19:51:29
 	 * @param interestAmt
+	 * @param p_DocAffected_ID
+	 * @param p_Description
 	 * @return void
 	 */
-	private void addDocument(BigDecimal interestAmt, int p_DocAffected_ID){
+	private void addDocument(BigDecimal interestAmt, int p_DocAffected_ID, String p_Description){
 		if(m_Invoice == null)
 			createHeader();
 		//	Create Line
@@ -297,7 +345,9 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		else if(m_InterestType.getM_Product_ID() != 0)
 			m_InvoiceLine.setM_Product_ID(m_InterestType.getM_Product_ID());
 		//	
-		m_InvoiceLine.setDescription(m_InterestType.getName());
+		if(p_Description != null
+				&& p_Description.length() != 0)
+			m_InvoiceLine.setDescription(p_Description);
 		//	
 		m_InvoiceLine.setQty(Env.ONE);
 		//	Each
@@ -308,8 +358,6 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		//	
 		m_InvoiceLine.setTaxAmt();
 		m_InvoiceLine.saveEx();
-		//	Complete
-		completeDoument(m_Invoice);
 	}
 	
 	/**
@@ -318,7 +366,9 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 	 * @param m_Invoice
 	 * @return void
 	 */
-	private void completeDoument(MInvoice m_Invoice){
+	private void completeDoument(){
+		if(m_Invoice == null)
+			return;
 		m_Invoice.setDocAction(X_C_Invoice.DOCACTION_Complete);
 		m_Invoice.processIt(X_C_Invoice.DOCACTION_Complete);
 		m_Invoice.saveEx();
@@ -344,6 +394,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		m_Invoice.setBPartner(bpartner);
 		//	Set Farmer Credit
 		m_Invoice.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit_ID);
+		m_Invoice.setDescription(m_InterestType.getName());
 		m_Invoice.saveEx();
 	}
 }

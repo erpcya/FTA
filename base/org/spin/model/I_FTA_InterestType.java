@@ -118,6 +118,28 @@ public interface I_FTA_InterestType
 	  */
 	public int getCreatedBy();
 
+    /** Column name DaysDue */
+    public static final String COLUMNNAME_DaysDue = "DaysDue";
+
+	/** Set Days due.
+	  * Number of days due (negative: due in number of days)
+	  */
+	public void setDaysDue (int DaysDue);
+
+	/** Get Days due.
+	  * Number of days due (negative: due in number of days)
+	  */
+	public int getDaysDue();
+
+    /** Column name DaysFixed */
+    public static final String COLUMNNAME_DaysFixed = "DaysFixed";
+
+	/** Set Days Fixed	  */
+	public void setDaysFixed (boolean DaysFixed);
+
+	/** Get Days Fixed	  */
+	public boolean isDaysFixed();
+
     /** Column name FTA_InterestType_ID */
     public static final String COLUMNNAME_FTA_InterestType_ID = "FTA_InterestType_ID";
 
@@ -171,10 +193,10 @@ public interface I_FTA_InterestType
     /** Column name RateFixed */
     public static final String COLUMNNAME_RateFixed = "RateFixed";
 
-	/** Set % Fixed	  */
+	/** Set Percent Fixed	  */
 	public void setRateFixed (boolean RateFixed);
 
-	/** Get % Fixed	  */
+	/** Get Percent Fixed	  */
 	public boolean isRateFixed();
 
     /** Column name Type */

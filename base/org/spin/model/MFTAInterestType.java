@@ -69,5 +69,13 @@ public class MFTAInterestType extends X_FTA_InterestType {
 		.setOrderBy("ValidFrom DESC")
 		.firstOnly();
 	}
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		if(!isDaysFixed())
+			setDaysDue(0);
+		return true;
+	}
 
 }
