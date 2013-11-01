@@ -1,5 +1,5 @@
 ﻿--DROP VIEW FTA_RV_EntryTicket ;
---CREATE OR REPLACE VIEW FTA_RV_EntryTicket AS
+CREATE OR REPLACE VIEW FTA_RV_EntryTicket AS
 SELECT 
 	et.FTA_EntryTicket_ID,
 	et.FTA_EntryTicket_ID AS FTA_RV_EntryTicket_ID, 
@@ -33,7 +33,12 @@ SELECT
 	dt.PrintName AS DocumentType	,
 	-- Guia de Movilizacion
 	et.FTA_MobilizationGuide_ID,
-	p.M_Product_ID
+	p.M_Product_ID,
+	CASE WHEN et.IsPrinted ='Y' THEN
+		'*' 
+	ELSE
+		NULL
+	END AS Copy
 
 FROM FTA_EntryTicket et 
 INNER JOIN C_DocType dt ON (dt.C_DocType_ID = et.C_DocType_ID)
@@ -44,5 +49,3 @@ INNER JOIN M_Product p ON (p.M_Product_ID = f.Category_ID)
 INNER JOIN AD_OrgInfo  oi ON (oi.AD_Org_ID = et.AD_Org_ID)
 LEFT JOIN M_Shipper s ON (s.M_Shipper_ID = et.M_Shipper_ID)
 ;
-
-SELECT * FROM FTA_EntryTicket
