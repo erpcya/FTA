@@ -55,5 +55,5 @@ Not Exists (Select 1
 	    )
 /*Only Active Category Calcs*/
 And 
-cc.IsActive='Y'
+cc.IsActive='Y' AND cc.EventType='LI'
 ;
