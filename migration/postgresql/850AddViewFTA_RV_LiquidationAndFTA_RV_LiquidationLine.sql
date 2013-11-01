@@ -73,7 +73,9 @@ SELECT
 	fll.FTA_FarmerLiquidation_ID,  	
 	fll.FTA_RecordWeight_ID,
 	mg.M_Warehouse_ID,
-	qa.QualityAnalysis_ID
+	qa.QualityAnalysis_ID,
+	fl.C_BPartner_ID,
+	qa.M_Product_ID
 	
 FROM FTA_FarmerLiquidationLine fll
 INNER JOIN FTA_FarmerLiquidation fl ON (fll.FTA_FarmerLiquidation_ID =fl.FTA_FarmerLiquidation_ID)

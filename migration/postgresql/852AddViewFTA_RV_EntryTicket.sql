@@ -1,5 +1,5 @@
 ﻿--DROP VIEW FTA_RV_EntryTicket ;
-CREATE OR REPLACE VIEW FTA_RV_EntryTicket AS
+--CREATE OR REPLACE VIEW FTA_RV_EntryTicket AS
 SELECT 
 	et.FTA_EntryTicket_ID,
 	et.FTA_EntryTicket_ID AS FTA_RV_EntryTicket_ID, 
@@ -27,7 +27,7 @@ SELECT
 	--Socio del Negocio
 	et.C_BPartner_ID,
 	COALESCE(bp.Value,bp.TaxID) AS BPTaxID,
-	COALESCE(bp.Name,' ') || COALESCE(bp.Name2,' ') AS Name,
+	COALESCE(bp.Name,'') || COALESCE(bp.Name2,'') AS Name,
 	--Tipo de Documento
 	et.C_DocType_ID,  
 	dt.PrintName AS DocumentType	,
@@ -44,3 +44,5 @@ INNER JOIN M_Product p ON (p.M_Product_ID = f.Category_ID)
 INNER JOIN AD_OrgInfo  oi ON (oi.AD_Org_ID = et.AD_Org_ID)
 LEFT JOIN M_Shipper s ON (s.M_Shipper_ID = et.M_Shipper_ID)
 ;
+
+SELECT * FROM FTA_EntryTicket
