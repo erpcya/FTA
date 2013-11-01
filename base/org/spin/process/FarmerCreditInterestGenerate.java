@@ -70,6 +70,8 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 	/**	Days for Calculate Rate				*/
 	private int 		daysC_Interes = 0;
 	
+	private int 		precisionDiv = 10;
+	
 	private MFTAInterestType m_InterestType = null;
 	private MFTAFarmerCredit m_FarmerCredit = null;
 	private MFTAInterestRate cdlCategoryRate = null;
@@ -195,7 +197,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 
 		//	Divide
 		if(!m_InterestType.isRateFixed())
-			rate = rate.divide(new BigDecimal(daysC_Interes));
+			rate = rate.divide(new BigDecimal(daysC_Interes), precisionDiv, BigDecimal.ROUND_HALF_UP);
 		//	Multiply for Days
 		if(m_InterestType.isDaysFixed())
 			rate.multiply(new BigDecimal(m_InterestType.getDaysDue()));
@@ -301,7 +303,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 					if(m_InterestType.isDaysFixed())
 						rate.multiply(new BigDecimal(m_InterestType.getDaysDue()));
 					
-					rate = rate.divide(Env.ONEHUNDRED);
+					rate = rate.divide(Env.ONEHUNDRED, precisionDiv, BigDecimal.ROUND_HALF_UP);
 					
 					BigDecimal interestAmt = m_Amt.multiply(rate)
 							.setScale(precision, BigDecimal.ROUND_HALF_UP);
