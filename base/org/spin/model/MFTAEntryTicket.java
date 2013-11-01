@@ -489,6 +489,14 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 		return 0;
 	}	//	getC_Currency_ID
 	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		if(newRecord)
+			setIsPrinted(false);
+		return true;
+	}
+	
 	/**
      *  Add to Description
      *  @param description text

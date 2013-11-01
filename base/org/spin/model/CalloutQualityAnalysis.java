@@ -47,6 +47,13 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 		if (m_FTA_EntryTicket_ID == null || m_FTA_EntryTicket_ID.intValue() == 0)
 			return "";
 		
+		Integer m_FTA_QualityAnalysis_ID =  (Integer)mTab.getValue("FTA_QualityAnalysis_ID");
+		//	
+		if(m_FTA_QualityAnalysis_ID == null || m_FTA_QualityAnalysis_ID.intValue() == 0){
+			mTab.setValue("FTA_EntryTicket_ID", 0);
+			return "";
+		}
+		
 		//	get Mobilization Guide
 		String sql = new String("SELECT fg.Category_ID " +
 				"FROM FTA_Farming fg " +

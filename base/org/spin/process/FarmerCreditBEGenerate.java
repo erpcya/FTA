@@ -17,6 +17,7 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.Timestamp;
 
 import org.compiere.model.MCurrency;
@@ -144,7 +145,7 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 		if(approvedAmt == null
 				|| approvedAmt.equals(Env.ZERO))
 			return;
-		BigDecimal amt = approvedAmt.divide(new BigDecimal(p_Qty), precision, BigDecimal.ROUND_HALF_UP);
+		BigDecimal amt = approvedAmt.divide(new BigDecimal(p_Qty), MathContext.DECIMAL128);
 		//	
 		for(int i = 0; i < p_Qty; i ++){
 			//	
@@ -157,7 +158,7 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 			m_FTA_BillOfExchange.setDateDoc(p_DateDoc);
 			m_FTA_BillOfExchange.setC_BPartner_ID(p_FTA_FarmerCredit.getC_BPartner_ID());
 			//	
-			m_FTA_BillOfExchange.setAmt(amt);
+			m_FTA_BillOfExchange.setAmt(amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
 			m_FTA_BillOfExchange.setFTA_FarmerCredit_ID(p_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
 			if(p_C_BPartner_Location_ID == 0)
 				p_C_BPartner_Location_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fr.C_BPartner_Location_ID) " +
