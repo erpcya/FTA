@@ -615,6 +615,14 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		return index;
 	}
 	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		if(newRecord)
+			setIsPrinted(false);
+		return true;
+	}
+	
 	/**
 	 * Create a Material Receipt from the Record Weight
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 11/09/2013, 11:02:53

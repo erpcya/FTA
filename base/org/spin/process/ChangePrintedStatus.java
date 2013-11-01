@@ -43,7 +43,7 @@ public class ChangePrintedStatus extends SvrProcess {
 				"FROM AD_PInstance " + 
 				"WHERE AD_Process_ID = " + m_AD_Process_ID + " " + 
 				"AND Record_ID = " + p_Record_ID + " " +
-				"AND AD_PInstance_ID <> ?" + m_AD_PInstance_ID, p_Record_ID);
+				"AND AD_PInstance_ID <> ?", m_AD_PInstance_ID);
 		
 		if(count > 0){
 			MTable table = MTable.get(getCtx(), getTable_ID());
@@ -51,6 +51,7 @@ public class ChangePrintedStatus extends SvrProcess {
 			model.set_ValueOfColumn("IsPrinted", true);
 			model.saveEx();
 		}
+		//	
 		return null;
 	}
 

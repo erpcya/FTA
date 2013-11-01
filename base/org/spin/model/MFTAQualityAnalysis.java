@@ -265,6 +265,14 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		}
 	}
 
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		if(newRecord)
+			setIsPrinted(false);
+		return true;
+	}
+	
 	/**
 	 * 	Void Document.
 	 * 	Same as Close.

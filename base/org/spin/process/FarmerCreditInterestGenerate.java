@@ -17,6 +17,7 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -69,8 +70,6 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 	private int 		precision = 0;
 	/**	Days for Calculate Rate				*/
 	private int 		daysC_Interes = 0;
-	
-	private int 		precisionDiv = 10;
 	
 	private MFTAInterestType m_InterestType = null;
 	private MFTAFarmerCredit m_FarmerCredit = null;
@@ -197,7 +196,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 
 		//	Divide
 		if(!m_InterestType.isRateFixed())
-			rate = rate.divide(new BigDecimal(daysC_Interes), precisionDiv, BigDecimal.ROUND_HALF_UP);
+			rate = rate.divide(new BigDecimal(daysC_Interes), MathContext.DECIMAL128);
 		//	Multiply for Days
 		if(m_InterestType.isDaysFixed())
 			rate.multiply(new BigDecimal(m_InterestType.getDaysDue()));
@@ -303,7 +302,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 					if(m_InterestType.isDaysFixed())
 						rate.multiply(new BigDecimal(m_InterestType.getDaysDue()));
 					
-					rate = rate.divide(Env.ONEHUNDRED, precisionDiv, BigDecimal.ROUND_HALF_UP);
+					rate = rate.divide(Env.ONEHUNDRED, MathContext.DECIMAL128);
 					
 					BigDecimal interestAmt = m_Amt.multiply(rate)
 							.setScale(precision, BigDecimal.ROUND_HALF_UP);
