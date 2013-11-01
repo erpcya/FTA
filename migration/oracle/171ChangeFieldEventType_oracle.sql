@@ -1,0 +1,5 @@
+-- Oct 21, 2013 12:11:11 AM VET
+-- LVE-Import
+UPDATE AD_Column SET FieldLength=2,Updated=TO_DATE('2013-10-21 00:11:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=67072
+;
+
