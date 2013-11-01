@@ -71,6 +71,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	
 	/**	Generated							*/
 	private int 		generated = 0;
+	/**	Precision							*/
+	private int 		precision = 0;
 	
 	private String 			trxName = null;
 	private Trx 			trx = null;
@@ -204,7 +206,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		//	Set Amount
 		if(p_Amt == null)
 			p_Amt = m_FTA_FarmerCredit.getAmt();
-		m_ARinvoiceLine.setPrice(p_Amt);
+		m_ARinvoiceLine.setPrice(p_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
 		//	
 		m_ARinvoiceLine.setTaxAmt();
 		m_ARinvoiceLine.saveEx();
@@ -300,7 +302,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		paymentRequest.setDateDoc(p_DateDoc);
 		paymentRequest.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
 		paymentRequest.setC_BPartner_ID(m_FTA_FarmerCredit.getC_BPartner_ID());
-		paymentRequest.setPayAmt(p_Amt);
+		paymentRequest.setPayAmt(p_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
 		paymentRequest.setName(Msg.parseTranslation(getCtx(), "@FTA_PaymentRequest_ID@ @to@") 
 				+ ": " + bpartner.getName());
 		if(p_C_Charge_ID != 0)
