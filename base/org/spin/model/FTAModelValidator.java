@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.spin.model;
 
+import java.util.List;
+
 import org.compiere.apps.ADialog;
 import org.compiere.model.MClient;
 import org.compiere.model.MInvoice;
@@ -63,6 +65,7 @@ public class FTAModelValidator implements ModelValidator {
 		engine.addModelChange(MInvoice.Table_Name, this);
 		engine.addDocValidate(MInvoice.Table_Name, this);
 		engine.addModelChange(MPaySelectionCheck.Table_Name, this);
+		engine.addDocValidate(MPayment.Table_Name, this);
 	}
 
 	@Override
@@ -162,6 +165,22 @@ public class FTAModelValidator implements ModelValidator {
 					MFTAFact.deleteFact(MOrder.Table_ID, ord.getC_Order_ID(), false,ord.get_TrxName());
 				}
 			}
+			
+		}else if(timing == TIMING_AFTER_VOID 
+				|| timing == TIMING_AFTER_REVERSECORRECT){
+			if(po.get_TableName().equals(MPayment.Table_Name)){
+				MPayment pay = (MPayment) po;
+				List<MFTAPaymentRequest>  prs = new Query(Env.getCtx(),MFTAPaymentRequest.Table_Name,"Exists(Select 1 From C_PaySelectionCheck pschk Where pschk.C_Payment_ID =? And pschk.C_PaySelectionCheck_ID=FTA_PaymentRequest.C_PaySelectionCheck_ID)",null)
+					.setOnlyActiveRecords(true)
+					.setParameters(pay.getC_Payment_ID())
+					.list();
+				
+				for(MFTAPaymentRequest pr:prs){
+					pr.setC_PaySelectionCheck_ID(0);
+					pr.save();
+				}
+			}
+				
 		}
 		return null;
 	}
