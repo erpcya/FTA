@@ -17,7 +17,12 @@ rw.ImportWeight,
 et.Ext_Guide,
 COALESCE(cp.Value,cp.TaxID) BPTaxID, 
 cp.Name ||' '|| COALESCE(cp.Name2,'') AS Name,
-qa.DateDoc QualytiDate
+qa.DateDoc QualytiDate,
+	CASE WHEN rw.IsPrinted ='Y' THEN
+		'*' 
+	ELSE
+		NULL
+	END AS Copy
 
 FROM FTA_RecordWeight rw
 INNER JOIN FTA_EntryTicket et ON(et.FTA_EntryTicket_ID = rw.FTA_EntryTicket_ID)
