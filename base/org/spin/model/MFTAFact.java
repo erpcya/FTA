@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import org.compiere.model.MCharge;
@@ -30,6 +31,7 @@ import org.compiere.model.MProductCategory;
 import org.compiere.model.PO;
 import org.compiere.model.X_C_ChargeType;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 
@@ -275,7 +277,7 @@ public class MFTAFact extends X_FTA_Fact {
 		deleteFact(table_ID, record_ID, false, trxName);
 		
 		//	SQL
-		String sql = new String("SELECT i.C_Invoice_ID, i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced DateDoc, i.Description, " +
+		String sql = new String("SELECT i.C_Invoice_ID, i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced DateDoc, i.DocumentNo, i.Description, " +
 				"cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, " +
 				"i.C_Invoice_ID Record_ID, il.C_InvoiceLine_ID Line_ID, " +
 				"il.LineNetAmt + (il.LineNetAmt * t.Rate / 100) Amt, (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, " +
@@ -305,7 +307,7 @@ public class MFTAFact extends X_FTA_Fact {
 				"			AND cr.C_ChargeType_ID IS NOT NULL) " +
 				"	) " +
 				//	Group by
-				"GROUP BY i.C_Invoice_ID, i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced, i.Description, " +
+				"GROUP BY i.C_Invoice_ID, i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced, i.DocumentNo, i.Description, " +
 				"cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, " +
 				"i.C_Invoice_ID, il.C_InvoiceLine_ID, il.LineNetAmt, t.Rate, cdl.Amt, fc.ApprovedQty, cdl.Line " +
 				"ORDER BY i.C_Invoice_ID, il.C_InvoiceLine_ID, cdl.Line, cdl.IsCreditLimitExceeded");
@@ -333,10 +335,12 @@ public class MFTAFact extends X_FTA_Fact {
 				int m_FTA_CreditDefinitionLine_ID = 0;
 				BigDecimal m_RemainingAmt = Env.ZERO;
 				BigDecimal m_SO_CreditLimit = Env.ZERO;
+				SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
 				while(rs.next()){
 					int m_AD_Org_ID 					= rs.getInt("AD_Org_ID");
 					int m_C_BPartner_ID 				= rs.getInt("C_BPartner_ID");
 					Timestamp m_DateDoc 				= rs.getTimestamp("DateDoc");
+					String m_DocumentNo					= rs.getString("DocumentNo");
 					String m_Description 				= rs.getString("Description");
 					int m_FTA_CreditDefinition_ID 		= rs.getInt("FTA_CreditDefinition_ID");
 					m_FTA_CreditDefinitionLine_ID 		= rs.getInt("FTA_CreditDefinitionLine_ID");
@@ -350,26 +354,29 @@ public class MFTAFact extends X_FTA_Fact {
 					//	Current Balance
 					BigDecimal m_Balance = Env.ZERO;
 					
-					//	Change Line
-					if(m_Current_Line_ID != m_Line_ID){
-						if(!m_RemainingAmt.equals(Env.ZERO))
-							break;
-						m_Current_Line_ID = m_Line_ID;
-						m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_Amt));
-						if(m_Balance.compareTo(Env.ZERO) < 0){
-							m_RemainingAmt = m_Balance.abs();
-							m_Amt = m_Amt.add(m_Balance);
+					if(m_IsCreditLimitExceeded == null
+							|| m_IsCreditLimitExceeded.equals("N")){
+						//	Change Line
+						if(m_Current_Line_ID != m_Line_ID){
+							if(!m_RemainingAmt.equals(Env.ZERO))
+								break;
+							m_Current_Line_ID = m_Line_ID;
+							m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_Amt));
+							if(m_Balance.compareTo(Env.ZERO) < 0){
+								m_RemainingAmt = m_Balance.abs();
+								m_Amt = m_Amt.add(m_Balance);
+							} else {
+								m_RemainingAmt = Env.ZERO;
+							}
 						} else {
-							m_RemainingAmt = Env.ZERO;
-						}
-					} else {
-						m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_RemainingAmt));
-						if(m_Balance.compareTo(Env.ZERO) < 0){
-							m_Amt = m_RemainingAmt.add(m_Balance);
-							m_RemainingAmt = m_Balance.abs();
-						} else {
-							m_Amt = m_RemainingAmt;
-							m_RemainingAmt = Env.ZERO;
+							m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_RemainingAmt));
+							if(m_Balance.compareTo(Env.ZERO) < 0){
+								m_Amt = m_RemainingAmt.add(m_Balance);
+								m_RemainingAmt = m_Balance.abs();
+							} else {
+								m_Amt = m_RemainingAmt;
+								m_RemainingAmt = Env.ZERO;
+							}
 						}
 					}
 					//	
@@ -382,6 +389,14 @@ public class MFTAFact extends X_FTA_Fact {
 					m_fta_Fact.setAD_Org_ID(m_AD_Org_ID);
 					m_fta_Fact.setC_BPartner_ID(m_C_BPartner_ID);
 					m_fta_Fact.setDateDoc(m_DateDoc);
+					if(m_Description == null)
+						m_Description = "";
+					//	Set Description
+					m_Description = m_DocumentNo + " - " + format.format(m_DateDoc) + 
+							(m_Description != null && m_Description.length() != 0
+								? " - " + m_Description
+									: "");
+					
 					m_fta_Fact.setDescription(m_Description);
 					m_fta_Fact.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition_ID);
 					m_fta_Fact.setFTA_CreditDefinitionLine_ID(m_FTA_CreditDefinitionLine_ID);

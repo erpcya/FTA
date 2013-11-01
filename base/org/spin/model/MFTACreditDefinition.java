@@ -380,6 +380,10 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if (m_processMsg != null)
 			return false;
 
+		m_processMsg = validReference();
+		if(m_processMsg != null)
+			return false;
+		
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
