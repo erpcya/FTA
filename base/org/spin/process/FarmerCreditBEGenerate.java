@@ -19,6 +19,7 @@ package org.spin.process;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import org.compiere.model.MCurrency;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
@@ -53,6 +54,8 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 	private int 		p_Qty = 0;
 	/**	Created					*/
 	private int 		m_Created = 0;
+	/**	Precision							*/
+	private int 		precision = 0;
 	
 	@Override
 	protected void prepare() {
@@ -103,6 +106,9 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 		if(p_Qty <= 0)		
 			throw new AdempiereUserError("@Qty@ <= @0@");
 		
+		//	Get Precision
+		precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(getCtx(), "$C_Currency_ID"));
+		
 		if(p_FTA_FarmerCredit_ID != 0){
 			MFTAFarmerCredit m_FTA_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
 			addBillOfExchange(m_FTA_FarmerCredit);
@@ -138,7 +144,7 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 		if(approvedAmt == null
 				|| approvedAmt.equals(Env.ZERO))
 			return;
-		BigDecimal amt = approvedAmt.divide(new BigDecimal(p_Qty));
+		BigDecimal amt = approvedAmt.divide(new BigDecimal(p_Qty), precision, BigDecimal.ROUND_HALF_UP);
 		//	
 		for(int i = 0; i < p_Qty; i ++){
 			//	
@@ -174,7 +180,7 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 			m_FTA_BillOfExchange.saveEx();
 			
 			addLog("@FTA_BillOfExchange_ID@: " + m_FTA_BillOfExchange.getDocumentNo() + 
-					" - @Amt@ = " + m_FTA_BillOfExchange.getAmt());
+					" - @Amt@ = " + m_FTA_BillOfExchange.getAmt().doubleValue());
 			//	
 			m_Created ++;
 		}

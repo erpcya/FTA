@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MProduct;
+import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
@@ -59,6 +60,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 	/**	Farming						*/
 	private int 		p_FTA_Farming_ID		= 0;
 	
+	/**	Quantity To Deliver			*/
+	private BigDecimal	p_QtyDeliver			= null;
 	/**	Business Partner			*/
 	private int 		p_C_BPartner_ID			= 0;
 	
@@ -78,6 +81,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 				p_DateDoc = (Timestamp) para.getParameter();
 			else if (name.equals("FTA_VehicleType_ID"))
 				p_FTA_VehicleType_ID = para.getParameterAsInt();
+			else if(name.equals("QtyDelivered"))
+				p_QtyDeliver = (BigDecimal)para.getParameter();
 			else if (name.equals("MaxQty"))
 				p_MaxQty = para.getParameterAsInt();
 			else if (name.equals("C_BPartner_ID"))
@@ -145,6 +150,9 @@ public class FarmingGuideGenerate extends SvrProcess {
 		//	Rate Convert
 		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
 				product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
+		MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
+		//	Set Precision
+		int precision = uom.getStdPrecision();
 		//	Valid Conversion
 		if(rate == null)
 			throw new AdempiereUserError("@NoUOMConversion@");
@@ -201,8 +209,13 @@ public class FarmingGuideGenerate extends SvrProcess {
 				&& m_MaxReceipt.compareTo(m_MaxQty) <= 0)
 			m_MaxQty = m_MaxReceipt;
 		
-		//	Get Load Capacity
-		m_QtyToDeliver = m_VehicleType.getLoadCapacity();
+		//	Set Quantity To Deliver
+		if(p_QtyDeliver != null
+				&& p_QtyDeliver.compareTo(Env.ZERO) > 0)
+			m_QtyToDeliver = p_QtyDeliver;
+		else
+			m_QtyToDeliver = m_VehicleType.getLoadCapacity();
+		
 		//	Convert
 		m_QtyToDeliver = m_QtyToDeliver.multiply(rate);
 		
@@ -238,7 +251,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_MobilizationGuide.setFTA_Farming_ID(p_FTA_Farming_ID);
 			m_MobilizationGuide.setFTA_VehicleType_ID(p_FTA_VehicleType_ID);
 			m_MobilizationGuide.setM_Warehouse_ID(p_M_Warehouse_ID);
-			m_MobilizationGuide.setQtyToDeliver(m_QtyToDeliver);
+			m_MobilizationGuide.setQtyToDeliver(m_QtyToDeliver.setScale(precision, BigDecimal.ROUND_HALF_UP));
 			//	Verify if Business Partner is not null
 			if(p_C_BPartner_ID != 0)
 				m_MobilizationGuide.setC_BPartner_ID(p_C_BPartner_ID);
