@@ -188,3 +188,8 @@ UPDATE AD_Field_Trl SET Name='Ticket de Entrada',Description='Ticket de Entrada'
 UPDATE AD_Field_Trl SET Name='Ticket de Entrada',Description='Ticket de Entrada',Help='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-11-01 16:56:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70255 AND AD_Language='es_VE'
 ;
 
+-- Nov 1, 2013 5:03:46 PM VET
+-- Farming Technical Assistance
+UPDATE AD_Column SET IsSelectionColumn='N', IsUpdateable='N',Updated=TO_TIMESTAMP('2013-11-01 17:03:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=66923
+;
+
