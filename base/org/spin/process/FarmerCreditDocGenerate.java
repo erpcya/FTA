@@ -55,7 +55,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	/**	Farmer Credit						*/
 	private int 		p_FTA_FarmerCredit_ID = 0;
 	/**	Payment Request					*/
-	private String 		p_GeneratePaySelect = null;
+	private String 		p_GeneratePayRequest = null;
 	/**	Document for PAyment Request		*/
 	private int 		p_C_DocTypePayRequest_ID = 0;
 	/**	Charge								*/
@@ -101,8 +101,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				p_Amt = (BigDecimal)para.getParameter();
 			else if (name.equals("DateDoc"))
 				p_DateDoc = (Timestamp)para.getParameter();
-			else if(name.equals("GeneratePaySelect"))
-				p_GeneratePaySelect = (String) para.getParameter();
+			else if(name.equals("GeneratePayRequest"))
+				p_GeneratePayRequest = (String) para.getParameter();
 			else if(name.equals("C_DocTypePayRequest_ID"))
 				p_C_DocTypePayRequest_ID = para.getParameterAsInt();
 		}
@@ -150,8 +150,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 			//	
 			if(reference_ID == 0){
 				addDocument();
-				if(p_GeneratePaySelect != null
-						&& p_GeneratePaySelect.equals("Y"))
+				if(p_GeneratePayRequest != null
+						&& p_GeneratePayRequest.equals("Y"))
 					generatePayRequest();
 			}
 			//	

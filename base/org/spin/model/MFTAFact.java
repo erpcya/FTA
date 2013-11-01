@@ -433,8 +433,8 @@ public class MFTAFact extends X_FTA_Fact {
 			//	Close DB
 			DB.close(rs, pstmt);
 		} catch (Exception e) {
-			DB.close(rs, pstmt);
 			trx.rollback();
+			DB.close(rs, pstmt);
 			return e.getMessage();
 		}
 		

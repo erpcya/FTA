@@ -76,6 +76,29 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 	}
 	
 	/**
+	 * Set Quality Analysis
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 01/11/2013, 12:12:57
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String qualityAnalysis (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		Integer m_QualityAnalysis_ID = (Integer)value;
+		if (m_QualityAnalysis_ID == null || m_QualityAnalysis_ID.intValue() == 0)
+			return "";
+		//	
+		Integer m_FTA_QualityAnalysis_ID =  (Integer)mTab.getValue("FTA_QualityAnalysis_ID");
+		//	
+		if(m_FTA_QualityAnalysis_ID == null || m_FTA_QualityAnalysis_ID.intValue() == 0)
+			mTab.setValue("QualityAnalysis_ID", 0);
+		return "";
+	}
+	
+	/**
 	 * Set Original Analysis from DocBaseType
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/09/2013, 11:48:17
 	 * @param ctx
