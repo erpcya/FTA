@@ -69,7 +69,8 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"tsb.Price,/*Price*/ \n "
 				+"qa.QualityAnalysis_ID,/*Identifier Quality Analisis*/ \n "
 				+"cc.FTA_CategoryCalc_ID, /*Identifier Category Calc*/ \n "
-				+"tsb.PayAnalysis_ID "
+				+"tsb.PayAnalysis_ID,\n " 
+				+"tsb.IsInDispute "
 				+"From  \n "
 				+"/*Selection Browse*/ \n "
 				+"T_Selection ts  \n "
@@ -78,7 +79,8 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"		    tsb.T_Selection_ID, \n "
 				+"		    Sum(Case When tsb.ColumnName = 'RWUL_Price' Then tsb.Value_Number Else 0 End) As Price, \n "
 				+"		    Sum(Case When tsb.ColumnName = 'RWUL_PayWeight' Then tsb.Value_Number Else 0 End) As PayWeight, \n "
-				+"		    Max(Case When tsb.ColumnName = 'RWUL_PayAnalysis_ID' Then tsb.Value_Number Else 0 End) As PayAnalysis_ID \n "
+				+"		    Max(Case When tsb.ColumnName = 'RWUL_PayAnalysis_ID' Then tsb.Value_Number Else 0 End) As PayAnalysis_ID, \n "
+				+"		    Max(Case When tsb.ColumnName = 'RWUL_IsInDispute' Then tsb.Value_String Else ''  End) As IsInDispute \n "
 				+"	    From T_Selection_Browse tsb  \n "
 				+"	    Group By  \n "
 				+"	    tsb.AD_PInstance_ID, \n "
@@ -201,7 +203,10 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		liquidationline.setPayWeight(rs.getBigDecimal("PayWeight"));
 		liquidationline.setPriceList(rs.getBigDecimal("Price"));
 		liquidationline.setPrice(rs.getBigDecimal("Price"));
-		liquidationline.setQualityAnalysis_ID(rs.getInt("PayAnalysis_ID"));
+		if(rs.getString("IsInDispute").equals("Y"))
+			liquidationline.setQualityAnalysis_ID(rs.getInt("PayAnalysis_ID"));
+		else
+			liquidationline.setQualityAnalysis_ID(rs.getInt("QualityAnalysis_ID"));
 		
 		liquidation.setNetWeight(liquidation.getNetWeight().add(liquidationline.getNetWeight()));
 		liquidation.setAmt(liquidation.getAmt().add(liquidationline.getPrice().multiply(liquidationline.getPayWeight())));

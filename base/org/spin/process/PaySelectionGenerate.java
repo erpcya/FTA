@@ -85,7 +85,7 @@ public class PaySelectionGenerate extends SvrProcess{
 							+"tsb.T_Selection_ID) tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID \n"
 				);
 
-	sql.append(" Where ts.AD_PInstance_ID=? Order By tsb.C_BPartner_ID ");
+	sql.append(" Where ts.AD_PInstance_ID=? Order By tsb.C_BPartner_ID,tsb.FTA_FarmerCredit_ID ");
 	log.fine(sql.toString());
 	}
 
@@ -121,8 +121,9 @@ public class PaySelectionGenerate extends SvrProcess{
 			MPaySelectionCheck payselchek =null;
 			
 			while (rs.next()){
-				if (m_C_BPartner_ID!=rs.getInt("C_BPartner_ID")){
+				if (m_C_BPartner_ID!=rs.getInt("C_BPartner_ID") || m_FTA_FarmerCredit_ID!=rs.getInt("FTA_FarmerCredit_ID")){
 					m_C_BPartner_ID = rs.getInt("C_BPartner_ID");
+					m_FTA_FarmerCredit_ID = rs.getInt("FTA_FarmerCredit_ID");
 					payselchek = new MPaySelectionCheck(getCtx(), 0, get_TrxName());
 					payselchek.setC_PaySelection_ID(paysel.getC_PaySelection_ID());
 					payselchek.setC_BPartner_ID(rs.getInt("C_BPartner_ID"));
@@ -192,6 +193,9 @@ public class PaySelectionGenerate extends SvrProcess{
 	
 	/** BPartner*/
 	int m_C_BPartner_ID=0;
+	
+	/** FTA_FarmerCredit_ID */
+	int m_FTA_FarmerCredit_ID =0;
 	
 
 }
