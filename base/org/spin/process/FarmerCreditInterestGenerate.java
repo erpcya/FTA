@@ -17,10 +17,18 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.logging.Level;
 
+import org.compiere.model.MBPartner;
 import org.compiere.model.MCurrency;
-import org.compiere.model.MSysConfig;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MOrder;
+import org.compiere.model.X_C_Invoice;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
@@ -47,6 +55,19 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 	private int 		p_FTA_FarmerCredit_ID = 0;
 	/**	Interest Type						*/
 	private int			p_FTA_InterestType_ID = 0;
+	/**	Valid From							*/
+	private Timestamp	p_ValidFrom = null;
+	/**	Valid From To						*/
+	private Timestamp	p_ValidFrom_To = null;
+	/**	Invoice								*/
+	private MInvoice	m_Invoice = null;
+	/**	Precision							*/
+	private int 		precision = 0;
+	
+	private MFTAInterestType m_InterestType = null;
+	private MFTAFarmerCredit m_FarmerCredit = null;
+	private MFTAInterestRate cdlCategoryRate = null;
+	
 	private String 			trxName = null;
 	private Trx 			trx = null;
 	
@@ -68,19 +89,23 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 				p_FTA_InterestType_ID = para.getParameterAsInt();
 			else if (name.equals("DateDoc"))
 				p_DateDoc = (Timestamp)para.getParameter();
+			else if (name.equals("ValidFrom")){
+				p_ValidFrom = (Timestamp)para.getParameter();
+				p_ValidFrom_To = (Timestamp)para.getParameter_To();
+			}
 		}
 		//	Get Technical From Identifier
 		if(p_FTA_FarmerCredit_ID == 0)
 			p_FTA_FarmerCredit_ID = getRecord_ID();
 		
-		trxName = Trx.createTrxName("FCIG");
+		trxName = Trx.createTrxName("FCDG");
 		trx = Trx.get(trxName, true);
-
 	}
 
 
 	@Override
 	protected String doIt() throws Exception {		
+		String out = "";
 		//	Valid Organization
 		if(p_AD_Org_ID == 0)
 			throw new AdempiereUserError("@AD_Org_ID@ @NotFound@");
@@ -97,35 +122,38 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		if(p_FTA_InterestType_ID == 0)
 			throw new AdempiereUserError("@FTA_InterestType_ID@ @NotFound@");
 		//	Get Precision
-		int precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(getCtx(), "$C_Currency_ID"));
-		//	Get Year Days
-		int yearDays = MSysConfig.getIntValue("FTA_DAYS_FOR_CALCULATE_INTEREST", 0, Env.getAD_Client_ID(Env.getCtx()));
-
+		precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(getCtx(), "$C_Currency_ID"));
 		//	Interest Type
-		MFTAInterestType m_InterestType = new MFTAInterestType(getCtx(), p_FTA_InterestType_ID, trxName);
+		m_InterestType = new MFTAInterestType(getCtx(), p_FTA_InterestType_ID, get_TrxName());
 		//	Farmer Credit
-		MFTAFarmerCredit m_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, trxName);
-		//	
-		BigDecimal openAmt = DB.getSQLValueBD(trxName, "SELECT SUM(ft.Amt) Amt " +
-				"FROM FTA_Fact ft " +
-				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinitionLine_ID = ft.FTA_CreditDefinitionLine_ID) " +
-				"INNER JOIN FTA_CDL_Category cdlc ON(cdlc.FTA_CDL_Category_ID = cdl.FTA_CDL_Category_ID) " +
-				"INNER JOIN FTA_CDL_CategoryInterest cdli ON(cdli.FTA_CDL_Category_ID = cdlc.FTA_CDL_Category_ID) " +
-				"INNER JOIN FTA_InterestType it ON(it.FTA_InterestType_ID = cdli.FTA_InterestType_ID) " +
-				"WHERE ft.C_BPartner_ID = " + m_FarmerCredit.getC_BPartner_ID() + " " +
-				"AND ft.FTA_FarmerCredit_ID = " + m_FarmerCredit.getFTA_FarmerCredit_ID() + " " +
-				"AND it.FTA_InterestType_ID = ?", m_InterestType.getFTA_InterestType_ID());
-		
-		if(openAmt == null
-				|| openAmt.equals(Env.ZERO))
-			return "";
-		//	Net Days
-		int netDays = 0;//m_InterestType.getNetDays();
-		//	Valid Net Days
-		if(netDays <= 0)
-			return "@NetDays@ <= @0@";
+		m_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
+		try {
+			if(m_InterestType.getCalculationType()
+					.equals(MFTAInterestType.CALCULATIONTYPE_CreditDefinitionCategory)){
+				if(m_InterestType.isRateFixed())
+					out = calculateCDL();
+				else
+					out = calculateCDLforDocument();
+			}
+			trx.commit();
+		} catch (Exception e) {
+			trx.rollback();
+			log.log(Level.SEVERE, "Error:", e);
+			out = e.getMessage();
+		}
+		//	Commit
+		return out;
+	}
+	
+	/**
+	 * Calculate Amount based in Credit Definition Category
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 31/10/2013, 08:56:01
+	 * @return
+	 * @return String
+	 */
+	private String calculateCDL() throws Exception {
 		//	Get Rate
-		MFTAInterestRate cdlCategoryRate = m_InterestType.getCurrentInterest(p_DateDoc);
+		cdlCategoryRate = m_InterestType.getCurrentInterest(p_DateDoc);
 		if(cdlCategoryRate == null)
 			return "@FTA_CDL_CategoryRate@ @NotFound@";
 		
@@ -134,41 +162,188 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		if(rate == null
 				|| rate.equals(Env.ZERO))
 			return "@Rate@ = @0@";
-		//	Harcode
-		BigDecimal rateDays = new BigDecimal(yearDays);
-		BigDecimal interestRate = rate.divide(rateDays, precision, BigDecimal.ROUND_HALF_UP);
+			
+		if(m_InterestType.getCalculationType() == null)
+			return "@CalculationType@ @NotFound@";
 		//	
-		interestRate = interestRate.multiply(new BigDecimal(netDays));
+		BigDecimal openAmt = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(ft.Amt) Amt " +
+			"FROM FTA_Fact ft " +
+			"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinitionLine_ID = ft.FTA_CreditDefinitionLine_ID) " +
+			"INNER JOIN FTA_CDL_Category cdlc ON(cdlc.FTA_CDL_Category_ID = cdl.FTA_CDL_Category_ID) " +
+			"INNER JOIN FTA_CDL_CategoryInterest cdli ON(cdli.FTA_CDL_Category_ID = cdlc.FTA_CDL_Category_ID) " +
+			"INNER JOIN FTA_InterestType it ON(it.FTA_InterestType_ID = cdli.FTA_InterestType_ID) " +
+			"WHERE ft.AD_Table_ID <> " + MOrder.Table_ID + " " + 
+			"AND ft.C_BPartner_ID = " + m_FarmerCredit.getC_BPartner_ID() + " " +
+			"AND ft.FTA_FarmerCredit_ID = " + m_FarmerCredit.getFTA_FarmerCredit_ID() + " " +
+			"AND it.FTA_InterestType_ID = ?", m_InterestType.getFTA_InterestType_ID());
+			
+		if(openAmt == null
+				|| openAmt.equals(Env.ZERO))
+			return "@OpenAmt@ = @0@";
 		//	
-		BigDecimal interestAmt = openAmt.multiply(interestRate)
+		rate = rate.divide(Env.ONEHUNDRED);
+		BigDecimal interestAmt = openAmt.multiply(rate)
 										.setScale(precision, BigDecimal.ROUND_HALF_UP);
-		//	
-		
-		/*MInvoice m_ARInvoice = new MInvoice(getCtx(), 0, trxName);
-		m_ARInvoice.setAD_Org_ID(p_AD_Org_ID);
-		m_ARInvoice.setDateInvoiced(p_DateDoc);
-		m_ARInvoice.setIsSOTrx(true);
-		m_ARInvoice.setC_DocTypeTarget_ID(p_C_DocTypeInvoice_ARI_ID);
-		//	Set Business PArtner
-		
-		m_ARInvoice.setBPartner(bpartner);
-		//	Set Farmer Credit
-		m_ARInvoice.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit_ID);
-		m_ARInvoice.saveEx();
-		//	Create Line
-		MInvoiceLine m_ARinvoiceLine = new MInvoiceLine(m_ARInvoice);
-		//	Set Charge and Product
-		
-		//if(m_InterestType)
-		//	
-		m_ARinvoiceLine.setQty(Env.ONE);
-		
-		m_ARinvoiceLine.setPrice(interestAmt);
-		//	
-		m_ARinvoiceLine.setTaxAmt();
-		m_ARinvoiceLine.saveEx();*/
-		
-		return null;
+		//	Create a Document
+		addDocument(interestAmt, 0);
+		return "@OK@";
 	}
-
+	
+	/**
+	 * Calculate for Document
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 31/10/2013, 19:38:37
+	 * @return
+	 * @throws Exception
+	 * @return String
+	 */
+	private String calculateCDLforDocument() throws Exception {
+		//	Get Rate
+		cdlCategoryRate = m_InterestType.getCurrentInterest(p_DateDoc);
+		if(cdlCategoryRate == null)
+			return "@FTA_CDL_CategoryRate@ @NotFound@";
+		
+		BigDecimal rate = cdlCategoryRate.getRate();
+		//	Valid Rate
+		if(rate == null
+				|| rate.equals(Env.ZERO))
+			return "@Rate@ = @0@";
+			
+		if(m_InterestType.getCalculationType() == null)
+			return "@CalculationType@ @NotFound@";
+		
+		//	Calculate Rate
+		rate = rate.divide(Env.ONEHUNDRED);
+		
+		String sql = new String("SELECT ft.Record_ID, ft.AD_Table_ID, ft.DateDoc, " +
+				"ft.Amt, abs(daysbetween(ft.DateDoc, ?)) DaysDue " +
+				"FROM FTA_Fact ft " +
+				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinitionLine_ID = ft.FTA_CreditDefinitionLine_ID) " +
+				"INNER JOIN FTA_CDL_Category cdlc ON(cdlc.FTA_CDL_Category_ID = cdl.FTA_CDL_Category_ID) " +
+				"INNER JOIN FTA_CDL_CategoryInterest cdli ON(cdli.FTA_CDL_Category_ID = cdlc.FTA_CDL_Category_ID) " +
+				"INNER JOIN FTA_InterestType it ON(it.FTA_InterestType_ID = cdli.FTA_InterestType_ID) " +
+				"WHERE ft.AD_Table_ID <> ? " +
+				"AND ft.C_BPartner_ID = ? " + 
+				"AND ft.FTA_FarmerCredit_ID = ? " + 
+				"AND it.FTA_InterestType_ID = ? " +
+				"AND ft.DateDoc >= ? AND ft.DateDoc <= ? " +
+				"GROUP BY ft.Record_ID, ft.AD_Table_ID, ft.DateDoc, ft.Amt " +
+				"ORDER BY ft.DateDoc");
+		
+		log.fine("SQL=" + sql);
+		
+		PreparedStatement pstmt = null;
+		pstmt = DB.prepareStatement(sql, get_TrxName());
+		ResultSet rs = null;
+		//	
+		try {
+			//	Add Parameters
+			int i = 1;
+			pstmt.setTimestamp(i++, p_ValidFrom_To);
+			pstmt.setInt(i++, MOrder.Table_ID);
+			pstmt.setInt(i++, m_FarmerCredit.getC_BPartner_ID());
+			pstmt.setInt(i++, m_FarmerCredit.getFTA_FarmerCredit_ID());
+			pstmt.setInt(i++, m_InterestType.getFTA_InterestType_ID());
+			pstmt.setTimestamp(i++, p_ValidFrom);
+			pstmt.setTimestamp(i++, p_ValidFrom_To);
+			
+			rs = pstmt.executeQuery();
+			if(rs != null){
+				while(rs.next()){
+					int m_Record_ID 		= rs.getInt("Record_ID");
+					int m_AD_Table_ID 		= rs.getInt("AD_Table_ID");
+					Timestamp m_DateDoc		= rs.getTimestamp("DateDoc");
+					BigDecimal m_Amt		= rs.getBigDecimal("Amt");
+					int m_DaysDue			= rs.getInt("DaysDue");
+					
+					if(m_Amt == null
+							|| m_Amt.equals(Env.ZERO))
+						continue;
+					
+					if(m_Invoice == null)
+						;
+					
+					BigDecimal interestAmt = m_Amt.multiply(rate)
+							.multiply(new BigDecimal(m_DaysDue))
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					
+					//	Create a Document
+					addDocument(interestAmt, (m_AD_Table_ID == MInvoice.Table_ID? m_Record_ID: 0));
+					
+				}
+			}
+			//	Close DB
+			DB.close(rs, pstmt);
+		} catch (SQLException e) {
+			DB.close(rs, pstmt);
+			throw new Exception(e);
+		}
+		return "@OK@";
+	}
+	
+	/**
+	 * Add Document
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 31/10/2013, 11:03:30
+	 * @param interestAmt
+	 * @return void
+	 */
+	private void addDocument(BigDecimal interestAmt, int p_DocAffected_ID){
+		if(m_Invoice == null)
+			createHeader();
+		//	Create Line
+		MInvoiceLine m_InvoiceLine = new MInvoiceLine(m_Invoice);
+		//	Set Charge and Product
+		if(m_InterestType.getC_Charge_ID() != 0)
+			m_InvoiceLine.setC_Charge_ID(m_InterestType.getC_Charge_ID());
+		else if(m_InterestType.getM_Product_ID() != 0)
+			m_InvoiceLine.setM_Product_ID(m_InterestType.getM_Product_ID());
+		//	
+		m_InvoiceLine.setDescription(m_InterestType.getName());
+		//	
+		m_InvoiceLine.setQty(Env.ONE);
+		//	Each
+		m_InvoiceLine.setPrice(interestAmt);
+		//	Set Document Affected
+		if(p_DocAffected_ID != 0)
+			m_InvoiceLine.set_ValueOfColumn("DocAffected_ID", p_DocAffected_ID);
+		//	
+		m_InvoiceLine.setTaxAmt();
+		m_InvoiceLine.saveEx();
+		//	Complete
+		completeDoument(m_Invoice);
+	}
+	
+	/**
+	 * Complete Document
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 31/10/2013, 11:03:22
+	 * @param m_Invoice
+	 * @return void
+	 */
+	private void completeDoument(MInvoice m_Invoice){
+		m_Invoice.setDocAction(X_C_Invoice.DOCACTION_Complete);
+		m_Invoice.processIt(X_C_Invoice.DOCACTION_Complete);
+		m_Invoice.saveEx();
+		//	Add Log
+		addLog("@DocumentNo@ " + m_Invoice.getDocumentNo() 
+				+ " - @GrandTotal@ = " + m_Invoice.getGrandTotal() 
+				+ " @OK@");
+	}
+	
+	/**
+	 * Create a Header
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 31/10/2013, 19:01:10
+	 * @return void
+	 */
+	private void createHeader(){
+		m_Invoice = new MInvoice(getCtx(), 0, trxName);
+		m_Invoice.setAD_Org_ID(p_AD_Org_ID);
+		m_Invoice.setDateInvoiced(p_DateDoc);
+		m_Invoice.setIsSOTrx(true);
+		m_Invoice.setC_DocTypeTarget_ID(m_InterestType.getC_DocTypeTarget_ID());
+		//	Set Business PArtner
+		MBPartner bpartner = MBPartner.get(getCtx(), p_C_BPartner_ID);
+		m_Invoice.setBPartner(bpartner);
+		//	Set Farmer Credit
+		m_Invoice.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit_ID);
+		m_Invoice.saveEx();
+	}
 }
