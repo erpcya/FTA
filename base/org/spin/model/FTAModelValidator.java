@@ -18,6 +18,7 @@ package org.spin.model;
 
 import java.util.List;
 
+import org.compiere.apps.ADialog;
 import org.compiere.model.MClient;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
@@ -29,6 +30,8 @@ import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -118,7 +121,9 @@ public class FTAModelValidator implements ModelValidator {
 					
 					if (fming!=null){
 						MPayment pay = new MPayment(Env.getCtx(), pschk.getC_Payment_ID(), null);
-						pay.setC_Order_ID(fming.getC_OrderLine().getC_Order_ID());
+						if (fming.getC_OrderLine()!=null)
+							pay.setC_Order_ID(fming.getC_OrderLine().getC_Order_ID());
+						pay.setIsPrepayment(true);
 						pay.save();
 					}
 					
@@ -150,7 +155,6 @@ public class FTAModelValidator implements ModelValidator {
 						inv.set_ValueOfColumn("IsCreditFactPosted", true);
 						//inv.set_ValueOfColumn("IsCreditLimitExceeded", false);
 					}
-					System.out.println("Msg=" + msg);
 					//ADialog.error(0, null, Msg.parseTranslation(Env.getCtx(), msg));
 					//System.out.println(msg);
 				}
@@ -179,6 +183,51 @@ public class FTAModelValidator implements ModelValidator {
 					pr.save();
 				}
 			}
+				
+		}else if(timing ==TIMING_BEFORE_COMPLETE){
+			if(po.get_TableName().equals(MPayment.Table_Name)){
+				MPayment pay = (MPayment) po;
+				List<MFTAPaymentRequest>  prs = new Query(Env.getCtx(),MFTAPaymentRequest.Table_Name,"Exists(Select 1 From C_PaySelectionCheck pschk Where pschk.C_Payment_ID =? And pschk.C_PaySelectionCheck_ID=FTA_PaymentRequest.C_PaySelectionCheck_ID) AND FTA_FarmerLiquidation_ID IS NOT NULL ",null)
+				.setOnlyActiveRecords(true)
+				.setParameters(pay.getC_Payment_ID())
+				.list();
+				
+				String trxName = MPayment.Table_Name;
+				Trx trx = Trx.get(trxName, true);
+				
+				for(MFTAPaymentRequest pr:prs){
+					
+					MFTAAllocation alloc =new MFTAAllocation(Env.getCtx(), 0, trxName);
+					alloc.setDateDoc(pay.getDateTrx());
+					alloc.setFTA_FarmerCredit_ID(pr.getFTA_FarmerCredit_ID());
+					alloc.setApprovalAmt(Env.ZERO);
+					alloc.setC_Currency_ID(pay.getC_Currency_ID());
+					alloc.setDescription(pay.getDescription());
+					alloc.setIsApproved(true);
+					
+					alloc.save(trxName);
+					
+					MFTAAllocationLine allocline = new MFTAAllocationLine(alloc);
+					allocline.setC_BPartner_ID(pay.getC_BPartner_ID());
+					allocline.setFTA_FarmerLiquidation_ID(pr.getFTA_FarmerLiquidation_ID());
+					allocline.setC_Payment_ID(pay.getC_Payment_ID());
+					allocline.setAmount(pay.getPayAmt());
+					allocline.setWriteOffAmt(Env.ZERO);
+					allocline.setOverUnderAmt(Env.ZERO);
+					allocline.setDiscountAmt(Env.ZERO);
+					
+					allocline.save(trxName);
+					
+					alloc.processIt(alloc.DOCACTION_Complete);
+					alloc.save(trxName);
+					
+					
+				}
+				//Confirm Changes
+				trx.commit();
+				
+			}
+				
 				
 		}
 		return null;
