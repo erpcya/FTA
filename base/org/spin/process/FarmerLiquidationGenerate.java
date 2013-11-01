@@ -115,7 +115,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"	    Where fll.FTA_RecordWeight_ID=rw.FTA_RecordWeight_ID And fl.DocStatus In ('CO','CL') \n "
 				+"	    ) \n "
 				+"And \n " 
-				+"cc.IsActive='Y' \n "
+				+"cc.IsActive='Y' ANd cc.EventType='LI' \n "
 				+"Order By f.C_BPartner_ID, \n "
 				+"	 fm.Category_ID	" );
 		log.fine("SQL Farmer Liquidation Generate=" + sql);
