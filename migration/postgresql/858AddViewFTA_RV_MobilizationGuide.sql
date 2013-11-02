@@ -29,14 +29,16 @@ SELECT
 	l.C_Region_ID,
 	l.C_Country_ID,
 	l.C_City_ID,
-	fa.Name AS FarmName,
-	
+	fa.Name AS FarmName,	
 	p.Value,
 	p.Name,
 	p.C_Uom_ID,
-	mg.QtyToDeliver,
+	--mg.QtyToDeliver,
 	mg.FTA_MobilizationGuide_ID AS FTA_RV_MobilizationGuide_ID,
-	mg.DateDoc
+	mg.DateDoc,
+	ROUND((FTA_RateConversion(p.M_Product_ID, ci.C_Uom_Area_ID) * QtyToDeliver),2) QtyToDeliver ,
+	ci.C_Uom_Area_ID ,
+	p.M_Product_ID
 	
 FROM FTA_MobilizationGuide mg
 INNER JOIN FTA_Farming f ON (f.FTA_Farming_ID = mg.FTA_Farming_ID)
@@ -50,4 +52,8 @@ LEFT JOIN FTA_VehicleType vt ON (vt.FTA_VehicleType_ID = mg.FTA_VehicleType_ID)
 LEFT JOIN M_Warehouse w ON (w.M_Warehouse_ID = mg.M_Warehouse_ID)
 LEFT JOIN AD_OrgInfo oi ON (oi.AD_Org_ID = mg.AD_Org_ID)
 LEFT JOIN AD_ClientInfo ci ON (ci.AD_Client_ID = mg.AD_Client_ID)
-LEFT JOIN C_uom u ON (u.C_Uom_ID = ci.C_Uom_Weight_ID)
+LEFT JOIN C_UOM u ON (u.C_Uom_ID = ci.C_Uom_Weight_ID)
+
+
+
+-- SELECT ROUND(FTA_RateConversion(1009133,1000002) * QtyToDeliver,2),QtyToDeliver FROM FTA_MobilizationGuide mg
