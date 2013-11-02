@@ -18,7 +18,6 @@ package org.spin.model;
 
 import java.util.List;
 
-import org.compiere.apps.ADialog;
 import org.compiere.model.MClient;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
@@ -30,7 +29,6 @@ import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 
 /**
@@ -121,9 +119,12 @@ public class FTAModelValidator implements ModelValidator {
 					
 					if (fming!=null){
 						MPayment pay = new MPayment(Env.getCtx(), pschk.getC_Payment_ID(), null);
-						if (fming.getC_OrderLine()!=null)
+						
+						if (fming.getC_OrderLine()!=null && pr.getFTA_FarmerLiquidation_ID()!=0)
 							pay.setC_Order_ID(fming.getC_OrderLine().getC_Order_ID());
-						pay.setIsPrepayment(true);
+						else if (pr.getC_Charge_ID()!=0)
+							pay.setC_Charge_ID(pr.getC_Charge_ID());
+						
 						pay.save();
 					}
 					
@@ -173,15 +174,33 @@ public class FTAModelValidator implements ModelValidator {
 				|| timing == TIMING_AFTER_REVERSECORRECT){
 			if(po.get_TableName().equals(MPayment.Table_Name)){
 				MPayment pay = (MPayment) po;
-				List<MFTAPaymentRequest>  prs = new Query(Env.getCtx(),MFTAPaymentRequest.Table_Name,"Exists(Select 1 From C_PaySelectionCheck pschk Where pschk.C_Payment_ID =? And pschk.C_PaySelectionCheck_ID=FTA_PaymentRequest.C_PaySelectionCheck_ID)",null)
+				
+				String trxName = MPayment.Table_Name;
+				Trx trx = Trx.get(trxName, true);
+				
+				List<MFTAPaymentRequest>  prs = new Query(Env.getCtx(),MFTAPaymentRequest.Table_Name,"Exists(Select 1 From C_PaySelectionCheck pschk Where pschk.C_Payment_ID =? And pschk.C_PaySelectionCheck_ID=FTA_PaymentRequest.C_PaySelectionCheck_ID)",trxName)
 					.setOnlyActiveRecords(true)
 					.setParameters(pay.getC_Payment_ID())
 					.list();
 				
 				for(MFTAPaymentRequest pr:prs){
 					pr.setC_PaySelectionCheck_ID(0);
-					pr.save();
+					pr.save(trxName);
 				}
+				
+				
+				List<MFTAAllocation>  allocs = new Query(Env.getCtx(),MFTAAllocation.Table_Name,"Exists(Select 1 From FTA_AllocationLine allocline Where allocline.C_Payment_ID =? And allocline.FTA_Allocation_ID=FTA_Allocation.FTA_Allocation_ID)",null)
+				.setOnlyActiveRecords(true)
+				.setParameters(pay.getC_Payment_ID())
+				.list();
+				
+				for(MFTAAllocation alloc:allocs){
+					alloc.processIt(alloc.DOCACTION_Void);
+					alloc.save(trxName);
+				}
+				
+				//Confirm Changes
+				trx.commit();
 			}
 				
 		}else if(timing ==TIMING_BEFORE_COMPLETE){
