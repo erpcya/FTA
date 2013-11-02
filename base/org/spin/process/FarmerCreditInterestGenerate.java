@@ -199,7 +199,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 			rate = rate.divide(new BigDecimal(daysC_Interes), MathContext.DECIMAL128);
 		//	Multiply for Days
 		if(m_InterestType.isDaysFixed())
-			rate = rate.multiply(new BigDecimal(m_InterestType.getDaysDue()));
+			rate = rate.multiply(new BigDecimal(m_InterestType.getDaysDue()), MathContext.DECIMAL128);
 		
 		rate = rate.divide(Env.ONEHUNDRED);
 		
@@ -297,14 +297,18 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 						return "@Rate@ = @0@";
 					//	Calculate Rate
 					if(!m_InterestType.isRateFixed())
-						rate = rate.divide(new BigDecimal(daysC_Interes));
+						rate = rate.divide(new BigDecimal(daysC_Interes), MathContext.DECIMAL128);
 					//	Multiply for Days
 					if(m_InterestType.isDaysFixed())
 						rate = rate.multiply(new BigDecimal(m_InterestType.getDaysDue()));
 					
 					rate = rate.divide(Env.ONEHUNDRED, MathContext.DECIMAL128);
 					
-					BigDecimal interestAmt = m_Amt.multiply(rate)
+					//	Apply Rate
+					BigDecimal interestAmt = m_Amt.multiply(rate, MathContext.DECIMAL128);
+					
+					//	Apply Days
+					interestAmt = interestAmt.multiply(new BigDecimal(m_DaysDue))
 							.setScale(precision, BigDecimal.ROUND_HALF_UP);
 					
 					String description = Msg.parseTranslation(getCtx(), 

@@ -38,6 +38,7 @@ public class ChangePrintedStatus extends SvrProcess {
 	protected String doIt() throws Exception {
 		int m_AD_PInstance_ID = getProcessInfo().getAD_PInstance_ID();
 		int m_AD_Process_ID = getProcessInfo().getAD_Process_ID();
+		getProcessInfo().setPrintPreview(false);
 		//	Get Count
 		int count = DB.getSQLValue(get_TrxName(), "SELECT COUNT(AD_PInstance_ID) " +
 				"FROM AD_PInstance " + 
