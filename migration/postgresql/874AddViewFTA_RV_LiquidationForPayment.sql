@@ -14,10 +14,9 @@ SELECT fl.AD_Client_ID,
 	fl.FTA_FarmerLiquidation_ID,
 	fl.M_Product_ID,
 	fl.NetWeight,
-	LiquidationAvailable(fl.FTA_FarmerLiquidation_ID)-Coalesce(pr.PayAmt,0) AvailableAmt,
-	LiquidationAvailable(fl.FTA_FarmerLiquidation_ID)-Coalesce(pr.PayAmt,0) PayAmt
+	LiquidationAvailable(fl.FTA_FarmerLiquidation_ID) AvailableAmt,
+	LiquidationAvailable(fl.FTA_FarmerLiquidation_ID) PayAmt
 FROM 
 FTA_FarmerLiquidation fl
-Left Join (Select FTA_PaymentRequest.FTA_FarmerLiquidation_ID,Sum(PayAmt) PayAmt From FTA_PaymentRequest Where FTA_PaymentRequest.DocStatus Not In ('VO','RE') Group By FTA_PaymentRequest.FTA_FarmerLiquidation_ID) pr On fl.FTA_FarmerLiquidation_ID=pr.FTA_FarmerLiquidation_ID
-Where LiquidationAvailable(fl.FTA_FarmerLiquidation_ID)-Coalesce(pr.PayAmt,0) > 0
+Where LiquidationAvailable(fl.FTA_FarmerLiquidation_ID)> 0
 ;
