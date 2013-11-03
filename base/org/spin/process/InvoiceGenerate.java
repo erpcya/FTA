@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.spin.process;
 
-import java.sql.Timestamp;
 
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -76,9 +75,19 @@ public class InvoiceGenerate extends SvrProcess{
 	@Override
 	protected String doIt() throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return createInvoices();
 	}
 
+	/**
+	 * Create Invoice From Liquidations
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 03/11/2013, 18:59:49
+	 * @return
+	 * @return String
+	 */
+	private String createInvoices(){
+		return "";
+	}
+	
 	
 	/** Document Type*/
 	private int m_C_DocType_ID = 0;
