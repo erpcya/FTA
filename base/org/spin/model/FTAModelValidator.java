@@ -147,17 +147,26 @@ public class FTAModelValidator implements ModelValidator {
 			} else if(po.get_TableName().equals(MInvoice.Table_Name)){
 				MInvoice inv = (MInvoice) po;
 				if(inv.isSOTrx()
-						&& inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
-					String msg = MFTAFact.createInvoiceFact(Env.getCtx(), inv, inv.get_TrxName());
+						&& inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){	
+					String msg = null;
+					//	Is Manual
+					if(inv.get_ValueAsBoolean("IsCreditFactManual")){
+						MOrder ord = new MOrder(Env.getCtx(), inv.getC_Order_ID(), inv.get_TrxName());
+						if(!inv.getGrandTotal().equals(ord.getGrandTotal()))
+							msg = MFTAFact.createFact(Env.getCtx(), inv, inv.get_TrxName());
+						else
+							msg = MFTAFact.copyFromFact(Env.getCtx(), ord.getC_Order_ID(), 
+									inv.getC_Invoice_ID(), ord.get_TrxName());
+					} else {
+						msg = MFTAFact.createFact(Env.getCtx(), inv, inv.get_TrxName());
+					}
+					//	Set Posted
 					if(msg != null){
 						inv.set_ValueOfColumn("IsCreditFactPosted", false);
-						//inv.set_ValueOfColumn("IsCreditLimitExceeded", true);
 					} else{
 						inv.set_ValueOfColumn("IsCreditFactPosted", true);
-						//inv.set_ValueOfColumn("IsCreditLimitExceeded", false);
 					}
-					//ADialog.error(0, null, Msg.parseTranslation(Env.getCtx(), msg));
-					//System.out.println(msg);
+					return msg;
 				}
 			}
 		} else if(timing == TIMING_AFTER_REACTIVATE
