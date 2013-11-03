@@ -156,12 +156,12 @@ public class FTAModelValidator implements ModelValidator {
 					if(inv.get_ValueAsBoolean("IsCreditFactManual")){
 						MOrder ord = new MOrder(Env.getCtx(), inv.getC_Order_ID(), inv.get_TrxName());
 						if(!inv.getGrandTotal().equals(ord.getGrandTotal()))
-							msg = MFTAFact.createFact(Env.getCtx(), inv, inv.get_TrxName());
+							msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), inv.get_TrxName());
 						else
-							msg = MFTAFact.copyFromFact(Env.getCtx(), ord.getC_Order_ID(), 
-									inv.getC_Invoice_ID(), ord.get_TrxName());
+							msg = MFTAFact.copyFromFact(Env.getCtx(), ord, 
+									inv, ord.get_TrxName());
 					} else {
-						msg = MFTAFact.createFact(Env.getCtx(), inv, inv.get_TrxName());
+						msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), inv.get_TrxName());
 					}
 					//	Set Posted
 					if(msg != null){
