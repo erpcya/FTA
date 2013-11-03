@@ -67,7 +67,9 @@ public class PaySelectionGenerate extends SvrProcess{
 				+"tsb.FTA_FarmerLiquidation_ID, \n"
 				+"tsb.Name, \n"
 				+"tsb.Description, \n"
-				+"tsb.PayAmt \n"
+				+"tsb.PayAmt, \n"
+				+"Case When tsb.FTA_FarmerLiquidation_ID =0 OR tsb.FTA_FarmerLiquidation_ID IS NULL Then 1 Else 2 End PayType, \n"
+				+"tsb.C_Charge_ID \n"
 				+"From  \n" 
 				+"T_Selection ts \n" 
 				+"Inner Join (Select  tsb.AD_PInstance_ID, \n" 
@@ -78,14 +80,16 @@ public class PaySelectionGenerate extends SvrProcess{
 									+"Max(Case When tsb.ColumnName = 'PRFP_FTA_FarmerLiquidation_ID' Then tsb.Value_Number Else Null End) As FTA_FarmerLiquidation_ID, \n"
 									+"Max(Case When tsb.ColumnName = 'PRFP_Name' Then tsb.Value_String Else Null End) As Name, \n"
 									+"Max(Case When tsb.ColumnName = 'PRFP_Description' Then tsb.Value_String Else Null End) As Description, \n"
-									+"Max(Case When tsb.ColumnName = 'PRFP_PayAmt' Then tsb.Value_Number Else Null End) As PayAmt \n"
+									+"Max(Case When tsb.ColumnName = 'PRFP_PayAmt' Then tsb.Value_Number Else Null End) As PayAmt, \n"
+									+"Max(Case When tsb.ColumnName = 'PRFP_C_Charge_ID' Then tsb.Value_Number Else Null End) As C_Charge_ID \n"
 							+"From T_Selection_Browse tsb   \n" 
 							+"Group By \n" 
 							+"tsb.AD_PInstance_ID, \n" 
 							+"tsb.T_Selection_ID) tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID \n"
 				);
 
-	sql.append(" Where ts.AD_PInstance_ID=? Order By tsb.C_BPartner_ID,tsb.FTA_FarmerCredit_ID,tsb.FTA_FarmerLiquidation_ID ");
+	sql.append(" Where ts.AD_PInstance_ID=? Order By PayType,tsb.C_BPartner_ID,tsb.FTA_FarmerCredit_ID,tsb.FTA_FarmerLiquidation_ID,tsb.C_Charge_ID  ");
+	
 	log.fine(sql.toString());
 	}
 
@@ -121,15 +125,12 @@ public class PaySelectionGenerate extends SvrProcess{
 			MPaySelectionCheck payselchek =null;
 			
 			while (rs.next()){
-				if (m_C_BPartner_ID!=rs.getInt("C_BPartner_ID") || m_FTA_FarmerCredit_ID!=rs.getInt("FTA_FarmerCredit_ID")){
-					
-					
-					
-					//|| m_FTA_FarmerLiquidation_ID!=rs.getInt("FTA_FarmerLiquidation_ID")
+				
+				if (m_C_BPartner_ID!=rs.getInt("C_BPartner_ID") || m_FTA_FarmerCredit_ID!=rs.getInt("FTA_FarmerCredit_ID") || m_PayType!=rs.getInt("PayType") || m_C_Charge_ID!=rs.getInt("C_Charge_ID")){
 					m_C_BPartner_ID = rs.getInt("C_BPartner_ID");
 					m_FTA_FarmerCredit_ID = rs.getInt("FTA_FarmerCredit_ID");
-					m_FTA_FarmerLiquidation_ID = rs.getInt("FTA_FarmerLiquidation_ID");
-					
+					m_PayType = rs.getInt("PayType");
+					m_C_Charge_ID=rs.getInt("C_Charge_ID");
 					payselchek = new MPaySelectionCheck(getCtx(), 0, get_TrxName());
 					payselchek.setC_PaySelection_ID(paysel.getC_PaySelection_ID());
 					payselchek.setC_BPartner_ID(rs.getInt("C_BPartner_ID"));
@@ -140,6 +141,7 @@ public class PaySelectionGenerate extends SvrProcess{
 					payselchek.setIsReceipt(m_IsReceipt);
 					payselchek.setProcessed(true);
 				}
+				
 				payselchek.setPayAmt(payselchek.getPayAmt().add(rs.getBigDecimal("PayAmt")));
 				payselchek.save(get_TrxName());
 				m_PayAmt=m_PayAmt.add(rs.getBigDecimal("PayAmt"));
@@ -204,6 +206,9 @@ public class PaySelectionGenerate extends SvrProcess{
 	int m_FTA_FarmerCredit_ID =0;
 	
 	/** Farmer Liquidation */
-	int m_FTA_FarmerLiquidation_ID=0;
+	int m_PayType=0;
+	
+	/** Charge */
+	int m_C_Charge_ID=0;
 
 }
