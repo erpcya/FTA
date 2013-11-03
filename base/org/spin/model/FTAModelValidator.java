@@ -105,28 +105,31 @@ public class FTAModelValidator implements ModelValidator {
 			if (pschk.getC_Payment_ID()!=0){
 				
 				//Find Payment Request
-				MFTAPaymentRequest pr = new Query(Env.getCtx(),MFTAPaymentRequest.Table_Name,"C_PaySelectionCheck_ID=?",null)
+				List<MFTAPaymentRequest>  prs = new Query(Env.getCtx(),MFTAPaymentRequest.Table_Name,"C_PaySelectionCheck_ID=?",null)
 				.setOnlyActiveRecords(true)
 				.setParameters(pschk.getC_PaySelectionCheck_ID())
-				.firstOnly();
+				.list();
 				
-				if (pr!=null){
+				for(MFTAPaymentRequest pr:prs){
 					//Find One Farming
-					MFTAFarming fming = new Query(Env.getCtx(),MFTAFarming.Table_Name,"FTA_FarmerCredit_ID=?",null)
-					.setOnlyActiveRecords(true)
-					.setParameters(pr.getFTA_FarmerCredit_ID())
-					.firstOnly();
+					MPayment pay = new MPayment(Env.getCtx(), pschk.getC_Payment_ID(), null);
 					
-					if (fming!=null){
-						MPayment pay = new MPayment(Env.getCtx(), pschk.getC_Payment_ID(), null);
+					if (pr.getFTA_FarmerLiquidation_ID()==0 && pr.getC_Charge_ID()!=0)
+						pay.setC_Charge_ID(pr.getC_Charge_ID());
+					else if (pr.getFTA_FarmerLiquidation_ID()!=0){
 						
-						if (fming.getC_OrderLine()!=null && pr.getFTA_FarmerLiquidation_ID()!=0)
-							pay.setC_Order_ID(fming.getC_OrderLine().getC_Order_ID());
-						else if (pr.getC_Charge_ID()!=0)
-							pay.setC_Charge_ID(pr.getC_Charge_ID());
+						MFTAFarming fming = new Query(Env.getCtx(),MFTAFarming.Table_Name,"FTA_FarmerCredit_ID=?",null)
+						.setOnlyActiveRecords(true)
+						.setParameters(pr.getFTA_FarmerCredit_ID())
+						.firstOnly();
 						
-						pay.save();
+						if (fming!=null)
+							if (fming.getC_OrderLine()!=null)
+								pay.setC_Order_ID(fming.getC_OrderLine().getC_Order_ID());
+						
 					}
+					
+					pay.save();
 					
 				}
 			}
