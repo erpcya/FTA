@@ -1,7 +1,6 @@
 ﻿-- Function: liquidationAvailable(numeric)
 
 -- DROP FUNCTION liquidationAvailable(numeric);
-
 CREATE OR REPLACE FUNCTION liquidationAvailable(p_FTA_FarmerLiquidation_id numeric)
   RETURNS numeric AS
 $BODY$
@@ -23,6 +22,7 @@ DECLARE
 	v_Currency_ID		NUMERIC(10);
 	v_AvailableAmt		NUMERIC := 0;
     	v_Amt               	NUMERIC := 0;
+    	v_PayRequestAmt		NUMERIC := 0;
     	r   			RECORD;
 
 BEGIN
@@ -45,6 +45,13 @@ BEGIN
 	    v_AvailableAmt := v_AvailableAmt - v_Amt;
 --      DBMS_OUTPUT.PUT_LINE('  Allocation=' || a.Amount || ' - Available=' || v_AvailableAmt);
 	END LOOP;
+	--Add Payment Request For liquidation
+	Select Sum(pr.PayAmt) PayAmt INTO v_PayRequestAmt From FTA_PaymentRequest pr 
+	Where pr.DocStatus IN ('CO','CL') AND C_PaySelectionCheck_ID IS NULL AND pr.FTA_FarmerLiquidation_ID = p_FTA_FarmerLiquidation_ID
+	GROUP BY pr.FTA_FarmerLiquidation_ID;
+
+	v_AvailableAmt = v_AvailableAmt - Coalesce(v_PayRequestAmt,0);
+	
 	--	Ignore Rounding
 	IF (v_AvailableAmt BETWEEN -0.00999 AND 0.00999) THEN
 		v_AvailableAmt := 0;
