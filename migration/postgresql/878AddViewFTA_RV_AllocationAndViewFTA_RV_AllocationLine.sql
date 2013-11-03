@@ -18,10 +18,18 @@ SELECT
 	a.FTA_FarmerCredit_ID, 
 	a.IsActive, 
 	a.IsApproved, 
-	a.Processed
-
+	a.Processed,
+	COALESCE(bp.TaxID,bp.Value) BPTaxID,
+	bp.Name || COALESCE(bp.Name2,'') BPName,
+	oi.C_Location_ID Org_Location_ID,
+	oi.TaxID,
+	FTA_Allocation_ID FTA_RV_Allocation_ID
 FROM FTA_Allocation a
-INNER JOIN FTA_FarmerCredit fc ON (fc.FTA_FarmerCredit_ID = a.FTA_FarmerCredit_ID);
+INNER JOIN FTA_FarmerCredit fc ON (fc.FTA_FarmerCredit_ID = a.FTA_FarmerCredit_ID)
+INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID = fc.C_BPartner_ID)
+LEFT JOIN AD_OrgInfo oi ON (oi.AD_Org_ID = a.AD_Org_ID)
+;
+
 
 --DROP VIEW FTA_RV_AllocationLine;
 CREATE OR REPLACE VIEW FTA_RV_AllocationLine AS
