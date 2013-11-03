@@ -37,7 +37,8 @@ SELECT
 	oi.C_Location_ID Org_Location_ID,
 	oi.TaxID,
 	COALESCE(bp.Value,bp.TaxID) BPTaxID,
-	bp.Name ||' '||bp.Name2 BPName
+	bp.Name ||' '||bp.Name2 BPName,
+	FTA_FarmerCredit_ID FTA_RV_FarmerCredit_ID
 	
 FROM FTA_FarmerCredit fc
 INNER JOIN C_DocType dt ON (dt.C_DocType_ID =fc.C_DocType_ID)
