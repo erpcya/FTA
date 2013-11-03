@@ -241,76 +241,47 @@ public class MFTAFact extends X_FTA_Fact {
 	 * Create Invoice Fact
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 10/10/2013, 13:50:14
 	 * @param ctx
-	 * @param invoice
-	 * @param from
-	 * @param to
+	 * @param document
 	 * @param trxName
 	 * @return
 	 * @return String
 	 */
-	public static String createInvoiceFact(Properties ctx, MInvoice invoice, Timestamp from, Timestamp to, String trxName) {
-		int table_ID = MInvoice.Table_ID;
+	public static String createFact(Properties ctx, PO document, Timestamp p_DateDoc, BigDecimal p_Amt, String trxName) {
 		String msg = null;
 		//
 		String sqlWhere = "";
-		int record_ID = 0;
-		if(invoice != null){
-			//	Is Manual
-			if(invoice.get_ValueAsBoolean("IsCreditFactManual")){
-				MOrder ord = new MOrder(ctx, invoice.getC_Order_ID(), trxName);
-				if(!invoice.getGrandTotal().equals(ord.getGrandTotal()))
-					return "@InvoiceOrderInconsistent@";
-				else
-					return copyFromFact(ctx, ord.getC_Order_ID(), 
-							invoice.getC_Invoice_ID(), 
-							trxName);
-			}
-			record_ID = invoice.getC_Invoice_ID();
-			sqlWhere = "AND i.C_Invoice_ID = " + record_ID + " ";
-		} else {
-			if(from != null)
-				sqlWhere += "AND i.DateInvoiced >= ? ";
-			if(to != null)
-				sqlWhere += "AND i.DateInvoiced <= ? ";
-		}
+		if(document == null)
+			return null;
+		//	
+		int record_ID = document.get_ID();
+		int table_ID = document.get_Table_ID();
+		sqlWhere = "AND i.Record_ID = " + record_ID + 
+					" AND i.AD_Table_ID = " + table_ID + " ";
+		
+		int m_AD_Org_ID = document.getAD_Org_ID();
+		int m_C_BPartner_ID = document.get_ValueAsInt("C_BPartner_ID");
+		String m_DocumentNo = document.get_ValueAsString("DocumentNo");
+		String m_Description = document.get_ValueAsString("Description");
+		int m_FTA_FarmerCredit_ID = document.get_ValueAsInt("FTA_FarmerCredit_ID");
+		int m_FTA_CreditDefinition_ID = 0;
+		int m_FTA_CreditDefinitionLine_ID = 0;
 		//	Delete Old Movements
 		deleteFact(table_ID, record_ID, false, trxName);
 		
 		//	SQL
-		String sql = new String("SELECT i.C_Invoice_ID, i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced DateDoc, i.DocumentNo, i.Description, " +
-				"cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, " +
-				"i.C_Invoice_ID Record_ID, il.C_InvoiceLine_ID Line_ID, " +
-				"il.LineNetAmt + (il.LineNetAmt * t.Rate / 100) Amt, (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, " +
-				"COALESCE(SUM(ft.Amt), 0) SO_CreditUsed, cdl.IsCreditLimitExceeded " +
-				"FROM C_Invoice i " +
-				"INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = i.FTA_FarmerCredit_ID) " +
-				"INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID) " +
-				"INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = i.C_Invoice_ID) " +
-				"INNER JOIN C_Tax t ON(t.C_Tax_ID = il.C_Tax_ID) " + 
-				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) " +
-				"LEFT JOIN M_Product pr ON(pr.M_Product_ID = il.M_Product_ID) " +
-				"LEFT JOIN C_Charge cr ON(cr.C_Charge_ID = il.C_Charge_ID) " +
-				"LEFT JOIN FTA_Fact ft ON(ft.FTA_CreditDefinitionLine_ID = cdl.FTA_CreditDefinitionLine_ID AND ft.AD_Table_ID = ?) " +
+		String sql = new String("SELECT i.AD_Org_ID, i.C_BPartner_ID, i.DateDoc, " +
+				"i.DocumentNo, i.Description, i.FTA_CreditDefinition_ID, i.FTA_CreditDefinitionLine_ID, " +
+				"i.FTA_FarmerCredit_ID, " +
+				"i.Record_ID, i.Line_ID, " +
+				"i.Amt, i.SO_CreditLimit, " +
+				"i.SO_CreditUsed, i.IsExceedCreditLimit " +
+				"FROM FTA_RV_DocumentFact i " +
 				"WHERE i.AD_Client_ID = ? " +
 				//	Add Record Identifier
 				sqlWhere +
 				"AND i.IsCreditFactManual = 'N' " +
 				"AND i.IsSOTrx = 'Y' " +
-				"AND (" +
-				"		(cdl.M_Product_ID = il.M_Product_ID " +
-				"			AND il.M_Product_ID IS NOT NULL) " +
-				"		OR (cdl.M_Product_Category_ID = pr.M_Product_Category_ID " +
-				"			AND pr.M_Product_Category_ID IS NOT NULL) " +
-				"		OR (cdl.C_Charge_ID = il.C_charge_ID " +
-				"			AND il.C_Charge_ID IS NOT NULL)" +
-				"		OR (cdl.C_ChargeType_ID = cr.C_chargeType_ID " +
-				"			AND cr.C_ChargeType_ID IS NOT NULL) " +
-				"	) " +
-				//	Group by
-				"GROUP BY i.C_Invoice_ID, i.AD_Org_ID, i.C_BPartner_ID, i.DateInvoiced, i.DocumentNo, i.Description, " +
-				"cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, " +
-				"i.C_Invoice_ID, il.C_InvoiceLine_ID, il.LineNetAmt, t.Rate, cdl.Amt, fc.ApprovedQty, cdl.Line " +
-				"ORDER BY i.C_Invoice_ID, il.C_InvoiceLine_ID, cdl.Line, cdl.IsCreditLimitExceeded");
+				"ORDER BY i.Record_ID, i.Line_ID, i.Line, i.IsExceedCreditLimit");
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -324,38 +295,32 @@ public class MFTAFact extends X_FTA_Fact {
 			pstmt.setInt(i++, table_ID);
 			pstmt.setInt(i++, Env.getAD_Client_ID(ctx));
 			//	
-			if(from != null)
-				pstmt.setTimestamp(i++, from);
-			if(to != null)
-				pstmt.setTimestamp(i++, to);
-			//	
 			rs = pstmt.executeQuery();
 			if(rs != null){
 				int m_Current_Line_ID = 0;
-				int m_FTA_CreditDefinitionLine_ID = 0;
 				BigDecimal m_RemainingAmt = Env.ZERO;
 				BigDecimal m_SO_CreditLimit = Env.ZERO;
 				SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
 				while(rs.next()){
-					int m_AD_Org_ID 					= rs.getInt("AD_Org_ID");
-					int m_C_BPartner_ID 				= rs.getInt("C_BPartner_ID");
-					Timestamp m_DateDoc 				= rs.getTimestamp("DateDoc");
-					String m_DocumentNo					= rs.getString("DocumentNo");
-					String m_Description 				= rs.getString("Description");
-					int m_FTA_CreditDefinition_ID 		= rs.getInt("FTA_CreditDefinition_ID");
-					m_FTA_CreditDefinitionLine_ID 		= rs.getInt("FTA_CreditDefinitionLine_ID");
-					int m_FTA_FarmerCredit_ID 			= rs.getInt("FTA_FarmerCredit_ID");
-					int m_Record_ID 					= rs.getInt("Record_ID");
+					m_AD_Org_ID 					= rs.getInt("AD_Org_ID");
+					m_C_BPartner_ID 				= rs.getInt("C_BPartner_ID");
+					Timestamp m_DateDoc 			= rs.getTimestamp("DateDoc");
+					m_DocumentNo					= rs.getString("DocumentNo");
+					m_Description 					= rs.getString("Description");
+					m_FTA_CreditDefinition_ID 		= rs.getInt("FTA_CreditDefinition_ID");
+					m_FTA_CreditDefinitionLine_ID 	= rs.getInt("FTA_CreditDefinitionLine_ID");
+					m_FTA_FarmerCredit_ID 			= rs.getInt("FTA_FarmerCredit_ID");
+					int m_Record_ID 				= rs.getInt("Record_ID");
 					int m_Line_ID 						= rs.getInt("Line_ID");
 					BigDecimal m_Amt					= rs.getBigDecimal("Amt");
 					m_SO_CreditLimit					= rs.getBigDecimal("SO_CreditLimit");
 					BigDecimal m_SO_CreditUsed			= rs.getBigDecimal("SO_CreditUsed");
-					String m_IsCreditLimitExceeded		= rs.getString("IsCreditLimitExceeded");
+					String m_IsExceedCreditLimit		= rs.getString("IsExceedCreditLimit");
 					//	Current Balance
 					BigDecimal m_Balance = Env.ZERO;
 					
-					if(m_IsCreditLimitExceeded == null
-							|| m_IsCreditLimitExceeded.equals("N")){
+					if(m_IsExceedCreditLimit == null
+							|| m_IsExceedCreditLimit.equals("N")){
 						//	Change Line
 						if(m_Current_Line_ID != m_Line_ID){
 							if(!m_RemainingAmt.equals(Env.ZERO))
@@ -432,7 +397,7 @@ public class MFTAFact extends X_FTA_Fact {
 							name.append(" ");
 						name.append(m_CDLine.getDescription());
 					}
-					//	
+					//	IsDistributionLine
 					msg = "@Amt@ > @SO_CreditLimit@: " +
 							"@Amt@=" + m_RemainingAmt.doubleValue() + " " +
 							"@SO_CreditLimit@=" + m_SO_CreditLimit.doubleValue() + " " +
@@ -440,10 +405,49 @@ public class MFTAFact extends X_FTA_Fact {
 					//	RollBack
 					trx.rollback();
 				} else if(byPass){
-					msg = "@NoLines@";
+					//	Distribution Line
+					m_FTA_CreditDefinitionLine_ID = DB.getSQLValue(trxName, "SELECT MAX(cdl.FTA_CreditDefinitionLine_ID) "
+							+ "FROM FTA_CreditDefinition cd "
+							+ "INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) "
+							+ "INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) "
+							+ "WHERE fc.FTA_FarmerCredit_ID = ? "
+							+ "AND cdl.IsDistributionLine = 'Y'", m_FTA_FarmerCredit_ID);
+					
+					m_FTA_CreditDefinition_ID = DB.getSQLValue(trxName, "SELECT FTA_CreditDefinition_ID "
+							+ "FROM FTA_CreditDefinitionLine "
+							+ "WHERE FTA_CreditDefinitionLine_ID = ?", m_FTA_CreditDefinitionLine_ID);
+					
 					//	
-					trx.rollback();
-				} else
+					if(m_FTA_CreditDefinitionLine_ID != 0) {
+						//	Create Fact
+						MFTAFact m_fta_Fact = new MFTAFact(ctx, 0, trx.getTrxName());
+						//	Set Values
+						m_fta_Fact.setAD_Org_ID(m_AD_Org_ID);
+						m_fta_Fact.setC_BPartner_ID(m_C_BPartner_ID);
+						m_fta_Fact.setDateDoc(p_DateDoc);
+						if(m_Description == null)
+							m_Description = "";
+						//	Set Description
+						m_Description = m_DocumentNo + " - " + format.format(p_DateDoc) + 
+								(m_Description != null && m_Description.length() != 0
+									? " - " + m_Description
+										: "");
+						
+						m_fta_Fact.setDescription(m_Description);
+						m_fta_Fact.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition_ID);
+						m_fta_Fact.setFTA_CreditDefinitionLine_ID(m_FTA_CreditDefinitionLine_ID);
+						m_fta_Fact.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit_ID);
+						m_fta_Fact.setRecord_ID(record_ID);
+						m_fta_Fact.setAD_Table_ID(table_ID);
+						m_fta_Fact.setAmt(p_Amt);
+						m_fta_Fact.setIsCreditFactManual(false);
+						//	Save
+						m_fta_Fact.saveEx();
+					} else {
+						msg = "@NoLines@";
+						trx.rollback();
+					}
+				}
 					trx.commit();
 			}
 			//	Close DB
@@ -457,41 +461,32 @@ public class MFTAFact extends X_FTA_Fact {
 		return msg;
 	}
 	
-	/**
-	 * Create Invoice Fact
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 14/10/2013, 02:39:40
-	 * @param ctx
-	 * @param invoice
-	 * @param trxName
-	 * @return
-	 * @return String
-	 */
-	public static String createInvoiceFact(Properties ctx, MInvoice invoice, String trxName) {
-		return createInvoiceFact(ctx, invoice, null, null, trxName);
-	}
-	
 	/**	
 	 * Copy Fact
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 21/10/2013, 09:58:55
 	 * @param ctx
-	 * @param p_C_Order_ID
-	 * @param p_C_Invoice_ID
+	 * @param p_From
+	 * @param p_To
 	 * @param trxName
 	 * @return
 	 * @return String
 	 */
-	public static String copyFromFact(Properties ctx, int p_C_Order_ID, int p_C_Invoice_ID, String trxName){
+	public static String copyFromFact(Properties ctx, PO p_From, PO p_To, String trxName){
 		String sql = new String("SELECT f.* FTA_Fact f " +
 				"WHERE f.AD_Table_ID = ? " +
 				"AND f.Record_ID = ?");
+		
+		if(p_From == null
+				|| p_To == null)
+			return null;
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement(sql, trxName);
 			//	Add Parameters
-			pstmt.setInt(1, MOrder.Table_ID);
-			pstmt.setInt(2, p_C_Order_ID);
+			pstmt.setInt(1, p_From.get_Table_ID());
+			pstmt.setInt(2, p_From.get_ID());
 			//	
 			rs = pstmt.executeQuery();
 			if(rs != null){
@@ -503,8 +498,8 @@ public class MFTAFact extends X_FTA_Fact {
 					PO.copyValues(m_fta_FactFrom, m_fta_FactTarget);
 					//	
 					//	Set Values
-					m_fta_FactTarget.setAD_Table_ID(MInvoice.Table_ID);
-					m_fta_FactTarget.setRecord_ID(p_C_Invoice_ID);
+					m_fta_FactTarget.setAD_Table_ID(p_To.get_Table_ID());
+					m_fta_FactTarget.setRecord_ID(p_To.get_ID());
 					//	Save
 					m_fta_FactTarget.saveEx();
 				}

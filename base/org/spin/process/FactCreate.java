@@ -74,7 +74,7 @@ public class FactCreate extends SvrProcess {
 			MInvoice inv = null;
 			if(p_Record_ID != 0)
 				inv = MInvoice.get(getCtx(), p_Record_ID);
-			msg = MFTAFact.createInvoiceFact(getCtx(), inv, p_DateDoc, p_DateDoc_To, get_TrxName());
+			msg = MFTAFact.createFact(getCtx(), inv, p_DateDoc, p_DateDoc_To, get_TrxName());
 		}
 		if(msg != null)
 			return msg;
