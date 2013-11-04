@@ -187,6 +187,17 @@ public interface I_FTA_RecordWeight
 	  */
 	public String getDocumentNo();
 
+    /** Column name FTA_Driver_ID */
+    public static final String COLUMNNAME_FTA_Driver_ID = "FTA_Driver_ID";
+
+	/** Set Driver	  */
+	public void setFTA_Driver_ID (int FTA_Driver_ID);
+
+	/** Get Driver	  */
+	public int getFTA_Driver_ID();
+
+	public org.spin.model.I_FTA_Driver getFTA_Driver() throws RuntimeException;
+
     /** Column name FTA_EntryTicket_ID */
     public static final String COLUMNNAME_FTA_EntryTicket_ID = "FTA_EntryTicket_ID";
 
@@ -217,6 +228,17 @@ public interface I_FTA_RecordWeight
 
 	/** Get Record Weight	  */
 	public int getFTA_RecordWeight_ID();
+
+    /** Column name FTA_Vehicle_ID */
+    public static final String COLUMNNAME_FTA_Vehicle_ID = "FTA_Vehicle_ID";
+
+	/** Set Vehicle	  */
+	public void setFTA_Vehicle_ID (int FTA_Vehicle_ID);
+
+	/** Get Vehicle	  */
+	public int getFTA_Vehicle_ID();
+
+	public org.spin.model.I_FTA_Vehicle getFTA_Vehicle() throws RuntimeException;
 
     /** Column name GrossWeight */
     public static final String COLUMNNAME_GrossWeight = "GrossWeight";
@@ -310,6 +332,21 @@ public interface I_FTA_RecordWeight
 	  */
 	public boolean isSOTrx();
 
+    /** Column name M_Shipper_ID */
+    public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
+
+	/** Set Shipper.
+	  * Method or manner of product delivery
+	  */
+	public void setM_Shipper_ID (int M_Shipper_ID);
+
+	/** Get Shipper.
+	  * Method or manner of product delivery
+	  */
+	public int getM_Shipper_ID();
+
+	public I_M_Shipper getM_Shipper() throws RuntimeException;
+
     /** Column name NetWeight */
     public static final String COLUMNNAME_NetWeight = "NetWeight";
 
@@ -349,6 +386,21 @@ public interface I_FTA_RecordWeight
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ReferenceNo */
+    public static final String COLUMNNAME_ReferenceNo = "ReferenceNo";
+
+	/** Set Reference No.
+	  * Your customer or vendor number at the Business Partner's site
+	  */
+	public void setReferenceNo (int ReferenceNo);
+
+	/** Get Reference No.
+	  * Your customer or vendor number at the Business Partner's site
+	  */
+	public int getReferenceNo();
+
+	public org.spin.model.I_FTA_EntryTicket getReferenc() throws RuntimeException;
 
     /** Column name SelectionWeight */
     public static final String COLUMNNAME_SelectionWeight = "SelectionWeight";

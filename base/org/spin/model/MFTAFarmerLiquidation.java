@@ -32,6 +32,7 @@ import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
@@ -227,6 +228,11 @@ public class MFTAFarmerLiquidation extends X_FTA_FarmerLiquidation implements Do
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
+		//	Create Fact
+		m_processMsg = MFTAFact.createFact(Env.getCtx(), this, getDateDoc(), getAmt(), get_TrxName());
+		if (m_processMsg != null)
+			return DocAction.STATUS_InProgress;
+		
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -284,6 +290,8 @@ public class MFTAFarmerLiquidation extends X_FTA_FarmerLiquidation implements Do
 		m_processMsg = validReference();
 		if(m_processMsg != null)
 			return false;
+		//	Delete Fact
+		MFTAFact.deleteFact(Table_ID, getFTA_FarmerLiquidation_ID(), true, get_TrxName());
 		
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 		// After Void
