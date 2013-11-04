@@ -123,6 +123,19 @@ public interface I_FTA_FarmerLiquidationLine
 	  */
 	public boolean isActive();
 
+    /** Column name LineNetAmt */
+    public static final String COLUMNNAME_LineNetAmt = "LineNetAmt";
+
+	/** Set Line Amount.
+	  * Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public void setLineNetAmt (BigDecimal LineNetAmt);
+
+	/** Get Line Amount.
+	  * Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public BigDecimal getLineNetAmt();
+
     /** Column name NetWeight */
     public static final String COLUMNNAME_NetWeight = "NetWeight";
 

@@ -145,7 +145,7 @@ public class FTAModelValidator implements ModelValidator {
 				MOrder ord = (MOrder) po;
 				if(ord.isSOTrx()
 						&& ord.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
-					return MFTAFact.createOrderFact(Env.getCtx(), ord, ord.get_TrxName());
+					return MFTAFact.createFact(Env.getCtx(), ord, ord.getDateOrdered(), ord.getGrandTotal(), ord.get_TrxName());
 				}
 			} else if(po.get_TableName().equals(MInvoice.Table_Name)){
 				MInvoice inv = (MInvoice) po;
@@ -207,7 +207,7 @@ public class FTAModelValidator implements ModelValidator {
 				.list();
 				
 				for(MFTAAllocation alloc:allocs){
-					alloc.processIt(alloc.DOCACTION_Void);
+					alloc.processIt(X_FTA_Allocation.DOCACTION_Void);
 					alloc.save(trxName);
 				}
 				
@@ -249,7 +249,7 @@ public class FTAModelValidator implements ModelValidator {
 					
 					allocline.save(trxName);
 					
-					alloc.processIt(alloc.DOCACTION_Complete);
+					alloc.processIt(X_FTA_Allocation.DOCACTION_Complete);
 					alloc.save(trxName);
 					
 					

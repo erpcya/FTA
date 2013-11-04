@@ -32,7 +32,7 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131031L;
+	private static final long serialVersionUID = 20131104L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinitionLine (Properties ctx, int FTA_CreditDefinitionLine_ID, String trxName)
@@ -269,18 +269,39 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 		return ii.intValue();
 	}
 
-	/** Set Credit Limit Exceeded.
-		@param IsCreditLimitExceeded Credit Limit Exceeded	  */
-	public void setIsCreditLimitExceeded (boolean IsCreditLimitExceeded)
+	/** Set Is Distribution Line.
+		@param IsDistributionLine Is Distribution Line	  */
+	public void setIsDistributionLine (boolean IsDistributionLine)
 	{
-		set_Value (COLUMNNAME_IsCreditLimitExceeded, Boolean.valueOf(IsCreditLimitExceeded));
+		set_Value (COLUMNNAME_IsDistributionLine, Boolean.valueOf(IsDistributionLine));
 	}
 
-	/** Get Credit Limit Exceeded.
-		@return Credit Limit Exceeded	  */
-	public boolean isCreditLimitExceeded () 
+	/** Get Is Distribution Line.
+		@return Is Distribution Line	  */
+	public boolean isDistributionLine () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsCreditLimitExceeded);
+		Object oo = get_Value(COLUMNNAME_IsDistributionLine);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Exceed Credit Limit.
+		@param IsExceedCreditLimit Exceed Credit Limit	  */
+	public void setIsExceedCreditLimit (boolean IsExceedCreditLimit)
+	{
+		set_Value (COLUMNNAME_IsExceedCreditLimit, Boolean.valueOf(IsExceedCreditLimit));
+	}
+
+	/** Get Exceed Credit Limit.
+		@return Exceed Credit Limit	  */
+	public boolean isExceedCreditLimit () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsExceedCreditLimit);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

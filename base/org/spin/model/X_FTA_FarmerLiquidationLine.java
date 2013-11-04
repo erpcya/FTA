@@ -32,7 +32,7 @@ public class X_FTA_FarmerLiquidationLine extends PO implements I_FTA_FarmerLiqui
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131031L;
+	private static final long serialVersionUID = 20131104L;
 
     /** Standard Constructor */
     public X_FTA_FarmerLiquidationLine (Properties ctx, int FTA_FarmerLiquidationLine_ID, String trxName)
@@ -147,6 +147,26 @@ public class X_FTA_FarmerLiquidationLine extends PO implements I_FTA_FarmerLiqui
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Line Amount.
+		@param LineNetAmt 
+		Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public void setLineNetAmt (BigDecimal LineNetAmt)
+	{
+		set_Value (COLUMNNAME_LineNetAmt, LineNetAmt);
+	}
+
+	/** Get Line Amount.
+		@return Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public BigDecimal getLineNetAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_LineNetAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Net Weight.

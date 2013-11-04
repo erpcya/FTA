@@ -33,7 +33,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131031L;
+	private static final long serialVersionUID = 20131104L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeight (Properties ctx, int FTA_RecordWeight_ID, String trxName)
@@ -307,6 +307,27 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
+	public org.spin.model.I_FTA_Driver getFTA_Driver() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_Driver)MTable.get(getCtx(), org.spin.model.I_FTA_Driver.Table_Name)
+			.getPO(getFTA_Driver_ID(), get_TrxName());	}
+
+	/** Set Driver.
+		@param FTA_Driver_ID Driver	  */
+	public void setFTA_Driver_ID (int FTA_Driver_ID)
+	{
+		throw new IllegalArgumentException ("FTA_Driver_ID is virtual column");	}
+
+	/** Get Driver.
+		@return Driver	  */
+	public int getFTA_Driver_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_Driver_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_FTA_EntryTicket getFTA_EntryTicket() throws RuntimeException
     {
 		return (org.spin.model.I_FTA_EntryTicket)MTable.get(getCtx(), org.spin.model.I_FTA_EntryTicket.Table_Name)
@@ -372,6 +393,27 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	public int getFTA_RecordWeight_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_RecordWeight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_FTA_Vehicle getFTA_Vehicle() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_Vehicle)MTable.get(getCtx(), org.spin.model.I_FTA_Vehicle.Table_Name)
+			.getPO(getFTA_Vehicle_ID(), get_TrxName());	}
+
+	/** Set Vehicle.
+		@param FTA_Vehicle_ID Vehicle	  */
+	public void setFTA_Vehicle_ID (int FTA_Vehicle_ID)
+	{
+		throw new IllegalArgumentException ("FTA_Vehicle_ID is virtual column");	}
+
+	/** Get Vehicle.
+		@return Vehicle	  */
+	public int getFTA_Vehicle_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_Vehicle_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -521,6 +563,30 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		return false;
 	}
 
+	public I_M_Shipper getM_Shipper() throws RuntimeException
+    {
+		return (I_M_Shipper)MTable.get(getCtx(), I_M_Shipper.Table_Name)
+			.getPO(getM_Shipper_ID(), get_TrxName());	}
+
+	/** Set Shipper.
+		@param M_Shipper_ID 
+		Method or manner of product delivery
+	  */
+	public void setM_Shipper_ID (int M_Shipper_ID)
+	{
+		throw new IllegalArgumentException ("M_Shipper_ID is virtual column");	}
+
+	/** Get Shipper.
+		@return Method or manner of product delivery
+	  */
+	public int getM_Shipper_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Shipper_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Net Weight.
 		@param NetWeight Net Weight	  */
 	public void setNetWeight (BigDecimal NetWeight)
@@ -591,6 +657,30 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	public org.spin.model.I_FTA_EntryTicket getReferenc() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_EntryTicket)MTable.get(getCtx(), org.spin.model.I_FTA_EntryTicket.Table_Name)
+			.getPO(getReferenceNo(), get_TrxName());	}
+
+	/** Set Reference No.
+		@param ReferenceNo 
+		Your customer or vendor number at the Business Partner's site
+	  */
+	public void setReferenceNo (int ReferenceNo)
+	{
+		throw new IllegalArgumentException ("ReferenceNo is virtual column");	}
+
+	/** Get Reference No.
+		@return Your customer or vendor number at the Business Partner's site
+	  */
+	public int getReferenceNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ReferenceNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** SelectionWeight AD_Reference_ID=53587 */
