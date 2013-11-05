@@ -1123,3 +1123,9 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsNextLine='Y', IsPageBreak='N', Li
 UPDATE AD_Column SET AD_Reference_ID=18,Updated=TO_TIMESTAMP('2013-11-03 12:39:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=69662
 ;
 
+
+UPDATE AD_PrintFormat SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE AD_PrintFormat_ID IN(50191,50192);
+UPDATE AD_PrintFormatItem SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE AD_PrintFormat_ID IN(50191,50192);
+UPDATE AD_PrintFormatItem_Trl SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE AD_PrintFormatItem_ID IN(
+SELECT pfi.AD_PrintFormatItem_ID FROM 
+AD_PrintFormatItem pfi WHERE pfi.AD_PrintFormat_ID IN(50191,50192));
