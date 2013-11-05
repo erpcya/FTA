@@ -144,6 +144,7 @@ public class InvoiceGenerate extends SvrProcess{
 					invoice.setDocumentNo(m_DocumentNo);
 					invoice.set_ValueOfColumn("ControlNo", m_ControlNo);
 					invoice.save(get_TrxName());
+					m_Created++;
 				}
 				
 				//Invoiced Created?
@@ -183,6 +184,7 @@ public class InvoiceGenerate extends SvrProcess{
 								invoiceline.setQty(fll.getPayWeight());
 								invoiceline.setPrice(fll.getPrice());
 								invoiceline.setC_UOM_ID(miol.getC_UOM_ID());
+								invoiceline.setM_InOutLine_ID(miol.getM_InOutLine_ID());
 								invoiceline.save(get_TrxName());
 							}
 						}
