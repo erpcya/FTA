@@ -160,7 +160,6 @@ public class InvoiceGenerate extends SvrProcess{
 						MInvoiceLine invoiceline = new MInvoiceLine(invoice);
 						
 						MProduct product = new MProduct(getCtx(), rs.getInt("M_Product_ID"), get_TrxName());
-						
 						invoiceline.setM_Product_ID(product.getM_Product_ID());
 						invoiceline.setC_UOM_ID(product.getC_UOM_ID());
 						invoiceline.setQty(1);
@@ -209,6 +208,7 @@ public class InvoiceGenerate extends SvrProcess{
 					
 					if (allocs.size()>0){
 						//Process InvoiceDelete From Fact_Acct Where Record_ID In(Select C_Invoice_ID From C_Invoice Where DocumentNo ='prueba01') And AD_Table_ID = 318;
+						invoice.set_ValueOfColumn("FTA_FarmerLiquidation_ID", m_FTA_FarmerLiquidation_ID);
 						invoice.processIt(MInvoice.DOCACTION_Complete);
 						invoice.saveEx(get_TrxName());
 						
