@@ -21,7 +21,7 @@ SELECT
 	bp.Name || COALESCE(bp.Name2,'') AS Name,
 	fl.C_DocType_ID,  
 	dt.PrintName AS DocumentType,
-	fl.C_Invoice_ID,  
+	--fl.C_Invoice_ID,  
 	oi.c_location_id AS org_location_id, 
 	oi.taxid,
 	fl.FTA_FarmerCredit_ID,
@@ -45,5 +45,5 @@ INNER JOIN FTA_QualityAnalysis qa ON (qa.FTA_QualityAnalysis_ID = rw.FTA_Quality
 INNER JOIN FTA_EntryTicket et ON (et.FTA_EntryTicket_ID = qa.FTA_EntryTicket_ID)
 INNER JOIN FTA_MobilizationGuide mg ON (mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
 INNER JOIN AD_OrgInfo  oi ON (oi.AD_Org_ID = fl.AD_Org_ID)
-LEFT JOIN C_Invoice i ON (i.C_Invoice_ID = fl.C_Invoice_ID)
+--LEFT JOIN C_Invoice i ON (i.C_Invoice_ID = fl.C_Invoice_ID)
 LEFT JOIN FTA_CategoryCalc cc ON (cc.FTA_CategoryCalc_ID = fl.FTA_CategoryCalc_ID);

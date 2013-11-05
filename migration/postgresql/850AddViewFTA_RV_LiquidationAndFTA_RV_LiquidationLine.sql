@@ -30,7 +30,7 @@ SELECT
 	fl.C_DocType_ID,  
 	dt.PrintName AS DocumentType,
 	--Factura	 
-	fl.C_Invoice_ID,  
+--	fl.C_Invoice_ID,  
 
 	--Organización
 	oi.c_location_id AS org_location_id, 
@@ -49,7 +49,7 @@ INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID = fl.C_BPartner_ID)
 INNER JOIN M_Product p ON (p.M_Product_ID = fl.M_Product_ID)
 INNER JOIN FTA_FarmerCredit fc ON (fc.FTA_FarmerCredit_ID = fl.FTA_FarmerCredit_ID)
 INNER JOIN AD_OrgInfo  oi ON (oi.AD_Org_ID = fl.AD_Org_ID)
-LEFT JOIN C_Invoice i ON (i.C_Invoice_ID = fl.C_Invoice_ID)
+--LEFT JOIN C_Invoice i ON (i.C_Invoice_ID = fl.C_Invoice_ID)
 LEFT JOIN FTA_CategoryCalc cc ON (cc.FTA_CategoryCalc_ID = fl.FTA_CategoryCalc_ID)
 ;
 
