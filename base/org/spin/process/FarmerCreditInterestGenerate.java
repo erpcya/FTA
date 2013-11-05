@@ -206,7 +206,9 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		BigDecimal interestAmt = openAmt.multiply(rate)
 										.setScale(precision, BigDecimal.ROUND_HALF_UP);
 		//	Create a Document
-		addDocument(interestAmt, 0, null);
+		addDocument(interestAmt, 0, 
+				Msg.parseTranslation(getCtx(), "@GrandTotal@: " + openAmt.doubleValue() +
+						" - @Rate@: " + cdlCategoryRate.getRate().doubleValue()));
 		//	Complete Document
 		completeDoument();
 		return "@OK@";

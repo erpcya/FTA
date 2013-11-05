@@ -17,13 +17,14 @@
 
 package org.spin.process;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-
 import java.util.Properties;
 
+import org.compiere.model.MCurrency;
 import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -42,6 +43,9 @@ import org.spin.model.MFTAFarmerLiquidationLine;
  */
 public class FarmerLiquidationGenerate extends SvrProcess {
 
+	/**	Precision			*/
+	private int precision = 0;
+	
 	@Override
 	protected void prepare() {
 		for (ProcessInfoParameter para:getParameter()){
@@ -124,11 +128,12 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 
 	@Override
 	protected String doIt() throws Exception {
-		// TODO Auto-generated method stub
 		PreparedStatement ps =null;
 		ResultSet rs = null;
 		int m_C_BPartner_ID=0;
 		int m_Category_ID=0;
+		
+		precision = MCurrency.getStdPrecision(ctx, Env.getContextAsInt(ctx, "$C_Currency_ID"));
 		
 		MFTAFarmerLiquidation liquidation=null;
 		ps = DB.prepareStatement(sql.toString(), get_TrxName());
@@ -200,17 +205,22 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		liquidationline.setFTA_FarmerLiquidation_ID(liquidation.getFTA_FarmerLiquidation_ID());
 		liquidationline.setFTA_RecordWeight_ID(rs.getInt("FTA_RecordWeight_ID"));
 		liquidationline.setNetWeight(rs.getBigDecimal("NetWeight"));
-		liquidationline.setPayWeight(rs.getBigDecimal("PayWeight"));
-		liquidationline.setPriceList(rs.getBigDecimal("Price"));
-		liquidationline.setPrice(rs.getBigDecimal("Price"));
+		BigDecimal payWeight = rs.getBigDecimal("PayWeight");
+		BigDecimal price = rs.getBigDecimal("Price");
+		liquidationline.setPayWeight(payWeight);
+		liquidationline.setPriceList(price);
+		liquidationline.setPrice(price);
+		liquidationline.setLineNetAmt(payWeight.multiply(price).setScale(precision, BigDecimal.ROUND_HALF_UP));
 		if(rs.getString("IsInDispute").equals("Y"))
 			liquidationline.setQualityAnalysis_ID(rs.getInt("PayAnalysis_ID"));
 		else
 			liquidationline.setQualityAnalysis_ID(rs.getInt("QualityAnalysis_ID"));
 		
 		liquidation.setNetWeight(liquidation.getNetWeight().add(liquidationline.getNetWeight()));
-		liquidation.setAmt(liquidation.getAmt().add(liquidationline.getPrice().multiply(liquidationline.getPayWeight())));
-		
+		liquidation.setAmt(liquidation.getAmt()
+				.add(liquidationline.getPrice()
+						.multiply(liquidationline.getPayWeight()))
+				.setScale(precision, BigDecimal.ROUND_HALF_UP));
 		liquidationline.saveEx(get_TrxName());
 		liquidation.saveEx(get_TrxName());
 		

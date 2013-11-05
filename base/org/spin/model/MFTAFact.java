@@ -152,7 +152,6 @@ public class MFTAFact extends X_FTA_Fact {
 				"AND i.AD_Table_ID = ? " +
 				"AND i.AD_Client_ID = ? " +
 				"AND i.IsCreditFactManual = 'N' " +
-				"AND i.IsSOTrx = 'Y' " +
 				"ORDER BY i.Record_ID, i.Line_ID, i.Line, i.IsExceedCreditLimit");
 		
 		PreparedStatement pstmt = null;
@@ -317,7 +316,7 @@ public class MFTAFact extends X_FTA_Fact {
 						//	Save
 						m_fta_Fact.saveEx();
 					} else {
-						msg = "@NoLines@";
+						msg = "@NoLinesInCDef@";
 						trx.rollback();
 					}
 				}
@@ -328,7 +327,7 @@ public class MFTAFact extends X_FTA_Fact {
 		} catch (Exception e) {
 			trx.rollback();
 			DB.close(rs, pstmt);
-			return e.getMessage();
+			return "@Error@" + e.getMessage();
 		}
 		
 		return msg;

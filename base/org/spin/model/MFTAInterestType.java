@@ -73,6 +73,10 @@ public class MFTAInterestType extends X_FTA_InterestType {
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
+		if(isRateFixed()){
+			setDaysFixed(true);
+			setDaysDue(1);
+		}
 		if(!isDaysFixed())
 			setDaysDue(0);
 		return true;

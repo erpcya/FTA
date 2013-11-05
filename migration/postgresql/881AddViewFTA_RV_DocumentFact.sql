@@ -75,7 +75,7 @@ UNION ALL
 SELECT l.AD_Client_ID, l.AD_Org_ID, l.Updated, l.UpdatedBy, l.Created, l.CreatedBy, l.IsActive, 
 l.C_BPartner_ID, l.DateDoc, l.DocumentNo, l.Description, 
 cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, l.FTA_FarmerCredit_ID, 
-ll.FTA_FarmerLiquidationLine_ID Line_ID, ll.LineNetAmt, (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, 
+ll.FTA_FarmerLiquidationLine_ID Line_ID, ll.LineNetAmt Amt, (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, 
 0 SO_CreditUsed,'Y' IsExceedCreditLimit, 
 'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, l.FTA_FarmerLiquidation_ID Record_ID, 53564 AD_Table_ID
 FROM FTA_FarmerLiquidation l 
