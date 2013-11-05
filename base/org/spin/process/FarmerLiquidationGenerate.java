@@ -241,7 +241,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 			liquidation.setDocAction(p_DocStatus);
 			liquidation.processIt(p_DocStatus);
 			liquidation.saveEx(get_TrxName());
-			addLog (liquidation.getC_Invoice_ID(), liquidation.getUpdated(), null, 
+			addLog (liquidation.getFTA_FarmerLiquidation_ID(), liquidation.getUpdated(), null, 
 					liquidation.getDocumentNo());
 		}
 	}
