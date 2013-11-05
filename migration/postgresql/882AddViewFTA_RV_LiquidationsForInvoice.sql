@@ -8,6 +8,7 @@ fl.C_BPartner_ID,
 fl.C_ConversionType_ID,
 fl.C_Currency_ID,
 fl.C_DocType_ID,
+--fl.C_Invoice_ID,
 fl.DateDoc,
 fl.Description,
 fl.DocAction,
@@ -26,5 +27,4 @@ fming.C_Order_ID
 From 
 FTA_FarmerLiquidation fl
 Left Join (Select Distinct col.C_Order_ID,fming.FTA_FarmerCredit_ID From  FTA_Farming fming Inner Join C_OrderLine col On fming.C_OrderLine_ID = col.C_OrderLine_ID) fming On fl.FTA_FarmerCredit_ID = fming.FTA_FarmerCredit_ID
-WHERE NOT EXISTS(SELECT 1 FROM C_Invoice ci WHERE DocStatus In ('CO','CL') AND ci.FTA_FarmerLiquidation_ID = fl.FTA_FarmerLiquidation_ID)
 ;
