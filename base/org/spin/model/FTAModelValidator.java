@@ -18,6 +18,7 @@ package org.spin.model;
 
 import java.util.List;
 
+import org.compiere.model.MAllocationLine;
 import org.compiere.model.MClient;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
@@ -213,6 +214,19 @@ public class FTAModelValidator implements ModelValidator {
 				
 				//Confirm Changes
 				trx.commit();
+			}
+			// Carlos Parada Set 
+			else if (po.get_TableName().equals(MInvoice.Table_Name)){
+				MInvoice invoice = (MInvoice) po;
+				
+				if (invoice.get_ValueAsInt("FTA_FarmerLiquidation_ID")!=0){
+					List<MAllocationLine>  allocs = new Query(Env.getCtx(),MAllocationLine.Table_Name,"C_Invoice_ID =? ",null)
+					.setOnlyActiveRecords(true)
+					.setParameters(invoice.getC_Invoice_ID())
+					.list();
+				if (allocs.size()!=0)
+					return "@DocumentAllocated@";
+				}
 			}
 				
 		}else if(timing ==TIMING_BEFORE_COMPLETE){
