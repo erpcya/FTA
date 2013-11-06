@@ -464,7 +464,8 @@ public class FarmerCreditAllocation
 			if (col == i_liquidation)
 			{
 				if ( applied.signum() == -open.signum() )
-					applied = applied.negate();
+					;//Carlos Parada Comment to Allow Amount negative 
+					//applied = applied.negate();
 				if ( open.abs().compareTo( applied.abs() ) < 0 )
 							applied = open;
 			}
