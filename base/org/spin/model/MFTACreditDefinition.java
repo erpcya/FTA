@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
+import org.compiere.model.MProduct;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
@@ -284,6 +285,47 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 			return "@SQLErrorReferenced@";
 		return null;
 	}
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		super.afterSave(newRecord, success);
+		//	Create Default Lines
+		if(newRecord
+				&& success){
+			//	For Category
+			MFTACDLCategory category = MFTACDLCategory
+					.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_CATEGORY, get_TrxName());
+			if(category == null)
+				return false;
+			MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
+			line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+			line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
+			MProduct product = MProduct.get(getCtx(), getCategory_ID());
+			line.setM_Product_ID(product.getM_Product_ID());
+			line.setC_UOM_ID(product.getC_UOM_ID());
+			line.setQty(Env.ZERO);
+			line.setPrice(Env.ZERO);
+			line.setAmt(Env.ZERO);
+			line.setIsDistributionLine(false);
+			line.setIsExceedCreditLimit(true);
+			line.setLine(10);
+			line.saveEx();
+			//	For Distribution
+			category = MFTACDLCategory.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_DISTRIBUTION, get_TrxName());
+			line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
+			line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+			line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
+			line.setC_UOM_ID(100);
+			line.setQty(Env.ZERO);
+			line.setPrice(Env.ZERO);
+			line.setAmt(Env.ZERO);
+			line.setIsDistributionLine(true);
+			line.setIsExceedCreditLimit(true);
+			line.setLine(20);
+			line.saveEx();
+		}
+		return true;
+	}
 
 	/**
 	 * 	Set the definite document number after completed
@@ -533,7 +575,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	
 	@Override
 	public int customizeValidActions(String docStatus, Object processing,
 			String orderType, String isSOTrx, int AD_Table_ID,
