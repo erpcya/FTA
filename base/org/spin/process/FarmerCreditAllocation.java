@@ -25,6 +25,7 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.spin.model.MFTACreditAct;
 import org.spin.model.MFTAFarmerCredit;
 
 
@@ -64,6 +65,7 @@ public class FarmerCreditAllocation extends SvrProcess {
 		m_FTA_CreditAct_ID = getRecord_ID();
 		PreparedStatement ps=null;
 		ResultSet rs =null;
+		MFTACreditAct ca = new MFTACreditAct(getCtx(), m_FTA_CreditAct_ID, get_TrxName());
 		
 		try{
 			ps = DB.prepareStatement(sql.toString(), get_TrxName());
@@ -83,15 +85,21 @@ public class FarmerCreditAllocation extends SvrProcess {
 					fc.setFTA_CreditAct_ID(m_FTA_CreditAct_ID);
 					fc.setApprovedAmt(rs.getBigDecimal("ApprovedAmt"));
 					fc.setApprovedQty(rs.getBigDecimal("ApprovedQty"));
+					ca.setApprovedAmt(ca.getApprovedAmt().add(rs.getBigDecimal("ApprovedAmt")));
+					ca.setApprovedQty(ca.getApprovedQty().add(rs.getBigDecimal("ApprovedQty")));
 				}
 				else{
 					fc.setFTA_CreditAct_ID(0);
+					ca.setApprovedAmt(ca.getApprovedAmt().subtract(rs.getBigDecimal("ApprovedAmt")));
+					ca.setApprovedQty(ca.getApprovedQty().subtract(rs.getBigDecimal("ApprovedQty")));
 					fc.setApprovedAmt(Env.ZERO);
 					fc.setApprovedQty(Env.ZERO);
 				}
+		
 				m_Updated++;
 				fc.save(get_TrxName());
 			}
+			ca.save(get_TrxName());
 			result ="@Updated@="+m_Updated;
 		}
 		catch (SQLException e){
