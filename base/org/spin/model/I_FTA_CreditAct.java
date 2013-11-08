@@ -63,6 +63,24 @@ public interface I_FTA_CreditAct
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name ApprovedAmt */
+    public static final String COLUMNNAME_ApprovedAmt = "ApprovedAmt";
+
+	/** Set Approved Amount	  */
+	public void setApprovedAmt (BigDecimal ApprovedAmt);
+
+	/** Get Approved Amount	  */
+	public BigDecimal getApprovedAmt();
+
+    /** Column name ApprovedQty */
+    public static final String COLUMNNAME_ApprovedQty = "ApprovedQty";
+
+	/** Set Approved Quantity	  */
+	public void setApprovedQty (BigDecimal ApprovedQty);
+
+	/** Get Approved Quantity	  */
+	public BigDecimal getApprovedQty();
+
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 

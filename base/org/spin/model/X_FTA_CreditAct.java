@@ -17,10 +17,12 @@
 /** Generated Model - DO NOT CHANGE */
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_CreditAct
@@ -32,7 +34,7 @@ public class X_FTA_CreditAct extends PO implements I_FTA_CreditAct, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131105L;
+	private static final long serialVersionUID = 20131108L;
 
     /** Standard Constructor */
     public X_FTA_CreditAct (Properties ctx, int FTA_CreditAct_ID, String trxName)
@@ -79,6 +81,40 @@ public class X_FTA_CreditAct extends PO implements I_FTA_CreditAct, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Approved Amount.
+		@param ApprovedAmt Approved Amount	  */
+	public void setApprovedAmt (BigDecimal ApprovedAmt)
+	{
+		set_Value (COLUMNNAME_ApprovedAmt, ApprovedAmt);
+	}
+
+	/** Get Approved Amount.
+		@return Approved Amount	  */
+	public BigDecimal getApprovedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ApprovedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Approved Quantity.
+		@param ApprovedQty Approved Quantity	  */
+	public void setApprovedQty (BigDecimal ApprovedQty)
+	{
+		set_Value (COLUMNNAME_ApprovedQty, ApprovedQty);
+	}
+
+	/** Get Approved Quantity.
+		@return Approved Quantity	  */
+	public BigDecimal getApprovedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ApprovedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	public I_C_DocType getC_DocType() throws RuntimeException
     {
