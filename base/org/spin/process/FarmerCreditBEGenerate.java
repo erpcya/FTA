@@ -105,7 +105,7 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 			throw new AdempiereUserError("@DateDoc@ @NotFount@");
 		//	Valid Quantity
 		if(p_Qty <= 0)		
-			throw new AdempiereUserError("@Qty@ <= @0@");
+			p_Qty = 1;
 		
 		//	Get Precision
 		precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(getCtx(), "$C_Currency_ID"));
