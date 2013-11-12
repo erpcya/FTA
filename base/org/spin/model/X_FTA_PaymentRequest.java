@@ -34,7 +34,7 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131108L;
+	private static final long serialVersionUID = 20131112L;
 
     /** Standard Constructor */
     public X_FTA_PaymentRequest (Properties ctx, int FTA_PaymentRequest_ID, String trxName)
