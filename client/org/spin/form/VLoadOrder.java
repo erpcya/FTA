@@ -411,7 +411,7 @@ public class VLoadOrder extends LoadOrder
 	{
 			
 		// Organization filter selection
-		int AD_Column_ID = 1000461;		//	XX_LoadOrer.AD_Org_ID
+		int AD_Column_ID = 1000461;		//	FTA_LoadOrer.AD_Org_ID
 		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
 		organizationPick = new VLookup("AD_Org_ID", true, false, true, lookupOrg);
 		//organizationPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
