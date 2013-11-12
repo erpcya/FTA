@@ -30,6 +30,7 @@ import org.spin.model.MFTABillOfExchange;
 import org.spin.model.MFTACreditAct;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.X_FTA_BillOfExchange;
+import org.spin.model.X_FTA_FarmerCredit;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -112,10 +113,12 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 		
 		if(p_FTA_FarmerCredit_ID != 0){
 			MFTAFarmerCredit m_FTA_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
-			addBillOfExchange(m_FTA_FarmerCredit);
+			if(!m_FTA_FarmerCredit.getCreditType()
+					.equals(X_FTA_FarmerCredit.CREDITTYPE_ReceptionAgreement))
+				addBillOfExchange(m_FTA_FarmerCredit);
 		} else if(p_FTA_CreditAct_ID != 0) {
 			MFTACreditAct m_CredtAct = new MFTACreditAct(getCtx(), p_FTA_CreditAct_ID, get_TrxName());
-			MFTAFarmerCredit [] m_credits = m_CredtAct.getLines(true, "DocStatus = 'CO'");
+			MFTAFarmerCredit [] m_credits = m_CredtAct.getLines(true, "DocStatus = 'CO' AND CreditType <> 'R' ");
 			//	Create Bill of Exchange
 			for (MFTAFarmerCredit m_FarmerCredit : m_credits) {
 				addBillOfExchange(m_FarmerCredit);
