@@ -43,7 +43,7 @@ public class FarmingValidate extends SvrProcess {
 	protected String doIt() throws Exception {
 		//	
 		if(p_FTA_Farming_ID == 0)
-			throw new AdempiereException("@FTA_Farming_ID@ = 0");
+			throw new AdempiereException("@FTA_Farming_ID@ = @NotFound@");
 		MFTAFarming m_FTA_Farming = new MFTAFarming(getCtx(), p_FTA_Farming_ID, get_TrxName());
 		//	Valid
 		if(m_FTA_Farming.isValid())
