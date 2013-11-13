@@ -108,7 +108,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				p_GeneratePayRequest = (String) para.getParameter();
 			else if(name.equals("C_DocTypePayRequest_ID"))
 				p_C_DocTypePayRequest_ID = para.getParameterAsInt();
-			else if(name.equals("IsIndispute"))
+			else if(name.equals("IsInDispute"))
 				p_IsIndispute = para.getParameterAsBoolean();
 			
 		}
