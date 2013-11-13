@@ -79,9 +79,9 @@ public class LoadOrder {
 	/**	Shipper				*/
 	protected int 		m_M_Shipper_ID = 0;
 	/**	Driver				*/
-	protected int 		m_XX_Conductor_ID = 0;
+	protected int 		m_FTA_Driver_ID = 0;
 	/**	Vehicle				*/
-	protected int 		m_XX_Vehiculo_ID = 0;
+	protected int 		m_FTA_Vehicle_ID = 0;
 	/**	Vehicle Unit Measure*/
 	protected int 		m_XX_Vehicle_UOM_ID = 0;
 	/**	Work Unit Measure	*/
@@ -658,8 +658,8 @@ public class LoadOrder {
 			BigDecimal totalWeight = Env.ZERO;
 			loadOrder.setAD_Org_ID(m_AD_Org_ID);
 			loadOrder.setM_Shipper_ID(m_M_Shipper_ID);
-			loadOrder.setXX_Conductor_ID(m_XX_Conductor_ID);
-			loadOrder.setXX_Vehiculo_ID(m_XX_Vehiculo_ID);
+			loadOrder.setFTA_Driver_ID(m_FTA_Driver_ID);
+			loadOrder.setFTA_Vehicle_ID(m_FTA_Vehicle_ID);
 			loadOrder.setDateDoc(dateDoc);
 			loadOrder.setShipDate(shipDate);
 			loadOrder.setC_DocTypeOrder_ID(m_C_DocTypeOrder_ID);
@@ -793,14 +793,14 @@ public class LoadOrder {
 		
 		int m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		
-		String sql = "SELECT c.XX_Conductor_ID, c.Cedula || ' - ' || c.Nombre " +
+		String sql = "SELECT c.FTA_Driver_ID, c.Cedula || ' - ' || c.Nombre " +
 				"FROM XX_Conductor c " +
 				"WHERE c.AD_Client_ID = ? " +
 				"AND c.IsActive = 'Y' " +
 				"AND c.XX_TypeCrew = 'C' " +
 				"AND c.M_Shipper_ID = ? " +
-				"AND c.XX_Conductor_ID NOT IN" +
-				"(SELECT XX_Conductor_ID " +
+				"AND c.FTA_Driver_ID NOT IN" +
+				"(SELECT FTA_Driver_ID " +
 				"FROM XX_LoadOrder " +
 				"WHERE XX_Annulled = 'N' AND XXIsDriverReleased = 'N') " +
 				"ORDER BY c.Cedula, c.Nombre";		
@@ -836,13 +836,13 @@ public class LoadOrder {
 		
 		int m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		
-		String sql = "SELECT v.XX_Vehiculo_ID, v.Placa || ' - ' || v.Nombre " +
+		String sql = "SELECT v.FTA_Vehicle_ID, v.Placa || ' - ' || v.Nombre " +
 				"FROM XX_Vehiculo v " +
 				"WHERE v.AD_Client_ID = ? " +
 				"AND v.IsActive = 'Y' " +
 				"AND v.M_Shipper_ID = ? " +
-				"AND v.XX_Vehiculo_ID NOT IN " +
-				"(SELECT XX_Vehiculo_ID " +
+				"AND v.FTA_Vehicle_ID NOT IN " +
+				"(SELECT FTA_Vehicle_ID " +
 				"FROM XX_LoadOrder " +
 				"WHERE XX_Annulled = 'N' AND XXIsVehicleReleased = 'N') " +
 				"ORDER BY v.Placa, v.Nombre";

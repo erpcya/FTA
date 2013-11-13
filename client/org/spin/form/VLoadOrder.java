@@ -123,19 +123,16 @@ public class VLoadOrder extends LoadOrder
 	private VNumber 		capacityField = null;
 	private JLabel 			shipperLabel = new JLabel();
 	private VLookup 		shipperPick = null;
-	private JLabel 			uomVehicleLabel = new JLabel();
-	private VLookup 		uomVehiclePick = null;
 	private JLabel 			uomWorkLabel = new JLabel();
 	private VLookup 		uomWorkPick = null;
-	private JLabel 			docTypeOrderLabel = new JLabel();
-	private CComboBox 		docTypeOrderSearch = new CComboBox();
+	private JLabel 			vehicleTypeLabel = new JLabel();
+	private VLookup 		vehicleTypePick = null;
+	private JLabel 			entryTicketLabel = new JLabel();
+	private VLookup 		entryTicketPick = null;
+	private JLabel 			docTypeLabel = new JLabel();
+	private CComboBox 		docTypeSearch = new CComboBox();
 	private JLabel 			warehouseLabel = new JLabel();
 	private CComboBox 		warehouseSearch = new CComboBox();
-	private JLabel 			locatorLabel = new JLabel();
-	private CComboBox 		locatorSearch = new CComboBox();
-	private JLabel 			locatorToLabel = new JLabel();
-	private CComboBox 		locatorToSearch = new CComboBox();
-	
 	
 	/**/
 	private MiniTable 		orderLineTable = new MiniTable();
@@ -162,6 +159,7 @@ public class VLoadOrder extends LoadOrder
 
 	private JLabel 			organizationLabel = new JLabel();
 	private VLookup 		organizationPick = null;
+	private VLookup 		operationTypePick = null;
 	private CButton 		selectAllButton =  new CButton(Env.getImageIcon2("SelectAll24"));
 	/**	Search				*/
 	private CButton 		bSearch = new CButton();
@@ -170,8 +168,8 @@ public class VLoadOrder extends LoadOrder
 	private CLabel 			labelDateDoc = new CLabel();
 	private VDate 			fieldDateDoc = new VDate();
 	
-	//	Date Shippment
-	private CLabel 			labelShippDate = new CLabel();
+	//	Date Shipment
+	private CLabel 			labelShipDate = new CLabel();
 	private VDate 			fieldShipDate = new VDate();
 	
 	private String 			uomWorkValue = null;
@@ -198,32 +196,27 @@ public class VLoadOrder extends LoadOrder
 		//
 		parameterPanel.setLayout(parameterLayout);
 		loadOrderPanel.setLayout(loadOrderLayout);
-		driverLabel.setText(Msg.translate(Env.getCtx(), "XX_Conductor_ID"));
+		driverLabel.setText(Msg.translate(Env.getCtx(), "FTA_Driver_ID"));
 		
 		shipperLabel.setText(Msg.translate(Env.getCtx(), "M_Shipper_ID"));
-		carLabel.setText(Msg.translate(Env.getCtx(), "XX_Vehiculo_ID"));
+		carLabel.setText(Msg.translate(Env.getCtx(), "FTA_Vehicle_ID"));
 		salesRegionLabel.setText(Msg.translate(Env.getCtx(), "C_SalesRegion_ID"));
 		salesRepLabel.setText(Msg.translate(Env.getCtx(), "SalesRep_ID"));
 		capacityLabel.setText(Msg.translate(Env.getCtx(), "Capacity"));
+		vehicleTypeLabel.setText(Msg.translate(Env.getCtx(), "FTA_VehicleType_ID"));
+		entryTicketLabel.setText(Msg.translate(Env.getCtx(), "FTA_EntryTicket_ID"));
 		//	Unit Measure
-		uomVehicleLabel.setText(Msg.translate(Env.getCtx(), "XX_Vehicle_UOM_ID"));
-		uomWorkLabel.setText(Msg.translate(Env.getCtx(), "XX_Work_UOM_ID"));
+		uomWorkLabel.setText(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		
 		//	Document Type Order
-		docTypeOrderLabel.setText(Msg.translate(Env.getCtx(), "C_DocTypeOrder_ID"));
+		docTypeLabel.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
 		
 		//	Warehouse
 		warehouseLabel.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		
-		//	Locator
-		locatorLabel.setText(Msg.translate(Env.getCtx(), "M_Locator_ID"));
-		
-		//	Locator To
-		locatorToLabel.setText(Msg.translate(Env.getCtx(), "M_LocatorTo_ID"));
-		
 		//	Date
 		labelDateDoc.setText(Msg.translate(Env.getCtx(), "DateDoc"));
-		labelShippDate.setText(Msg.translate(Env.getCtx(), "SGDepartureDate"));
+		labelShipDate.setText(Msg.translate(Env.getCtx(), "ShipDate"));
 		
 		bSearch.setText(Msg.translate(Env.getCtx(), "Search"));
 		
@@ -237,9 +230,9 @@ public class VLoadOrder extends LoadOrder
 		orderLineInfo.setHorizontalTextPosition(SwingConstants.RIGHT);
 		orderInfo.setHorizontalAlignment(SwingConstants.RIGHT);
 		orderInfo.setHorizontalTextPosition(SwingConstants.RIGHT);
-		gLoadOrderButton.setText(Msg.getMsg(Env.getCtx(), "SGGenerateLoadOrder"));
+		gLoadOrderButton.setText(Msg.getMsg(Env.getCtx(), "GenerateLoadOrder"));
 		gLoadOrderButton.addActionListener(this);
-		differenceLabel.setText(Msg.getMsg(Env.getCtx(), "SGDiffWeight"));
+		differenceLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight"));
 		differenceField = new VNumber("Difference", true, true, true, DisplayType.Number, "Difference");
 		differenceField.setValue(Env.ZERO);
 		capacityField = new VNumber("Capacity", true, true, true, DisplayType.Number, "Capacity");
@@ -251,14 +244,14 @@ public class VLoadOrder extends LoadOrder
 		stockScrollPane.setPreferredSize(new Dimension(200, 200));
 		
 		parameterCollapsiblePanel.add(parameterPanel);
-		parameterCollapsiblePanel.setTitle(Msg.translate(Env.getCtx(), "SGParameters"));
+		parameterCollapsiblePanel.setTitle(Msg.translate(Env.getCtx(), "Parameters"));
 		parameterCollapsiblePanel.setUI(new BasicTaskPaneUI());
 		parameterCollapsiblePanel.getContentPane().setBackground(new ColorUIResource(251,248,241));
 		parameterCollapsiblePanel.getContentPane().setForeground(new ColorUIResource(251,0,0));
 		parameterCollapsiblePanel.setCollapsed(false);
 		
 		stockCollapsiblePanel.setCollapsed(true);
-		stockCollapsiblePanel.setTitle(Msg.translate(Env.getCtx(), "SGWarehouseStockGroup"));
+		stockCollapsiblePanel.setTitle(Msg.translate(Env.getCtx(), "WarehouseStockGroup"));
 		stockCollapsiblePanel.setUI(new AdempiereTaskPaneUI());
 		stockCollapsiblePanel.getContentPane().setBackground(new ColorUIResource(251,248,241));
 		stockCollapsiblePanel.getContentPane().setForeground(new ColorUIResource(255,0,0));
@@ -284,7 +277,7 @@ public class VLoadOrder extends LoadOrder
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		parameterPanel.add(shipperLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-			parameterPanel.add(shipperPick, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+		parameterPanel.add(shipperPick, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		parameterPanel.add(driverLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
@@ -303,41 +296,27 @@ public class VLoadOrder extends LoadOrder
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldDateDoc, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		parameterPanel.add(labelShippDate, new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0
+		parameterPanel.add(labelShipDate, new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldShipDate, new GridBagConstraints(5, 2, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		
 		//	Unit Measure
-		parameterPanel.add(uomVehicleLabel, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(uomVehiclePick, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		parameterPanel.add(uomWorkLabel, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(uomWorkPick, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		
 		//	Document Type Oder
-		parameterPanel.add(docTypeOrderLabel, new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0
+		parameterPanel.add(docTypeLabel, new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(docTypeOrderSearch, new GridBagConstraints(5, 3, 1, 1, 0.0, 0.0
+		parameterPanel.add(docTypeSearch, new GridBagConstraints(5, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		
 		//	Storage
 		parameterPanel.add(warehouseLabel, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(warehouseSearch, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-
-		parameterPanel.add(locatorLabel, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(locatorSearch, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		
-		parameterPanel.add(locatorToLabel, new GridBagConstraints(4, 4, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(locatorToSearch, new GridBagConstraints(5, 4, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		
 		parameterPanel.add(bSearch, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0
@@ -411,14 +390,14 @@ public class VLoadOrder extends LoadOrder
 	{
 			
 		// Organization filter selection
-		int AD_Column_ID = 1000461;		//	FTA_LoadOrer.AD_Org_ID
+		int AD_Column_ID = 69835;		//	FTA_LoadOrer.AD_Org_ID
 		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
 		organizationPick = new VLookup("AD_Org_ID", true, false, true, lookupOrg);
 		//organizationPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
 		organizationPick.addVetoableChangeListener(this);
 
 		//  Shipper
-		AD_Column_ID = 1000638;		//  XX_LoadOrder.M_Shipper_ID
+		AD_Column_ID = 69852;		//  FTA_LoadOrder.M_Shipper_ID
 		MLookup lookupSP = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
 		shipperPick = new VLookup("M_Shipper_ID", true, false, true, lookupSP);
 		//shipperPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
@@ -436,26 +415,32 @@ public class VLoadOrder extends LoadOrder
 		//salesRepSearch.setValue(Env.getAD_Org_ID(Env.getCtx()));
 		salesRepSearch.addVetoableChangeListener(this);
 		
-		//  Capacity Unit Measure
-		AD_Column_ID = 1002060;		//  XX_LoadOrder.XX_Vehicle_UOM_ID
-		MLookup lookupUW = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
-		uomVehiclePick = new VLookup("XX_Vehicle_UOM_ID", true, true, true, lookupUW);
-		uomVehiclePick.addVetoableChangeListener(this);
+		//  Vehicle Type
+		AD_Column_ID = 69851;		//  FTA_LoadOrder.FTA_VehicleType_ID
+		MLookup lookupVT = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
+		vehicleTypePick = new VLookup("FTA_VehicleType_ID", true, true, true, lookupVT);
+		vehicleTypePick.addVetoableChangeListener(this);
+		
+		//	Entry Ticket
+		AD_Column_ID = 69874;		//  FTA_LoadOrder.FTA_EntryTicket_ID
+		MLookup lookupET = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
+		entryTicketPick = new VLookup("FTA_EntryTicket_ID", true, true, true, lookupET);
+		entryTicketPick.addVetoableChangeListener(this);
 		
 		//  Working Unit Measure
-		AD_Column_ID = 1002061;		//  XX_LoadOrder.XX_Work_UOM_ID
+		AD_Column_ID = 2348;		//  AD_ClientInfo.C_UOM_Weight_ID
 		MLookup lookupUV = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
-		uomWorkPick = new VLookup("XX_Work_UOM_ID", true, false, true, lookupUV);
+		uomWorkPick = new VLookup("C_UOM_ID", true, true, true, lookupUV);
 		uomWorkPick.addVetoableChangeListener(this);
 				
-		//  Document Type Order
-		/*AD_Column_ID = 1002068;		//  XX_LoadOrder.C_DocTypeOrder_ID
-		MLookup lookupTO = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
-		docTypeOrderPick = new VLookup("C_DocTypeOrder_ID", true, false, true, lookupTO);
-		docTypeOrderPick.addVetoableChangeListener(this);*/
+		//  Operation Type
+		AD_Column_ID = 69870;		//  FTA_LoadOrder.OperationType
+		MLookup lookupTO = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.List);
+		operationTypePick = new VLookup("OperationType", true, false, true, lookupTO);
+		operationTypePick.addVetoableChangeListener(this);
 		
 		//  Translation
-		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SGLoadOrder"));
+		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "FTA_LoadOrder_ID"));
 		statusBar.setStatusDB("");
 		
 		//	Conductor
@@ -465,15 +450,11 @@ public class VLoadOrder extends LoadOrder
 		vehicleSearch.addActionListener(this);
 		
 		//	Document Type Order
-		docTypeOrderSearch.addActionListener(this);
+		docTypeSearch.addActionListener(this);
 		
 		//	Warehouse
 		warehouseSearch.addActionListener(this);
 		
-		//	Locator
-		locatorSearch.addActionListener(this);
-		//	Locator To
-		locatorToSearch.addActionListener(this);
 		//	Search
 		bSearch.addActionListener(this);
 		
@@ -486,10 +467,6 @@ public class VLoadOrder extends LoadOrder
 		fieldDateDoc.setValue(new Timestamp(System.currentTimeMillis()));
 		fieldShipDate.setMandatory(true);
 		fieldShipDate.setValue(new Timestamp(System.currentTimeMillis()));
-		
-		//	Locator To
-		locatorToLabel.setVisible(m_XXIsInternalLoad);
-		locatorToSearch.setVisible(m_XXIsInternalLoad);
 		
 		/*orderLineTable.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
@@ -522,9 +499,9 @@ public class VLoadOrder extends LoadOrder
 		log.config("");
 		if(e.getSource().equals(vehicleSearch)){
 			KeyNamePair pp = (KeyNamePair) vehicleSearch.getSelectedItem();
-			int v_XX_Vehiculo_ID = (pp != null? pp.getKey(): 0);
-			if(v_XX_Vehiculo_ID != 0) {
-				/*MXXVehiculo vehiculo = new MXXVehiculo(Env.getCtx(), v_XX_Vehiculo_ID, null);
+			int v_FTA_Vehicle_ID = (pp != null? pp.getKey(): 0);
+			if(v_FTA_Vehicle_ID != 0) {
+				/*MXXVehiculo vehiculo = new MXXVehiculo(Env.getCtx(), v_FTA_Vehicle_ID, null);
 				capacityField.setValue(vehiculo.getCapacity());
 				m_XX_Vehicle_UOM_ID = vehiculo.getC_UOM_ID();
 				uomVehiclePick.setValue(m_XX_Vehicle_UOM_ID);
@@ -538,18 +515,16 @@ public class VLoadOrder extends LoadOrder
 			for (int i = 0; i < rows; i++) {
 				orderLineTable.setValueAt(true, i, SELECT);
 			}			
-		} else if(e.getSource().equals(docTypeOrderSearch)){
-			KeyNamePair pp = (KeyNamePair) docTypeOrderSearch.getSelectedItem();
+		} else if(e.getSource().equals(docTypeSearch)){
+			KeyNamePair pp = (KeyNamePair) docTypeSearch.getSelectedItem();
 			m_C_DocTypeOrder_ID = (pp != null? pp.getKey(): 0);
 			setValueDocType(trxName);
-			locatorToLabel.setVisible(m_XXIsInternalLoad);
-			locatorToSearch.setVisible(m_XXIsInternalLoad);
 			if(m_XXIsInternalLoad){
 				ArrayList<KeyNamePair> data = getDataLocatorTo();
-				m_M_LocatorTo_ID = loadCombo(locatorToSearch, data);
+				//m_M_LocatorTo_ID = loadCombo(locatorToSearch, data);
 			} else {
 				m_M_LocatorTo_ID = 0;
-				locatorToSearch.removeAllItems();
+				//locatorToSearch.removeAllItems();
 			}
 			//loadOrder();
 			//calculate();
@@ -558,14 +533,14 @@ public class VLoadOrder extends LoadOrder
 			KeyNamePair pp = (KeyNamePair) warehouseSearch.getSelectedItem();
 			m_M_Warehouse_ID = (pp != null? pp.getKey(): 0);
 			clearData();
-		} else if(e.getSource().equals(locatorSearch)){
-			KeyNamePair pp = (KeyNamePair) locatorSearch.getSelectedItem();
+		} /*else if(e.getSource().equals(warehouseSearch_To)){
+			KeyNamePair pp = (KeyNamePair) warehouseSearch_To.getSelectedItem();
 			m_M_Locator_ID = (pp != null? pp.getKey(): 0);
 			clearData();
 		} else if(e.getSource().equals(locatorToSearch)){
 			KeyNamePair pp = (KeyNamePair) locatorToSearch.getSelectedItem();
 			m_M_LocatorTo_ID = (pp != null? pp.getKey(): 0);
-		} else if(e.getSource().equals(gLoadOrderButton)){
+		}*/ else if(e.getSource().equals(gLoadOrderButton)){
 			if(validData()){
 				if (ADialog.ask(m_WindowNo, panel, "SGSaveQLoadOrder")){
 					saveData();
@@ -612,12 +587,12 @@ public class VLoadOrder extends LoadOrder
 						//	Add Automatic Collapsed
 						parameterCollapsiblePanel.setCollapsed(true);
 					} else {
-						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotConversion") + " " 
+						/*ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotConversion") + " " 
 								+ Msg.translate(Env.getCtx(), "of") + " "
 								+ uomVehiclePick.getDisplay() + " " 
 								+ Msg.translate(Env.getCtx(), "to") + " " 
 								+ uomWorkPick.getDisplay()
-								);
+								);*/
 					}
 				} else {
 					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotDocTypeOrder"));
@@ -644,24 +619,21 @@ public class VLoadOrder extends LoadOrder
 	private void getPanelValues(){
 		Object value = shipperPick.getValue();
 		m_M_Shipper_ID = ((Integer)(value != null? value: 0)).intValue();
-		value = uomVehiclePick.getValue();
-		m_XX_Vehicle_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
-		value = uomWorkPick.getValue();
+		//value = uomVehiclePick.getValue();
+		//m_XX_Vehicle_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
+		//value = uomWorkPick.getValue();
 		m_XX_Work_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
 		String display = uomWorkPick.getDisplay();
 		uomWorkValue = (display != null? " " + Msg.translate(Env.getCtx(), "SGIn") + " " + display: "");
 		KeyNamePair pp = (KeyNamePair) driverSearch.getSelectedItem();
-		m_XX_Conductor_ID = (pp != null? pp.getKey(): 0);
+		m_FTA_Driver_ID = (pp != null? pp.getKey(): 0);
 		pp = (KeyNamePair) vehicleSearch.getSelectedItem();
-		m_XX_Vehiculo_ID = (pp != null? pp.getKey(): 0);
-		pp = (KeyNamePair) docTypeOrderSearch.getSelectedItem();
+		m_FTA_Vehicle_ID = (pp != null? pp.getKey(): 0);
+		pp = (KeyNamePair) docTypeSearch.getSelectedItem();
 		m_C_DocTypeOrder_ID = (pp != null? pp.getKey(): 0);
 		pp = (KeyNamePair) warehouseSearch.getSelectedItem();
 		m_M_Warehouse_ID = (pp != null? pp.getKey(): 0);
-		pp = (KeyNamePair) locatorSearch.getSelectedItem();
-		m_M_Locator_ID = (pp != null? pp.getKey(): 0);
-		pp = (KeyNamePair) locatorToSearch.getSelectedItem();
-		m_M_LocatorTo_ID = (pp != null? pp.getKey(): 0);
+		pp = (KeyNamePair) warehouseSearch.getSelectedItem();
 		setValueDocType(trxName);
 	}
 	
@@ -674,8 +646,8 @@ public class VLoadOrder extends LoadOrder
 		getPanelValues();
 		if(m_AD_Org_ID != 0){
 			if(m_M_Shipper_ID != 0){
-				if(m_XX_Conductor_ID != 0){
-					if(m_XX_Vehiculo_ID != 0){
+				if(m_FTA_Driver_ID != 0){
+					if(m_FTA_Vehicle_ID != 0){
 						if(m_XX_Work_UOM_ID != 0){
 							if(m_C_DocTypeOrder_ID != 0){
 								if(m_M_Warehouse_ID != 0){
@@ -777,7 +749,7 @@ public class VLoadOrder extends LoadOrder
 							} else {
 								ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotConversion") + " " 
 										+ Msg.translate(Env.getCtx(), "of") + " "
-										+ uomVehiclePick.getDisplay() + " " 
+										//+ uomVehiclePick.getDisplay() + " " 
 										+ Msg.translate(Env.getCtx(), "to") + " " 
 										+ uomWorkPick.getDisplay()
 										);
@@ -914,7 +886,7 @@ public class VLoadOrder extends LoadOrder
 		} else if(name.equals("AD_Org_ID")){
 			m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
 			ArrayList<KeyNamePair> data = getDataDocumentOrder();
-			m_C_DocTypeOrder_ID = loadCombo(docTypeOrderSearch, data);
+			m_C_DocTypeOrder_ID = loadCombo(docTypeSearch, data);
 			if (m_C_DocTypeOrder_ID != 0) {
 				setValueDocType(trxName);
 			} 
@@ -922,19 +894,19 @@ public class VLoadOrder extends LoadOrder
 			m_M_Warehouse_ID = loadCombo(warehouseSearch, data);
 			if(m_M_Warehouse_ID != 0){
 				data = getDataLocator();
-				m_M_Locator_ID = loadCombo(locatorSearch, data);
+				m_M_Locator_ID = loadCombo(warehouseSearch, data);
 			}
 			
 		} else if(name.equals("M_Shipper_ID")){
 			m_M_Shipper_ID = ((Integer)(value != null? value: 0)).intValue();
 			ArrayList<KeyNamePair> data = getDataDriver();
-			m_XX_Conductor_ID = loadCombo(driverSearch, data);
+			m_FTA_Driver_ID = loadCombo(driverSearch, data);
 			//	Vehicle
 			data = getDataCar();
-			m_XX_Vehiculo_ID = loadCombo(vehicleSearch, data);
+			m_FTA_Vehicle_ID = loadCombo(vehicleSearch, data);
 			//	Unit Measure
-			if(m_XX_Vehiculo_ID != 0) {//System.err.println(m_XX_Vehiculo_ID);
-				/*MXXVehiculo vehiculo = new MXXVehiculo(Env.getCtx(), m_XX_Vehiculo_ID, null);
+			if(m_FTA_Vehicle_ID != 0) {//System.err.println(m_FTA_Vehicle_ID);
+				/*MXXVehiculo vehiculo = new MXXVehiculo(Env.getCtx(), m_FTA_Vehicle_ID, null);
 				capacityField.setValue(vehiculo.getCapacity());
 				uomVehiclePick.setValue(vehiculo.getC_UOM_ID());*/
 			} else {
@@ -1054,7 +1026,7 @@ public class VLoadOrder extends LoadOrder
 			trx.commit();
 			ADialog.info(m_WindowNo, panel, msg);
 			shipperPick.setValue(0);
-			uomVehiclePick.setValue(0);
+			//uomVehiclePick.setValue(0);
 			uomWorkPick.setValue(0);
 			driverSearch.removeAllItems();
 			vehicleSearch.removeAllItems();
