@@ -17,6 +17,7 @@
 
 package org.spin.process;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Properties;
 
@@ -24,9 +25,8 @@ import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.spin.model.MFTACreditDefinition;
-import org.spin.model.MFTACreditDefinitionLine;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAFarming;
 
@@ -55,11 +55,7 @@ public class FarmingAllocation extends SvrProcess {
 		
 		//Current Farmer Credit
 		MFTAFarmerCredit credit = new MFTAFarmerCredit(ctx, getRecord_ID(), get_TrxName());
-		
-		//Credit Definition
-		MFTACreditDefinition creditdef= new  MFTACreditDefinition(ctx, credit.getFTA_CreditDefinition_ID(), get_TrxName());
-		
-		
+				
 		
 		filter.append((m_FTA_Farming_ID==0?
 				"/*Framing Category Equals Credit Definition Category */ " 
@@ -83,49 +79,42 @@ public class FarmingAllocation extends SvrProcess {
 										.setOnlyActiveRecords(true)
 										.list();
 		
-		for (MFTAFarming farming:farmings)
-		{
+		for (MFTAFarming farming:farmings){
 			//Set Farmer Credit
 			if(farming.getFTA_FarmerCredit_ID()==0)
-			{
 				farming.setFTA_FarmerCredit_ID(credit.getFTA_FarmerCredit_ID());
-				credit.setQty(credit.getQty().add(farming.getArea()));
-				
-				//Set Amt from Credit Definition
-				for (MFTACreditDefinitionLine creditdefline:creditdef.getLines(false) )
-				{
-					credit.setAmt(
-							credit.getAmt().add(
-									farming.getArea().multiply(creditdefline.getAmt())
-											    )
-								 );
-				}
-			}
 			else
-			{
 				farming.setFTA_FarmerCredit_ID(0);
-				credit.setQty(credit.getQty().subtract(farming.getArea()));
-				
-				//Set Amt from Credit Definition
-				for (MFTACreditDefinitionLine creditdefline:creditdef.getLines(false) )
-				{
-					credit.setAmt(
-							credit.getAmt().subtract(
-									farming.getArea().multiply(creditdefline.getAmt())
-											    )
-								 );
-				}
-			}
 			
-			farming.save(get_TrxName());
-			credit.save(get_TrxName());
-			
+			farming.save(get_TrxName());	
 			m_Updted++;
+			
 		}
 		
+		
+		credit.setQty(getNField("Sum(Area)", "FTA_Farming WHERE FTA_FarmerCredit_ID=?",new Object[]{credit.getFTA_FarmerCredit_ID()}));
+		credit.setAmt(getNField("Sum(fming.Area * cd.Amt)", "FTA_Farming fming " +
+											"INNER JOIN FTA_FarmerCredit fc ON fming.FTA_FarmerCredit_ID=fc.FTA_FarmerCredit_ID " +
+											"INNER JOIN FTA_CreditDefinition cd ON cd.FTA_CreditDefinition_ID=fc.FTA_CreditDefinition_ID " +
+											"WHERE fc.FTA_FarmerCredit_ID=?",new Object[]{credit.getFTA_FarmerCredit_ID()}));
+		credit.save(get_TrxName());
 		return "@Updated@="+m_Updted;
 	}
 
+	/**
+	 * Get Calculate Field From Farming and Credit Definition
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a>
+	 * @param pField
+	 * @param pFrom
+	 * @param params
+	 * @return
+	 * @return BigDecimal
+	 */
+	private BigDecimal getNField(String pField, String pFrom,Object[] params){
+		BigDecimal mField = DB.getSQLValueBD(get_TrxName(), "SELECT "+ pField + " FROM " + pFrom ,params);
+		return (mField==null?Env.ZERO:mField);
+	}
+	
 	/** Farming	 */
 	private int m_FTA_Farming_ID =0;
 	
