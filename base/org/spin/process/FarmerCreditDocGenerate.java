@@ -77,6 +77,9 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	private String 			trxName = null;
 	private Trx 			trx = null;
 	
+	/** Document is In Dispute*/
+	private boolean		p_IsIndispute =false;
+	
 	
 	@Override
 	protected void prepare() {
@@ -105,6 +108,9 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				p_GeneratePayRequest = (String) para.getParameter();
 			else if(name.equals("C_DocTypePayRequest_ID"))
 				p_C_DocTypePayRequest_ID = para.getParameterAsInt();
+			else if(name.equals("IsInDispute"))
+				p_IsIndispute = para.getParameterAsBoolean();
+			
 		}
 		//	Get Technical From Identifier
 		if(p_FTA_FarmerCredit_ID == 0)
@@ -191,6 +197,10 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_ARInvoice.setDateInvoiced(p_DateDoc);
 		m_ARInvoice.setIsSOTrx(true);
 		m_ARInvoice.setC_DocTypeTarget_ID(p_C_DocTypeInvoice_ARI_ID);
+		
+		//Set in Dispute
+		m_ARInvoice.setIsInDispute(p_IsIndispute);
+		
 		//	Set Business PArtner
 		
 		m_ARInvoice.setBPartner(bpartner);
@@ -225,6 +235,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_APInvoice.setDateInvoiced(p_DateDoc);
 		m_APInvoice.setIsSOTrx(false);
 		m_APInvoice.setC_DocTypeTarget_ID(p_C_DocTypeInvoice_API_ID);
+		//Set in Dispute
+		m_APInvoice.setIsInDispute(p_IsIndispute);
 		//	Set Business PArtner
 		bpartner = MBPartner.get(getCtx(), m_FTA_FarmerCredit.getBeneficiary_ID());
 		m_APInvoice.setBPartner(bpartner);
