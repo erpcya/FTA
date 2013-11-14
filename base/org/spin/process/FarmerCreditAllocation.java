@@ -85,13 +85,9 @@ public class FarmerCreditAllocation extends SvrProcess {
 					fc.setFTA_CreditAct_ID(m_FTA_CreditAct_ID);
 					fc.setApprovedAmt(rs.getBigDecimal("ApprovedAmt"));
 					fc.setApprovedQty(rs.getBigDecimal("ApprovedQty"));
-					ca.setApprovedAmt(ca.getApprovedAmt().add(rs.getBigDecimal("ApprovedAmt")));
-					ca.setApprovedQty(ca.getApprovedQty().add(rs.getBigDecimal("ApprovedQty")));
 				}
 				else{
 					fc.setFTA_CreditAct_ID(0);
-					ca.setApprovedAmt(ca.getApprovedAmt().subtract(rs.getBigDecimal("ApprovedAmt")));
-					ca.setApprovedQty(ca.getApprovedQty().subtract(rs.getBigDecimal("ApprovedQty")));
 					fc.setApprovedAmt(Env.ZERO);
 					fc.setApprovedQty(Env.ZERO);
 				}
@@ -99,6 +95,9 @@ public class FarmerCreditAllocation extends SvrProcess {
 				m_Updated++;
 				fc.save(get_TrxName());
 			}
+			
+			ca.setApprovedQty(getNField("Sum(ApprovedQty)", "FTA_FarmerCredit WHERE FTA_CreditAct_ID=?",new Object[]{ca.getFTA_CreditAct_ID()}));
+			ca.setApprovedAmt(getNField("Sum(ApprovedAmt)", "FTA_FarmerCredit WHERE FTA_CreditAct_ID=?",new Object[]{ca.getFTA_CreditAct_ID()}));
 			ca.save(get_TrxName());
 			result ="@Updated@="+m_Updated;
 		}
@@ -113,6 +112,19 @@ public class FarmerCreditAllocation extends SvrProcess {
 		return result;
 	}
 	
+	/**
+	 * Get Calculate Field From Farming and Credit Definition
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a>
+	 * @param pField
+	 * @param pFrom
+	 * @param params
+	 * @return
+	 * @return BigDecimal
+	 */
+	private BigDecimal getNField(String pField, String pFrom,Object[] params){
+		BigDecimal mField = DB.getSQLValueBD(get_TrxName(), "SELECT "+ pField + " FROM " + pFrom ,params);
+		return (mField==null?Env.ZERO:mField);
+	}
 	/** credit	 */
 	private int m_FTA_CreditAct_ID =0;
 	
