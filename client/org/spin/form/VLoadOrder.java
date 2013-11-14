@@ -51,6 +51,7 @@ import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MUOMConversion;
+import org.compiere.model.X_C_Order;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
@@ -113,7 +114,7 @@ public class VLoadOrder extends LoadOrder
 	/**/
 	private JLabel 			driverLabel = new JLabel();
 	private CComboBox 		driverSearch = new CComboBox();
-	private JLabel 			carLabel = new JLabel();
+	private JLabel 			vehicleLabel = new JLabel();
 	private CComboBox 		vehicleSearch = new CComboBox();
 	private JLabel 			salesRegionLabel = new JLabel();
 	private VLookup 		salesRegion = null;
@@ -131,6 +132,12 @@ public class VLoadOrder extends LoadOrder
 	private VLookup 		entryTicketPick = null;
 	private JLabel 			docTypeLabel = new JLabel();
 	private CComboBox 		docTypeSearch = new CComboBox();
+	private JLabel 			docTypeTargetLabel = new JLabel();
+	private VLookup 		docTypeTargetPick = null;
+	private JLabel 			invoiceRuleLabel = new JLabel();
+	private VLookup 		invoiceRulePick = null;
+	private JLabel 			deliveryRuleLabel = new JLabel();
+	private VLookup 		deliveryRulePick = null;
 	private JLabel 			warehouseLabel = new JLabel();
 	private CComboBox 		warehouseSearch = new CComboBox();
 	
@@ -159,6 +166,7 @@ public class VLoadOrder extends LoadOrder
 
 	private JLabel 			organizationLabel = new JLabel();
 	private VLookup 		organizationPick = null;
+	private JLabel 			operationTypeLabel = new JLabel();
 	private VLookup 		operationTypePick = null;
 	private CButton 		selectAllButton =  new CButton(Env.getImageIcon2("SelectAll24"));
 	/**	Search				*/
@@ -199,7 +207,7 @@ public class VLoadOrder extends LoadOrder
 		driverLabel.setText(Msg.translate(Env.getCtx(), "FTA_Driver_ID"));
 		
 		shipperLabel.setText(Msg.translate(Env.getCtx(), "M_Shipper_ID"));
-		carLabel.setText(Msg.translate(Env.getCtx(), "FTA_Vehicle_ID"));
+		vehicleLabel.setText(Msg.translate(Env.getCtx(), "FTA_Vehicle_ID"));
 		salesRegionLabel.setText(Msg.translate(Env.getCtx(), "C_SalesRegion_ID"));
 		salesRepLabel.setText(Msg.translate(Env.getCtx(), "SalesRep_ID"));
 		capacityLabel.setText(Msg.translate(Env.getCtx(), "Capacity"));
@@ -208,9 +216,16 @@ public class VLoadOrder extends LoadOrder
 		//	Unit Measure
 		uomWorkLabel.setText(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		
-		//	Document Type Order
+		//	Operation Type
+		operationTypeLabel.setText(Msg.translate(Env.getCtx(), "OperationType"));
+		//	Document Type
 		docTypeLabel.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
-		
+		//	Document Type Target
+		docTypeTargetLabel.setText(Msg.translate(Env.getCtx(), "C_DocTypeTarget_ID"));
+		//	Invoice Rule
+		invoiceRuleLabel.setText(Msg.translate(Env.getCtx(), "InvoiceRule"));
+		//	Delivery Rule
+		deliveryRuleLabel.setText(Msg.translate(Env.getCtx(), "DeliveryRule"));
 		//	Warehouse
 		warehouseLabel.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		
@@ -275,56 +290,86 @@ public class VLoadOrder extends LoadOrder
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		parameterPanel.add(salesRepSearch, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		parameterPanel.add(shipperLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(shipperPick, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		parameterPanel.add(driverLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(driverSearch, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		parameterPanel.add(carLabel, new GridBagConstraints(4, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(vehicleSearch, new GridBagConstraints(5, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		parameterPanel.add(capacityLabel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(capacityField, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		//	Date
-		parameterPanel.add(labelDateDoc, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(fieldDateDoc, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		parameterPanel.add(labelShipDate, new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(fieldShipDate, new GridBagConstraints(5, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		
-		//	Unit Measure
-		parameterPanel.add(uomWorkLabel, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(uomWorkPick, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		
-		//	Document Type Oder
-		parameterPanel.add(docTypeLabel, new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(docTypeSearch, new GridBagConstraints(5, 3, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		
 		//	Storage
-		parameterPanel.add(warehouseLabel, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
+		parameterPanel.add(warehouseLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(warehouseSearch, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0
+		parameterPanel.add(warehouseSearch, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		
-		parameterPanel.add(bSearch, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0
+		//	Operation Type
+		parameterPanel.add(operationTypeLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(operationTypePick, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		
+		//	Document Type
+		parameterPanel.add(docTypeLabel, new GridBagConstraints(4, 1, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(docTypeSearch, new GridBagConstraints(5, 1, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Document Type Target
+		parameterPanel.add(docTypeTargetLabel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(docTypeTargetPick, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Invoice Rule
+		parameterPanel.add(invoiceRuleLabel, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(invoiceRulePick, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Delivery Rule
+		parameterPanel.add(deliveryRuleLabel, new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(deliveryRulePick, new GridBagConstraints(5, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Vehicle Type
+		parameterPanel.add(vehicleTypeLabel, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(vehicleTypePick, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Document Date
+		parameterPanel.add(labelDateDoc, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(fieldDateDoc, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Shipment Date
+		parameterPanel.add(labelShipDate, new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(fieldShipDate, new GridBagConstraints(5, 3, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Entry Ticket
+		parameterPanel.add(entryTicketLabel, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(entryTicketPick, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Shipper
+		parameterPanel.add(shipperLabel, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(shipperPick, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Driver
+		parameterPanel.add(driverLabel, new GridBagConstraints(4, 4, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(driverSearch, new GridBagConstraints(5, 4, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Vehicle
+		parameterPanel.add(vehicleLabel, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(vehicleSearch, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Capacity
+		parameterPanel.add(capacityLabel, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(capacityField, new GridBagConstraints(3, 5, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Unit Measure
+		parameterPanel.add(uomWorkLabel, new GridBagConstraints(4, 5, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(uomWorkPick, new GridBagConstraints(5, 5, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Search
+		parameterPanel.add(bSearch, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//mainPanel.add(stockCollapsiblePanel, BorderLayout.SOUTH);
 		mainPanel.add(stockInfoPanel, BorderLayout.SOUTH);
-		
 		
 		//	Botton Panel
 		loadOrderPanel.add(selectAllButton, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
@@ -414,30 +459,50 @@ public class VLoadOrder extends LoadOrder
 		salesRepSearch = new VLookup("SalesRep_ID", false, false, true, lookupSal);
 		//salesRepSearch.setValue(Env.getAD_Org_ID(Env.getCtx()));
 		salesRepSearch.addVetoableChangeListener(this);
+						
+		//  Operation Type
+		AD_Column_ID = 69870;		//  FTA_LoadOrder.OperationType
+		MLookup lookupTO = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.List);
+		operationTypePick = new VLookup("OperationType", true, false, true, lookupTO);
+		operationTypePick.addVetoableChangeListener(this);
+
+		//  Document Type Target
+		AD_Column_ID = 69842;		//  FTA_LoadOrder.C_DocTypeTarget_ID
+		MLookup lookupDTT = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
+		docTypeTargetPick = new VLookup("C_DocType_ID", true, false, true, lookupDTT);
+		docTypeTargetPick.addVetoableChangeListener(this);
+		
+		AD_Column_ID = 69872;		//  FTA_LoadOrder.InvoiceRule
+		MLookup lookupIR = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.List);
+		invoiceRulePick = new VLookup("InvoiceRule", true, false, true, lookupIR);
+		invoiceRulePick.setValue(X_C_Order.INVOICERULE_Immediate);
+		invoiceRulePick.addVetoableChangeListener(this);
+		
+		AD_Column_ID = 69873;		//  FTA_LoadOrder.DeliveryRule
+		MLookup lookupDR = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.List);
+		deliveryRulePick = new VLookup("DeliveryRule", true, false, true, lookupDR);
+		deliveryRulePick.setValue(X_C_Order.DELIVERYRULE_Availability);
+		deliveryRulePick.addVetoableChangeListener(this);
 		
 		//  Vehicle Type
 		AD_Column_ID = 69851;		//  FTA_LoadOrder.FTA_VehicleType_ID
 		MLookup lookupVT = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
-		vehicleTypePick = new VLookup("FTA_VehicleType_ID", true, true, true, lookupVT);
+		vehicleTypePick = new VLookup("FTA_VehicleType_ID", true, false, true, lookupVT);
 		vehicleTypePick.addVetoableChangeListener(this);
-		
-		//	Entry Ticket
-		AD_Column_ID = 69874;		//  FTA_LoadOrder.FTA_EntryTicket_ID
-		MLookup lookupET = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
-		entryTicketPick = new VLookup("FTA_EntryTicket_ID", true, true, true, lookupET);
-		entryTicketPick.addVetoableChangeListener(this);
 		
 		//  Working Unit Measure
 		AD_Column_ID = 2348;		//  AD_ClientInfo.C_UOM_Weight_ID
 		MLookup lookupUV = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
 		uomWorkPick = new VLookup("C_UOM_ID", true, true, true, lookupUV);
 		uomWorkPick.addVetoableChangeListener(this);
-				
-		//  Operation Type
-		AD_Column_ID = 69870;		//  FTA_LoadOrder.OperationType
-		MLookup lookupTO = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.List);
-		operationTypePick = new VLookup("OperationType", true, false, true, lookupTO);
-		operationTypePick.addVetoableChangeListener(this);
+		
+		//	Entry Ticket
+		AD_Column_ID = 69874;		//  FTA_LoadOrder.FTA_EntryTicket_ID
+		MLookup lookupET = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
+		entryTicketPick = new VLookup("FTA_EntryTicket_ID", true, false, true, lookupET);
+		entryTicketPick.addVetoableChangeListener(this);
+		
+		
 		
 		//  Translation
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "FTA_LoadOrder_ID"));
@@ -542,7 +607,7 @@ public class VLoadOrder extends LoadOrder
 			m_M_LocatorTo_ID = (pp != null? pp.getKey(): 0);
 		}*/ else if(e.getSource().equals(gLoadOrderButton)){
 			if(validData()){
-				if (ADialog.ask(m_WindowNo, panel, "SGSaveQLoadOrder")){
+				if (ADialog.ask(m_WindowNo, panel, "SaveQLoadOrder")){
 					saveData();
 				}
 			}
@@ -587,7 +652,7 @@ public class VLoadOrder extends LoadOrder
 						//	Add Automatic Collapsed
 						parameterCollapsiblePanel.setCollapsed(true);
 					} else {
-						/*ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotConversion") + " " 
+						/*ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotConversion") + " " 
 								+ Msg.translate(Env.getCtx(), "of") + " "
 								+ uomVehiclePick.getDisplay() + " " 
 								+ Msg.translate(Env.getCtx(), "to") + " " 
@@ -595,17 +660,17 @@ public class VLoadOrder extends LoadOrder
 								);*/
 					}
 				} else {
-					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotDocTypeOrder"));
+					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
 					//loadOrder();
 					calculate();
 				}
 			} else {
-				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotVehicleUOM"));
+				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotVehicleUOM"));
 				//loadOrder();
 				calculate();
 			}
 		} else {
-			ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotWorkUOM"));
+			ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotWorkUOM"));
 			//loadOrder();
 			calculate();
 		}
@@ -624,7 +689,7 @@ public class VLoadOrder extends LoadOrder
 		//value = uomWorkPick.getValue();
 		m_XX_Work_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
 		String display = uomWorkPick.getDisplay();
-		uomWorkValue = (display != null? " " + Msg.translate(Env.getCtx(), "SGIn") + " " + display: "");
+		uomWorkValue = (display != null? " " + Msg.translate(Env.getCtx(), "In") + " " + display: "");
 		KeyNamePair pp = (KeyNamePair) driverSearch.getSelectedItem();
 		m_FTA_Driver_ID = (pp != null? pp.getKey(): 0);
 		pp = (KeyNamePair) vehicleSearch.getSelectedItem();
@@ -660,43 +725,43 @@ public class VLoadOrder extends LoadOrder
 														if(m_M_LocatorTo_ID != 0){
 															return true;
 														} else {
-															ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotLocatorTo"));
+															ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotLocatorTo"));
 														}
 													} else {
 														return true;
 													}
 												} else {
-													ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGCarNotCapacity"));
+													ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "CarNotCapacity"));
 												}	
 											} else {
-												ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGSumZero"));
+												ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SumZero"));
 											}
 										} else {
-											ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGLocatorsWheight"));
+											ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "LocatorsWheight"));
 										}
 									} else {
-										ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotWarehouse"));
+										ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotWarehouse"));
 									}
 								} else {
-									ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotLocator"));
+									ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotLocator"));
 								}
 							} else {
-								ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotDocTypeOrder"));
+								ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
 							}
 						} else {
-							ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotWorkUOM"));
+							ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotWorkUOM"));
 						}
 					} else {
-						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotCar"));
+						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotCar"));
 					}
 				} else {
-					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotBPartner"));
+					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotBPartner"));
 				}
 			} else {
-				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotShipper"));
+				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotShipper"));
 			}	
 		} else {
-			ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotOrg"));
+			ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotOrg"));
 		}
 		return false;
 	}
@@ -725,7 +790,7 @@ public class VLoadOrder extends LoadOrder
 				if(m_XX_Vehicle_UOM_ID != 0){
 					if(m_C_DocTypeOrder_ID != 0){
 						if(m_XXIsBulk && moreOneSelect(orderTable)){
-							ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGIsBulkMaxOne"));
+							ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
 							orderTable.setValueAt(false, row, SELECT);
 							//loadOrder();
 							//calculate();
@@ -747,7 +812,7 @@ public class VLoadOrder extends LoadOrder
 								setOrderLineColumnClass(orderLineTable);
 								setValueFromBuffer(orderLineTable);
 							} else {
-								ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotConversion") + " " 
+								ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotConversion") + " " 
 										+ Msg.translate(Env.getCtx(), "of") + " "
 										//+ uomVehiclePick.getDisplay() + " " 
 										+ Msg.translate(Env.getCtx(), "to") + " " 
@@ -758,17 +823,17 @@ public class VLoadOrder extends LoadOrder
 							}
 						}
 					} else {
-						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotDocTypeOrder"));
+						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
 						//loadOrder();
 						calculate();
 					}
 				} else {
-					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotVehicleUOM"));
+					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotVehicleUOM"));
 					//loadOrder();
 					calculate();
 				}
 			} else {
-				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGNotWorkUOM"));
+				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotWorkUOM"));
 				//loadOrder();
 				calculate();
 			}
@@ -810,7 +875,7 @@ public class VLoadOrder extends LoadOrder
 							.setScale(2, BigDecimal.ROUND_HALF_UP)
 							.doubleValue()){
 						
-						ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGQtyEx"));
+						ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "QtyEx"));
 						qty = qtyOrdered
 								.subtract(qtyDelivered)
 								.subtract(qtyOrderLine)
@@ -819,7 +884,7 @@ public class VLoadOrder extends LoadOrder
 						orderLineTable.setValueAt(qty
 								.multiply(rateQtySet), row, OL_QTY_SET);
 					} else if(qtySet.compareTo(Env.ZERO) <= 0){
-						ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGQtyLessZero"));
+						ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "QtyLessZero"));
 						qty = qtyOrdered
 								.subtract(qtyDelivered)
 								.subtract(qtyOrderLine)
@@ -834,7 +899,7 @@ public class VLoadOrder extends LoadOrder
 			} else if(col == SELECT){
 				//	Select One
 				if(m_XXIsBulk && moreOneSelect(orderLineTable)){
-					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGIsBulkMaxOneLine"));
+					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOneLine"));
 					orderLineTable.setValueAt(false, row, SELECT);
 				} else {
 					boolean select = (Boolean) orderLineTable.getValueAt(row, col);
@@ -855,7 +920,7 @@ public class VLoadOrder extends LoadOrder
 						m_MaxSeqNo = seqNo;
 					}
 				} else {
-					ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SGSeqNoEx"));
+					ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SeqNoEx"));
 					m_MaxSeqNo += 10;
 					orderLineTable.setValueAt(m_MaxSeqNo, row, OL_SEQNO);
 				}
@@ -940,7 +1005,7 @@ public class VLoadOrder extends LoadOrder
 		value = uomWorkPick.getValue();
 		String display = uomWorkPick.getDisplay();
 		m_XX_Work_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
-		uomWorkValue = (display != null? " " + Msg.translate(Env.getCtx(), "SGIn") + " " + display: "");
+		uomWorkValue = (display != null? " " + Msg.translate(Env.getCtx(), "In") + " " + display: "");
 		log.config(name + "=" + value);
 		
 		/*name = docTypeOrderPick.getName();
@@ -999,19 +1064,19 @@ public class VLoadOrder extends LoadOrder
 					difference = capacity.multiply(rateCapacity).subtract(totalWeight);
 				}
 			}
-			differenceLabel.setText(Msg.getMsg(Env.getCtx(), "SGDiffWeight") + uomWorkValue);
+			differenceLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight") + uomWorkValue);
 			differenceField.setValue(difference.doubleValue());
 			orderLineInfo.setText(
-					"(" + Msg.translate(Env.getCtx(), "SGOrdersSelected")
+					"(" + Msg.translate(Env.getCtx(), "OrdersSelected")
 					+ " = " +  m_RowsSelected
 					+ ") "
-					+ Msg.translate(Env.getCtx(), "SGTotal") 
+					+ Msg.translate(Env.getCtx(), "Total") 
 					+ uomWorkValue
 					+ " = " + totalWeight.doubleValue());
 		} else {
-			differenceLabel.setText(Msg.getMsg(Env.getCtx(), "SGDiffWeight"));
+			differenceLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight"));
 			differenceField.setValue(Env.ZERO);
-			orderLineInfo.setText(Msg.translate(Env.getCtx(), "SGOrderLineSum") + " = " + Env.ZERO);
+			orderLineInfo.setText(Msg.translate(Env.getCtx(), "OrderLineSum") + " = " + Env.ZERO);
 		}
 	}
 	
