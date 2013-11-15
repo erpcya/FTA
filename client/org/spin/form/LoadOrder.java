@@ -73,43 +73,53 @@ public class LoadOrder {
 	/**	Warehouse			*/
 	protected int 		m_C_SalesRegion_ID = 0;
 	/**	Sales Rep			*/
-	protected int 		m_SalesRep_ID = 0;;
-	/**	Max Sequence		*/
-	protected int		m_MaxSeqNo = 0;
+	protected int 		m_SalesRep_ID = 0;
+	/**	Warehouse			*/
+	protected int 		m_M_Warehouse_ID = 0;
+	/**	Operation Type		*/
+	protected String 	m_OperationType = null;
+	/**	Document Type 		*/
+	protected int 		m_C_DocType_ID = 0;
+	/**	Document Type Target*/
+	protected int 		m_C_DocTypeTarget_ID = 0;
+	/**	Invoice Rule		*/
+	protected String 	m_InvoiceRule = null;
+	/**	Delivery Rule		*/
+	protected String 	m_DeliveryRule = null;
+	/**	Vehicle Type		*/
+	protected int 		m_FTA_VehicleType_ID = 0;
+	/**	Document Date		*/
+	protected Timestamp	m_DateDoc = null;
+	/**	Shipment Date		*/
+	protected Timestamp	m_ShipDate = null;
+	/**	Entry Ticket		*/
+	protected int 		m_FTA_EntryTicket_ID = 0;
 	/**	Shipper				*/
 	protected int 		m_M_Shipper_ID = 0;
 	/**	Driver				*/
 	protected int 		m_FTA_Driver_ID = 0;
 	/**	Vehicle				*/
 	protected int 		m_FTA_Vehicle_ID = 0;
-	/**	Vehicle Unit Measure*/
-	protected int 		m_XX_Vehicle_UOM_ID = 0;
+	/**	Capacity			*/
+	protected BigDecimal m_Capacity = Env.ZERO;
 	/**	Work Unit Measure	*/
-	protected int 		m_XX_Work_UOM_ID = 0;
-	/**	Document Type Order	*/
-	protected int 		m_C_DocTypeOrder_ID = 0;
-	/**	Warehouse			*/
-	protected int 		m_M_Warehouse_ID = 0;
-	/**	Locator				*/
-	protected int		m_M_Locator_ID = 0;
-	/**	Locator To			*/
-	protected int		m_M_LocatorTo_ID = 0;
+	protected int 		m_C_UOM_ID = 0;
 	/**	Rows Selected		*/
 	protected int		m_RowsSelected = 0;
-	/**	Is Internal Load	*/
-	protected boolean	m_XXIsInternalLoad = false;
 	/**	Is Bulk Product		*/
-	protected boolean	m_XXIsBulk = false;
-	/**	Converions			*/
+	protected boolean	m_IsBulk = false;
+	/**	Conversions			*/
 	protected BigDecimal rateCapacity = null;
 	
 	/**	Total Weight		*/
 	protected BigDecimal	totalWeight = Env.ZERO;
-	/**	Capacity			*/
-	protected BigDecimal	capacity = Env.ZERO;
+	
+	/**	Max Sequence		*/
+	protected int		m_MaxSeqNo = 0;
 	
 	protected MiniTable		stockTable = new MiniTable();
 	protected DefaultTableModel stockModel = null;
+	
 	
 	protected Vector<Vector<Object>> getOrderData(int p_AD_Org_ID, int p_M_Warehouse_ID, 
 			int p_SalesRep_ID, int p_C_DocTypeOrder_ID, 
@@ -390,12 +400,12 @@ public class LoadOrder {
 				qty = rs.getBigDecimal(column++);
 				
 				line.add(qty);							//  12-Qty
-				rate = MUOMConversion.getProductRateTo(Env.getCtx(), pr.getKey(), m_XX_Work_UOM_ID);
+				rate = MUOMConversion.getProductRateTo(Env.getCtx(), pr.getKey(), m_C_UOM_ID);
 				if(rate != null){
 					line.add(qty.multiply(rate));		//  13-Qty Set
 					data.add(line);
 				} else
-					log.log(Level.WARNING, "Not Conversion for Product: " + pr.getName() + " to: " + MUOM.get(Env.getCtx(), m_XX_Work_UOM_ID).getName());
+					log.log(Level.WARNING, "Not Conversion for Product: " + pr.getName() + " to: " + MUOM.get(Env.getCtx(), m_C_UOM_ID).getName());
 			}
 			rs.close();
 			pstmt.close();
@@ -594,7 +604,7 @@ public class LoadOrder {
 		StringBuffer sqlWhere = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, " +
 				"ord.DocumentNo, lord.M_Product_ID, pro.Name Product, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 				"pro.C_UOM_ID, uomp.UOMSymbol, " +
-				"COALESCE((SELECT SUM(st.QtyOnHand) FROM M_Storage st WHERE st.M_Product_ID = lord.M_Product_ID AND st.M_Locator_ID = " + m_M_Locator_ID + "), 0) QtyOnHand, " +
+				"COALESCE((SELECT SUM(st.QtyOnHand) FROM M_Storage st WHERE st.M_Product_ID = lord.M_Product_ID AND st.M_Locator_ID = " + "), 0) QtyOnHand, " +
 				"lord.QtyOrdered, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
 				"SUM(CASE WHEN c.XX_Annulled = 'N' AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END) QtyLoc, " +
 				"((COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.XX_Annulled = 'N' AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END))) Qty, " +
@@ -1070,7 +1080,7 @@ public class LoadOrder {
 		
 		int pos = existProductStock(product.getKey());
 		
-		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), product.getKey(), m_XX_Work_UOM_ID);
+		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), product.getKey(), m_C_UOM_ID);
 		if(rate == null)
 			rate = Env.ZERO;
 		//	Convert Quantity Set
@@ -1180,13 +1190,11 @@ public class LoadOrder {
 	 * @return void
 	 */
 	protected void setValueDocType(String trxName) {
-		if(m_C_DocTypeOrder_ID != 0){
-			MDocType docType = new MDocType(Env.getCtx(), m_C_DocTypeOrder_ID, trxName);
-			m_XXIsInternalLoad = docType.get_ValueAsBoolean("XXIsInternalLoad");
-			m_XXIsBulk = docType.get_ValueAsBoolean("XXIsBulk");
+		if(m_C_DocType_ID != 0){
+			MDocType docType = new MDocType(Env.getCtx(), m_C_DocType_ID, trxName);
+			m_IsBulk = docType.get_ValueAsBoolean("XXIsBulk");
 		} else {
-			m_XXIsInternalLoad = false;
-			m_XXIsBulk = false;
+			m_IsBulk = false;
 		}
 	}
 	
