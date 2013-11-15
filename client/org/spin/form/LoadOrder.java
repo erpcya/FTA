@@ -818,22 +818,27 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Obtiene los datos de los Documentos de Orden de Venta
-	 * @author Yamel Senih 18/03/2012, 01:24:48
+	 * Get Data for Document Type from Operation Type
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 15:53:34
 	 * @return
 	 * @return ArrayList<KeyNamePair>
 	 */
-	protected ArrayList<KeyNamePair> getDataDocumentOrder(){
+	protected ArrayList<KeyNamePair> getDataDocumentType(){
+		
+		if(m_OperationType == null)
+			return null;
 		
 		int m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
+		
+		String docBaseType = (m_OperationType.equals("M")? "DOO": "SOO");
 		
 		String sql = "SELECT doc.C_DocType_ID, TRIM(doc.Name) " +
 				"FROM C_DocType doc " +
 				"WHERE doc.AD_Client_ID = ? " +
 				"AND doc.AD_Org_ID = ? " +
-				"AND doc.DocBaseType IN('SOO') " +
+				"AND doc.DocBaseType = '" + docBaseType + "' " +
 				"AND doc.IsSOTrx='Y' " +
-				"AND doc.DocSubTypeSO NOT IN('RM', 'OB') " +
+				"AND (doc.DocSubTypeSO IS NULL OR doc.DocSubTypeSO NOT IN('RM', 'OB')) " +
 				"ORDER BY doc.Name";		
 		return getData(m_AD_Client_ID, m_AD_Org_ID, sql);
 	}
@@ -861,8 +866,8 @@ public class LoadOrder {
 	
 	
 	/**
-	 * Carga los datos del Almacen
-	 * @author Yamel Senih 30/03/2012, 10:34:38
+	 * Load the Warehouse from Organization
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 14:47:28
 	 * @return
 	 * @return ArrayList<KeyNamePair>
 	 */
@@ -870,7 +875,7 @@ public class LoadOrder {
 		
 		int m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		
-		String sql = "SELECT w.M_Warehouse_ID, w.Name " + //	 || ' - ' || v.Nombre 
+		String sql = "SELECT w.M_Warehouse_ID, w.Name || COALESCE(' - ' || w.Description, '') " +
 				"FROM M_Warehouse w " +
 				"WHERE w.AD_Client_ID = ? " +
 				"AND w.IsActive = 'Y' " +
@@ -880,53 +885,14 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Carga los datos del localizador
-	 * @author Yamel Senih 30/03/2012, 10:37:27
-	 * @return
-	 * @return ArrayList<KeyNamePair>
-	 */
-	protected ArrayList<KeyNamePair> getDataLocator(){
-		
-		int m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		
-		String sql = "SELECT l.M_Locator_ID, l.Value " + //	 || ' - ' || v.Nombre 
-				"FROM M_Locator l " +
-				"WHERE l.AD_Client_ID = ? " +
-				"AND l.IsActive = 'Y' " +
-				"AND l.M_Warehouse_ID = ? " +
-				"ORDER BY l.Value";
-		return getData(m_AD_Client_ID, m_M_Warehouse_ID, sql);
-	}
-	
-	/**
-	 * Carga los datos del Localizador destino
-	 * @author Yamel Senih 03/04/2012, 17:11:18
-	 * @return
-	 * @return ArrayList<KeyNamePair>
-	 */
-	protected ArrayList<KeyNamePair> getDataLocatorTo(){
-		
-		int m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		
-		String sql = "SELECT l.M_Locator_ID, l.Value " + //	 || ' - ' || v.Nombre 
-				"FROM M_Locator l " +
-				"WHERE l.AD_Client_ID = ? " +
-				"AND l.IsActive = 'Y' " +
-				"AND (l.M_Warehouse_ID = ? " +
-				"OR 1 = 1) " +
-				"ORDER BY l.Value";
-		return getData(m_AD_Client_ID, m_M_Warehouse_ID, sql);
-	}
-	
-	/**
-	 * Carga un Combo Box a partir de un arreglo de datos
-	 * @author Yamel Senih 30/03/2012, 11:00:38
+	 * Load the Combo Box from ArrayList
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 14:22:20
 	 * @param comboSearch
 	 * @param data
-	 * @param m_ID
+	 * @return
 	 * @return int
 	 */
-	protected int loadCombo(CComboBox comboSearch, ArrayList<KeyNamePair> data) {
+	protected int loadComboBox(CComboBox comboSearch, ArrayList<KeyNamePair> data) {
 		comboSearch.removeAllItems();
 		int m_ID = 0;
 		for(KeyNamePair pp : data) {

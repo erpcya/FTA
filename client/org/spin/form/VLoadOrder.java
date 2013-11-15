@@ -249,7 +249,8 @@ public class VLoadOrder extends LoadOrder
 		labelDateDoc.setText(Msg.translate(Env.getCtx(), "DateDoc"));
 		labelShipDate.setText(Msg.translate(Env.getCtx(), "ShipDate"));
 		
-		isBulkCheck.setText(Msg.getMsg(Env.getCtx(), "IsBulk"));
+		isBulkCheck.setText(Msg.translate(Env.getCtx(), "IsBulk"));
+		isBulkCheck.setSelected(false);
 		
 		bSearch.setText(Msg.translate(Env.getCtx(), "Search"));
 		
@@ -383,8 +384,11 @@ public class VLoadOrder extends LoadOrder
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(uomWorkPick, new GridBagConstraints(5, 5, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Bulk
+		parameterPanel.add(isBulkCheck, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		//	Search
-		parameterPanel.add(bSearch, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
+		parameterPanel.add(bSearch, new GridBagConstraints(3, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//mainPanel.add(stockCollapsiblePanel, BorderLayout.SOUTH);
 		mainPanel.add(stockInfoPanel, BorderLayout.SOUTH);
@@ -525,10 +529,10 @@ public class VLoadOrder extends LoadOrder
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "FTA_LoadOrder_ID"));
 		statusBar.setStatusDB("");
 		
-		//	Conductor
+		//	Driver
 		driverSearch.addActionListener(this);
 		
-		//	Vehiculo
+		//	Vehicle
 		vehicleSearch.addActionListener(this);
 		
 		//	Document Type Order
@@ -629,8 +633,56 @@ public class VLoadOrder extends LoadOrder
 	}   //  actionPerformed
 	
 	/**
-	 * Limpia los datos de las tablas
-	 * @author Yamel Senih 10/12/2012, 11:53:39
+	 *  Vetoable Change Listener.
+	 *  
+	 *  @param e event
+	 */
+	public void vetoableChange (PropertyChangeEvent e)
+	{
+		String name = e.getPropertyName();
+		Object value = e.getNewValue();
+		log.config(name + " = " + value);
+		
+		if(name.equals("C_SalesRegion_ID") || 
+				name.equals("SalesRep_ID")) {
+			//loadOrder();
+			clearData();
+		} else if(name.equals("AD_Org_ID")){
+			m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
+			ArrayList<KeyNamePair> data = getDataWarehouse();
+			warehouseSearch.removeActionListener(this);
+			m_M_Warehouse_ID = loadComboBox(warehouseSearch, data);
+			warehouseSearch.addActionListener(this);
+		} else if(name.equals("OperationType")){
+			m_OperationType = ((String)(value != null? value: 0));
+			ArrayList<KeyNamePair> data = getDataDocumentType();
+			docTypeSearch.removeActionListener(this);
+			m_C_DocType_ID = loadComboBox(docTypeSearch, data);
+			docTypeSearch.addActionListener(this);
+		} else if(name.equals("M_Shipper_ID")){
+			m_M_Shipper_ID = ((Integer)(value != null? value: 0)).intValue();
+			ArrayList<KeyNamePair> data = getDataDriver();
+			m_FTA_Driver_ID = loadComboBox(driverSearch, data);
+			//	Vehicle
+			data = getDataCar();
+			m_FTA_Vehicle_ID = loadComboBox(vehicleSearch, data);
+			//	Unit Measure
+			if(m_FTA_Vehicle_ID != 0) {//System.err.println(m_FTA_Vehicle_ID);
+				/*MXXVehiculo vehiculo = new MXXVehiculo(Env.getCtx(), m_FTA_Vehicle_ID, null);
+				capacityField.setValue(vehiculo.getCapacity());
+				uomVehiclePick.setValue(vehiculo.getC_UOM_ID());*/
+			} else {
+				//capacityField.setReadWrite(false);
+				capacityField.setValue(Env.ZERO);
+			}
+		}
+		calculate();
+		
+	}   //  vetoableChange
+	
+	/**
+	 * Clear Data of Table
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 15:39:31
 	 * @return void
 	 */
 	private void clearData(){
@@ -944,57 +996,6 @@ public class VLoadOrder extends LoadOrder
 		
 		calculate();
 	}   //  tableChanged
-
-	/**
-	 *  Vetoable Change Listener.
-	 *  
-	 *  @param e event
-	 */
-	public void vetoableChange (PropertyChangeEvent e)
-	{
-		String name = e.getPropertyName();
-		Object value = e.getNewValue();
-		log.config(name + " = " + value);
-		
-		if(name.equals("C_SalesRegion_ID") || 
-				name.equals("SalesRep_ID") ||
-				name.equals("XX_Work_UOM_ID")) {
-			//loadOrder();
-			clearData();
-		} else if(name.equals("AD_Org_ID")){
-			m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
-			ArrayList<KeyNamePair> data = getDataDocumentOrder();
-			m_C_DocType_ID = loadCombo(docTypeSearch, data);
-			if (m_C_DocType_ID != 0) {
-				setValueDocType(trxName);
-			} 
-			data = getDataWarehouse();
-			m_M_Warehouse_ID = loadCombo(warehouseSearch, data);
-			if(m_M_Warehouse_ID != 0){
-				data = getDataLocator();
-				//m_M_Locator_ID = loadCombo(warehouseSearch, data);
-			}
-			
-		} else if(name.equals("M_Shipper_ID")){
-			m_M_Shipper_ID = ((Integer)(value != null? value: 0)).intValue();
-			ArrayList<KeyNamePair> data = getDataDriver();
-			m_FTA_Driver_ID = loadCombo(driverSearch, data);
-			//	Vehicle
-			data = getDataCar();
-			m_FTA_Vehicle_ID = loadCombo(vehicleSearch, data);
-			//	Unit Measure
-			if(m_FTA_Vehicle_ID != 0) {//System.err.println(m_FTA_Vehicle_ID);
-				/*MXXVehiculo vehiculo = new MXXVehiculo(Env.getCtx(), m_FTA_Vehicle_ID, null);
-				capacityField.setValue(vehiculo.getCapacity());
-				uomVehiclePick.setValue(vehiculo.getC_UOM_ID());*/
-			} else {
-				//capacityField.setReadWrite(false);
-				capacityField.setValue(Env.ZERO);
-			}
-		}
-		calculate();
-		
-	}   //  vetoableChange
 	
 	public void loadOrder()
 	{		//System.out.println("VLoadOrder.loadOrder()");
