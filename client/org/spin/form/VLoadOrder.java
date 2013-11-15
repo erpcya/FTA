@@ -30,6 +30,7 @@ import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -111,35 +112,62 @@ public class VLoadOrder extends LoadOrder
 	private CPanel 			parameterPanel = new CPanel();
 	private CPanel 			loadOrderPanel = new CPanel();
 	private GridBagLayout 	parameterLayout = new GridBagLayout();
-	/**/
-	private JLabel 			driverLabel = new JLabel();
-	private CComboBox 		driverSearch = new CComboBox();
-	private JLabel 			vehicleLabel = new JLabel();
-	private CComboBox 		vehicleSearch = new CComboBox();
+	/**	Organization			*/
+	private JLabel 			organizationLabel = new JLabel();
+	private VLookup 		organizationPick = null;
+	/**	Sales Region			*/
 	private JLabel 			salesRegionLabel = new JLabel();
 	private VLookup 		salesRegion = null;
+	/**	Sales Representative	*/
 	private JLabel 			salesRepLabel = new JLabel();
 	private VLookup 		salesRepSearch = null;
-	private JLabel 			capacityLabel = new JLabel();
-	private VNumber 		capacityField = null;
-	private JLabel 			shipperLabel = new JLabel();
-	private VLookup 		shipperPick = null;
-	private JLabel 			uomWorkLabel = new JLabel();
-	private VLookup 		uomWorkPick = null;
-	private JLabel 			vehicleTypeLabel = new JLabel();
-	private VLookup 		vehicleTypePick = null;
-	private JLabel 			entryTicketLabel = new JLabel();
-	private VLookup 		entryTicketPick = null;
-	private JLabel 			docTypeLabel = new JLabel();
-	private CComboBox 		docTypeSearch = new CComboBox();
-	private JLabel 			docTypeTargetLabel = new JLabel();
-	private VLookup 		docTypeTargetPick = null;
-	private JLabel 			invoiceRuleLabel = new JLabel();
-	private VLookup 		invoiceRulePick = null;
-	private JLabel 			deliveryRuleLabel = new JLabel();
-	private VLookup 		deliveryRulePick = null;
+	/**	Warehouse				*/
 	private JLabel 			warehouseLabel = new JLabel();
 	private CComboBox 		warehouseSearch = new CComboBox();
+	/**	Operation Type			*/
+	private JLabel 			operationTypeLabel = new JLabel();
+	private VLookup 		operationTypePick = null;
+	/**	Document Type			*/
+	private JLabel 			docTypeLabel = new JLabel();
+	private CComboBox 		docTypeSearch = new CComboBox();
+	/**	Document Type Target	*/
+	private JLabel 			docTypeTargetLabel = new JLabel();
+	private VLookup 		docTypeTargetPick = null;
+	/**	Invoice Rule			*/
+	private JLabel 			invoiceRuleLabel = new JLabel();
+	private VLookup 		invoiceRulePick = null;
+	/**	Delivery Rule			*/
+	private JLabel 			deliveryRuleLabel = new JLabel();
+	private VLookup 		deliveryRulePick = null;
+	/**	Vehicle Type			*/
+	private JLabel 			vehicleTypeLabel = new JLabel();
+	private VLookup 		vehicleTypePick = null;
+	/**	Document Date			*/
+	private CLabel 			labelDateDoc = new CLabel();
+	private VDate 			fieldDateDoc = new VDate();
+	/**	Shipment Date			*/
+	private CLabel 			labelShipDate = new CLabel();
+	private VDate 			fieldShipDate = new VDate();
+	/**	Entry Ticket			*/
+	private JLabel 			entryTicketLabel = new JLabel();
+	private VLookup 		entryTicketPick = null;
+	/**	Shipper					*/
+	private JLabel 			shipperLabel = new JLabel();
+	private VLookup 		shipperPick = null;
+	/**	Driver					*/
+	private JLabel 			driverLabel = new JLabel();
+	private CComboBox 		driverSearch = new CComboBox();
+	/**	Vehicle					*/
+	private JLabel 			vehicleLabel = new JLabel();
+	private CComboBox 		vehicleSearch = new CComboBox();
+	/**	Capacity				*/
+	private JLabel 			capacityLabel = new JLabel();
+	private VNumber 		capacityField = null;
+	/**	UOM						*/
+	private JLabel 			uomWorkLabel = new JLabel();
+	private VLookup 		uomWorkPick = null;
+	/**	Bulk				*/
+	private JCheckBox 		isBulkCheck = new JCheckBox();
 	
 	/**/
 	private MiniTable 		orderLineTable = new MiniTable();
@@ -163,22 +191,10 @@ public class VLoadOrder extends LoadOrder
 	private CPanel 			stockInfoPanel = new CPanel();
 	private BorderLayout 	orderLineStockInfoLayout = new BorderLayout();
 	private StatusBar 		statusBar = new StatusBar();
-
-	private JLabel 			organizationLabel = new JLabel();
-	private VLookup 		organizationPick = null;
-	private JLabel 			operationTypeLabel = new JLabel();
-	private VLookup 		operationTypePick = null;
+	
 	private CButton 		selectAllButton =  new CButton(Env.getImageIcon2("SelectAll24"));
 	/**	Search				*/
 	private CButton 		bSearch = new CButton();
-	
-	//	Date Document
-	private CLabel 			labelDateDoc = new CLabel();
-	private VDate 			fieldDateDoc = new VDate();
-	
-	//	Date Shipment
-	private CLabel 			labelShipDate = new CLabel();
-	private VDate 			fieldShipDate = new VDate();
 	
 	private String 			uomWorkValue = null;
 	//	Stock Info
@@ -232,6 +248,8 @@ public class VLoadOrder extends LoadOrder
 		//	Date
 		labelDateDoc.setText(Msg.translate(Env.getCtx(), "DateDoc"));
 		labelShipDate.setText(Msg.translate(Env.getCtx(), "ShipDate"));
+		
+		isBulkCheck.setText(Msg.getMsg(Env.getCtx(), "IsBulk"));
 		
 		bSearch.setText(Msg.translate(Env.getCtx(), "Search"));
 		
@@ -440,13 +458,6 @@ public class VLoadOrder extends LoadOrder
 		organizationPick = new VLookup("AD_Org_ID", true, false, true, lookupOrg);
 		//organizationPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
 		organizationPick.addVetoableChangeListener(this);
-
-		//  Shipper
-		AD_Column_ID = 69852;		//  FTA_LoadOrder.M_Shipper_ID
-		MLookup lookupSP = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
-		shipperPick = new VLookup("M_Shipper_ID", true, false, true, lookupSP);
-		//shipperPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
-		shipperPick.addVetoableChangeListener(this);
 		
 		AD_Column_ID = 1823;		//	C_SalesRegion.C_SalesRegion_ID
 		MLookup lookupWar = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
@@ -478,6 +489,19 @@ public class VLoadOrder extends LoadOrder
 		invoiceRulePick.setValue(X_C_Order.INVOICERULE_Immediate);
 		invoiceRulePick.addVetoableChangeListener(this);
 		
+		//	Entry Ticket
+		AD_Column_ID = 69874;		//  FTA_LoadOrder.FTA_EntryTicket_ID
+		MLookup lookupET = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
+		entryTicketPick = new VLookup("FTA_EntryTicket_ID", false, false, true, lookupET);
+		entryTicketPick.addVetoableChangeListener(this);
+		
+		//  Shipper
+		AD_Column_ID = 69852;		//  FTA_LoadOrder.M_Shipper_ID
+		MLookup lookupSP = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
+		shipperPick = new VLookup("M_Shipper_ID", false, false, true, lookupSP);
+		//shipperPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
+		shipperPick.addVetoableChangeListener(this);
+		
 		AD_Column_ID = 69873;		//  FTA_LoadOrder.DeliveryRule
 		MLookup lookupDR = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.List);
 		deliveryRulePick = new VLookup("DeliveryRule", true, false, true, lookupDR);
@@ -487,21 +511,14 @@ public class VLoadOrder extends LoadOrder
 		//  Vehicle Type
 		AD_Column_ID = 69851;		//  FTA_LoadOrder.FTA_VehicleType_ID
 		MLookup lookupVT = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
-		vehicleTypePick = new VLookup("FTA_VehicleType_ID", true, false, true, lookupVT);
+		vehicleTypePick = new VLookup("FTA_VehicleType_ID", false, false, true, lookupVT);
 		vehicleTypePick.addVetoableChangeListener(this);
 		
 		//  Working Unit Measure
 		AD_Column_ID = 2348;		//  AD_ClientInfo.C_UOM_Weight_ID
 		MLookup lookupUV = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
 		uomWorkPick = new VLookup("C_UOM_ID", true, true, true, lookupUV);
-		uomWorkPick.addVetoableChangeListener(this);
-		
-		//	Entry Ticket
-		AD_Column_ID = 69874;		//  FTA_LoadOrder.FTA_EntryTicket_ID
-		MLookup lookupET = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
-		entryTicketPick = new VLookup("FTA_EntryTicket_ID", true, false, true, lookupET);
-		entryTicketPick.addVetoableChangeListener(this);
-		
+		uomWorkPick.addVetoableChangeListener(this);	
 		
 		
 		//  Translation
@@ -519,6 +536,8 @@ public class VLoadOrder extends LoadOrder
 		
 		//	Warehouse
 		warehouseSearch.addActionListener(this);
+		//	Bulk
+		isBulkCheck.addActionListener(this);
 		
 		//	Search
 		bSearch.addActionListener(this);
@@ -582,15 +601,9 @@ public class VLoadOrder extends LoadOrder
 			}			
 		} else if(e.getSource().equals(docTypeSearch)){
 			KeyNamePair pp = (KeyNamePair) docTypeSearch.getSelectedItem();
-			m_C_DocTypeOrder_ID = (pp != null? pp.getKey(): 0);
+			m_C_DocType_ID = (pp != null? pp.getKey(): 0);
 			setValueDocType(trxName);
-			if(m_XXIsInternalLoad){
-				ArrayList<KeyNamePair> data = getDataLocatorTo();
-				//m_M_LocatorTo_ID = loadCombo(locatorToSearch, data);
-			} else {
-				m_M_LocatorTo_ID = 0;
-				//locatorToSearch.removeAllItems();
-			}
+			
 			//loadOrder();
 			//calculate();
 			clearData();
@@ -643,10 +656,10 @@ public class VLoadOrder extends LoadOrder
 	 */
 	private void cmd_search(){
 		getPanelValues();
-		if(m_XX_Work_UOM_ID != 0){
-			if(m_XX_Vehicle_UOM_ID != 0){
-				if(m_C_DocTypeOrder_ID != 0){
-					rateCapacity = MUOMConversion.getRate(Env.getCtx(), m_XX_Vehicle_UOM_ID, m_XX_Work_UOM_ID);
+		if(m_C_UOM_ID != 0){
+			//if(m_XX_Vehicle_UOM_ID != 0){
+				if(m_C_DocType_ID != 0){
+					//rateCapacity = MUOMConversion.getRate(Env.getCtx(), m_XX_Vehicle_UOM_ID, m_C_UOM_ID);
 					if(rateCapacity != null){
 						loadOrder();
 						//	Add Automatic Collapsed
@@ -669,11 +682,11 @@ public class VLoadOrder extends LoadOrder
 				//loadOrder();
 				calculate();
 			}
-		} else {
-			ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotWorkUOM"));
+		//} else {
+			//ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotWorkUOM"));
 			//loadOrder();
-			calculate();
-		}
+			//calculate();
+		//}
 	}
 	
 	/**
@@ -687,7 +700,7 @@ public class VLoadOrder extends LoadOrder
 		//value = uomVehiclePick.getValue();
 		//m_XX_Vehicle_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
 		//value = uomWorkPick.getValue();
-		m_XX_Work_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
+		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
 		String display = uomWorkPick.getDisplay();
 		uomWorkValue = (display != null? " " + Msg.translate(Env.getCtx(), "In") + " " + display: "");
 		KeyNamePair pp = (KeyNamePair) driverSearch.getSelectedItem();
@@ -695,7 +708,7 @@ public class VLoadOrder extends LoadOrder
 		pp = (KeyNamePair) vehicleSearch.getSelectedItem();
 		m_FTA_Vehicle_ID = (pp != null? pp.getKey(): 0);
 		pp = (KeyNamePair) docTypeSearch.getSelectedItem();
-		m_C_DocTypeOrder_ID = (pp != null? pp.getKey(): 0);
+		m_C_DocType_ID = (pp != null? pp.getKey(): 0);
 		pp = (KeyNamePair) warehouseSearch.getSelectedItem();
 		m_M_Warehouse_ID = (pp != null? pp.getKey(): 0);
 		pp = (KeyNamePair) warehouseSearch.getSelectedItem();
@@ -709,12 +722,12 @@ public class VLoadOrder extends LoadOrder
 	 */
 	private boolean validData(){
 		getPanelValues();
-		if(m_AD_Org_ID != 0){
+		/*if(m_AD_Org_ID != 0){
 			if(m_M_Shipper_ID != 0){
 				if(m_FTA_Driver_ID != 0){
 					if(m_FTA_Vehicle_ID != 0){
-						if(m_XX_Work_UOM_ID != 0){
-							if(m_C_DocTypeOrder_ID != 0){
+						if(m_C_UOM_ID != 0){
+							if(m_C_DocType_ID != 0){
 								if(m_M_Warehouse_ID != 0){
 									if(m_M_Locator_ID != 0){
 										if(m_M_Locator_ID != m_M_LocatorTo_ID){
@@ -762,7 +775,7 @@ public class VLoadOrder extends LoadOrder
 			}	
 		} else {
 			ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotOrg"));
-		}
+		}*/
 		return false;
 	}
 	
@@ -786,16 +799,16 @@ public class VLoadOrder extends LoadOrder
 		boolean isOrder = (e.getSource().equals(orderTable.getModel()));
 		boolean isOrderLine = (e.getSource().equals(orderLineTable.getModel()));
 		if(isOrder){
-			if(m_XX_Work_UOM_ID != 0){
-				if(m_XX_Vehicle_UOM_ID != 0){
-					if(m_C_DocTypeOrder_ID != 0){
-						if(m_XXIsBulk && moreOneSelect(orderTable)){
+			if(m_C_UOM_ID != 0){
+				if(0 != 0){
+					if(m_C_DocType_ID != 0){
+						if(m_IsBulk && moreOneSelect(orderTable)){
 							ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
 							orderTable.setValueAt(false, row, SELECT);
 							//loadOrder();
 							//calculate();
 						} else {
-							rateCapacity = MUOMConversion.getRate(Env.getCtx(), m_XX_Vehicle_UOM_ID, m_XX_Work_UOM_ID);
+							//rateCapacity = MUOMConversion.getRate(Env.getCtx(), m_XX_Vehicle_UOM_ID, m_C_UOM_ID);
 							if(rateCapacity != null){
 								StringBuffer sql = getQueryLine(orderTable);
 								Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
@@ -854,8 +867,8 @@ public class VLoadOrder extends LoadOrder
 				
 				//BigDecimal weight = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_SET);
 				
-				BigDecimal rateQty = MUOMConversion.getProductRateFrom(Env.getCtx(), m_M_Product_ID, m_XX_Work_UOM_ID);
-				BigDecimal rateQtySet = MUOMConversion.getProductRateTo(Env.getCtx(), m_M_Product_ID, m_XX_Work_UOM_ID);
+				BigDecimal rateQty = MUOMConversion.getProductRateFrom(Env.getCtx(), m_M_Product_ID, m_C_UOM_ID);
+				BigDecimal rateQtySet = MUOMConversion.getProductRateTo(Env.getCtx(), m_M_Product_ID, m_C_UOM_ID);
 				
 				if(rateQty != null){
 					orderLineTable.setValueAt(qtySet.multiply(rateQty).setScale(2, BigDecimal.ROUND_HALF_UP), row, OL_QTY);
@@ -898,7 +911,7 @@ public class VLoadOrder extends LoadOrder
 				} 
 			} else if(col == SELECT){
 				//	Select One
-				if(m_XXIsBulk && moreOneSelect(orderLineTable)){
+				if(m_IsBulk && moreOneSelect(orderLineTable)){
 					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOneLine"));
 					orderLineTable.setValueAt(false, row, SELECT);
 				} else {
@@ -951,15 +964,15 @@ public class VLoadOrder extends LoadOrder
 		} else if(name.equals("AD_Org_ID")){
 			m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
 			ArrayList<KeyNamePair> data = getDataDocumentOrder();
-			m_C_DocTypeOrder_ID = loadCombo(docTypeSearch, data);
-			if (m_C_DocTypeOrder_ID != 0) {
+			m_C_DocType_ID = loadCombo(docTypeSearch, data);
+			if (m_C_DocType_ID != 0) {
 				setValueDocType(trxName);
 			} 
 			data = getDataWarehouse();
 			m_M_Warehouse_ID = loadCombo(warehouseSearch, data);
 			if(m_M_Warehouse_ID != 0){
 				data = getDataLocator();
-				m_M_Locator_ID = loadCombo(warehouseSearch, data);
+				//m_M_Locator_ID = loadCombo(warehouseSearch, data);
 			}
 			
 		} else if(name.equals("M_Shipper_ID")){
@@ -1004,7 +1017,7 @@ public class VLoadOrder extends LoadOrder
 		name = uomWorkPick.getName();
 		value = uomWorkPick.getValue();
 		String display = uomWorkPick.getDisplay();
-		m_XX_Work_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
+		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
 		uomWorkValue = (display != null? " " + Msg.translate(Env.getCtx(), "In") + " " + display: "");
 		log.config(name + "=" + value);
 		
@@ -1016,7 +1029,7 @@ public class VLoadOrder extends LoadOrder
 		
 		//	Load Data
 		Vector<Vector<Object>> data = getOrderData(m_AD_Org_ID, m_C_SalesRegion_ID, 
-				m_SalesRep_ID, m_C_DocTypeOrder_ID, 
+				m_SalesRep_ID, m_C_DocType_ID, 
 				orderTable);
 		Vector<String> columnNames = getOrderColumnNames();
 		
@@ -1046,7 +1059,7 @@ public class VLoadOrder extends LoadOrder
 	public void calculate(){
 		int rows = orderLineTable.getRowCount();
 		if(rows > 0){
-			capacity = Env.ZERO;
+			m_Capacity = Env.ZERO;
 			totalWeight = Env.ZERO;
 			BigDecimal weight = Env.ZERO;
 			BigDecimal difference = Env.ZERO;
@@ -1059,9 +1072,9 @@ public class VLoadOrder extends LoadOrder
 				}
 			}
 			if(totalWeight.compareTo(Env.ZERO) > 0){
-				capacity = (BigDecimal) (capacityField.getValue() != null? capacityField.getValue(): Env.ZERO);
+				m_Capacity = (BigDecimal) (capacityField.getValue() != null? capacityField.getValue(): Env.ZERO);
 				if(rateCapacity != null){
-					difference = capacity.multiply(rateCapacity).subtract(totalWeight);
+					difference = m_Capacity.multiply(rateCapacity).subtract(totalWeight);
 				}
 			}
 			differenceLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight") + uomWorkValue);
