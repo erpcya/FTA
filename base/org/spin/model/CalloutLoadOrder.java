@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.spin.model;
 
-import java.math.BigDecimal;
 import java.util.Properties;
 
 import org.compiere.model.CalloutEngine;
@@ -32,7 +31,7 @@ public class CalloutLoadOrder extends CalloutEngine {
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 10:59:20
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 15/11/2013, 10:59:20
 	 */
 	public CalloutLoadOrder() {
 		// TODO Auto-generated constructor stub
