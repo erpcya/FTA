@@ -75,8 +75,7 @@ SELECT
 	mg.M_Warehouse_ID,
 	qa.QualityAnalysis_ID,
 	fl.C_BPartner_ID,
-	qa.M_Product_ID,
-	fll.LineNetAmt
+	qa.M_Product_ID
 	
 FROM FTA_FarmerLiquidationLine fll
 INNER JOIN FTA_FarmerLiquidation fl ON (fll.FTA_FarmerLiquidation_ID =fl.FTA_FarmerLiquidation_ID)
