@@ -244,6 +244,25 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	}	//	completeIt
 	
 	/**
+     *  Set Processed.
+     *  Propagate to Lines
+     *  @param processed processed
+     */
+    public void setProcessed (boolean processed)
+    {
+        super.setProcessed (processed);
+        if (get_ID() <= 0)
+            return;
+        int noLine = DB.executeUpdateEx("UPDATE FTA_LoadOrderLine " +
+        		"SET Processed=? " +
+        		"WHERE FTA_LoadOrderLine_ID=?",
+        		new Object[]{processed, get_ID()},
+        		get_TrxName());
+        m_lines = null;
+        log.fine("setProcessed - " + processed + " - Lines=" + noLine);
+    }   //  setProcessed
+	
+	/**
 	 * 	Set the definite document number after completed
 	 */
 	private void setDefiniteDocumentNo() {
