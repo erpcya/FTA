@@ -32,7 +32,7 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131112L;
+	private static final long serialVersionUID = 20131118L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrderLine (Properties ctx, int FTA_LoadOrderLine_ID, String trxName)
@@ -40,7 +40,6 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
       super (ctx, FTA_LoadOrderLine_ID, trxName);
       /** if (FTA_LoadOrderLine_ID == 0)
         {
-			setC_UOM_ID (0);
 			setFTA_LoadOrder_ID (0);
 			setFTA_LoadOrderLine_ID (0);
 			setM_Product_ID (0);
@@ -163,34 +162,6 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	public int getC_OrderLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_UOM getC_UOM() throws RuntimeException
-    {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
-			.getPO(getC_UOM_ID(), get_TrxName());	}
-
-	/** Set UOM.
-		@param C_UOM_ID 
-		Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID)
-	{
-		if (C_UOM_ID < 1) 
-			set_Value (COLUMNNAME_C_UOM_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
-	}
-
-	/** Get UOM.
-		@return Unit of Measure
-	  */
-	public int getC_UOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

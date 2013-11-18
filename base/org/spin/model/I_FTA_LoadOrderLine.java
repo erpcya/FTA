@@ -131,21 +131,6 @@ public interface I_FTA_LoadOrderLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
-
     /** Column name DD_OrderLine_ID */
     public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
 

@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MDocType;
+import org.compiere.model.MRole;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.swing.CComboBox;
@@ -68,6 +69,8 @@ public class LoadOrder {
 	public StringBuffer m_Symmary = new StringBuffer();
 	public StringBuffer m_QueryAdd = new StringBuffer();
 	
+	/**	Client				*/
+	protected int 		m_AD_Client_ID = 0;
 	/**	Organization		*/
 	protected int 		m_AD_Org_ID = 0;
 	/**	Warehouse			*/
@@ -737,7 +740,7 @@ public class LoadOrder {
 	 * Evalua el resultado de los querys generados para validar concurrencia
 	 * @return
 	 */
-	private String viewResult(){
+	/*private String viewResult(){
 		String m_Result = null;
 		try {
 			StringBuffer m_SB_Add = new StringBuffer();
@@ -759,14 +762,14 @@ public class LoadOrder {
 			log.log(Level.SEVERE, m_QueryAdd.toString(), e);
 		} 
 		return m_Result;
-	}
+	}*/
 	
 	/**
 	 * Agrega un Query a una UNION de Querys para consultar
 	 * @param m_C_OrderLine_ID
 	 * @param qty
 	 */
-	private void addQuery(int m_C_OrderLine_ID, BigDecimal qty){
+	/*private void addQuery(int m_C_OrderLine_ID, BigDecimal qty){
 		String queryTemp = new String("SELECT ord.DocumentNo OrderName, pr.Name ProductName, " +
 				"COALESCE(lord.QtyOrdered, 0) - " +
 				"COALESCE(lord.QtyDelivered, 0) - " +
@@ -792,6 +795,31 @@ public class LoadOrder {
 		}
 		m_QueryAdd.append(queryTemp);
 		
+	}*/
+	
+	/**
+	 * Get Load Capacity from Vehicle Type
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 10:35:41
+	 * @param p_FTA_VehicleType_ID
+	 * @return
+	 * @return BigDecimal
+	 */
+	protected BigDecimal getLoadCapacity(int p_FTA_VehicleType_ID){
+		return DB.getSQLValueBD(null, "SELECT vt.LoadCapacity "
+				+ "FROM FTA_VehicleType vt "
+				+ "WHERE FTA_VehicleType_ID = ?", p_FTA_VehicleType_ID);
+	}
+	
+	/**
+	 * Get default UOM
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 11:08:46
+	 * @return
+	 * @return int
+	 */
+	protected int getC_UOM_Weight_ID(){
+		return DB.getSQLValue(null, "SELECT ci.C_UOM_Weight_ID "
+				+ "FROM AD_ClientInfo ci "
+				+ "WHERE ci.AD_Client_ID = ?", m_AD_Client_ID);
 	}
 	
 	/**
@@ -800,9 +828,6 @@ public class LoadOrder {
 	 * @return
 	 */
 	protected ArrayList<KeyNamePair> getDataDriver(){
-		
-		int m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		
 		String sql = "SELECT c.FTA_Driver_ID, c.Cedula || ' - ' || c.Nombre " +
 				"FROM XX_Conductor c " +
 				"WHERE c.AD_Client_ID = ? " +
@@ -814,7 +839,7 @@ public class LoadOrder {
 				"FROM XX_LoadOrder " +
 				"WHERE XX_Annulled = 'N' AND XXIsDriverReleased = 'N') " +
 				"ORDER BY c.Cedula, c.Nombre";		
-		return getData(m_AD_Client_ID, m_M_Shipper_ID, sql);
+		return getData(sql);
 	}
 	
 	/**
@@ -828,40 +853,36 @@ public class LoadOrder {
 		if(m_OperationType == null)
 			return null;
 		
-		int m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
+		String docBaseType = (m_OperationType.equals("MOM")? "DOO": "SOO");
 		
-		String docBaseType = (m_OperationType.equals("M")? "DOO": "SOO");
-		
-		String sql = "SELECT doc.C_DocType_ID, TRIM(doc.Name) " +
+		String sql = MRole.getDefault().addAccessSQL("SELECT doc.C_DocType_ID, TRIM(doc.Name) " +
 				"FROM C_DocType doc " +
-				"WHERE doc.AD_Client_ID = ? " +
-				"AND doc.AD_Org_ID = ? " +
+				"WHERE doc.AD_Client_ID = " + m_AD_Client_ID + " " + 
+				"AND doc.AD_Org_ID = " + m_AD_Org_ID + " " + 
 				"AND doc.DocBaseType = '" + docBaseType + "' " +
-				"AND doc.IsSOTrx='Y' " +
+				"AND doc.OperationType = '" + m_OperationType + "' " + 
 				"AND (doc.DocSubTypeSO IS NULL OR doc.DocSubTypeSO NOT IN('RM', 'OB')) " +
-				"ORDER BY doc.Name";		
-		return getData(m_AD_Client_ID, m_AD_Org_ID, sql);
+				"ORDER BY doc.Name", "doc", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RW);		
+		return getData(sql);
 	}
 	
 	/**
-	 * Carga los datos del Vehiculo
+	 * Get Vehicle Data
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 10:08:03
 	 * @return
+	 * @return ArrayList<KeyNamePair>
 	 */
-	protected ArrayList<KeyNamePair> getDataCar(){
-		
-		int m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		
-		String sql = "SELECT v.FTA_Vehicle_ID, v.Placa || ' - ' || v.Nombre " +
-				"FROM XX_Vehiculo v " +
-				"WHERE v.AD_Client_ID = ? " +
-				"AND v.IsActive = 'Y' " +
+	protected ArrayList<KeyNamePair> getVehicleData(){
+		String sql = "SELECT v.FTA_Vehicle_ID, v.Plate || ' - ' || v.Name " +
+				"FROM FTA_Vehicle v " +
+				"WHERE v.IsActive = 'Y' " +
 				"AND v.M_Shipper_ID = ? " +
 				"AND v.FTA_Vehicle_ID NOT IN " +
 				"(SELECT FTA_Vehicle_ID " +
 				"FROM XX_LoadOrder " +
 				"WHERE XX_Annulled = 'N' AND XXIsVehicleReleased = 'N') " +
 				"ORDER BY v.Placa, v.Nombre";
-		return getData(m_AD_Client_ID, m_M_Shipper_ID, sql);
+		return getData(sql);
 	}
 	
 	
@@ -872,16 +893,12 @@ public class LoadOrder {
 	 * @return ArrayList<KeyNamePair>
 	 */
 	protected ArrayList<KeyNamePair> getDataWarehouse(){
-		
-		int m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		
 		String sql = "SELECT w.M_Warehouse_ID, w.Name || COALESCE(' - ' || w.Description, '') " +
 				"FROM M_Warehouse w " +
-				"WHERE w.AD_Client_ID = ? " +
-				"AND w.IsActive = 'Y' " +
-				"AND w.AD_Org_ID = ? " +
+				"WHERE w.IsActive = 'Y' " +
+				"AND w.AD_Org_ID = " + m_AD_Org_ID + " " + 
 				"ORDER BY w.Name";
-		return getData(m_AD_Client_ID, m_AD_Org_ID, sql);
+		return getData(sql);
 	}
 	
 	/**
@@ -908,21 +925,19 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Carga datos de un sql para Conductores y Vehiculos
-	 * @param m_AD_Client_ID
-	 * @param m_M_Shipper_ID
+	 * Get Data from SQL
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 08:31:44
 	 * @param sql
 	 * @return
+	 * @return ArrayList<KeyNamePair>
 	 */
-	private ArrayList<KeyNamePair> getData(int m_AD_Client_ID, int m_M_Shipper_ID, String sql){
+	private ArrayList<KeyNamePair> getData(String sql){
 		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
 		
 		log.config("getData");
 		
 		try	{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_AD_Client_ID);
-			pstmt.setInt(2, m_M_Shipper_ID);
 			ResultSet rs = pstmt.executeQuery();
 			//
 			while (rs.next()) {
