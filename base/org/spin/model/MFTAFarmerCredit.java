@@ -318,6 +318,11 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		m_processMsg = validReference();
 		if(m_processMsg != null)
 			return false;
+		//	Valid Not Allocated to Credit Act
+		if(getFTA_CreditAct_ID() != 0) {
+			m_processMsg = "@FTA_CreditAct_ID@ @IsAllocated@";
+			return false;
+		}
 		
 		unAllocateLines();
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
