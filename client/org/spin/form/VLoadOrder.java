@@ -384,9 +384,9 @@ public class VLoadOrder extends LoadOrder
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(uomWorkPick, new GridBagConstraints(5, 5, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		//	Bulk
+		/*//	Bulk
 		parameterPanel.add(isBulkCheck, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));*/
 		//	Search
 		parameterPanel.add(bSearch, new GridBagConstraints(3, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
@@ -455,7 +455,8 @@ public class VLoadOrder extends LoadOrder
 	 */
 	public void dynInit() throws Exception
 	{
-			
+		//	Set Client
+		m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		// Organization filter selection
 		int AD_Column_ID = 69835;		//	FTA_LoadOrer.AD_Org_ID
 		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
@@ -653,18 +654,24 @@ public class VLoadOrder extends LoadOrder
 			warehouseSearch.removeActionListener(this);
 			m_M_Warehouse_ID = loadComboBox(warehouseSearch, data);
 			warehouseSearch.addActionListener(this);
+			m_C_UOM_ID = getC_UOM_Weight_ID();
+			uomWorkPick.setValue(m_C_UOM_ID);
 		} else if(name.equals("OperationType")){
 			m_OperationType = ((String)(value != null? value: 0));
 			ArrayList<KeyNamePair> data = getDataDocumentType();
 			docTypeSearch.removeActionListener(this);
 			m_C_DocType_ID = loadComboBox(docTypeSearch, data);
 			docTypeSearch.addActionListener(this);
-		} else if(name.equals("M_Shipper_ID")){
+		} else if(name.equals("FTA_VehicleType_ID")){ 
+			m_FTA_VehicleType_ID = ((Integer)(value != null? value: 0)).intValue();
+			m_Capacity = getLoadCapacity(m_FTA_VehicleType_ID);
+			capacityField.setValue(m_Capacity);
+		}else if(name.equals("M_Shipper_ID")){
 			m_M_Shipper_ID = ((Integer)(value != null? value: 0)).intValue();
 			ArrayList<KeyNamePair> data = getDataDriver();
 			m_FTA_Driver_ID = loadComboBox(driverSearch, data);
 			//	Vehicle
-			data = getDataCar();
+			data = getVehicleData();
 			m_FTA_Vehicle_ID = loadComboBox(vehicleSearch, data);
 			//	Unit Measure
 			if(m_FTA_Vehicle_ID != 0) {//System.err.println(m_FTA_Vehicle_ID);
