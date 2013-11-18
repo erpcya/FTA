@@ -34,7 +34,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131112L;
+	private static final long serialVersionUID = 20131118L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrder (Properties ctx, int FTA_LoadOrder_ID, String trxName)
@@ -49,7 +49,6 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 // CO
 			setDocStatus (null);
 // DR
-			setFTA_EntryTicket_ID (0);
 			setFTA_LoadOrder_ID (0);
 			setFTA_VehicleType_ID (0);
 			setInvoiceRule (null);
@@ -133,6 +132,34 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public I_C_UOM getC_UOM() throws RuntimeException
+    {
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_ID(), get_TrxName());	}
+
+	/** Set UOM.
+		@param C_UOM_ID 
+		Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID)
+	{
+		if (C_UOM_ID < 1) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+	}
+
+	/** Get UOM.
+		@return Unit of Measure
+	  */
+	public int getC_UOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Document Date.
@@ -494,7 +521,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		@param IsBulk Bulk	  */
 	public void setIsBulk (boolean IsBulk)
 	{
-		set_Value (COLUMNNAME_IsBulk, Boolean.valueOf(IsBulk));
+		set_ValueNoCheck (COLUMNNAME_IsBulk, Boolean.valueOf(IsBulk));
 	}
 
 	/** Get Bulk.
@@ -523,48 +550,6 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	public boolean isDelivered () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsDelivered);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Driver Released.
-		@param IsDriverReleased Driver Released	  */
-	public void setIsDriverReleased (boolean IsDriverReleased)
-	{
-		set_Value (COLUMNNAME_IsDriverReleased, Boolean.valueOf(IsDriverReleased));
-	}
-
-	/** Get Driver Released.
-		@return Driver Released	  */
-	public boolean isDriverReleased () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsDriverReleased);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Internal Load.
-		@param IsInternalLoad Internal Load	  */
-	public void setIsInternalLoad (boolean IsInternalLoad)
-	{
-		set_Value (COLUMNNAME_IsInternalLoad, Boolean.valueOf(IsInternalLoad));
-	}
-
-	/** Get Internal Load.
-		@return Internal Load	  */
-	public boolean isInternalLoad () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsInternalLoad);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -610,27 +595,6 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	public boolean isMoved () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsMoved);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Vehicle Released.
-		@param IsVehicleReleased Vehicle Released	  */
-	public void setIsVehicleReleased (boolean IsVehicleReleased)
-	{
-		set_Value (COLUMNNAME_IsVehicleReleased, Boolean.valueOf(IsVehicleReleased));
-	}
-
-	/** Get Vehicle Released.
-		@return Vehicle Released	  */
-	public boolean isVehicleReleased () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsVehicleReleased);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -734,29 +698,37 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_WarehouseTo() throws RuntimeException
-    {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
-			.getPO(getM_WarehouseTo_ID(), get_TrxName());	}
-
-	/** Set Warehouse To.
-		@param M_WarehouseTo_ID Warehouse To	  */
-	public void setM_WarehouseTo_ID (int M_WarehouseTo_ID)
+	/** OperationType AD_Reference_ID=53597 */
+	public static final int OPERATIONTYPE_AD_Reference_ID=53597;
+	/** Raw Material Receipt = RMR */
+	public static final String OPERATIONTYPE_RawMaterialReceipt = "RMR";
+	/** Product Fuel Receipt = PFR */
+	public static final String OPERATIONTYPE_ProductFuelReceipt = "PFR";
+	/** Receipt More than one Product = RMP */
+	public static final String OPERATIONTYPE_ReceiptMoreThanOneProduct = "RMP";
+	/** Material Input Movement = MIM */
+	public static final String OPERATIONTYPE_MaterialInputMovement = "MIM";
+	/** Delivery Finished Product = DFP */
+	public static final String OPERATIONTYPE_DeliveryFinishedProduct = "DFP";
+	/** Delivery Raw Material = DRM */
+	public static final String OPERATIONTYPE_DeliveryRawMaterial = "DRM";
+	/** Material Output Movement = MOM */
+	public static final String OPERATIONTYPE_MaterialOutputMovement = "MOM";
+	/** Other Record Weight = ORW */
+	public static final String OPERATIONTYPE_OtherRecordWeight = "ORW";
+	/** Set Operation Type.
+		@param OperationType Operation Type	  */
+	public void setOperationType (String OperationType)
 	{
-		if (M_WarehouseTo_ID < 1) 
-			set_Value (COLUMNNAME_M_WarehouseTo_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_WarehouseTo_ID, Integer.valueOf(M_WarehouseTo_ID));
+
+		set_Value (COLUMNNAME_OperationType, OperationType);
 	}
 
-	/** Get Warehouse To.
-		@return Warehouse To	  */
-	public int getM_WarehouseTo_ID () 
+	/** Get Operation Type.
+		@return Operation Type	  */
+	public String getOperationType () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_WarehouseTo_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_OperationType);
 	}
 
 	/** Set Processed.
@@ -781,47 +753,6 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** Set Ship Date.
-		@param ShipDate 
-		Shipment Date/Time
-	  */
-	public void setShipDate (Timestamp ShipDate)
-	{
-		set_Value (COLUMNNAME_ShipDate, ShipDate);
-	}
-
-	/** Get Ship Date.
-		@return Shipment Date/Time
-	  */
-	public Timestamp getShipDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_ShipDate);
-	}
-
-	/** Type AD_Reference_ID=53595 */
-	public static final int TYPE_AD_Reference_ID=53595;
-	/** Movement = M */
-	public static final String TYPE_Movement = "M";
-	/** Shipment = S */
-	public static final String TYPE_Shipment = "S";
-	/** Set Type.
-		@param Type 
-		Type of Validation (SQL, Java Script, Java Language)
-	  */
-	public void setType (String Type)
-	{
-
-		set_Value (COLUMNNAME_Type, Type);
-	}
-
-	/** Get Type.
-		@return Type of Validation (SQL, Java Script, Java Language)
-	  */
-	public String getType () 
-	{
-		return (String)get_Value(COLUMNNAME_Type);
 	}
 
 	/** Set Volume.
