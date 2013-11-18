@@ -43,6 +43,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
       /** if (FTA_LoadOrder_ID == 0)
         {
 			setC_DocType_ID (0);
+			setC_UOM_ID (0);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setDocAction (null);
@@ -56,6 +57,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 // N
 			setLoadCapacity (0);
 			setM_Warehouse_ID (0);
+			setOperationType (null);
 			setProcessed (false);
 // N
         } */
@@ -702,14 +704,14 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	public static final int OPERATIONTYPE_AD_Reference_ID=53597;
 	/** Raw Material Receipt = RMR */
 	public static final String OPERATIONTYPE_RawMaterialReceipt = "RMR";
-	/** Product Fuel Receipt = PFR */
-	public static final String OPERATIONTYPE_ProductFuelReceipt = "PFR";
+	/** Product Bulk Receipt = PBR */
+	public static final String OPERATIONTYPE_ProductBulkReceipt = "PBR";
 	/** Receipt More than one Product = RMP */
 	public static final String OPERATIONTYPE_ReceiptMoreThanOneProduct = "RMP";
 	/** Material Input Movement = MIM */
 	public static final String OPERATIONTYPE_MaterialInputMovement = "MIM";
-	/** Delivery Finished Product = DFP */
-	public static final String OPERATIONTYPE_DeliveryFinishedProduct = "DFP";
+	/** Delivery Bull Material = DBM */
+	public static final String OPERATIONTYPE_DeliveryBullMaterial = "DBM";
 	/** Delivery Raw Material = DRM */
 	public static final String OPERATIONTYPE_DeliveryRawMaterial = "DRM";
 	/** Material Output Movement = MOM */
@@ -721,7 +723,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	public void setOperationType (String OperationType)
 	{
 
-		set_Value (COLUMNNAME_OperationType, OperationType);
+		set_ValueNoCheck (COLUMNNAME_OperationType, OperationType);
 	}
 
 	/** Get Operation Type.

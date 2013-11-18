@@ -70,4 +70,19 @@ public class CalloutLoadOrder extends CalloutEngine {
 		return "";
 	}
 	
+	/**
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 18/11/2013, 15:52:19
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String bulk (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		if(value.equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryBullMaterial))
+			mTab.setValue("IsBulk", 'Y');
+		return "";
+	}
 }
