@@ -503,7 +503,7 @@ public class VLoadOrder extends LoadOrder
 		//  Shipper
 		AD_Column_ID = 69852;		//  FTA_LoadOrder.M_Shipper_ID
 		MLookup lookupSP = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
-		shipperPick = new VLookup("M_Shipper_ID", false, false, true, lookupSP);
+		shipperPick = new VLookup("M_Shipper_ID", false, true, true, lookupSP);
 		//shipperPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
 		shipperPick.addVetoableChangeListener(this);
 		
@@ -525,16 +525,18 @@ public class VLoadOrder extends LoadOrder
 		uomWorkPick = new VLookup("C_UOM_ID", true, true, true, lookupUV);
 		uomWorkPick.addVetoableChangeListener(this);	
 		
+		driverSearch.setEnabled(false);
+		vehicleSearch.setEnabled(false);
 		
 		//  Translation
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "FTA_LoadOrder_ID"));
 		statusBar.setStatusDB("");
 		
 		//	Driver
-		driverSearch.addActionListener(this);
+		//driverSearch.addActionListener(this);
 		
 		//	Vehicle
-		vehicleSearch.addActionListener(this);
+		//vehicleSearch.addActionListener(this);
 		
 		//	Document Type Order
 		docTypeSearch.addActionListener(this);
@@ -855,7 +857,7 @@ public class VLoadOrder extends LoadOrder
 			return;
 		}
 		
-		boolean isOrder = (e.getSource().equals(orderTable.getModel()));
+		/*boolean isOrder = (e.getSource().equals(orderTable.getModel()));
 		boolean isOrderLine = (e.getSource().equals(orderLineTable.getModel()));
 		if(isOrder){
 			if(m_C_UOM_ID != 0){
@@ -910,7 +912,7 @@ public class VLoadOrder extends LoadOrder
 				calculate();
 			}
 			
-		}else if(isOrderLine){
+		}else if(isOrderLine)*/{
 			//int row = e.getFirstRow();
 			//int col = e.getColumn();
 			if(col == OL_QTY_SET){	//Qty
