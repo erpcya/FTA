@@ -113,7 +113,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 		BigDecimal m_QtyDelivered;
 		BigDecimal m_QtyToDeliver;
 		BigDecimal m_Farming_MaxQty;
-		BigDecimal m_MaxQty;
+		BigDecimal m_MaxQtyToDeliver;
 		BigDecimal m_Re_EstimatedQty;
 		BigDecimal m_Diff_Re_EstimatedQty;
 		
@@ -194,11 +194,11 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_QtyDelivered = Env.ZERO;
 		
 		//	Max Quantity to Generate
-		m_MaxQty = m_Qty.subtract(m_QtyDelivered);
+		m_MaxQtyToDeliver = m_Qty.subtract(m_QtyDelivered);
 		
-		log.fine("MaxWeight=" + m_MaxQty);
+		log.fine("MaxWeight=" + m_MaxQtyToDeliver);
 		
-		if(m_MaxQty.compareTo(Env.ZERO) <= 0)
+		if(m_MaxQtyToDeliver.compareTo(Env.ZERO) <= 0)
 			throw new AdempiereUserError("@Qty@ <= @QtyToDeliver@");
 		
 		if(p_MaxQty <= 0)
@@ -206,8 +206,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 		
 		//	Valid the Minimum to Generate
 		if(m_MaxReceipt != null
-				&& m_MaxReceipt.compareTo(m_MaxQty) <= 0)
-			m_MaxQty = m_MaxReceipt;
+				&& m_MaxReceipt.compareTo(m_MaxQtyToDeliver) <= 0)
+			m_MaxQtyToDeliver = m_MaxReceipt;
 		
 		//	Set Quantity To Deliver
 		if(p_QtyDeliver != null
@@ -219,19 +219,19 @@ public class FarmingGuideGenerate extends SvrProcess {
 		//	Convert
 		m_QtyToDeliver = m_QtyToDeliver.multiply(rate);
 		
-		log.fine("New MaxWeight=" + m_MaxQty);
+		log.fine("New MaxWeight=" + m_MaxQtyToDeliver);
 		
 		//	Weight Generated
 		BigDecimal m_WeightGenerated = Env.ZERO;
 		//	Quantity of Guides to Generate
 		int count = 0;
 		// Generate
-		while(m_MaxQty.compareTo(m_WeightGenerated) > 0
+		while(m_MaxQtyToDeliver.compareTo(m_WeightGenerated) > 0
 				&& p_MaxQty > count){
 
 			//	Valid Remainder
-			if(m_QtyToDeliver.add(m_WeightGenerated).compareTo(m_MaxQty) > 0)
-				m_QtyToDeliver = m_MaxQty.subtract(m_WeightGenerated);
+			if(m_QtyToDeliver.add(m_WeightGenerated).compareTo(m_MaxQtyToDeliver) > 0)
+				m_QtyToDeliver = m_MaxQtyToDeliver.subtract(m_WeightGenerated);
 			if(m_QtyToDeliver.compareTo(Env.ZERO) <= 0)
 				break;
 			

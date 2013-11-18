@@ -828,17 +828,26 @@ public class LoadOrder {
 	 * @return
 	 */
 	protected ArrayList<KeyNamePair> getDataDriver(){
-		String sql = "SELECT c.FTA_Driver_ID, c.Cedula || ' - ' || c.Nombre " +
-				"FROM XX_Conductor c " +
-				"WHERE c.AD_Client_ID = ? " +
-				"AND c.IsActive = 'Y' " +
-				"AND c.XX_TypeCrew = 'C' " +
-				"AND c.M_Shipper_ID = ? " +
-				"AND c.FTA_Driver_ID NOT IN" +
-				"(SELECT FTA_Driver_ID " +
-				"FROM XX_LoadOrder " +
-				"WHERE XX_Annulled = 'N' AND XXIsDriverReleased = 'N') " +
-				"ORDER BY c.Cedula, c.Nombre";		
+		String sql = "SELECT d.FTA_Driver_ID, d.Value || ' - ' || d.Name " +
+				"FROM FTA_EntryTicket et " + 
+				"INNER JOIN FTA_Driver d ON(d.FTA_Driver_ID = et.FTA_Driver_ID) " +
+				"WHERE et.FTA_EntryTicket_ID = " + m_FTA_EntryTicket_ID + " " +
+				"ORDER BY d.Value, d.Name";
+		return getData(sql);
+	}
+	
+	/**
+	 * Get Vehicle Data
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 10:08:03
+	 * @return
+	 * @return ArrayList<KeyNamePair>
+	 */
+	protected ArrayList<KeyNamePair> getVehicleData(){
+		String sql = "SELECT v.FTA_Vehicle_ID, v.VehiclePlate || ' - ' || v.Name " +
+				"FROM FTA_EntryTicket et " + 
+				"INNER JOIN FTA_Vehicle v ON(v.FTA_Vehicle_ID = et.FTA_Vehicle_ID) " +
+				"WHERE et.FTA_EntryTicket_ID = " + m_FTA_EntryTicket_ID + " " +
+				"ORDER BY v.VehiclePlate, v.Name";
 		return getData(sql);
 	}
 	
@@ -864,27 +873,7 @@ public class LoadOrder {
 				"AND (doc.DocSubTypeSO IS NULL OR doc.DocSubTypeSO NOT IN('RM', 'OB')) " +
 				"ORDER BY doc.Name", "doc", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RW);		
 		return getData(sql);
-	}
-	
-	/**
-	 * Get Vehicle Data
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 10:08:03
-	 * @return
-	 * @return ArrayList<KeyNamePair>
-	 */
-	protected ArrayList<KeyNamePair> getVehicleData(){
-		String sql = "SELECT v.FTA_Vehicle_ID, v.Plate || ' - ' || v.Name " +
-				"FROM FTA_Vehicle v " +
-				"WHERE v.IsActive = 'Y' " +
-				"AND v.M_Shipper_ID = ? " +
-				"AND v.FTA_Vehicle_ID NOT IN " +
-				"(SELECT FTA_Vehicle_ID " +
-				"FROM XX_LoadOrder " +
-				"WHERE XX_Annulled = 'N' AND XXIsVehicleReleased = 'N') " +
-				"ORDER BY v.Placa, v.Nombre";
-		return getData(sql);
-	}
-	
+	}	
 	
 	/**
 	 * Load the Warehouse from Organization

@@ -388,7 +388,7 @@ public class VLoadOrder extends LoadOrder
 		parameterPanel.add(isBulkCheck, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));*/
 		//	Search
-		parameterPanel.add(bSearch, new GridBagConstraints(3, 7, 1, 1, 0.0, 0.0
+		parameterPanel.add(bSearch, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//mainPanel.add(stockCollapsiblePanel, BorderLayout.SOUTH);
 		mainPanel.add(stockInfoPanel, BorderLayout.SOUTH);
@@ -526,7 +526,9 @@ public class VLoadOrder extends LoadOrder
 		uomWorkPick.addVetoableChangeListener(this);	
 		
 		driverSearch.setEnabled(false);
+		driverSearch.setEditable(false);		
 		vehicleSearch.setEnabled(false);
+		vehicleSearch.setEditable(false);
 		
 		//  Translation
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "FTA_LoadOrder_ID"));
@@ -668,22 +670,15 @@ public class VLoadOrder extends LoadOrder
 			m_FTA_VehicleType_ID = ((Integer)(value != null? value: 0)).intValue();
 			m_Capacity = getLoadCapacity(m_FTA_VehicleType_ID);
 			capacityField.setValue(m_Capacity);
-		}else if(name.equals("M_Shipper_ID")){
-			m_M_Shipper_ID = ((Integer)(value != null? value: 0)).intValue();
+		} else if(name.equals("FTA_EntryTicket_ID")){
+			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
 			ArrayList<KeyNamePair> data = getDataDriver();
 			m_FTA_Driver_ID = loadComboBox(driverSearch, data);
 			//	Vehicle
 			data = getVehicleData();
 			m_FTA_Vehicle_ID = loadComboBox(vehicleSearch, data);
-			//	Unit Measure
-			if(m_FTA_Vehicle_ID != 0) {//System.err.println(m_FTA_Vehicle_ID);
-				/*MXXVehiculo vehiculo = new MXXVehiculo(Env.getCtx(), m_FTA_Vehicle_ID, null);
-				capacityField.setValue(vehiculo.getCapacity());
-				uomVehiclePick.setValue(vehiculo.getC_UOM_ID());*/
-			} else {
-				//capacityField.setReadWrite(false);
-				capacityField.setValue(Env.ZERO);
-			}
+		} else if(name.equals("M_Shipper_ID")){
+			
 		}
 		calculate();
 		
