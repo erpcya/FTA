@@ -103,6 +103,21 @@ public interface I_FTA_LoadOrder
 	  */
 	public int getCreatedBy();
 
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public I_C_UOM getC_UOM() throws RuntimeException;
+
     /** Column name DateDoc */
     public static final String COLUMNNAME_DateDoc = "DateDoc";
 
@@ -291,24 +306,6 @@ public interface I_FTA_LoadOrder
 	/** Get Delivered	  */
 	public boolean isDelivered();
 
-    /** Column name IsDriverReleased */
-    public static final String COLUMNNAME_IsDriverReleased = "IsDriverReleased";
-
-	/** Set Driver Released	  */
-	public void setIsDriverReleased (boolean IsDriverReleased);
-
-	/** Get Driver Released	  */
-	public boolean isDriverReleased();
-
-    /** Column name IsInternalLoad */
-    public static final String COLUMNNAME_IsInternalLoad = "IsInternalLoad";
-
-	/** Set Internal Load	  */
-	public void setIsInternalLoad (boolean IsInternalLoad);
-
-	/** Get Internal Load	  */
-	public boolean isInternalLoad();
-
     /** Column name IsInvoiced */
     public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
 
@@ -330,15 +327,6 @@ public interface I_FTA_LoadOrder
 
 	/** Get Moved	  */
 	public boolean isMoved();
-
-    /** Column name IsVehicleReleased */
-    public static final String COLUMNNAME_IsVehicleReleased = "IsVehicleReleased";
-
-	/** Set Vehicle Released	  */
-	public void setIsVehicleReleased (boolean IsVehicleReleased);
-
-	/** Get Vehicle Released	  */
-	public boolean isVehicleReleased();
 
     /** Column name IsWeightRegister */
     public static final String COLUMNNAME_IsWeightRegister = "IsWeightRegister";
@@ -388,16 +376,14 @@ public interface I_FTA_LoadOrder
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
-    /** Column name M_WarehouseTo_ID */
-    public static final String COLUMNNAME_M_WarehouseTo_ID = "M_WarehouseTo_ID";
+    /** Column name OperationType */
+    public static final String COLUMNNAME_OperationType = "OperationType";
 
-	/** Set Warehouse To	  */
-	public void setM_WarehouseTo_ID (int M_WarehouseTo_ID);
+	/** Set Operation Type	  */
+	public void setOperationType (String OperationType);
 
-	/** Get Warehouse To	  */
-	public int getM_WarehouseTo_ID();
-
-	public I_M_Warehouse getM_WarehouseTo() throws RuntimeException;
+	/** Get Operation Type	  */
+	public String getOperationType();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -411,32 +397,6 @@ public interface I_FTA_LoadOrder
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
-
-    /** Column name ShipDate */
-    public static final String COLUMNNAME_ShipDate = "ShipDate";
-
-	/** Set Ship Date.
-	  * Shipment Date/Time
-	  */
-	public void setShipDate (Timestamp ShipDate);
-
-	/** Get Ship Date.
-	  * Shipment Date/Time
-	  */
-	public Timestamp getShipDate();
-
-    /** Column name Type */
-    public static final String COLUMNNAME_Type = "Type";
-
-	/** Set Type.
-	  * Type of Validation (SQL, Java Script, Java Language)
-	  */
-	public void setType (String Type);
-
-	/** Get Type.
-	  * Type of Validation (SQL, Java Script, Java Language)
-	  */
-	public String getType();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
