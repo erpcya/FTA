@@ -798,14 +798,30 @@ public class LoadOrder {
 	}*/
 	
 	/**
+	 * Get Vehicle Type from Vehicle
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/11/2013, 17:28:42
+	 * @param p_FTA_EntryTicket_ID
+	 * @param trxName
+	 * @return
+	 * @return int
+	 */
+	protected int getFTA_VehicleType_ID(int p_FTA_EntryTicket_ID, String trxName){
+		return DB.getSQLValue(trxName, "SELECT v.FTA_VehicleType_ID "
+				+ "FROM FTA_EntryTicket et "
+				+ "INNER JOIN FTA_Vehicle v ON(v.FTA_Vehicle_ID = et.FTA_Vehicle_ID) "
+				+ "AND et.FTA_EntryTicket_ID = ?", p_FTA_EntryTicket_ID);
+	}
+	
+	/**
 	 * Get Load Capacity from Vehicle Type
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 10:35:41
 	 * @param p_FTA_VehicleType_ID
+	 * @param trxName
 	 * @return
 	 * @return BigDecimal
 	 */
-	protected BigDecimal getLoadCapacity(int p_FTA_VehicleType_ID){
-		return DB.getSQLValueBD(null, "SELECT vt.LoadCapacity "
+	protected BigDecimal getLoadCapacity(int p_FTA_VehicleType_ID, String trxName){
+		return DB.getSQLValueBD(trxName, "SELECT vt.LoadCapacity "
 				+ "FROM FTA_VehicleType vt "
 				+ "WHERE FTA_VehicleType_ID = ?", p_FTA_VehicleType_ID);
 	}
@@ -813,51 +829,56 @@ public class LoadOrder {
 	/**
 	 * Get default UOM
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 11:08:46
+	 * @param trxName
 	 * @return
 	 * @return int
 	 */
-	protected int getC_UOM_Weight_ID(){
-		return DB.getSQLValue(null, "SELECT ci.C_UOM_Weight_ID "
+	protected int getC_UOM_Weight_ID(String trxName){
+		return DB.getSQLValue(trxName, "SELECT ci.C_UOM_Weight_ID "
 				+ "FROM AD_ClientInfo ci "
 				+ "WHERE ci.AD_Client_ID = ?", m_AD_Client_ID);
 	}
 	
 	/**
-	 * Carga los datos del Conductor del Vehículo 
-	 * que pertenezca al Transportista seleccionado
+	 * Get Driver Data
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/11/2013, 18:17:22
+	 * @param trxName
 	 * @return
+	 * @return ArrayList<KeyNamePair>
 	 */
-	protected ArrayList<KeyNamePair> getDataDriver(){
+	protected ArrayList<KeyNamePair> getDataDriver(String trxName){
 		String sql = "SELECT d.FTA_Driver_ID, d.Value || ' - ' || d.Name " +
 				"FROM FTA_EntryTicket et " + 
 				"INNER JOIN FTA_Driver d ON(d.FTA_Driver_ID = et.FTA_Driver_ID) " +
 				"WHERE et.FTA_EntryTicket_ID = " + m_FTA_EntryTicket_ID + " " +
 				"ORDER BY d.Value, d.Name";
-		return getData(sql);
+		return getData(sql, trxName);
 	}
 	
 	/**
 	 * Get Vehicle Data
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 10:08:03
+	 * @param trxName
 	 * @return
 	 * @return ArrayList<KeyNamePair>
 	 */
-	protected ArrayList<KeyNamePair> getVehicleData(){
+	protected ArrayList<KeyNamePair> getVehicleData(String trxName){
 		String sql = "SELECT v.FTA_Vehicle_ID, v.VehiclePlate || ' - ' || v.Name " +
 				"FROM FTA_EntryTicket et " + 
 				"INNER JOIN FTA_Vehicle v ON(v.FTA_Vehicle_ID = et.FTA_Vehicle_ID) " +
 				"WHERE et.FTA_EntryTicket_ID = " + m_FTA_EntryTicket_ID + " " +
 				"ORDER BY v.VehiclePlate, v.Name";
-		return getData(sql);
+		return getData(sql, trxName);
 	}
 	
 	/**
 	 * Get Data for Document Type from Operation Type
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 15:53:34
+	 * @param trxName
 	 * @return
 	 * @return ArrayList<KeyNamePair>
 	 */
-	protected ArrayList<KeyNamePair> getDataDocumentType(){
+	protected ArrayList<KeyNamePair> getDataDocumentType(String trxName){
 		
 		if(m_OperationType == null)
 			return null;
@@ -872,22 +893,23 @@ public class LoadOrder {
 				"AND doc.OperationType = '" + m_OperationType + "' " + 
 				"AND (doc.DocSubTypeSO IS NULL OR doc.DocSubTypeSO NOT IN('RM', 'OB')) " +
 				"ORDER BY doc.Name", "doc", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RW);		
-		return getData(sql);
+		return getData(sql, trxName);
 	}	
 	
 	/**
 	 * Load the Warehouse from Organization
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 14:47:28
+	 * @param trxName
 	 * @return
 	 * @return ArrayList<KeyNamePair>
 	 */
-	protected ArrayList<KeyNamePair> getDataWarehouse(){
+	protected ArrayList<KeyNamePair> getDataWarehouse(String trxName){
 		String sql = "SELECT w.M_Warehouse_ID, w.Name || COALESCE(' - ' || w.Description, '') " +
 				"FROM M_Warehouse w " +
 				"WHERE w.IsActive = 'Y' " +
 				"AND w.AD_Org_ID = " + m_AD_Org_ID + " " + 
 				"ORDER BY w.Name";
-		return getData(sql);
+		return getData(sql, trxName);
 	}
 	
 	/**
@@ -917,16 +939,17 @@ public class LoadOrder {
 	 * Get Data from SQL
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 08:31:44
 	 * @param sql
+	 * @param trxName
 	 * @return
 	 * @return ArrayList<KeyNamePair>
 	 */
-	private ArrayList<KeyNamePair> getData(String sql){
+	private ArrayList<KeyNamePair> getData(String sql, String trxName){
 		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
 		
 		log.config("getData");
 		
 		try	{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			PreparedStatement pstmt = DB.prepareStatement(sql, trxName);
 			ResultSet rs = pstmt.executeQuery();
 			//
 			while (rs.next()) {
@@ -1154,18 +1177,13 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Establece los valores de los campos dependientes del Tipo de Documento
-	 * @author Yamel Senih 18/03/2012, 00:36:32
-	 * @param trxName
-	 * @return void
+	 * Get is Bulk
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/11/2013, 18:26:51
+	 * @return
+	 * @return boolean
 	 */
-	protected void setValueDocType(String trxName) {
-		if(m_C_DocType_ID != 0){
-			MDocType docType = new MDocType(Env.getCtx(), m_C_DocType_ID, trxName);
-			m_IsBulk = docType.get_ValueAsBoolean("XXIsBulk");
-		} else {
-			m_IsBulk = false;
-		}
+	protected boolean isBulk() {
+		return (m_OperationType.equals("DBM"));
 	}
 	
 	/**
