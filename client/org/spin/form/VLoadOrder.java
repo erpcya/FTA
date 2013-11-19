@@ -117,7 +117,7 @@ public class VLoadOrder extends LoadOrder
 	private VLookup 		organizationPick = null;
 	/**	Sales Region			*/
 	private JLabel 			salesRegionLabel = new JLabel();
-	private VLookup 		salesRegion = null;
+	private VLookup 		salesRegionPick = null;
 	/**	Sales Representative	*/
 	private JLabel 			salesRepLabel = new JLabel();
 	private VLookup 		salesRepSearch = null;
@@ -144,10 +144,10 @@ public class VLoadOrder extends LoadOrder
 	private VLookup 		vehicleTypePick = null;
 	/**	Document Date			*/
 	private CLabel 			labelDateDoc = new CLabel();
-	private VDate 			fieldDateDoc = new VDate();
+	private VDate 			dateDocField = new VDate();
 	/**	Shipment Date			*/
 	private CLabel 			labelShipDate = new CLabel();
-	private VDate 			fieldShipDate = new VDate();
+	private VDate 			shipDateField = new VDate();
 	/**	Entry Ticket			*/
 	private JLabel 			entryTicketLabel = new JLabel();
 	private VLookup 		entryTicketPick = null;
@@ -303,7 +303,7 @@ public class VLoadOrder extends LoadOrder
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5,5,5,5), 0, 0));
 		parameterPanel.add(salesRegionLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		parameterPanel.add(salesRegion, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+		parameterPanel.add(salesRegionPick, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		parameterPanel.add(salesRepLabel, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
@@ -347,12 +347,12 @@ public class VLoadOrder extends LoadOrder
 		//	Document Date
 		parameterPanel.add(labelDateDoc, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(fieldDateDoc, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
+		parameterPanel.add(dateDocField, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	Shipment Date
 		parameterPanel.add(labelShipDate, new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(fieldShipDate, new GridBagConstraints(5, 3, 1, 1, 0.0, 0.0
+		parameterPanel.add(shipDateField, new GridBagConstraints(5, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	Entry Ticket
 		parameterPanel.add(entryTicketLabel, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
@@ -384,11 +384,11 @@ public class VLoadOrder extends LoadOrder
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(uomWorkPick, new GridBagConstraints(5, 5, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		/*//	Bulk
+		//	Bulk
 		parameterPanel.add(isBulkCheck, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));*/
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		//	Search
-		parameterPanel.add(bSearch, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
+		parameterPanel.add(bSearch, new GridBagConstraints(3, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//mainPanel.add(stockCollapsiblePanel, BorderLayout.SOUTH);
 		mainPanel.add(stockInfoPanel, BorderLayout.SOUTH);
@@ -466,9 +466,9 @@ public class VLoadOrder extends LoadOrder
 		
 		AD_Column_ID = 1823;		//	C_SalesRegion.C_SalesRegion_ID
 		MLookup lookupWar = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
-		salesRegion = new VLookup("C_SalesRegion_ID", false, false, true, lookupWar);
+		salesRegionPick = new VLookup("C_SalesRegion_ID", false, false, true, lookupWar);
 		//salesRegion.setValue(Env.getAD_Org_ID(Env.getCtx()));
-		salesRegion.addVetoableChangeListener(this);
+		salesRegionPick.addVetoableChangeListener(this);
 		
 		AD_Column_ID = 2186;		//	C_Order.SalesRep_ID
 		MLookup lookupSal = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
@@ -556,10 +556,10 @@ public class VLoadOrder extends LoadOrder
 		
 		
 		//	Date
-		fieldDateDoc.setMandatory(true);
-		fieldDateDoc.setValue(new Timestamp(System.currentTimeMillis()));
-		fieldShipDate.setMandatory(true);
-		fieldShipDate.setValue(new Timestamp(System.currentTimeMillis()));
+		dateDocField.setMandatory(true);
+		dateDocField.setValue(new Timestamp(System.currentTimeMillis()));
+		shipDateField.setMandatory(true);
+		shipDateField.setValue(new Timestamp(System.currentTimeMillis()));
 		
 		/*orderLineTable.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
@@ -590,20 +590,7 @@ public class VLoadOrder extends LoadOrder
 	public void actionPerformed(ActionEvent e)
 	{
 		log.config("");
-		if(e.getSource().equals(vehicleSearch)){
-			KeyNamePair pp = (KeyNamePair) vehicleSearch.getSelectedItem();
-			int v_FTA_Vehicle_ID = (pp != null? pp.getKey(): 0);
-			if(v_FTA_Vehicle_ID != 0) {
-				/*MXXVehiculo vehiculo = new MXXVehiculo(Env.getCtx(), v_FTA_Vehicle_ID, null);
-				capacityField.setValue(vehiculo.getCapacity());
-				m_XX_Vehicle_UOM_ID = vehiculo.getC_UOM_ID();
-				uomVehiclePick.setValue(m_XX_Vehicle_UOM_ID);
-				calculate();*/
-			} else {
-				//capacityField.setReadWrite(false);
-				capacityField.setValue(Env.ZERO);
-			}
-		} else if(e.getSource().equals(selectAllButton)) {
+		if(e.getSource().equals(selectAllButton)) {
 			int rows = orderLineTable.getRowCount();
 			for (int i = 0; i < rows; i++) {
 				orderLineTable.setValueAt(true, i, SELECT);
@@ -611,23 +598,12 @@ public class VLoadOrder extends LoadOrder
 		} else if(e.getSource().equals(docTypeSearch)){
 			KeyNamePair pp = (KeyNamePair) docTypeSearch.getSelectedItem();
 			m_C_DocType_ID = (pp != null? pp.getKey(): 0);
-			setValueDocType(trxName);
-			
-			//loadOrder();
-			//calculate();
 			clearData();
 		} else if(e.getSource().equals(warehouseSearch)){
 			KeyNamePair pp = (KeyNamePair) warehouseSearch.getSelectedItem();
 			m_M_Warehouse_ID = (pp != null? pp.getKey(): 0);
 			clearData();
-		} /*else if(e.getSource().equals(warehouseSearch_To)){
-			KeyNamePair pp = (KeyNamePair) warehouseSearch_To.getSelectedItem();
-			m_M_Locator_ID = (pp != null? pp.getKey(): 0);
-			clearData();
-		} else if(e.getSource().equals(locatorToSearch)){
-			KeyNamePair pp = (KeyNamePair) locatorToSearch.getSelectedItem();
-			m_M_LocatorTo_ID = (pp != null? pp.getKey(): 0);
-		}*/ else if(e.getSource().equals(gLoadOrderButton)){
+		} else if(e.getSource().equals(gLoadOrderButton)){
 			if(validData()){
 				if (ADialog.ask(m_WindowNo, panel, "SaveQLoadOrder")){
 					saveData();
@@ -650,35 +626,43 @@ public class VLoadOrder extends LoadOrder
 		
 		if(name.equals("C_SalesRegion_ID") || 
 				name.equals("SalesRep_ID")) {
-			//loadOrder();
 			clearData();
 		} else if(name.equals("AD_Org_ID")){
 			m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
-			ArrayList<KeyNamePair> data = getDataWarehouse();
+			ArrayList<KeyNamePair> data = getDataWarehouse(trxName);
 			warehouseSearch.removeActionListener(this);
 			m_M_Warehouse_ID = loadComboBox(warehouseSearch, data);
 			warehouseSearch.addActionListener(this);
-			m_C_UOM_ID = getC_UOM_Weight_ID();
+			m_C_UOM_ID = getC_UOM_Weight_ID(trxName);
 			uomWorkPick.setValue(m_C_UOM_ID);
 		} else if(name.equals("OperationType")){
 			m_OperationType = ((String)(value != null? value: 0));
-			ArrayList<KeyNamePair> data = getDataDocumentType();
+			ArrayList<KeyNamePair> data = getDataDocumentType(trxName);
 			docTypeSearch.removeActionListener(this);
 			m_C_DocType_ID = loadComboBox(docTypeSearch, data);
 			docTypeSearch.addActionListener(this);
+			//	Set Bulk
+			m_IsBulk = isBulk();
+			isBulkCheck.setSelected(m_IsBulk);
+			isBulkCheck.setEnabled(!m_IsBulk);
 		} else if(name.equals("FTA_VehicleType_ID")){ 
 			m_FTA_VehicleType_ID = ((Integer)(value != null? value: 0)).intValue();
-			m_Capacity = getLoadCapacity(m_FTA_VehicleType_ID);
+			m_Capacity = getLoadCapacity(m_FTA_VehicleType_ID, trxName);
 			capacityField.setValue(m_Capacity);
 		} else if(name.equals("FTA_EntryTicket_ID")){
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
-			ArrayList<KeyNamePair> data = getDataDriver();
-			m_FTA_Driver_ID = loadComboBox(driverSearch, data);
-			//	Vehicle
-			data = getVehicleData();
-			m_FTA_Vehicle_ID = loadComboBox(vehicleSearch, data);
-		} else if(name.equals("M_Shipper_ID")){
-			
+			if(m_FTA_EntryTicket_ID != 0){
+				ArrayList<KeyNamePair> data = getDataDriver(trxName);
+				m_FTA_Driver_ID = loadComboBox(driverSearch, data);
+				//	Vehicle
+				data = getVehicleData(trxName);
+				m_FTA_Vehicle_ID = loadComboBox(vehicleSearch, data);
+				m_FTA_VehicleType_ID = getFTA_VehicleType_ID(m_FTA_EntryTicket_ID, trxName);
+				vehicleTypePick.setValue(m_FTA_VehicleType_ID);
+				vehicleTypePick.setReadWrite(false);
+				m_Capacity = getLoadCapacity(m_FTA_VehicleType_ID, trxName);
+				capacityField.setValue(m_Capacity);
+			}
 		}
 		calculate();
 		
@@ -746,29 +730,64 @@ public class VLoadOrder extends LoadOrder
 	}
 	
 	/**
-	 * Obtiene los datos del Panel
-	 * @author Yamel Senih 10/12/2012, 11:50:18
+	 * Get Values from Panel, refresh values
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/11/2013, 17:58:59
 	 * @return void
 	 */
 	private void getPanelValues(){
-		Object value = shipperPick.getValue();
+		//	Organization
+		Object value = organizationPick.getValue();
+		m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
+		//	Sales Region
+		value = salesRegionPick.getValue();
+		m_C_SalesRegion_ID = ((Integer)(value != null? value: 0)).intValue();
+		//	Sales Representative
+		value = salesRepSearch.getValue();
+		m_SalesRep_ID = ((Integer)(value != null? value: 0)).intValue();
+		//	Warehouse
+		value = warehouseSearch.getValue();
+		m_M_Warehouse_ID = ((Integer)(value != null? value: 0)).intValue();
+		//	Operation Type
+		value = operationTypePick.getValue();
+		m_OperationType = ((String)(value != null? value: 0));
+		//	Document Type
+		value = docTypeSearch.getValue();
+		m_C_DocType_ID = ((Integer)(value != null? value: 0)).intValue();
+		//	Document Type Target
+		value = docTypeTargetPick.getValue();
+		m_C_DocTypeTarget_ID = ((Integer)(value != null? value: 0)).intValue();
+		//	Invoice Rule
+		value = invoiceRulePick.getValue();
+		m_InvoiceRule = ((String)(value != null? value: 0));
+		//	Delivery Rule
+		value = deliveryRulePick.getValue();
+		m_DeliveryRule = ((String)(value != null? value: 0));
+		//	Vehicle Type
+		value = vehicleTypePick.getValue();
+		m_FTA_VehicleType_ID = ((Integer)(value != null? value: 0)).intValue();
+		//	Document Date
+		m_DateDoc = dateDocField.getTimestamp();
+		//	Shipment Date
+		m_ShipDate = shipDateField.getTimestamp();
+		//	Entry Ticket
+		value = entryTicketPick.getValue();
+		m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
+		//	Shipper
+		value = shipperPick.getValue();
 		m_M_Shipper_ID = ((Integer)(value != null? value: 0)).intValue();
-		//value = uomVehiclePick.getValue();
-		//m_XX_Vehicle_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
-		//value = uomWorkPick.getValue();
-		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
-		String display = uomWorkPick.getDisplay();
-		uomWorkValue = (display != null? " " + Msg.translate(Env.getCtx(), "In") + " " + display: "");
+		//	Driver
 		KeyNamePair pp = (KeyNamePair) driverSearch.getSelectedItem();
 		m_FTA_Driver_ID = (pp != null? pp.getKey(): 0);
 		pp = (KeyNamePair) vehicleSearch.getSelectedItem();
+		//	Vehicle
 		m_FTA_Vehicle_ID = (pp != null? pp.getKey(): 0);
 		pp = (KeyNamePair) docTypeSearch.getSelectedItem();
 		m_C_DocType_ID = (pp != null? pp.getKey(): 0);
-		pp = (KeyNamePair) warehouseSearch.getSelectedItem();
-		m_M_Warehouse_ID = (pp != null? pp.getKey(): 0);
-		pp = (KeyNamePair) warehouseSearch.getSelectedItem();
-		setValueDocType(trxName);
+		//	Capacity
+		m_Capacity = (BigDecimal) capacityField.getValue();
+		//	Work UOM
+		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
+		
 	}
 	
 	/**
@@ -1009,8 +1028,8 @@ public class VLoadOrder extends LoadOrder
 		m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
 		log.config(name + "=" + value);
 		
-		name = salesRegion.getName();
-		value = salesRegion.getValue();
+		name = salesRegionPick.getName();
+		value = salesRegionPick.getValue();
 		m_C_SalesRegion_ID = ((Integer)(value != null? value: 0)).intValue();
 		log.config(name + "=" + value);
 		
@@ -1104,7 +1123,7 @@ public class VLoadOrder extends LoadOrder
 	public void saveData()
 	{
 		try	{	
-			String msg = generateLoatOrder(orderLineTable, fieldDateDoc.getTimestamp(), fieldShipDate.getTimestamp(), trxName);
+			String msg = generateLoatOrder(orderLineTable, dateDocField.getTimestamp(), shipDateField.getTimestamp(), trxName);
 			statusBar.setStatusLine(msg);
 			trx.commit();
 			ADialog.info(m_WindowNo, panel, msg);
