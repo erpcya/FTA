@@ -21,7 +21,9 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MDocType;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
@@ -81,8 +83,60 @@ public class CalloutLoadOrder extends CalloutEngine {
 	 * @return String
 	 */
 	public String bulk (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
-		if(value.equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryBullMaterial))
-			mTab.setValue("IsBulk", 'Y');
+		
+		if (value == null){
+			return "";
+		}
+		
+		if(value.equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryBulkMaterial)){
+			mTab.setValue("IsBulk", Boolean.TRUE);
+		}else{
+			mTab.setValue("IsBulk", Boolean.FALSE);
+		}
+			
 		return "";
 	}
+
+	/**
+	 * 
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 20/11/2013, 11:58:21
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String entryTicket (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		
+		Integer m_EntriTicket_ID = (Integer)value;
+		if (m_EntriTicket_ID == null || m_EntriTicket_ID.intValue() == 0)
+			return "";
+		
+		MFTAEntryTicket m_EntryTicket = new MFTAEntryTicket(ctx, m_EntriTicket_ID.intValue(), null);
+		
+		//	Shipper
+		mTab.setValue("M_Shipper_ID", m_EntryTicket.getM_Shipper_ID());
+		//	Vehicle
+		mTab.setValue("FTA_Vehicle_ID", m_EntryTicket.getFTA_Vehicle_ID());
+		//	Driver
+		mTab.setValue("FTA_Driver_ID", m_EntryTicket.getFTA_Driver_ID());
+		return "";
+	}
+
+	public String loadCapacity (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		
+		Integer m_VehicleType_ID = (Integer)value;
+		if (m_VehicleType_ID == null || m_VehicleType_ID.intValue() == 0)
+			return "";
+		
+		MFTAVehicleType m_VehicleType = new MFTAVehicleType(ctx, m_VehicleType_ID.intValue(), null);
+				
+		//	Load Capacity
+		mTab.setValue("LoadCapacity", m_VehicleType.getLoadCapacity());
+
+		return "";
+	}
+
 }

@@ -34,7 +34,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131118L;
+	private static final long serialVersionUID = 20131120L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrder (Properties ctx, int FTA_LoadOrder_ID, String trxName)
@@ -710,10 +710,10 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	public static final String OPERATIONTYPE_ReceiptMoreThanOneProduct = "RMP";
 	/** Material Input Movement = MIM */
 	public static final String OPERATIONTYPE_MaterialInputMovement = "MIM";
-	/** Delivery Bull Material = DBM */
-	public static final String OPERATIONTYPE_DeliveryBullMaterial = "DBM";
-	/** Delivery Raw Material = DRM */
-	public static final String OPERATIONTYPE_DeliveryRawMaterial = "DRM";
+	/** Delivery Bulk Material = DBM */
+	public static final String OPERATIONTYPE_DeliveryBulkMaterial = "DBM";
+	/** Delivery Finished Product = DFP */
+	public static final String OPERATIONTYPE_DeliveryFinishedProduct = "DFP";
 	/** Material Output Movement = MOM */
 	public static final String OPERATIONTYPE_MaterialOutputMovement = "MOM";
 	/** Other Record Weight = ORW */
