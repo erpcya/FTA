@@ -21,9 +21,7 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.MDocType;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
@@ -125,6 +123,16 @@ public class CalloutLoadOrder extends CalloutEngine {
 		return "";
 	}
 
+	/**
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 20/11/2013, 14:26:18
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
 	public String loadCapacity (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		
 		Integer m_VehicleType_ID = (Integer)value;
