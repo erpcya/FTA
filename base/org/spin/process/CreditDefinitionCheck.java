@@ -80,7 +80,7 @@ public class CreditDefinitionCheck extends SvrProcess {
 			MFTACDLCategory category = MFTACDLCategory
 					.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_CATEGORY, get_TrxName());
 			if(category == null)
-				return "@@";
+				return "@FTA_CDL_Category_ID@ @NotFound@";
 			
 			if(!existsCategory(lines, category.getFTA_CDL_Category_ID())){
 				MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
@@ -104,6 +104,9 @@ public class CreditDefinitionCheck extends SvrProcess {
 			//	For Distribution
 			category = MFTACDLCategory
 					.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_DISTRIBUTION, get_TrxName());
+			
+			if(category == null)
+				return "@FTA_CDL_Category_ID@ @NotFound@";
 			
 			if(!existsCategory(lines, category.getFTA_CDL_Category_ID())){
 				MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
