@@ -22,8 +22,11 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.compiere.model.MClientInfo;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
+import org.compiere.model.MProduct;
+import org.compiere.model.MUOMConversion;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.process.DocAction;
@@ -495,9 +498,25 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		if(getQtyToDeliver() == null
 				|| getQtyToDeliver().equals(Env.ZERO))
 			return "@QtyToDeliver@ = @0@";
-		else if(getQtyToDeliver().compareTo(getFTA_VehicleType().getLoadCapacity()) > 0) 
+		
+		MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
+		if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
+			return "@C_UOM_Weight_ID@ = @NotFound@";
+		
+		MFTAFarming m_Farming = new MFTAFarming(getCtx(), getFTA_Farming_ID(), get_TrxName());
+		//	Get Category
+		MProduct product = MProduct.get(getCtx(), m_Farming.getCategory_ID());
+		//	Rate Convert
+		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+				product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
+		//	Valid Conversion
+		if(rate == null)
+			return "@NoUOMConversion@";
+		
+		if(getQtyToDeliver().multiply(rate)
+				.compareTo(getFTA_VehicleType().getLoadCapacity()) > 0) 
 			return "@QtyToDeliver@ > @LoadCapacity@ @of@ @FTA_VehicleType_ID@";
-		else if(getQtyToDeliver().compareTo(getFTA_Farming().getEstimatedQty()) > 0)
+		if(getQtyToDeliver().compareTo(getFTA_Farming().getEstimatedQty()) > 0)
 			return "@QtyToDeliver@ > @EstimatedQty@";
 		return null;
 	}
