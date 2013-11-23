@@ -139,6 +139,7 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 		if(rs != null){
 			while(rs.next()){
 				MFTAProductsToApply pApply = new MFTAProductsToApply(getCtx(), rs, get_TrxName());
+				log.fine("Product To Apply: " + pApply);
 				//	Set Farmer Credit
 				int m_FTA_FarmerCredit_ID = 0;
 				MFTATechnicalFormLine m_TechnicalFormLine = MFTATechnicalFormLine.get(getCtx(), pApply.getFTA_TechnicalFormLine_ID());
@@ -281,6 +282,7 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 			m_Order.setDocAction(p_DocAction);
 			m_Order.processIt(p_DocAction);
 			m_Order.saveEx();
+			addLog("@DocumentNo@: " + m_Order.getDocumentNo() + " - @GrandTotal@=" + m_Order.getGrandTotal());
 			m_Created ++;
 		}
 	}
