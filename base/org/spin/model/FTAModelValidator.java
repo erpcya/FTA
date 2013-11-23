@@ -18,6 +18,7 @@ package org.spin.model;
 
 import java.util.List;
 
+import org.compiere.model.I_C_Invoice;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MClient;
 import org.compiere.model.MInvoice;
@@ -81,7 +82,7 @@ public class FTAModelValidator implements ModelValidator {
 
 	@Override
 	public String modelChange(PO po, int type) throws Exception {
-		if (po.get_TableName().equals("C_Invoice") 
+		if (po.get_TableName().equals(I_C_Invoice.Table_Name) 
 				&& 
 				(type == TYPE_BEFORE_NEW
 						|| type == TYPE_BEFORE_CHANGE)) {
@@ -90,9 +91,10 @@ public class FTAModelValidator implements ModelValidator {
 			if(m_C_Order_ID != 0){
 				MOrder order = new MOrder(Env.getCtx(), m_C_Order_ID, invoice.get_TableName());
 				int m_FTA_FarmerCredit_ID = order.get_ValueAsInt("FTA_FarmerCredit_ID");
-				//boolean m_IsCreditFactManual = order.get_ValueAsBoolean("IsCreditFactManual");
+				boolean m_IsExceedCreditLimit = order.get_ValueAsBoolean("IsExceedCreditLimit");
 				if(m_FTA_FarmerCredit_ID != 0) {
 					invoice.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_FarmerCredit_ID);
+					invoice.set_ValueOfColumn("IsExceedCreditLimit", m_IsExceedCreditLimit);
 				}
 				//	
 				log.info(po.toString());
