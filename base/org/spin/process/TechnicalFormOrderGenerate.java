@@ -121,7 +121,7 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 				"WHERE tfl.FTA_TechnicalForm_ID = ?", m_TechnicalForm.getFTA_TechnicalForm_ID());
 		
 		
-		String sql = new String("SELECT pa.*, fc.FTA_FarmerCredit_ID "
+		String sql = new String("SELECT pa.* "
 				+ "FROM FTA_ProductsToApply pa "
 				+ "LEFT JOIN FTA_TechnicalFormLine tfl ON(tfl.FTA_TechnicalFormLine_ID = pa.FTA_TechnicalFormLine_ID) "
 				+ "LEFT JOIN FTA_Farming fa ON(fa.FTA_Farming_ID = tfl.FTA_Farming_ID) "
