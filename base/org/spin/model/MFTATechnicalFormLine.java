@@ -19,6 +19,9 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.model.Query;
+import org.compiere.util.Env;
+
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
@@ -40,7 +43,6 @@ public class MFTATechnicalFormLine extends X_FTA_TechnicalFormLine {
 	public MFTATechnicalFormLine(Properties ctx, int FTA_TechnicalFormLine_ID,
 			String trxName) {
 		super(ctx, FTA_TechnicalFormLine_ID, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -52,7 +54,21 @@ public class MFTATechnicalFormLine extends X_FTA_TechnicalFormLine {
 	 */
 	public MFTATechnicalFormLine(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
 	}
+	
+	/**
+	 * 	Get Technical Form Line with Value
+	 *	@param ctx context 
+	 *	@param Value value
+	 *	@return MFTATechnicalFormLine or null
+	 */
+	public static MFTATechnicalFormLine get (Properties ctx, int FTA_TechnicalFormLine_ID)
+	{
+		final String whereClause = "FTA_TechnicalFormLine_ID=? AND AD_Client_ID=?";
+		MFTATechnicalFormLine retValue = new Query(ctx,I_FTA_TechnicalFormLine.Table_Name,whereClause,null)
+		.setParameters(FTA_TechnicalFormLine_ID,Env.getAD_Client_ID(ctx))
+		.firstOnly();
+		return retValue;
+	}	//	get
 
 }

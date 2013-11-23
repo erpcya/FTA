@@ -504,7 +504,6 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		return m_lines;
 	}	//	getLines
 	
-	
 	/**
 	 * 	Get Lines of Product to Apply
 	 *	@param requery requery
@@ -526,7 +525,6 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		list.toArray (m_productsToApply);
 		return m_productsToApply;
 	}	//	getLines
-	
 	
 	@Override
 	protected boolean beforeSave(boolean newRecord) {

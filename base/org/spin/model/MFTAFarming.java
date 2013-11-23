@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.Query;
 import org.compiere.util.Env;
 
 /**
@@ -90,5 +91,20 @@ public class MFTAFarming extends X_FTA_Farming {
 	public String toString() {
 		return "FTA_FarmerCredit_ID=" + getFTA_FarmerCredit_ID();
 	}
+	
+	/**
+	 * 	Get Farming with Value
+	 *	@param ctx context 
+	 *	@param Value value
+	 *	@return MFTAFarming or null
+	 */
+	public static MFTAFarming get (Properties ctx, int FTA_Farming_ID)
+	{
+		final String whereClause = "FTA_Farming_ID=? AND AD_Client_ID=?";
+		MFTAFarming retValue = new Query(ctx,I_FTA_Farming.Table_Name,whereClause,null)
+		.setParameters(FTA_Farming_ID,Env.getAD_Client_ID(ctx))
+		.firstOnly();
+		return retValue;
+	}	//	get
 	
 }

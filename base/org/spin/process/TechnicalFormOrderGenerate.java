@@ -17,12 +17,13 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 
 import org.compiere.model.MBPartner;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
-import org.compiere.model.MOrgInfo;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.X_C_Order;
@@ -41,23 +42,29 @@ import org.spin.model.MFTATechnicalFormLine;
  *
  */
 public class TechnicalFormOrderGenerate extends SvrProcess {
-	/**	Document Date			*/
+	/**	Document Date				*/
 	private Timestamp 	p_DateDoc = null;
-	/**	Document Type Target	*/
+	/**	Document Type Target		*/
 	private int 		p_C_DocTypeTarget_ID = 0;
-	/**	Document Action			*/
+	/**	Document Action				*/
 	private String 		p_DocAction = null;
-	/**	Technical Form			*/
+	/**	Technical Form				*/
 	private int 		p_FTA_TechnicalForm_ID = 0;
-	/**	Price List				*/
+	/**	Price List					*/
 	private int 		p_M_PriceList_ID = 0;
-	/**	Order					*/
+	/**	Warehouse					*/
+	private int 		p_M_Warehouse_ID = 0;
+	/**	Distinct Order By Warehouse	*/
+	private boolean 	p_DistinctOrderByWarehouse = false;
+	/**	Order						*/
 	private MOrder		m_Order = null;
-	/**	Technical Form Line		*/
-	private int 		m_FTA_TechnicalFormLine_ID = 0;
-	/**	Default Credit			*/
-	private int 		m_defaultFarmerCredit_ID = 0;
-	/**	Generated				*/
+	/**	Default Credit				*/
+	private int 		m_DefaultFarmerCredit_ID = 0;
+	/**	Current Credit				*/
+	private int 		m_CurrentFarmerCredit_ID = 0;
+	/**	Current Warehouse			*/
+	private int 		m_CurrentWarehouse_ID = 0;
+	/**	Generated					*/
 	private int 		m_Created = 0;
 	
 	@Override
@@ -75,6 +82,10 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 				p_DocAction = para.getParameter().toString();
 			else if(name.equals("M_PriceList_ID"))
 				p_M_PriceList_ID = para.getParameterAsInt();
+			else if(name.equals("M_Warehouse_ID"))
+				p_M_Warehouse_ID = para.getParameterAsInt();
+			else if(name.equals("DistinctOrderByWarehouse"))
+				p_DistinctOrderByWarehouse = para.getParameterAsBoolean();
 		}
 		//	Get Technical From Identifier
 		p_FTA_TechnicalForm_ID = getRecord_ID();
@@ -104,51 +115,103 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 				&& order_ID != 0)
 			return "";
 		//	Get Default Farmer Credit
-		m_defaultFarmerCredit_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fm.FTA_FarmerCredit_ID) " +
+		m_DefaultFarmerCredit_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fm.FTA_FarmerCredit_ID) " +
 				"FROM FTA_TechnicalFormLine tfl " +
 				"INNER JOIN FTA_Farming fm ON(fm.FTA_Farming_ID = tfl.FTA_Farming_ID) " +
 				"WHERE tfl.FTA_TechnicalForm_ID = ?", m_TechnicalForm.getFTA_TechnicalForm_ID());
 		
-		MFTAProductsToApply[] productToApply = m_TechnicalForm.getProductToApply(true);
-		//	Valid Lines
-		if(productToApply == null
-				|| productToApply.length == 0)
-			return "";
 		
-		for(MFTAProductsToApply pApply : productToApply){
-			
-			if(m_Order == null
-					|| m_FTA_TechnicalFormLine_ID != pApply.getFTA_TechnicalFormLine_ID()){
-				//	Complete Previous Order
-				completeOrder();
-				//	Create a New Order
-				newOrder(m_TechnicalForm, 
-						(MFTATechnicalFormLine) pApply.getFTA_TechnicalFormLine());
-			}
-			//	Add Lines
-			MProduct product = (MProduct) pApply.getM_Product();
-			MOrderLine poLine = new MOrderLine (m_Order);
-			poLine.setProduct(product);
-			
-			int uom = pApply.getC_UOM_ID();
-			
-			poLine.setPrice();
-			
-			BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
-					product.getM_Product_ID(), uom);
-			
-			if(rate == null)
-				return "@NoUOMConversion@";
+		String sql = new String("SELECT pa.*, fc.FTA_FarmerCredit_ID "
+				+ "FROM FTA_ProductsToApply pa "
+				+ "LEFT JOIN FTA_TechnicalFormLine tfl ON(tfl.FTA_TechnicalFormLine_ID = pa.FTA_TechnicalFormLine_ID) "
+				+ "LEFT JOIN FTA_Farming fa ON(fa.FTA_Farming_ID = tfl.FTA_Farming_ID) "
+				+ "LEFT JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = fa.FTA_FarmerCredit_ID) "
+				+ "WHERE pa.FTA_TechnicalForm_ID = ? "
+				+ "ORDER BY fc.FTA_FarmerCredit_ID, pa.M_Warehouse_ID");
+		
+		log.fine("SQL=" + sql);
+		
+		PreparedStatement pstmt = null;
+		pstmt = DB.prepareStatement(sql, get_TrxName());
+		//	
+		pstmt.setInt(1, p_FTA_TechnicalForm_ID);
+		ResultSet rs = pstmt.executeQuery();
+		if(rs != null){
+			while(rs.next()){
+				MFTAProductsToApply pApply = new MFTAProductsToApply(getCtx(), rs, get_TrxName());
+				//	Set Farmer Credit
+				int m_FTA_FarmerCredit_ID = 0;
+				MFTATechnicalFormLine m_TechnicalFormLine = MFTATechnicalFormLine.get(getCtx(), pApply.getFTA_TechnicalFormLine_ID());
+				if(m_TechnicalFormLine != null
+						&& m_TechnicalFormLine.getFTA_Farming() != null){
+					MFTAFarming farming = MFTAFarming.get(getCtx(), m_TechnicalFormLine.getFTA_Farming_ID());
+					m_FTA_FarmerCredit_ID = farming.getFTA_FarmerCredit_ID();					
+				}
+				
+				//	Valid Credit
+				if(m_Order == null
+						|| (m_FTA_FarmerCredit_ID != 0 
+								&& m_FTA_FarmerCredit_ID != m_CurrentFarmerCredit_ID)
+						|| (p_DistinctOrderByWarehouse 
+								&& pApply.getM_Warehouse_ID() != m_CurrentWarehouse_ID)){
+					//	Complete Previous Order
+					completeOrder();
+					//	Check Warehouse
+					if(!p_DistinctOrderByWarehouse){
+						if(p_M_Warehouse_ID != 0)
+							m_CurrentWarehouse_ID = p_M_Warehouse_ID;
+						else
+							m_CurrentWarehouse_ID = Env.getContextAsInt(getCtx(), "#M_Warehouse_ID");
+					} else {
+						if(pApply.getM_Warehouse_ID() != 0)
+							m_CurrentWarehouse_ID = pApply.getM_Warehouse_ID();
+						else if(p_M_Warehouse_ID != 0)
+							m_CurrentWarehouse_ID = p_M_Warehouse_ID;
+						else
+							m_CurrentWarehouse_ID = Env.getContextAsInt(getCtx(), "#M_Warehouse_ID");
+					}
+					//	Create a New Order
+					newOrder(m_TechnicalForm, m_FTA_FarmerCredit_ID);
+				}
+				//	Add Lines
+				MProduct product = (MProduct) pApply.getM_Product();
+				MOrderLine poLine = new MOrderLine (m_Order);
+				//	Set Current Warehouse
+				if(!p_DistinctOrderByWarehouse){
+					if(pApply.getM_Warehouse_ID() != 0)
+						m_CurrentWarehouse_ID = pApply.getM_Warehouse_ID();
+					else if(p_M_Warehouse_ID != 0)
+						m_CurrentWarehouse_ID = p_M_Warehouse_ID;
+					else
+						m_CurrentWarehouse_ID = Env.getContextAsInt(getCtx(), "#M_Warehouse_ID");
+				}
+				//	Set Warehouse
+				poLine.setM_Warehouse_ID(m_CurrentWarehouse_ID);
+				
+				poLine.setProduct(product);
+				
+				int uom = pApply.getC_UOM_ID();
+				
+				poLine.setPrice();
+				
+				BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+						product.getM_Product_ID(), uom);
+				
+				if(rate == null)
+					return "@NoUOMConversion@";
 
-			//	Set Quantity
-			poLine.setQtyEntered(pApply.getQty());
-			poLine.setQtyOrdered(pApply.getQty().multiply(rate));
-			//
-			poLine.setC_UOM_ID(uom);
-			
-			poLine.saveEx();
-			
+				//	Set Quantity
+				poLine.setQtyEntered(pApply.getQty());
+				poLine.setQtyOrdered(pApply.getQty().multiply(rate));
+				//
+				poLine.setC_UOM_ID(uom);
+				
+				poLine.saveEx();
+
+			}
 		}
+		//	Close DB
+		DB.close(rs, pstmt);
 		//	Complete Last Order
 		completeOrder();
 		
@@ -163,11 +226,11 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 	 * Create a new order
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 03/10/2013, 12:19:47
 	 * @param m_TechnicalForm
-	 * @param m_TechnicalFormLine
+	 * @param pFTA_FarmerCredit_ID
 	 * @return
 	 * @return String
 	 */
-	private String newOrder(MFTATechnicalForm m_TechnicalForm, MFTATechnicalFormLine m_TechnicalFormLine){
+	private String newOrder(MFTATechnicalForm m_TechnicalForm, int pFTA_FarmerCredit_ID){
 		m_Order = new MOrder (getCtx(), 0, get_TrxName());
 		m_Order.setClientOrg(getAD_Client_ID(), m_TechnicalForm.getAD_Org_ID());
 		m_Order.setIsSOTrx(false);
@@ -181,15 +244,10 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 		//so.setDescription(getDescription());
 		m_Order.setSalesRep_ID(m_TechnicalForm.getSalesRep_ID());
 		//	Set Vendor
-		MBPartner customer = (MBPartner) m_TechnicalForm.getC_BPartner();
+		MBPartner customer = MBPartner.get(getCtx(), m_TechnicalForm.getC_BPartner_ID());
 		m_Order.setBPartner(customer);
-		
-		// get default drop ship warehouse
-		MOrgInfo orginfo = MOrgInfo.get(getCtx(), m_Order.getAD_Org_ID(), get_TrxName());
-		if (orginfo.getM_Warehouse_ID() != 0)
-			m_Order.setM_Warehouse_ID(orginfo.getM_Warehouse_ID());
-		else
-			return "@M_Warehouse_ID@ = @NotFound@";
+		//	Set Warehouse
+		m_Order.setM_Warehouse_ID(m_CurrentWarehouse_ID);
 		
 		m_Order.setM_PriceList_ID(p_M_PriceList_ID);
 		
@@ -197,19 +255,14 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 		m_Order.set_ValueOfColumn("FTA_TechnicalForm_ID", p_FTA_TechnicalForm_ID);
 		
 		//	Set Farmer Credit
-		if(m_TechnicalFormLine != null
-				&& m_TechnicalFormLine.getFTA_Farming() != null){
-			m_FTA_TechnicalFormLine_ID = m_TechnicalFormLine.getFTA_TechnicalFormLine_ID();
-			MFTAFarming farming = (MFTAFarming) m_TechnicalFormLine.getFTA_Farming();
-			int m_FTA_FarmerCredit_ID = farming.getFTA_FarmerCredit_ID();
-			//	Valid Credit
-			if(m_FTA_FarmerCredit_ID != 0)
-				m_Order.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_FarmerCredit_ID);
-			else if(m_defaultFarmerCredit_ID != 0){
-				m_Order.set_ValueOfColumn("FTA_FarmerCredit_ID", m_defaultFarmerCredit_ID);
-				m_Order.setDescription(Msg.translate(getCtx(), "FTA_FarmerCredit_ID")
-						+ " " + Msg.translate(getCtx(), "IsDefault"));
-			}
+		if(pFTA_FarmerCredit_ID != 0){
+			m_CurrentFarmerCredit_ID = pFTA_FarmerCredit_ID;
+			m_Order.set_ValueOfColumn("FTA_FarmerCredit_ID", pFTA_FarmerCredit_ID);
+		} else if(m_DefaultFarmerCredit_ID != 0){
+			m_CurrentFarmerCredit_ID = m_DefaultFarmerCredit_ID;
+			m_Order.set_ValueOfColumn("FTA_FarmerCredit_ID", m_DefaultFarmerCredit_ID);
+			m_Order.setDescription(Msg.translate(getCtx(), "FTA_FarmerCredit_ID")
+					+ " " + Msg.translate(getCtx(), "IsDefault"));
 		}
 			
 		m_Order.saveEx();

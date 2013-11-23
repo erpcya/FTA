@@ -31,7 +31,7 @@ public class X_FTA_ObservationType extends PO implements I_FTA_ObservationType, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131120L;
+	private static final long serialVersionUID = 20131123L;
 
     /** Standard Constructor */
     public X_FTA_ObservationType (Properties ctx, int FTA_ObservationType_ID, String trxName)
