@@ -22,6 +22,7 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MProduct;
@@ -132,6 +133,10 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		//	Valid AR Invoice
 		if(p_C_DocTypeInvoice_ARI_ID == 0)
 			throw new AdempiereUserError("@C_DocTypeTarget_ID@ @NotFound@");
+		
+		//	Get Precision
+		precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(getCtx(), "$C_Currency_ID"));
+		
 		String out = "";
 		try {
 			m_FTA_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, trxName);
