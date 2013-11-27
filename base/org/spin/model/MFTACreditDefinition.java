@@ -663,7 +663,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 				BigDecimal m_ApprovedAmt_New = m_ApprovedQty.multiply(getAmt());
 				//	Valid if yet updated
 				if(m_Amt_New.doubleValue() != m_Amt_Old.doubleValue()
-						&& m_ApprovedAmt_New.doubleValue() != m_ApprovedAmt_Old.doubleValue()){
+						|| m_ApprovedAmt_New.doubleValue() != m_ApprovedAmt_Old.doubleValue()){
 					credit.setAmt(m_Amt_New);
 					credit.setApprovedAmt(m_ApprovedAmt_New);
 					//	Set Description
@@ -687,11 +687,24 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 				|| creditAct.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Closed))
 				continue;
 			//	
-			BigDecimal m_ApprovedQty = creditAct.getApprovedQty();
+			BigDecimal m_ApprovedQty_New = Env.ZERO;
+			BigDecimal m_ApprovedAmt_New = Env.ZERO;
+			for(MFTAFarmerCredit credit : creditAct.getLines(false)){
+				//	Just Completed or In Process
+				if(credit.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Voided)
+					|| credit.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Reversed))
+					continue;
+				//	Add Qty and Amt
+				m_ApprovedQty_New = m_ApprovedQty_New.add(credit.getApprovedQty());
+				m_ApprovedAmt_New = m_ApprovedAmt_New.add(credit.getApprovedAmt());
+			}
+			//	Update Credit Act
+			BigDecimal m_ApprovedQty_Old = creditAct.getApprovedQty();
 			BigDecimal m_ApprovedAmt_Old = creditAct.getApprovedAmt();
-			BigDecimal m_ApprovedAmt_New = m_ApprovedQty.multiply(getAmt());
 			//	Valid if yet updated
-			if(m_ApprovedAmt_New.doubleValue() != m_ApprovedAmt_Old.doubleValue()){
+			if(m_ApprovedQty_New.doubleValue() != m_ApprovedQty_Old.doubleValue()
+					|| m_ApprovedAmt_New.doubleValue() != m_ApprovedAmt_Old.doubleValue()){
+				creditAct.setApprovedQty(m_ApprovedQty_New);
 				creditAct.setApprovedAmt(m_ApprovedAmt_New);
 				//	Set Description
 				creditAct.addDescription(Msg.parseTranslation(getCtx(), 
