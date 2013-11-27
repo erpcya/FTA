@@ -72,7 +72,10 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 
 	/** Lines					*/
 	private MFTACreditDefinitionLine[]		m_lines = null;
-
+	/** Credit Lines			*/
+	private MFTAFarmerCredit[]				m_credits = null;
+	/** Credit Act			*/
+	private MFTACreditAct[]					m_creditAct = null;
 	/**
 	 * 	Get Document Info
 	 *	@return document info (untranslated)
@@ -215,6 +218,9 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if (!isApproved())
 			approveIt();
 		log.info("completeIt - " + toString());
+
+		//	Update balance the all children
+		updateChildren();
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -271,8 +277,25 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	
 
 	/**
-	 * Valid Reference in another record
+	 * Valid Reference in another record with Bill of Exchange
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 16:05:21
+	 * @return
+	 * @return String
+	 */
+	private String validReferenceBoE(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fc.FTA_FarmerCredit_ID) " +
+				"FROM FTA_FarmerCredit fc " +
+				"INNER JOIN FTA_BillOfExchange be ON(be.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID) " +
+				"WHERE be.DocStatus NOT IN('VO', 'RE') " +
+				"AND fc.FTA_CreditDefinition_ID = ?", getFTA_CreditDefinition_ID());
+		if(m_Reference_ID != 0)
+			return "@SQLErrorReferenced@ @FTA_BillOfExchange_ID@ @completed@";
+		return null;
+	}
+	
+	/**
+	 * Valid Reference in Farmer Credit
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 26/11/2013, 21:36:35
 	 * @return
 	 * @return String
 	 */
@@ -282,7 +305,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 				"WHERE fc.DocStatus NOT IN('VO', 'RE') " +
 				"AND fc.FTA_CreditDefinition_ID = ?", getFTA_CreditDefinition_ID());
 		if(m_Reference_ID != 0)
-			return "@SQLErrorReferenced@";
+			return "@SQLErrorReferenced@ @FTA_FarmerCredit_ID@ @completed@";
 		return null;
 	}
 	
@@ -422,7 +445,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if (m_processMsg != null)
 			return false;
 
-		m_processMsg = validReference();
+		m_processMsg = validReferenceBoE();
 		if(m_processMsg != null)
 			return false;
 		
@@ -564,6 +587,123 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		return m_lines;
 	}	//	getLines
 
+	/**
+	 * Get Lines, Farmer Credits
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 26/11/2013, 13:44:19
+	 * @param requery
+	 * @return
+	 * @return MFTAFarmerCredit[]
+	 */
+	public MFTAFarmerCredit[] getFarmerCredits (boolean requery)
+	{
+		if (m_credits != null && !requery)
+		{
+			set_TrxName(m_credits, get_TrxName());
+			return m_credits;
+		}
+		List<MFTAFarmerCredit> list = new Query(getCtx(), I_FTA_FarmerCredit.Table_Name, "FTA_CreditDefinition_ID=?", get_TrxName())
+		.setParameters(getFTA_CreditDefinition_ID())
+		.list();
+
+		m_credits = new MFTAFarmerCredit[list.size ()];
+		list.toArray (m_credits);
+		return m_credits;
+	}	//	getFarmerCredits
+	
+	/**
+	 * Get Credit Acts
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 26/11/2013, 14:37:31
+	 * @param requery
+	 * @return
+	 * @return MFTAFarmerCredit[]
+	 */
+	public MFTACreditAct[] getCreditActs (boolean requery)
+	{
+		if (m_creditAct != null && !requery)
+		{
+			set_TrxName(m_creditAct, get_TrxName());
+			return m_creditAct;
+		}
+		List<MFTACreditAct> list = new Query(getCtx(), I_FTA_CreditAct.Table_Name, 
+				"EXISTS(SELECT 1 FROM FTA_FarmerCredit fc " +
+				"		WHERE fc.FTA_CreditAct_ID = FTA_CreditAct.FTA_CreditAct_ID " +
+				"		AND fc.FTA_CreditDefinition_ID=?)", get_TrxName())
+		.setParameters(getFTA_CreditDefinition_ID())
+		.list();
+
+		m_creditAct = new MFTACreditAct[list.size ()];
+		list.toArray (m_creditAct);
+		return m_creditAct;
+	}	//	getFarmerCredits
+	
+	/**
+	 * Update Balance Children
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 26/11/2013, 20:25:48
+	 * @return
+	 * @return void
+	 */
+	private void updateChildren(){
+		//	Get Farmer Credit
+		getFarmerCredits(false);
+		//	Process Farmer Credit
+		for(MFTAFarmerCredit credit : m_credits){
+			//	Just Completed or In Process
+			if(credit.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Voided)
+				|| credit.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Reversed)
+				|| credit.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Closed))
+				continue;
+			//	
+			if(credit.getCreditType().equals(X_FTA_FarmerCredit.CREDITTYPE_Credit)
+					|| credit.getCreditType().equals(X_FTA_FarmerCredit.CREDITTYPE_Extension)){
+				BigDecimal m_Qty = credit.getQty();
+				BigDecimal m_ApprovedQty = credit.getApprovedQty();
+				BigDecimal m_Amt_Old = credit.getAmt();
+				BigDecimal m_ApprovedAmt_Old = credit.getApprovedAmt();
+				BigDecimal m_Amt_New = m_Qty.multiply(getAmt());
+				BigDecimal m_ApprovedAmt_New = m_ApprovedQty.multiply(getAmt());
+				//	Valid if yet updated
+				if(m_Amt_New.doubleValue() != m_Amt_Old.doubleValue()
+						&& m_ApprovedAmt_New.doubleValue() != m_ApprovedAmt_Old.doubleValue()){
+					credit.setAmt(m_Amt_New);
+					credit.setApprovedAmt(m_ApprovedAmt_New);
+					//	Set Description
+					credit.addDescription(Msg.parseTranslation(getCtx(), 
+							"@FTA_CreditDefinition_ID@ @Updated@ @to@ " + getAmt()));
+					credit.saveEx();
+					//	Log
+					log.info("Farmer Credit: " + credit.getDocumentNo() 
+							+ " Amt Updated to: " + credit.getAmt() 
+							+ " Approved Amt to: " + credit.getApprovedAmt());	
+				}
+			}
+		}
+		//	Get Credit Act
+		getCreditActs(false);
+		//	Process Credit Act
+		for(MFTACreditAct creditAct : m_creditAct){
+			//	Just Completed or In Process
+			if(creditAct.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Voided)
+				|| creditAct.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Reversed)
+				|| creditAct.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Closed))
+				continue;
+			//	
+			BigDecimal m_ApprovedQty = creditAct.getApprovedQty();
+			BigDecimal m_ApprovedAmt_Old = creditAct.getApprovedAmt();
+			BigDecimal m_ApprovedAmt_New = m_ApprovedQty.multiply(getAmt());
+			//	Valid if yet updated
+			if(m_ApprovedAmt_New.doubleValue() != m_ApprovedAmt_Old.doubleValue()){
+				creditAct.setApprovedAmt(m_ApprovedAmt_New);
+				//	Set Description
+				creditAct.addDescription(Msg.parseTranslation(getCtx(), 
+						"@FTA_CreditDefinition_ID@ @Updated@ @to@ " + getAmt()));
+				creditAct.saveEx();
+				//	Log
+				log.info("Credit Act: " + creditAct.getDocumentNo() 
+						+ " Approved Amt to: " + creditAct.getApprovedAmt());	
+			}
+		}
+	}
+	
 	@Override
 	public int getDoc_User_ID() {
 		// TODO Auto-generated method stub
