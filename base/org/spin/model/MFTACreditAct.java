@@ -408,16 +408,7 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 			sb.append(" - ").append(getDescription());
 		return sb.toString();
 	}	//	getSummary
-
-	/**
-	 * 	Get Document no
-	 *	@return Document No
-	 */
-	public String getDocumentNo()
-	{
-		return "-";
-	}	//	getDocumentNo
-
+	
 	/**
 	 * 	Get Process Message
 	 *	@return clear text error message

@@ -292,7 +292,7 @@ public class MFTAFact extends X_FTA_Fact {
 					//	
 					if(m_FTA_CreditDefinitionLine_ID != 0) {
 						//	Create Fact
-						MFTAFact m_fta_Fact = new MFTAFact(ctx, 0, trx.getTrxName());
+						MFTAFact m_fta_Fact = new MFTAFact(ctx, 0, trxName);
 						//	Set Values
 						m_fta_Fact.setAD_Org_ID(m_AD_Org_ID);
 						m_fta_Fact.setC_BPartner_ID(m_C_BPartner_ID);
@@ -320,7 +320,8 @@ public class MFTAFact extends X_FTA_Fact {
 						trx.rollback();
 					}
 				}
-					trx.commit();
+				//	Commit
+				trx.commit();
 			}
 			//	Close DB
 			DB.close(rs, pstmt);
