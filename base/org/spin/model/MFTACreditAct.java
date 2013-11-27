@@ -562,4 +562,16 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 		return m_lines;
 	}	//	getLines
 	
+	/**
+	 * Get Lines
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 26/11/2013, 22:28:20
+	 * @param requery
+	 * @return
+	 * @return MFTAFarmerCredit[]
+	 */
+	public MFTAFarmerCredit[] getLines (boolean requery)
+	{
+		return getLines(requery, null);
+	}	//	getLines
+	
 }
