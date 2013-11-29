@@ -60,7 +60,6 @@ public class MFTAFarming extends X_FTA_Farming {
 	 */
 	public MFTAFarming(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

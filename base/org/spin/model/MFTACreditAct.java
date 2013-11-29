@@ -32,6 +32,7 @@ import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
@@ -573,5 +574,73 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 	{
 		return getLines(requery, null);
 	}	//	getLines
+	
+	/**
+	 * Update Balance when exists changes in lines
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/11/2013, 10:55:29
+	 * @param p_Credit
+	 * @return
+	 * @return boolean
+	 */
+	public boolean updateBalance(MFTAFarmerCredit p_Credit){
+		//	
+		BigDecimal m_ApprovedQty_New = Env.ZERO;
+		BigDecimal m_ApprovedAmt_New = Env.ZERO;
+		for(MFTAFarmerCredit credit : getLines(true)){
+			//	Just Completed or In Process
+			if(credit.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Voided)
+				|| credit.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Reversed))
+				continue;
+			//	Add Qty and Amt
+			m_ApprovedQty_New = m_ApprovedQty_New.add(credit.getApprovedQty());
+			m_ApprovedAmt_New = m_ApprovedAmt_New.add(credit.getApprovedAmt());
+		}
+		//	Subtract the credit
+		if(p_Credit != null){
+			m_ApprovedQty_New = m_ApprovedQty_New.subtract(p_Credit.getApprovedQty());
+			m_ApprovedAmt_New = m_ApprovedAmt_New.subtract(p_Credit.getApprovedAmt());
+		}
+		//	Update Credit Act
+		BigDecimal m_ApprovedQty_Old = getApprovedQty();
+		BigDecimal m_ApprovedAmt_Old = getApprovedAmt();
+		//	Valid if yet updated
+		if(m_ApprovedQty_New.doubleValue() != m_ApprovedQty_Old.doubleValue()
+				|| m_ApprovedAmt_New.doubleValue() != m_ApprovedAmt_Old.doubleValue()){
+			setApprovedQty(m_ApprovedQty_New);
+			setApprovedAmt(m_ApprovedAmt_New);
+			//	Log
+			log.info("Credit Act: " + getDocumentNo() 
+					+ " Approved Amt to: " + getApprovedAmt());
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Update Balance when exists changes in lines
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/11/2013, 11:00:56
+	 * @return
+	 * @return boolean
+	 */
+	public boolean updateBalance(){
+		return updateBalance(null);
+	}
+	
+	/**
+	 * Get
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/11/2013, 10:22:48
+	 * @param ctx
+	 * @param FTA_CreditAct_ID
+	 * @return
+	 * @return MFTACreditAct
+	 */
+	public static MFTACreditAct get (Properties ctx, int FTA_CreditAct_ID)
+	{
+		final String whereClause = "FTA_CreditAct_ID=? AND AD_Client_ID=?";
+		MFTACreditAct retValue = new Query(ctx,I_FTA_CreditAct.Table_Name,whereClause,null)
+		.setParameters(FTA_CreditAct_ID, Env.getAD_Client_ID(ctx))
+		.firstOnly();
+		return retValue;
+	}	//	get
 	
 }

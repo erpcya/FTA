@@ -20,6 +20,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Properties;
 
@@ -33,6 +34,7 @@ import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -643,6 +645,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	 * @return void
 	 */
 	private void updateChildren(){
+		SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
 		//	Get Farmer Credit
 		getFarmerCredits(false);
 		//	Process Farmer Credit
@@ -668,7 +671,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 					credit.setApprovedAmt(m_ApprovedAmt_New);
 					//	Set Description
 					credit.addDescription(Msg.parseTranslation(getCtx(), 
-							"@FTA_CreditDefinition_ID@ @Updated@ @to@ " + getAmt()));
+							"@FTA_CreditDefinition_ID@ @Updated@ @to@ " + getAmt() + " @Updated@: " + format.format(getDateDoc())));
 					credit.saveEx();
 					//	Log
 					log.info("Farmer Credit: " + credit.getDocumentNo() 
@@ -686,29 +689,11 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 				|| creditAct.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Reversed)
 				|| creditAct.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Closed))
 				continue;
-			//	
-			BigDecimal m_ApprovedQty_New = Env.ZERO;
-			BigDecimal m_ApprovedAmt_New = Env.ZERO;
-			for(MFTAFarmerCredit credit : creditAct.getLines(false)){
-				//	Just Completed or In Process
-				if(credit.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Voided)
-					|| credit.getDocStatus().equals(X_FTA_FarmerCredit.DOCSTATUS_Reversed))
-					continue;
-				//	Add Qty and Amt
-				m_ApprovedQty_New = m_ApprovedQty_New.add(credit.getApprovedQty());
-				m_ApprovedAmt_New = m_ApprovedAmt_New.add(credit.getApprovedAmt());
-			}
-			//	Update Credit Act
-			BigDecimal m_ApprovedQty_Old = creditAct.getApprovedQty();
-			BigDecimal m_ApprovedAmt_Old = creditAct.getApprovedAmt();
 			//	Valid if yet updated
-			if(m_ApprovedQty_New.doubleValue() != m_ApprovedQty_Old.doubleValue()
-					|| m_ApprovedAmt_New.doubleValue() != m_ApprovedAmt_Old.doubleValue()){
-				creditAct.setApprovedQty(m_ApprovedQty_New);
-				creditAct.setApprovedAmt(m_ApprovedAmt_New);
+			if(creditAct.updateBalance()){
 				//	Set Description
 				creditAct.addDescription(Msg.parseTranslation(getCtx(), 
-						"@FTA_CreditDefinition_ID@ @Updated@ @to@ " + getAmt()));
+						"@FTA_CreditDefinition_ID@ @Updated@ @to@ " + getAmt() + " @Updated@: " + format.format(getDateDoc())));
 				creditAct.saveEx();
 				//	Log
 				log.info("Credit Act: " + creditAct.getDocumentNo() 
