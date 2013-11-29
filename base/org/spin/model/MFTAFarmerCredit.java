@@ -314,18 +314,33 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
-		
-		m_processMsg = validReference();
+		//	Valid Bill of Exchange
+		m_processMsg = validReferenceBoE();
+		if(m_processMsg != null)
+			return false;
+		//	Valid Entry Ticket
+		m_processMsg = validReferenceET();
+		if(m_processMsg != null)
+			return false;
+		//	Valid Order
+		m_processMsg = validReferenceOrder();
+		if(m_processMsg != null)
+			return false;
+		//	Valid Invoice
+		m_processMsg = validReferenceInvoice();
 		if(m_processMsg != null)
 			return false;
 		//	Valid Not Allocated to Credit Act
-		if(getFTA_CreditAct_ID() != 0) {
+		/*if(getFTA_CreditAct_ID() != 0) {
 			m_processMsg = "@FTA_CreditAct_ID@ @IsAllocated@";
 			return false;
-		}
-		
+		}*/
+		//	Un Allocate Lines
 		unAllocateLines();
+		//	
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
+		//	Update Act
+		updateCreditAct();
 		//setAmt(Env.ZERO);
 
 		// After Void
@@ -339,12 +354,24 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	}	//	voidIt
 	
 	/**
-	 * Valid Reference in another record
+	 * Update Credit Act
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/11/2013, 10:24:39
+	 * @return
+	 * @return void
+	 */
+	private void updateCreditAct(){
+		MFTACreditAct creditAct = MFTACreditAct.get(getCtx(), getFTA_CreditAct_ID());
+		creditAct.updateBalance(this);
+		creditAct.saveEx();
+	}
+	
+	/**
+	 * Valid Reference in Entry Ticket
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 26/09/2013, 15:39:20
 	 * @return
 	 * @return String
 	 */
-	private String validReference(){
+	private String validReferenceET(){
 		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(et.FTA_EntryTicket_ID) " +
 				"FROM FTA_Farming frm " +
 				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = frm.FTA_Farming_ID) " +
@@ -352,7 +379,55 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				"WHERE et.DocStatus NOT IN('VO', 'RE') " +
 				"AND frm.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
 		if(m_Reference_ID != 0)
-			return "@SQLErrorReferenced@";
+			return "@SQLErrorReferenced@ @FTA_EntryTicket_ID@ @completed@";
+		return null;
+	}
+	
+	/**
+	 * Valid Reference in another record with Bill of Exchange
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 16:05:21
+	 * @return
+	 * @return String
+	 */
+	private String validReferenceBoE(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(be.FTA_BillOfExchange_ID) " +
+				"FROM FTA_BillOfExchange be " +
+				"WHERE be.DocStatus NOT IN('VO', 'RE') " +
+				"AND be.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
+		if(m_Reference_ID != 0)
+			return "@SQLErrorReferenced@ @FTA_BillOfExchange_ID@ @completed@";
+		return null;
+	}
+	
+	/**
+	 * Valid reference on invoice
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/11/2013, 09:50:20
+	 * @return
+	 * @return String
+	 */
+	private String validReferenceInvoice(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(i.C_Invoice_ID) " +
+				"FROM C_Invoice i " +
+				"WHERE i.DocStatus NOT IN('VO', 'RE') " +
+				"AND i.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
+		if(m_Reference_ID != 0)
+			return "@SQLErrorReferenced@ @C_Invoice_ID@ @completed@";
+		return null;
+	}
+	
+	/**
+	 * Valid reference in order
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/11/2013, 09:51:18
+	 * @return
+	 * @return String
+	 */
+	private String validReferenceOrder(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(o.C_Order_ID) " +
+				"FROM C_Order o " +
+				"WHERE o.DocStatus NOT IN('VO', 'RE') " +
+				"AND o.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
+		if(m_Reference_ID != 0)
+			return "@SQLErrorReferenced@ @C_Order_ID@ @completed@";
 		return null;
 	}
 	
@@ -442,7 +517,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
-		m_processMsg = validReference();
+		m_processMsg = validReferenceET();
 		if(m_processMsg != null)
 			return false;
 		// After reActivate
