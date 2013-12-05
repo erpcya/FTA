@@ -1,4 +1,4 @@
-ALTER TABLE FTA_Allocation ADD CONSTRAINT FK_FTA_Allocation_C_Currency FOREIGN KEY (C_Currency_ID)
+﻿ALTER TABLE FTA_Allocation ADD CONSTRAINT FK_FTA_Allocation_C_Currency FOREIGN KEY (C_Currency_ID)
 	REFERENCES C_Currency(C_Currency_ID) 
 	ON UPDATE CASCADE 
 	ON DELETE RESTRICT;

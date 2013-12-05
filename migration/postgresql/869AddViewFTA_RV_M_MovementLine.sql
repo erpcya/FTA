@@ -23,8 +23,11 @@ SELECT
 	ml.Processed, 
 	ml.ReversalLine_ID, 
 	ml.ScrappedQty, 
-	ml.TargetQty, 
-	p.Value
+	ml.TargetQty,
+	p.Value, 
+	p.C_Uom_ID
 FROM M_MovementLine ml
-LEFT JOIN M_Product p ON (p.M_Product_ID = ml.M_Product_ID);
+LEFT JOIN M_Product p ON (p.M_Product_ID = ml.M_Product_ID)
+--WHERE ml.M_Movement_ID=1000099;
+
 
