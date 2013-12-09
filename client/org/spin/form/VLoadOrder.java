@@ -916,9 +916,9 @@ public class VLoadOrder extends LoadOrder
 		}else if(isOrderLine){
 			//int row = e.getFirstRow();
 			//int col = e.getColumn();
-			if(col == OL_QTY_SET){	//Qty
+			if(col == OL_WEIGHT){	//Qty
 				BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
-				BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_SET);
+				BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_WEIGHT);
 				BigDecimal qtyOrdered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ORDERED);
 				BigDecimal qtyOrderLine = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_LOAD_ORDER_LINE);
 				BigDecimal qtyDelivered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_DELIVERED);
@@ -957,7 +957,7 @@ public class VLoadOrder extends LoadOrder
 								.setScale(2, BigDecimal.ROUND_HALF_UP);
 						orderLineTable.setValueAt(qty, row, OL_QTY);
 						orderLineTable.setValueAt(qty
-								.multiply(rateQtySet), row, OL_QTY_SET);
+								.multiply(rateQtySet), row, OL_WEIGHT);
 					} else if(qtySet.compareTo(Env.ZERO) <= 0){
 						ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "QtyLessZero"));
 						qty = qtyOrdered
@@ -967,7 +967,7 @@ public class VLoadOrder extends LoadOrder
 						qtySet = qty
 								.multiply(rateQty)
 								.setScale(2, BigDecimal.ROUND_HALF_UP);
-						orderLineTable.setValueAt(qtySet, row, OL_QTY_SET);
+						orderLineTable.setValueAt(qtySet, row, OL_WEIGHT);
 						orderLineTable.setValueAt(qty, row, OL_QTY);
 					}
 				} 
@@ -1076,8 +1076,8 @@ public class VLoadOrder extends LoadOrder
 			BigDecimal difference = Env.ZERO;
 			for (int i = 0; i < rows; i++) {
 				if (((Boolean)orderLineTable.getValueAt(i, 0)).booleanValue()) {
-					weight = (BigDecimal) (orderLineTable.getValueAt(i, OL_QTY_SET) != null
-							? orderLineTable.getValueAt(i, OL_QTY_SET)
+					weight = (BigDecimal) (orderLineTable.getValueAt(i, OL_WEIGHT) != null
+							? orderLineTable.getValueAt(i, OL_WEIGHT)
 									: Env.ZERO);
 					totalWeight = totalWeight.add(weight);
 				}
