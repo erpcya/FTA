@@ -19,6 +19,8 @@ package org.spin.model;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
@@ -137,6 +139,17 @@ public class MFTAFact extends X_FTA_Fact {
 		int m_FTA_FarmerCredit_ID = document.get_ValueAsInt("FTA_FarmerCredit_ID");
 		int m_FTA_CreditDefinition_ID = 0;
 		int m_FTA_CreditDefinitionLine_ID = 0;
+		
+		//	Transaction
+		Trx trx = Trx.get(trxName, false);
+		Savepoint savePoint = null;
+		//	Save Point
+		try {
+			savePoint = trx.setSavepoint("SaveFact");
+		} catch (SQLException e) {
+			return "@Error@" + e.getMessage();
+		}
+
 		//	Delete Old Movements
 		deleteFact(table_ID, record_ID, false, trxName);
 		
@@ -156,7 +169,6 @@ public class MFTAFact extends X_FTA_Fact {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		Trx trx = Trx.get("GF-", true);
 		boolean byPass = true;
 		try {
 			
@@ -221,7 +233,7 @@ public class MFTAFact extends X_FTA_Fact {
 						break;
 					
 					//	Create Fact
-					MFTAFact m_fta_Fact = new MFTAFact(ctx, 0, trx.getTrxName());
+					MFTAFact m_fta_Fact = new MFTAFact(ctx, 0, trxName);
 					//	Set Values
 					m_fta_Fact.setAD_Org_ID(m_AD_Org_ID);
 					m_fta_Fact.setC_BPartner_ID(m_C_BPartner_ID);
@@ -251,12 +263,12 @@ public class MFTAFact extends X_FTA_Fact {
 				//	Valid Credit Limit
 				if(!m_RemainingAmt.equals(Env.ZERO)){
 					//	Update
-					MFTACreditDefinitionLine m_CDLine = new MFTACreditDefinitionLine(ctx, m_FTA_CreditDefinitionLine_ID, trx.getTrxName());
+					MFTACreditDefinitionLine m_CDLine = new MFTACreditDefinitionLine(ctx, m_FTA_CreditDefinitionLine_ID, trxName);
 					StringBuffer name = new StringBuffer();
 					if(m_CDLine.getC_Charge_ID() != 0){
 						name.append(MCharge.get(ctx, m_CDLine.getC_Charge_ID()).getName());
 					} else if(m_CDLine.getC_ChargeType_ID() != 0){
-						X_C_ChargeType ct = new X_C_ChargeType(ctx, m_CDLine.getC_ChargeType_ID(), trx.getTrxName());
+						X_C_ChargeType ct = new X_C_ChargeType(ctx, m_CDLine.getC_ChargeType_ID(), trxName);
 						name.append(ct.getName());
 					} else if(m_CDLine.getM_Product_ID() != 0){
 						name.append(MProduct.get(ctx, m_CDLine.getM_Product_ID()).getName());
@@ -275,7 +287,7 @@ public class MFTAFact extends X_FTA_Fact {
 							"@SO_CreditLimit@=" + m_SO_CreditLimit.doubleValue() + " " +
 							"@FTA_CreditDefinitionLine_ID@: " + m_CDLine.getLine() + " - " + name;
 					//	RollBack
-					trx.rollback();
+					trx.rollback(savePoint);
 				} else if(byPass){
 					//	Distribution Line
 					m_FTA_CreditDefinitionLine_ID = DB.getSQLValue(trxName, "SELECT MAX(cdl.FTA_CreditDefinitionLine_ID) "
@@ -317,7 +329,8 @@ public class MFTAFact extends X_FTA_Fact {
 						m_fta_Fact.saveEx();
 					} else {
 						msg = "@NoLinesInCDef@";
-						trx.rollback();
+						//	Roll back
+						trx.rollback(savePoint);
 					}
 				}
 				//	Commit
@@ -326,7 +339,6 @@ public class MFTAFact extends X_FTA_Fact {
 			//	Close DB
 			DB.close(rs, pstmt);
 		} catch (Exception e) {
-			trx.rollback();
 			DB.close(rs, pstmt);
 			return "@Error@" + e.getMessage();
 		}
