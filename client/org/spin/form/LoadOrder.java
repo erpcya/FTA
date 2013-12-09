@@ -16,7 +16,6 @@ import javax.swing.table.DefaultTableModel;
 
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.MDocType;
 import org.compiere.model.MRole;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
@@ -43,18 +42,17 @@ public class LoadOrder {
 	public final int ORDER = 2;
 	public final int ORDER_LINE = 2;
 	public final int OL_PRODUCT = 3;
-	public final int OL_UOM_CONVERSION = 4;
-	public final int OL_QTY_ENTERED = 5;
-	public final int OL_UOM = 6;
-	public final int OL_QTY_ONDHAND = 7;
-	public final int OL_QTY_ORDERED = 8;
-	public final int OL_QTY_RESERVERD = 9;
-	public final int OL_QTY_INVOICED = 10;
-	public final int OL_QTY_DELIVERED = 11;
-	public final int OL_QTY_LOAD_ORDER_LINE = 12;
-	public final int OL_QTY = 13;
-	public final int OL_QTY_SET = 14;
-	public final int OL_SEQNO = 15;
+	public final int OL_UOM = 4;
+	public final int OL_QTY_ONDHAND = 5;
+	public final int OL_QTY_ORDERED = 6;
+	public final int OL_UOM_CONVERSION = 7;
+	public final int OL_QTY_RESERVERD = 8;
+	public final int OL_QTY_INVOICED = 9;
+	public final int OL_QTY_DELIVERED = 10;
+	public final int OL_QTY_LOAD_ORDER_LINE = 11;
+	public final int OL_QTY = 12;
+	public final int OL_QTY_SET = 13;
+	public final int OL_SEQNO = 14;
 	
 	//	
 	public final int SW_PRODUCT = 0;
@@ -111,83 +109,36 @@ public class LoadOrder {
 	protected int		m_RowsSelected = 0;
 	/**	Is Bulk Product		*/
 	protected boolean	m_IsBulk = false;
+	/**	UOM Symbol			*/
+	protected String 	m_UOM_Symbol = null;
 	/**	Conversions			*/
-	protected BigDecimal rateCapacity = null;
+	protected BigDecimal 	rateCapacity = null;
 	
 	/**	Total Weight		*/
 	protected BigDecimal	totalWeight = Env.ZERO;
 	
 	/**	Max Sequence		*/
-	protected int		m_MaxSeqNo = 0;
+	protected int			m_MaxSeqNo = 0;
 	
 	protected MiniTable		stockTable = new MiniTable();
 	protected DefaultTableModel stockModel = null;
 	
 	
+	/**
+	 * Get Order data from parameters
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:10:10
+	 * @param p_AD_Org_ID
+	 * @param p_M_Warehouse_ID
+	 * @param p_SalesRep_ID
+	 * @param p_C_DocTypeOrder_ID
+	 * @param orderTable
+	 * @return
+	 * @return Vector<Vector<Object>>
+	 */
 	protected Vector<Vector<Object>> getOrderData(int p_AD_Org_ID, int p_M_Warehouse_ID, 
 			int p_SalesRep_ID, int p_C_DocTypeOrder_ID, 
 			IMiniTable orderTable){
-		/**
-		 * Carga los datos de las ordenes de Venta 
-		 * 
-		 * 
-		 */
-		/*Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		StringBuffer sql = new StringBuffer("SELECT " +
-				"wr.Name Warehouse, ord.C_Order_ID, ord.DocumentNo, " +	//	1..3
-				"ord.DateOrdered, ord.DatePromised, SUM(lord.QtyOrdered) Weight, sr.Name SalesRep, " +	//	4..7
-				"cp.Name Partner, bploc.Name, " +	//	8..9
-				"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4 " +	//	10..14
-				"FROM C_Order ord " +
-				"INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = ord.C_BPartner_ID) " +
-				"INNER JOIN AD_User sr ON(sr.AD_User_ID = ord.SalesRep_ID) " +
-				"INNER JOIN M_Warehouse wr ON(wr.M_Warehouse_ID = ord.M_Warehouse_ID) " +
-				"INNER JOIN C_BPartner_Location bploc ON(bploc.C_BPartner_Location_ID = ord.C_BPartner_Location_ID) " +
-				"INNER JOIN C_Location loc ON(loc.C_Location_ID = bploc.C_Location_ID) " +
-				"INNER JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
-				"INNER JOIN C_City cit ON(cit.C_City_ID = loc.C_City_ID) " +
-				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
-				"WHERE ord.IsSOTrx = 'Y' " +
-				"AND wr.IsActive = 'Y' " +
-				"AND ord.DocStatus = 'CO' " +
-				"AND ord.AD_Client_ID=? " +
-				"AND EXISTS(SELECT 1 " +
-				"FROM C_OrderLine lord " +
-				"LEFT JOIN XX_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
-				"LEFT JOIN XX_LoadOrder c ON(c.XX_LoadOrder_ID = lc.XX_LoadOrder_ID) " +
-				"WHERE lord.M_Product_ID IS NOT NULL " +
-				// Period
-				"AND EXISTS(SELECT 1 FROM C_Period p " +
-				"INNER JOIN C_PeriodControl pc ON(pc.C_Period_ID = p.C_Period_ID) " +
-				"WHERE pc.DocBaseType = 'SOO' " +
-				"AND pc.PeriodStatus = 'O' " +
-				"AND pc.AD_Client_ID = ord.AD_Client_ID " + 
-				"AND p.StartDate <= ord.DateAcct AND p.EndDate >= ord.DateAcct) " +
-				"AND ord.C_Order_ID = lord.C_Order_ID " +
-				"GROUP BY lord.C_OrderLine_ID, lord.QtyOrdered, lord.QtyDelivered " +
-				"HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.XX_Annulled = 'N' THEN lc.Qty ELSE 0 END)) > 0 " +
-				"ORDER BY lord.C_OrderLine_ID ASC) ");
-		if (p_AD_Org_ID != 0)
-			sql.append("AND ord.AD_Org_ID=? ");
-		if (p_M_Warehouse_ID != 0 )
-			sql.append("AND bploc.C_SalesRegion_ID=? ");
-		if (p_SalesRep_ID != 0 )
-			sql.append("AND ord.SalesRep_ID=? ");
-		if (p_C_DocTypeOrder_ID != 0 )
-			sql.append("AND ord.C_DocType_ID=? ");
 		
-		//	Group By
-		sql.append("GROUP BY wr.Name, ord.C_Order_ID, ord.DocumentNo, ord.DateOrdered, " +
-				"ord.DatePromised, sr.Name, cp.Name, bploc.Name, " +
-				"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4 ");
-		//	Order By
-		sql.append("ORDER BY ord.C_Order_ID ASC");
-		
-		// role security
-		
-		log.fine("LoadOrderSQL=" + sql.toString());
-		//System.out.println(sql);
-		*/
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		StringBuffer sql = new StringBuffer("SELECT " +
 				"wr.Name Warehouse, ord.C_Order_ID, ord.DocumentNo, " +	//	1..3
@@ -243,7 +194,7 @@ public class LoadOrder {
 		// role security
 		
 		log.fine("LoadOrderSQL=" + sql.toString());
-		//System.out.println(sql);
+		System.out.println(sql);
 		try
 		{
 			int param = 1;
@@ -298,8 +249,10 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Obtiene los nombres de las columnas de las ordenes de carga
+	 * Get Order Column Names
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:25:26
 	 * @return
+	 * @return Vector<String>
 	 */
 	protected Vector<String> getOrderColumnNames(){	
 		//  Header Info
@@ -324,8 +277,10 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Establece las clases de las columnas de las ordenes
+	 * Set Order Column Class on Table
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:25:11
 	 * @param orderTable
+	 * @return void
 	 */
 	protected void setOrderColumnClass(IMiniTable orderTable){
 		int i = 0;
@@ -351,10 +306,12 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Obtiene los datos de las lineas de la orden de carga
+	 * Get Order Line Data
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:24:58
 	 * @param orderLineTable
 	 * @param sqlPrep
 	 * @return
+	 * @return Vector<Vector<Object>>
 	 */
 	protected Vector<Vector<Object>> getOrderLineData(IMiniTable orderLineTable, StringBuffer sqlPrep){
 		/**
@@ -388,17 +345,16 @@ public class LoadOrder {
 				line.add(lo);				       		//  2-DocumentNo
 				KeyNamePair pr = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
 				line.add(pr);				      		//  3-Product
-				KeyNamePair uo = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(uo);				      		//  4-Unit Conversion
-				line.add(rs.getBigDecimal(column++));  	//  5-QtyEntered
 				KeyNamePair uop = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(uop);				      		//  6-Unit Product
-				line.add(rs.getBigDecimal(column++));  	//  7-QtyOnHand
-				line.add(rs.getBigDecimal(column++));  	//  8-QtyOrdered
-				line.add(rs.getBigDecimal(column++)); 	//  9-QtyReserved
-				line.add(rs.getBigDecimal(column++));  	//  10-QtyInvoiced
-				line.add(rs.getBigDecimal(column++));	//  11-QtyDelivered
-				line.add(rs.getBigDecimal(column++));	//  12-QtyLoc
+				line.add(uop);				      		//  4-Unit Product
+				line.add(rs.getBigDecimal(column++));  	//  5-QtyOnHand
+				line.add(rs.getBigDecimal(column++));  	//  6-QtyOrdered
+				KeyNamePair uo = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				line.add(uo);				      		//  7-Unit Conversion
+				line.add(rs.getBigDecimal(column++)); 	//  8-QtyReserved
+				line.add(rs.getBigDecimal(column++));  	//  9-QtyInvoiced
+				line.add(rs.getBigDecimal(column++));	//  10-QtyDelivered
+				line.add(rs.getBigDecimal(column++));	//  11-QtyLoc
 				
 				qty = rs.getBigDecimal(column++);
 				
@@ -422,8 +378,10 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Obtiene los nombres de las columnas de las lineas de la orden de carga
+	 * Get Column Name on Order Line
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:24:10
 	 * @return
+	 * @return Vector<String>
 	 */
 	protected Vector<String> getOrderLineColumnNames(){	
 		//  Header Info
@@ -432,26 +390,28 @@ public class LoadOrder {
 		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
 		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_To_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyEntered"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
-		columnNames.add(Msg.translate(Env.getCtx(), "SGQtyOrdered"));
-		columnNames.add(Msg.translate(Env.getCtx(), "SGQtyReserved"));
-		columnNames.add(Msg.translate(Env.getCtx(), "SGQtyInvoiced"));
-		columnNames.add(Msg.translate(Env.getCtx(), "SGQtyDelivered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrdered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyReserved"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyInvoiced"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyDelivered"));
 		columnNames.add(Msg.translate(Env.getCtx(), "SGQtyLoc"));
-		//columnNames.add(Msg.translate(Env.getCtx(), "Weight"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
-		columnNames.add(Msg.translate(Env.getCtx(), "SGQtySet"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Qty") 
+				+ (m_UOM_Symbol != null 
+					&& m_UOM_Symbol.trim().length() > 0
+					? " (" + m_UOM_Symbol + ")"
+							: ""));
 		columnNames.add(Msg.translate(Env.getCtx(), "SeqNo"));
 		
 		return columnNames;
 	}
 	
 	/**
-	 * Columnas de la tabla Stock
-	 * @author Yamel Senih 07/06/2012, 16:25:36
+	 * Get Stock Column Names
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:23:45
 	 * @return
 	 * @return Vector<String>
 	 */
@@ -485,8 +445,10 @@ public class LoadOrder {
 	
 	
 	/**
-	 * Clases de las columnas de las Lineas de la orden
+	 * Set Order Line Class on Table
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:23:21
 	 * @param orderLineTable
+	 * @return void
 	 */
 	protected void setOrderLineColumnClass(IMiniTable orderLineTable){
 		int i = 0;
@@ -494,18 +456,17 @@ public class LoadOrder {
 		orderLineTable.setColumnClass(i++, String.class, true);			//  1-Warehouse
 		orderLineTable.setColumnClass(i++, String.class, true);			//  2-DocumentNo
 		orderLineTable.setColumnClass(i++, String.class, true);			//  3-Product
-		orderLineTable.setColumnClass(i++, String.class, true);			//  4-Unit Measure Conversion
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  5-QtyEntered
-		orderLineTable.setColumnClass(i++, String.class, true);			//  6-Unit Measure Product
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  7-QtyOnHand
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  8-QtyOrdered
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  9-QtyReserved
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  10-QtyInvoiced
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  11-QtyDelivered
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//	12-QtyLoc
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  13-Qty
-		orderLineTable.setColumnClass(i++, BigDecimal.class, false);	//  14-Qty Set
-		orderLineTable.setColumnClass(i++, Integer.class, false);		//  15-Sequence No
+		orderLineTable.setColumnClass(i++, String.class, true);			//  4-Unit Measure Product
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  5-QtyOnHand
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  6-QtyOrdered
+		orderLineTable.setColumnClass(i++, String.class, true);			//  7-Unit Measure Conversion
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  8-QtyReserved
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  9-QtyInvoiced
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  10-QtyDelivered
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//	11-QtyLoc
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  12-Qty
+		orderLineTable.setColumnClass(i++, BigDecimal.class, false);	//  13-Qty Set
+		orderLineTable.setColumnClass(i++, Integer.class, false);		//  14-Sequence No
 		//	
 
 		//  Table UI
@@ -513,118 +474,19 @@ public class LoadOrder {
 	}
 		
 	/**
-	 * Obtiene el Query para cargar las lineas de las ordenes seleccionadas
+	 * Get Order Line Data
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:11:36
 	 * @param orderTable
 	 * @return
+	 * @return StringBuffer
 	 */
 	protected StringBuffer getQueryLine(IMiniTable orderTable)
 	{
 		log.config("getQueryLine");
-
-		//  Order
-		
-		/*int rows = orderTable.getRowCount();
-		StringBuffer sqlWhere = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, " +
-				"ord.DocumentNo, lord.M_Product_ID, pro.Name Product, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-				"pro.C_UOM_ID, uomp.UOMSymbol, " +
-				"COALESCE((SELECT SUM(st.QtyOnHand) FROM M_Storage st WHERE st.M_Product_ID = lord.M_Product_ID AND st.M_Locator_ID = " + m_M_Locator_ID + "), 0) QtyOnHand, " +
-				"lord.QtyOrdered, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
-				"SUM(CASE WHEN c.XX_Annulled = 'N' THEN lc.Qty ELSE 0 END) QtyLoc, " +
-				"((COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.XX_Annulled = 'N' THEN lc.Qty ELSE 0 END))) Qty, " +
-				"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.XX_Annulled = 'N' THEN lc.Qty ELSE 0 END)) QtySet " +
-				"FROM C_Order ord " +
-				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
-				"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = lord.M_Warehouse_ID) " +
-				"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
-				"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
-				"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
-				"LEFT JOIN XX_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
-				"LEFT JOIN XX_LoadOrder c ON(c.XX_LoadOrder_ID = lc.XX_LoadOrder_ID) " +
-				"WHERE lord.M_Product_ID IS NOT NULL " +
-				//"AND st.M_Locator_ID = " + m_M_Locator_ID + " " +
-				"AND ord.C_Order_ID IN(0");
-		m_RowsSelected = 0;
-		for (int i = 0; i < rows; i++) {
-			if (((Boolean)orderTable.getValueAt(i, 0)).booleanValue()) {
-				int ID = ((KeyNamePair)orderTable.getValueAt(i, ORDER)).getKey();
-				sqlWhere.append(",");
-				sqlWhere.append(ID);
-				m_RowsSelected ++;
-			}
-		}
-		sqlWhere.append(") GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
-				"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-				"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " +
-				"lord.QtyInvoiced, lord.QtyDelivered " +
-				"HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.XX_Annulled = 'N' THEN lc.Qty ELSE 0 END)) > 0 " +
-				"ORDER BY lord.C_Order_ID ASC");
-		log.config("SQL Line Order=" + sqlWhere.toString());
-		//System.out.println("LoadOrder.getQueryLine() " + sqlWhere);*/
-		
-		
-		/*
-		 * 
-		 * Old 09/0/2013
-		 * StringBuffer sqlWhere = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, " +
-				"ord.DocumentNo, lord.M_Product_ID, pro.Name Product, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-				"pro.C_UOM_ID, uomp.UOMSymbol, " +
-				"COALESCE((SELECT SUM(st.QtyOnHand) FROM M_Storage st WHERE st.M_Product_ID = lord.M_Product_ID AND st.M_Locator_ID = " + m_M_Locator_ID + "), 0) QtyOnHand, " +
-				"lord.QtyOrdered, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
-				"SUM(CASE WHEN c.XX_Annulled = 'N' AND (lc.M_InOut_ID IS NULL OR de.DocStatus IN('RE', 'VO')) THEN lc.Qty ELSE 0 END) QtyLoc, " +
-				"((COALESCE(lord.QtyOrdered, 0) - SUM(CASE WHEN c.XX_Annulled = 'N' AND (lc.M_InOut_ID IS NULL OR de.DocStatus IN('RE', 'VO')) THEN lc.Qty ELSE 0 END))) Qty, " +
-				"(COALESCE(lord.QtyOrdered, 0) - SUM(CASE WHEN c.XX_Annulled = 'N' AND (lc.M_InOut_ID IS NULL OR de.DocStatus IN('RE', 'VO')) THEN lc.Qty ELSE 0 END)) QtySet " +
-				"FROM C_Order ord " +
-				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
-				"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = lord.M_Warehouse_ID) " +
-				"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
-				"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
-				"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
-				"LEFT JOIN XX_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
-				"LEFT JOIN XX_LoadOrder c ON(c.XX_LoadOrder_ID = lc.XX_LoadOrder_ID) " +
-				"LEFT JOIN M_InOut de ON(de.M_InOut_ID = lc.M_InOut_ID) " +
-				"WHERE pro.IsStocked = 'Y' " +
-				//"AND lord.M_Product_ID IS NOT NULL " +
-				"AND ord.C_Order_ID IN(0");
-		m_RowsSelected = 0;
-		for (int i = 0; i < rows; i++) {
-			if (((Boolean)orderTable.getValueAt(i, 0)).booleanValue()) {
-				int ID = ((KeyNamePair)orderTable.getValueAt(i, ORDER)).getKey();
-				sqlWhere.append(",");
-				sqlWhere.append(ID);
-				m_RowsSelected ++;
-			}
-		}
-		sqlWhere.append(") GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
-				"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-				"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, " +
-				"lord.QtyInvoiced " +
-				"HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE WHEN c.XX_Annulled = 'N' THEN lc.Qty ELSE 0 END)) > 0 " +
-				"ORDER BY lord.C_Order_ID ASC");
-		 * */
-		
 		
 		int rows = orderTable.getRowCount();
-		StringBuffer sqlWhere = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, " +
-				"ord.DocumentNo, lord.M_Product_ID, pro.Name Product, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-				"pro.C_UOM_ID, uomp.UOMSymbol, " +
-				"COALESCE((SELECT SUM(st.QtyOnHand) FROM M_Storage st WHERE st.M_Product_ID = lord.M_Product_ID AND st.M_Locator_ID = " + "), 0) QtyOnHand, " +
-				"lord.QtyOrdered, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
-				"SUM(CASE WHEN c.XX_Annulled = 'N' AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END) QtyLoc, " +
-				"((COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.XX_Annulled = 'N' AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END))) Qty, " +
-				"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.XX_Annulled = 'N' AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END)) QtySet " +
-				"FROM C_Order ord " +
-				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
-				"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = lord.M_Warehouse_ID) " +
-				"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
-				"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
-				"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
-				"LEFT JOIN XX_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
-				"LEFT JOIN XX_LoadOrder c ON(c.XX_LoadOrder_ID = lc.XX_LoadOrder_ID) " +
-				"LEFT JOIN M_InOut de ON(de.M_InOut_ID = lc.M_InOut_ID) " +
-				"WHERE pro.IsStocked = 'Y' " +
-				//"AND lord.M_Product_ID IS NOT NULL " +
-				"AND ord.C_Order_ID IN(0");
 		m_RowsSelected = 0;
+		StringBuffer sqlWhere = new StringBuffer("ord.C_Order_ID IN(0"); 
 		for (int i = 0; i < rows; i++) {
 			if (((Boolean)orderTable.getValueAt(i, 0)).booleanValue()) {
 				int ID = ((KeyNamePair)orderTable.getValueAt(i, ORDER)).getKey();
@@ -633,15 +495,47 @@ public class LoadOrder {
 				m_RowsSelected ++;
 			}
 		}
-		sqlWhere.append(") GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
-				"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-				"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, " +
-				"lord.QtyInvoiced " +
-				"HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE WHEN c.XX_Annulled = 'N' THEN lc.Qty ELSE 0 END)) > 0 " +
-				"ORDER BY lord.C_Order_ID ASC");
-		log.config("SQL Line Order=" + sqlWhere.toString());
+		sqlWhere.append(")");
 		
-		return sqlWhere;
+		StringBuffer sql = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
+				"pro.C_UOM_ID, uomp.UOMSymbol, SUM(s.QtyOnHand) QtyOnHand, " +
+				"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
+				"SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END) QtyLoc, " +
+				"((COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END))) Qty, " +
+				"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END)) QtySet " +
+				"FROM C_Order ord " +
+				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
+				"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = lord.M_Warehouse_ID) " +
+				"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
+				"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
+				"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
+				"LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
+				"LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
+				"LEFT JOIN M_InOutLine del ON(del.M_InOutLine_ID = lc.M_InOutLine_ID) " +
+				"LEFT JOIN M_InOut de ON(de.M_InOut_ID = del.M_InOut_ID) " +
+				"LEFT JOIN (" +
+				"				SELECT l.M_Warehouse_ID, st.M_Product_ID, COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
+				"				FROM M_Storage st " +
+				"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
+				"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s ON(s.M_Product_ID = lord.M_Product_ID " +
+				"																								AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
+				"																								AND (" +
+				"																										(lord.M_AttributeSetInstance_ID <> 0 AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) " +
+				"																										OR lord.M_AttributeSetInstance_ID = 0)" +
+				"																									) " +
+				"WHERE pro.IsStocked = 'Y' AND ").append(sqlWhere).append(" ");
+		//	Group By
+		sql.append("GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
+				"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
+				"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, lord.QtyInvoiced").append(" ");
+		//	Having
+		sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') THEN lc.Qty ELSE 0 END)) > 0").append(" ");
+		//	Order By
+		sql.append("ORDER BY lord.C_Order_ID ASC");
+		
+		log.config("SQL Line Order=" + sql.toString());
+		System.out.println(sql);
+		return sql;
 	}
 	
 	/**
