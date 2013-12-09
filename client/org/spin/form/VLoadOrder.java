@@ -700,18 +700,18 @@ public class VLoadOrder extends LoadOrder
 			//if(m_XX_Vehicle_UOM_ID != 0){
 				if(m_C_DocType_ID != 0){
 					//rateCapacity = MUOMConversion.getRate(Env.getCtx(), m_XX_Vehicle_UOM_ID, m_C_UOM_ID);
-					if(rateCapacity != null){
+					//if(rateCapacity != null){
 						loadOrder();
 						//	Add Automatic Collapsed
 						parameterCollapsiblePanel.setCollapsed(true);
-					} else {
+					//} else {
 						/*ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotConversion") + " " 
 								+ Msg.translate(Env.getCtx(), "of") + " "
 								+ uomVehiclePick.getDisplay() + " " 
 								+ Msg.translate(Env.getCtx(), "to") + " " 
 								+ uomWorkPick.getDisplay()
 								);*/
-					}
+					//}
 				} else {
 					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
 					//loadOrder();
@@ -745,14 +745,14 @@ public class VLoadOrder extends LoadOrder
 		value = salesRepSearch.getValue();
 		m_SalesRep_ID = ((Integer)(value != null? value: 0)).intValue();
 		//	Warehouse
-		value = warehouseSearch.getValue();
-		m_M_Warehouse_ID = ((Integer)(value != null? value: 0)).intValue();
+		KeyNamePair pp = (KeyNamePair) warehouseSearch.getSelectedItem();
+		m_M_Warehouse_ID = (pp != null? pp.getKey(): 0);
 		//	Operation Type
 		value = operationTypePick.getValue();
 		m_OperationType = ((String)(value != null? value: 0));
 		//	Document Type
-		value = docTypeSearch.getValue();
-		m_C_DocType_ID = ((Integer)(value != null? value: 0)).intValue();
+		pp = (KeyNamePair) docTypeSearch.getSelectedItem();
+		m_C_DocType_ID = (pp != null? pp.getKey(): 0);
 		//	Document Type Target
 		value = docTypeTargetPick.getValue();
 		m_C_DocTypeTarget_ID = ((Integer)(value != null? value: 0)).intValue();
@@ -776,7 +776,7 @@ public class VLoadOrder extends LoadOrder
 		value = shipperPick.getValue();
 		m_M_Shipper_ID = ((Integer)(value != null? value: 0)).intValue();
 		//	Driver
-		KeyNamePair pp = (KeyNamePair) driverSearch.getSelectedItem();
+		pp = (KeyNamePair) driverSearch.getSelectedItem();
 		m_FTA_Driver_ID = (pp != null? pp.getKey(): 0);
 		pp = (KeyNamePair) vehicleSearch.getSelectedItem();
 		//	Vehicle
@@ -786,6 +786,7 @@ public class VLoadOrder extends LoadOrder
 		//	Capacity
 		m_Capacity = (BigDecimal) capacityField.getValue();
 		//	Work UOM
+		value = uomWorkPick.getValue();
 		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
 		
 	}
@@ -871,52 +872,46 @@ public class VLoadOrder extends LoadOrder
 			return;
 		}
 		
-		/*boolean isOrder = (e.getSource().equals(orderTable.getModel()));
+		boolean isOrder = (e.getSource().equals(orderTable.getModel()));
 		boolean isOrderLine = (e.getSource().equals(orderLineTable.getModel()));
 		if(isOrder){
 			if(m_C_UOM_ID != 0){
-				if(0 != 0){
-					if(m_C_DocType_ID != 0){
-						if(m_IsBulk && moreOneSelect(orderTable)){
-							ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
-							orderTable.setValueAt(false, row, SELECT);
+				if(m_C_DocType_ID != 0){
+					if(m_IsBulk && moreOneSelect(orderTable)){
+						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
+						orderTable.setValueAt(false, row, SELECT);
+						//loadOrder();
+						//calculate();
+					} else {
+						//rateCapacity = MUOMConversion.getRate(Env.getCtx(), m_XX_Vehicle_UOM_ID, m_C_UOM_ID);
+						//if(rateCapacity != null){
+							StringBuffer sql = getQueryLine(orderTable);
+							Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
+							Vector<String> columnNames = getOrderLineColumnNames();
+							
+							loadBuffer(orderLineTable);
+							//  Remove previous listeners
+							orderLineTable.getModel().removeTableModelListener(this);
+							
+							//  Set Model
+							DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
+							modelP.addTableModelListener(this);
+							orderLineTable.setModel(modelP);
+							setOrderLineColumnClass(orderLineTable);
+							setValueFromBuffer(orderLineTable);
+						//} else {
+							//ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotConversion") + " " 
+								//	+ Msg.translate(Env.getCtx(), "of") + " "
+									//+ uomVehiclePick.getDisplay() + " " 
+									//+ Msg.translate(Env.getCtx(), "to") + " " 
+									//+ uomWorkPick.getDisplay()
+									//);
 							//loadOrder();
 							//calculate();
-						} else {
-							//rateCapacity = MUOMConversion.getRate(Env.getCtx(), m_XX_Vehicle_UOM_ID, m_C_UOM_ID);
-							if(rateCapacity != null){
-								StringBuffer sql = getQueryLine(orderTable);
-								Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
-								Vector<String> columnNames = getOrderLineColumnNames();
-								
-								loadBuffer(orderLineTable);
-								//  Remove previous listeners
-								orderLineTable.getModel().removeTableModelListener(this);
-								
-								//  Set Model
-								DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
-								modelP.addTableModelListener(this);
-								orderLineTable.setModel(modelP);
-								setOrderLineColumnClass(orderLineTable);
-								setValueFromBuffer(orderLineTable);
-							} else {
-								ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotConversion") + " " 
-										+ Msg.translate(Env.getCtx(), "of") + " "
-										//+ uomVehiclePick.getDisplay() + " " 
-										+ Msg.translate(Env.getCtx(), "to") + " " 
-										+ uomWorkPick.getDisplay()
-										);
-								//loadOrder();
-								calculate();
-							}
-						}
-					} else {
-						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
-						//loadOrder();
-						calculate();
+						//}
 					}
 				} else {
-					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotVehicleUOM"));
+					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
 					//loadOrder();
 					calculate();
 				}
@@ -926,7 +921,7 @@ public class VLoadOrder extends LoadOrder
 				calculate();
 			}
 			
-		}else if(isOrderLine)*/{
+		}/*else if(isOrderLine){
 			//int row = e.getFirstRow();
 			//int col = e.getColumn();
 			if(col == OL_QTY_SET){	//Qty
@@ -947,12 +942,12 @@ public class VLoadOrder extends LoadOrder
 				
 				if(rateQty != null){
 					orderLineTable.setValueAt(qtySet.multiply(rateQty).setScale(2, BigDecimal.ROUND_HALF_UP), row, OL_QTY);
-					/* Old
-					 * if(qtySet.multiply(rateQty).
-							compareTo(qtyOrdered.
-									subtract(qtyDelivered).
-									subtract(qtyOrderLine)) > 0)
-					 */
+					// Old
+					 // if(qtySet.multiply(rateQty).
+						//	compareTo(qtyOrdered.
+							//		subtract(qtyDelivered).
+								//	subtract(qtyOrderLine)) > 0)
+					 
 					
 					if(qtySet.multiply(rateQty)
 							.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() 
@@ -1015,7 +1010,7 @@ public class VLoadOrder extends LoadOrder
 			}
 			//	Load Group by Product
 			loadStockWarehouse(orderLineTable);
-		}
+		}*/
 		
 		calculate();
 	}   //  tableChanged
