@@ -51,6 +51,7 @@ import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.X_C_Order;
 import org.compiere.plaf.CompiereColor;
@@ -788,7 +789,10 @@ public class VLoadOrder extends LoadOrder
 		//	Work UOM
 		value = uomWorkPick.getValue();
 		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
-		
+		if(m_C_UOM_ID != 0) {
+			MUOM uom = MUOM.get(Env.getCtx(), m_C_UOM_ID);
+			m_UOM_Symbol = uom.getUOMSymbol();	
+		}
 	}
 	
 	/**
@@ -883,32 +887,20 @@ public class VLoadOrder extends LoadOrder
 						//loadOrder();
 						//calculate();
 					} else {
-						//rateCapacity = MUOMConversion.getRate(Env.getCtx(), m_XX_Vehicle_UOM_ID, m_C_UOM_ID);
-						//if(rateCapacity != null){
-							StringBuffer sql = getQueryLine(orderTable);
-							Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
-							Vector<String> columnNames = getOrderLineColumnNames();
-							
-							loadBuffer(orderLineTable);
-							//  Remove previous listeners
-							orderLineTable.getModel().removeTableModelListener(this);
-							
-							//  Set Model
-							DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
-							modelP.addTableModelListener(this);
-							orderLineTable.setModel(modelP);
-							setOrderLineColumnClass(orderLineTable);
-							setValueFromBuffer(orderLineTable);
-						//} else {
-							//ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotConversion") + " " 
-								//	+ Msg.translate(Env.getCtx(), "of") + " "
-									//+ uomVehiclePick.getDisplay() + " " 
-									//+ Msg.translate(Env.getCtx(), "to") + " " 
-									//+ uomWorkPick.getDisplay()
-									//);
-							//loadOrder();
-							//calculate();
-						//}
+						StringBuffer sql = getQueryLine(orderTable);
+						Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
+						Vector<String> columnNames = getOrderLineColumnNames();
+						
+						loadBuffer(orderLineTable);
+						//  Remove previous listeners
+						orderLineTable.getModel().removeTableModelListener(this);
+						
+						//  Set Model
+						DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
+						modelP.addTableModelListener(this);
+						orderLineTable.setModel(modelP);
+						setOrderLineColumnClass(orderLineTable);
+						setValueFromBuffer(orderLineTable);
 					}
 				} else {
 					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
@@ -921,7 +913,7 @@ public class VLoadOrder extends LoadOrder
 				calculate();
 			}
 			
-		}/*else if(isOrderLine){
+		}else if(isOrderLine){
 			//int row = e.getFirstRow();
 			//int col = e.getColumn();
 			if(col == OL_QTY_SET){	//Qty
@@ -1010,7 +1002,7 @@ public class VLoadOrder extends LoadOrder
 			}
 			//	Load Group by Product
 			loadStockWarehouse(orderLineTable);
-		}*/
+		}
 		
 		calculate();
 	}   //  tableChanged
