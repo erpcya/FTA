@@ -59,6 +59,6 @@ LEFT JOIN C_Location lo ON (lo.C_Location_ID = oi.C_Location_ID)
 
 
 
-WHERE m.M_Movement_ID =1000099
+--WHERE m.M_Movement_ID =1000099
 ;
 
