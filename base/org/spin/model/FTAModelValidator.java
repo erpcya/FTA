@@ -161,8 +161,7 @@ public class FTAModelValidator implements ModelValidator {
 						if(!inv.getGrandTotal().equals(ord.getGrandTotal()))
 							msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), inv.get_TrxName());
 						else
-							msg = MFTAFact.copyFromFact(Env.getCtx(), ord, 
-									inv, ord.get_TrxName());
+							msg = MFTAFact.copyFromFact(Env.getCtx(), ord, inv, ord.get_TrxName());
 					} else {
 						msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), inv.get_TrxName());
 					}
