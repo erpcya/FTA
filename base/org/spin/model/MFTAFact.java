@@ -207,6 +207,10 @@ public class MFTAFact extends X_FTA_Fact {
 								m_RemainingAmt = Env.ZERO;
 							}
 						} else {
+							//	Valid Credit Limit
+							if(!m_RemainingAmt.equals(Env.ZERO))
+								break;
+							//	
 							m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_RemainingAmt));
 							if(m_Balance.compareTo(Env.ZERO) < 0){
 								m_Amt = m_RemainingAmt.add(m_Balance);
@@ -270,13 +274,11 @@ public class MFTAFact extends X_FTA_Fact {
 							name.append(" ");
 						name.append(m_CDLine.getDescription());
 					}
-					//	IsDistributionLine
+					//	Is Distribution Line
 					msg = "@Amt@ > @SO_CreditLimit@: " +
 							"@Amt@=" + m_RemainingAmt.doubleValue() + " " +
 							"@SO_CreditLimit@=" + m_SO_CreditLimit.doubleValue() + " " +
 							"@FTA_CreditDefinitionLine_ID@: " + m_CDLine.getLine() + " - " + name;
-					//	RollBack
-					//trx.rollback();
 				} else if(byPass){
 					//	Distribution Line
 					m_FTA_CreditDefinitionLine_ID = DB.getSQLValue(trxName, "SELECT MAX(cdl.FTA_CreditDefinitionLine_ID) "

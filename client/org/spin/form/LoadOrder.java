@@ -112,6 +112,8 @@ public class LoadOrder {
 	protected boolean	m_IsBulk = false;
 	/**	UOM Symbol			*/
 	protected String 	m_UOM_Symbol = null;
+	/**	Product				*/
+	protected int		m_M_Product_ID = 0;	
 	/**	Conversions			*/
 	protected BigDecimal 	rateCapacity = null;
 	
@@ -128,17 +130,9 @@ public class LoadOrder {
 	/**
 	 * Get Order data from parameters
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:10:10
-	 * @param p_AD_Org_ID
-	 * @param p_M_Warehouse_ID
-	 * @param p_SalesRep_ID
-	 * @param p_C_DocTypeOrder_ID
-	 * @param orderTable
-	 * @return
 	 * @return Vector<Vector<Object>>
 	 */
-	protected Vector<Vector<Object>> getOrderData(int p_AD_Org_ID, int p_M_Warehouse_ID, 
-			int p_SalesRep_ID, int p_C_DocTypeOrder_ID, 
-			IMiniTable orderTable){
+	protected Vector<Vector<Object>> getOrderData(IMiniTable orderTable){
 		
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		StringBuffer sql = new StringBuffer("SELECT " +
@@ -169,16 +163,18 @@ public class LoadOrder {
 				"AND wr.IsActive = 'Y' " +
 				"AND ord.DocStatus = 'CO' " +
 				"AND pr.IsStocked = 'Y' " +
-				"AND (QAFL.QtyAvailable > 0 OR QAFL.QtyAvailable IS NULL) " +
+				"AND (qafl.QtyAvailable > 0 OR qafl.QtyAvailable IS NULL) " +
 				"AND ord.AD_Client_ID=? ");
-		if (p_AD_Org_ID != 0)
+		if (m_AD_Org_ID != 0)
 			sql.append("AND ord.AD_Org_ID=? ");
-		if (p_M_Warehouse_ID != 0 )
+		if (m_M_Warehouse_ID != 0 )
 			sql.append("AND bploc.C_SalesRegion_ID=? ");
-		if (p_SalesRep_ID != 0 )
+		if (m_SalesRep_ID != 0 )
 			sql.append("AND ord.SalesRep_ID=? ");
-		if (p_C_DocTypeOrder_ID != 0 )
+		if (m_C_DocType_ID != 0 )
 			sql.append("AND ord.C_DocType_ID=? ");
+		if(m_IsBulk)
+			sql.append("AND lord.M_Product_ID=? ");
 		
 		//	Group By
 		sql.append("GROUP BY wr.Name, ord.C_Order_ID, ord.DocumentNo, ord.DateOrdered, " +
@@ -205,14 +201,16 @@ public class LoadOrder {
 			
 			pstmt.setInt(param++, Env.getAD_Client_ID(Env.getCtx()));
 			
-			if (p_AD_Org_ID != 0)
-				pstmt.setInt(param++, p_AD_Org_ID);
-			if (p_M_Warehouse_ID != 0 )
-				pstmt.setInt(param++, p_M_Warehouse_ID);
-			if (p_SalesRep_ID != 0 )
-				pstmt.setInt(param++, p_SalesRep_ID);
-			if (p_C_DocTypeOrder_ID != 0 )
-				pstmt.setInt(param++, p_C_DocTypeOrder_ID);
+			if (m_AD_Org_ID != 0)
+				pstmt.setInt(param++, m_AD_Org_ID);
+			if (m_M_Warehouse_ID != 0 )
+				pstmt.setInt(param++, m_M_Warehouse_ID);
+			if (m_SalesRep_ID != 0 )
+				pstmt.setInt(param++, m_SalesRep_ID);
+			if (m_C_DocType_ID != 0 )
+				pstmt.setInt(param++, m_C_DocType_ID);
+			if(m_IsBulk)
+				pstmt.setInt(param++, m_M_Product_ID);
 			
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
@@ -804,7 +802,7 @@ public class LoadOrder {
 	 * @return ArrayList<KeyNamePair>
 	 */
 	protected ArrayList<KeyNamePair> getDataWarehouse(String trxName){
-		String sql = "SELECT w.M_Warehouse_ID, w.Name || COALESCE(' - ' || w.Description, '') " +
+		String sql = "SELECT w.M_Warehouse_ID, w.Name " +
 				"FROM M_Warehouse w " +
 				"WHERE w.IsActive = 'Y' " +
 				"AND w.AD_Org_ID = " + m_AD_Org_ID + " " + 

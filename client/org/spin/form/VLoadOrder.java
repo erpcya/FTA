@@ -169,6 +169,10 @@ public class VLoadOrder extends LoadOrder
 	private VLookup 		uomWorkPick = null;
 	/**	Bulk				*/
 	private JCheckBox 		isBulkCheck = new JCheckBox();
+	/**	Product				*/
+	private JLabel 			productLabel = new JLabel();
+	private VLookup 		productSearch = null;
+
 	
 	/**/
 	private MiniTable 		orderLineTable = new MiniTable();
@@ -245,13 +249,14 @@ public class VLoadOrder extends LoadOrder
 		deliveryRuleLabel.setText(Msg.translate(Env.getCtx(), "DeliveryRule"));
 		//	Warehouse
 		warehouseLabel.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
-		
 		//	Date
 		labelDateDoc.setText(Msg.translate(Env.getCtx(), "DateDoc"));
 		labelShipDate.setText(Msg.translate(Env.getCtx(), "ShipDate"));
-		
+		//	Bulk
 		isBulkCheck.setText(Msg.translate(Env.getCtx(), "IsBulk"));
 		isBulkCheck.setSelected(false);
+		//	Product
+		productLabel.setText(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		
 		bSearch.setText(Msg.translate(Env.getCtx(), "Search"));
 		
@@ -388,8 +393,13 @@ public class VLoadOrder extends LoadOrder
 		//	Bulk
 		parameterPanel.add(isBulkCheck, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		//	Product
+		parameterPanel.add(productLabel, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(productSearch, new GridBagConstraints(3, 7, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	Search
-		parameterPanel.add(bSearch, new GridBagConstraints(3, 7, 1, 1, 0.0, 0.0
+		parameterPanel.add(bSearch, new GridBagConstraints(5, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//mainPanel.add(stockCollapsiblePanel, BorderLayout.SOUTH);
 		mainPanel.add(stockInfoPanel, BorderLayout.SOUTH);
@@ -458,6 +468,7 @@ public class VLoadOrder extends LoadOrder
 	{
 		//	Set Client
 		m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
+		
 		// Organization filter selection
 		int AD_Column_ID = 69835;		//	FTA_LoadOrer.AD_Org_ID
 		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
@@ -465,12 +476,14 @@ public class VLoadOrder extends LoadOrder
 		//organizationPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
 		organizationPick.addVetoableChangeListener(this);
 		
+		//	Sales Region
 		AD_Column_ID = 1823;		//	C_SalesRegion.C_SalesRegion_ID
 		MLookup lookupWar = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
 		salesRegionPick = new VLookup("C_SalesRegion_ID", false, false, true, lookupWar);
 		//salesRegion.setValue(Env.getAD_Org_ID(Env.getCtx()));
 		salesRegionPick.addVetoableChangeListener(this);
 		
+		//	Sales Representative
 		AD_Column_ID = 2186;		//	C_Order.SalesRep_ID
 		MLookup lookupSal = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
 		salesRepSearch = new VLookup("SalesRep_ID", false, false, true, lookupSal);
@@ -491,9 +504,15 @@ public class VLoadOrder extends LoadOrder
 		
 		AD_Column_ID = 69872;		//  FTA_LoadOrder.InvoiceRule
 		MLookup lookupIR = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.List);
-		invoiceRulePick = new VLookup("InvoiceRule", true, false, true, lookupIR);
-		invoiceRulePick.setValue(X_C_Order.INVOICERULE_Immediate);
+		invoiceRulePick = new VLookup("InvoiceRule", false, false, true, lookupIR);
+		//invoiceRulePick.setValue(X_C_Order.INVOICERULE_Immediate);
 		invoiceRulePick.addVetoableChangeListener(this);
+		
+		AD_Column_ID = 69873;		//  FTA_LoadOrder.DeliveryRule
+		MLookup lookupDR = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.List);
+		deliveryRulePick = new VLookup("DeliveryRule", false, false, true, lookupDR);
+		//deliveryRulePick.setValue(X_C_Order.DELIVERYRULE_Availability);
+		deliveryRulePick.addVetoableChangeListener(this);
 		
 		//	Entry Ticket
 		AD_Column_ID = 69874;		//  FTA_LoadOrder.FTA_EntryTicket_ID
@@ -508,12 +527,6 @@ public class VLoadOrder extends LoadOrder
 		//shipperPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
 		shipperPick.addVetoableChangeListener(this);
 		
-		AD_Column_ID = 69873;		//  FTA_LoadOrder.DeliveryRule
-		MLookup lookupDR = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.List);
-		deliveryRulePick = new VLookup("DeliveryRule", true, false, true, lookupDR);
-		deliveryRulePick.setValue(X_C_Order.DELIVERYRULE_Availability);
-		deliveryRulePick.addVetoableChangeListener(this);
-		
 		//  Vehicle Type
 		AD_Column_ID = 69851;		//  FTA_LoadOrder.FTA_VehicleType_ID
 		MLookup lookupVT = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
@@ -525,6 +538,15 @@ public class VLoadOrder extends LoadOrder
 		MLookup lookupUV = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
 		uomWorkPick = new VLookup("C_UOM_ID", true, true, true, lookupUV);
 		uomWorkPick.addVetoableChangeListener(this);	
+		
+		//	Product
+		AD_Column_ID = 70626;		//	FTA_LoadOrer.M_Product_ID
+		MLookup lookupProduct = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
+		productSearch = new VLookup("M_Product_ID", true, false, true, lookupProduct);
+		productSearch.addVetoableChangeListener(this);
+		//	Visible
+		productLabel.setVisible(false);
+		productSearch.setVisible(false);
 		
 		driverSearch.setEnabled(false);
 		driverSearch.setEditable(false);		
@@ -610,6 +632,9 @@ public class VLoadOrder extends LoadOrder
 					saveData();
 				}
 			}
+		} else if(e.getSource().equals(isBulkCheck)){
+			m_IsBulk = isBulkCheck.isSelected();
+			setIsBulk();
 		} else if (e.getSource() == bSearch)
 			cmd_search();
 	}   //  actionPerformed
@@ -646,6 +671,8 @@ public class VLoadOrder extends LoadOrder
 			m_IsBulk = isBulk();
 			isBulkCheck.setSelected(m_IsBulk);
 			isBulkCheck.setEnabled(!m_IsBulk);
+			//	Set Product
+			setIsBulk();
 		} else if(name.equals("FTA_VehicleType_ID")){ 
 			m_FTA_VehicleType_ID = ((Integer)(value != null? value: 0)).intValue();
 			m_Capacity = getLoadCapacity(m_FTA_VehicleType_ID, trxName);
@@ -668,6 +695,18 @@ public class VLoadOrder extends LoadOrder
 		calculate();
 		
 	}   //  vetoableChange
+	
+	/**
+	 * Set Value on Is Bulk
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 10/12/2013, 17:45:23
+	 * @return void
+	 */
+	private void setIsBulk(){
+		//	Set Context
+		Env.setContext(Env.getCtx(), m_WindowNo, "IsBulk", m_IsBulk);
+		productLabel.setVisible(m_IsBulk);
+		productSearch.setVisible(m_IsBulk);
+	}
 	
 	/**
 	 * Clear Data of Table
@@ -759,10 +798,10 @@ public class VLoadOrder extends LoadOrder
 		m_C_DocTypeTarget_ID = ((Integer)(value != null? value: 0)).intValue();
 		//	Invoice Rule
 		value = invoiceRulePick.getValue();
-		m_InvoiceRule = ((String)(value != null? value: 0));
+		m_InvoiceRule = (String) value;
 		//	Delivery Rule
 		value = deliveryRulePick.getValue();
-		m_DeliveryRule = ((String)(value != null? value: 0));
+		m_DeliveryRule = (String) value;
 		//	Vehicle Type
 		value = vehicleTypePick.getValue();
 		m_FTA_VehicleType_ID = ((Integer)(value != null? value: 0)).intValue();
@@ -789,6 +828,10 @@ public class VLoadOrder extends LoadOrder
 		//	Work UOM
 		value = uomWorkPick.getValue();
 		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
+		//	Product
+		value = productSearch.getValue();
+		m_M_Product_ID = ((Integer)(value != null? value: 0)).intValue();
+		
 		if(m_C_UOM_ID != 0) {
 			MUOM uom = MUOM.get(Env.getCtx(), m_C_UOM_ID);
 			m_UOM_Symbol = uom.getUOMSymbol();	
@@ -1039,9 +1082,7 @@ public class VLoadOrder extends LoadOrder
 		setValueDocType(trxName);*/
 		
 		//	Load Data
-		Vector<Vector<Object>> data = getOrderData(m_AD_Org_ID, m_C_SalesRegion_ID, 
-				m_SalesRep_ID, m_C_DocType_ID, 
-				orderTable);
+		Vector<Vector<Object>> data = getOrderData(orderTable);
 		Vector<String> columnNames = getOrderColumnNames();
 		
 		//  Remove previous listeners
