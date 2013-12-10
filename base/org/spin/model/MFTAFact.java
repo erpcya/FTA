@@ -19,8 +19,6 @@ package org.spin.model;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
@@ -34,7 +32,6 @@ import org.compiere.model.X_C_ChargeType;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.Trx;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -141,15 +138,7 @@ public class MFTAFact extends X_FTA_Fact {
 		int m_FTA_CreditDefinitionLine_ID = 0;
 		
 		//	Transaction
-		Trx trx = Trx.get(trxName, false);
-		Savepoint savePoint = null;
-		//	Save Point
-		try {
-			savePoint = trx.setSavepoint("SaveFact");
-		} catch (SQLException e) {
-			return "@Error@" + e.getMessage();
-		}
-
+		//Trx trx = Trx.get(trxName, false);
 		//	Delete Old Movements
 		deleteFact(table_ID, record_ID, false, trxName);
 		
@@ -287,7 +276,7 @@ public class MFTAFact extends X_FTA_Fact {
 							"@SO_CreditLimit@=" + m_SO_CreditLimit.doubleValue() + " " +
 							"@FTA_CreditDefinitionLine_ID@: " + m_CDLine.getLine() + " - " + name;
 					//	RollBack
-					trx.rollback(savePoint);
+					//trx.rollback();
 				} else if(byPass){
 					//	Distribution Line
 					m_FTA_CreditDefinitionLine_ID = DB.getSQLValue(trxName, "SELECT MAX(cdl.FTA_CreditDefinitionLine_ID) "
@@ -329,12 +318,8 @@ public class MFTAFact extends X_FTA_Fact {
 						m_fta_Fact.saveEx();
 					} else {
 						msg = "@NoLinesInCDef@";
-						//	Roll back
-						trx.rollback(savePoint);
 					}
 				}
-				//	Commit
-				trx.commit();
 			}
 			//	Close DB
 			DB.close(rs, pstmt);
