@@ -327,7 +327,7 @@ public class MFTAFact extends X_FTA_Fact {
 			DB.close(rs, pstmt);
 			return "@Error@" + e.getMessage();
 		}
-		
+		//	Return
 		return msg;
 	}
 	
