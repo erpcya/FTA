@@ -81,6 +81,9 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	/** Document is In Dispute*/
 	private boolean		p_IsIndispute =false;
 	
+	/** Business Partner Bank Account*/
+	private int p_C_BP_BankAccount_ID = 0;
+	
 	
 	@Override
 	protected void prepare() {
@@ -111,6 +114,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				p_C_DocTypePayRequest_ID = para.getParameterAsInt();
 			else if(name.equals("IsInDispute"))
 				p_IsIndispute = para.getParameterAsBoolean();
+			else if(name.equals("C_BP_BankAccount_ID"))
+				p_C_BP_BankAccount_ID = para.getParameterAsInt();
 			
 		}
 		//	Get Technical From Identifier
@@ -320,6 +325,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		paymentRequest.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
 		paymentRequest.setC_BPartner_ID(m_FTA_FarmerCredit.getC_BPartner_ID());
 		paymentRequest.setPayAmt(p_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
+		paymentRequest.setC_BP_BankAccount_ID(p_C_BP_BankAccount_ID);
 		paymentRequest.setName(Msg.parseTranslation(getCtx(), "@FTA_PaymentRequest_ID@ @to@") 
 				+ ": " + bpartner.getName());
 		if(p_C_Charge_ID != 0)

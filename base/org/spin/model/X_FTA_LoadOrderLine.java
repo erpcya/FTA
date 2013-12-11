@@ -32,7 +32,7 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131123L;
+	private static final long serialVersionUID = 20131210L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrderLine (Properties ctx, int FTA_LoadOrderLine_ID, String trxName)
@@ -42,7 +42,6 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
         {
 			setFTA_LoadOrder_ID (0);
 			setFTA_LoadOrderLine_ID (0);
-			setM_Product_ID (0);
         } */
     }
 
