@@ -255,6 +255,15 @@ public interface I_FTA_QualityAnalysis
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name OperationType */
+    public static final String COLUMNNAME_OperationType = "OperationType";
+
+	/** Set Operation Type	  */
+	public void setOperationType (String OperationType);
+
+	/** Get Operation Type	  */
+	public String getOperationType();
+
     /** Column name Orig_QualityAnalysis_ID */
     public static final String COLUMNNAME_Orig_QualityAnalysis_ID = "Orig_QualityAnalysis_ID";
 

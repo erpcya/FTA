@@ -34,7 +34,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131123L;
+	private static final long serialVersionUID = 20131210L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrder (Properties ctx, int FTA_LoadOrder_ID, String trxName)
@@ -52,7 +52,6 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 // DR
 			setFTA_LoadOrder_ID (0);
 			setFTA_VehicleType_ID (0);
-			setInvoiceRule (null);
 			setIsApproved (false);
 // N
 			setLoadCapacity (0);
@@ -639,6 +638,34 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	public int getLoadCapacity () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_LoadCapacity);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_Product getM_Product() throws RuntimeException
+    {
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
+
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
