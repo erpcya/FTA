@@ -53,7 +53,6 @@ import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
-import org.compiere.model.X_C_Order;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
@@ -738,7 +737,7 @@ public class VLoadOrder extends LoadOrder
 		getPanelValues();
 		if(m_C_UOM_ID != 0){
 			//if(m_XX_Vehicle_UOM_ID != 0){
-				if(m_C_DocType_ID != 0){
+				//if(m_C_DocType_ID != 0){
 					//rateCapacity = MUOMConversion.getRate(Env.getCtx(), m_XX_Vehicle_UOM_ID, m_C_UOM_ID);
 					//if(rateCapacity != null){
 						loadOrder();
@@ -752,13 +751,13 @@ public class VLoadOrder extends LoadOrder
 								+ uomWorkPick.getDisplay()
 								);*/
 					//}
-				} else {
-					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
+				//} else {
+					//ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
 					//loadOrder();
-					calculate();
-				}
+					//calculate();
+				//}
 			} else {
-				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotVehicleUOM"));
+				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotUOM"));
 				//loadOrder();
 				calculate();
 			}
@@ -923,7 +922,7 @@ public class VLoadOrder extends LoadOrder
 		boolean isOrderLine = (e.getSource().equals(orderLineTable.getModel()));
 		if(isOrder){
 			if(m_C_UOM_ID != 0){
-				if(m_C_DocType_ID != 0){
+				//if(m_C_DocType_ID != 0){
 					if(m_IsBulk && moreOneSelect(orderTable)){
 						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
 						orderTable.setValueAt(false, row, SELECT);
@@ -945,11 +944,11 @@ public class VLoadOrder extends LoadOrder
 						setOrderLineColumnClass(orderLineTable);
 						setValueFromBuffer(orderLineTable);
 					}
-				} else {
-					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
+				//} else {
+					//ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
 					//loadOrder();
-					calculate();
-				}
+					//calculate();
+				//}
 			} else {
 				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotWorkUOM"));
 				//loadOrder();

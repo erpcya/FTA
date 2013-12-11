@@ -17,7 +17,6 @@ import javax.swing.table.DefaultTableModel;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MRole;
-import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.swing.CComboBox;
 import org.compiere.util.CLogger;
@@ -193,7 +192,7 @@ public class LoadOrder {
 		// role security
 		
 		log.fine("LoadOrderSQL=" + sql.toString());
-		System.out.println(sql);
+		//	
 		try
 		{
 			int param = 1;
@@ -216,11 +215,11 @@ public class LoadOrder {
 			if(m_IsBulk)
 				pstmt.setInt(param++, m_M_Product_ID);
 			
-			log.info("AD_Org_ID=" + m_AD_Org_ID);
-			log.info("M_Warehouse_ID=" + m_M_Warehouse_ID);
-			log.info("SalesRep_ID=" + m_SalesRep_ID);
-			log.info("C_DocType_ID=" + m_C_DocType_ID);
-			log.info("IsBulk=" + m_IsBulk);
+			log.fine("AD_Org_ID=" + m_AD_Org_ID);
+			log.fine("M_Warehouse_ID=" + m_M_Warehouse_ID);
+			log.fine("SalesRep_ID=" + m_SalesRep_ID);
+			log.fine("C_DocType_ID=" + m_C_DocType_ID);
+			log.fine("IsBulk=" + m_IsBulk);
 			
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
@@ -323,25 +322,23 @@ public class LoadOrder {
 	 * @return Vector<Vector<Object>>
 	 */
 	protected Vector<Vector<Object>> getOrderLineData(IMiniTable orderLineTable, StringBuffer sqlPrep){
-		/**
-		 * Carga los datos de las ordenes de Venta 
-		 * 
-		 * 
-		 */
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		
-		// role security
-		//sqlPrep = new StringBuffer( MRole.getDefault(Env.getCtx(), false).addAccessSQL( sqlPrep.toString(), "ord", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO ) );
 		
 		log.fine("LoadOrderLineSQL=" + sqlPrep.toString());
 		try
 		{
 			
 			PreparedStatement pstmt = DB.prepareStatement(sqlPrep.toString(), null);
+			//	Parameter
+			int param = 1;
+			//	
+			if(m_IsBulk)
+				pstmt.setInt(param++, m_M_Product_ID);
+			//	
 			ResultSet rs = pstmt.executeQuery();
 			//int seqNo = 0;
 			int column = 1;
-			BigDecimal rate = Env.ZERO;
+			//BigDecimal rate = Env.ZERO;
 			BigDecimal qty = Env.ZERO;
 			while (rs.next())
 			{
@@ -538,6 +535,9 @@ public class LoadOrder {
 				"																										OR lord.M_AttributeSetInstance_ID = 0)" +
 				"																									) " +
 				"WHERE pro.IsStocked = 'Y' AND ").append(sqlWhere).append(" ");
+		//	Add Where
+		if(m_IsBulk)
+			sql.append("AND lord.M_Product_ID = ?").append(" ");
 		//	Group By
 		sql.append("GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
 				"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
@@ -547,8 +547,7 @@ public class LoadOrder {
 		//	Order By
 		sql.append("ORDER BY lord.C_Order_ID ASC");
 		
-		log.config("SQL Line Order=" + sql.toString());
-		System.out.println(sql);
+		log.fine("SQL Line Order=" + sql.toString());
 		return sql;
 	}
 	
@@ -860,8 +859,10 @@ public class LoadOrder {
 			PreparedStatement pstmt = DB.prepareStatement(sql, trxName);
 			ResultSet rs = pstmt.executeQuery();
 			//
+			KeyNamePair pp = new KeyNamePair(0, "");
+			data.add(pp);
 			while (rs.next()) {
-				KeyNamePair pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
+				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
 				data.add(pp);
 			}
 			rs.close();
