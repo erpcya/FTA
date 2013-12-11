@@ -33,7 +33,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131123L;
+	private static final long serialVersionUID = 20131210L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeight (Properties ctx, int FTA_RecordWeight_ID, String trxName)
@@ -58,6 +58,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 // N
 			setIsSOTrx (false);
 			setNetWeight (Env.ZERO);
+			setOperationType (null);
 			setProcessed (false);
 			setTareWeight (Env.ZERO);
         } */
@@ -602,6 +603,39 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** OperationType AD_Reference_ID=53597 */
+	public static final int OPERATIONTYPE_AD_Reference_ID=53597;
+	/** Raw Material Receipt = RMR */
+	public static final String OPERATIONTYPE_RawMaterialReceipt = "RMR";
+	/** Product Bulk Receipt = PBR */
+	public static final String OPERATIONTYPE_ProductBulkReceipt = "PBR";
+	/** Receipt More than one Product = RMP */
+	public static final String OPERATIONTYPE_ReceiptMoreThanOneProduct = "RMP";
+	/** Material Input Movement = MIM */
+	public static final String OPERATIONTYPE_MaterialInputMovement = "MIM";
+	/** Delivery Bulk Material = DBM */
+	public static final String OPERATIONTYPE_DeliveryBulkMaterial = "DBM";
+	/** Delivery Finished Product = DFP */
+	public static final String OPERATIONTYPE_DeliveryFinishedProduct = "DFP";
+	/** Material Output Movement = MOM */
+	public static final String OPERATIONTYPE_MaterialOutputMovement = "MOM";
+	/** Other Record Weight = ORW */
+	public static final String OPERATIONTYPE_OtherRecordWeight = "ORW";
+	/** Set Operation Type.
+		@param OperationType Operation Type	  */
+	public void setOperationType (String OperationType)
+	{
+
+		set_Value (COLUMNNAME_OperationType, OperationType);
+	}
+
+	/** Get Operation Type.
+		@return Operation Type	  */
+	public String getOperationType () 
+	{
+		return (String)get_Value(COLUMNNAME_OperationType);
 	}
 
 	/** Set Out Date.

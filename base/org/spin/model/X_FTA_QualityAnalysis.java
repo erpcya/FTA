@@ -31,7 +31,7 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131123L;
+	private static final long serialVersionUID = 20131210L;
 
     /** Standard Constructor */
     public X_FTA_QualityAnalysis (Properties ctx, int FTA_QualityAnalysis_ID, String trxName)
@@ -48,6 +48,7 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 			setFTA_QualityAnalysis_ID (0);
 			setIsApproved (false);
 // 'N'
+			setOperationType (null);
 			setProductStatus (null);
 // A
         } */
@@ -416,6 +417,39 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** OperationType AD_Reference_ID=53597 */
+	public static final int OPERATIONTYPE_AD_Reference_ID=53597;
+	/** Raw Material Receipt = RMR */
+	public static final String OPERATIONTYPE_RawMaterialReceipt = "RMR";
+	/** Product Bulk Receipt = PBR */
+	public static final String OPERATIONTYPE_ProductBulkReceipt = "PBR";
+	/** Receipt More than one Product = RMP */
+	public static final String OPERATIONTYPE_ReceiptMoreThanOneProduct = "RMP";
+	/** Material Input Movement = MIM */
+	public static final String OPERATIONTYPE_MaterialInputMovement = "MIM";
+	/** Delivery Bulk Material = DBM */
+	public static final String OPERATIONTYPE_DeliveryBulkMaterial = "DBM";
+	/** Delivery Finished Product = DFP */
+	public static final String OPERATIONTYPE_DeliveryFinishedProduct = "DFP";
+	/** Material Output Movement = MOM */
+	public static final String OPERATIONTYPE_MaterialOutputMovement = "MOM";
+	/** Other Record Weight = ORW */
+	public static final String OPERATIONTYPE_OtherRecordWeight = "ORW";
+	/** Set Operation Type.
+		@param OperationType Operation Type	  */
+	public void setOperationType (String OperationType)
+	{
+
+		set_Value (COLUMNNAME_OperationType, OperationType);
+	}
+
+	/** Get Operation Type.
+		@return Operation Type	  */
+	public String getOperationType () 
+	{
+		return (String)get_Value(COLUMNNAME_OperationType);
 	}
 
 	public org.spin.model.I_FTA_QualityAnalysis getOrig_QualityAnalysis() throws RuntimeException
