@@ -207,9 +207,6 @@ public class MFTAFact extends X_FTA_Fact {
 								m_RemainingAmt = Env.ZERO;
 							}
 						} else {
-							//	Valid Credit Limit
-							if(!m_RemainingAmt.equals(Env.ZERO))
-								break;
 							//	
 							m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_RemainingAmt));
 							if(m_Balance.compareTo(Env.ZERO) < 0){
@@ -219,6 +216,9 @@ public class MFTAFact extends X_FTA_Fact {
 								m_Amt = m_RemainingAmt;
 								m_RemainingAmt = Env.ZERO;
 							}
+							//	Valid Credit Limit
+							if(!m_RemainingAmt.equals(Env.ZERO))
+								break;
 						}
 					}
 					//	

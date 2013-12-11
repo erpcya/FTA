@@ -168,6 +168,8 @@ public class LoadOrder {
 		if (m_AD_Org_ID != 0)
 			sql.append("AND ord.AD_Org_ID=? ");
 		if (m_M_Warehouse_ID != 0 )
+			sql.append("AND lord.M_Warehouse_ID=? ");
+		if (m_C_SalesRegion_ID != 0 )
 			sql.append("AND bploc.C_SalesRegion_ID=? ");
 		if (m_SalesRep_ID != 0 )
 			sql.append("AND ord.SalesRep_ID=? ");
@@ -205,12 +207,20 @@ public class LoadOrder {
 				pstmt.setInt(param++, m_AD_Org_ID);
 			if (m_M_Warehouse_ID != 0 )
 				pstmt.setInt(param++, m_M_Warehouse_ID);
+			if (m_C_SalesRegion_ID != 0 )
+				pstmt.setInt(param++, m_C_SalesRegion_ID);
 			if (m_SalesRep_ID != 0 )
 				pstmt.setInt(param++, m_SalesRep_ID);
 			if (m_C_DocType_ID != 0 )
 				pstmt.setInt(param++, m_C_DocType_ID);
 			if(m_IsBulk)
 				pstmt.setInt(param++, m_M_Product_ID);
+			
+			log.info("AD_Org_ID=" + m_AD_Org_ID);
+			log.info("M_Warehouse_ID=" + m_M_Warehouse_ID);
+			log.info("SalesRep_ID=" + m_SalesRep_ID);
+			log.info("C_DocType_ID=" + m_C_DocType_ID);
+			log.info("IsBulk=" + m_IsBulk);
 			
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
