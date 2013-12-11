@@ -292,6 +292,15 @@ public interface I_FTA_EntryTicket
 
 	public I_M_Shipper getM_Shipper() throws RuntimeException;
 
+    /** Column name OperationType */
+    public static final String COLUMNNAME_OperationType = "OperationType";
+
+	/** Set Operation Type	  */
+	public void setOperationType (String OperationType);
+
+	/** Get Operation Type	  */
+	public String getOperationType();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 

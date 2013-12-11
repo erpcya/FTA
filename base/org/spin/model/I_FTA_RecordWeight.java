@@ -356,6 +356,15 @@ public interface I_FTA_RecordWeight
 	/** Get Net Weight	  */
 	public BigDecimal getNetWeight();
 
+    /** Column name OperationType */
+    public static final String COLUMNNAME_OperationType = "OperationType";
+
+	/** Set Operation Type	  */
+	public void setOperationType (String OperationType);
+
+	/** Get Operation Type	  */
+	public String getOperationType();
+
     /** Column name OutDate */
     public static final String COLUMNNAME_OutDate = "OutDate";
 
