@@ -31,7 +31,7 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131210L;
+	private static final long serialVersionUID = 20131212L;
 
     /** Standard Constructor */
     public X_FTA_QualityAnalysis (Properties ctx, int FTA_QualityAnalysis_ID, String trxName)
@@ -319,6 +319,31 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_FTA_RecordWeight getFTA_RecordWeight() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_RecordWeight)MTable.get(getCtx(), org.spin.model.I_FTA_RecordWeight.Table_Name)
+			.getPO(getFTA_RecordWeight_ID(), get_TrxName());	}
+
+	/** Set Record Weight.
+		@param FTA_RecordWeight_ID Record Weight	  */
+	public void setFTA_RecordWeight_ID (int FTA_RecordWeight_ID)
+	{
+		if (FTA_RecordWeight_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_RecordWeight_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FTA_RecordWeight_ID, Integer.valueOf(FTA_RecordWeight_ID));
+	}
+
+	/** Get Record Weight.
+		@return Record Weight	  */
+	public int getFTA_RecordWeight_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_RecordWeight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Imported.
 		@param I_IsImported 
 		Has this import been processed
@@ -442,7 +467,7 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	public void setOperationType (String OperationType)
 	{
 
-		set_Value (COLUMNNAME_OperationType, OperationType);
+		set_ValueNoCheck (COLUMNNAME_OperationType, OperationType);
 	}
 
 	/** Get Operation Type.

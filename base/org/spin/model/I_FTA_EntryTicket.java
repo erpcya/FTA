@@ -93,6 +93,21 @@ public interface I_FTA_EntryTicket
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
 
+    /** Column name C_Order_ID */
+    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+
+	/** Set Order.
+	  * Order
+	  */
+	public void setC_Order_ID (int C_Order_ID);
+
+	/** Get Order.
+	  * Order
+	  */
+	public int getC_Order_ID();
+
+	public I_C_Order getC_Order() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -202,6 +217,17 @@ public interface I_FTA_EntryTicket
 
 	/** Get Entry Ticket	  */
 	public int getFTA_EntryTicket_ID();
+
+    /** Column name FTA_LoadOrder_ID */
+    public static final String COLUMNNAME_FTA_LoadOrder_ID = "FTA_LoadOrder_ID";
+
+	/** Set Load Order	  */
+	public void setFTA_LoadOrder_ID (int FTA_LoadOrder_ID);
+
+	/** Get Load Order	  */
+	public int getFTA_LoadOrder_ID();
+
+	public org.spin.model.I_FTA_LoadOrder getFTA_LoadOrder() throws RuntimeException;
 
     /** Column name FTA_MobilizationGuide_ID */
     public static final String COLUMNNAME_FTA_MobilizationGuide_ID = "FTA_MobilizationGuide_ID";

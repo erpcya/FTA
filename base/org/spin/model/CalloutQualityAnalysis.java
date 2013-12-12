@@ -34,6 +34,9 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 	/**
 	 * Set Product from Entry Ticket
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/09/2013, 11:43:33
+	 * @contributor <a href="mailto:dixon.22ma@gmail.com">Dixon Martinez</a> 12/12/2013, 16:00:01
+	 * 	<li> Add Validation Operation Type </li>
+	 * 	<li> Set Record Weight </li>
 	 * @param ctx
 	 * @param WindowNo
 	 * @param mTab
@@ -45,6 +48,23 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 	public String entryTicket (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		Integer m_FTA_EntryTicket_ID = (Integer)value;
 		if (m_FTA_EntryTicket_ID == null || m_FTA_EntryTicket_ID.intValue() == 0)
+			return "";
+		
+		if	(mField.get_ValueAsString("OperationType")
+				.equals(X_FTA_QualityAnalysis.OPERATIONTYPE_DeliveryBulkMaterial)
+				|| mField.get_ValueAsString("OperationType")
+					.equals(X_FTA_QualityAnalysis.OPERATIONTYPE_ReceiptMoreThanOneProduct)){
+			String sql = new String(" SELECT MAX(FTA_RecordWeight_ID)" +
+									" FROM FTA_RecordWeight " +
+									" WHERE FTA_EntryTicket_ID = ?"
+					);
+			
+			mTab.setValue("FTA_RecordWeight_ID", DB.getSQLValue(null, sql, m_FTA_EntryTicket_ID));
+			return "";
+		}
+			
+		if (!mField.get_ValueAsString("OperationType")
+				.equals(X_FTA_QualityAnalysis.OPERATIONTYPE_RawMaterialReceipt))
 			return "";
 		
 		//	get Mobilization Guide
@@ -71,6 +91,7 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 			int m_Orig_QualityAnalysis_ID = DB.getSQLValue(null, sql, m_FTA_EntryTicket_ID);
 			
 			mTab.setValue("Orig_QualityAnalysis_ID", m_Orig_QualityAnalysis_ID);	
+		
 		}
 		return "";
 	}
@@ -98,6 +119,36 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 		String m_AnalysisType = m_DocType.getDocBaseType().substring(1);
 		
 		mTab.setValue("AnalysisType", m_AnalysisType);
+		return "";
+	}
+
+	/**
+	 * Set Product of Load Order and Operation Type is Delivery Bulk Material.
+	 * @author <a href="mailto:dixon.22ma@gmail.com">Dixon Martinez</a> 12/12/2013, 16:00:01
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String product (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		Integer p_FTA_RecordWeight = (Integer) value;
+		if	(p_FTA_RecordWeight == null || p_FTA_RecordWeight.intValue() == 0)
+			return "";
+
+		//	Create Record Weight Object
+		MFTARecordWeight m_FTA_RecordWeight = new MFTARecordWeight(Env.getCtx(), p_FTA_RecordWeight, null);
+		
+		//	Create Load Order Object
+		MFTALoadOrder m_FTA_LoadOrder = new MFTALoadOrder(Env.getCtx(), m_FTA_RecordWeight.getFTA_LoadOrder_ID(), null);
+		
+		//	Set Product of Load Order
+		if	(mField.get_ValueAsString("OperationType")
+				.equals(X_FTA_QualityAnalysis.OPERATIONTYPE_DeliveryBulkMaterial))
+			mTab.setValue("M_Product_ID", m_FTA_LoadOrder.getM_Product_ID());
+		
 		return "";
 	}
 }

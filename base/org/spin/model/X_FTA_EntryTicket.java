@@ -31,7 +31,7 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131210L;
+	private static final long serialVersionUID = 20131212L;
 
     /** Standard Constructor */
     public X_FTA_EntryTicket (Properties ctx, int FTA_EntryTicket_ID, String trxName)
@@ -39,7 +39,6 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
       super (ctx, FTA_EntryTicket_ID, trxName);
       /** if (FTA_EntryTicket_ID == 0)
         {
-			setC_BPartner_ID (0);
 			setC_DocType_ID (0);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
@@ -130,6 +129,34 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_Order getC_Order() throws RuntimeException
+    {
+		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+			.getPO(getC_Order_ID(), get_TrxName());	}
+
+	/** Set Order.
+		@param C_Order_ID 
+		Order
+	  */
+	public void setC_Order_ID (int C_Order_ID)
+	{
+		if (C_Order_ID < 1) 
+			set_Value (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+	}
+
+	/** Get Order.
+		@return Order
+	  */
+	public int getC_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -337,6 +364,31 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_FTA_LoadOrder getFTA_LoadOrder() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_LoadOrder)MTable.get(getCtx(), org.spin.model.I_FTA_LoadOrder.Table_Name)
+			.getPO(getFTA_LoadOrder_ID(), get_TrxName());	}
+
+	/** Set Load Order.
+		@param FTA_LoadOrder_ID Load Order	  */
+	public void setFTA_LoadOrder_ID (int FTA_LoadOrder_ID)
+	{
+		if (FTA_LoadOrder_ID < 1) 
+			set_Value (COLUMNNAME_FTA_LoadOrder_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_LoadOrder_ID, Integer.valueOf(FTA_LoadOrder_ID));
+	}
+
+	/** Get Load Order.
+		@return Load Order	  */
+	public int getFTA_LoadOrder_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_LoadOrder_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_FTA_MobilizationGuide getFTA_MobilizationGuide() throws RuntimeException
     {
 		return (org.spin.model.I_FTA_MobilizationGuide)MTable.get(getCtx(), org.spin.model.I_FTA_MobilizationGuide.Table_Name)
@@ -510,7 +562,7 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	public void setOperationType (String OperationType)
 	{
 
-		set_Value (COLUMNNAME_OperationType, OperationType);
+		set_ValueNoCheck (COLUMNNAME_OperationType, OperationType);
 	}
 
 	/** Get Operation Type.
