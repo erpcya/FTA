@@ -221,10 +221,10 @@ public interface I_FTA_LoadOrder
     /** Column name FTA_LoadOrder_ID */
     public static final String COLUMNNAME_FTA_LoadOrder_ID = "FTA_LoadOrder_ID";
 
-	/** Set Load Order ID	  */
+	/** Set Load Order	  */
 	public void setFTA_LoadOrder_ID (int FTA_LoadOrder_ID);
 
-	/** Get Load Order ID	  */
+	/** Get Load Order	  */
 	public int getFTA_LoadOrder_ID();
 
     /** Column name FTA_Vehicle_ID */

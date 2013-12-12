@@ -158,10 +158,10 @@ public interface I_FTA_LoadOrderLine
     /** Column name FTA_LoadOrder_ID */
     public static final String COLUMNNAME_FTA_LoadOrder_ID = "FTA_LoadOrder_ID";
 
-	/** Set Load Order ID	  */
+	/** Set Load Order	  */
 	public void setFTA_LoadOrder_ID (int FTA_LoadOrder_ID);
 
-	/** Get Load Order ID	  */
+	/** Get Load Order	  */
 	public int getFTA_LoadOrder_ID();
 
 	public org.spin.model.I_FTA_LoadOrder getFTA_LoadOrder() throws RuntimeException;
@@ -169,10 +169,10 @@ public interface I_FTA_LoadOrderLine
     /** Column name FTA_LoadOrderLine_ID */
     public static final String COLUMNNAME_FTA_LoadOrderLine_ID = "FTA_LoadOrderLine_ID";
 
-	/** Set Load Order Line ID	  */
+	/** Set Load Order Line	  */
 	public void setFTA_LoadOrderLine_ID (int FTA_LoadOrderLine_ID);
 
-	/** Get Load Order Line ID	  */
+	/** Get Load Order Line	  */
 	public int getFTA_LoadOrderLine_ID();
 
     /** Column name IsActive */

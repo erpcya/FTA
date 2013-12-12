@@ -32,7 +32,7 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131210L;
+	private static final long serialVersionUID = 20131212L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrderLine (Properties ctx, int FTA_LoadOrderLine_ID, String trxName)
@@ -213,8 +213,8 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 		return (org.spin.model.I_FTA_LoadOrder)MTable.get(getCtx(), org.spin.model.I_FTA_LoadOrder.Table_Name)
 			.getPO(getFTA_LoadOrder_ID(), get_TrxName());	}
 
-	/** Set Load Order ID.
-		@param FTA_LoadOrder_ID Load Order ID	  */
+	/** Set Load Order.
+		@param FTA_LoadOrder_ID Load Order	  */
 	public void setFTA_LoadOrder_ID (int FTA_LoadOrder_ID)
 	{
 		if (FTA_LoadOrder_ID < 1) 
@@ -223,8 +223,8 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 			set_ValueNoCheck (COLUMNNAME_FTA_LoadOrder_ID, Integer.valueOf(FTA_LoadOrder_ID));
 	}
 
-	/** Get Load Order ID.
-		@return Load Order ID	  */
+	/** Get Load Order.
+		@return Load Order	  */
 	public int getFTA_LoadOrder_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_LoadOrder_ID);
@@ -233,8 +233,8 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Load Order Line ID.
-		@param FTA_LoadOrderLine_ID Load Order Line ID	  */
+	/** Set Load Order Line.
+		@param FTA_LoadOrderLine_ID Load Order Line	  */
 	public void setFTA_LoadOrderLine_ID (int FTA_LoadOrderLine_ID)
 	{
 		if (FTA_LoadOrderLine_ID < 1) 
@@ -243,8 +243,8 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 			set_ValueNoCheck (COLUMNNAME_FTA_LoadOrderLine_ID, Integer.valueOf(FTA_LoadOrderLine_ID));
 	}
 
-	/** Get Load Order Line ID.
-		@return Load Order Line ID	  */
+	/** Get Load Order Line.
+		@return Load Order Line	  */
 	public int getFTA_LoadOrderLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_LoadOrderLine_ID);

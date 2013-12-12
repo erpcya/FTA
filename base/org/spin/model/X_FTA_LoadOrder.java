@@ -34,7 +34,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131210L;
+	private static final long serialVersionUID = 20131212L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrder (Properties ctx, int FTA_LoadOrder_ID, String trxName)
@@ -396,8 +396,8 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Load Order ID.
-		@param FTA_LoadOrder_ID Load Order ID	  */
+	/** Set Load Order.
+		@param FTA_LoadOrder_ID Load Order	  */
 	public void setFTA_LoadOrder_ID (int FTA_LoadOrder_ID)
 	{
 		if (FTA_LoadOrder_ID < 1) 
@@ -406,8 +406,8 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_FTA_LoadOrder_ID, Integer.valueOf(FTA_LoadOrder_ID));
 	}
 
-	/** Get Load Order ID.
-		@return Load Order ID	  */
+	/** Get Load Order.
+		@return Load Order	  */
 	public int getFTA_LoadOrder_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_LoadOrder_ID);

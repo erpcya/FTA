@@ -21,6 +21,7 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MOrder;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -80,5 +81,26 @@ public class CallOutEntryTicket extends CalloutEngine {
 		return "";
 	}
 	
+	/**
+	 * Set Business Partner of Order
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 12/12/2013, 11:33:52
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String order (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		Integer m_Order_ID = (Integer)value;
+		if (m_Order_ID == null || m_Order_ID.intValue() == 0)
+			return "";
+		
+		MOrder m_Order = new MOrder(Env.getCtx(), m_Order_ID, null);
+		mTab.setValue("C_BPartner_ID", m_Order.getC_BPartner_ID());
+		return "";
+		
+	}
 	
 }

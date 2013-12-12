@@ -188,6 +188,17 @@ public interface I_FTA_QualityAnalysis
 	/** Get Quality Analysis	  */
 	public int getFTA_QualityAnalysis_ID();
 
+    /** Column name FTA_RecordWeight_ID */
+    public static final String COLUMNNAME_FTA_RecordWeight_ID = "FTA_RecordWeight_ID";
+
+	/** Set Record Weight	  */
+	public void setFTA_RecordWeight_ID (int FTA_RecordWeight_ID);
+
+	/** Get Record Weight	  */
+	public int getFTA_RecordWeight_ID();
+
+	public org.spin.model.I_FTA_RecordWeight getFTA_RecordWeight() throws RuntimeException;
+
     /** Column name I_IsImported */
     public static final String COLUMNNAME_I_IsImported = "I_IsImported";
 

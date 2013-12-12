@@ -33,7 +33,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131210L;
+	private static final long serialVersionUID = 20131212L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeight (Properties ctx, int FTA_RecordWeight_ID, String trxName)
@@ -51,7 +51,6 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 			setDocStatus (null);
 // DR
 			setFTA_EntryTicket_ID (0);
-			setFTA_QualityAnalysis_ID (0);
 			setFTA_RecordWeight_ID (0);
 			setGrossWeight (Env.ZERO);
 			setIsApproved (false);
@@ -354,6 +353,31 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_FTA_LoadOrder getFTA_LoadOrder() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_LoadOrder)MTable.get(getCtx(), org.spin.model.I_FTA_LoadOrder.Table_Name)
+			.getPO(getFTA_LoadOrder_ID(), get_TrxName());	}
+
+	/** Set Load Order.
+		@param FTA_LoadOrder_ID Load Order	  */
+	public void setFTA_LoadOrder_ID (int FTA_LoadOrder_ID)
+	{
+		if (FTA_LoadOrder_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_LoadOrder_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FTA_LoadOrder_ID, Integer.valueOf(FTA_LoadOrder_ID));
+	}
+
+	/** Get Load Order.
+		@return Load Order	  */
+	public int getFTA_LoadOrder_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_LoadOrder_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_FTA_QualityAnalysis getFTA_QualityAnalysis() throws RuntimeException
     {
 		return (org.spin.model.I_FTA_QualityAnalysis)MTable.get(getCtx(), org.spin.model.I_FTA_QualityAnalysis.Table_Name)
@@ -364,9 +388,9 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	public void setFTA_QualityAnalysis_ID (int FTA_QualityAnalysis_ID)
 	{
 		if (FTA_QualityAnalysis_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_QualityAnalysis_ID, null);
+			set_Value (COLUMNNAME_FTA_QualityAnalysis_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_QualityAnalysis_ID, Integer.valueOf(FTA_QualityAnalysis_ID));
+			set_Value (COLUMNNAME_FTA_QualityAnalysis_ID, Integer.valueOf(FTA_QualityAnalysis_ID));
 	}
 
 	/** Get Quality Analysis.
@@ -628,7 +652,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	public void setOperationType (String OperationType)
 	{
 
-		set_Value (COLUMNNAME_OperationType, OperationType);
+		set_ValueNoCheck (COLUMNNAME_OperationType, OperationType);
 	}
 
 	/** Get Operation Type.
