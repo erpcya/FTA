@@ -432,7 +432,7 @@ public class LoadOrder {
 		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
-		columnNames.add(Msg.translate(Env.getCtx(), "SGQtySet"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyAvailable"));
 		return columnNames;
 	}
@@ -475,12 +475,10 @@ public class LoadOrder {
 		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  9-QtyInvoiced
 		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  10-QtyDelivered
 		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//	11-QtyLoc
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  12-Quantity
+		orderLineTable.setColumnClass(i++, BigDecimal.class, false);	//  12-Quantity
 		orderLineTable.setColumnClass(i++, String.class, true);			//  13-Unit Measure Product
-		orderLineTable.setColumnClass(i++, BigDecimal.class, false);	//  14-Weight
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  14-Weight
 		orderLineTable.setColumnClass(i++, Integer.class, false);		//  15-Sequence No
-		//	
-
 		//  Table UI
 		orderLineTable.autoSize();
 	}
@@ -975,10 +973,7 @@ public class LoadOrder {
 		KeyNamePair product = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
 		KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
 		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
-		BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_WEIGHT);
-		
-		/*System.out.println("LoadOrder.loadProductsStock() product " + product.getName() + " qtySet " + 
-				qtySet);*/
+		BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
 		
 		int pos = existProductStock(product.getKey());
 		
@@ -1050,39 +1045,6 @@ public class LoadOrder {
 				}
 			}	
 		}
-	}
-	
-	/** 
-	 * Verifica si el periodo esta abierto
-	 * @return
-	 */
-	private boolean viewResultPeriod(){
-		String sql = new String("SELECT p.* " +
-				"FROM C_Period p " +
-				"INNER JOIN C_PeriodControl pc ON(pc.C_Period_ID = p.C_Period_ID) " +
-				"WHERE pc.DocBaseType = 'SOO' " +
-				"AND pc.PeriodStatus = 'O' " +
-				"AND pc.AD_Client_ID = ? " +
-				"AND p.StartDate <= ? AND p.EndDate >= ?");
-		
-		log.fine("viewResultPeriod SQL = " + sql);
-		try {
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
-			pstmt.setTimestamp(2, Env.getContextAsDate(Env.getCtx(), "#Date"));
-			pstmt.setTimestamp(3, Env.getContextAsDate(Env.getCtx(), "#Date"));
-			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()){
-				return true;
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, null, e);
-		} 
-		return false;
 	}
 	
 	/**
