@@ -30,7 +30,6 @@ import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -51,8 +50,8 @@ import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MProduct;
 import org.compiere.model.MUOM;
-import org.compiere.model.MUOMConversion;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
@@ -167,7 +166,7 @@ public class VLoadOrder extends LoadOrder
 	private JLabel 			uomWorkLabel = new JLabel();
 	private VLookup 		uomWorkPick = null;
 	/**	Bulk				*/
-	private JCheckBox 		isBulkCheck = new JCheckBox();
+	//private JCheckBox 		isBulkCheck = new JCheckBox();
 	/**	Product				*/
 	private JLabel 			productLabel = new JLabel();
 	private VLookup 		productSearch = null;
@@ -252,8 +251,8 @@ public class VLoadOrder extends LoadOrder
 		labelDateDoc.setText(Msg.translate(Env.getCtx(), "DateDoc"));
 		labelShipDate.setText(Msg.translate(Env.getCtx(), "ShipDate"));
 		//	Bulk
-		isBulkCheck.setText(Msg.translate(Env.getCtx(), "IsBulk"));
-		isBulkCheck.setSelected(false);
+		//isBulkCheck.setText(Msg.translate(Env.getCtx(), "IsBulk"));
+		//isBulkCheck.setSelected(false);
 		//	Product
 		productLabel.setText(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		
@@ -390,12 +389,12 @@ public class VLoadOrder extends LoadOrder
 		parameterPanel.add(uomWorkPick, new GridBagConstraints(5, 5, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	Bulk
-		parameterPanel.add(isBulkCheck, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		//parameterPanel.add(isBulkCheck, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
+				//,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		//	Product
-		parameterPanel.add(productLabel, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0
+		parameterPanel.add(productLabel, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(productSearch, new GridBagConstraints(3, 7, 1, 1, 0.0, 0.0
+		parameterPanel.add(productSearch, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	Search
 		parameterPanel.add(bSearch, new GridBagConstraints(5, 7, 1, 1, 0.0, 0.0
@@ -553,7 +552,7 @@ public class VLoadOrder extends LoadOrder
 		vehicleSearch.setEditable(false);
 		
 		//  Translation
-		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "FTA_LoadOrder_ID"));
+		statusBar.setStatusLine(Msg.translate(Env.getCtx(), "FTA_LoadOrder_ID"));
 		statusBar.setStatusDB("");
 		
 		//	Driver
@@ -568,7 +567,7 @@ public class VLoadOrder extends LoadOrder
 		//	Warehouse
 		warehouseSearch.addActionListener(this);
 		//	Bulk
-		isBulkCheck.addActionListener(this);
+		//isBulkCheck.addActionListener(this);
 		
 		//	Search
 		bSearch.addActionListener(this);
@@ -631,9 +630,6 @@ public class VLoadOrder extends LoadOrder
 					saveData();
 				}
 			}
-		} else if(e.getSource().equals(isBulkCheck)){
-			m_IsBulk = isBulkCheck.isSelected();
-			setIsBulk();
 		} else if (e.getSource() == bSearch)
 			cmd_search();
 	}   //  actionPerformed
@@ -660,6 +656,7 @@ public class VLoadOrder extends LoadOrder
 			warehouseSearch.addActionListener(this);
 			m_C_UOM_ID = getC_UOM_Weight_ID(trxName);
 			uomWorkPick.setValue(m_C_UOM_ID);
+			clearData();
 		} else if(name.equals("OperationType")){
 			m_OperationType = ((String)(value != null? value: 0));
 			ArrayList<KeyNamePair> data = getDataDocumentType(trxName);
@@ -668,14 +665,14 @@ public class VLoadOrder extends LoadOrder
 			docTypeSearch.addActionListener(this);
 			//	Set Bulk
 			m_IsBulk = isBulk();
-			isBulkCheck.setSelected(m_IsBulk);
-			isBulkCheck.setEnabled(!m_IsBulk);
 			//	Set Product
 			setIsBulk();
+			clearData();
 		} else if(name.equals("FTA_VehicleType_ID")){ 
 			m_FTA_VehicleType_ID = ((Integer)(value != null? value: 0)).intValue();
 			m_Capacity = getLoadCapacity(m_FTA_VehicleType_ID, trxName);
 			capacityField.setValue(m_Capacity);
+			clearData();
 		} else if(name.equals("FTA_EntryTicket_ID")){
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
 			if(m_FTA_EntryTicket_ID != 0){
@@ -694,6 +691,119 @@ public class VLoadOrder extends LoadOrder
 		calculate();
 		
 	}   //  vetoableChange
+	
+	/**
+	 *  Table Model Listener.
+	 *  - Recalculate Totals
+	 *  @param e event
+	 */
+	public void tableChanged(TableModelEvent e)
+	{
+		boolean isUpdate = (e.getType() == TableModelEvent.UPDATE);
+		int row = e.getFirstRow();
+		int col = e.getColumn();
+		//  Not a table update
+		if (!isUpdate)
+		{
+			calculate();
+			return;
+		}
+		
+		boolean isOrder = (e.getSource().equals(orderTable.getModel()));
+		boolean isOrderLine = (e.getSource().equals(orderLineTable.getModel()));
+		if(isOrder){
+			if(m_C_UOM_ID != 0){
+				StringBuffer sql = getQueryLine(orderTable);
+				Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
+				Vector<String> columnNames = getOrderLineColumnNames();
+				
+				loadBuffer(orderLineTable);
+				//  Remove previous listeners
+				orderLineTable.getModel().removeTableModelListener(this);
+				
+				//  Set Model
+				DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
+				modelP.addTableModelListener(this);
+				orderLineTable.setModel(modelP);
+				setOrderLineColumnClass(orderLineTable);
+				setValueFromBuffer(orderLineTable);	
+			} else {
+				ADialog.info(m_WindowNo, panel, Msg.parseTranslation(Env.getCtx(), "@C_UOM_ID@ @NotFound@"));
+				//loadOrder();
+				calculate();
+			}
+			
+		}else if(isOrderLine){
+			//int row = e.getFirstRow();
+			//int col = e.getColumn();
+			if(col == OL_QTY){	//Qty
+				BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
+				BigDecimal weight = (BigDecimal) orderLineTable.getValueAt(row, OL_WEIGHT);
+				BigDecimal qtyOrdered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ORDERED);
+				BigDecimal qtyOrderLine = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_LOAD_ORDER_LINE);
+				BigDecimal qtyDelivered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_DELIVERED);
+				
+				//	Get Precision
+				KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_QTY_UOM);
+				KeyNamePair pr = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
+				int p_C_UOM_ID = uom.getKey();
+				int p_M_Product_ID = pr.getKey();
+				MProduct product = MProduct.get(Env.getCtx(), p_M_Product_ID);
+				int precision = MUOM.getPrecision(Env.getCtx(), p_C_UOM_ID);
+				BigDecimal unitWeight = product.getWeight();
+				//	
+				orderLineTable.setValueAt(qty.multiply(weight)
+						.setScale(precision, BigDecimal.ROUND_HALF_UP), row, OL_WEIGHT);
+				//	
+				if(qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue() 
+						>
+						qtyOrdered
+						.subtract(qtyDelivered)
+						.subtract(qtyOrderLine)
+						.setScale(precision, BigDecimal.ROUND_HALF_UP)
+						.doubleValue()){
+					
+					ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "QtyEx"));
+					qty = qtyOrdered
+							.subtract(qtyDelivered)
+							.subtract(qtyOrderLine)
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					orderLineTable.setValueAt(qty, row, OL_QTY);
+				} else if(qty.compareTo(Env.ZERO) <= 0){
+					ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "QtyLessZero"));
+					qty = qtyOrdered
+							.subtract(qtyDelivered)
+							.subtract(qtyOrderLine)
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					orderLineTable.setValueAt(qty, row, OL_QTY);
+				}
+				weight = qty.multiply(unitWeight).setScale(precision, BigDecimal.ROUND_HALF_UP);
+				orderLineTable.setValueAt(weight, row, OL_WEIGHT);
+
+			} else if(col == SELECT){
+				boolean select = (Boolean) orderLineTable.getValueAt(row, col);
+				if(select){
+					m_MaxSeqNo += 10;
+					orderLineTable.setValueAt(m_MaxSeqNo, row, OL_SEQNO);
+				}
+			} else if(col == OL_SEQNO){
+				int seqNo = (Integer) orderLineTable.getValueAt(row, OL_SEQNO);
+				if(!exists_seqNo(orderLineTable, row, seqNo)){
+					if(seqNo > m_MaxSeqNo){
+						m_MaxSeqNo = seqNo;
+					}
+				} else {
+					ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SeqNoEx"));
+					m_MaxSeqNo += 10;
+					orderLineTable.setValueAt(m_MaxSeqNo, row, OL_SEQNO);
+				}
+			}
+			//	Load Group by Product
+			loadStockWarehouse(orderLineTable);
+		}
+		
+		calculate();
+	}   //  tableChanged
 	
 	/**
 	 * Set Value on Is Bulk
@@ -735,37 +845,28 @@ public class VLoadOrder extends LoadOrder
 	 */
 	private void cmd_search(){
 		getPanelValues();
-		if(m_C_UOM_ID != 0){
-			//if(m_XX_Vehicle_UOM_ID != 0){
-				//if(m_C_DocType_ID != 0){
-					//rateCapacity = MUOMConversion.getRate(Env.getCtx(), m_XX_Vehicle_UOM_ID, m_C_UOM_ID);
-					//if(rateCapacity != null){
-						loadOrder();
-						//	Add Automatic Collapsed
-						parameterCollapsiblePanel.setCollapsed(true);
-					//} else {
-						/*ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotConversion") + " " 
-								+ Msg.translate(Env.getCtx(), "of") + " "
-								+ uomVehiclePick.getDisplay() + " " 
-								+ Msg.translate(Env.getCtx(), "to") + " " 
-								+ uomWorkPick.getDisplay()
-								);*/
-					//}
-				//} else {
-					//ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
-					//loadOrder();
-					//calculate();
-				//}
-			} else {
-				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotUOM"));
-				//loadOrder();
-				calculate();
-			}
-		//} else {
-			//ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotWorkUOM"));
-			//loadOrder();
-			//calculate();
-		//}
+		String msg = null;
+		//	Valid Organization
+		if(m_AD_Org_ID == 0)
+			msg = "@AD_Org_ID@ @NotFound@";
+		//	Valid UOM
+		else if(m_C_UOM_ID == 0)
+			msg = "@C_UOM_ID@ @NotFound@";
+		//	Valid Operation Type
+		else if(m_OperationType == null)
+			msg = "@OperationType@ @NotFound@";
+		//	Vehicle Type
+		else if(m_FTA_VehicleType_ID == 0)
+			msg = "@FTA_VehicleType_ID@ @NotFound@";
+		//	
+		if(msg != null){
+			ADialog.info(m_WindowNo, panel, Msg.parseTranslation(Env.getCtx(), msg));
+			calculate();
+			return;
+		}
+		loadOrder();
+		//	Add Automatic Collapsed
+		parameterCollapsiblePanel.setCollapsed(true);
 	}
 	
 	/**
@@ -788,7 +889,7 @@ public class VLoadOrder extends LoadOrder
 		m_M_Warehouse_ID = (pp != null? pp.getKey(): 0);
 		//	Operation Type
 		value = operationTypePick.getValue();
-		m_OperationType = ((String)(value != null? value: 0));
+		m_OperationType = (String)value;
 		//	Document Type
 		pp = (KeyNamePair) docTypeSearch.getSelectedItem();
 		m_C_DocType_ID = (pp != null? pp.getKey(): 0);
@@ -902,153 +1003,10 @@ public class VLoadOrder extends LoadOrder
 	}
 	
 	/**
-	 *  Table Model Listener.
-	 *  - Recalculate Totals
-	 *  @param e event
+	 * Load Order Data
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 12/12/2013, 11:39:19
+	 * @return void
 	 */
-	public void tableChanged(TableModelEvent e)
-	{
-		boolean isUpdate = (e.getType() == TableModelEvent.UPDATE);
-		int row = e.getFirstRow();
-		int col = e.getColumn();
-		//  Not a table update
-		if (!isUpdate)
-		{
-			calculate();
-			return;
-		}
-		
-		boolean isOrder = (e.getSource().equals(orderTable.getModel()));
-		boolean isOrderLine = (e.getSource().equals(orderLineTable.getModel()));
-		if(isOrder){
-			if(m_C_UOM_ID != 0){
-				//if(m_C_DocType_ID != 0){
-					if(m_IsBulk && moreOneSelect(orderTable)){
-						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
-						orderTable.setValueAt(false, row, SELECT);
-						//loadOrder();
-						//calculate();
-					} else {
-						StringBuffer sql = getQueryLine(orderTable);
-						Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
-						Vector<String> columnNames = getOrderLineColumnNames();
-						
-						loadBuffer(orderLineTable);
-						//  Remove previous listeners
-						orderLineTable.getModel().removeTableModelListener(this);
-						
-						//  Set Model
-						DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
-						modelP.addTableModelListener(this);
-						orderLineTable.setModel(modelP);
-						setOrderLineColumnClass(orderLineTable);
-						setValueFromBuffer(orderLineTable);
-					}
-				//} else {
-					//ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
-					//loadOrder();
-					//calculate();
-				//}
-			} else {
-				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotWorkUOM"));
-				//loadOrder();
-				calculate();
-			}
-			
-		}else if(isOrderLine){
-			//int row = e.getFirstRow();
-			//int col = e.getColumn();
-			if(col == OL_WEIGHT){	//Qty
-				BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
-				BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_WEIGHT);
-				BigDecimal qtyOrdered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ORDERED);
-				BigDecimal qtyOrderLine = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_LOAD_ORDER_LINE);
-				BigDecimal qtyDelivered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_DELIVERED);
-				
-				KeyNamePair pr = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
-				
-				int m_M_Product_ID = pr.getKey();
-				
-				//BigDecimal weight = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_SET);
-				
-				BigDecimal rateQty = MUOMConversion.getProductRateFrom(Env.getCtx(), m_M_Product_ID, m_C_UOM_ID);
-				BigDecimal rateQtySet = MUOMConversion.getProductRateTo(Env.getCtx(), m_M_Product_ID, m_C_UOM_ID);
-				
-				if(rateQty != null){
-					orderLineTable.setValueAt(qtySet.multiply(rateQty).setScale(2, BigDecimal.ROUND_HALF_UP), row, OL_QTY);
-					// Old
-					 // if(qtySet.multiply(rateQty).
-						//	compareTo(qtyOrdered.
-							//		subtract(qtyDelivered).
-								//	subtract(qtyOrderLine)) > 0)
-					 
-					
-					if(qtySet.multiply(rateQty)
-							.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() 
-							>
-							qtyOrdered
-							.subtract(qtyDelivered)
-							.subtract(qtyOrderLine)
-							.setScale(2, BigDecimal.ROUND_HALF_UP)
-							.doubleValue()){
-						
-						ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "QtyEx"));
-						qty = qtyOrdered
-								.subtract(qtyDelivered)
-								.subtract(qtyOrderLine)
-								.setScale(2, BigDecimal.ROUND_HALF_UP);
-						orderLineTable.setValueAt(qty, row, OL_QTY);
-						orderLineTable.setValueAt(qty
-								.multiply(rateQtySet), row, OL_WEIGHT);
-					} else if(qtySet.compareTo(Env.ZERO) <= 0){
-						ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "QtyLessZero"));
-						qty = qtyOrdered
-								.subtract(qtyDelivered)
-								.subtract(qtyOrderLine)
-								.setScale(2, BigDecimal.ROUND_HALF_UP);
-						qtySet = qty
-								.multiply(rateQty)
-								.setScale(2, BigDecimal.ROUND_HALF_UP);
-						orderLineTable.setValueAt(qtySet, row, OL_WEIGHT);
-						orderLineTable.setValueAt(qty, row, OL_QTY);
-					}
-				} 
-			} else if(col == SELECT){
-				//	Select One
-				if(m_IsBulk && moreOneSelect(orderLineTable)){
-					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOneLine"));
-					orderLineTable.setValueAt(false, row, SELECT);
-				} else {
-					boolean select = (Boolean) orderLineTable.getValueAt(row, col);
-					if(select){
-						m_MaxSeqNo += 10;
-						orderLineTable.setValueAt(m_MaxSeqNo, row, OL_SEQNO);
-					}
-					//System.out.println("VLoadOrder.tableChanged() " + select);
-					//	Agrupado de Productos
-					//loadProductsStock(orderLineTable, row, select);
-				}
-				
-				
-			} else if(col == OL_SEQNO){
-				int seqNo = (Integer) orderLineTable.getValueAt(row, OL_SEQNO);
-				if(!exists_seqNo(orderLineTable, row, seqNo)){
-					if(seqNo > m_MaxSeqNo){
-						m_MaxSeqNo = seqNo;
-					}
-				} else {
-					ADialog.warn(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SeqNoEx"));
-					m_MaxSeqNo += 10;
-					orderLineTable.setValueAt(m_MaxSeqNo, row, OL_SEQNO);
-				}
-			}
-			//	Load Group by Product
-			loadStockWarehouse(orderLineTable);
-		}
-		
-		calculate();
-	}   //  tableChanged
-	
 	public void loadOrder()
 	{		//System.out.println("VLoadOrder.loadOrder()");
 
@@ -1071,7 +1029,7 @@ public class VLoadOrder extends LoadOrder
 		value = uomWorkPick.getValue();
 		String display = uomWorkPick.getDisplay();
 		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
-		uomWorkValue = (display != null? " " + Msg.translate(Env.getCtx(), "In") + " " + display: "");
+		uomWorkValue = (display != null? " " + display: "");
 		log.config(name + "=" + value);
 		
 		/*name = docTypeOrderPick.getName();
@@ -1103,9 +1061,9 @@ public class VLoadOrder extends LoadOrder
 	}
 	
 	/**
-	 * 
-	 * Calcula la diferencia de pesos y el peso total
-	 *
+	 * Calculate difference
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 12/12/2013, 11:52:15
+	 * @return void
 	 */
 	public void calculate(){
 		int rows = orderLineTable.getRowCount();
@@ -1131,10 +1089,10 @@ public class VLoadOrder extends LoadOrder
 			differenceLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight") + uomWorkValue);
 			differenceField.setValue(difference.doubleValue());
 			orderLineInfo.setText(
-					"(" + Msg.translate(Env.getCtx(), "OrdersSelected")
+					"(" + Msg.parseTranslation(Env.getCtx(), "@C_Order_ID@ @Selected@"
 					+ " = " +  m_RowsSelected
 					+ ") "
-					+ Msg.translate(Env.getCtx(), "Total") 
+					+ "@Total@ ") 
 					+ uomWorkValue
 					+ " = " + totalWeight.doubleValue());
 		} else {
