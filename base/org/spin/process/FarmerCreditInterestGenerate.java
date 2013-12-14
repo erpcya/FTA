@@ -125,7 +125,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		//	Valid Farmer Credit
 		if(p_FTA_FarmerCredit_ID == 0)
 			throw new AdempiereUserError("@FTA_FarmerCredit_ID@ @NotFound@");
-		//	Valid Interes Type
+		//	Valid Interest Type
 		if(p_FTA_InterestType_ID == 0)
 			throw new AdempiereUserError("@FTA_InterestType_ID@ @NotFound@");		
 		//	Get Precision
@@ -179,17 +179,21 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		if(m_InterestType.getCalculationType() == null)
 			return "@CalculationType@ @NotFound@";
 		//	
-		BigDecimal openAmt = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(ft.Amt) Amt " +
-			"FROM FTA_Fact ft " +
-			"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinitionLine_ID = ft.FTA_CreditDefinitionLine_ID) " +
-			"INNER JOIN FTA_CDL_Category cdlc ON(cdlc.FTA_CDL_Category_ID = cdl.FTA_CDL_Category_ID) " +
-			"INNER JOIN FTA_CDL_CategoryInterest cdli ON(cdli.FTA_CDL_Category_ID = cdlc.FTA_CDL_Category_ID) " +
-			"INNER JOIN FTA_InterestType it ON(it.FTA_InterestType_ID = cdli.FTA_InterestType_ID) " +
-			"WHERE ft.AD_Table_ID <> " + MOrder.Table_ID + " " + 
-			"AND ft.C_BPartner_ID = " + m_FarmerCredit.getC_BPartner_ID() + " " +
-			"AND ft.FTA_FarmerCredit_ID = " + m_FarmerCredit.getFTA_FarmerCredit_ID() + " " +
-			"AND it.FTA_InterestType_ID = ?", m_InterestType.getFTA_InterestType_ID());
-			
+		String sql = new String("SELECT SUM(ft.Amt) Amt " +
+				"FROM FTA_Fact ft " +
+				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinitionLine_ID = ft.FTA_CreditDefinitionLine_ID) " +
+				"INNER JOIN FTA_CDL_Category cdlc ON(cdlc.FTA_CDL_Category_ID = cdl.FTA_CDL_Category_ID) " +
+				"INNER JOIN FTA_CDL_CategoryInterest cdli ON(cdli.FTA_CDL_Category_ID = cdlc.FTA_CDL_Category_ID) " +
+				"INNER JOIN FTA_InterestType it ON(it.FTA_InterestType_ID = cdli.FTA_InterestType_ID) " +
+				"WHERE ft.AD_Table_ID <> " + MOrder.Table_ID + " " + 
+				"AND ft.C_BPartner_ID = " + m_FarmerCredit.getC_BPartner_ID() + " " +
+				"AND ft.FTA_FarmerCredit_ID = " + m_FarmerCredit.getFTA_FarmerCredit_ID() + " " +
+				"AND it.FTA_InterestType_ID = ?");
+		//	Log
+		log.fine("SQL=" + sql);
+		
+		BigDecimal openAmt = DB.getSQLValueBD(get_TrxName(), sql, m_InterestType.getFTA_InterestType_ID());
+		//	
 		if(openAmt == null
 				|| openAmt.equals(Env.ZERO))
 			return "@OpenAmt@ = @0@";
@@ -198,9 +202,11 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		if(!m_InterestType.isRateFixed())
 			rate = rate.divide(new BigDecimal(daysC_Interes), MathContext.DECIMAL128);
 		//	Multiply for Days
-		if(m_InterestType.isDaysFixed())
+		if(m_InterestType.isDaysFixed()){
 			rate = rate.multiply(new BigDecimal(m_InterestType.getDaysDue()), MathContext.DECIMAL128);
-		
+			if(m_InterestType.getDaysDue() == 0)
+				log.warning(Msg.parseTranslation(getCtx(), "@DaysDue@=0"));
+		}
 		rate = rate.divide(Env.ONEHUNDRED);
 		
 		BigDecimal interestAmt = openAmt.multiply(rate)
@@ -243,7 +249,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		sql.append("AND ft.DateDoc <= ? " +
 				"GROUP BY ft.Record_ID, ft.AD_Table_ID, ft.DateDoc, ft.Amt " +
 				"ORDER BY ft.DateDoc");
-		
+		//	Log
 		log.fine("SQL=" + sql);
 		
 		SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
