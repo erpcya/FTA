@@ -21,6 +21,7 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MDocType;
 import org.compiere.model.MOrder;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -103,4 +104,22 @@ public class CallOutEntryTicket extends CalloutEngine {
 		
 	}
 	
+	public String isostrx (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		String p_OperationType = (String)value;
+		if (p_OperationType  == null || p_OperationType.equals("")){
+			Env.setContext(ctx, WindowNo, "IsSOTrx", "");
+			return "";
+		}
+		
+		if(p_OperationType.equals(X_FTA_EntryTicket.OPERATIONTYPE_RawMaterialReceipt)
+				|| p_OperationType.equals(X_FTA_EntryTicket.OPERATIONTYPE_ProductBulkReceipt)
+					|| p_OperationType.equals(X_FTA_EntryTicket.OPERATIONTYPE_ReceiptMoreThanOneProduct)
+					|| p_OperationType.equals(X_FTA_EntryTicket.OPERATIONTYPE_MaterialInputMovement)){
+			Env.setContext(ctx, WindowNo, "IsSOTrx", "N");
+		}else{
+			Env.setContext(ctx, WindowNo, "IsSOTrx", "Y");
+		}
+		
+		return "";
+	}
 }
