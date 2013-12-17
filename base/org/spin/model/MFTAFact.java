@@ -136,9 +136,9 @@ public class MFTAFact extends X_FTA_Fact {
 		int m_FTA_FarmerCredit_ID = document.get_ValueAsInt("FTA_FarmerCredit_ID");
 		int m_FTA_CreditDefinition_ID = 0;
 		int m_FTA_CreditDefinitionLine_ID = 0;
+		//	Distributed Amount
+		BigDecimal m_Distributed_Amt = Env.ZERO;
 		
-		//	Transaction
-		//Trx trx = Trx.get(trxName, false);
 		//	Delete Old Movements
 		deleteFact(table_ID, record_ID, false, trxName);
 		
@@ -192,8 +192,9 @@ public class MFTAFact extends X_FTA_Fact {
 					//	Current Balance
 					BigDecimal m_Balance = Env.ZERO;
 					
-					if(m_IsExceedCreditLimit == null
-							|| m_IsExceedCreditLimit.equals("N")){
+					if((m_IsExceedCreditLimit == null
+							|| m_IsExceedCreditLimit.equals("N")
+							) && m_Amt.signum() > 0){
 						//	Change Line
 						if(m_Current_Line_ID != m_Line_ID){
 							if(!m_RemainingAmt.equals(Env.ZERO))
@@ -250,6 +251,8 @@ public class MFTAFact extends X_FTA_Fact {
 					m_fta_Fact.setIsCreditFactManual(false);
 					//	Save
 					m_fta_Fact.saveEx();
+					//	Add Amount
+					m_Distributed_Amt = m_Distributed_Amt.add(m_Amt);
 					if(byPass)
 						byPass = false;
 				}
@@ -279,7 +282,8 @@ public class MFTAFact extends X_FTA_Fact {
 							"@Amt@=" + m_RemainingAmt.doubleValue() + " " +
 							"@SO_CreditLimit@=" + m_SO_CreditLimit.doubleValue() + " " +
 							"@FTA_CreditDefinitionLine_ID@: " + m_CDLine.getLine() + " - " + name;
-				} else if(byPass){
+				} else if(byPass
+						|| m_Distributed_Amt.abs().compareTo(p_Amt.abs()) < 0) {
 					//	Distribution Line
 					m_FTA_CreditDefinitionLine_ID = DB.getSQLValue(trxName, "SELECT MAX(cdl.FTA_CreditDefinitionLine_ID) "
 							+ "FROM FTA_CreditDefinition cd "
@@ -314,6 +318,10 @@ public class MFTAFact extends X_FTA_Fact {
 						m_fta_Fact.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit_ID);
 						m_fta_Fact.setRecord_ID(record_ID);
 						m_fta_Fact.setAD_Table_ID(table_ID);
+						//	Set Distributed Amount
+						if(!m_Distributed_Amt.equals(Env.ZERO))
+							p_Amt = p_Amt.subtract(m_Distributed_Amt.abs());
+						//	
 						m_fta_Fact.setAmt(p_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
 						m_fta_Fact.setIsCreditFactManual(false);
 						//	Save
