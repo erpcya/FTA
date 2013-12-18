@@ -55,7 +55,8 @@ public class LoadOrder {
 	public final int OL_QTY = 12;
 	public final int OL_QTY_UOM = 13;
 	public final int OL_WEIGHT = 14;
-	public final int OL_SEQNO = 15;
+	public final int OL_VOLUME = 15;
+	public final int OL_SEQNO = 16;
 	
 	//	
 	public final int SW_PRODUCT = 0;
@@ -104,8 +105,10 @@ public class LoadOrder {
 	protected int 		m_FTA_Driver_ID = 0;
 	/**	Vehicle				*/
 	protected int 		m_FTA_Vehicle_ID = 0;
-	/**	Capacity			*/
-	protected BigDecimal m_Capacity = Env.ZERO;
+	/**	Load Capacity		*/
+	protected BigDecimal m_LoadCapacity = Env.ZERO;
+	/**	Volume Capacity		*/
+	protected BigDecimal m_VolumeCapacity = Env.ZERO;
 	/**	Work Unit Measure	*/
 	protected int 		m_C_UOM_ID = 0;
 	/**	Rows Selected		*/
@@ -115,12 +118,12 @@ public class LoadOrder {
 	/**	UOM Symbol			*/
 	protected String 	m_UOM_Symbol = null;
 	/**	Product				*/
-	protected int		m_M_Product_ID = 0;	
-	/**	Conversions			*/
-	protected BigDecimal 	rateCapacity = null;
+	protected int		m_M_Product_ID = 0;
 	
 	/**	Total Weight		*/
 	protected BigDecimal	totalWeight = Env.ZERO;
+	/**	Total Volume		*/
+	protected BigDecimal	totalVolume = Env.ZERO;
 	
 	/**	Max Sequence		*/
 	protected int			m_MaxSeqNo = 0;
@@ -144,7 +147,7 @@ public class LoadOrder {
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		StringBuffer sql = new StringBuffer("SELECT " +
 				"wr.Name Warehouse, ord.C_Order_ID, ord.DocumentNo, " +	//	1..3
-				"ord.DateOrdered, ord.DatePromised, SUM(lord.QtyOrdered) Weight, sr.Name SalesRep, " +	//	4..7
+				"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..7
 				"cp.Name Partner, bploc.Name, " +	//	8..9
 				"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	10..14
 				"FROM C_Order ord " +
@@ -187,7 +190,7 @@ public class LoadOrder {
 		
 		//	Group By
 		sql.append("GROUP BY wr.Name, ord.C_Order_ID, ord.DocumentNo, ord.DateOrdered, " +
-				"ord.DatePromised, sr.Name, cp.Name, bploc.Name, " +
+				"ord.DatePromised, ord.Weight, ord.Volume, sr.Name, cp.Name, bploc.Name, " +
 				"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID ");
 	
 		//	Having
@@ -241,15 +244,16 @@ public class LoadOrder {
 				line.add(rs.getTimestamp(column++));      	//  3-DateOrdered
 				line.add(rs.getTimestamp(column++));      	//  4-DatePromised
 				line.add(rs.getBigDecimal(column++));		//	5-Weight
-				line.add(rs.getString(column++));			//	6-Sales Representative
-				line.add(rs.getString(column++));			//	7-Business Partner
-				line.add(rs.getString(column++));			//	8-Location
-				line.add(rs.getString(column++));			//	9-Region
-				line.add(rs.getString(column++));			//	10-City
-				line.add(rs.getString(column++));			//	11-Address 1
-				line.add(rs.getString(column++));			//	11-Address 2
-				line.add(rs.getString(column++));			//	12-Address 3
-				line.add(rs.getString(column++));			//	13-Address 4
+				line.add(rs.getBigDecimal(column++));		//	6-Volume
+				line.add(rs.getString(column++));			//	7-Sales Representative
+				line.add(rs.getString(column++));			//	8-Business Partner
+				line.add(rs.getString(column++));			//	9-Location
+				line.add(rs.getString(column++));			//	10-Region
+				line.add(rs.getString(column++));			//	11-City
+				line.add(rs.getString(column++));			//	12-Address 1
+				line.add(rs.getString(column++));			//	13-Address 2
+				line.add(rs.getString(column++));			//	14-Address 3
+				line.add(rs.getString(column++));			//	15-Address 4
 				//
 				data.add(line);
 			}
@@ -279,6 +283,7 @@ public class LoadOrder {
 		columnNames.add(Msg.translate(Env.getCtx(), "DateOrdered"));
 		columnNames.add(Msg.translate(Env.getCtx(), "DatePromised"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Weight"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Volume"));
 		columnNames.add(Msg.translate(Env.getCtx(), "SalesRep_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_Location_ID"));
@@ -306,15 +311,16 @@ public class LoadOrder {
 		orderTable.setColumnClass(i++, Timestamp.class, true);		//  3-DateOrdered
 		orderTable.setColumnClass(i++, Timestamp.class, true);		//  4-DatePromiset
 		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Weight
-		orderTable.setColumnClass(i++, String.class, true);			//  6-Sales Representative
-		orderTable.setColumnClass(i++, String.class, true);			//  7-Business Partner
-		orderTable.setColumnClass(i++, String.class, true);			//  8-Location
-		orderTable.setColumnClass(i++, String.class, true);			//  9-Region
-		orderTable.setColumnClass(i++, String.class, true);			//  10-City
-		orderTable.setColumnClass(i++, String.class, true);			//  11-Address 1
-		orderTable.setColumnClass(i++, String.class, true);			//  11-Address 2
-		orderTable.setColumnClass(i++, String.class, true);			//  12-Address 3
-		orderTable.setColumnClass(i++, String.class, true);			//  13-Address 4
+		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  6-Volume
+		orderTable.setColumnClass(i++, String.class, true);			//  7-Sales Representative
+		orderTable.setColumnClass(i++, String.class, true);			//  8-Business Partner
+		orderTable.setColumnClass(i++, String.class, true);			//  9-Location
+		orderTable.setColumnClass(i++, String.class, true);			//  10-Region
+		orderTable.setColumnClass(i++, String.class, true);			//  11-City
+		orderTable.setColumnClass(i++, String.class, true);			//  12-Address 1
+		orderTable.setColumnClass(i++, String.class, true);			//  13-Address 2
+		orderTable.setColumnClass(i++, String.class, true);			//  14-Address 3
+		orderTable.setColumnClass(i++, String.class, true);			//  15-Address 4
 		//	
 
 		//  Table UI
@@ -375,14 +381,9 @@ public class LoadOrder {
 				line.add(qty);							//  12-Quantity
 				line.add(uop);				      		//  13-Unit Product
 				line.add(rs.getBigDecimal(column++));	//	14-Weight
+				line.add(rs.getBigDecimal(column++));	//	15-Volume
 				//	Add Data
 				data.add(line);
-				/*rate = MUOMConversion.getProductRateTo(Env.getCtx(), pr.getKey(), m_C_UOM_ID);
-				if(rate != null){
-					line.add(qty.multiply(rate));		//  14-Weight
-					data.add(line);
-				} else
-					log.log(Level.WARNING, "Not Conversion for Product: " + pr.getName() + " to: " + MUOM.get(Env.getCtx(), m_C_UOM_ID).getName());*/
 			}
 			rs.close();
 			pstmt.close();
@@ -418,11 +419,12 @@ public class LoadOrder {
 		columnNames.add(Msg.translate(Env.getCtx(), "SGQtyLoc"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Weight") 
+		columnNames.add(Msg.translate(Env.getCtx(), "Weight")
 				+ (m_UOM_Symbol != null 
 					&& m_UOM_Symbol.trim().length() > 0
 					? " (" + m_UOM_Symbol + ")"
 							: ""));
+		columnNames.add(Msg.translate(Env.getCtx(), "Volume"));
 		columnNames.add(Msg.translate(Env.getCtx(), "SeqNo"));
 		
 		return columnNames;
@@ -486,7 +488,8 @@ public class LoadOrder {
 		orderLineTable.setColumnClass(i++, BigDecimal.class, false);	//  12-Quantity
 		orderLineTable.setColumnClass(i++, String.class, true);			//  13-Unit Measure Product
 		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  14-Weight
-		orderLineTable.setColumnClass(i++, Integer.class, false);		//  15-Sequence No
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  15-Volume
+		orderLineTable.setColumnClass(i++, Integer.class, false);		//  16-Sequence No
 		//  Table UI
 		orderLineTable.autoSize();
 	}
@@ -519,7 +522,8 @@ public class LoadOrder {
 				"pro.C_UOM_ID, uomp.UOMSymbol, SUM(s.QtyOnHand) QtyOnHand, " +
 				"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
 				"SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END) QtyLoc, " +
-				"((COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END))) Qty, pro.Weight " +
+				"((COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END))) Qty, " +
+				"pro.Weight, pro.Volume " +
 				"FROM C_Order ord " +
 				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
 				"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = lord.M_Warehouse_ID) " +
@@ -547,7 +551,7 @@ public class LoadOrder {
 		//	Group By
 		sql.append("GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
 				"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-				"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, lord.QtyInvoiced, pro.Weight").append(" ");
+				"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume").append(" ");
 		//	Having
 		sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') THEN lc.Qty ELSE 0 END)) > 0").append(" ");
 		//	Order By
@@ -565,7 +569,6 @@ public class LoadOrder {
 	 * @return String
 	 */
 	protected String generateLoadOrder(String trxName){
-		return null;
 		int m_gen = 0;
 		int rows = orderLineTable.getRowCount();
 		MFTALoadOrder loadOrder = new MFTALoadOrder(Env.getCtx(), 0, trxName);
@@ -573,29 +576,46 @@ public class LoadOrder {
 		//	Org Info
 		MOrgInfo orgInfo = null;
 		
-		String DocumentNo = "0";
+		String m_DocumentNo = "0";
 		
 		orgInfo = MOrgInfo.get(Env.getCtx(), m_AD_Org_ID, trxName);
 		
 		BigDecimal totalWeight = Env.ZERO;
 		loadOrder.setAD_Org_ID(m_AD_Org_ID);
-		loadOrder.setM_Shipper_ID(m_M_Shipper_ID);
-		loadOrder.setFTA_Driver_ID(m_FTA_Driver_ID);
-		loadOrder.setFTA_Vehicle_ID(m_FTA_Vehicle_ID);
+		loadOrder.setOperationType(m_OperationType);
+		loadOrder.setFTA_VehicleType_ID(m_FTA_VehicleType_ID);
 		loadOrder.setDateDoc(m_DateDoc);
 		loadOrder.setShipDate(m_ShipDate);
-		loadOrder.setC_DocTypeOrder_ID(m_C_DocTypeOrder_ID);
-		loadOrder.setXXIsInternalLoad(m_XXIsInternalLoad);
-		loadOrder.setXXIsBulk(m_XXIsBulk);
-		loadOrder.setXXIsWeightRegister(orgInfo.get_ValueAsBoolean("XXIsWeightRegister"));
-		loadOrder.setCapacity(capacity);
-		loadOrder.setXX_Vehicle_UOM_ID(m_XX_Vehicle_UOM_ID);
-		loadOrder.setXX_Work_UOM_ID(m_XX_Work_UOM_ID);
-		loadOrder.setM_Warehouse_ID(m_M_Warehouse_ID);
-		loadOrder.setM_Locator_ID(m_M_Locator_ID);
-		loadOrder.setM_LocatorTo_ID(m_M_LocatorTo_ID);
+		loadOrder.setC_DocType_ID(m_C_DocType_ID);
+		loadOrder.setLoadCapacity(m_LoadCapacity);
+		loadOrder.setC_UOM_ID(m_C_UOM_ID);
+		loadOrder.setIsWeightRegister(orgInfo.get_ValueAsBoolean("IsWeightRegister"));
+		//	Set Warehouse
+		if(m_M_Warehouse_ID != 0)
+			loadOrder.setM_Warehouse_ID(m_M_Warehouse_ID);
+		//	Invoice Rule
+		if(m_InvoiceRule != null)
+			loadOrder.setInvoiceRule(m_InvoiceRule);
+		//	Delivery Rule
+		if(m_DeliveryRule != null)
+			loadOrder.setDeliveryRule(m_DeliveryRule);
+		//	Set Shipper
+		if(m_M_Shipper_ID != 0)
+			loadOrder.setM_Shipper_ID(m_M_Shipper_ID);
+		//	Set Driver
+		if(m_FTA_Driver_ID != 0)
+			loadOrder.setFTA_Driver_ID(m_FTA_Driver_ID);
+		//	Set Vehicle
+		if(m_FTA_Vehicle_ID != 0)
+			loadOrder.setFTA_Vehicle_ID(m_FTA_Vehicle_ID);
+		//	Set Entry Ticket
+		if(m_FTA_EntryTicket_ID != 0)
+			loadOrder.setFTA_EntryTicket_ID(m_FTA_EntryTicket_ID);
 		
-		if(loadOrder.save()){
+		loadOrder.saveEx();
+		m_DocumentNo = loadOrder.getDocumentNo();
+		
+		/*if(loadOrder.save()){
 			DocumentNo = loadOrder.getDocumentNo();
 			for (int i = 0; i < rows; i++) {
 				if (((Boolean)orderLineTable.getValueAt(i, 0)).booleanValue()) {
@@ -636,8 +656,8 @@ public class LoadOrder {
 			}
 		} else {
 			throw new AdempiereException("@XX_LoadOrder_ID@"); 
-		}
-		return Msg.translate(Env.getCtx(), "SGLoadOrderGenerate") + " = [" + DocumentNo + "] || " +
+		}*/
+		return Msg.translate(Env.getCtx(), "SGLoadOrderGenerate") + " = [" + m_DocumentNo + "] || " +
 		Msg.translate(Env.getCtx(), "SGLoadOrderLineGenerate") + " = [" + m_gen + "]";
 	}
 	
