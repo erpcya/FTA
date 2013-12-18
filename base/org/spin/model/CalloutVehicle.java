@@ -21,6 +21,7 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.python.modules.newmodule;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -68,4 +69,31 @@ public class CalloutVehicle extends CalloutEngine {
 		
 		return "";
 	}
+
+	/**
+	 * Set value of Volume Capacity.
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 18/12/2013, 17:26:51
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String vehicleType (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		//	Set value Vehicle Type
+		Integer p_VehicleType_ID = (Integer)value;
+		//	p_VehicleType_ID Is Null Or equals 0
+		if (p_VehicleType_ID == null || p_VehicleType_ID.intValue() == 0)
+			return "";
+		
+		//	Instance class model MFTAVehicleType
+		MFTAVehicleType m_FTA_VehicleType_ID = new MFTAVehicleType(ctx, p_VehicleType_ID, null);
+		
+		mTab.setValue("VolumeCapacity", m_FTA_VehicleType_ID.get_Value("VolumeCapacity"));
+		
+		return "";
+	}
 }
+
