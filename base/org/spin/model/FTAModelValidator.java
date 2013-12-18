@@ -16,11 +16,16 @@
  *****************************************************************************/
 package org.spin.model;
 
+import groovyjarjarantlr.DocBookCodeGenerator;
+
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.compiere.model.I_C_DocType;
 import org.compiere.model.I_C_Invoice;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MClient;
+import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPaySelectionCheck;
@@ -29,6 +34,7 @@ import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
+import org.compiere.model.X_C_DocType;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
@@ -148,22 +154,27 @@ public class FTAModelValidator implements ModelValidator {
 				MOrder ord = (MOrder) po;
 				if(ord.isSOTrx()
 						&& ord.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
-					return MFTAFact.createFact(Env.getCtx(), ord, ord.getDateOrdered(), ord.getGrandTotal(), ord.get_TrxName());
+					return MFTAFact.createFact(Env.getCtx(), ord, ord.getDateOrdered(), ord.getGrandTotal(), Env.ONE, ord.get_TrxName());
 				}
 			} else if(po.get_TableName().equals(MInvoice.Table_Name)){
 				MInvoice inv = (MInvoice) po;
 				if(inv.isSOTrx()
 						&& inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){	
 					String msg = null;
+					MDocType docType = MDocType.get(Env.getCtx(), inv.getC_DocType_ID());
+					BigDecimal multiplier = Env.ONE;
+					if(docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_APCreditMemo)
+							|| docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo))
+						multiplier = multiplier.negate();
 					//	Is Manual
 					if(inv.get_ValueAsBoolean("IsCreditFactManual")){
 						MOrder ord = new MOrder(Env.getCtx(), inv.getC_Order_ID(), inv.get_TrxName());
-						if(!inv.getGrandTotal().equals(ord.getGrandTotal()))
-							msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), inv.get_TrxName());
-						else
+						if(!inv.getGrandTotal().equals(ord.getGrandTotal())){
+							msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), multiplier, inv.get_TrxName());
+						} else
 							msg = MFTAFact.copyFromFact(Env.getCtx(), ord, inv, ord.get_TrxName());
 					} else {
-						msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), inv.get_TrxName());
+						msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), multiplier, inv.get_TrxName());
 					}
 					//	Set Posted
 					if(msg != null){

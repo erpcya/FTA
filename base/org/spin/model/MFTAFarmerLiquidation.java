@@ -229,7 +229,7 @@ public class MFTAFarmerLiquidation extends X_FTA_FarmerLiquidation implements Do
 			return DocAction.STATUS_Invalid;
 		}
 		//	Create Fact
-		m_processMsg = MFTAFact.createFact(Env.getCtx(), this, getDateDoc(), getAmt(), get_TrxName());
+		m_processMsg = MFTAFact.createFact(Env.getCtx(), this, getDateDoc(), getAmt(), Env.ONE.negate(), get_TrxName());
 		if (m_processMsg != null)
 			return DocAction.STATUS_InProgress;
 		
