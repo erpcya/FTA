@@ -16,12 +16,9 @@
  *****************************************************************************/
 package org.spin.model;
 
-import groovyjarjarantlr.DocBookCodeGenerator;
-
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.compiere.model.I_C_DocType;
 import org.compiere.model.I_C_Invoice;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MClient;
