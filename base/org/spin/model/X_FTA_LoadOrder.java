@@ -34,7 +34,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131212L;
+	private static final long serialVersionUID = 20131218L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrder (Properties ctx, int FTA_LoadOrder_ID, String trxName)
@@ -44,6 +44,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
         {
 			setC_DocType_ID (0);
 			setC_UOM_ID (0);
+// @SQL=SELECT C_UOM_Weight_ID FROM AD_ClientInfo WHERE AD_Client_ID = @#AD_Client_ID@
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setDocAction (null);
@@ -54,8 +55,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 			setFTA_VehicleType_ID (0);
 			setIsApproved (false);
 // N
-			setLoadCapacity (0);
-			setM_Warehouse_ID (0);
+			setLoadCapacity (Env.ZERO);
 			setOperationType (null);
 			setProcessed (false);
 // N
@@ -147,9 +147,9 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
 		if (C_UOM_ID < 1) 
-			set_Value (COLUMNNAME_C_UOM_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -518,27 +518,6 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		return false;
 	}
 
-	/** Set Bulk.
-		@param IsBulk Bulk	  */
-	public void setIsBulk (boolean IsBulk)
-	{
-		set_ValueNoCheck (COLUMNNAME_IsBulk, Boolean.valueOf(IsBulk));
-	}
-
-	/** Get Bulk.
-		@return Bulk	  */
-	public boolean isBulk () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsBulk);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Delivered.
 		@param IsDelivered Delivered	  */
 	public void setIsDelivered (boolean IsDelivered)
@@ -628,19 +607,19 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 
 	/** Set Load Capacity.
 		@param LoadCapacity Load Capacity	  */
-	public void setLoadCapacity (int LoadCapacity)
+	public void setLoadCapacity (BigDecimal LoadCapacity)
 	{
-		set_Value (COLUMNNAME_LoadCapacity, Integer.valueOf(LoadCapacity));
+		set_Value (COLUMNNAME_LoadCapacity, LoadCapacity);
 	}
 
 	/** Get Load Capacity.
 		@return Load Capacity	  */
-	public int getLoadCapacity () 
+	public BigDecimal getLoadCapacity () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_LoadCapacity);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_LoadCapacity);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	public I_M_Product getM_Product() throws RuntimeException
@@ -782,6 +761,23 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Ship Date.
+		@param ShipDate 
+		Shipment Date/Time
+	  */
+	public void setShipDate (Timestamp ShipDate)
+	{
+		set_Value (COLUMNNAME_ShipDate, ShipDate);
+	}
+
+	/** Get Ship Date.
+		@return Shipment Date/Time
+	  */
+	public Timestamp getShipDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_ShipDate);
 	}
 
 	/** Set Volume.

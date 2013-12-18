@@ -288,15 +288,6 @@ public interface I_FTA_LoadOrder
 	  */
 	public boolean isApproved();
 
-    /** Column name IsBulk */
-    public static final String COLUMNNAME_IsBulk = "IsBulk";
-
-	/** Set Bulk	  */
-	public void setIsBulk (boolean IsBulk);
-
-	/** Get Bulk	  */
-	public boolean isBulk();
-
     /** Column name IsDelivered */
     public static final String COLUMNNAME_IsDelivered = "IsDelivered";
 
@@ -341,10 +332,10 @@ public interface I_FTA_LoadOrder
     public static final String COLUMNNAME_LoadCapacity = "LoadCapacity";
 
 	/** Set Load Capacity	  */
-	public void setLoadCapacity (int LoadCapacity);
+	public void setLoadCapacity (BigDecimal LoadCapacity);
 
 	/** Get Load Capacity	  */
-	public int getLoadCapacity();
+	public BigDecimal getLoadCapacity();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -412,6 +403,19 @@ public interface I_FTA_LoadOrder
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ShipDate */
+    public static final String COLUMNNAME_ShipDate = "ShipDate";
+
+	/** Set Ship Date.
+	  * Shipment Date/Time
+	  */
+	public void setShipDate (Timestamp ShipDate);
+
+	/** Get Ship Date.
+	  * Shipment Date/Time
+	  */
+	public Timestamp getShipDate();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

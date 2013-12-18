@@ -158,12 +158,12 @@ public class VLoadOrder extends LoadOrder
 	/**	Vehicle					*/
 	private JLabel 			vehicleLabel = new JLabel();
 	private CComboBox 		vehicleSearch = new CComboBox();
-	/**	Capacity				*/
-	private JLabel 			capacityLabel = new JLabel();
-	private VNumber 		capacityField = null;
-	/**	UOM						*/
-	private JLabel 			uomWorkLabel = new JLabel();
-	private VLookup 		uomWorkPick = null;
+	/**	Load Capacity			*/
+	private JLabel 			loadCapacityLabel = new JLabel();
+	private VNumber 		loadCapacityField = null;
+	/**	Volume Capacity			*/
+	private JLabel 			volumeCapacityLabel = new JLabel();
+	private VNumber 		volumeCapacityField = null;
 	/**	Bulk				*/
 	//private JCheckBox 		isBulkCheck = new JCheckBox();
 	/**	Product				*/
@@ -184,8 +184,10 @@ public class VLoadOrder extends LoadOrder
 	private JScrollPane 	orderScrollPane = new JScrollPane();
 	private JScrollPane 	orderLineScrollPane = new JScrollPane();
 	private GridBagLayout 	loadOrderLayout = new GridBagLayout();
-	private JLabel 			differenceLabel = new JLabel();
-	private VNumber 		differenceField = null;
+	private JLabel 			weightDiffLabel = new JLabel();
+	private VNumber 		weightDiffField = null;
+	private JLabel 			volumeDiffLabel = new JLabel();
+	private VNumber 		volumeDiffField = null;
 	private JButton 		gLoadOrderButton = new JButton();
 
 	private CPanel 			stockInfoPanel = new CPanel();
@@ -226,11 +228,10 @@ public class VLoadOrder extends LoadOrder
 		vehicleLabel.setText(Msg.translate(Env.getCtx(), "FTA_Vehicle_ID"));
 		salesRegionLabel.setText(Msg.translate(Env.getCtx(), "C_SalesRegion_ID"));
 		salesRepLabel.setText(Msg.translate(Env.getCtx(), "SalesRep_ID"));
-		capacityLabel.setText(Msg.translate(Env.getCtx(), "Capacity"));
+		loadCapacityLabel.setText(Msg.translate(Env.getCtx(), "LoadCapacity"));
+		volumeCapacityLabel.setText(Msg.translate(Env.getCtx(), "VolumeCapacity"));
 		vehicleTypeLabel.setText(Msg.translate(Env.getCtx(), "FTA_VehicleType_ID"));
 		entryTicketLabel.setText(Msg.translate(Env.getCtx(), "FTA_EntryTicket_ID"));
-		//	Unit Measure
-		uomWorkLabel.setText(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		
 		//	Operation Type
 		operationTypeLabel.setText(Msg.translate(Env.getCtx(), "OperationType"));
@@ -267,13 +268,21 @@ public class VLoadOrder extends LoadOrder
 		orderInfo.setHorizontalTextPosition(SwingConstants.RIGHT);
 		gLoadOrderButton.setText(Msg.getMsg(Env.getCtx(), "GenerateLoadOrder"));
 		gLoadOrderButton.addActionListener(this);
-		differenceLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight"));
-		differenceField = new VNumber("Difference", true, true, true, DisplayType.Number, "Difference");
-		differenceField.setValue(Env.ZERO);
-		capacityField = new VNumber("Capacity", true, true, true, DisplayType.Number, "Capacity");
-		capacityField.setValue(Env.ZERO);
-		//capacityField.addActionListener(this);
-		
+		//	Weight Difference
+		weightDiffLabel.setText(Msg.getMsg(Env.getCtx(), "WeightDiff"));
+		weightDiffField = new VNumber("WeightDiff", true, true, true, DisplayType.Number, "WeightDiff");
+		weightDiffField.setValue(Env.ZERO);
+		//	Volume Difference
+		volumeDiffLabel.setText(Msg.getMsg(Env.getCtx(), "VolumeDiff"));
+		volumeDiffField = new VNumber("WeightDiff", true, true, true, DisplayType.Number, "WeightDiff");
+		volumeDiffField.setValue(Env.ZERO);
+		//	Load Capacity
+		loadCapacityField = new VNumber("LoadCapacity", true, true, true, DisplayType.Number, "LoadCapacity");
+		loadCapacityField.setValue(Env.ZERO);
+		//	Load Capacity
+		volumeCapacityField = new VNumber("VolumeCapacity", true, true, true, DisplayType.Number, "VolumeCapacity");
+		volumeCapacityField.setValue(Env.ZERO);
+		//	
 		orderLineScrollPane.setPreferredSize(new Dimension(200, 200));
 		orderScrollPane.setPreferredSize(new Dimension(200, 200));
 		stockScrollPane.setPreferredSize(new Dimension(200, 200));
@@ -375,15 +384,15 @@ public class VLoadOrder extends LoadOrder
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(vehicleSearch, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		//	Capacity
-		parameterPanel.add(capacityLabel, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0
+		//	Load Capacity
+		parameterPanel.add(loadCapacityLabel, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(capacityField, new GridBagConstraints(3, 5, 1, 1, 0.0, 0.0
+		parameterPanel.add(loadCapacityField, new GridBagConstraints(3, 5, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		//	Unit Measure
-		parameterPanel.add(uomWorkLabel, new GridBagConstraints(4, 5, 1, 1, 0.0, 0.0
+		//	Volume Capacity
+		parameterPanel.add(volumeCapacityLabel, new GridBagConstraints(4, 5, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(uomWorkPick, new GridBagConstraints(5, 5, 1, 1, 0.0, 0.0
+		parameterPanel.add(volumeCapacityField, new GridBagConstraints(5, 5, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	Bulk
 		//parameterPanel.add(isBulkCheck, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
@@ -402,11 +411,18 @@ public class VLoadOrder extends LoadOrder
 		//	Botton Panel
 		loadOrderPanel.add(selectAllButton, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 5, 5, 5), 0, 0));
-		loadOrderPanel.add(differenceLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+		//	Weight Difference
+		loadOrderPanel.add(weightDiffLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
-		loadOrderPanel.add(differenceField, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+		loadOrderPanel.add(weightDiffField, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		loadOrderPanel.add(gLoadOrderButton, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+		//	Volume Difference
+		loadOrderPanel.add(volumeDiffLabel, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
+		loadOrderPanel.add(volumeDiffField, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Generate Load Order
+		loadOrderPanel.add(gLoadOrderButton, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		
 		orderPanel.add(orderLabel, BorderLayout.NORTH);
@@ -528,11 +544,11 @@ public class VLoadOrder extends LoadOrder
 		vehicleTypePick = new VLookup("FTA_VehicleType_ID", false, false, true, lookupVT);
 		vehicleTypePick.addVetoableChangeListener(this);
 		
-		//  Working Unit Measure
+		/*//  Working Unit Measure
 		AD_Column_ID = 2348;		//  AD_ClientInfo.C_UOM_Weight_ID
 		MLookup lookupUV = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
 		uomWorkPick = new VLookup("C_UOM_ID", true, true, true, lookupUV);
-		uomWorkPick.addVetoableChangeListener(this);	
+		uomWorkPick.addVetoableChangeListener(this);*/
 		
 		//	Product
 		AD_Column_ID = 70626;		//	FTA_LoadOrer.M_Product_ID
@@ -652,7 +668,6 @@ public class VLoadOrder extends LoadOrder
 			m_M_Warehouse_ID = loadComboBox(warehouseSearch, data);
 			warehouseSearch.addActionListener(this);
 			m_C_UOM_ID = getC_UOM_Weight_ID(trxName);
-			uomWorkPick.setValue(m_C_UOM_ID);
 			clearData();
 		} else if(name.equals("OperationType")){
 			m_OperationType = ((String)(value != null? value: 0));
@@ -667,8 +682,8 @@ public class VLoadOrder extends LoadOrder
 			clearData();
 		} else if(name.equals("FTA_VehicleType_ID")){ 
 			m_FTA_VehicleType_ID = ((Integer)(value != null? value: 0)).intValue();
-			m_Capacity = getLoadCapacity(m_FTA_VehicleType_ID, trxName);
-			capacityField.setValue(m_Capacity);
+			m_LoadCapacity = getLoadCapacity(m_FTA_VehicleType_ID, trxName);
+			loadCapacityField.setValue(m_LoadCapacity);
 			clearData();
 		} else if(name.equals("FTA_EntryTicket_ID")){
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
@@ -681,8 +696,8 @@ public class VLoadOrder extends LoadOrder
 				m_FTA_VehicleType_ID = getFTA_VehicleType_ID(m_FTA_EntryTicket_ID, trxName);
 				vehicleTypePick.setValue(m_FTA_VehicleType_ID);
 				vehicleTypePick.setReadWrite(false);
-				m_Capacity = getLoadCapacity(m_FTA_VehicleType_ID, trxName);
-				capacityField.setValue(m_Capacity);
+				m_LoadCapacity = getLoadCapacity(m_FTA_VehicleType_ID, trxName);
+				loadCapacityField.setValue(m_LoadCapacity);
 			}
 		}
 		calculate();
@@ -921,9 +936,7 @@ public class VLoadOrder extends LoadOrder
 		pp = (KeyNamePair) docTypeSearch.getSelectedItem();
 		m_C_DocType_ID = (pp != null? pp.getKey(): 0);
 		//	Capacity
-		m_Capacity = (BigDecimal) capacityField.getValue();
-		//	Work UOM
-		value = uomWorkPick.getValue();
+		m_LoadCapacity = (BigDecimal) loadCapacityField.getValue();
 		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
 		//	Product
 		value = productSearch.getValue();
@@ -955,67 +968,19 @@ public class VLoadOrder extends LoadOrder
 		//	Vehicle Type
 		else if(m_FTA_VehicleType_ID == 0)
 			msg = "@FTA_VehicleType_ID@ @NotFound@";
+		//	Load Capacity
+		else if(totalWeight.doubleValue() > 0){
+			BigDecimal difference = (BigDecimal) (weightDiffField.getValue() != null? weightDiffField.getValue(): Env.ZERO);
+			if(difference.compareTo(Env.ZERO) > 0)
+				msg = "@Weight@ > @LoadCapacity@";
+		}
 		//	
 		if(msg != null){
 			ADialog.info(m_WindowNo, panel, Msg.parseTranslation(Env.getCtx(), msg));
 			calculate();
 			return false;
 		}
-		/*if(m_AD_Org_ID != 0){
-			if(m_M_Shipper_ID != 0){
-				if(m_FTA_Driver_ID != 0){
-					if(m_FTA_Vehicle_ID != 0){
-						if(m_C_UOM_ID != 0){
-							if(m_C_DocType_ID != 0){
-								if(m_M_Warehouse_ID != 0){
-									if(m_M_Locator_ID != 0){
-										if(m_M_Locator_ID != m_M_LocatorTo_ID){
-											if(totalWeight.doubleValue() > 0){
-												BigDecimal difference = (BigDecimal) (differenceField.getValue() != null? differenceField.getValue(): Env.ZERO);
-												if(difference.compareTo(Env.ZERO) >= 0){
-													if(m_XXIsInternalLoad){
-														if(m_M_LocatorTo_ID != 0){
-															return true;
-														} else {
-															ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotLocatorTo"));
-														}
-													} else {
-														return true;
-													}
-												} else {
-													ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "CarNotCapacity"));
-												}	
-											} else {
-												ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "SumZero"));
-											}
-										} else {
-											ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "LocatorsWheight"));
-										}
-									} else {
-										ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotWarehouse"));
-									}
-								} else {
-									ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotLocator"));
-								}
-							} else {
-								ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotDocTypeOrder"));
-							}
-						} else {
-							ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotWorkUOM"));
-						}
-					} else {
-						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotCar"));
-					}
-				} else {
-					ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotBPartner"));
-				}
-			} else {
-				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotShipper"));
-			}	
-		} else {
-			ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "NotOrg"));
-		}*/
-		return false;
+		return true;
 	}
 	
 	/**
@@ -1039,9 +1004,6 @@ public class VLoadOrder extends LoadOrder
 		m_SalesRep_ID = ((Integer)(value != null? value: 0)).intValue();
 		log.config(name + "=" + value);
 		
-		name = uomWorkPick.getName();
-		value = uomWorkPick.getValue();
-		String display = uomWorkPick.getDisplay();
 		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
 		uomWorkValue = (display != null? " " + display: "");
 		log.config(name + "=" + value);
@@ -1076,8 +1038,10 @@ public class VLoadOrder extends LoadOrder
 	public void calculate(){
 		int rows = orderLineTable.getRowCount();
 		if(rows > 0){
-			m_Capacity = Env.ZERO;
+			m_LoadCapacity = Env.ZERO;
+			m_VolumeCapacity = Env.ZERO;
 			totalWeight = Env.ZERO;
+			totalVolume = Env.ZERO;
 			BigDecimal weight = Env.ZERO;
 			BigDecimal difference = Env.ZERO;
 			for (int i = 0; i < rows; i++) {
@@ -1089,13 +1053,12 @@ public class VLoadOrder extends LoadOrder
 				}
 			}
 			if(totalWeight.compareTo(Env.ZERO) > 0){
-				m_Capacity = (BigDecimal) (capacityField.getValue() != null? capacityField.getValue(): Env.ZERO);
-				if(rateCapacity != null){
-					difference = m_Capacity.multiply(rateCapacity).subtract(totalWeight);
-				}
+				m_LoadCapacity = (BigDecimal) (loadCapacityField.getValue() != null? loadCapacityField.getValue(): Env.ZERO);
+				//	Calculate Difference
+				difference = m_LoadCapacity.subtract(totalWeight);
 			}
-			differenceLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight") + uomWorkValue);
-			differenceField.setValue(difference.doubleValue());
+			weightDiffLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight") + uomWorkValue);
+			weightDiffField.setValue(difference.doubleValue());
 			orderLineInfo.setText(
 					"(" + Msg.parseTranslation(Env.getCtx(), "@C_Order_ID@ @Selected@"
 					+ " = " +  m_RowsSelected
@@ -1104,8 +1067,8 @@ public class VLoadOrder extends LoadOrder
 					+ uomWorkValue
 					+ " = " + totalWeight.doubleValue());
 		} else {
-			differenceLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight"));
-			differenceField.setValue(Env.ZERO);
+			weightDiffLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight"));
+			weightDiffField.setValue(Env.ZERO);
 			orderLineInfo.setText(Msg.translate(Env.getCtx(), "OrderLineSum") + " = " + Env.ZERO);
 		}
 	}
@@ -1113,7 +1076,7 @@ public class VLoadOrder extends LoadOrder
 	/**************************************************************************
 	 *  Save Data
 	 */
-	public void saveData()
+	private void saveData()
 	{
 		try	{	
 			String msg = generateLoadOrder(trxName);

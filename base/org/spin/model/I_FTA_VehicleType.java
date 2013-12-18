@@ -164,4 +164,13 @@ public interface I_FTA_VehicleType
 	  * Search key for the record in the format required - must be unique
 	  */
 	public String getValue();
+
+    /** Column name VolumeCapacity */
+    public static final String COLUMNNAME_VolumeCapacity = "VolumeCapacity";
+
+	/** Set Volume Capacity	  */
+	public void setVolumeCapacity (BigDecimal VolumeCapacity);
+
+	/** Get Volume Capacity	  */
+	public BigDecimal getVolumeCapacity();
 }

@@ -33,7 +33,7 @@ public class X_FTA_VehicleType extends PO implements I_FTA_VehicleType, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131212L;
+	private static final long serialVersionUID = 20131218L;
 
     /** Standard Constructor */
     public X_FTA_VehicleType (Properties ctx, int FTA_VehicleType_ID, String trxName)
@@ -45,6 +45,8 @@ public class X_FTA_VehicleType extends PO implements I_FTA_VehicleType, I_Persis
 			setLoadCapacity (Env.ZERO);
 			setName (null);
 			setValue (null);
+			setVolumeCapacity (Env.ZERO);
+// 0
         } */
     }
 
@@ -170,5 +172,22 @@ public class X_FTA_VehicleType extends PO implements I_FTA_VehicleType, I_Persis
 	public String getValue () 
 	{
 		return (String)get_Value(COLUMNNAME_Value);
+	}
+
+	/** Set Volume Capacity.
+		@param VolumeCapacity Volume Capacity	  */
+	public void setVolumeCapacity (BigDecimal VolumeCapacity)
+	{
+		set_Value (COLUMNNAME_VolumeCapacity, VolumeCapacity);
+	}
+
+	/** Get Volume Capacity.
+		@return Volume Capacity	  */
+	public BigDecimal getVolumeCapacity () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_VolumeCapacity);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 }
