@@ -47,7 +47,6 @@ import org.compiere.apps.form.FormPanel;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
-import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
@@ -173,8 +172,6 @@ public class VLoadOrder extends LoadOrder
 
 	
 	/**/
-	private MiniTable 		orderLineTable = new MiniTable();
-	private MiniTable 		orderTable = new MiniTable();
 	private JSplitPane 		infoPanel = new JSplitPane();
 	private CPanel 			orderPanel = new CPanel();
 	private CPanel 			orderLinePanel = new CPanel();
@@ -734,8 +731,6 @@ public class VLoadOrder extends LoadOrder
 			}
 			
 		}else if(isOrderLine){
-			//int row = e.getFirstRow();
-			//int col = e.getColumn();
 			if(col == OL_QTY){	//Qty
 				BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
 				BigDecimal weight = (BigDecimal) orderLineTable.getValueAt(row, OL_WEIGHT);
@@ -841,7 +836,9 @@ public class VLoadOrder extends LoadOrder
 	}
 
 	/**
-	 * Busca los datos segun los parametros
+	 * Seach Data
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/12/2013, 11:51:44
+	 * @return void
 	 */
 	private void cmd_search(){
 		getPanelValues();
@@ -945,6 +942,25 @@ public class VLoadOrder extends LoadOrder
 	 */
 	private boolean validData(){
 		getPanelValues();
+		String msg = null;
+		//	Valid Organization
+		if(m_AD_Org_ID == 0)
+			msg = "@AD_Org_ID@ @NotFound@";
+		//	Valid UOM
+		else if(m_C_UOM_ID == 0)
+			msg = "@C_UOM_ID@ @NotFound@";
+		//	Valid Operation Type
+		else if(m_OperationType == null)
+			msg = "@OperationType@ @NotFound@";
+		//	Vehicle Type
+		else if(m_FTA_VehicleType_ID == 0)
+			msg = "@FTA_VehicleType_ID@ @NotFound@";
+		//	
+		if(msg != null){
+			ADialog.info(m_WindowNo, panel, Msg.parseTranslation(Env.getCtx(), msg));
+			calculate();
+			return false;
+		}
 		/*if(m_AD_Org_ID != 0){
 			if(m_M_Shipper_ID != 0){
 				if(m_FTA_Driver_ID != 0){
@@ -1008,9 +1024,7 @@ public class VLoadOrder extends LoadOrder
 	 * @return void
 	 */
 	public void loadOrder()
-	{		//System.out.println("VLoadOrder.loadOrder()");
-
-		String name = organizationPick.getName();
+	{		String name = organizationPick.getName();
 		Object value = organizationPick.getValue();
 		m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
 		log.config(name + "=" + value);
@@ -1031,12 +1045,6 @@ public class VLoadOrder extends LoadOrder
 		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
 		uomWorkValue = (display != null? " " + display: "");
 		log.config(name + "=" + value);
-		
-		/*name = docTypeOrderPick.getName();
-		value = docTypeOrderPick.getValue();
-		m_C_DocTypeOrder_ID = ((Integer)(value != null? value: 0)).intValue();
-		log.config(name + "=" + value);
-		setValueDocType(trxName);*/
 		
 		//	Load Data
 		Vector<Vector<Object>> data = getOrderData(orderTable);
@@ -1108,7 +1116,7 @@ public class VLoadOrder extends LoadOrder
 	public void saveData()
 	{
 		try	{	
-			String msg = generateLoatOrder(orderLineTable, dateDocField.getTimestamp(), shipDateField.getTimestamp(), trxName);
+			String msg = generateLoadOrder(trxName);
 			statusBar.setStatusLine(msg);
 			trx.commit();
 			ADialog.info(m_WindowNo, panel, msg);
