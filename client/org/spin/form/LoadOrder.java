@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MOrgInfo;
 import org.compiere.model.MRole;
 import org.compiere.model.MUOMConversion;
 import org.compiere.swing.CComboBox;
@@ -25,6 +26,8 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.spin.model.MFTALoadOrder;
+import org.spin.model.MFTALoadOrderLine;
 import org.spin.util.BufferTableSelect;
 
 /**
@@ -122,6 +125,11 @@ public class LoadOrder {
 	/**	Max Sequence		*/
 	protected int			m_MaxSeqNo = 0;
 	
+	/**	Order Table			*/
+	protected MiniTable 	orderTable = new MiniTable();
+	/**	Order Line Table	*/
+	protected MiniTable 	orderLineTable = new MiniTable();
+	/**	Stock Table			*/
 	protected MiniTable		stockTable = new MiniTable();
 	protected DefaultTableModel stockModel = null;
 	
@@ -550,95 +558,87 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Genera La orden de Carga con sus lineas.
-	 * @author Yamel Senih 18/03/2012, 00:22:14
-	 * @param orderLineTable
-	 * @param dateDoc
-	 * @param shipDate
+	 * Generate Load Order
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/12/2013, 11:34:33
 	 * @param trxName
 	 * @return
 	 * @return String
 	 */
-	protected String generateLoatOrder(IMiniTable orderLineTable, Timestamp dateDoc, Timestamp shipDate, String trxName){
+	protected String generateLoadOrder(String trxName){
 		return null;
-		/*if(viewResultPeriod()){
-			int m_gen = 0;
-			int rows = orderLineTable.getRowCount();
-			MXXLoadOrder loadOrder = new MXXLoadOrder(Env.getCtx(), 0, trxName);
-			MXXLoadOrderLine lorder = null;
-			//	Org Info
-			MOrgInfo orgInfo = null;
-			
-			String DocumentNo = "0";
-			
-			orgInfo = MOrgInfo.get(Env.getCtx(), m_AD_Org_ID, trxName);
-			
-			BigDecimal totalWeight = Env.ZERO;
-			loadOrder.setAD_Org_ID(m_AD_Org_ID);
-			loadOrder.setM_Shipper_ID(m_M_Shipper_ID);
-			loadOrder.setFTA_Driver_ID(m_FTA_Driver_ID);
-			loadOrder.setFTA_Vehicle_ID(m_FTA_Vehicle_ID);
-			loadOrder.setDateDoc(dateDoc);
-			loadOrder.setShipDate(shipDate);
-			loadOrder.setC_DocTypeOrder_ID(m_C_DocTypeOrder_ID);
-			loadOrder.setXXIsInternalLoad(m_XXIsInternalLoad);
-			loadOrder.setXXIsBulk(m_XXIsBulk);
-			loadOrder.setXXIsWeightRegister(orgInfo.get_ValueAsBoolean("XXIsWeightRegister"));
-			loadOrder.setCapacity(capacity);
-			loadOrder.setXX_Vehicle_UOM_ID(m_XX_Vehicle_UOM_ID);
-			loadOrder.setXX_Work_UOM_ID(m_XX_Work_UOM_ID);
-			loadOrder.setM_Warehouse_ID(m_M_Warehouse_ID);
-			loadOrder.setM_Locator_ID(m_M_Locator_ID);
-			loadOrder.setM_LocatorTo_ID(m_M_LocatorTo_ID);
-			
-			if(loadOrder.save()){
-				DocumentNo = loadOrder.getDocumentNo();
-				for (int i = 0; i < rows; i++) {
-					if (((Boolean)orderLineTable.getValueAt(i, 0)).booleanValue()) {
-						int m_C_OrderLine_ID = ((KeyNamePair)orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
-						int m_M_Product_ID = ((KeyNamePair)orderLineTable.getValueAt(i, OL_PRODUCT)).getKey();
-						int m_C_UOM_ID = ((KeyNamePair)orderLineTable.getValueAt(i, OL_UOM_CONVERSION)).getKey();
-						BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(i, OL_QTY);
-						BigDecimal seqNo = new BigDecimal((Integer) orderLineTable.getValueAt(i, OL_SEQNO));
-						BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(i, OL_QTY_SET);
-						lorder = new MXXLoadOrderLine(Env.getCtx(), 0, trxName);
-						lorder.setAD_Org_ID(m_AD_Org_ID);
-						lorder.setXX_LoadOrder_ID(loadOrder.getXX_LoadOrder_ID());
-						lorder.setC_OrderLine_ID(m_C_OrderLine_ID);
-						lorder.setM_Product_ID(m_M_Product_ID);
-						lorder.setC_UOM_ID(m_C_UOM_ID);
-						lorder.setQty(qty);
-						lorder.setSeqNo(seqNo);
-						lorder.setWeight(qtySet);
-						totalWeight = totalWeight.add(qtySet);
-						
-						addQuery(m_C_OrderLine_ID, qty);
-						
-						if(lorder.save()){
-							m_gen ++;
-						} else {
-							throw new AdempiereException("@XX_LoadOrderLine_ID@"); 
-						}
-					}
-					loadOrder.setTotalWeight(totalWeight);
-					if(!loadOrder.save()){
-						throw new AdempiereException("@XX_LoadOrder_ID@");
+		int m_gen = 0;
+		int rows = orderLineTable.getRowCount();
+		MFTALoadOrder loadOrder = new MFTALoadOrder(Env.getCtx(), 0, trxName);
+		MFTALoadOrderLine lorder = null;
+		//	Org Info
+		MOrgInfo orgInfo = null;
+		
+		String DocumentNo = "0";
+		
+		orgInfo = MOrgInfo.get(Env.getCtx(), m_AD_Org_ID, trxName);
+		
+		BigDecimal totalWeight = Env.ZERO;
+		loadOrder.setAD_Org_ID(m_AD_Org_ID);
+		loadOrder.setM_Shipper_ID(m_M_Shipper_ID);
+		loadOrder.setFTA_Driver_ID(m_FTA_Driver_ID);
+		loadOrder.setFTA_Vehicle_ID(m_FTA_Vehicle_ID);
+		loadOrder.setDateDoc(m_DateDoc);
+		loadOrder.setShipDate(m_ShipDate);
+		loadOrder.setC_DocTypeOrder_ID(m_C_DocTypeOrder_ID);
+		loadOrder.setXXIsInternalLoad(m_XXIsInternalLoad);
+		loadOrder.setXXIsBulk(m_XXIsBulk);
+		loadOrder.setXXIsWeightRegister(orgInfo.get_ValueAsBoolean("XXIsWeightRegister"));
+		loadOrder.setCapacity(capacity);
+		loadOrder.setXX_Vehicle_UOM_ID(m_XX_Vehicle_UOM_ID);
+		loadOrder.setXX_Work_UOM_ID(m_XX_Work_UOM_ID);
+		loadOrder.setM_Warehouse_ID(m_M_Warehouse_ID);
+		loadOrder.setM_Locator_ID(m_M_Locator_ID);
+		loadOrder.setM_LocatorTo_ID(m_M_LocatorTo_ID);
+		
+		if(loadOrder.save()){
+			DocumentNo = loadOrder.getDocumentNo();
+			for (int i = 0; i < rows; i++) {
+				if (((Boolean)orderLineTable.getValueAt(i, 0)).booleanValue()) {
+					int m_C_OrderLine_ID = ((KeyNamePair)orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
+					int m_M_Product_ID = ((KeyNamePair)orderLineTable.getValueAt(i, OL_PRODUCT)).getKey();
+					int m_C_UOM_ID = ((KeyNamePair)orderLineTable.getValueAt(i, OL_UOM_CONVERSION)).getKey();
+					BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(i, OL_QTY);
+					BigDecimal seqNo = new BigDecimal((Integer) orderLineTable.getValueAt(i, OL_SEQNO));
+					BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(i, OL_QTY_SET);
+					lorder = new MXXLoadOrderLine(Env.getCtx(), 0, trxName);
+					lorder.setAD_Org_ID(m_AD_Org_ID);
+					lorder.setXX_LoadOrder_ID(loadOrder.getXX_LoadOrder_ID());
+					lorder.setC_OrderLine_ID(m_C_OrderLine_ID);
+					lorder.setM_Product_ID(m_M_Product_ID);
+					lorder.setC_UOM_ID(m_C_UOM_ID);
+					lorder.setQty(qty);
+					lorder.setSeqNo(seqNo);
+					lorder.setWeight(qtySet);
+					totalWeight = totalWeight.add(qtySet);
+					
+					addQuery(m_C_OrderLine_ID, qty);
+					
+					if(lorder.save()){
+						m_gen ++;
+					} else {
+						throw new AdempiereException("@XX_LoadOrderLine_ID@"); 
 					}
 				}
-				String resultQuery = viewResult();
-				if(resultQuery != null && resultQuery.length() > 0){
-					throw new AdempiereException(Msg.translate(Env.getCtx(), "SGErrorsProcess") 
-							+ "\n" + resultQuery);
+				loadOrder.setTotalWeight(totalWeight);
+				if(!loadOrder.save()){
+					throw new AdempiereException("@XX_LoadOrder_ID@");
 				}
-			} else {
-				throw new AdempiereException("@XX_LoadOrder_ID@"); 
 			}
-			return Msg.translate(Env.getCtx(), "SGLoadOrderGenerate") + " = [" + DocumentNo + "] || " +
-			Msg.translate(Env.getCtx(), "SGLoadOrderLineGenerate") + " = [" + m_gen + "]";
+			String resultQuery = viewResult();
+			if(resultQuery != null && resultQuery.length() > 0){
+				throw new AdempiereException(Msg.translate(Env.getCtx(), "SGErrorsProcess") 
+						+ "\n" + resultQuery);
+			}
 		} else {
-			throw new AdempiereException("@C_Period_ID@" 
-					+ " " +Msg.translate(Env.getCtx(), "SGClosed"));
-		}*/
+			throw new AdempiereException("@XX_LoadOrder_ID@"); 
+		}
+		return Msg.translate(Env.getCtx(), "SGLoadOrderGenerate") + " = [" + DocumentNo + "] || " +
+		Msg.translate(Env.getCtx(), "SGLoadOrderLineGenerate") + " = [" + m_gen + "]";
 	}
 	
 	/**
