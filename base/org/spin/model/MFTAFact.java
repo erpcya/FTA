@@ -111,14 +111,17 @@ public class MFTAFact extends X_FTA_Fact {
 	
 	/**
 	 * Create Invoice Fact
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 10/10/2013, 13:50:14
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/12/2013, 08:21:47
 	 * @param ctx
 	 * @param document
+	 * @param p_DateDoc
+	 * @param p_Amt
+	 * @param p_Multiplier
 	 * @param trxName
 	 * @return
 	 * @return String
 	 */
-	public static String createFact(Properties ctx, PO document, Timestamp p_DateDoc, BigDecimal p_Amt, String trxName) {
+	public static String createFact(Properties ctx, PO document, Timestamp p_DateDoc, BigDecimal p_Amt, BigDecimal p_Multiplier, String trxName) {
 		String msg = null;
 		//	Get Precision
 		int precision = MCurrency.getStdPrecision(ctx, Env.getContextAsInt(ctx, "$C_Currency_ID"));
@@ -126,6 +129,8 @@ public class MFTAFact extends X_FTA_Fact {
 		if(document == null)
 			return null;
 		//	
+		if(p_Multiplier == null)
+			return null;
 		int record_ID = document.get_ID();
 		int table_ID = document.get_Table_ID();
 		
@@ -136,8 +141,6 @@ public class MFTAFact extends X_FTA_Fact {
 		int m_FTA_FarmerCredit_ID = document.get_ValueAsInt("FTA_FarmerCredit_ID");
 		int m_FTA_CreditDefinition_ID = 0;
 		int m_FTA_CreditDefinitionLine_ID = 0;
-		//	Distributed Amount
-		BigDecimal m_Distributed_Amt = Env.ZERO;
 		
 		//	Delete Old Movements
 		deleteFact(table_ID, record_ID, false, trxName);
@@ -170,6 +173,8 @@ public class MFTAFact extends X_FTA_Fact {
 			//	
 			rs = pstmt.executeQuery();
 			if(rs != null){
+				//	Distributed Amount
+				BigDecimal m_Distributed_Amt = Env.ZERO;
 				int m_Current_Line_ID = 0;
 				BigDecimal m_RemainingAmt = Env.ZERO;
 				BigDecimal m_SO_CreditLimit = Env.ZERO;
@@ -194,7 +199,7 @@ public class MFTAFact extends X_FTA_Fact {
 					
 					if((m_IsExceedCreditLimit == null
 							|| m_IsExceedCreditLimit.equals("N")
-							) && m_Amt.signum() > 0){
+							) && p_Multiplier.signum() > 0){
 						//	Change Line
 						if(m_Current_Line_ID != m_Line_ID){
 							if(!m_RemainingAmt.equals(Env.ZERO))
@@ -247,7 +252,8 @@ public class MFTAFact extends X_FTA_Fact {
 					m_fta_Fact.setRecord_ID(m_Record_ID);
 					m_fta_Fact.setLine_ID(m_Line_ID);
 					m_fta_Fact.setAD_Table_ID(table_ID);
-					m_fta_Fact.setAmt(m_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
+					m_fta_Fact.setAmt(m_Amt.multiply(p_Multiplier)
+												.setScale(precision, BigDecimal.ROUND_HALF_UP));
 					m_fta_Fact.setIsCreditFactManual(false);
 					//	Save
 					m_fta_Fact.saveEx();
@@ -322,7 +328,8 @@ public class MFTAFact extends X_FTA_Fact {
 						if(!m_Distributed_Amt.equals(Env.ZERO))
 							p_Amt = p_Amt.subtract(m_Distributed_Amt.abs());
 						//	
-						m_fta_Fact.setAmt(p_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
+						m_fta_Fact.setAmt(p_Amt.multiply(p_Multiplier)
+											.setScale(precision, BigDecimal.ROUND_HALF_UP));
 						m_fta_Fact.setIsCreditFactManual(false);
 						//	Save
 						m_fta_Fact.saveEx();
