@@ -274,7 +274,11 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 			setIsPrinted(false);
 
 		String msg = null;
-		
+		//	Yamel Senih 2013-12-19: 17:04:02
+		//	Valid Operation Type
+		if(getOperationType() == null)
+			msg = "@FTA_EntryTicket_ID@ @NotFound@";
+		//	End Yamel Senih
 		
 		if(getOperationType()
 				.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryBulkMaterial)
@@ -285,7 +289,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 						|| getOperationType()
 								.equals(X_FTA_EntryTicket.OPERATIONTYPE_ReceiptMoreThanOneProduct)){
 			if(getFTA_EntryTicket_ID() == 0)
-				msg= "@FTA_EntryTicket_ID@ @NotFound@";
+				msg = "@FTA_EntryTicket_ID@ @NotFound@";
 		}
 
 		if(getOperationType()

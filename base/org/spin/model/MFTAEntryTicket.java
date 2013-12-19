@@ -500,6 +500,12 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 		
 		String msg = null;
 		
+		//	Yamel Senih 2013-12-19: 17:04:02
+		//	Valid Operation Type
+		if(getOperationType() == null)
+			msg = "@FTA_EntryTicket_ID@ @NotFound@";
+		//	End Yamel Senih
+		
 		if(getOperationType()
 				.equals(X_FTA_EntryTicket.OPERATIONTYPE_RawMaterialReceipt)){
 			
