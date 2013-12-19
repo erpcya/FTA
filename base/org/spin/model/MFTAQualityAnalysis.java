@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
@@ -31,6 +32,7 @@ import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
@@ -270,7 +272,34 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		super.beforeSave(newRecord);
 		if(newRecord)
 			setIsPrinted(false);
-		return true;
+
+		String msg = null;
+		
+		
+		if(getOperationType()
+				.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryBulkMaterial)
+				|| getOperationType()
+						.equals(X_FTA_EntryTicket.OPERATIONTYPE_ProductBulkReceipt)
+					|| getOperationType()
+							.equals(X_FTA_EntryTicket.OPERATIONTYPE_RawMaterialReceipt)
+						|| getOperationType()
+								.equals(X_FTA_EntryTicket.OPERATIONTYPE_ReceiptMoreThanOneProduct)){
+			if(getFTA_EntryTicket_ID() == 0)
+				msg= "@FTA_EntryTicket_ID@ @NotFound@";
+		}
+
+		if(getOperationType()
+				.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryBulkMaterial)
+				|| getOperationType()
+					.equals(X_FTA_EntryTicket.OPERATIONTYPE_ReceiptMoreThanOneProduct)){
+			if(getFTA_RecordWeight_ID() == 0)
+				msg = "@FTA_RecordWeight_ID@ @NotFound@";
+		}
+		
+		if(msg != null)
+			throw new AdempiereException(msg);
+		
+		return true;	
 	}
 	
 	/**

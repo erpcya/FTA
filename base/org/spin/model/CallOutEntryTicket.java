@@ -103,6 +103,17 @@ public class CallOutEntryTicket extends CalloutEngine {
 		
 	}
 	
+	/**
+	 * Set context Is Sales Order Transaction.
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 13:57:22
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
 	public String operationType (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		String p_OperationType = (String)value;
 		if (p_OperationType  == null || p_OperationType.equals(""))
