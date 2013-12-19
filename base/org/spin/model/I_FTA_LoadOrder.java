@@ -446,6 +446,15 @@ public interface I_FTA_LoadOrder
 	  */
 	public BigDecimal getVolume();
 
+    /** Column name VolumeCapacity */
+    public static final String COLUMNNAME_VolumeCapacity = "VolumeCapacity";
+
+	/** Set Volume Capacity	  */
+	public void setVolumeCapacity (BigDecimal VolumeCapacity);
+
+	/** Get Volume Capacity	  */
+	public BigDecimal getVolumeCapacity();
+
     /** Column name Weight */
     public static final String COLUMNNAME_Weight = "Weight";
 
