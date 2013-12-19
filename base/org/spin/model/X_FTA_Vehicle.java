@@ -17,9 +17,11 @@
 /** Generated Model - DO NOT CHANGE */
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_Vehicle
@@ -31,7 +33,7 @@ public class X_FTA_Vehicle extends PO implements I_FTA_Vehicle, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131218L;
+	private static final long serialVersionUID = 20131219L;
 
     /** Standard Constructor */
     public X_FTA_Vehicle (Properties ctx, int FTA_Vehicle_ID, String trxName)
@@ -41,8 +43,10 @@ public class X_FTA_Vehicle extends PO implements I_FTA_Vehicle, I_Persistent
         {
 			setFTA_Vehicle_ID (0);
 			setFTA_VehicleType_ID (0);
+			setLoadCapacity (Env.ZERO);
 			setName (null);
 			setVehiclePlate (null);
+			setVolumeCapacity (Env.ZERO);
         } */
     }
 
@@ -186,6 +190,23 @@ public class X_FTA_Vehicle extends PO implements I_FTA_Vehicle, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Load Capacity.
+		@param LoadCapacity Load Capacity	  */
+	public void setLoadCapacity (BigDecimal LoadCapacity)
+	{
+		set_Value (COLUMNNAME_LoadCapacity, LoadCapacity);
+	}
+
+	/** Get Load Capacity.
+		@return Load Capacity	  */
+	public BigDecimal getLoadCapacity () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_LoadCapacity);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_M_Shipper getM_Shipper() throws RuntimeException
     {
 		return (I_M_Shipper)MTable.get(getCtx(), I_M_Shipper.Table_Name)
@@ -255,4 +276,21 @@ public class X_FTA_Vehicle extends PO implements I_FTA_Vehicle, I_Persistent
     {
         return new KeyNamePair(get_ID(), getVehiclePlate());
     }
+
+	/** Set Volume Capacity.
+		@param VolumeCapacity Volume Capacity	  */
+	public void setVolumeCapacity (BigDecimal VolumeCapacity)
+	{
+		set_Value (COLUMNNAME_VolumeCapacity, VolumeCapacity);
+	}
+
+	/** Get Volume Capacity.
+		@return Volume Capacity	  */
+	public BigDecimal getVolumeCapacity () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_VolumeCapacity);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 }
