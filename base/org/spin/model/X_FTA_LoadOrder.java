@@ -34,7 +34,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131218L;
+	private static final long serialVersionUID = 20131219L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrder (Properties ctx, int FTA_LoadOrder_ID, String trxName)
@@ -795,6 +795,23 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	public BigDecimal getVolume () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Volume);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Volume Capacity.
+		@param VolumeCapacity Volume Capacity	  */
+	public void setVolumeCapacity (BigDecimal VolumeCapacity)
+	{
+		set_Value (COLUMNNAME_VolumeCapacity, VolumeCapacity);
+	}
+
+	/** Get Volume Capacity.
+		@return Volume Capacity	  */
+	public BigDecimal getVolumeCapacity () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_VolumeCapacity);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
