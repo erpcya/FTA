@@ -103,20 +103,35 @@ public interface I_FTA_LoadOrder
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+    /** Column name C_UOM_Volume_ID */
+    public static final String COLUMNNAME_C_UOM_Volume_ID = "C_UOM_Volume_ID";
 
-	/** Set UOM.
-	  * Unit of Measure
+	/** Set UOM for Volume.
+	  * Standard Unit of Measure for Volume
 	  */
-	public void setC_UOM_ID (int C_UOM_ID);
+	public void setC_UOM_Volume_ID (int C_UOM_Volume_ID);
 
-	/** Get UOM.
-	  * Unit of Measure
+	/** Get UOM for Volume.
+	  * Standard Unit of Measure for Volume
 	  */
-	public int getC_UOM_ID();
+	public int getC_UOM_Volume_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public I_C_UOM getC_UOM_Volume() throws RuntimeException;
+
+    /** Column name C_UOM_Weight_ID */
+    public static final String COLUMNNAME_C_UOM_Weight_ID = "C_UOM_Weight_ID";
+
+	/** Set UOM for Weight.
+	  * Standard Unit of Measure for Weight
+	  */
+	public void setC_UOM_Weight_ID (int C_UOM_Weight_ID);
+
+	/** Get UOM for Weight.
+	  * Standard Unit of Measure for Weight
+	  */
+	public int getC_UOM_Weight_ID();
+
+	public I_C_UOM getC_UOM_Weight() throws RuntimeException;
 
     /** Column name DateDoc */
     public static final String COLUMNNAME_DateDoc = "DateDoc";

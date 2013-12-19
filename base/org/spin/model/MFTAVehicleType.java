@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.CCache;
 import org.compiere.util.Env;
 
 /**
@@ -43,7 +44,6 @@ public class MFTAVehicleType extends X_FTA_VehicleType {
 	public MFTAVehicleType(Properties ctx, int FTA_VehicleType_ID,
 			String trxName) {
 		super(ctx, FTA_VehicleType_ID, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -55,7 +55,6 @@ public class MFTAVehicleType extends X_FTA_VehicleType {
 	 */
 	public MFTAVehicleType(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -70,5 +69,28 @@ public class MFTAVehicleType extends X_FTA_VehicleType {
 		}
 		return true;
 	}
+	
+	/**
+	 * Get Vehicle Type from Cache
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 14:23:14
+	 * @param ctx
+	 * @param FTA_VehicleType_ID
+	 * @return
+	 * @return MFTAVehicleType
+	 */
+	public static MFTAVehicleType get (Properties ctx, int FTA_VehicleType_ID)
+	{
+		Integer key = new Integer (FTA_VehicleType_ID);
+		MFTAVehicleType retValue = (MFTAVehicleType) s_cache.get (key);
+		if (retValue != null)
+			return retValue;
+		retValue = new MFTAVehicleType (ctx, FTA_VehicleType_ID, null);
+		if (retValue.get_ID () != 0)
+			s_cache.put (key, retValue);
+		return retValue;
+	} //	get
+	
+	/**	Cache						*/
+	private static CCache<Integer,MFTAVehicleType>	s_cache	= new CCache<Integer,MFTAVehicleType>("FTA_VehicleType", 20, 10);	//	10 minutes
 
 }

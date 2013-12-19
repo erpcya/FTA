@@ -28,6 +28,8 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTALoadOrderLine;
+import org.spin.model.MFTAVehicle;
+import org.spin.model.MFTAVehicleType;
 import org.spin.util.BufferTableSelect;
 
 /**
@@ -109,14 +111,18 @@ public class LoadOrder {
 	protected BigDecimal m_LoadCapacity = Env.ZERO;
 	/**	Volume Capacity		*/
 	protected BigDecimal m_VolumeCapacity = Env.ZERO;
-	/**	Work Unit Measure	*/
-	protected int 		m_C_UOM_ID = 0;
+	/**	Weight Unit Measure	*/
+	protected int 		m_C_UOM_Weight_ID = 0;
+	/**	Volume Unit Measure	*/
+	protected int 		m_C_UOM_Volume_ID = 0;
 	/**	Rows Selected		*/
 	protected int		m_RowsSelected = 0;
 	/**	Is Bulk Product		*/
 	protected boolean	m_IsBulk = false;
-	/**	UOM Symbol			*/
-	protected String 	m_UOM_Symbol = null;
+	/**	UOM Weight Symbol	*/
+	protected String 	m_UOM_Weight_Symbol = null;
+	/**	UOM Volume Symbol	*/
+	protected String 	m_UOM_Volume_Symbol = null;
 	/**	Product				*/
 	protected int		m_M_Product_ID = 0;
 	
@@ -420,11 +426,9 @@ public class LoadOrder {
 		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Weight")
-				+ (m_UOM_Symbol != null 
-					&& m_UOM_Symbol.trim().length() > 0
-					? " (" + m_UOM_Symbol + ")"
-							: ""));
-		columnNames.add(Msg.translate(Env.getCtx(), "Volume"));
+				+ " (" + m_UOM_Weight_Symbol + ")");
+		columnNames.add(Msg.translate(Env.getCtx(), "Volume")
+				+ " (" + m_UOM_Volume_Symbol + ")");
 		columnNames.add(Msg.translate(Env.getCtx(), "SeqNo"));
 		
 		return columnNames;
@@ -576,11 +580,11 @@ public class LoadOrder {
 		//	Org Info
 		MOrgInfo orgInfo = null;
 		
-		String m_DocumentNo = "0";
-		
 		orgInfo = MOrgInfo.get(Env.getCtx(), m_AD_Org_ID, trxName);
 		
 		BigDecimal totalWeight = Env.ZERO;
+		BigDecimal totalVolume = Env.ZERO;
+		
 		loadOrder.setAD_Org_ID(m_AD_Org_ID);
 		loadOrder.setOperationType(m_OperationType);
 		loadOrder.setFTA_VehicleType_ID(m_FTA_VehicleType_ID);
@@ -588,7 +592,9 @@ public class LoadOrder {
 		loadOrder.setShipDate(m_ShipDate);
 		loadOrder.setC_DocType_ID(m_C_DocType_ID);
 		loadOrder.setLoadCapacity(m_LoadCapacity);
-		loadOrder.setC_UOM_ID(m_C_UOM_ID);
+		loadOrder.setVolumeCapacity(m_VolumeCapacity);
+		loadOrder.setC_UOM_Weight_ID(m_C_UOM_Weight_ID);
+		loadOrder.setC_UOM_Volume_ID(m_C_UOM_Volume_ID);
 		loadOrder.setIsWeightRegister(orgInfo.get_ValueAsBoolean("IsWeightRegister"));
 		//	Set Warehouse
 		if(m_M_Warehouse_ID != 0)
@@ -611,54 +617,47 @@ public class LoadOrder {
 		//	Set Entry Ticket
 		if(m_FTA_EntryTicket_ID != 0)
 			loadOrder.setFTA_EntryTicket_ID(m_FTA_EntryTicket_ID);
-		
+		//	Save Order
 		loadOrder.saveEx();
-		m_DocumentNo = loadOrder.getDocumentNo();
-		
-		/*if(loadOrder.save()){
-			DocumentNo = loadOrder.getDocumentNo();
-			for (int i = 0; i < rows; i++) {
-				if (((Boolean)orderLineTable.getValueAt(i, 0)).booleanValue()) {
-					int m_C_OrderLine_ID = ((KeyNamePair)orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
-					int m_M_Product_ID = ((KeyNamePair)orderLineTable.getValueAt(i, OL_PRODUCT)).getKey();
-					int m_C_UOM_ID = ((KeyNamePair)orderLineTable.getValueAt(i, OL_UOM_CONVERSION)).getKey();
-					BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(i, OL_QTY);
-					BigDecimal seqNo = new BigDecimal((Integer) orderLineTable.getValueAt(i, OL_SEQNO));
-					BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(i, OL_QTY_SET);
-					lorder = new MXXLoadOrderLine(Env.getCtx(), 0, trxName);
-					lorder.setAD_Org_ID(m_AD_Org_ID);
-					lorder.setXX_LoadOrder_ID(loadOrder.getXX_LoadOrder_ID());
-					lorder.setC_OrderLine_ID(m_C_OrderLine_ID);
-					lorder.setM_Product_ID(m_M_Product_ID);
-					lorder.setC_UOM_ID(m_C_UOM_ID);
-					lorder.setQty(qty);
-					lorder.setSeqNo(seqNo);
-					lorder.setWeight(qtySet);
-					totalWeight = totalWeight.add(qtySet);
-					
-					addQuery(m_C_OrderLine_ID, qty);
-					
-					if(lorder.save()){
-						m_gen ++;
-					} else {
-						throw new AdempiereException("@XX_LoadOrderLine_ID@"); 
-					}
-				}
-				loadOrder.setTotalWeight(totalWeight);
-				if(!loadOrder.save()){
-					throw new AdempiereException("@XX_LoadOrder_ID@");
-				}
+		//	Loop for add Lines
+		for (int i = 0; i < rows; i++) {
+			if (((Boolean)orderLineTable.getValueAt(i, 0)).booleanValue()) {
+				int m_C_OrderLine_ID = ((KeyNamePair)orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
+				int m_M_Product_ID = ((KeyNamePair)orderLineTable.getValueAt(i, OL_PRODUCT)).getKey();
+				BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(i, OL_QTY);
+				//BigDecimal seqNo = new BigDecimal((Integer) orderLineTable.getValueAt(i, OL_SEQNO));
+				BigDecimal weight = (BigDecimal) orderLineTable.getValueAt(i, OL_WEIGHT);
+				BigDecimal volume = (BigDecimal) orderLineTable.getValueAt(i, OL_VOLUME);
+				//	New Line
+				lorder = new MFTALoadOrderLine(Env.getCtx(), 0, trxName);
+				//	Set Values
+				lorder.setAD_Org_ID(m_AD_Org_ID);
+				lorder.setFTA_LoadOrder_ID(loadOrder.getFTA_LoadOrder_ID());
+				lorder.setC_OrderLine_ID(m_C_OrderLine_ID);
+				lorder.setM_Product_ID(m_M_Product_ID);
+				lorder.setQty(qty);
+				//lorder.setSeqNo(seqNo);
+				lorder.setWeight(weight);
+				lorder.setVolume(volume);
+				//	Add Weight
+				totalWeight = totalWeight.add(weight);
+				//	Add Volume
+				totalVolume = totalVolume.add(volume);
+				//	Save Line
+				lorder.saveEx();
+				//	Add Count
+				m_gen ++;
 			}
-			String resultQuery = viewResult();
-			if(resultQuery != null && resultQuery.length() > 0){
-				throw new AdempiereException(Msg.translate(Env.getCtx(), "SGErrorsProcess") 
-						+ "\n" + resultQuery);
-			}
-		} else {
-			throw new AdempiereException("@XX_LoadOrder_ID@"); 
-		}*/
-		return Msg.translate(Env.getCtx(), "SGLoadOrderGenerate") + " = [" + m_DocumentNo + "] || " +
-		Msg.translate(Env.getCtx(), "SGLoadOrderLineGenerate") + " = [" + m_gen + "]";
+			//	Set Header Weight
+			loadOrder.setWeight(totalWeight);
+			//	Set Header Volume
+			loadOrder.setVolume(totalVolume);
+			//	Save Header
+			loadOrder.saveEx();
+		}
+		//	Message
+		return Msg.parseTranslation(Env.getCtx(), "@Generated@ = [" + loadOrder.getDocumentNo() 
+				+ "] || @Lines@") + " = [" + m_gen + "]";
 	}
 	
 	/**
@@ -723,6 +722,17 @@ public class LoadOrder {
 	}*/
 	
 	/**
+	 * Load the Default Values
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 11:10:31
+	 * @param trxName
+	 * @return void
+	 */
+	protected void loadDefaultValues(String trxName){
+		m_C_UOM_Weight_ID = getC_UOM_Weight_ID(trxName);
+		m_C_UOM_Volume_ID = getC_UOM_Volume_ID(trxName);
+	}
+	
+	/**
 	 * Get Vehicle Type from Vehicle
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/11/2013, 17:28:42
 	 * @param p_FTA_EntryTicket_ID
@@ -752,6 +762,37 @@ public class LoadOrder {
 	}
 	
 	/**
+	 * Set Capacity Weight and Volume
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 14:03:37
+	 * @return void
+	 */
+	protected void setCapacity(){
+		if(m_FTA_Vehicle_ID != 0){
+			MFTAVehicle vehicle = MFTAVehicle.get(Env.getCtx(), m_FTA_Vehicle_ID);
+			m_LoadCapacity = vehicle.getLoadCapacity();
+			m_VolumeCapacity = vehicle.getVolumeCapacity();
+		} else if(m_FTA_VehicleType_ID != 0){
+			MFTAVehicleType vehicleType = MFTAVehicleType.get(Env.getCtx(), m_FTA_VehicleType_ID);
+			m_LoadCapacity = vehicleType.getLoadCapacity();
+			m_VolumeCapacity = vehicleType.getVolumeCapacity();
+		}
+	}
+	
+	/**
+	 * Get Volume Capacity from Vehicle Type
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 12:07:06
+	 * @param p_FTA_VehicleType_ID
+	 * @param trxName
+	 * @return
+	 * @return BigDecimal
+	 */
+	protected BigDecimal getVolumeCapacity(int p_FTA_VehicleType_ID, String trxName){
+		return DB.getSQLValueBD(trxName, "SELECT vt.VolumeCapacity "
+				+ "FROM FTA_VehicleType vt "
+				+ "WHERE FTA_VehicleType_ID = ?", p_FTA_VehicleType_ID);
+	}
+	
+	/**
 	 * Get default UOM
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 11:08:46
 	 * @param trxName
@@ -760,6 +801,19 @@ public class LoadOrder {
 	 */
 	protected int getC_UOM_Weight_ID(String trxName){
 		return DB.getSQLValue(trxName, "SELECT ci.C_UOM_Weight_ID "
+				+ "FROM AD_ClientInfo ci "
+				+ "WHERE ci.AD_Client_ID = ?", m_AD_Client_ID);
+	}
+	
+	/**
+	 * Get default Volume UOM
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 11:14:38
+	 * @param trxName
+	 * @return
+	 * @return int
+	 */
+	protected int getC_UOM_Volume_ID(String trxName){
+		return DB.getSQLValue(trxName, "SELECT ci.C_UOM_Volume_ID "
 				+ "FROM AD_ClientInfo ci "
 				+ "WHERE ci.AD_Client_ID = ?", m_AD_Client_ID);
 	}
@@ -997,7 +1051,7 @@ public class LoadOrder {
 		
 		int pos = existProductStock(product.getKey());
 		
-		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), product.getKey(), m_C_UOM_ID);
+		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), product.getKey(), m_C_UOM_Weight_ID);
 		if(rate == null)
 			rate = Env.ZERO;
 		//	Convert Quantity Set

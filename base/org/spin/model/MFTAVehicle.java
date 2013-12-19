@@ -19,6 +19,8 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.util.CCache;
+
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
@@ -51,5 +53,28 @@ public class MFTAVehicle extends X_FTA_Vehicle {
 	public MFTAVehicle(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
+	
+	/**
+	 * Get Vehicle from Cache
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 14:10:45
+	 * @param ctx
+	 * @param FTA_Vehicle_ID
+	 * @return
+	 * @return MFTAVehicle
+	 */
+	public static MFTAVehicle get (Properties ctx, int FTA_Vehicle_ID)
+	{
+		Integer key = new Integer (FTA_Vehicle_ID);
+		MFTAVehicle retValue = (MFTAVehicle) s_cache.get (key);
+		if (retValue != null)
+			return retValue;
+		retValue = new MFTAVehicle (ctx, FTA_Vehicle_ID, null);
+		if (retValue.get_ID () != 0)
+			s_cache.put (key, retValue);
+		return retValue;
+	} //	get
+	
+	/**	Cache						*/
+	private static CCache<Integer,MFTAVehicle>	s_cache	= new CCache<Integer,MFTAVehicle>("FTA_Vehicle", 20, 10);	//	10 minutes
 
 }

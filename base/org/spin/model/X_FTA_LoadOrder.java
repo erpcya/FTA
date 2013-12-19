@@ -43,7 +43,9 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
       /** if (FTA_LoadOrder_ID == 0)
         {
 			setC_DocType_ID (0);
-			setC_UOM_ID (0);
+			setC_UOM_Volume_ID (0);
+// @SQL=SELECT C_UOM_Volume_ID FROM AD_ClientInfo WHERE AD_Client_ID = @#AD_Client_ID@
+			setC_UOM_Weight_ID (0);
 // @SQL=SELECT C_UOM_Weight_ID FROM AD_ClientInfo WHERE AD_Client_ID = @#AD_Client_ID@
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
@@ -135,29 +137,57 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		return bd;
 	}
 
-	public I_C_UOM getC_UOM() throws RuntimeException
+	public I_C_UOM getC_UOM_Volume() throws RuntimeException
     {
 		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
-			.getPO(getC_UOM_ID(), get_TrxName());	}
+			.getPO(getC_UOM_Volume_ID(), get_TrxName());	}
 
-	/** Set UOM.
-		@param C_UOM_ID 
-		Unit of Measure
+	/** Set UOM for Volume.
+		@param C_UOM_Volume_ID 
+		Standard Unit of Measure for Volume
 	  */
-	public void setC_UOM_ID (int C_UOM_ID)
+	public void setC_UOM_Volume_ID (int C_UOM_Volume_ID)
 	{
-		if (C_UOM_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
+		if (C_UOM_Volume_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_Volume_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+			set_ValueNoCheck (COLUMNNAME_C_UOM_Volume_ID, Integer.valueOf(C_UOM_Volume_ID));
 	}
 
-	/** Get UOM.
-		@return Unit of Measure
+	/** Get UOM for Volume.
+		@return Standard Unit of Measure for Volume
 	  */
-	public int getC_UOM_ID () 
+	public int getC_UOM_Volume_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_Volume_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_UOM getC_UOM_Weight() throws RuntimeException
+    {
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_Weight_ID(), get_TrxName());	}
+
+	/** Set UOM for Weight.
+		@param C_UOM_Weight_ID 
+		Standard Unit of Measure for Weight
+	  */
+	public void setC_UOM_Weight_ID (int C_UOM_Weight_ID)
+	{
+		if (C_UOM_Weight_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_Weight_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_Weight_ID, Integer.valueOf(C_UOM_Weight_ID));
+	}
+
+	/** Get UOM for Weight.
+		@return Standard Unit of Measure for Weight
+	  */
+	public int getC_UOM_Weight_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_Weight_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

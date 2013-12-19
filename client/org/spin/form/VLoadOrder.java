@@ -90,6 +90,8 @@ public class VLoadOrder extends LoadOrder
 			jbInit();
 			frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 			frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
+			//	Load Default Values
+			loadDefaultValues(trxName);
 		}
 		catch(Exception e)
 		{
@@ -198,7 +200,6 @@ public class VLoadOrder extends LoadOrder
 	/**	Search				*/
 	private CButton 		bSearch = new CButton();
 	
-	private String 			uomWorkValue = null;
 	//	Stock Info
 	private JScrollPane 	stockScrollPane = new JScrollPane();
 	
@@ -269,12 +270,12 @@ public class VLoadOrder extends LoadOrder
 		gLoadOrderButton.setText(Msg.getMsg(Env.getCtx(), "GenerateLoadOrder"));
 		gLoadOrderButton.addActionListener(this);
 		//	Weight Difference
-		weightDiffLabel.setText(Msg.getMsg(Env.getCtx(), "WeightDiff"));
-		weightDiffField = new VNumber("WeightDiff", true, true, true, DisplayType.Number, "WeightDiff");
+		weightDiffLabel.setText(Msg.translate(Env.getCtx(), "DiffWeight"));
+		weightDiffField = new VNumber("DiffWeight", true, true, true, DisplayType.Number, "DiffWeight");
 		weightDiffField.setValue(Env.ZERO);
 		//	Volume Difference
-		volumeDiffLabel.setText(Msg.getMsg(Env.getCtx(), "VolumeDiff"));
-		volumeDiffField = new VNumber("WeightDiff", true, true, true, DisplayType.Number, "WeightDiff");
+		volumeDiffLabel.setText(Msg.translate(Env.getCtx(), "DiffVolume"));
+		volumeDiffField = new VNumber("DiffVolume", true, true, true, DisplayType.Number, "DiffVolume");
 		volumeDiffField.setValue(Env.ZERO);
 		//	Load Capacity
 		loadCapacityField = new VNumber("LoadCapacity", true, true, true, DisplayType.Number, "LoadCapacity");
@@ -544,12 +545,6 @@ public class VLoadOrder extends LoadOrder
 		vehicleTypePick = new VLookup("FTA_VehicleType_ID", false, false, true, lookupVT);
 		vehicleTypePick.addVetoableChangeListener(this);
 		
-		/*//  Working Unit Measure
-		AD_Column_ID = 2348;		//  AD_ClientInfo.C_UOM_Weight_ID
-		MLookup lookupUV = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
-		uomWorkPick = new VLookup("C_UOM_ID", true, true, true, lookupUV);
-		uomWorkPick.addVetoableChangeListener(this);*/
-		
 		//	Product
 		AD_Column_ID = 70626;		//	FTA_LoadOrer.M_Product_ID
 		MLookup lookupProduct = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
@@ -568,20 +563,11 @@ public class VLoadOrder extends LoadOrder
 		statusBar.setStatusLine(Msg.translate(Env.getCtx(), "FTA_LoadOrder_ID"));
 		statusBar.setStatusDB("");
 		
-		//	Driver
-		//driverSearch.addActionListener(this);
-		
-		//	Vehicle
-		//vehicleSearch.addActionListener(this);
-		
 		//	Document Type Order
 		docTypeSearch.addActionListener(this);
 		
 		//	Warehouse
 		warehouseSearch.addActionListener(this);
-		//	Bulk
-		//isBulkCheck.addActionListener(this);
-		
 		//	Search
 		bSearch.addActionListener(this);
 		
@@ -667,7 +653,6 @@ public class VLoadOrder extends LoadOrder
 			warehouseSearch.removeActionListener(this);
 			m_M_Warehouse_ID = loadComboBox(warehouseSearch, data);
 			warehouseSearch.addActionListener(this);
-			m_C_UOM_ID = getC_UOM_Weight_ID(trxName);
 			clearData();
 		} else if(name.equals("OperationType")){
 			m_OperationType = ((String)(value != null? value: 0));
@@ -682,8 +667,8 @@ public class VLoadOrder extends LoadOrder
 			clearData();
 		} else if(name.equals("FTA_VehicleType_ID")){ 
 			m_FTA_VehicleType_ID = ((Integer)(value != null? value: 0)).intValue();
-			m_LoadCapacity = getLoadCapacity(m_FTA_VehicleType_ID, trxName);
-			loadCapacityField.setValue(m_LoadCapacity);
+			//	Set Capacity
+			setFillCapacity();
 			clearData();
 		} else if(name.equals("FTA_EntryTicket_ID")){
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
@@ -696,8 +681,8 @@ public class VLoadOrder extends LoadOrder
 				m_FTA_VehicleType_ID = getFTA_VehicleType_ID(m_FTA_EntryTicket_ID, trxName);
 				vehicleTypePick.setValue(m_FTA_VehicleType_ID);
 				vehicleTypePick.setReadWrite(false);
-				m_LoadCapacity = getLoadCapacity(m_FTA_VehicleType_ID, trxName);
-				loadCapacityField.setValue(m_LoadCapacity);
+				//	Set Capacity
+				setFillCapacity();
 			}
 		}
 		calculate();
@@ -724,7 +709,7 @@ public class VLoadOrder extends LoadOrder
 		boolean isOrder = (e.getSource().equals(orderTable.getModel()));
 		boolean isOrderLine = (e.getSource().equals(orderLineTable.getModel()));
 		if(isOrder){
-			if(m_C_UOM_ID != 0){
+			if(m_C_UOM_Weight_ID != 0){
 				StringBuffer sql = getQueryLine(orderTable);
 				Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
 				Vector<String> columnNames = getOrderLineColumnNames();
@@ -816,6 +801,17 @@ public class VLoadOrder extends LoadOrder
 	}   //  tableChanged
 	
 	/**
+	 * Set Capacity for Weight and Volume
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 14:01:37
+	 * @return void
+	 */
+	private void setFillCapacity(){
+		setCapacity();
+		loadCapacityField.setValue(m_LoadCapacity);
+		volumeCapacityField.setValue(m_VolumeCapacity);
+	}
+	
+	/**
 	 * Set Value on Is Bulk
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 10/12/2013, 17:45:23
 	 * @return void
@@ -861,9 +857,12 @@ public class VLoadOrder extends LoadOrder
 		//	Valid Organization
 		if(m_AD_Org_ID == 0)
 			msg = "@AD_Org_ID@ @NotFound@";
-		//	Valid UOM
-		else if(m_C_UOM_ID == 0)
-			msg = "@C_UOM_ID@ @NotFound@";
+		//	Valid Weight UOM
+		else if(m_C_UOM_Weight_ID == 0)
+			msg = "@C_UOM_Weight_ID@ @of@ @AD_Client_ID@ @NotFound@";
+		//	Valid Volume UOM
+		else if(m_C_UOM_Volume_ID == 0)
+			msg = "@C_UOM_Volume_ID@ @of@ @AD_Client_ID@ @NotFound@";
 		//	Valid Operation Type
 		else if(m_OperationType == null)
 			msg = "@OperationType@ @NotFound@";
@@ -872,7 +871,7 @@ public class VLoadOrder extends LoadOrder
 			msg = "@FTA_VehicleType_ID@ @NotFound@";
 		//	
 		if(msg != null){
-			ADialog.info(m_WindowNo, panel, Msg.parseTranslation(Env.getCtx(), msg));
+			ADialog.info(m_WindowNo, panel, msg);
 			calculate();
 			return;
 		}
@@ -937,20 +936,27 @@ public class VLoadOrder extends LoadOrder
 		m_C_DocType_ID = (pp != null? pp.getKey(): 0);
 		//	Capacity
 		m_LoadCapacity = (BigDecimal) loadCapacityField.getValue();
-		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
 		//	Product
 		value = productSearch.getValue();
 		m_M_Product_ID = ((Integer)(value != null? value: 0)).intValue();
-		
-		if(m_C_UOM_ID != 0) {
-			MUOM uom = MUOM.get(Env.getCtx(), m_C_UOM_ID);
-			m_UOM_Symbol = uom.getUOMSymbol();	
+		//	Weight Symbol
+		if(m_C_UOM_Weight_ID != 0) {
+			MUOM uom = MUOM.get(Env.getCtx(), m_C_UOM_Weight_ID);
+			m_UOM_Weight_Symbol = uom.getUOMSymbol();
+			weightDiffLabel.setText(Msg.parseTranslation(Env.getCtx(), "@DiffWeight@ (" + m_UOM_Weight_Symbol + ")"));
+		}
+		//	Volume Symbol
+		if(m_C_UOM_Volume_ID != 0) {
+			MUOM uom = MUOM.get(Env.getCtx(), m_C_UOM_Volume_ID);
+			m_UOM_Volume_Symbol = uom.getUOMSymbol();
+			volumeDiffLabel.setText(Msg.parseTranslation(Env.getCtx(), "@DiffVolume@ (" + m_UOM_Volume_Symbol + ")"));
 		}
 	}
 	
 	/**
-	 * Valida los datos antes de generar la orden de carga
-	 * @author Yamel Senih 03/04/2012, 18:26:08
+	 * Validate data
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 16:17:41
+	 * @return
 	 * @return boolean
 	 */
 	private boolean validData(){
@@ -959,24 +965,35 @@ public class VLoadOrder extends LoadOrder
 		//	Valid Organization
 		if(m_AD_Org_ID == 0)
 			msg = "@AD_Org_ID@ @NotFound@";
-		//	Valid UOM
-		else if(m_C_UOM_ID == 0)
-			msg = "@C_UOM_ID@ @NotFound@";
+		//	Valid Weight UOM
+		else if(m_C_UOM_Weight_ID == 0)
+			msg = "@C_UOM_Weight_ID@ @of@ @AD_Client_ID@ @NotFound@";
+		//	Valid Volume UOM
+		else if(m_C_UOM_Volume_ID == 0)
+			msg = "@C_UOM_Volume_ID@ @of@ @AD_Client_ID@ @NotFound@";
 		//	Valid Operation Type
 		else if(m_OperationType == null)
 			msg = "@OperationType@ @NotFound@";
 		//	Vehicle Type
 		else if(m_FTA_VehicleType_ID == 0)
 			msg = "@FTA_VehicleType_ID@ @NotFound@";
-		//	Load Capacity
+		//	Difference Capacity
 		else if(totalWeight.doubleValue() > 0){
-			BigDecimal difference = (BigDecimal) (weightDiffField.getValue() != null? weightDiffField.getValue(): Env.ZERO);
-			if(difference.compareTo(Env.ZERO) > 0)
+			BigDecimal difference = (BigDecimal) (weightDiffField.getValue() != null
+														? weightDiffField.getValue()
+																: Env.ZERO);
+			if(difference.compareTo(Env.ZERO) < 0)
 				msg = "@Weight@ > @LoadCapacity@";
+		} else if(totalVolume.doubleValue() > 0){
+			BigDecimal difference = (BigDecimal) (volumeDiffField.getValue() != null
+														? volumeDiffField.getValue()
+																: Env.ZERO);
+			if(difference.compareTo(Env.ZERO) < 0)
+				msg = "@Volume@ > @VolumeCapacity@";
 		}
 		//	
 		if(msg != null){
-			ADialog.info(m_WindowNo, panel, Msg.parseTranslation(Env.getCtx(), msg));
+			ADialog.info(m_WindowNo, panel, msg);
 			calculate();
 			return false;
 		}
@@ -1002,10 +1019,6 @@ public class VLoadOrder extends LoadOrder
 		name = salesRepSearch.getName();
 		value = salesRepSearch.getValue();
 		m_SalesRep_ID = ((Integer)(value != null? value: 0)).intValue();
-		log.config(name + "=" + value);
-		
-		m_C_UOM_ID = ((Integer)(value != null? value: 0)).intValue();
-		uomWorkValue = (display != null? " " + display: "");
 		log.config(name + "=" + value);
 		
 		//	Load Data
@@ -1043,33 +1056,67 @@ public class VLoadOrder extends LoadOrder
 			totalWeight = Env.ZERO;
 			totalVolume = Env.ZERO;
 			BigDecimal weight = Env.ZERO;
-			BigDecimal difference = Env.ZERO;
+			BigDecimal diffWeight = Env.ZERO;
+			BigDecimal volume = Env.ZERO;
+			BigDecimal diffVolume = Env.ZERO;
 			for (int i = 0; i < rows; i++) {
 				if (((Boolean)orderLineTable.getValueAt(i, 0)).booleanValue()) {
+					//	Weight
 					weight = (BigDecimal) (orderLineTable.getValueAt(i, OL_WEIGHT) != null
 							? orderLineTable.getValueAt(i, OL_WEIGHT)
 									: Env.ZERO);
+					//	Add Weight
 					totalWeight = totalWeight.add(weight);
+					//	Volume
+					volume = (BigDecimal) (orderLineTable.getValueAt(i, OL_VOLUME) != null
+							? orderLineTable.getValueAt(i, OL_VOLUME)
+									: Env.ZERO);
+					//	Add Volume
+					totalVolume = totalVolume.add(volume);
 				}
 			}
+			//	Weight
 			if(totalWeight.compareTo(Env.ZERO) > 0){
 				m_LoadCapacity = (BigDecimal) (loadCapacityField.getValue() != null? loadCapacityField.getValue(): Env.ZERO);
 				//	Calculate Difference
-				difference = m_LoadCapacity.subtract(totalWeight);
+				diffWeight = m_LoadCapacity.subtract(totalWeight);
 			}
-			weightDiffLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight") + uomWorkValue);
-			weightDiffField.setValue(difference.doubleValue());
+			//	Volume
+			if(totalVolume.compareTo(Env.ZERO) > 0){
+				m_VolumeCapacity = (BigDecimal) (volumeCapacityField.getValue() != null? volumeCapacityField.getValue(): Env.ZERO);
+				//	Calculate Difference
+				diffVolume = m_VolumeCapacity.subtract(totalVolume);
+			}
+			//	Set Differences
+			weightDiffField.setValue(diffWeight.doubleValue());
+			volumeDiffField.setValue(diffVolume.doubleValue());
 			orderLineInfo.setText(
 					"(" + Msg.parseTranslation(Env.getCtx(), "@C_Order_ID@ @Selected@"
 					+ " = " +  m_RowsSelected
 					+ ") "
-					+ "@Total@ ") 
-					+ uomWorkValue
-					+ " = " + totalWeight.doubleValue());
+					+ "[@Weight@ (" 
+					+ m_UOM_Weight_Symbol
+					+ ") = " + totalWeight.doubleValue()
+					+ "] | [@Volume@ (") 
+					+ m_UOM_Volume_Symbol
+					+ ") = " + totalVolume.doubleValue()
+					+ "]");
 		} else {
-			weightDiffLabel.setText(Msg.getMsg(Env.getCtx(), "DiffWeight"));
+			//	Set Difference
 			weightDiffField.setValue(Env.ZERO);
-			orderLineInfo.setText(Msg.translate(Env.getCtx(), "OrderLineSum") + " = " + Env.ZERO);
+			volumeDiffField.setValue(Env.ZERO);
+			//	Msg
+			orderLineInfo.setText(
+					"(" + Msg.parseTranslation(Env.getCtx(), "@C_Order_ID@ @Selected@"
+					+ " = " +  m_RowsSelected
+					+ ") "
+					+ "[@Weight@ (" 
+					+ m_UOM_Weight_Symbol
+					+ ") = " + Env.ZERO.doubleValue()
+					+ "] | [@Volume@ (") 
+					+ m_UOM_Volume_Symbol
+					+ ") = " + Env.ZERO.doubleValue()
+					+ "]");
 		}
 	}
 	
@@ -1084,8 +1131,6 @@ public class VLoadOrder extends LoadOrder
 			trx.commit();
 			ADialog.info(m_WindowNo, panel, msg);
 			shipperPick.setValue(0);
-			//uomVehiclePick.setValue(0);
-			uomWorkPick.setValue(0);
 			driverSearch.removeAllItems();
 			vehicleSearch.removeAllItems();
 			parameterCollapsiblePanel.setCollapsed(false);
@@ -1097,7 +1142,7 @@ public class VLoadOrder extends LoadOrder
 		catch (Exception e)	{
 			trx.rollback();
 			ADialog.error(m_WindowNo, panel, "Error", e.getLocalizedMessage());
-			statusBar.setStatusLine("Error" + e.getLocalizedMessage());
+			statusBar.setStatusLine("Error: " + e.getLocalizedMessage());
 			e.printStackTrace();
 			return;
 		}
