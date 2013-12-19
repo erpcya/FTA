@@ -147,6 +147,15 @@ public interface I_FTA_Vehicle
 	  */
 	public boolean isActive();
 
+    /** Column name LoadCapacity */
+    public static final String COLUMNNAME_LoadCapacity = "LoadCapacity";
+
+	/** Set Load Capacity	  */
+	public void setLoadCapacity (BigDecimal LoadCapacity);
+
+	/** Get Load Capacity	  */
+	public BigDecimal getLoadCapacity();
+
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
 
@@ -203,4 +212,13 @@ public interface I_FTA_Vehicle
 	  * Vehicle Plate or Identifier
 	  */
 	public String getVehiclePlate();
+
+    /** Column name VolumeCapacity */
+    public static final String COLUMNNAME_VolumeCapacity = "VolumeCapacity";
+
+	/** Set Volume Capacity	  */
+	public void setVolumeCapacity (BigDecimal VolumeCapacity);
+
+	/** Get Volume Capacity	  */
+	public BigDecimal getVolumeCapacity();
 }
