@@ -47,6 +47,9 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 	 */
 	public String entryTicket (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		Integer m_FTA_EntryTicket_ID = (Integer)value;
+		
+		Integer p_FTA_RecordWeight_ID ;
+		
 		if (m_FTA_EntryTicket_ID == null || m_FTA_EntryTicket_ID.intValue() == 0)
 			return "";
 		
@@ -59,7 +62,11 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 									" WHERE FTA_EntryTicket_ID = ?"
 					);
 			
-			mTab.setValue("FTA_RecordWeight_ID", DB.getSQLValue(null, sql, m_FTA_EntryTicket_ID));
+			p_FTA_RecordWeight_ID = DB.getSQLValue(null, sql, m_FTA_EntryTicket_ID);					
+			mTab.setValue("FTA_RecordWeight_ID", p_FTA_RecordWeight_ID );
+			
+			
+			
 			return "";
 		}
 			

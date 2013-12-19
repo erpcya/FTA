@@ -19,6 +19,9 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.Env;
+
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
@@ -52,4 +55,16 @@ public class MFTAVehicle extends X_FTA_Vehicle {
 		super(ctx, rs, trxName);
 	}
 
+	/**
+	 * Valid Capacity
+	 */
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		if(getLoadCapacity() == null
+				|| getLoadCapacity().equals(Env.ZERO)) {
+			throw new AdempiereException("@LoadCapacity@ = @0@");
+		}
+		return true;
+	}
 }

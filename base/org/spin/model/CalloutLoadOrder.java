@@ -16,26 +16,20 @@
  *****************************************************************************/
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.util.Properties;
 
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
  *
  */
 public class CalloutLoadOrder extends CalloutEngine {
-
-	/**
-	 * *** Constructor ***
-	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 15/11/2013, 10:59:20
-	 */
-	public CalloutLoadOrder() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 15/11/2013, 11:05:11
@@ -109,8 +103,20 @@ public class CalloutLoadOrder extends CalloutEngine {
 	public String entryTicket (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		
 		Integer m_EntriTicket_ID = (Integer)value;
-		if (m_EntriTicket_ID == null || m_EntriTicket_ID.intValue() == 0)
+		if (m_EntriTicket_ID == null || m_EntriTicket_ID.intValue() == 0){
+			mTab.setValue("M_Shipper_ID", 0);
+			//	Vehicle
+			mTab.setValue("FTA_Vehicle_ID", 0);
+			//	Driver
+			mTab.setValue("FTA_Driver_ID", 0);
+			//	Load Capacity
+			mTab.setValue("LoadCapacity", loadCapacity);
+			//	Volume Capacity
+			mTab.setValue("VolumeCapacity", volumeCapacity);
+
 			return "";
+		}
+			
 		
 		MFTAEntryTicket m_EntryTicket = new MFTAEntryTicket(ctx, m_EntriTicket_ID.intValue(), null);
 		
@@ -120,6 +126,16 @@ public class CalloutLoadOrder extends CalloutEngine {
 		mTab.setValue("FTA_Vehicle_ID", m_EntryTicket.getFTA_Vehicle_ID());
 		//	Driver
 		mTab.setValue("FTA_Driver_ID", m_EntryTicket.getFTA_Driver_ID());
+		
+		if(m_EntryTicket.getFTA_Vehicle_ID() != 0){
+			MFTAVehicle m_Vehicle = new MFTAVehicle(ctx, m_EntryTicket.getFTA_Vehicle_ID(), null);
+			//	Load Capacity
+			mTab.setValue("LoadCapacity", m_Vehicle.getLoadCapacity());
+			//	Volume Capacity
+			mTab.setValue("VolumeCapacity", m_Vehicle.getVolumeCapacity());
+			
+			
+		}
 		return "";
 	}
 
@@ -133,18 +149,34 @@ public class CalloutLoadOrder extends CalloutEngine {
 	 * @return
 	 * @return String
 	 */
-	public String loadCapacity (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+	public String vehicleType (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		
 		Integer m_VehicleType_ID = (Integer)value;
-		if (m_VehicleType_ID == null || m_VehicleType_ID.intValue() == 0)
+		if (m_VehicleType_ID == null || m_VehicleType_ID.intValue() == 0){
+			Env.setContext(ctx, WindowNo, "FTA_VehicleType_ID", 0);
 			return "";
+		}
 		
 		MFTAVehicleType m_VehicleType = new MFTAVehicleType(ctx, m_VehicleType_ID.intValue(), null);
-				
-		//	Load Capacity
-		mTab.setValue("LoadCapacity", m_VehicleType.getLoadCapacity());
 
+		//	Load Capacity
+		
+		loadCapacity = m_VehicleType.getLoadCapacity();		
+
+		mTab.setValue("LoadCapacity", loadCapacity);
+
+		//	Volume Capacity
+		volumeCapacity = m_VehicleType.getVolumeCapacity();
+				
+		mTab.setValue("VolumeCapacity", volumeCapacity);
+
+		
 		return "";
 	}
-
+	
+	/**	Load Capacity							 */
+	private static BigDecimal loadCapacity 		= Env.ZERO ;
+	
+	/**	Volume Capacity							 */
+	private static BigDecimal volumeCapacity 	= Env.ZERO;
 }
