@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
@@ -31,7 +32,9 @@ import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
+import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
@@ -494,6 +497,41 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 		super.beforeSave(newRecord);
 		if(newRecord)
 			setIsPrinted(false);
+		
+		String msg = null;
+		
+		if(getOperationType()
+				.equals(X_FTA_EntryTicket.OPERATIONTYPE_RawMaterialReceipt)){
+			
+			if(getFTA_MobilizationGuide_ID() == 0)
+				msg= "@FTA_MobilizationGuide_ID@ @NotFound@";
+			
+			else if(getExt_Guide().equals(Env.ZERO))
+				msg = "@Ext_Guide@ @NotFound@";
+			
+			else if(getC_BPartner_ID() == 0)
+				msg = "@C_BPartner_ID@ @NotFound@";
+			
+		}else if(getOperationType()
+				.equals(X_FTA_EntryTicket.OPERATIONTYPE_MaterialInputMovement)){
+			
+			if(getFTA_LoadOrder_ID() == 0)
+				msg = "@FTA_LoadOrder_ID@ @NotFound@";
+			
+		}else if(getOperationType()
+				.equals(X_FTA_EntryTicket.OPERATIONTYPE_ProductBulkReceipt)
+					|| getOperationType()
+							.equals(X_FTA_EntryTicket.OPERATIONTYPE_ReceiptMoreThanOneProduct)){
+			
+			if(getC_Order_ID() == 0)
+				msg = "@C_Order_ID@ @NotFound@";
+			
+			else if(getC_BPartner_ID() == 0)
+				msg = "@C_BPartner_ID@ @NotFound@";
+		}
+		if(msg != null)
+			throw new AdempiereException(msg);
+		
 		return true;
 	}
 	

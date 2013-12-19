@@ -91,6 +91,8 @@ public class CalloutVehicle extends CalloutEngine {
 		//	Instance class model MFTAVehicleType
 		MFTAVehicleType m_FTA_VehicleType_ID = new MFTAVehicleType(ctx, p_VehicleType_ID, null);
 		
+		//	Set values Load Capacity and Volume Capacity
+		mTab.setValue("LoadCapacity", m_FTA_VehicleType_ID.get_Value("LoadCapacity"));
 		mTab.setValue("VolumeCapacity", m_FTA_VehicleType_ID.get_Value("VolumeCapacity"));
 		
 		return "";

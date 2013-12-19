@@ -19,7 +19,9 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
+import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -76,5 +78,18 @@ public class MFTAVehicle extends X_FTA_Vehicle {
 	
 	/**	Cache						*/
 	private static CCache<Integer,MFTAVehicle>	s_cache	= new CCache<Integer,MFTAVehicle>("FTA_Vehicle", 20, 10);	//	10 minutes
+	
+	/**
+     * Valid Capacity
+     */
+    @Override
+    protected boolean beforeSave(boolean newRecord) {
+    	super.beforeSave(newRecord);
+    	if(getLoadCapacity() == null
+    			|| getLoadCapacity().equals(Env.ZERO)) {
+    		throw new AdempiereException("@LoadCapacity@ = @0@");
+    	}
+    	return true;
+    }
 
 }
