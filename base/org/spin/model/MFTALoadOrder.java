@@ -542,6 +542,7 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
 				{
 					options[index++] = DocumentEngine.ACTION_Prepare;
+					options[index++] = DocumentEngine.ACTION_Complete;
 				}
 				//	Complete                    ..  CO
 				else if (docStatus.equals(DocumentEngine.STATUS_Completed))

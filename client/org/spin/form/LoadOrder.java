@@ -30,6 +30,7 @@ import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTALoadOrderLine;
 import org.spin.model.MFTAVehicle;
 import org.spin.model.MFTAVehicleType;
+import org.spin.model.X_FTA_LoadOrder;
 import org.spin.util.BufferTableSelect;
 
 /**
@@ -590,7 +591,7 @@ public class LoadOrder {
 		loadOrder.setFTA_VehicleType_ID(m_FTA_VehicleType_ID);
 		loadOrder.setDateDoc(m_DateDoc);
 		loadOrder.setShipDate(m_ShipDate);
-		loadOrder.setC_DocType_ID(m_C_DocType_ID);
+		loadOrder.setC_DocType_ID(m_C_DocTypeTarget_ID);
 		loadOrder.setLoadCapacity(m_LoadCapacity);
 		loadOrder.setVolumeCapacity(m_VolumeCapacity);
 		loadOrder.setC_UOM_Weight_ID(m_C_UOM_Weight_ID);
@@ -654,10 +655,14 @@ public class LoadOrder {
 			loadOrder.setVolume(totalVolume);
 			//	Save Header
 			loadOrder.saveEx();
+			//	Complete Order
+			loadOrder.setDocAction(X_FTA_LoadOrder.DOCACTION_Complete);
+			loadOrder.processIt(X_FTA_LoadOrder.DOCACTION_Complete);
+			loadOrder.saveEx();
 		}
 		//	Message
-		return "@Created@ = [" + loadOrder.getDocumentNo() 
-				+ "] || @LineNo@" + " = [" + m_gen + "]";
+		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + loadOrder.getDocumentNo() 
+				+ "] || @LineNo@" + " = [" + m_gen + "]");
 	}
 	
 	/**

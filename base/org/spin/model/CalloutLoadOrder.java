@@ -17,7 +17,6 @@
 package org.spin.model;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.Properties;
 
 import org.compiere.model.CalloutEngine;
@@ -25,7 +24,6 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.eevolution.model.MDDOrderLine;
 
