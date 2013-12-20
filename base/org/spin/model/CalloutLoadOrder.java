@@ -17,13 +17,17 @@
 package org.spin.model;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Properties;
 
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MProduct;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.eevolution.model.MDDOrderLine;
 
 /**
  * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
@@ -42,25 +46,62 @@ public class CalloutLoadOrder extends CalloutEngine {
 	 * @return String
 	 */
 	public String product (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
-		String sql;
 		String name = mField.getColumnName();
-		name = name.substring(0, mField.getColumnName().length() -3 );
-		
 		Integer m_OrderLine_ID = (Integer)value;
-		if (m_OrderLine_ID== null || m_OrderLine_ID.intValue() == 0){
+		//	Set Product to (null)
+		if(m_OrderLine_ID == null
+				|| m_OrderLine_ID.intValue() == 0){
 			mTab.setValue("M_Product_ID", null);
 			return "";
 		}
-		
-		sql =	" SELECT l.M_Product_ID " +
-				" FROM "+ name + " l " +
-				" WHERE l." + mField.getColumnName() + " = ?";
-		 
-		Integer m_M_Product_ID = DB.getSQLValue(null, sql, m_OrderLine_ID);
+		//	Get Product from Order Line
+		int m_M_Product_ID = 0;
+		if(name.equals("C_OrderLine_ID")){
+			MOrderLine oLine = new MOrderLine(ctx, m_OrderLine_ID, null);
+			m_M_Product_ID = oLine.getM_Product_ID();
+		} else if(name.equals("DD_OrderLine_ID")){
+			MDDOrderLine oLine = new MDDOrderLine(ctx, m_OrderLine_ID, null);
+			m_M_Product_ID = oLine.getM_Product_ID();
+		}
+		//	Valid Product 
+		if (m_M_Product_ID == 0)
+			return "";
+		mTab.setValue("M_Product_ID", m_M_Product_ID);		
+		return "";
+	}
+	
+	/**
+	 * Calculate Weight and Volume
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 20/12/2013, 15:18:42
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String qty (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		//	Get Product
+		Integer m_M_Product_ID = (Integer) mTab.getValue("M_Product_ID");
 		if (m_M_Product_ID == null || m_M_Product_ID.intValue() == 0)
 			return "";
-		
-		mTab.setValue("M_Product_ID", m_M_Product_ID);		
+		//	Instance Product
+		MProduct product = MProduct.get(ctx, m_M_Product_ID);
+		//	Get Weight and Volume
+		BigDecimal m_Weight = product.getWeight();
+		if(m_Weight == null)
+			m_Weight = Env.ZERO;
+		BigDecimal m_Volume = product.getVolume();
+		if(m_Volume == null)
+			m_Volume = Env.ZERO;
+		//	Quantity
+		BigDecimal m_Qty = (BigDecimal) mTab.getValue("Qty");
+		if(m_Qty == null)
+			m_Qty = Env.ZERO;
+		//	Calculate
+		mTab.setValue("Weight", m_Qty.multiply(m_Weight));
+		mTab.setValue("Volume", m_Qty.multiply(m_Volume));
 		return "";
 	}
 	
