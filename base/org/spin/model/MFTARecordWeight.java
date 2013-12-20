@@ -620,41 +620,44 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
 		if(newRecord)
-			setIsPrinted(false);/*
-String msg = null;
+			setIsPrinted(false);
+		//	Dixon Martinez 20/12/2013 09:29
+		//	Add validation for trying to save the registry do not allow weight if the load order or the analysis of quality are null. 
+		
+		// Msg  display 
+		String msg = null;
+		
+		//	Yamel Senih 2013-12-19: 17:04:02
+		//	Valid Operation Type
+		if(getOperationType() == null)
+			msg = "@FTA_EntryTicket_ID@ @NotFound@";
+		//	End Yamel Senih
+			
 		
 		if(getOperationType()
-				.equals(X_FTA_EntryTicket.OPERATIONTYPE_RawMaterialReceipt)){
-			
-			if(getFTA_MobilizationGuide_ID() == 0)
-				msg= "@FTA_MobilizationGuide_ID@ @NotFound@";
-			
-			else if(getExt_Guide().equals(Env.ZERO))
-				msg = "@Ext_Guide@ @NotFound@";
-			
-			else if(getC_BPartner_ID() == 0)
-				msg = "@C_BPartner_ID@ @NotFound@";
-			
-		}else if(getOperationType()
-				.equals(X_FTA_EntryTicket.OPERATIONTYPE_MaterialInputMovement)){
-			
+				.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryBulkMaterial)
+				||	getOperationType()
+						.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryFinishedProduct)
+						||	getOperationType()
+								.equals(X_FTA_EntryTicket.OPERATIONTYPE_MaterialOutputMovement)){//	If Operation Type In Delivery Bulk Material, 
+																								 //	Delivery Finished Product Or Material Output 
+																								 //	Movement and Load Order equals 0 view msg 
+																								 //	Load Order not found.
 			if(getFTA_LoadOrder_ID() == 0)
 				msg = "@FTA_LoadOrder_ID@ @NotFound@";
-			
 		}else if(getOperationType()
-				.equals(X_FTA_EntryTicket.OPERATIONTYPE_ProductBulkReceipt)
+					.equals(X_FTA_EntryTicket.OPERATIONTYPE_ProductBulkReceipt)
 					|| getOperationType()
-							.equals(X_FTA_EntryTicket.OPERATIONTYPE_ReceiptMoreThanOneProduct)){
-			
-			if(getC_Order_ID() == 0)
-				msg = "@C_Order_ID@ @NotFound@";
-			
-			else if(getC_BPartner_ID() == 0)
-				msg = "@C_BPartner_ID@ @NotFound@";
+							.equals(X_FTA_EntryTicket.OPERATIONTYPE_RawMaterialReceipt)){//	Id Operation Type In Product Bulk Receipt and Raw Material
+																						 // Receipt and Load Order equals 0 view msg Quality Analysis not found.
+			if(getFTA_QualityAnalysis_ID() == 0)
+				msg = "@FTA_QualityAnalysis_ID@ @NotFound@";
 		}
+		
+		//	If msg is distinct of null display Adempiere Exception with msg
 		if(msg != null)
 			throw new AdempiereException(msg);
-	*/	
+		//	End Dixon Martinez
 		return true;
 	
 	

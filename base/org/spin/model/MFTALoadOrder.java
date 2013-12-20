@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
@@ -32,6 +33,7 @@ import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
@@ -550,6 +552,30 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		
 		return index;
 	}
+
+	//	Dixon Martinez 2013-20-12 10:07
+	//	Add method before save 
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		//	Dixon Martinez 20/12/2013 09:29
+		//	Add validation for trying to save the charge by not permitted to do so if the vehicle type is null. 
+			
+		String msg = null;
+		
+		//	Yamel Senih 2013-12-19: 17:04:02
+		//	Valid Operation Type
+		if(getOperationType() == null)
+			msg = "@FTA_VehicleType_ID@ @NotFound@";
+		//	End Yamel Senih
+		
+		
+		if(msg != null)
+			throw new AdempiereException(msg);
+		//	End Dixon Martinez
+		return true;
+	}//	End beforeSave
+	
 
 
 }
