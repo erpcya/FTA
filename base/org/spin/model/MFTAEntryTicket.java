@@ -495,8 +495,12 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
 		if(newRecord)
-			setIsPrinted(false);
-		
+			setIsPrinted(false);		
+	
+		//	Dixon Martinez 20/12/2013 09:29
+		//	Adding Validation to try to save the record weight not allow it if the ticket entry, 
+		//	Mobilization Guide, external guide, the business partner, the order or order of quality are null. 
+			
 		String msg = null;
 		
 		//	Yamel Senih 2013-12-19: 17:04:02
@@ -536,7 +540,7 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 		}
 		if(msg != null)
 			throw new AdempiereException(msg);
-		
+		//	End Dixon Martinez
 		return true;
 	}
 	
