@@ -656,8 +656,8 @@ public class LoadOrder {
 			loadOrder.saveEx();
 		}
 		//	Message
-		return Msg.parseTranslation(Env.getCtx(), "@Generated@ = [" + loadOrder.getDocumentNo() 
-				+ "] || @Lines@") + " = [" + m_gen + "]";
+		return "@Created@ = [" + loadOrder.getDocumentNo() 
+				+ "] || @LineNo@" + " = [" + m_gen + "]";
 	}
 	
 	/**

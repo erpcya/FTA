@@ -249,9 +249,6 @@ public class VLoadOrder extends LoadOrder
 		//	Date
 		labelDateDoc.setText(Msg.translate(Env.getCtx(), "DateDoc"));
 		labelShipDate.setText(Msg.translate(Env.getCtx(), "ShipDate"));
-		//	Bulk
-		//isBulkCheck.setText(Msg.translate(Env.getCtx(), "IsBulk"));
-		//isBulkCheck.setSelected(false);
 		//	Product
 		productLabel.setText(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		
@@ -406,10 +403,10 @@ public class VLoadOrder extends LoadOrder
 		//	Search
 		parameterPanel.add(bSearch, new GridBagConstraints(5, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-		//mainPanel.add(stockCollapsiblePanel, BorderLayout.SOUTH);
+		//	
 		mainPanel.add(stockInfoPanel, BorderLayout.SOUTH);
 		
-		//	Botton Panel
+		//	Button Panel
 		loadOrderPanel.add(selectAllButton, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 5, 5, 5), 0, 0));
 		//	Weight Difference
@@ -432,7 +429,7 @@ public class VLoadOrder extends LoadOrder
 		orderScrollPane.getViewport().add(orderTable, null);
 		orderLinePanel.add(orderLineLabel, BorderLayout.NORTH);
 		
-		// Panel de Informacion y del Stock del Producto
+		// Product Stock Info Panel
 		stockInfoPanel.setLayout(orderLineStockInfoLayout);
 		
 		stockInfoPanel.add(stockCollapsiblePanel, BorderLayout.NORTH);
@@ -1111,10 +1108,10 @@ public class VLoadOrder extends LoadOrder
 					+ " = " +  m_RowsSelected
 					+ ") "
 					+ "[@Weight@ (" 
-					+ m_UOM_Weight_Symbol
+					+ (m_UOM_Weight_Symbol != null? m_UOM_Weight_Symbol: "")
 					+ ") = " + Env.ZERO.doubleValue()
 					+ "] | [@Volume@ (") 
-					+ m_UOM_Volume_Symbol
+					+ (m_UOM_Volume_Symbol != null? m_UOM_Volume_Symbol: "")
 					+ ") = " + Env.ZERO.doubleValue()
 					+ "]");
 		}
