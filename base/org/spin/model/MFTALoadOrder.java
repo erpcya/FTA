@@ -252,8 +252,7 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	
 	/**
 	 * Validate Weight and Volume
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:27:23
-	 * @return
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 23/12/2013, 10:27:23
 	 * @return String
 	 */
 	private String validWeightVolume() {
