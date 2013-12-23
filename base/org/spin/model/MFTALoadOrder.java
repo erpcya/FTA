@@ -217,6 +217,11 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 				return status;
 		}
 
+		//	Valid Weight and Volume
+		m_processMsg = validWeightVolume();
+		if(m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+			
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
@@ -245,6 +250,25 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	/**
+	 * Validate Weight and Volume
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:27:23
+	 * @return
+	 * @return String
+	 */
+	private String validWeightVolume() {
+		//	Validate Weight
+		if(getWeight() == null
+				|| getWeight().equals(Env.ZERO))
+			return "@Weight@ = @0@";
+		
+		//	and Volume distinct of 0
+		if(getVolume() == null
+				|| getVolume().equals(Env.ZERO))
+			return "@Volume@ = @0@";
+		return null;
+	}
+
 	/**
      *  Set Processed.
      *  Propagate to Lines
@@ -570,14 +594,13 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			msg = "@FTA_VehicleType_ID@ @NotFound@";
 		//	End Yamel Senih
 		
-		//	Dixon Martinez 2013-12-23
-		//	Validate Weight and Volume distinct of 0
-		if(getWeight() == Env.ZERO)
-			msg = "@Weight == 0@";
-		
-		if(getVolume() == Env.ZERO)
-			msg = "@Volume == 0@";
-		
+		//	Dixon Martinez 
+		//	Validate Weight and Volume >= 0 
+		if((getLoadCapacity().subtract(getWeight()).compareTo(getWeight()) < 0))
+			msg = "@Weight@ >= @0@";
+
+		if((getVolumeCapacity().subtract(getVolume()).compareTo(getVolume()) < 0))
+			msg = "@Volume@ >= @0@";
 		
 		if(msg != null)
 			throw new AdempiereException(msg);
