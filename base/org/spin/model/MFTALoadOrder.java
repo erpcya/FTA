@@ -217,11 +217,6 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 				return status;
 		}
 
-		//	Valid Weight and Volume
-		m_processMsg = validWeightVolume();
-		if(m_processMsg != null)
-			return DocAction.STATUS_Invalid;
-			
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
@@ -236,6 +231,12 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
+		
+		//	Valid Weight and Volume
+		m_processMsg = validWeightVolume();
+		if(m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+			
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -267,10 +268,15 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			return "@Volume@ = @0@";
 		
 		if((getLoadCapacity().subtract(getWeight()).compareTo(getWeight()) < 0))
-			return "@Weight@ >= @0@";
+				return "@Weight@ >= @LoadCapacity@";
 
 		if((getVolumeCapacity().subtract(getVolume()).compareTo(getVolume()) < 0))
-			return "@Volume@ >= @0@";
+			return "@Volume@ >= @VolumeCapacity@";
+		
+		/*MFTALoadOrderLine[] lines = getLines(true); 
+		for (MFTALoadOrderLine m_FTALoadOrderLine : lines) {
+			m_FTALoadOrderLine
+		}*/
 
 		return null;
 	}
