@@ -846,7 +846,7 @@ public class VLoadOrder extends LoadOrder
 	}
 
 	/**
-	 * Seach Data
+	 * Search Data
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/12/2013, 11:51:44
 	 * @return void
 	 */
