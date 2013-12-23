@@ -266,6 +266,13 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		if(getVolume() == null
 				|| getVolume().equals(Env.ZERO))
 			return "@Volume@ = @0@";
+		
+		if((getLoadCapacity().subtract(getWeight()).compareTo(getWeight()) < 0))
+			return "@Weight@ >= @0@";
+
+		if((getVolumeCapacity().subtract(getVolume()).compareTo(getVolume()) < 0))
+			return "@Volume@ >= @0@";
+
 		return null;
 	}
 
@@ -593,15 +600,7 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		if(getOperationType() == null)
 			msg = "@FTA_VehicleType_ID@ @NotFound@";
 		//	End Yamel Senih
-		
-		//	Dixon Martinez 
-		//	Validate Weight and Volume >= 0 
-		if((getLoadCapacity().subtract(getWeight()).compareTo(getWeight()) < 0))
-			msg = "@Weight@ >= @0@";
-
-		if((getVolumeCapacity().subtract(getVolume()).compareTo(getVolume()) < 0))
-			msg = "@Volume@ >= @0@";
-		
+			
 		if(msg != null)
 			throw new AdempiereException(msg);
 		//	End Dixon Martinez
