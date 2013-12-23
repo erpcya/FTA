@@ -1041,7 +1041,7 @@ public class VLoadOrder extends LoadOrder
 		DefaultTableModel modelLine = new DefaultTableModel();
 		orderLineTable.setModel(modelLine);
 		//
-		return data.isEmpty();
+		return !data.isEmpty();
 	}
 	
 	/**
