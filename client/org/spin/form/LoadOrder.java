@@ -18,6 +18,7 @@ import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MRole;
+import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.swing.CComboBox;
 import org.compiere.util.CLogger;
@@ -116,6 +117,10 @@ public class LoadOrder {
 	protected int 		m_C_UOM_Weight_ID = 0;
 	/**	Volume Unit Measure	*/
 	protected int 		m_C_UOM_Volume_ID = 0;
+	/**	Weight Precision	*/
+	protected int 		m_WeightPrecision = 0;
+	/**	Volume Precision	*/
+	protected int 		m_VolumePrecision = 0;
 	/**	Rows Selected		*/
 	protected int		m_RowsSelected = 0;
 	/**	Is Bulk Product		*/
@@ -423,14 +428,14 @@ public class LoadOrder {
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyReserved"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyInvoiced"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyDelivered"));
-		columnNames.add(Msg.translate(Env.getCtx(), "SGQtyLoc"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyInTransit"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Weight")
 				+ " (" + m_UOM_Weight_Symbol + ")");
 		columnNames.add(Msg.translate(Env.getCtx(), "Volume")
 				+ " (" + m_UOM_Volume_Symbol + ")");
-		columnNames.add(Msg.translate(Env.getCtx(), "SeqNo"));
+		columnNames.add(Msg.translate(Env.getCtx(), "LoadSeq"));
 		
 		return columnNames;
 	}
@@ -626,9 +631,9 @@ public class LoadOrder {
 				int m_C_OrderLine_ID = ((KeyNamePair)orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
 				int m_M_Product_ID = ((KeyNamePair)orderLineTable.getValueAt(i, OL_PRODUCT)).getKey();
 				BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(i, OL_QTY);
-				//BigDecimal seqNo = new BigDecimal((Integer) orderLineTable.getValueAt(i, OL_SEQNO));
 				BigDecimal weight = (BigDecimal) orderLineTable.getValueAt(i, OL_WEIGHT);
 				BigDecimal volume = (BigDecimal) orderLineTable.getValueAt(i, OL_VOLUME);
+				Integer seqNo = (Integer) orderLineTable.getValueAt(i, OL_SEQNO);
 				//	New Line
 				lorder = new MFTALoadOrderLine(Env.getCtx(), 0, trxName);
 				//	Set Values
@@ -637,7 +642,7 @@ public class LoadOrder {
 				lorder.setC_OrderLine_ID(m_C_OrderLine_ID);
 				lorder.setM_Product_ID(m_M_Product_ID);
 				lorder.setQty(qty);
-				//lorder.setSeqNo(seqNo);
+				lorder.setSeqNo(seqNo);
 				lorder.setWeight(weight);
 				lorder.setVolume(volume);
 				//	Add Weight
@@ -649,17 +654,17 @@ public class LoadOrder {
 				//	Add Count
 				m_gen ++;
 			}
-			//	Set Header Weight
-			loadOrder.setWeight(totalWeight);
-			//	Set Header Volume
-			loadOrder.setVolume(totalVolume);
-			//	Save Header
-			loadOrder.saveEx();
-			//	Complete Order
-			loadOrder.setDocAction(X_FTA_LoadOrder.DOCACTION_Complete);
-			loadOrder.processIt(X_FTA_LoadOrder.DOCACTION_Complete);
-			loadOrder.saveEx();
 		}
+		//	Set Header Weight
+		loadOrder.setWeight(totalWeight);
+		//	Set Header Volume
+		loadOrder.setVolume(totalVolume);
+		//	Save Header
+		loadOrder.saveEx();
+		//	Complete Order
+		loadOrder.setDocAction(X_FTA_LoadOrder.DOCACTION_Complete);
+		loadOrder.processIt(X_FTA_LoadOrder.DOCACTION_Complete);
+		loadOrder.saveEx();
 		//	Message
 		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + loadOrder.getDocumentNo() 
 				+ "] || @LineNo@" + " = [" + m_gen + "]");
@@ -735,6 +740,14 @@ public class LoadOrder {
 	protected void loadDefaultValues(String trxName){
 		m_C_UOM_Weight_ID = getC_UOM_Weight_ID(trxName);
 		m_C_UOM_Volume_ID = getC_UOM_Volume_ID(trxName);
+		//	Get Weight Precision
+		if(m_C_UOM_Weight_ID != 0) {
+			m_WeightPrecision = MUOM.getPrecision(Env.getCtx(), m_C_UOM_Weight_ID);
+		}
+		//	Get Volume Precision
+		if(m_C_UOM_Volume_ID != 0) {
+			m_VolumePrecision = MUOM.getPrecision(Env.getCtx(), m_C_UOM_Volume_ID);
+		}
 	}
 	
 	/**
@@ -973,8 +986,10 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Carga los valores seleccionados de la tabla en un Buffer
+	 * Load Buffer
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:29:25
 	 * @param orderLineTable
+	 * @return void
 	 */
 	public void loadBuffer(IMiniTable orderLineTable){
 		log.info("Load Buffer");
@@ -1002,8 +1017,8 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Recarga los datos de la tabla de valores acumulados
-	 * @author Yamel Senih 08/06/2012, 11:39:44
+	 * Refresh Stock Values
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:34:21
 	 * @param orderLineTable
 	 * @return void
 	 */
@@ -1024,9 +1039,8 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Verifica si existe el producto en una tabla
-	 * @author Yamel Senih 08/06/2012, 10:08:57
-	 * @param stockTable
+	 * Verifi if exists the product on table
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:29:57
 	 * @param Product_ID
 	 * @return
 	 * @return int
@@ -1064,8 +1078,6 @@ public class LoadOrder {
 		
 		if(pos > -1){
 			BigDecimal qtySetOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTYSET);
-			
-			//System.out.println(" qtySetOld " + qtySetOld);
 			//	Negate
 			if(!isSelected)
 				qtySet = qtySet.negate();
@@ -1082,15 +1094,17 @@ public class LoadOrder {
 			line.add(qtyOnHand);
 			line.add(qtySet);
 			line.add(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP));
-			
+			//	
 			stockModel.addRow(line);
 		}
 	}
 	
 	/**
-	 * Verifica si existe un ID en el Vector
+	 * Verifi if is Selected
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:30:28
 	 * @param m_Record_ID
 	 * @return
+	 * @return BufferTableSelect
 	 */
 	private BufferTableSelect isSelect(int m_Record_ID){
 		log.info("Is Select " + m_Record_ID);
@@ -1105,8 +1119,10 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Establece los valores cargados en el buffer en la tabla
+	 * Set the values from buffer
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:35:54
 	 * @param orderLineTable
+	 * @return void
 	 */
 	protected void setValueFromBuffer(IMiniTable orderLineTable){
 		log.info("Set Value From Buffer");
@@ -1134,27 +1150,5 @@ public class LoadOrder {
 	 */
 	protected boolean isBulk() {
 		return (m_OperationType.equals("DBM"));
-	}
-	
-	/**
-	 * Verifica que ya esté seleccionado una fila de la table
-	 * @author Yamel Senih 18/03/2012, 12:56:59
-	 * @param table
-	 * @return
-	 * @return boolean
-	 */
-	protected boolean moreOneSelect(IMiniTable table) {
-		int rows = table.getRowCount();
-		int cont = 0;
-		for (int i = 0; i < rows; i++) {
-			if (((Boolean)table.getValueAt(i, SELECT)).booleanValue()) {
-				cont++;
-				if(cont > 1){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
+	}	
 }
