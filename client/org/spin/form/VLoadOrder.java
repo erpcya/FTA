@@ -667,7 +667,7 @@ public class VLoadOrder extends LoadOrder
 			m_FTA_VehicleType_ID = ((Integer)(value != null? value: 0)).intValue();
 			//	Set Capacity
 			setFillCapacity();
-			clearData();
+			calculate();
 		} else if(name.equals("FTA_EntryTicket_ID")){
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
 			if(m_FTA_EntryTicket_ID != 0){
@@ -755,14 +755,14 @@ public class VLoadOrder extends LoadOrder
 						.setScale(precision, BigDecimal.ROUND_HALF_UP)
 						.doubleValue()){
 					
-					ADialog.warn(m_WindowNo, panel, null, Msg.translate(Env.getCtx(), "QtyEx"));
+					ADialog.warn(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), "@Qty@ > @QtyOrdered@"));
 					qty = qtyOrdered
 							.subtract(qtyDelivered)
 							.subtract(qtyOrderLine)
 							.setScale(precision, BigDecimal.ROUND_HALF_UP);
 					orderLineTable.setValueAt(qty, row, OL_QTY);
 				} else if(qty.compareTo(Env.ZERO) <= 0){
-					ADialog.warn(m_WindowNo, panel, null, Msg.translate(Env.getCtx(), "QtyLessZero"));
+					ADialog.warn(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), "@Qty@ <= 0"));
 					qty = qtyOrdered
 							.subtract(qtyDelivered)
 							.subtract(qtyOrderLine)
@@ -770,10 +770,10 @@ public class VLoadOrder extends LoadOrder
 					orderLineTable.setValueAt(qty, row, OL_QTY);
 				}
 				//	Calculate Weight
-				weight = qty.multiply(unitWeight).setScale(precision, BigDecimal.ROUND_HALF_UP);
+				weight = qty.multiply(unitWeight).setScale(m_WeightPrecision, BigDecimal.ROUND_HALF_UP);
 				orderLineTable.setValueAt(weight, row, OL_WEIGHT);
 				//	Calculate Volume
-				volume = qty.multiply(unitVolume).setScale(precision, BigDecimal.ROUND_HALF_UP);
+				volume = qty.multiply(unitVolume).setScale(m_VolumePrecision, BigDecimal.ROUND_HALF_UP);
 				orderLineTable.setValueAt(volume, row, OL_VOLUME);
 			} else if(col == SELECT){
 				boolean select = (Boolean) orderLineTable.getValueAt(row, col);
@@ -818,7 +818,6 @@ public class VLoadOrder extends LoadOrder
 	 */
 	private void setIsBulk(){
 		//	Set Context
-		Env.setContext(Env.getCtx(), m_WindowNo, "IsBulk", m_IsBulk);
 		productLabel.setVisible(m_IsBulk);
 		productSearch.setVisible(m_IsBulk);
 	}
