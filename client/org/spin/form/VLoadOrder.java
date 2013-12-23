@@ -874,9 +874,9 @@ public class VLoadOrder extends LoadOrder
 			calculate();
 			return;
 		}
-		loadOrder();
-		//	Add Automatic Collapsed
-		parameterCollapsiblePanel.setCollapsed(true);
+		//	Load Data
+		if(loadDataOrder())
+			parameterCollapsiblePanel.setCollapsed(true);
 	}
 	
 	/**
@@ -1001,10 +1001,11 @@ public class VLoadOrder extends LoadOrder
 	
 	/**
 	 * Load Order Data
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 12/12/2013, 11:39:19
-	 * @return void
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 11:26:11
+	 * @return
+	 * @return boolean
 	 */
-	public void loadOrder()
+	public boolean loadDataOrder()
 	{		String name = organizationPick.getName();
 		Object value = organizationPick.getValue();
 		m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
@@ -1040,6 +1041,7 @@ public class VLoadOrder extends LoadOrder
 		DefaultTableModel modelLine = new DefaultTableModel();
 		orderLineTable.setModel(modelLine);
 		//
+		return data.isEmpty();
 	}
 	
 	/**
