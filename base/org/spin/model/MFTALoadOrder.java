@@ -570,6 +570,14 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			msg = "@FTA_VehicleType_ID@ @NotFound@";
 		//	End Yamel Senih
 		
+		//	Dixon Martinez 2013-12-23
+		//	Validate Weight and Volume distinct of 0
+		if(getWeight() == Env.ZERO)
+			msg = "@Weight == 0@";
+		
+		if(getVolume() == Env.ZERO)
+			msg = "@Volume == 0@";
+		
 		
 		if(msg != null)
 			throw new AdempiereException(msg);

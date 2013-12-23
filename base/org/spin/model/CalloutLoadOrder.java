@@ -129,7 +129,7 @@ public class CalloutLoadOrder extends CalloutEngine {
 	}
 
 	/**
-	 * 
+	 * Set values Shiper, Vehicle and Driver of Entri Ticket
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 20/11/2013, 11:58:21
 	 * @param ctx
 	 * @param WindowNo
@@ -143,42 +143,33 @@ public class CalloutLoadOrder extends CalloutEngine {
 		
 		Integer m_EntriTicket_ID = (Integer)value;
 		if (m_EntriTicket_ID == null || m_EntriTicket_ID.intValue() == 0){
-			mTab.setValue("M_Shipper_ID", 0);
+			mTab.setValue("M_Shipper_ID", -1);
 			//	Vehicle
-			mTab.setValue("FTA_Vehicle_ID", 0);
+			mTab.setValue("FTA_Vehicle_ID", -1);
 			//	Driver
-			mTab.setValue("FTA_Driver_ID", 0);
+			mTab.setValue("FTA_Driver_ID", -1);
 			//	Load Capacity
-			mTab.setValue("LoadCapacity", loadCapacity);
+			mTab.setValue("LoadCapacity", Env.ZERO);
 			//	Volume Capacity
-			mTab.setValue("VolumeCapacity", volumeCapacity);
+			mTab.setValue("VolumeCapacity", Env.ZERO);
 
 			return "";
 		}
-			
-		
+		//	Instance Entry Ticket
 		MFTAEntryTicket m_EntryTicket = new MFTAEntryTicket(ctx, m_EntriTicket_ID.intValue(), null);
 		
-		//	Shipper
+		//	Set Shipper
 		mTab.setValue("M_Shipper_ID", m_EntryTicket.getM_Shipper_ID());
-		//	Vehicle
+		//	Set Vehicle
 		mTab.setValue("FTA_Vehicle_ID", m_EntryTicket.getFTA_Vehicle_ID());
-		//	Driver
+		//	Set Driver
 		mTab.setValue("FTA_Driver_ID", m_EntryTicket.getFTA_Driver_ID());
 		
-		if(m_EntryTicket.getFTA_Vehicle_ID() != 0){
-			MFTAVehicle m_Vehicle = new MFTAVehicle(ctx, m_EntryTicket.getFTA_Vehicle_ID(), null);
-			//	Load Capacity
-			mTab.setValue("LoadCapacity", m_Vehicle.getLoadCapacity());
-			//	Volume Capacity
-			mTab.setValue("VolumeCapacity", m_Vehicle.getVolumeCapacity());
-			
-			
-		}
 		return "";
 	}
 
 	/**
+	 * Set values Load Capacity and Volume Capacity of Vehicle Type
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 20/11/2013, 14:26:18
 	 * @param ctx
 	 * @param WindowNo
@@ -196,26 +187,44 @@ public class CalloutLoadOrder extends CalloutEngine {
 			return "";
 		}
 		
+		//	Instance Vehicle Type
 		MFTAVehicleType m_VehicleType = new MFTAVehicleType(ctx, m_VehicleType_ID.intValue(), null);
 
-		//	Load Capacity
-		
-		loadCapacity = m_VehicleType.getLoadCapacity();		
+		//	Set Load Capacity
+		mTab.setValue("LoadCapacity", m_VehicleType.getLoadCapacity());
 
-		mTab.setValue("LoadCapacity", loadCapacity);
-
-		//	Volume Capacity
-		volumeCapacity = m_VehicleType.getVolumeCapacity();
-				
-		mTab.setValue("VolumeCapacity", volumeCapacity);
-
+		//	Set Volume Capacity				
+		mTab.setValue("VolumeCapacity", m_VehicleType.getVolumeCapacity());
 		
 		return "";
 	}
-	
-	/**	Load Capacity							 */
-	private static BigDecimal loadCapacity 		= Env.ZERO ;
-	
-	/**	Volume Capacity							 */
-	private static BigDecimal volumeCapacity 	= Env.ZERO;
+
+	/**
+	 * Set values Load Capacity and Volume Capacity of Vehicle
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 09:55:46
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String vehicle (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		
+		Integer m_Vehicle_ID = (Integer)value;
+		if (m_Vehicle_ID == null || m_Vehicle_ID.intValue() == 0)
+			return "";
+		//	Instance Vehicle
+		MFTAVehicle m_Vehicle = new MFTAVehicle(ctx, m_Vehicle_ID.intValue(), null);
+
+		//	Set Load Capacity
+		mTab.setValue("LoadCapacity", m_Vehicle.getLoadCapacity());
+
+		//	Set Volume Capacity
+		mTab.setValue("VolumeCapacity", m_Vehicle.getVolumeCapacity());
+		
+		return "";
+	}
+
 }
