@@ -197,17 +197,14 @@ public class FTAModelValidator implements ModelValidator {
 			if(po.get_TableName().equals(MPayment.Table_Name)){
 				MPayment pay = (MPayment) po;
 				
-				String trxName = MPayment.Table_Name;
-				Trx trx = Trx.get(trxName, true);
-				
-				List<MFTAPaymentRequest>  prs = new Query(Env.getCtx(),MFTAPaymentRequest.Table_Name,"Exists(Select 1 From C_PaySelectionCheck pschk Where pschk.C_Payment_ID =? And pschk.C_PaySelectionCheck_ID=FTA_PaymentRequest.C_PaySelectionCheck_ID)",trxName)
+				List<MFTAPaymentRequest>  prs = new Query(Env.getCtx(),MFTAPaymentRequest.Table_Name,"Exists(Select 1 From C_PaySelectionCheck pschk Where pschk.C_Payment_ID =? And pschk.C_PaySelectionCheck_ID=FTA_PaymentRequest.C_PaySelectionCheck_ID)",pay.get_TrxName())
 					.setOnlyActiveRecords(true)
 					.setParameters(pay.getC_Payment_ID())
 					.list();
 				
 				for(MFTAPaymentRequest pr:prs){
 					pr.setC_PaySelectionCheck_ID(0);
-					pr.save(trxName);
+					pr.save(pay.get_TrxName());
 				}
 				
 				
@@ -218,11 +215,8 @@ public class FTAModelValidator implements ModelValidator {
 				
 				for(MFTAAllocation alloc:allocs){
 					alloc.processIt(X_FTA_Allocation.DOCACTION_Void);
-					alloc.save(trxName);
+					alloc.save(pay.get_TrxName());
 				}
-				
-				//Confirm Changes
-				trx.commit();
 			}
 			// Carlos Parada Set 
 			else if (po.get_TableName().equals(MInvoice.Table_Name)){
@@ -246,12 +240,9 @@ public class FTAModelValidator implements ModelValidator {
 				.setParameters(pay.getC_Payment_ID())
 				.list();
 				
-				String trxName = MPayment.Table_Name;
-				Trx trx = Trx.get(trxName, true);
-				
 				for(MFTAPaymentRequest pr:prs){
 					
-					MFTAAllocation alloc =new MFTAAllocation(Env.getCtx(), 0, trxName);
+					MFTAAllocation alloc =new MFTAAllocation(Env.getCtx(), 0, pay.get_TrxName());
 					alloc.setDateDoc(pay.getDateTrx());
 					alloc.setFTA_FarmerCredit_ID(pr.getFTA_FarmerCredit_ID());
 					alloc.setApprovalAmt(Env.ZERO);
@@ -259,7 +250,7 @@ public class FTAModelValidator implements ModelValidator {
 					alloc.setDescription(pay.getDescription());
 					alloc.setIsApproved(true);
 					
-					alloc.save(trxName);
+					alloc.save(pay.get_TrxName());
 					
 					MFTAAllocationLine allocline = new MFTAAllocationLine(alloc);
 					allocline.setC_BPartner_ID(pay.getC_BPartner_ID());
@@ -270,16 +261,11 @@ public class FTAModelValidator implements ModelValidator {
 					allocline.setOverUnderAmt(Env.ZERO);
 					allocline.setDiscountAmt(Env.ZERO);
 					
-					allocline.save(trxName);
+					allocline.save(pay.get_TrxName());
 					
 					alloc.processIt(X_FTA_Allocation.DOCACTION_Complete);
-					alloc.save(trxName);
-					
-					
+					alloc.save(pay.get_TrxName());
 				}
-				//Confirm Changes
-				trx.commit();
-				
 			}
 				
 				
