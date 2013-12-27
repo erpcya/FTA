@@ -31,7 +31,9 @@ public class ChangeCategory extends SvrProcess{
 	@Override
 	protected String doIt() throws Exception {
 		// TODO Auto-generated method stub
-		
+		System.out.println("1_" + p_FTA_CreditDefinition_ID);
+		System.out.println("3_" + p_FTA_CreditDefinition_To_ID);
+		System.out.println("4_" + p_FTA_FarmerCredit_ID);
 		return null;
 	}
 
