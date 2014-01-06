@@ -293,7 +293,7 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
             return;
         int noLine = DB.executeUpdateEx("UPDATE FTA_LoadOrderLine " +
         		"SET Processed=? " +
-        		"WHERE FTA_LoadOrderLine_ID=?",
+        		"WHERE FTA_LoadOrder_ID=?",
         		new Object[]{processed, get_ID()},
         		get_TrxName());
         m_lines = null;
