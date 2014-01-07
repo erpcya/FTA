@@ -392,8 +392,10 @@ public class LoadOrder {
 				
 				line.add(qty);							//  12-Quantity
 				line.add(uop);				      		//  13-Unit Product
-				line.add(rs.getBigDecimal(column++));	//	14-Weight
-				line.add(rs.getBigDecimal(column++));	//	15-Volume
+				BigDecimal weight = rs.getBigDecimal(column++);
+				BigDecimal volume = rs.getBigDecimal(column++);
+				line.add(weight.multiply(qty));	//	14-Weight
+				line.add(volume.multiply(qty));	//	15-Volume
 				//	Add Data
 				data.add(line);
 			}
@@ -532,7 +534,7 @@ public class LoadOrder {
 				"pro.C_UOM_ID, uomp.UOMSymbol, SUM(s.QtyOnHand) QtyOnHand, " +
 				"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
 				"SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END) QtyLoc, " +
-				"((COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END))) Qty, " +
+				"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END)) Qty, " +
 				"pro.Weight, pro.Volume " +
 				"FROM C_Order ord " +
 				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +

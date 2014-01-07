@@ -157,6 +157,7 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 			if(p_AD_Org_ID == 0)
 				p_AD_Org_ID = p_FTA_FarmerCredit.getAD_Org_ID();
 			
+			m_FTA_BillOfExchange.setAD_Org_ID(p_AD_Org_ID);
 			m_FTA_BillOfExchange.setC_DocType_ID(p_C_DocTypeTarget_ID);
 			m_FTA_BillOfExchange.setDateDoc(p_DateDoc);
 			m_FTA_BillOfExchange.setC_BPartner_ID(p_FTA_FarmerCredit.getC_BPartner_ID());
