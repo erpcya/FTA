@@ -221,6 +221,9 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
+		//	Update Values
+		updateHeader();
+		
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -562,6 +565,28 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 		list.toArray (m_lines);
 		return m_lines;
 	}	//	getLines
+	
+	/**
+	 * Update Header Quantity and Amount
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 07/01/2014, 10:35:51
+	 * @return void
+	 */
+	private void updateHeader(){
+		getLines(true);
+		BigDecimal m_ApprovedQty = Env.ZERO;
+		BigDecimal m_ApprovedAmt = Env.ZERO;
+		for(MFTAFarmerCredit credit : m_lines){
+			//	Get Approved Quantity and Amount
+			if(credit.getApprovedQty() != null
+					&& credit.getApprovedAmt() != null){
+				m_ApprovedQty = m_ApprovedQty.add(credit.getApprovedQty());
+				m_ApprovedAmt = m_ApprovedAmt.add(credit.getApprovedAmt());
+			}
+		}
+		//	Set Values
+		setApprovedQty(m_ApprovedQty);
+		setApprovedAmt(m_ApprovedAmt);
+	}
 	
 	/**
 	 * Get Lines

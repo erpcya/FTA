@@ -589,9 +589,7 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		
 		return index;
 	}
-
-	//	Dixon Martinez 2013-20-12 10:07
-	//	Add method before save 
+	
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
