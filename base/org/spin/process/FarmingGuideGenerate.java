@@ -73,7 +73,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 	private int 		p_FTA_Farming_ID		= 0;
 	
 	/**	Quantity To Deliver			*/
-	private BigDecimal	p_QtyDeliver			= null;
+	private BigDecimal	p_QtyToDeliver			= null;
 	/**	Business Partner			*/
 	private int 		p_C_BPartner_ID			= 0;
 	/**	Is Printed					*/
@@ -98,8 +98,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 				p_DateDoc = (Timestamp) para.getParameter();
 			else if (name.equals("FTA_VehicleType_ID"))
 				p_FTA_VehicleType_ID = para.getParameterAsInt();
-			else if(name.equals("QtyDelivered"))
-				p_QtyDeliver = (BigDecimal)para.getParameter();
+			else if(name.equals("QtyToDeliver"))
+				p_QtyToDeliver = (BigDecimal)para.getParameter();
 			else if (name.equals("MaxQty"))
 				p_MaxQty = para.getParameterAsInt();
 			else if (name.equals("C_BPartner_ID"))
@@ -229,9 +229,9 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_MaxQtyToDeliver = m_MaxReceipt;
 		
 		//	Set Quantity To Deliver
-		if(p_QtyDeliver != null
-				&& p_QtyDeliver.compareTo(Env.ZERO) > 0)
-			m_QtyToDeliver = p_QtyDeliver;
+		if(p_QtyToDeliver != null
+				&& p_QtyToDeliver.compareTo(Env.ZERO) > 0)
+			m_QtyToDeliver = p_QtyToDeliver;
 		else
 			m_QtyToDeliver = m_VehicleType.getLoadCapacity();
 		
