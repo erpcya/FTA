@@ -571,7 +571,7 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 07/01/2014, 10:35:51
 	 * @return void
 	 */
-	private void updateHeader(){
+	public void updateHeader(){
 		getLines(true);
 		BigDecimal m_ApprovedQty = Env.ZERO;
 		BigDecimal m_ApprovedAmt = Env.ZERO;
