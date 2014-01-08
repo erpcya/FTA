@@ -20,15 +20,19 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.compiere.model.MClientInfo;
+import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.spin.model.MFTAFarming;
 import org.spin.model.MFTAMobilizationGuide;
 import org.spin.model.MFTAVehicleType;
@@ -64,6 +68,9 @@ public class FarmingGuideGenerate extends SvrProcess {
 	private BigDecimal	p_QtyDeliver			= null;
 	/**	Business Partner			*/
 	private int 		p_C_BPartner_ID			= 0;
+	
+	/**	Guides Generates			*/
+	MFTAMobilizationGuide	[] m_Guides 		= null;
 	
 	@Override
 	protected void prepare() {
@@ -246,6 +253,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 				break;
 			
 			MFTAMobilizationGuide m_MobilizationGuide = new MFTAMobilizationGuide(getCtx(), 0, get_TrxName());
+			m_MobilizationGuide.setAD_Org_ID(p_AD_Org_ID);
 			m_MobilizationGuide.setC_DocType_ID(p_C_DocTypeTarget_ID);
 			m_MobilizationGuide.setDateDoc(p_DateDoc);
 			m_MobilizationGuide.setFTA_Farming_ID(p_FTA_Farming_ID);
@@ -277,6 +285,21 @@ public class FarmingGuideGenerate extends SvrProcess {
 			//	Log
 			addLog (0, null, null, msg);
 			return msg;
+		}
+		
+		//	Print Guide
+		if(m_Guides != null) {
+			boolean somethingPrinted = false;
+			boolean directPrint = !Ini.isPropertyBool(Ini.P_PRINTPREVIEW);
+			//	for all checks
+			for (int i = 0; i < m_Guides.length; i++)
+			{
+				MFTAMobilizationGuide guide = m_Guides[i];
+				//	ReportCtrl will check BankAccountDoc for PrintFormat
+				boolean ok = ReportCtl.startDocumentPrint(ReportEngine.CHECK, guide.get_ID(), null, 0, directPrint);
+				if (!somethingPrinted && ok)
+					somethingPrinted = true;
+			}
 		}
 		
 		return "@Created@ = " + count;
