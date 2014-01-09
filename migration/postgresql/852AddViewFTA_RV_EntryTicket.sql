@@ -38,7 +38,8 @@ SELECT
 		'*' 
 	ELSE
 		NULL
-	END AS Copy
+	END AS Copy,
+	et.OperationType
 
 FROM FTA_EntryTicket et 
 INNER JOIN C_DocType dt ON (dt.C_DocType_ID = et.C_DocType_ID)
