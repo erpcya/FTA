@@ -57,7 +57,6 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 	public MFTAMobilizationGuide(Properties ctx, int FTA_MobilizationGuide_ID,
 			String trxName) {
 		super(ctx, FTA_MobilizationGuide_ID, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -69,7 +68,6 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 	 */
 	public MFTAMobilizationGuide(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -541,5 +539,10 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		}
 		
 		return index;
+	}
+	
+	@Override
+	public String toString() {
+		return "DocumentNo=" + getDocumentNo();
 	}
 }

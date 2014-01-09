@@ -99,6 +99,15 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 			
 			mTab.setValue("Orig_QualityAnalysis_ID", m_Orig_QualityAnalysis_ID);	
 		
+			//	Dixon Martinez Set Record Weight
+			
+			sql = "SELECT FTA_RecordWeight_ID " +
+					"FROM FTA_RecordWeight " +
+					"WHERE FTA_EntryTicket_ID = ? ";
+			int m_FTA_RecordWeight_ID = DB.getSQLValue(null, sql,m_FTA_EntryTicket_ID);
+			mTab.setValue("FTA_RecordWeight_ID",m_FTA_RecordWeight_ID);
+			
+			//	End Dixon Martinez
 		}
 		return "";
 	}
