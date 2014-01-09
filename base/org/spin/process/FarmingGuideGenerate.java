@@ -18,17 +18,29 @@ package org.spin.process;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.compiere.model.MClientInfo;
+import org.compiere.model.MProcess;
 import org.compiere.model.MProduct;
+import org.compiere.model.MQuery;
+import org.compiere.model.MTable;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
+import org.compiere.model.PrintInfo;
+import org.compiere.model.X_AD_ReportView;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
 import org.spin.model.MFTAFarming;
 import org.spin.model.MFTAMobilizationGuide;
 import org.spin.model.MFTAVehicleType;
@@ -61,9 +73,14 @@ public class FarmingGuideGenerate extends SvrProcess {
 	private int 		p_FTA_Farming_ID		= 0;
 	
 	/**	Quantity To Deliver			*/
-	private BigDecimal	p_QtyDeliver			= null;
+	private BigDecimal	p_QtyToDeliver			= null;
 	/**	Business Partner			*/
 	private int 		p_C_BPartner_ID			= 0;
+	/**	Is Printed					*/
+	private boolean		p_IsPrinted				= false;
+	
+	/**	Guides Generates			*/
+	List <MFTAMobilizationGuide> m_Guides 		= null;
 	
 	@Override
 	protected void prepare() {
@@ -81,12 +98,14 @@ public class FarmingGuideGenerate extends SvrProcess {
 				p_DateDoc = (Timestamp) para.getParameter();
 			else if (name.equals("FTA_VehicleType_ID"))
 				p_FTA_VehicleType_ID = para.getParameterAsInt();
-			else if(name.equals("QtyDelivered"))
-				p_QtyDeliver = (BigDecimal)para.getParameter();
+			else if(name.equals("QtyToDeliver"))
+				p_QtyToDeliver = (BigDecimal)para.getParameter();
 			else if (name.equals("MaxQty"))
 				p_MaxQty = para.getParameterAsInt();
 			else if (name.equals("C_BPartner_ID"))
 				p_C_BPartner_ID = para.getParameterAsInt();
+			else if (name.equals("IsPrinted"))
+				p_IsPrinted = para.getParameterAsBoolean();
 		}
 		//	Get Record Identifier
 		p_FTA_Farming_ID = getRecord_ID();
@@ -210,9 +229,9 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_MaxQtyToDeliver = m_MaxReceipt;
 		
 		//	Set Quantity To Deliver
-		if(p_QtyDeliver != null
-				&& p_QtyDeliver.compareTo(Env.ZERO) > 0)
-			m_QtyToDeliver = p_QtyDeliver;
+		if(p_QtyToDeliver != null
+				&& p_QtyToDeliver.compareTo(Env.ZERO) > 0)
+			m_QtyToDeliver = p_QtyToDeliver;
 		else
 			m_QtyToDeliver = m_VehicleType.getLoadCapacity();
 		
@@ -225,12 +244,13 @@ public class FarmingGuideGenerate extends SvrProcess {
 		BigDecimal m_WeightGenerated = Env.ZERO;
 		//	Quantity of Guides to Generate
 		int count = 0;
+		m_Guides = new ArrayList<MFTAMobilizationGuide>();
 		// Generate
-		while(m_MaxQtyToDeliver.compareTo(m_WeightGenerated) > 0
+		while(m_MaxQtyToDeliver.compareTo(m_WeightGenerated) >= 0
 				&& p_MaxQty > count){
 
 			//	Valid Remainder
-			if(m_QtyToDeliver.add(m_WeightGenerated).compareTo(m_MaxQtyToDeliver) > 0)
+			if(m_QtyToDeliver.add(m_WeightGenerated).compareTo(m_MaxQtyToDeliver) >= 0)
 				m_QtyToDeliver = m_MaxQtyToDeliver.subtract(m_WeightGenerated);
 			if(m_QtyToDeliver.compareTo(Env.ZERO) <= 0)
 				break;
@@ -246,6 +266,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 				break;
 			
 			MFTAMobilizationGuide m_MobilizationGuide = new MFTAMobilizationGuide(getCtx(), 0, get_TrxName());
+			m_MobilizationGuide.setAD_Org_ID(p_AD_Org_ID);
 			m_MobilizationGuide.setC_DocType_ID(p_C_DocTypeTarget_ID);
 			m_MobilizationGuide.setDateDoc(p_DateDoc);
 			m_MobilizationGuide.setFTA_Farming_ID(p_FTA_Farming_ID);
@@ -259,6 +280,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 			//	Complete Document
 			m_MobilizationGuide.processIt(DocAction.ACTION_Complete);
 			m_MobilizationGuide.saveEx();
+			m_Guides.add(m_MobilizationGuide);
 			//	Add Weight
 			m_WeightGenerated = m_WeightGenerated.add(m_QtyToDeliver);
 			count ++;
@@ -277,6 +299,45 @@ public class FarmingGuideGenerate extends SvrProcess {
 			//	Log
 			addLog (0, null, null, msg);
 			return msg;
+		}
+		
+		//	Print Guide
+		if(m_Guides != null
+				&& !m_Guides.isEmpty()
+				&& p_IsPrinted) {
+			//	Get Table
+			int m_AD_Process_ID = MProcess.getProcess_ID("FTA_RV_MobilizationGuide Mobilization", get_TrxName());
+			MProcess pr = MProcess.get(getCtx(), m_AD_Process_ID);
+			if(pr != null){
+				X_AD_ReportView rv = new X_AD_ReportView(getCtx(), pr.getAD_ReportView_ID(), get_TrxName());
+				if(rv != null){
+					MTable table = MTable.get(getCtx(), rv.getAD_Table_ID());
+					int m_AD_Table_ID = table.getAD_Table_ID();
+					String tableName = table.getTableName();
+					boolean directPrint = !Ini.isPropertyBool(Ini.P_PRINTPREVIEW);
+					MPrintFormat f = MPrintFormat.get(getCtx(), rv.getAD_ReportView_ID(), m_AD_Table_ID);
+					//	for all Mobilization Guide
+					for (MFTAMobilizationGuide guide : m_Guides)
+					{	
+						if(f != null) {
+							MQuery q = new MQuery(tableName);
+							q.addRestriction("FTA_MobilizationGuide_ID", "=", guide.getFTA_MobilizationGuide_ID());
+							PrintInfo i = new PrintInfo(Msg.translate(getCtx(), "FTA_MobilizationGuide_ID"), m_AD_Table_ID, guide.getFTA_MobilizationGuide_ID());
+							i.setAD_Table_ID(m_AD_Table_ID);
+							ReportEngine re = new ReportEngine(Env.getCtx(), f, q, i, get_TrxName());
+							//	Print
+							if(re != null){
+								//	Is Direct Print
+								if(directPrint)
+									re.print();
+								else
+									ReportCtl.preview(re);
+							}	
+						} else 
+							log.warning(Msg.parseTranslation(getCtx(), "@NoDocPrintFormat@ AD_Table_ID=" + m_AD_Table_ID));
+					}	
+				}	
+			}
 		}
 		
 		return "@Created@ = " + count;
