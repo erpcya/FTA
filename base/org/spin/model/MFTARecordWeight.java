@@ -291,14 +291,14 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 */
 	private String validateChuteQualityAnalysis()
 	{
-		MFTAQualityAnalysis quality = getQualityAnalysis(true);
-		
-		if(quality.getAnalysisType().equals(X_FTA_QualityAnalysis.ANALYSISTYPE_QualityAnalysis))
-			m_processMsg = null;
-		else if(quality.getAnalysisType().equals(X_FTA_QualityAnalysis.ANALYSISTYPE_ChuteAnalysis))			
-			m_processMsg = "@FTA_QualityAnalysis_ID@ @NotFound@";
-		
-		return m_processMsg;
+		//	Yamel Senih 2014-01-10, 14:34:40
+		//	Fixed error with Chute Quality Analysis
+		MFTAQualityAnalysis cCQuality = getCurrentChuteQA(true);
+		//	Valid Chute Quality Analysis
+		if(cCQuality == null)			
+			return "@FTA_ChuteQualityAnalysis_ID@ @NotFound@";
+		//	End Yamel Senih
+		return null;
 	}
 
 	/**
@@ -337,7 +337,10 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	public MFTAQualityAnalysis getQualityAnalysis(boolean reQuery){
 		if(reQuery
 				|| m_QualityAnalysis == null) {
-			m_QualityAnalysis = new MFTAQualityAnalysis(getCtx(), getFTA_QualityAnalysis_ID(), get_TrxName());
+			if(getFTA_QualityAnalysis_ID() != 0)
+				m_QualityAnalysis = new MFTAQualityAnalysis(getCtx(), getFTA_QualityAnalysis_ID(), get_TrxName());
+			else
+				m_QualityAnalysis = null;
 		}
 		//	Return
 		return m_QualityAnalysis;
@@ -359,7 +362,10 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					"AND qa.FTA_RecordWeight_ID = ? " +
 					"AND Orig_QualityAnalysis_ID = " + getFTA_QualityAnalysis_ID() + " " +  
 					"AND qa.DocStatus IN('CO', 'CL')", getFTA_RecordWeight_ID());
-			m_ChuteQualityAnalysis = new MFTAQualityAnalysis(getCtx(), getFTA_QualityAnalysis_ID(), get_TrxName());
+			if(m_ChuteQualityAnalysis_ID != 0)
+				m_ChuteQualityAnalysis = new MFTAQualityAnalysis(getCtx(), m_ChuteQualityAnalysis_ID, get_TrxName());
+			else
+				m_ChuteQualityAnalysis = null;
 		}
 		//	Return
 		return m_ChuteQualityAnalysis;

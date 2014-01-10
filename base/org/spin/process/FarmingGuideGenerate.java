@@ -230,8 +230,12 @@ public class FarmingGuideGenerate extends SvrProcess {
 		
 		//	Set Quantity To Deliver
 		if(p_QtyToDeliver != null
-				&& p_QtyToDeliver.compareTo(Env.ZERO) > 0)
+				&& p_QtyToDeliver.compareTo(Env.ZERO) > 0){
 			m_QtyToDeliver = p_QtyToDeliver;
+			//	Valid Exceed Load Capacity
+			if(m_QtyToDeliver.compareTo(m_VehicleType.getLoadCapacity()) > 0)
+				throw new AdempiereUserError("@QtyToDeliver@ > @LoadCapacity@");
+		}
 		else
 			m_QtyToDeliver = m_VehicleType.getLoadCapacity();
 		

@@ -16,10 +16,19 @@
  *****************************************************************************/
 package org.spin.process;
 
+import org.compiere.model.MProcess;
+import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.model.PrintInfo;
+import org.compiere.model.X_AD_ReportView;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -36,24 +45,39 @@ public class ChangePrintedStatus extends SvrProcess {
 
 	@Override
 	protected String doIt() throws Exception {
-		int m_AD_PInstance_ID = getProcessInfo().getAD_PInstance_ID();
 		int m_AD_Process_ID = getProcessInfo().getAD_Process_ID();
-		getProcessInfo().setPrintPreview(false);
-		//	Get Count
-		int count = DB.getSQLValue(get_TrxName(), "SELECT COUNT(AD_PInstance_ID) " +
-				"FROM AD_PInstance " + 
-				"WHERE AD_Process_ID = " + m_AD_Process_ID + " " + 
-				"AND Record_ID = " + p_Record_ID + " " +
-				"AND AD_PInstance_ID <> ?", m_AD_PInstance_ID);
-		
-		if(count > 0){
-			MTable table = MTable.get(getCtx(), getTable_ID());
-			PO model = table.getPO(p_Record_ID, get_TrxName());
-			model.set_ValueOfColumn("IsPrinted", true);
-			model.saveEx();
+		//	Get Table
+		MProcess pr = MProcess.get(getCtx(), m_AD_Process_ID);
+		if(pr != null){
+			X_AD_ReportView rv = new X_AD_ReportView(getCtx(), pr.getAD_ReportView_ID(), get_TrxName());
+			if(rv != null){
+				MTable reportTable = MTable.get(getCtx(), rv.getAD_Table_ID());
+				boolean directPrint = !Ini.isPropertyBool(Ini.P_PRINTPREVIEW);
+				MPrintFormat f = MPrintFormat.get(getCtx(), rv.getAD_ReportView_ID(), reportTable.getAD_Table_ID());
+				//	for all Mobilization Guide
+				if(f != null) {
+					MTable modelTable = MTable.get(getCtx(), getTable_ID());
+					MQuery q = new MQuery(reportTable.getTableName());
+					q.addRestriction(modelTable.getTableName() + "_ID", "=", p_Record_ID);
+					PrintInfo i = new PrintInfo(Msg.translate(getCtx(), reportTable.getTableName() + "_ID"), reportTable.getAD_Table_ID(), p_Record_ID);
+					//i.setAD_Table_ID(reportTable.getAD_Table_ID());
+					ReportEngine re = new ReportEngine(Env.getCtx(), f, q, i, get_TrxName());
+					//	Print
+					if(re != null){
+						//	Is Direct Print
+						if(directPrint)
+							re.print();
+						else
+							ReportCtl.preview(re);
+						PO model = modelTable.getPO(p_Record_ID, get_TrxName());
+						model.set_ValueOfColumn("IsPrinted", true);
+						model.saveEx();
+					}	
+				} else 
+					log.warning(Msg.parseTranslation(getCtx(), "@NoDocPrintFormat@ @AD_Table_ID@=" + reportTable.getTableName()));	
+			}
 		}
-		//	
-		return null;
+		return "";
 	}
 
 }
