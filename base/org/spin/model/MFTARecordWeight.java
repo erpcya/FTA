@@ -222,6 +222,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 */
 	public String completeIt()
 	{
+		
 		//	Re-Check
 		if (!m_justPrepared)
 		{
@@ -255,6 +256,16 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		else
 			m_processMsg = msg;
 		
+		//	Dixon Martinez 09/01/2014
+		//	Adding Validation to not complete if no quality analysis chute
+		msg = qualityAnalysis();
+		if(m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		else
+			m_processMsg = msg;
+		
+		//	End Dixon Martinez
+		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -269,6 +280,26 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	/**
+	 * Return Quality Analysis
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 09/01/2014, 18:33:07
+	 * @param fta_RecordWeight_ID
+	 * @return
+	 * @return String
+	 */
+	private String qualityAnalysis()
+	{
+		MFTAQualityAnalysis quality = getQualityAnalysis(true);
+		
+		if(quality.getAnalysisType().equals(X_FTA_QualityAnalysis.ANALYSISTYPE_QualityAnalysis))
+			m_processMsg = null;
+		else if(quality.getAnalysisType().equals(X_FTA_QualityAnalysis.ANALYSISTYPE_ChuteAnalysis))			
+			m_processMsg = "@FTA_QualityAnalysis_ID@ @NotFound@";
+		
+		return m_processMsg;
+		
+	}
+
 	/**
 	 * Caluculate Payment Weight
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 28/10/2013, 11:54:02
