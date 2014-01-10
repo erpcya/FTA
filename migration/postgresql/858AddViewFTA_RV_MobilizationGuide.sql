@@ -37,10 +37,13 @@ SELECT
 	ROUND((FTA_RateConversion(p.M_Product_ID, ci.C_UOM_Conversion_ID ) * QtyToDeliver),2) QtyToDeliver ,
 	ci.C_Uom_Area_ID ,
 	p.M_Product_ID,
-	ci.C_UOM_Conversion_ID 
+	ci.C_UOM_Conversion_ID,
+	fd.FTA_FarmDivision_ID,
+	lo.M_Lot_ID
 
 FROM FTA_MobilizationGuide mg
 INNER JOIN FTA_Farming f ON (f.FTA_Farming_ID = mg.FTA_Farming_ID)
+INNER JOIN M_Lot lo ON (lo.M_Lot_ID = f.PlantingCycle_ID)
 INNER JOIN M_Product p ON (f.Category_ID = p.M_Product_ID)
 INNER JOIN FTA_FarmDivision fd ON (fd.FTA_FarmDivision_ID = f.FTA_FarmDivision_ID)
 INNER JOIN FTA_Farm fa ON (fa.FTA_Farm_ID = fd.FTA_Farm_ID)
