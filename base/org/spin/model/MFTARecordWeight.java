@@ -139,6 +139,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	private boolean		m_justPrepared = false;
 	/**	Quality Analysis			*/
 	private MFTAQualityAnalysis m_QualityAnalysis = null;
+	/**	Chute Quality Analysis			*/
+	private MFTAQualityAnalysis m_ChuteQualityAnalysis = null;
 	/**	Event Type					*/
 	private final String EVENTTYPE_RECEIPT = "EW";
 	private final String EVENTTYPE_SHIPMENT = "OW";
@@ -258,7 +260,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		
 		//	Dixon Martinez 09/01/2014
 		//	Adding Validation to not complete if no quality analysis chute
-		msg = qualityAnalysis();
+		msg = validateChuteQualityAnalysis();
 		if(m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		else
@@ -287,7 +289,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return
 	 * @return String
 	 */
-	private String qualityAnalysis()
+	private String validateChuteQualityAnalysis()
 	{
 		MFTAQualityAnalysis quality = getQualityAnalysis(true);
 		
@@ -297,7 +299,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			m_processMsg = "@FTA_QualityAnalysis_ID@ @NotFound@";
 		
 		return m_processMsg;
-		
 	}
 
 	/**
@@ -340,6 +341,28 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		}
 		//	Return
 		return m_QualityAnalysis;
+	}
+	
+	/**
+	 * Get Chute Quality Analysis
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 10/01/2014, 11:23:49
+	 * @param reQuery
+	 * @return
+	 * @return MFTAQualityAnalysis
+	 */
+	public MFTAQualityAnalysis getCurrentChuteQA(boolean reQuery){
+		if(reQuery
+				|| m_ChuteQualityAnalysis == null) {
+			int m_ChuteQualityAnalysis_ID = DB.getSQLValue(get_TrxName(), "SELECT qa.FTA_QualityAnalysis_ID " +
+					"FROM FTA_QualityAnalysis qa " +
+					"WHERE qa.AnalysisType = '" + X_FTA_QualityAnalysis.ANALYSISTYPE_ChuteAnalysis + "' " + 
+					"AND qa.FTA_RecordWeight_ID = ? " +
+					"AND Orig_QualityAnalysis_ID = " + getFTA_QualityAnalysis_ID() + " " +  
+					"AND qa.DocStatus IN('CO', 'CL')", getFTA_RecordWeight_ID());
+			m_ChuteQualityAnalysis = new MFTAQualityAnalysis(getCtx(), getFTA_QualityAnalysis_ID(), get_TrxName());
+		}
+		//	Return
+		return m_ChuteQualityAnalysis;
 	}
 	
 	/**
