@@ -233,6 +233,17 @@ public interface I_FTA_MobilizationGuide
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
+    /** Column name Owner */
+    public static final String COLUMNNAME_Owner = "Owner";
+
+	/** Set Owner	  */
+	public void setOwner (int Owner);
+
+	/** Get Owner	  */
+	public int getOwner();
+
+	public I_M_AttributeValue getOw() throws RuntimeException;
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 

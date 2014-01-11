@@ -31,7 +31,7 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131219L;
+	private static final long serialVersionUID = 20140111L;
 
     /** Standard Constructor */
     public X_FTA_EntryTicket (Properties ctx, int FTA_EntryTicket_ID, String trxName)
@@ -303,6 +303,20 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	public String getDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
+	/** Set Document Print.
+		@param DocumentPrint Document Print	  */
+	public void setDocumentPrint (String DocumentPrint)
+	{
+		set_Value (COLUMNNAME_DocumentPrint, DocumentPrint);
+	}
+
+	/** Get Document Print.
+		@return Document Print	  */
+	public String getDocumentPrint () 
+	{
+		return (String)get_Value(COLUMNNAME_DocumentPrint);
 	}
 
 	/** Set Ext. Guide.

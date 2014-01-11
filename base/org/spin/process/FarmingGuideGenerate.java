@@ -74,8 +74,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 	
 	/**	Quantity To Deliver			*/
 	private BigDecimal	p_QtyToDeliver			= null;
-	/**	Business Partner			*/
-	private int 		p_C_BPartner_ID			= 0;
+	
+	private int 		p_Owner					= 0;
 	/**	Is Printed					*/
 	private boolean		p_IsPrinted				= false;
 	
@@ -98,12 +98,12 @@ public class FarmingGuideGenerate extends SvrProcess {
 				p_DateDoc = (Timestamp) para.getParameter();
 			else if (name.equals("FTA_VehicleType_ID"))
 				p_FTA_VehicleType_ID = para.getParameterAsInt();
-			else if(name.equals("QtyToDeliver"))
+			else if (name.equals("QtyToDeliver"))
 				p_QtyToDeliver = (BigDecimal)para.getParameter();
 			else if (name.equals("MaxQty"))
 				p_MaxQty = para.getParameterAsInt();
-			else if (name.equals("C_BPartner_ID"))
-				p_C_BPartner_ID = para.getParameterAsInt();
+			else if (name.equals("Owner"))
+				p_Owner = para.getParameterAsInt();
 			else if (name.equals("IsPrinted"))
 				p_IsPrinted = para.getParameterAsBoolean();
 		}
@@ -124,6 +124,10 @@ public class FarmingGuideGenerate extends SvrProcess {
 		//	Valid Purchase Order
 		if(m_Farming.getC_OrderLine_ID() == 0)
 			throw new AdempiereUserError("@C_OrderLine_ID@ @NotFound@");
+		//	Valid Owner
+		if(p_Owner == 0)
+			throw new AdempiereUserError("@Owner@ @NotFound@");
+		
 		//	Get Vehicle Type
 		MFTAVehicleType m_VehicleType = new MFTAVehicleType(getCtx(), p_FTA_VehicleType_ID, get_TrxName());
 		//	Declare Objects
@@ -277,9 +281,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_MobilizationGuide.setFTA_VehicleType_ID(p_FTA_VehicleType_ID);
 			m_MobilizationGuide.setM_Warehouse_ID(p_M_Warehouse_ID);
 			m_MobilizationGuide.setQtyToDeliver(m_QtyToDeliver.setScale(precision, BigDecimal.ROUND_HALF_UP));
-			//	Verify if Business Partner is not null
-			if(p_C_BPartner_ID != 0)
-				m_MobilizationGuide.setC_BPartner_ID(p_C_BPartner_ID);
+			m_MobilizationGuide.setOwner(p_Owner);
 			m_MobilizationGuide.saveEx();
 			//	Complete Document
 			m_MobilizationGuide.processIt(DocAction.ACTION_Complete);

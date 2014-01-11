@@ -187,6 +187,15 @@ public interface I_FTA_RecordWeight
 	  */
 	public String getDocumentNo();
 
+    /** Column name DocumentPrint */
+    public static final String COLUMNNAME_DocumentPrint = "DocumentPrint";
+
+	/** Set Document Print	  */
+	public void setDocumentPrint (String DocumentPrint);
+
+	/** Get Document Print	  */
+	public String getDocumentPrint();
+
     /** Column name FTA_Driver_ID */
     public static final String COLUMNNAME_FTA_Driver_ID = "FTA_Driver_ID";
 

@@ -233,6 +233,19 @@ public interface I_FTA_LoadOrderLine
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name Processed */
+    public static final String COLUMNNAME_Processed = "Processed";
+
+	/** Set Processed.
+	  * The document has been processed
+	  */
+	public void setProcessed (boolean Processed);
+
+	/** Get Processed.
+	  * The document has been processed
+	  */
+	public boolean isProcessed();
+
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";
 

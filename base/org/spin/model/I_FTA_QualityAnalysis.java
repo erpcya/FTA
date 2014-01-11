@@ -168,6 +168,15 @@ public interface I_FTA_QualityAnalysis
 	  */
 	public String getDocumentNo();
 
+    /** Column name DocumentPrint */
+    public static final String COLUMNNAME_DocumentPrint = "DocumentPrint";
+
+	/** Set Document Print	  */
+	public void setDocumentPrint (String DocumentPrint);
+
+	/** Get Document Print	  */
+	public String getDocumentPrint();
+
     /** Column name FTA_EntryTicket_ID */
     public static final String COLUMNNAME_FTA_EntryTicket_ID = "FTA_EntryTicket_ID";
 

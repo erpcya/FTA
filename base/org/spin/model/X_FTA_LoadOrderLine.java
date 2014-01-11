@@ -32,7 +32,7 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131219L;
+	private static final long serialVersionUID = 20140111L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrderLine (Properties ctx, int FTA_LoadOrderLine_ID, String trxName)
@@ -42,6 +42,10 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
         {
 			setFTA_LoadOrder_ID (0);
 			setFTA_LoadOrderLine_ID (0);
+			setM_Product_ID (0);
+			setQty (Env.ZERO);
+			setVolume (Env.ZERO);
+			setWeight (Env.ZERO);
         } */
     }
 
@@ -107,7 +111,7 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	  */
 	public void setConfirmedQty (BigDecimal ConfirmedQty)
 	{
-		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
+		set_ValueNoCheck (COLUMNNAME_ConfirmedQty, ConfirmedQty);
 	}
 
 	/** Get Confirmed Quantity.
@@ -125,7 +129,7 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 		@param ConfirmedWeight Confirmed Weight	  */
 	public void setConfirmedWeight (BigDecimal ConfirmedWeight)
 	{
-		set_Value (COLUMNNAME_ConfirmedWeight, ConfirmedWeight);
+		set_ValueNoCheck (COLUMNNAME_ConfirmedWeight, ConfirmedWeight);
 	}
 
 	/** Get Confirmed Weight.
@@ -150,9 +154,9 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	public void setC_OrderLine_ID (int C_OrderLine_ID)
 	{
 		if (C_OrderLine_ID < 1) 
-			set_Value (COLUMNNAME_C_OrderLine_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
 	}
 
 	/** Get Sales Order Line.
@@ -176,9 +180,9 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
 	{
 		if (DD_OrderLine_ID < 1) 
-			set_Value (COLUMNNAME_DD_OrderLine_ID, null);
+			set_ValueNoCheck (COLUMNNAME_DD_OrderLine_ID, null);
 		else 
-			set_Value (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
+			set_ValueNoCheck (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
 	}
 
 	/** Get Distribution Order Line.
@@ -321,9 +325,9 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	public void setM_Product_ID (int M_Product_ID)
 	{
 		if (M_Product_ID < 1) 
-			set_Value (COLUMNNAME_M_Product_ID, null);
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -337,13 +341,37 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Processed.
+		@param Processed 
+		The document has been processed
+	  */
+	public void setProcessed (boolean Processed)
+	{
+		set_Value (COLUMNNAME_Processed, Boolean.valueOf(Processed));
+	}
+
+	/** Get Processed.
+		@return The document has been processed
+	  */
+	public boolean isProcessed () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Quantity.
 		@param Qty 
 		Quantity
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		set_Value (COLUMNNAME_Qty, Qty);
+		set_ValueNoCheck (COLUMNNAME_Qty, Qty);
 	}
 
 	/** Get Quantity.
@@ -363,7 +391,7 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	  */
 	public void setSeqNo (int SeqNo)
 	{
-		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
+		set_ValueNoCheck (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
 	}
 
 	/** Get Sequence.
@@ -383,7 +411,7 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	  */
 	public void setVolume (BigDecimal Volume)
 	{
-		set_Value (COLUMNNAME_Volume, Volume);
+		set_ValueNoCheck (COLUMNNAME_Volume, Volume);
 	}
 
 	/** Get Volume.
@@ -403,7 +431,7 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	  */
 	public void setWeight (BigDecimal Weight)
 	{
-		set_Value (COLUMNNAME_Weight, Weight);
+		set_ValueNoCheck (COLUMNNAME_Weight, Weight);
 	}
 
 	/** Get Weight.
