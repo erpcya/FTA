@@ -33,7 +33,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131219L;
+	private static final long serialVersionUID = 20140111L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeight (Properties ctx, int FTA_RecordWeight_ID, String trxName)
@@ -305,6 +305,20 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	public String getDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
+	/** Set Document Print.
+		@param DocumentPrint Document Print	  */
+	public void setDocumentPrint (String DocumentPrint)
+	{
+		set_Value (COLUMNNAME_DocumentPrint, DocumentPrint);
+	}
+
+	/** Get Document Print.
+		@return Document Print	  */
+	public String getDocumentPrint () 
+	{
+		return (String)get_Value(COLUMNNAME_DocumentPrint);
 	}
 
 	public org.spin.model.I_FTA_Driver getFTA_Driver() throws RuntimeException

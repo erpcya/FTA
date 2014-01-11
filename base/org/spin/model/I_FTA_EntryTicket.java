@@ -189,6 +189,15 @@ public interface I_FTA_EntryTicket
 	  */
 	public String getDocumentNo();
 
+    /** Column name DocumentPrint */
+    public static final String COLUMNNAME_DocumentPrint = "DocumentPrint";
+
+	/** Set Document Print	  */
+	public void setDocumentPrint (String DocumentPrint);
+
+	/** Get Document Print	  */
+	public String getDocumentPrint();
+
     /** Column name Ext_Guide */
     public static final String COLUMNNAME_Ext_Guide = "Ext_Guide";
 
