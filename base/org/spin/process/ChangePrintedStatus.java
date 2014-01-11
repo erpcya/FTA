@@ -52,7 +52,6 @@ public class ChangePrintedStatus extends SvrProcess {
 			X_AD_ReportView rv = new X_AD_ReportView(getCtx(), pr.getAD_ReportView_ID(), get_TrxName());
 			if(rv != null){
 				MTable reportTable = MTable.get(getCtx(), rv.getAD_Table_ID());
-				boolean directPrint = !Ini.isPropertyBool(Ini.P_PRINTPREVIEW);
 				MPrintFormat f = MPrintFormat.get(getCtx(), rv.getAD_ReportView_ID(), reportTable.getAD_Table_ID());
 				//	for all Mobilization Guide
 				if(f != null) {
@@ -64,11 +63,8 @@ public class ChangePrintedStatus extends SvrProcess {
 					ReportEngine re = new ReportEngine(Env.getCtx(), f, q, i, get_TrxName());
 					//	Print
 					if(re != null){
-						//	Is Direct Print
-						if(directPrint)
-							re.print();
-						else
-							ReportCtl.preview(re);
+						//	Direct Print
+						re.print();
 						PO model = modelTable.getPO(p_Record_ID, get_TrxName());
 						model.set_ValueOfColumn("IsPrinted", true);
 						model.saveEx();

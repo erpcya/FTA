@@ -271,19 +271,10 @@ WHERE av.Name IN('Humedad', 'Impureza')]]>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="550" height="6" uuid="1fd8a4af-d639-49ff-bc90-fe3a9d11284f"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font size="5"/>
-								</textElement>
+								<reportElement x="0" y="0" width="550" height="13" uuid="1fd8a4af-d639-49ff-bc90-fe3a9d11284f"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
 								<text><![CDATA[Resumen]]></text>
 							</staticText>
-							<textField pattern="###0.00;-###0.00">
-								<reportElement style="Crosstab Data Text" x="0" y="6" width="550" height="6" uuid="9434f32e-e2d8-494d-b6c1-cdeb2e98bec6"/>
-								<textElement>
-									<font size="5"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{valuenumberMeasure_discount_ALL}]]></textFieldExpression>
-							</textField>
 						</cellContents>
 					</crosstabTotalRowHeader>
 				</rowGroup>
@@ -412,7 +403,7 @@ WHERE av.Name IN('Humedad', 'Impureza')]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="grossweight" width="50" totalPosition="End">
+				<rowGroup name="grossweight" width="50">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{grossweight}]]></bucketExpression>
 					</bucket>
