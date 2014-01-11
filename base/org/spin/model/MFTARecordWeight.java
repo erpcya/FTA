@@ -756,6 +756,10 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		
 		MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
 		m_Receipt.setDateAcct(getDateDoc());
+		//	Set New Organization and warehouse
+		m_Receipt.setAD_Org_ID(getAD_Org_ID());
+		m_Receipt.setAD_OrgTrx_ID(getAD_Org_ID());
+		//m_Receipt.setM_Warehouse_ID(Env.get)
 		//	Set Farmer Credit and Record Weight
 		m_Receipt.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_Farming_ID);
 		m_Receipt.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
