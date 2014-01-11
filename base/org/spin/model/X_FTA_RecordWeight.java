@@ -321,6 +321,31 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		return (String)get_Value(COLUMNNAME_DocumentPrint);
 	}
 
+	public org.spin.model.I_FTA_Chute getFTA_Chute() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_Chute)MTable.get(getCtx(), org.spin.model.I_FTA_Chute.Table_Name)
+			.getPO(getFTA_Chute_ID(), get_TrxName());	}
+
+	/** Set Chute.
+		@param FTA_Chute_ID Chute	  */
+	public void setFTA_Chute_ID (int FTA_Chute_ID)
+	{
+		if (FTA_Chute_ID < 1) 
+			set_Value (COLUMNNAME_FTA_Chute_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_Chute_ID, Integer.valueOf(FTA_Chute_ID));
+	}
+
+	/** Get Chute.
+		@return Chute	  */
+	public int getFTA_Chute_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_Chute_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_FTA_Driver getFTA_Driver() throws RuntimeException
     {
 		return (org.spin.model.I_FTA_Driver)MTable.get(getCtx(), org.spin.model.I_FTA_Driver.Table_Name)

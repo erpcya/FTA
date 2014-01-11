@@ -246,6 +246,13 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if (!isApproved())
 			approveIt();
 		
+		//	Dixon Martinez 09/01/2014
+		//	Adding Validation to not complete if no quality analysis chute
+		m_processMsg = validateChuteQualityAnalysis();
+		if(m_processMsg != null) 
+			return DocAction.STATUS_Invalid;
+		//	End Dixon Martinez
+		
 		m_processMsg = calculatePayWeight();
 		if(m_processMsg != null)
 			return DocAction.STATUS_Invalid;
@@ -257,16 +264,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			return DocAction.STATUS_Invalid;
 		else
 			m_processMsg = msg;
-		
-		//	Dixon Martinez 09/01/2014
-		//	Adding Validation to not complete if no quality analysis chute
-		msg = validateChuteQualityAnalysis();
-		if(m_processMsg != null)
-			return DocAction.STATUS_Invalid;
-		else
-			m_processMsg = msg;
-		
-		//	End Dixon Martinez
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -296,7 +293,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		MFTAQualityAnalysis cCQuality = getCurrentChuteQA(true);
 		//	Valid Chute Quality Analysis
 		if(cCQuality == null)			
-			return "@FTA_ChuteQualityAnalysis_ID@ @NotFound@";
+			return "@FTA_QualityAnalysis_ID@ (@FTA_Chute_ID@) @NotFound@";
 		//	End Yamel Senih
 		return null;
 	}
@@ -360,9 +357,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					"FROM FTA_QualityAnalysis qa " +
 					"WHERE qa.AnalysisType = '" + X_FTA_QualityAnalysis.ANALYSISTYPE_ChuteAnalysis + "' " + 
 					"AND qa.FTA_RecordWeight_ID = ? " +
-					"AND Orig_QualityAnalysis_ID = " + getFTA_QualityAnalysis_ID() + " " +  
+					"AND qa.Orig_QualityAnalysis_ID = " + getFTA_QualityAnalysis_ID() + " " +  
 					"AND qa.DocStatus IN('CO', 'CL')", getFTA_RecordWeight_ID());
-			if(m_ChuteQualityAnalysis_ID != 0)
+			if(m_ChuteQualityAnalysis_ID > 0)
 				m_ChuteQualityAnalysis = new MFTAQualityAnalysis(getCtx(), m_ChuteQualityAnalysis_ID, get_TrxName());
 			else
 				m_ChuteQualityAnalysis = null;
@@ -753,13 +750,38 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		
 		if(m_DocType.getC_DocTypeShipment_ID() == 0)
 			m_processMsg = "@C_DocTypeShipment_ID@ @NotFound@";
-		
+		//	Create Receipt
 		MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
 		m_Receipt.setDateAcct(getDateDoc());
 		//	Set New Organization and warehouse
 		m_Receipt.setAD_Org_ID(getAD_Org_ID());
 		m_Receipt.setAD_OrgTrx_ID(getAD_Org_ID());
-		//m_Receipt.setM_Warehouse_ID(Env.get)
+		//	Get Chute
+		MFTAChute chute = null;
+		int m_M_Warehouse_ID = 0;
+		int m_M_Locator_ID = 0;
+		//	Get Chute from Table or Default
+		if(getFTA_Chute_ID() != 0)
+			chute = new MFTAChute(getCtx(), getFTA_Chute_ID(), get_TableName());
+		else {
+			int m_FTA_Chute_ID = DB.getSQLValue(get_TrxName(), "SELECT c.FTA_Chute_ID " +
+					"FROM FTA_Chute c " +
+					"WHERE AD_Org_ID = ? " +
+					"ORDER BY IsDefault DESC",getAD_Org_ID());
+			//	Search Chute
+			if(m_FTA_Chute_ID > 0)
+				chute = new MFTAChute(getCtx(), m_FTA_Chute_ID, get_TableName());
+		}
+		//	Set Warehouse and Locator
+		if(chute != null) {
+			m_M_Warehouse_ID = chute.getM_Warehouse_ID();
+			m_M_Locator_ID = chute.getM_Locator_ID();
+		}
+		else { 
+			m_M_Warehouse_ID = Env.getContextAsInt(getCtx(), "#M_Warehouse_ID");
+		}
+		//	Set Warehouse
+		m_Receipt.setM_Warehouse_ID(m_M_Warehouse_ID);
 		//	Set Farmer Credit and Record Weight
 		m_Receipt.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_Farming_ID);
 		m_Receipt.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
@@ -788,6 +810,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	
 		asi.setM_Lot_ID(m_Farming.getPlantingCycle_ID());
 		asi.setLot(lot.getName());
+		
 		//	
 		asi.setDescription();
 		//	Save
@@ -795,7 +818,10 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		ioLine.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
 		ioLine.setC_OrderLine_ID(oLine.getC_OrderLine_ID());
 		//	Set Locator
-		ioLine.setM_Locator_ID(m_MovementQty);
+		if(m_M_Locator_ID != 0)
+			ioLine.setM_Locator_ID(m_M_Locator_ID);
+		else
+			ioLine.setM_Locator_ID(m_MovementQty);
 		//	Set Quantity
 		ioLine.setQty(m_MovementQty);
 		ioLine.saveEx(get_TrxName());

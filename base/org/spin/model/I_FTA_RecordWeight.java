@@ -196,6 +196,17 @@ public interface I_FTA_RecordWeight
 	/** Get Document Print	  */
 	public String getDocumentPrint();
 
+    /** Column name FTA_Chute_ID */
+    public static final String COLUMNNAME_FTA_Chute_ID = "FTA_Chute_ID";
+
+	/** Set Chute	  */
+	public void setFTA_Chute_ID (int FTA_Chute_ID);
+
+	/** Get Chute	  */
+	public int getFTA_Chute_ID();
+
+	public org.spin.model.I_FTA_Chute getFTA_Chute() throws RuntimeException;
+
     /** Column name FTA_Driver_ID */
     public static final String COLUMNNAME_FTA_Driver_ID = "FTA_Driver_ID";
 

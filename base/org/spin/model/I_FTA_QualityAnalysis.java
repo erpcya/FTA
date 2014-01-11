@@ -177,6 +177,17 @@ public interface I_FTA_QualityAnalysis
 	/** Get Document Print	  */
 	public String getDocumentPrint();
 
+    /** Column name FTA_Chute_ID */
+    public static final String COLUMNNAME_FTA_Chute_ID = "FTA_Chute_ID";
+
+	/** Set Chute	  */
+	public void setFTA_Chute_ID (int FTA_Chute_ID);
+
+	/** Get Chute	  */
+	public int getFTA_Chute_ID();
+
+	public org.spin.model.I_FTA_Chute getFTA_Chute() throws RuntimeException;
+
     /** Column name FTA_EntryTicket_ID */
     public static final String COLUMNNAME_FTA_EntryTicket_ID = "FTA_EntryTicket_ID";
 

@@ -32,7 +32,6 @@ import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
@@ -172,7 +171,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		
 		if (getQualityAnalysis_ID() == 0)
 		{
-			m_processMsg = "@QualityAnalysis_ID@ = @0@";
+			m_processMsg = "@QualityAnalysis_ID@ = @NotFound@";
 			return DocAction.STATUS_Invalid;
 		}
 		
