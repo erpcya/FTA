@@ -23,15 +23,22 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MAttribute;
+import org.compiere.model.MAttributeInstance;
 import org.compiere.model.MAttributeSetInstance;
+import org.compiere.model.MAttributeValue;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
+import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
+import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
@@ -169,12 +176,6 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 			return DocAction.STATUS_Invalid;
 		}
 		
-		if (getQualityAnalysis_ID() == 0)
-		{
-			m_processMsg = "@QualityAnalysis_ID@ = @NotFound@";
-			return DocAction.STATUS_Invalid;
-		}
-		
 		//	Add up Amounts
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
@@ -230,6 +231,34 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 			approveIt();
 		log.info(toString());
 		//
+		//	Verify Attribute
+		if (getQualityAnalysis_ID() == 0)
+		{
+			m_processMsg = "@QualityAnalysis_ID@ = @NotFound@";
+			return DocAction.STATUS_Invalid;
+		} else {
+			if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt)) {
+				String m_Owner = DB.getSQLValueString(get_TrxName(), "SELECT attv.Value " +
+						"FROM FTA_MobilizationGuide mg " +
+						"INNER JOIN M_AttributeValue attv ON(attv.M_AttributeValue_ID = mg.Owner_ID)" +
+						"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
+						"WHERE et.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
+				if(m_Owner != null){
+					String attName = MSysConfig.getValue("ATTRIBUTE_OWNER");
+					if(attName != null){
+						MAttributeInstance ai = setAttribute(getAttributeSetInstance(), attName, m_Owner, get_TrxName());
+						if(ai != null)
+							ai.save(get_TrxName());	
+					} else {
+						m_processMsg = "@M_Attribute_ID@ \"ATTRIBUTE_OWNER\" @NotFound@";
+						return DocAction.STATUS_Invalid;
+					}
+				} else {
+					m_processMsg = "@M_Attribute_ID@ @Owner_ID@ @NotFound@";
+					return DocAction.STATUS_Invalid;
+				}
+			}
+		}
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -556,5 +585,49 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 			return new MAttributeSetInstance(getCtx(), getQualityAnalysis_ID(), get_TrxName());
 		else 
 			return null;
+	}
+	
+	/**
+	 * Set AttributeSet
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 19/10/2013, 02:33:51
+	 * @param asi
+	 * @param col
+	 * @param val
+	 * @param ai
+	 * @return void
+	 */
+	public static MAttributeInstance setAttribute(MAttributeSetInstance asi, String col, String val, String trxName)
+	{
+		
+		MAttributeInstance ai=null;
+		MAttribute atr= new Query(Env.getCtx(),MAttribute.Table_Name,"Name=?",trxName)
+		.setOnlyActiveRecords(true)
+		.setParameters(col)
+		.firstOnly();
+		if (atr!=null){
+			//Create List Value Attribute instance
+			if (atr.getAttributeValueType().equals("L")){
+				MAttributeValue atrv= new Query(Env.getCtx(),MAttributeValue.Table_Name,"Value=? And M_Attribute_ID=?",trxName)
+				.setOnlyActiveRecords(true)
+				.setParameters(val,atr.getM_Attribute_ID())
+				.firstOnly();
+				if (atrv!=null)
+					ai = new MAttributeInstance(Env.getCtx(), atr.getM_Attribute_ID(), 
+							 asi.getM_AttributeSetInstance_ID(), atrv.getM_AttributeValue_ID(), val, trxName);
+			}
+			//Create String Value Attribute instance
+			else if (atr.getAttributeValueType().equals("S"))
+				ai = new MAttributeInstance(Env.getCtx(), atr.getM_Attribute_ID(), asi.getM_AttributeSetInstance_ID(), val, trxName);
+			else if (atr.getAttributeValueType().equals("N")){
+				try{
+					BigDecimal value = new BigDecimal(val);
+					ai = new MAttributeInstance(Env.getCtx(), atr.getM_Attribute_ID(),asi.getM_AttributeSetInstance_ID(), value, trxName);
+				}
+				catch (NumberFormatException e){
+					new AdempiereUserError(val +" " +e.getMessage());
+				}
+			}
+		}
+		return ai;
 	}
 }
