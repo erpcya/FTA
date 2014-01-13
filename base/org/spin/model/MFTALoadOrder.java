@@ -230,6 +230,8 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		if (lines.length == 0){
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
+		} else {
+			
 		}
 		
 		//	Valid Weight and Volume

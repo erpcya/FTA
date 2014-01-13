@@ -248,9 +248,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		
 		//	Dixon Martinez 09/01/2014
 		//	Adding Validation to not complete if no quality analysis chute
-		m_processMsg = validateChuteQualityAnalysis();
-		if(m_processMsg != null) 
-			return DocAction.STATUS_Invalid;
+		if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt)){
+			m_processMsg = validateChuteQualityAnalysis();
+			if(m_processMsg != null) 
+				return DocAction.STATUS_Invalid;
+		}
 		//	End Dixon Martinez
 		
 		m_processMsg = calculatePayWeight();
