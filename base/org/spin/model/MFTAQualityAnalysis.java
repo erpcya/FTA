@@ -240,7 +240,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 			if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt)) {
 				String m_Owner = DB.getSQLValueString(get_TrxName(), "SELECT attv.Value " +
 						"FROM FTA_MobilizationGuide mg " +
-						"INNER JOIN M_AttributeValue attv ON(attv.M_AttributeValue_ID = mg.Owner_ID)" +
+						"INNER JOIN M_AttributeValue attv ON(attv.M_AttributeValue_ID = mg.Owner_ID) " +
 						"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
 						"WHERE et.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
 				if(m_Owner != null){
