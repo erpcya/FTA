@@ -234,7 +234,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		//	Verify Attribute
 		if (getQualityAnalysis_ID() == 0)
 		{
-			m_processMsg = "@QualityAnalysis_ID@ = @NotFound@";
+			m_processMsg = "@QualityAnalysis_ID@ @NotFound@";
 			return DocAction.STATUS_Invalid;
 		} else {
 			if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt)) {
@@ -246,9 +246,13 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 				if(m_Owner != null){
 					String attName = MSysConfig.getValue("ATTRIBUTE_OWNER");
 					if(attName != null){
-						MAttributeInstance ai = setAttribute(getAttributeSetInstance(), attName, m_Owner, get_TrxName());
-						if(ai != null)
-							ai.save(get_TrxName());	
+						MAttributeSetInstance asi = getAttributeSetInstance();
+						MAttributeInstance ai = setAttribute(asi, attName, m_Owner, get_TrxName());
+						if(ai != null){
+							ai.saveEx(get_TrxName());
+							asi.setDescription();
+							asi.save(get_TrxName());
+						}
 					} else {
 						m_processMsg = "@M_Attribute_ID@ \"ATTRIBUTE_OWNER\" @NotFound@";
 						return DocAction.STATUS_Invalid;
@@ -590,6 +594,8 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 	/**
 	 * Set AttributeSet
 	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 19/10/2013, 02:33:51
+	 * @contributor <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 2014-01-13, 11:20:00
+	 * <br> Add support to update Attribue Instance
 	 * @param asi
 	 * @param col
 	 * @param val
@@ -605,23 +611,39 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		.setParameters(col)
 		.firstOnly();
 		if (atr!=null){
+			ai = new Query(Env.getCtx(),MAttributeInstance.Table_Name,"M_AttributeSetInstance_ID = ? AND M_Attribute_ID = ?",trxName)
+			.setParameters(asi.getM_AttributeSetInstance_ID(), atr.getM_Attribute_ID())
+			.firstOnly();
 			//Create List Value Attribute instance
 			if (atr.getAttributeValueType().equals("L")){
 				MAttributeValue atrv= new Query(Env.getCtx(),MAttributeValue.Table_Name,"Value=? And M_Attribute_ID=?",trxName)
 				.setOnlyActiveRecords(true)
 				.setParameters(val,atr.getM_Attribute_ID())
 				.firstOnly();
-				if (atrv!=null)
-					ai = new MAttributeInstance(Env.getCtx(), atr.getM_Attribute_ID(), 
-							 asi.getM_AttributeSetInstance_ID(), atrv.getM_AttributeValue_ID(), val, trxName);
+				if (atrv!=null){
+					if(ai != null){
+						ai.setM_AttributeValue_ID(atrv.getM_AttributeValue_ID());
+						ai.setValue(atrv.getName());
+					}
+					else
+						ai = new MAttributeInstance(Env.getCtx(), atr.getM_Attribute_ID(), 
+								 asi.getM_AttributeSetInstance_ID(), atrv.getM_AttributeValue_ID(), val, trxName);
+				}
 			}
 			//Create String Value Attribute instance
-			else if (atr.getAttributeValueType().equals("S"))
-				ai = new MAttributeInstance(Env.getCtx(), atr.getM_Attribute_ID(), asi.getM_AttributeSetInstance_ID(), val, trxName);
+			else if (atr.getAttributeValueType().equals("S")){
+				if(ai != null)
+					ai.setValue(val);
+				else
+					ai = new MAttributeInstance(Env.getCtx(), atr.getM_Attribute_ID(), asi.getM_AttributeSetInstance_ID(), val, trxName);
+			}
 			else if (atr.getAttributeValueType().equals("N")){
 				try{
 					BigDecimal value = new BigDecimal(val);
-					ai = new MAttributeInstance(Env.getCtx(), atr.getM_Attribute_ID(),asi.getM_AttributeSetInstance_ID(), value, trxName);
+					if(ai != null)
+						ai.setValueNumber(value);
+					else
+						ai = new MAttributeInstance(Env.getCtx(), atr.getM_Attribute_ID(),asi.getM_AttributeSetInstance_ID(), value, trxName);
 				}
 				catch (NumberFormatException e){
 					new AdempiereUserError(val +" " +e.getMessage());
@@ -629,5 +651,5 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 			}
 		}
 		return ai;
-	}
+	}	
 }
