@@ -147,6 +147,31 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 		return (String)get_Value(COLUMNNAME_EventType);
 	}
 
+	public org.spin.model.I_FTA_CategoryCalcGroup getFTA_CategoryCalcGroup() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_CategoryCalcGroup)MTable.get(getCtx(), org.spin.model.I_FTA_CategoryCalcGroup.Table_Name)
+			.getPO(getFTA_CategoryCalcGroup_ID(), get_TrxName());	}
+
+	/** Set Category Calc Group.
+		@param FTA_CategoryCalcGroup_ID Category Calc Group	  */
+	public void setFTA_CategoryCalcGroup_ID (int FTA_CategoryCalcGroup_ID)
+	{
+		if (FTA_CategoryCalcGroup_ID < 1) 
+			set_Value (COLUMNNAME_FTA_CategoryCalcGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_CategoryCalcGroup_ID, Integer.valueOf(FTA_CategoryCalcGroup_ID));
+	}
+
+	/** Get Category Calc Group.
+		@return Category Calc Group	  */
+	public int getFTA_CategoryCalcGroup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CategoryCalcGroup_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Category Calc.
 		@param FTA_CategoryCalc_ID Category Calc	  */
 	public void setFTA_CategoryCalc_ID (int FTA_CategoryCalc_ID)
