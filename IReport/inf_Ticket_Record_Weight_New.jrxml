@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f9449f34-fddc-4fe9-865f-b6041d386ef3">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center">
+		<paragraph lineSpacing="Single"/>
+	</style>
+	<parameter name="C_BPartner_ID" class="java.math.BigDecimal" isForPrompting="false"/>
+	<parameter name="C_Project_ID" class="java.math.BigDecimal" isForPrompting="false"/>
+	<parameter name="DateOrdered1" class="java.sql.Timestamp" isForPrompting="false"/>
+	<parameter name="DateOrdered2" class="java.sql.Timestamp" isForPrompting="false"/>
+	<parameter name="DocStatus" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT 1 seqNo, mg.DocumentNo MobilizationGuide, et.Ext_Guide, et.DocumentNo EntryTicket, qa.DocumentNo QualityAnalysis,
+rw.DocumentNo, rw.DateDoc,
+rw.TareWeight, rw.GrossWeight, rw.NetWeight, (rw.NetWeight - rw.PayWeight) Discount, rw.PayWeight,
+av.Name AttributeSet, av.Name Att, av.Value, av.ValueNumber
+FROM FTA_EntryTicket et
+INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
+INNER JOIN FTA_QualityAnalysis qa ON(qa.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID)
+INNER JOIN FTA_RecordWeight rw ON(rw.FTA_QualityAnalysis_ID = qa.FTA_QualityAnalysis_ID)
+INNER JOIN FTA_RV_AttributeValue av ON(av.M_AttributeSetInstance_ID = qa.QualityAnalysis_ID)
+WHERE av.Name IN('Humedad', 'Impureza')]]>
+	</queryString>
+	<field name="seqno" class="java.lang.Integer"/>
+	<field name="mobilizationguide" class="java.lang.String"/>
+	<field name="ext_guide" class="java.lang.String"/>
+	<field name="entryticket" class="java.lang.String"/>
+	<field name="qualityanalysis" class="java.lang.String"/>
+	<field name="documentno" class="java.lang.String"/>
+	<field name="datedoc" class="java.sql.Timestamp"/>
+	<field name="tareweight" class="java.math.BigDecimal"/>
+	<field name="grossweight" class="java.math.BigDecimal"/>
+	<field name="netweight" class="java.math.BigDecimal"/>
+	<field name="discount" class="java.math.BigDecimal"/>
+	<field name="payweight" class="java.math.BigDecimal"/>
+	<field name="attributeset" class="java.lang.String"/>
+	<field name="att" class="java.lang.String"/>
+	<field name="value" class="java.lang.String"/>
+	<field name="valuenumber" class="java.math.BigDecimal"/>
+	<variable name="variable1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{discount}]]></variableExpression>
+	</variable>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="87">
+			<staticText>
+				<reportElement x="279" y="0" width="195" height="20" uuid="cb45e562-ac83-4098-9445-794cc2df80f3"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Listado de Recepción]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="652" y="0" width="100" height="20" uuid="fddca756-f18a-492d-93b2-f4d3c7c3b802"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="12" y="63" width="63" height="15" uuid="f7e9b414-7f25-448c-bd4c-9e6e53af31eb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateOrdered1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="84" y="63" width="63" height="15" uuid="f7e9b414-7f25-448c-bd4c-9e6e53af31eb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateOrdered2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="63" width="5" height="15" uuid="e66c6aca-f8c8-43f3-947a-5dab360d14d5"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{DateOrdered2} != null? "-": "")]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="20">
+			<staticText>
+				<reportElement x="255" y="0" width="100" height="20" uuid="82e275bb-f680-4b60-938a-c8beee77c308"/>
+				<text><![CDATA[discount]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="355" y="0" width="100" height="20" uuid="0b7e1610-ac6a-418a-b8a5-a7e6565ff5b7"/>
+				<textFieldExpression><![CDATA[$F{discount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField>
+				<reportElement x="355" y="0" width="100" height="20" uuid="9149597d-19ce-4319-b8dd-c0c653eecf8e"/>
+				<textFieldExpression><![CDATA[$F{discount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="58"/>
+	</summary>
+</jasperReport>
