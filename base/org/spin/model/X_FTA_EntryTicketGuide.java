@@ -30,7 +30,7 @@ public class X_FTA_EntryTicketGuide extends PO implements I_FTA_EntryTicketGuide
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140111L;
+	private static final long serialVersionUID = 20140113L;
 
     /** Standard Constructor */
     public X_FTA_EntryTicketGuide (Properties ctx, int FTA_EntryTicketGuide_ID, String trxName)

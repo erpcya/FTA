@@ -141,6 +141,7 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 
 	/**
 	 * Set Product of Load Order and Operation Type is Delivery Bulk Material.
+	 * If operation type is Raw Material Receipt set Chute of Record Weight 
 	 * @author <a href="mailto:dixon.22ma@gmail.com">Dixon Martinez</a> 12/12/2013, 16:00:01
 	 * @param ctx
 	 * @param WindowNo
@@ -150,22 +151,24 @@ public class CalloutQualityAnalysis extends CalloutEngine {
 	 * @return
 	 * @return String
 	 */
-	public String product (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+	public String recordWeight (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		Integer p_FTA_RecordWeight = (Integer) value;
 		if	(p_FTA_RecordWeight == null || p_FTA_RecordWeight.intValue() == 0)
 			return "";
-
-		//	Create Record Weight Object
-		MFTARecordWeight m_FTA_RecordWeight = new MFTARecordWeight(Env.getCtx(), p_FTA_RecordWeight, null);
 		
-		//	Create Load Order Object
-		MFTALoadOrder m_FTA_LoadOrder = new MFTALoadOrder(Env.getCtx(), m_FTA_RecordWeight.getFTA_LoadOrder_ID(), null);
-		
-		//	Set Product of Load Order
-		if	(mField.get_ValueAsString("OperationType")
-				.equals(X_FTA_QualityAnalysis.OPERATIONTYPE_DeliveryBulkMaterial))
-			mTab.setValue("M_Product_ID", m_FTA_LoadOrder.getM_Product_ID());
-		
-		return "";
+		 //	Create Record Weight Object
+		 MFTARecordWeight m_FTA_RecordWeight = new MFTARecordWeight(Env.getCtx(), p_FTA_RecordWeight, null);
+		 
+		 if	(mField.get_ValueAsString("OperationType")
+				 .equals(X_FTA_QualityAnalysis.OPERATIONTYPE_RawMaterialReceipt)){
+			 //	Set value of chute
+			 mTab.setValue("FTA_Chute_ID", m_FTA_RecordWeight.getFTA_Chute_ID());
+		 }else if	(mField.get_ValueAsString("OperationType")
+				 .equals(X_FTA_QualityAnalysis.OPERATIONTYPE_DeliveryBulkMaterial)){//	Set Product of Load Order
+			 //	Create Load Order Object
+			 MFTALoadOrder m_FTA_LoadOrder = new MFTALoadOrder(Env.getCtx(), m_FTA_RecordWeight.getFTA_LoadOrder_ID(), null);
+			 mTab.setValue("M_Product_ID", m_FTA_LoadOrder.getM_Product_ID());
+		}
+		 return "";
 	}
 }

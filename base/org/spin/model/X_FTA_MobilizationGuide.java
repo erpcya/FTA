@@ -34,7 +34,7 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140111L;
+	private static final long serialVersionUID = 20140113L;
 
     /** Standard Constructor */
     public X_FTA_MobilizationGuide (Properties ctx, int FTA_MobilizationGuide_ID, String trxName)
@@ -390,23 +390,26 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 		return ii.intValue();
 	}
 
-	public I_M_AttributeValue getOw() throws RuntimeException
+	public I_M_AttributeValue getOwner() throws RuntimeException
     {
 		return (I_M_AttributeValue)MTable.get(getCtx(), I_M_AttributeValue.Table_Name)
-			.getPO(getOwner(), get_TrxName());	}
+			.getPO(getOwner_ID(), get_TrxName());	}
 
 	/** Set Owner.
-		@param Owner Owner	  */
-	public void setOwner (int Owner)
+		@param Owner_ID Owner	  */
+	public void setOwner_ID (int Owner_ID)
 	{
-		set_ValueNoCheck (COLUMNNAME_Owner, Integer.valueOf(Owner));
+		if (Owner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Owner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Owner_ID, Integer.valueOf(Owner_ID));
 	}
 
 	/** Get Owner.
 		@return Owner	  */
-	public int getOwner () 
+	public int getOwner_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Owner);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Owner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
