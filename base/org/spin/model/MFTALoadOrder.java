@@ -231,7 +231,22 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		} else {
-			
+			StringBuffer msgLong = new StringBuffer();
+			for(MFTALoadOrderLine line : m_lines){
+				//	Evaluate Error
+				String msg = line.validExcedeed();
+				if(msg != null){
+					if(msgLong.length() != 0)
+						msgLong.append("\n").append(msg);
+					else
+						msgLong.append(msg);
+				}
+			}
+			//	Verify Error
+			if(msgLong.length() != 0){
+				m_processMsg = msgLong.toString();
+				return DocAction.STATUS_Invalid;
+			}
 		}
 		
 		//	Valid Weight and Volume

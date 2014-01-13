@@ -16,8 +16,13 @@
  *****************************************************************************/
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.compiere.model.MProduct;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -53,8 +58,32 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 		super(ctx, rs, trxName);
 	}
 	
+	/**
+	 * Valid if Exceeded Quantity
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 13/01/2014, 17:47:56
+	 * @return
+	 * @return String
+	 */
 	public String validExcedeed(){
-		
+		BigDecimal res = DB.getSQLValueBD(get_TrxName(), "SELECT ol.QtyOrdered - SUM(lol.Qty) " +
+				"FROM C_OrderLine ol " +
+				"INNER JOIN FTA_LoadOrderLine lol ON(lol.C_OrderLine_ID = ol.C_OrderLine_ID) " +
+				"INNER JOIN FTA_LoadOrder lo ON(lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID) " +
+				"INNER JOIN M_Product pr ON(pr.M_Product_ID = ol.M_Product_ID) " +
+				"WHERE lo.DocStatus IN('CO', 'CL') " +
+				"AND ol.C_OrderLine_ID = ? " +
+				"AND lol.FTA_LoadOrder_ID <> " + getFTA_LoadOrder_ID() + " " +
+				"GROUP BY ol.C_OrderLine_ID", getC_OrderLine_ID());
+		if(res == null)
+			return null;
+		//	Valid
+		if(res.subtract(getQty()).signum() < 0){
+			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+			return "@Qty@ > (@QtyOrdered@ - @QtyDelivered@) " +
+					"\n@SeqNo@: " + getSeqNo() + 
+					"\n@M_Product_ID@:" + product.getValue() + " - " + product.getName() + 
+					"\n @Difference@=" + res.subtract(getQty());
+		}
 		return null;
 	}
 
