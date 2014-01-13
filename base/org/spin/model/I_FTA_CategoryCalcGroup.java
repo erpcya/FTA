@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for FTA_CategoryCalc
+/** Generated Interface for FTA_CategoryCalcGroup
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS
  */
-public interface I_FTA_CategoryCalc 
+public interface I_FTA_CategoryCalcGroup 
 {
 
-    /** TableName=FTA_CategoryCalc */
-    public static final String Table_Name = "FTA_CategoryCalc";
+    /** TableName=FTA_CategoryCalcGroup */
+    public static final String Table_Name = "FTA_CategoryCalcGroup";
 
-    /** AD_Table_ID=53568 */
+    /** AD_Table_ID=53739 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,17 +63,6 @@ public interface I_FTA_CategoryCalc
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Rule_ID */
-    public static final String COLUMNNAME_AD_Rule_ID = "AD_Rule_ID";
-
-	/** Set Rule	  */
-	public void setAD_Rule_ID (int AD_Rule_ID);
-
-	/** Get Rule	  */
-	public int getAD_Rule_ID();
-
-	public I_AD_Rule getAD_Rule() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -90,32 +79,6 @@ public interface I_FTA_CategoryCalc
 	  */
 	public int getCreatedBy();
 
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
-
-	/** Set Description.
-	  * Optional short description of the record
-	  */
-	public void setDescription (String Description);
-
-	/** Get Description.
-	  * Optional short description of the record
-	  */
-	public String getDescription();
-
-    /** Column name EventType */
-    public static final String COLUMNNAME_EventType = "EventType";
-
-	/** Set Event Type.
-	  * Type of Event
-	  */
-	public void setEventType (String EventType);
-
-	/** Get Event Type.
-	  * Type of Event
-	  */
-	public String getEventType();
-
     /** Column name FTA_CategoryCalcGroup_ID */
     public static final String COLUMNNAME_FTA_CategoryCalcGroup_ID = "FTA_CategoryCalcGroup_ID";
 
@@ -124,17 +87,6 @@ public interface I_FTA_CategoryCalc
 
 	/** Get Category Calc Group	  */
 	public int getFTA_CategoryCalcGroup_ID();
-
-	public org.spin.model.I_FTA_CategoryCalcGroup getFTA_CategoryCalcGroup() throws RuntimeException;
-
-    /** Column name FTA_CategoryCalc_ID */
-    public static final String COLUMNNAME_FTA_CategoryCalc_ID = "FTA_CategoryCalc_ID";
-
-	/** Set Category Calc	  */
-	public void setFTA_CategoryCalc_ID (int FTA_CategoryCalc_ID);
-
-	/** Get Category Calc	  */
-	public int getFTA_CategoryCalc_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -149,21 +101,6 @@ public interface I_FTA_CategoryCalc
 	  */
 	public boolean isActive();
 
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
-
-	/** Set Product.
-	  * Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID);
-
-	/** Get Product.
-	  * Product, Service, Item
-	  */
-	public int getM_Product_ID();
-
-	public I_M_Product getM_Product() throws RuntimeException;
-
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -176,19 +113,6 @@ public interface I_FTA_CategoryCalc
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name StdPrecision */
-    public static final String COLUMNNAME_StdPrecision = "StdPrecision";
-
-	/** Set Standard Precision.
-	  * Rule for rounding  calculated amounts
-	  */
-	public void setStdPrecision (int StdPrecision);
-
-	/** Get Standard Precision.
-	  * Rule for rounding  calculated amounts
-	  */
-	public int getStdPrecision();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -205,4 +129,17 @@ public interface I_FTA_CategoryCalc
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }

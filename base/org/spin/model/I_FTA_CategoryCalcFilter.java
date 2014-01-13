@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for FTA_CategoryCalc
+/** Generated Interface for FTA_CategoryCalcFilter
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS
  */
-public interface I_FTA_CategoryCalc 
+public interface I_FTA_CategoryCalcFilter 
 {
 
-    /** TableName=FTA_CategoryCalc */
-    public static final String Table_Name = "FTA_CategoryCalc";
+    /** TableName=FTA_CategoryCalcFilter */
+    public static final String Table_Name = "FTA_CategoryCalcFilter";
 
-    /** AD_Table_ID=53568 */
+    /** AD_Table_ID=53740 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,16 +63,18 @@ public interface I_FTA_CategoryCalc
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Rule_ID */
-    public static final String COLUMNNAME_AD_Rule_ID = "AD_Rule_ID";
+    /** Column name AttributeValueType */
+    public static final String COLUMNNAME_AttributeValueType = "AttributeValueType";
 
-	/** Set Rule	  */
-	public void setAD_Rule_ID (int AD_Rule_ID);
+	/** Set Attribute Value Type.
+	  * Type of Attribute Value
+	  */
+	public void setAttributeValueType (String AttributeValueType);
 
-	/** Get Rule	  */
-	public int getAD_Rule_ID();
-
-	public I_AD_Rule getAD_Rule() throws RuntimeException;
+	/** Get Attribute Value Type.
+	  * Type of Attribute Value
+	  */
+	public String getAttributeValueType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -90,43 +92,6 @@ public interface I_FTA_CategoryCalc
 	  */
 	public int getCreatedBy();
 
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
-
-	/** Set Description.
-	  * Optional short description of the record
-	  */
-	public void setDescription (String Description);
-
-	/** Get Description.
-	  * Optional short description of the record
-	  */
-	public String getDescription();
-
-    /** Column name EventType */
-    public static final String COLUMNNAME_EventType = "EventType";
-
-	/** Set Event Type.
-	  * Type of Event
-	  */
-	public void setEventType (String EventType);
-
-	/** Get Event Type.
-	  * Type of Event
-	  */
-	public String getEventType();
-
-    /** Column name FTA_CategoryCalcGroup_ID */
-    public static final String COLUMNNAME_FTA_CategoryCalcGroup_ID = "FTA_CategoryCalcGroup_ID";
-
-	/** Set Category Calc Group	  */
-	public void setFTA_CategoryCalcGroup_ID (int FTA_CategoryCalcGroup_ID);
-
-	/** Get Category Calc Group	  */
-	public int getFTA_CategoryCalcGroup_ID();
-
-	public org.spin.model.I_FTA_CategoryCalcGroup getFTA_CategoryCalcGroup() throws RuntimeException;
-
     /** Column name FTA_CategoryCalc_ID */
     public static final String COLUMNNAME_FTA_CategoryCalc_ID = "FTA_CategoryCalc_ID";
 
@@ -135,6 +100,8 @@ public interface I_FTA_CategoryCalc
 
 	/** Get Category Calc	  */
 	public int getFTA_CategoryCalc_ID();
+
+	public org.spin.model.I_FTA_CategoryCalc getFTA_CategoryCalc() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -149,46 +116,35 @@ public interface I_FTA_CategoryCalc
 	  */
 	public boolean isActive();
 
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+    /** Column name M_Attribute_ID */
+    public static final String COLUMNNAME_M_Attribute_ID = "M_Attribute_ID";
 
-	/** Set Product.
-	  * Product, Service, Item
+	/** Set Attribute.
+	  * Product Attribute
 	  */
-	public void setM_Product_ID (int M_Product_ID);
+	public void setM_Attribute_ID (int M_Attribute_ID);
 
-	/** Get Product.
-	  * Product, Service, Item
+	/** Get Attribute.
+	  * Product Attribute
 	  */
-	public int getM_Product_ID();
+	public int getM_Attribute_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public I_M_Attribute getM_Attribute() throws RuntimeException;
 
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
+    /** Column name M_AttributeValue_ID */
+    public static final String COLUMNNAME_M_AttributeValue_ID = "M_AttributeValue_ID";
 
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
+	/** Set Attribute Value.
+	  * Product Attribute Value
 	  */
-	public void setName (String Name);
+	public void setM_AttributeValue_ID (int M_AttributeValue_ID);
 
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
+	/** Get Attribute Value.
+	  * Product Attribute Value
 	  */
-	public String getName();
+	public int getM_AttributeValue_ID();
 
-    /** Column name StdPrecision */
-    public static final String COLUMNNAME_StdPrecision = "StdPrecision";
-
-	/** Set Standard Precision.
-	  * Rule for rounding  calculated amounts
-	  */
-	public void setStdPrecision (int StdPrecision);
-
-	/** Get Standard Precision.
-	  * Rule for rounding  calculated amounts
-	  */
-	public int getStdPrecision();
+	public I_M_AttributeValue getM_AttributeValue() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -205,4 +161,56 @@ public interface I_FTA_CategoryCalc
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
+
+    /** Column name Value2 */
+    public static final String COLUMNNAME_Value2 = "Value2";
+
+	/** Set Value To.
+	  * Value To
+	  */
+	public void setValue2 (String Value2);
+
+	/** Get Value To.
+	  * Value To
+	  */
+	public String getValue2();
+
+    /** Column name ValueNumber */
+    public static final String COLUMNNAME_ValueNumber = "ValueNumber";
+
+	/** Set Value.
+	  * Numeric Value
+	  */
+	public void setValueNumber (BigDecimal ValueNumber);
+
+	/** Get Value.
+	  * Numeric Value
+	  */
+	public BigDecimal getValueNumber();
+
+    /** Column name ValueNumber2 */
+    public static final String COLUMNNAME_ValueNumber2 = "ValueNumber2";
+
+	/** Set Value.
+	  * Numeric Value
+	  */
+	public void setValueNumber2 (BigDecimal ValueNumber2);
+
+	/** Get Value.
+	  * Numeric Value
+	  */
+	public BigDecimal getValueNumber2();
 }
