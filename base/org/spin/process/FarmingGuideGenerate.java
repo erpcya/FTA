@@ -281,7 +281,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_MobilizationGuide.setFTA_VehicleType_ID(p_FTA_VehicleType_ID);
 			m_MobilizationGuide.setM_Warehouse_ID(p_M_Warehouse_ID);
 			m_MobilizationGuide.setQtyToDeliver(m_QtyToDeliver.setScale(precision, BigDecimal.ROUND_HALF_UP));
-			m_MobilizationGuide.setOwner(p_Owner);
+			m_MobilizationGuide.setOwner_ID(p_Owner);
 			m_MobilizationGuide.saveEx();
 			//	Complete Document
 			m_MobilizationGuide.processIt(DocAction.ACTION_Complete);
