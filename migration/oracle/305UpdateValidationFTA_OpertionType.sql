@@ -13,11 +13,6 @@ DELETE  FROM  AD_Reference_Trl WHERE AD_Reference_ID=53595
 DELETE FROM AD_Reference WHERE AD_Reference_ID=53595
 ;
 
--- Nov 18, 2013 9:10:00 AM VET
--- Farming Technical Assistance
-INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Reference_ID,AD_Ref_List_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53597,54158,TO_DATE('2013-11-18 09:09:55','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Delivery Raw Material',TO_DATE('2013-11-18 09:09:55','YYYY-MM-DD HH24:MI:SS'),100,'DRM')
-;
-
 -- Nov 18, 2013 9:16:58 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52250,'AD_Ref_List.Value IN (''DRM'',''DFP'',''MOM'')',TO_DATE('2013-11-18 09:16:43','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','FTA_OperationType','S',TO_DATE('2013-11-18 09:16:43','YYYY-MM-DD HH24:MI:SS'),100)

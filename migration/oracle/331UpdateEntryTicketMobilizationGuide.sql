@@ -3,11 +3,6 @@
 UPDATE AD_Column SET AD_Val_Rule_ID=202,Updated=TO_DATE('2014-01-09 09:36:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=66866
 ;
 
--- Jan 9, 2014 11:07:13 AM VET
--- Farming Technical Assistance
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Reference_Value_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,56607,0,53497,54336,17,53597,'OperationType',TO_DATE('2014-01-09 11:07:09','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',3,'Y','Y','Y','N','Operation Type',5,TO_DATE('2014-01-09 11:07:09','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
 -- Jan 9, 2014 11:07:26 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Reference_Value_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,56607,0,53497,54337,17,53597,'OperationType',TO_DATE('2014-01-09 11:07:23','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',3,'Y','Y','Y','N','Operation Type',7,TO_DATE('2014-01-09 11:07:23','YYYY-MM-DD HH24:MI:SS'),100)
