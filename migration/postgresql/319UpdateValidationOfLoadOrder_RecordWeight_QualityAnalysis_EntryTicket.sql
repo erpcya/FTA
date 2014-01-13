@@ -1613,11 +1613,6 @@ AND OperationType = ''@OperationType@''
 UPDATE AD_Column SET AD_Val_Rule_ID=52277,Updated=TO_TIMESTAMP('2013-12-11 15:31:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=70645
 ;
 
--- Dec 11, 2013 3:32:40 PM VET
--- Farming Technical Assistance
-INSERT INTO AD_Ref_Table (AD_Client_ID,AD_Display,AD_Key,AD_Org_ID,AD_Reference_ID,AD_Table_ID,Created,CreatedBy,EntityType,IsActive,IsValueDisplayed,OrderByClause,Updated,UpdatedBy) VALUES (0,69843,69841,0,53596,53667,TO_TIMESTAMP('2013-12-11 15:32:39','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','N','FTA_LoadOrder.DocumentNo',TO_TIMESTAMP('2013-12-11 15:32:39','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
 -- Dec 11, 2013 3:44:02 PM VET
 -- Farming Technical Assistance
 UPDATE AD_Val_Rule SET Code='FTA_LoadOrder.FTA_EntryTicket_ID = @FTA_EntryTicket_ID@
