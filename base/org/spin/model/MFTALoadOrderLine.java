@@ -52,5 +52,10 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 	public MFTALoadOrderLine(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
+	
+	public String validExcedeed(){
+		
+		return null;
+	}
 
 }
