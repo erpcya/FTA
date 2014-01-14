@@ -237,9 +237,16 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 				String msg = line.validExcedeed();
 				if(msg != null){
 					if(msgLong.length() != 0)
-						msgLong.append("\n").append(msg);
+						msgLong
+							.append("\n")
+							.append("*")
+							.append(msg)
+							.append("*");
 					else
-						msgLong.append(msg);
+						msgLong
+							.append("*")
+							.append(msg)
+							.append("*");
 				}
 			}
 			//	Verify Error
@@ -248,7 +255,11 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 				return DocAction.STATUS_Invalid;
 			}
 		}
-		
+		//	Valid Entry Ticket
+		if(getFTA_EntryTicket_ID() == 0) {
+			m_processMsg = "@FTA_EntryTicket_ID@ @NotFound@";
+			return DocAction.STATUS_InProgress;
+		}
 		//	Valid Weight and Volume
 		m_processMsg = validWeightVolume();
 		if(m_processMsg != null)
