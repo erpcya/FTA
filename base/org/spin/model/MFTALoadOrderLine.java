@@ -22,7 +22,6 @@ import java.util.Properties;
 
 import org.compiere.model.MProduct;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -80,9 +79,9 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 		if(res.subtract(getQty()).signum() < 0){
 			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
 			return "@Qty@ > (@QtyOrdered@ - @QtyDelivered@) " +
-					"\n@SeqNo@: " + getSeqNo() + 
-					"\n@M_Product_ID@:" + product.getValue() + " - " + product.getName() + 
-					"\n @Difference@=" + res.subtract(getQty());
+					"@SeqNo@:" + getSeqNo() + " " +
+					"@M_Product_ID@:\"" + product.getValue() + " - " + product.getName() + "\" " + 
+					"@Difference@=" + res.subtract(getQty());
 		}
 		return null;
 	}
