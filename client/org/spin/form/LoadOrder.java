@@ -14,6 +14,7 @@ import java.util.logging.Level;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MOrgInfo;
@@ -667,9 +668,14 @@ public class LoadOrder {
 		loadOrder.setDocAction(X_FTA_LoadOrder.DOCACTION_Complete);
 		loadOrder.processIt(X_FTA_LoadOrder.DOCACTION_Complete);
 		loadOrder.saveEx();
+		//	Valid Error
+		String errorMsg = loadOrder.getProcessMsg();
+		if(errorMsg != null
+				&& loadOrder.getDocStatus().equals(X_FTA_LoadOrder.DOCSTATUS_Invalid))
+			throw new AdempiereException(errorMsg);
 		//	Message
 		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + loadOrder.getDocumentNo() 
-				+ "] || @LineNo@" + " = [" + m_gen + "]");
+				+ "] || @LineNo@" + " = [" + m_gen + "]" + (errorMsg != null? "\n@Errors@:" + errorMsg: ""));
 	}
 	
 	/**
