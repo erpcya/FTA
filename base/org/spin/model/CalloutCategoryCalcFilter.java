@@ -21,6 +21,9 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MAttribute;
+import org.compiere.model.X_M_Attribute;
+import org.compiere.util.DB;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -43,6 +46,15 @@ public class CalloutCategoryCalcFilter extends CalloutEngine {
 		Integer m_M_Attribute_ID = (Integer)value;
 		if (m_M_Attribute_ID == null || m_M_Attribute_ID.intValue() == 0)
 			return "";
+		
+		String sql = "SELECT AttributeValueType FROM M_Attribute WHERE M_Attribute_ID = ?";
+		
+		String attributeValueType = DB.getSQLValueString(null,sql , m_M_Attribute_ID);
+		
+		if(attributeValueType.equals("")){
+			return "";
+		}else 
+			mTab.setValue("AttributeValueType", attributeValueType);
 		
 		return "";
 	}

@@ -131,6 +131,17 @@ public interface I_FTA_CategoryCalcFilter
 
 	public I_M_Attribute getM_Attribute() throws RuntimeException;
 
+    /** Column name M_AttributeValue2_ID */
+    public static final String COLUMNNAME_M_AttributeValue2_ID = "M_AttributeValue2_ID";
+
+	/** Set Attribute Value To	  */
+	public void setM_AttributeValue2_ID (int M_AttributeValue2_ID);
+
+	/** Get Attribute Value To	  */
+	public int getM_AttributeValue2_ID();
+
+	public I_M_AttributeValue getM_AttributeValue2() throws RuntimeException;
+
     /** Column name M_AttributeValue_ID */
     public static final String COLUMNNAME_M_AttributeValue_ID = "M_AttributeValue_ID";
 
@@ -204,13 +215,13 @@ public interface I_FTA_CategoryCalcFilter
     /** Column name ValueNumber2 */
     public static final String COLUMNNAME_ValueNumber2 = "ValueNumber2";
 
-	/** Set Value.
-	  * Numeric Value
+	/** Set Value To.
+	  * Numeric Value To
 	  */
 	public void setValueNumber2 (BigDecimal ValueNumber2);
 
-	/** Get Value.
-	  * Numeric Value
+	/** Get Value To.
+	  * Numeric Value To
 	  */
 	public BigDecimal getValueNumber2();
 }
