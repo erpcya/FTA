@@ -9,7 +9,6 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
 import org.spin.model.MFTAFarmerCredit;
-import org.spin.model.MFTAFarming;
 
 /**
  * 
@@ -83,6 +82,22 @@ public class ChangeCategory extends SvrProcess{
 		return credits;
 	}
 
+	/**
+	 * Change Credit for Detail
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 11/01/2014, 10:40:43
+	 * @param fc
+	 * @return void
+	 */
+	private void changeCredit(MFTAFarmerCredit fc)
+	{
+		
+	}
+	
+	
+	
+	
+	
+	
 	/** Credit Definition */
 	private int p_FTA_CreditDefinition_ID = 0;
 	

@@ -33,7 +33,7 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140113L;
+	private static final long serialVersionUID = 20140115L;
 
     /** Standard Constructor */
     public X_FTA_CategoryCalcFilter (Properties ctx, int FTA_CategoryCalcFilter_ID, String trxName)
@@ -154,6 +154,31 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 		return ii.intValue();
 	}
 
+	public I_M_AttributeValue getM_AttributeValue2() throws RuntimeException
+    {
+		return (I_M_AttributeValue)MTable.get(getCtx(), I_M_AttributeValue.Table_Name)
+			.getPO(getM_AttributeValue2_ID(), get_TrxName());	}
+
+	/** Set Attribute Value To.
+		@param M_AttributeValue2_ID Attribute Value To	  */
+	public void setM_AttributeValue2_ID (int M_AttributeValue2_ID)
+	{
+		if (M_AttributeValue2_ID < 1) 
+			set_Value (COLUMNNAME_M_AttributeValue2_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeValue2_ID, Integer.valueOf(M_AttributeValue2_ID));
+	}
+
+	/** Get Attribute Value To.
+		@return Attribute Value To	  */
+	public int getM_AttributeValue2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeValue2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_AttributeValue getM_AttributeValue() throws RuntimeException
     {
 		return (I_M_AttributeValue)MTable.get(getCtx(), I_M_AttributeValue.Table_Name)
@@ -244,17 +269,17 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 		return bd;
 	}
 
-	/** Set Value.
+	/** Set Value To.
 		@param ValueNumber2 
-		Numeric Value
+		Numeric Value To
 	  */
 	public void setValueNumber2 (BigDecimal ValueNumber2)
 	{
 		set_Value (COLUMNNAME_ValueNumber2, ValueNumber2);
 	}
 
-	/** Get Value.
-		@return Numeric Value
+	/** Get Value To.
+		@return Numeric Value To
 	  */
 	public BigDecimal getValueNumber2 () 
 	{

@@ -84,6 +84,7 @@ public class CalloutRecordWeight extends CalloutEngine {
 		int m_FTA_QualityAnalysis_ID = DB.getSQLValue(null, sql, m_FTA_EntryTicket_ID);
 		//	Set Business Partner
 		mTab.setValue("FTA_QualityAnalysis_ID", m_FTA_QualityAnalysis_ID);
+		Env.setContext(ctx, WindowNo, "FTA_QualityAnalysis_ID", (m_FTA_QualityAnalysis_ID==-1?0:m_FTA_QualityAnalysis_ID));
 		return "";
 	}
 	
@@ -147,5 +148,32 @@ public class CalloutRecordWeight extends CalloutEngine {
 
 		return "";
 	}
-	
+
+	/**
+	 * Set Product From Quality Analysis
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 15/01/2014, 12:07:58
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String product(Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+
+		if (value ==null || !mField.getColumnName().equals("FTA_QualityAnalysis_ID"))
+			return "";
+		
+		int l_FTA_QualityAnalysis_ID = (value == null ? 0 : (Integer)value);
+		
+		if (l_FTA_QualityAnalysis_ID != 0)
+		{
+			MFTAQualityAnalysis qa = new MFTAQualityAnalysis(ctx, l_FTA_QualityAnalysis_ID, null);
+			mTab.setValue("M_Product_ID", qa.getM_Product_ID());
+		}
+		
+		return "";
+	}
+
 }
