@@ -10,7 +10,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2013 E.R.P. Consultores y Asociados, C.A.               *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
  * Contributor(s): Yamel Senih www.erpconsultoresyasociados.com               *
  *****************************************************************************/
@@ -19,63 +19,38 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.util.Env;
-
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class MFTAFarmDivision extends X_FTA_FarmDivision {
+public class MFTACategoryCalcFilter extends X_FTA_CategoryCalcFilter {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2477182671946211599L;
+	private static final long serialVersionUID = 339979305692160595L;
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 13/08/2013, 16:57:25
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/01/2014, 14:25:45
 	 * @param ctx
-	 * @param FTA_FarmDivision_ID
+	 * @param FTA_CategoryCalcFilter_ID
 	 * @param trxName
 	 */
-	public MFTAFarmDivision(Properties ctx, int FTA_FarmDivision_ID,
-			String trxName) {
-		super(ctx, FTA_FarmDivision_ID, trxName);
+	public MFTACategoryCalcFilter(Properties ctx,
+			int FTA_CategoryCalcFilter_ID, String trxName) {
+		super(ctx, FTA_CategoryCalcFilter_ID, trxName);
 	}
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 13/08/2013, 16:57:25
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/01/2014, 14:25:45
 	 * @param ctx
 	 * @param rs
 	 * @param trxName
 	 */
-	public MFTAFarmDivision(Properties ctx, ResultSet rs, String trxName) {
+	public MFTACategoryCalcFilter(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-	}
-	
-	/**
-	 * Valid Area
-	 */
-	@Override
-	protected boolean beforeSave(boolean newRecord) {
-		super.beforeSave(newRecord);
-		if(getArea() == null
-				|| getArea().equals(Env.ZERO)) {
-			throw new AdempiereException("@Area@ = @0@");
-		} else if(getArea().compareTo(getFTA_Farm().getArea()) > 0){
-			throw new AdempiereException("@Area@ > @Area@ @of@ @FTA_Farm_ID@");
-		}
-		//	Farm Validation
-		if(newRecord 
-				|| is_ValueChanged("Area")) {
-			MFTAFarm m_Farm = new MFTAFarm(getCtx(), getFTA_Farm_ID(), get_TrxName());
-			m_Farm.setIsValid(false);
-			return m_Farm.save();
-		}
-		return true;
 	}
 
 }
