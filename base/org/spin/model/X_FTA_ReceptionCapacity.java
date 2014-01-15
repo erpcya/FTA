@@ -34,7 +34,7 @@ public class X_FTA_ReceptionCapacity extends PO implements I_FTA_ReceptionCapaci
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140113L;
+	private static final long serialVersionUID = 20140115L;
 
     /** Standard Constructor */
     public X_FTA_ReceptionCapacity (Properties ctx, int FTA_ReceptionCapacity_ID, String trxName)
