@@ -47,15 +47,24 @@ public class CalloutCategoryCalcFilter extends CalloutEngine {
 		if (m_M_Attribute_ID == null || m_M_Attribute_ID.intValue() == 0)
 			return "";
 		
+		//	Dixon Martinez 2014-01-15
+		//	Set Attribute Value Type of Attribute Selected.
+		
+		//	Select Value Attribute Type Attribute depending.
 		String sql = "SELECT AttributeValueType FROM M_Attribute WHERE M_Attribute_ID = ?";
 		
+		//	Save value returned for sql
 		String attributeValueType = DB.getSQLValueString(null,sql , m_M_Attribute_ID);
 		
-		if(attributeValueType.equals("")){
+		//	If the value of the type attribute is null or empty
+		//	Returns empty if not sets the value		
+		if(attributeValueType == null
+				|| attributeValueType.equals("")){
 			return "";
 		}else 
 			mTab.setValue("AttributeValueType", attributeValueType);
 		
+		//	End Dixon Martinez
 		return "";
 	}
 }
