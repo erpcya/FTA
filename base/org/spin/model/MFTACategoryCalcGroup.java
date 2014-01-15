@@ -10,72 +10,78 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2013 E.R.P. Consultores y Asociados, C.A.               *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
  * Contributor(s): Yamel Senih www.erpconsultoresyasociados.com               *
  *****************************************************************************/
 package org.spin.model;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.util.Env;
+import org.compiere.model.Query;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class MFTAFarmDivision extends X_FTA_FarmDivision {
+public class MFTACategoryCalcGroup extends X_FTA_CategoryCalcGroup {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2477182671946211599L;
+	private static final long serialVersionUID = 2704979371516533470L;
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 13/08/2013, 16:57:25
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/01/2014, 14:24:53
 	 * @param ctx
-	 * @param FTA_FarmDivision_ID
+	 * @param FTA_CategoryCalcGroup_ID
 	 * @param trxName
 	 */
-	public MFTAFarmDivision(Properties ctx, int FTA_FarmDivision_ID,
+	public MFTACategoryCalcGroup(Properties ctx, int FTA_CategoryCalcGroup_ID,
 			String trxName) {
-		super(ctx, FTA_FarmDivision_ID, trxName);
+		super(ctx, FTA_CategoryCalcGroup_ID, trxName);
 	}
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 13/08/2013, 16:57:25
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/01/2014, 14:24:53
 	 * @param ctx
 	 * @param rs
 	 * @param trxName
 	 */
-	public MFTAFarmDivision(Properties ctx, ResultSet rs, String trxName) {
+	public MFTACategoryCalcGroup(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
+
+	private MFTACategoryCalc[] m_lines = null;
 	
 	/**
-	 * Valid Area
+	 * Get Lines
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/01/2014, 14:42:45
+	 * @param requery
+	 * @return
+	 * @return MFTACategoryCalc[]
 	 */
-	@Override
-	protected boolean beforeSave(boolean newRecord) {
-		super.beforeSave(newRecord);
-		if(getArea() == null
-				|| getArea().equals(Env.ZERO)) {
-			throw new AdempiereException("@Area@ = @0@");
-		} else if(getArea().compareTo(getFTA_Farm().getArea()) > 0){
-			throw new AdempiereException("@Area@ > @Area@ @of@ @FTA_Farm_ID@");
+	public MFTACategoryCalc[] getLines (boolean requery)
+	{
+		if (m_lines != null && !requery)
+		{
+			set_TrxName(m_lines, get_TrxName());
+			return m_lines;
 		}
-		//	Farm Validation
-		if(newRecord 
-				|| is_ValueChanged("Area")) {
-			MFTAFarm m_Farm = new MFTAFarm(getCtx(), getFTA_Farm_ID(), get_TrxName());
-			m_Farm.setIsValid(false);
-			return m_Farm.save();
-		}
-		return true;
-	}
+		List<MFTACategoryCalc> list = new Query(getCtx(), I_FTA_CategoryCalc.Table_Name, 
+				"FTA_CategoryCalcGroup_ID=?", get_TrxName())
+		.setParameters(getFTA_CategoryCalcGroup_ID())
+		.list();
 
+		m_lines = new MFTACategoryCalc[list.size ()];
+		list.toArray (m_lines);
+		return m_lines;
+	}	//	getLines
+	
+	
+	
 }

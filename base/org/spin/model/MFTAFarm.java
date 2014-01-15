@@ -42,7 +42,6 @@ public class MFTAFarm extends X_FTA_Farm {
 	 */
 	public MFTAFarm(Properties ctx, int FTA_Farm_ID, String trxName) {
 		super(ctx, FTA_Farm_ID, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -54,7 +53,6 @@ public class MFTAFarm extends X_FTA_Farm {
 	 */
 	public MFTAFarm(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
