@@ -19,6 +19,7 @@ package org.spin.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -60,6 +61,9 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 	public MFTACategoryCalc(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
+	
+	/**	Category Calc Filter			*/
+	private MFTACategoryCalcFilter[] m_lines = null;
 
 	/**
 	 * Execute the script
@@ -187,4 +191,28 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 		//	
 		return categoryCalc;
 	}
+	
+	/**
+	 * Get Category Calc Filter
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/01/2014, 15:13:05
+	 * @param requery
+	 * @return
+	 * @return MFTACategoryCalcFilter[]
+	 */
+	public MFTACategoryCalcFilter[] getLines (boolean requery)
+	{
+		if (m_lines != null && !requery)
+		{
+			set_TrxName(m_lines, get_TrxName());
+			return m_lines;
+		}
+		List<MFTACategoryCalcFilter> list = new Query(getCtx(), I_FTA_CategoryCalcFilter.Table_Name, 
+				"FTA_CategoryCalc_ID=?", get_TrxName())
+		.setParameters(getFTA_CategoryCalc_ID())
+		.list();
+
+		m_lines = new MFTACategoryCalcFilter[list.size ()];
+		list.toArray (m_lines);
+		return m_lines;
+	}	//	getLines
 }
