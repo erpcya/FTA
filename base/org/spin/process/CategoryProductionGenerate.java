@@ -24,9 +24,9 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MClient;
 import org.compiere.model.MLocator;
-import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.model.MTransaction;
 import org.compiere.model.Query;
@@ -37,6 +37,7 @@ import org.compiere.model.X_M_ProductionPlan;
 import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -79,6 +80,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 	private int 		p_M_LocatorTo_ID = 0;
 	/**	Movement Date				*/
 	private Timestamp	p_MovementDate = null;
+	/**	Must be stocked				*/
+	private boolean		p_MustBeStocked = false;
 	
 	@Override
 	protected void prepare() {
@@ -114,6 +117,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 				p_C_Activity_ID = para.getParameterAsInt();
 			else if(name.equals("C_Campaign_ID"))
 				p_C_Campaign_ID = para.getParameterAsInt();
+			else if(name.equals("MustBeStocked"))
+				p_MustBeStocked = para.getParameterAsBoolean();
 		}
 	}
 
@@ -126,8 +131,6 @@ public class CategoryProductionGenerate extends SvrProcess {
 		if(p_FTA_CategoryCalcGroup_ID == 0
 				&& p_FTA_CategoryCalc_ID == 0)
 			throw new AdempiereException("@FTA_CategoryCalcGroup_ID@ @AND@ @FTA_CategoryCalc_ID@ @NotFound@");
-		//	Message
-		StringBuffer m_msg = new StringBuffer();
 		//	Get From Group
 		if(p_FTA_CategoryCalcGroup_ID != 0){
 			MFTACategoryCalcGroup m_ccGroup = new MFTACategoryCalcGroup(getCtx(), p_FTA_CategoryCalcGroup_ID, get_TrxName());
@@ -136,22 +139,18 @@ public class CategoryProductionGenerate extends SvrProcess {
 			for(MFTACategoryCalc m_cCalc : m_categoryCalc){
 				String msg = productionGenerate(m_cCalc);
 				//	Get Message
-				if(msg != null){
-					if(m_msg.length() > 0)
-						m_msg.append("\n").append(msg);
-					else
-						m_msg.append(msg);
-				}
+				if(msg != null)
+					addLog(msg);
 			}
 		} else if(p_FTA_CategoryCalc_ID != 0){
 			MFTACategoryCalc m_cCalc = new MFTACategoryCalc(getCtx(), p_FTA_CategoryCalc_ID, get_TrxName());
 			String msg = productionGenerate(m_cCalc);
 			//	Get Message
 			if(msg != null)
-				m_msg.append(msg);
+				addLog(msg);
 		}
 		//	
-		return m_msg.toString();
+		return "";
 	}
 	
 	/**
@@ -161,8 +160,10 @@ public class CategoryProductionGenerate extends SvrProcess {
 	 * @return
 	 * @return String
 	 * @throws SQLException 
+	 * @throws RuntimeException 
+	 * @throws AdempiereUserError 
 	 */
-	private String productionGenerate(MFTACategoryCalc m_cCalc) throws SQLException{
+	private String productionGenerate(MFTACategoryCalc m_cCalc) throws SQLException, AdempiereUserError, RuntimeException{
 		//	Get Filters
 		MFTACategoryCalcFilter [] m_filters = m_cCalc.getLines(false);
 		//			
@@ -173,7 +174,6 @@ public class CategoryProductionGenerate extends SvrProcess {
 				"FROM FTA_RecordWeight rw " +
 				"INNER JOIN FTA_QualityAnalysis qa ON(qa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID) " +
 				"INNER JOIN FTA_CategoryCalc cc ON(cc.M_Product_ID = qa.M_Product_ID) " +
-				"INNER JOIN FTA_RV_AttributeValue av ON(av.M_AttributeSetInstance_ID = qa.QualityAnalysis_ID) " +
 				"INNER JOIN M_InOut io ON(io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID) " +
 				"INNER JOIN M_InOutLine iol ON(iol.M_InOut_ID = io.M_InOut_ID) ");
 		//	Where
@@ -183,6 +183,14 @@ public class CategoryProductionGenerate extends SvrProcess {
 		
 		//	Add search criteria
 		for(MFTACategoryCalcFilter m_filter : m_filters){
+			//	Add Exists
+			sql.append("AND ")
+				.append("EXISTS(")
+				.append("SELECT 1 ")
+				.append("FROM FTA_RV_AttributeValue av ")
+				.append("WHERE av.M_AttributeSetInstance_ID = qa.QualityAnalysis_ID ")
+				.append("AND av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
+				.append(" ");
 			//	Just Number
 			if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_Number)){
 				//	Operator
@@ -192,30 +200,18 @@ public class CategoryProductionGenerate extends SvrProcess {
 				if(valueNumber != null
 						&& valueNumber2 != null
 						&& valueNumber.equals(valueNumber2)){
-					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
-						.append(" AND av.ValueNumber").append("=").append(valueNumber)
-						.append(" AND av.AttributeValueType = 'N')")
-						.append(" OR av.AttributeValueType <> 'N')");
+					sql.append("AND av.ValueNumber = ").append(valueNumber);
 				} else if(valueNumber != null
 						&& valueNumber2 == null){
-					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
-						.append(" AND av.ValueNumber").append(">=").append(valueNumber)
-						.append(" AND av.AttributeValueType = 'N')")
-						.append(" OR av.AttributeValueType <> 'N')");
+					sql.append("AND av.ValueNumber >= ").append(valueNumber);
 				} else if(valueNumber == null
 						&& valueNumber2 != null){
-					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
-						.append(" AND av.ValueNumber").append("<=").append(valueNumber2)
-						.append(" AND av.AttributeValueType = 'N')")
-						.append(" OR av.AttributeValueType <> 'N')");
+					sql.append("AND av.ValueNumber <= ").append(valueNumber2);
 				} else if(valueNumber != null
 						&& valueNumber2 != null
 						& !valueNumber.equals(valueNumber2)){
-					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
-						.append(" AND (av.ValueNumber").append(">=").append(valueNumber)
-						.append(" AND av.ValueNumber").append("<=").append(valueNumber2).append(")")
-						.append(" AND av.AttributeValueType = 'N')")
-						.append(" OR av.AttributeValueType <> 'N')");
+					sql.append("AND (av.ValueNumber >= ").append(valueNumber)
+							.append(" AND av.ValueNumber <= ").append(valueNumber2).append(")");
 				}	
 			}
 			//	Just String Value
@@ -226,30 +222,18 @@ public class CategoryProductionGenerate extends SvrProcess {
 				if(value != null
 						&& value2 != null
 						&& value.equals(value2)){
-					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
-						.append(" AND av.ValueNumber").append("=").append("'").append(value).append("'")
-						.append(" AND av.AttributeValueType = 'N')")
-						.append(" OR av.AttributeValueType <> 'N')");
+					sql.append("AND av.Value = ").append("'").append(value).append("'");
 				} else if(value != null
 						&& value2 == null){
-					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
-						.append(" AND av.ValueNumber").append(">=").append("'").append(value).append("'")
-						.append(" AND av.AttributeValueType = 'N')")
-						.append(" OR av.AttributeValueType <> 'N')");
+					sql.append("AND av.Value >= ").append("'").append(value).append("'");
 				} else if(value == null
 						&& value2 != null){
-					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
-						.append(" AND av.ValueNumber").append("<=").append("'").append(value2).append("'")
-						.append(" AND av.AttributeValueType = 'N')")
-						.append(" OR av.AttributeValueType <> 'N')");
+					sql.append("AND av.Value <= ").append("'").append(value2).append("'");
 				} else if(value != null
 						&& value2 != null
 						& !value.equals(value2)){
-					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
-						.append(" AND (av.ValueNumber").append("=>").append("'").append(value).append("'")
-						.append(" AND av.ValueNumber").append("<=").append("'").append(value2).append("')")
-						.append(" AND av.AttributeValueType = 'N')")
-						.append(" OR av.AttributeValueType <> 'N')");
+					sql.append("AND (av.Value >= ").append("'").append(value).append("'")
+					.append(" AND av.Value <= ").append("'").append(value2).append("')");
 				}
 			}
 			else if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_List)){
@@ -260,28 +244,22 @@ public class CategoryProductionGenerate extends SvrProcess {
 				if(m_M_AttributeValue_ID != 0
 						&& m_M_AttributeValue_ID != 0
 						&& m_M_AttributeValue_ID == m_M_AttributeValue2_ID){
-					sql.append(" AND ").append("((av.M_AttributeValue_ID = ").append(m_M_AttributeValue_ID)
-						.append(" AND av.AttributeValueType = 'L')")
-						.append(" OR av.AttributeValueType <> 'L')");
+					sql.append("AND av.M_AttributeValue_ID = ").append(m_M_AttributeValue_ID);
 				} else if(m_M_AttributeValue_ID != 0
 						&& m_M_AttributeValue2_ID == 0){
-					sql.append(" AND ").append("((av.M_AttributeValue_ID = ").append(m_M_AttributeValue_ID)
-						.append(" AND av.AttributeValueType = 'N')")
-						.append(" OR av.AttributeValueType <> 'N')");
+					sql.append("AND av.M_AttributeValue_ID >= ").append(m_M_AttributeValue_ID);
 				} else if(m_M_AttributeValue_ID == 0
 						&& m_M_AttributeValue2_ID != 0){
-					sql.append(" AND ").append("((av.M_AttributeValue_ID = ").append(m_M_AttributeValue2_ID)
-						.append(" AND av.AttributeValueType = 'L')")
-						.append(" OR av.AttributeValueType <> 'L')");
+					sql.append("AND av.M_AttributeValue_ID <= ").append(m_M_AttributeValue2_ID);
 				} else if(m_M_AttributeValue_ID != 0
 						&& m_M_AttributeValue2_ID != 0
 						& m_M_AttributeValue_ID != m_M_AttributeValue2_ID){
-					sql.append(" AND ").append("((av.M_AttributeValue_ID >= ").append(m_M_AttributeValue_ID)
-						.append(" AND av.M_AttributeValue_ID").append("<=").append(m_M_AttributeValue_ID)
-						.append(" AND av.AttributeValueType = 'L')")
-						.append(" OR av.AttributeValueType <> 'L')");
+					sql.append("AND (av.M_AttributeValue_ID >= ").append(m_M_AttributeValue_ID)
+						.append(" AND av.M_AttributeValue_ID <= ").append(m_M_AttributeValue2_ID).append(")");
 				}
 			}
+			//	Add
+			sql.append(")");
 		}
 		//	Parameters
 		if(p_AD_Org_ID != 0)
@@ -301,6 +279,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 		sql.append(" GROUP BY qa.M_Product_ID, rw.FTA_RecordWeight_ID, qa.QualityAnalysis_ID, iol.M_Locator_ID ");
 		//	Order By
 		sql.append("ORDER BY qa.M_Product_ID, rw.FTA_RecordWeight_ID");
+		//	Log
+		log.fine("SQL=" + sql);
 		//	Prepare
 		ps = DB.prepareStatement(sql.toString(), get_TrxName());
 		//	Parameters
@@ -335,6 +315,12 @@ public class CategoryProductionGenerate extends SvrProcess {
 			BigDecimal m_NetWeight = rs.getBigDecimal("NetWeight");
 			BigDecimal m_PayWeight = rs.getBigDecimal("PayWeight");
 			int m_M_Locator_ID = rs.getInt("M_Locator_ID");
+			//	Calculate Payment Weight
+			MAttributeSetInstance att = new MAttributeSetInstance(getCtx(), m_QualityAnalysis_ID, get_TrxName());
+			BigDecimal m_PayWeight2 = m_cCalc.getPaidWeight(m_NetWeight, att, get_TrxName());
+			
+			log.info("Difference=" + m_PayWeight.subtract(m_PayWeight2));
+			
 			//	Create new
 			if(m_Current_Production == null){
 				m_Current_Production = new X_M_Production(getCtx(), 0, get_TrxName());
@@ -374,7 +360,7 @@ public class CategoryProductionGenerate extends SvrProcess {
 				m_Current_ProductionPlan = new X_M_ProductionPlan(getCtx(), 0, get_TrxName());
 				m_Current_ProductionPlan.setM_Production_ID(m_Current_Production.getM_Production_ID());
 				m_Current_ProductionPlan.setM_Product_ID(m_M_Product_ID);
-				m_Current_ProductionPlan.set_ValueOfColumn("M_AttributeSetInstance_ID", m_cCalc.getM_AttributeSetInstance_ID());
+				//m_Current_ProductionPlan.set_ValueOfColumn("M_AttributeSetInstance_ID", m_cCalc.getM_AttributeSetInstance_ID());
 				m_Current_ProductionPlan.setM_Locator_ID(p_M_LocatorTo_ID);
 				m_Current_ProductionPlan.setLine(m_level);
 				m_Current_ProductionPlan.saveEx();
@@ -395,7 +381,7 @@ public class CategoryProductionGenerate extends SvrProcess {
 			pl.saveEx();
 			//	Set Values
 			m_line += 10;
-			m_ProductionQty = m_ProductionQty.add(m_PayWeight);
+			m_ProductionQty = m_ProductionQty.add(m_PayWeight2);
 		}
 		//	Create last
 		if(m_Current_M_Product_ID != 0){
@@ -415,12 +401,21 @@ public class CategoryProductionGenerate extends SvrProcess {
 			m_ProductionQty = Env.ZERO;
 		}
 		//	Apply Production
-		applyProduction(m_Current_Production);
+		if(m_Current_Production != null)
+			applyProduction(m_Current_Production);
 		//	Return
 		return (m_Current_Production != null? "@Created@: " + m_Current_Production.getName(): "");
 	}
 	
-	private void applyProduction(X_M_Production m_M_Production){
+	/**
+	 * Apply Production
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 16/01/2014, 19:12:59
+	 * @param m_M_Production
+	 * @throws AdempiereUserError
+	 * @throws RuntimeException
+	 * @return void
+	 */
+	private void applyProduction(X_M_Production m_M_Production) throws AdempiereUserError, RuntimeException{
 		String whereClause = "M_Production_ID=? ";
 		List<X_M_ProductionPlan> lines = new Query(getCtx(), X_M_ProductionPlan.Table_Name , whereClause, get_TrxName())
 												  .setParameters(m_M_Production.getM_Production_ID())
@@ -451,10 +446,9 @@ public class CategoryProductionGenerate extends SvrProcess {
 								pline.getM_AttributeSetInstance_ID(),
 								get_TrxName());
 						
-						/*if(mustBeStocked && QtyAvailable.add(MovementQty).signum() < 0)
-						{	
-							raiseError("@NotEnoughStocked@: " + pline.getM_Product().getName(), "");
-						}*/
+						if(p_MustBeStocked && QtyAvailable.add(MovementQty).signum() < 0){	
+							throw new AdempiereUserError("@NotEnoughStocked@: " + pline.getM_Product().getName());
+						}
 						
 						MovementType = MTransaction.MOVEMENTTYPE_Production_;
 					}
@@ -466,10 +460,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 						MovementQty,
 						Env.ZERO,
 						Env.ZERO,
-						get_TrxName()))
-					{
-						throw new AdempiereException("Cannot correct Inventory");
-						//raiseError("Cannot correct Inventory", "");
+						get_TrxName())) {
+						throw new AdempiereUserError("Cannot correct Inventory");
 					}
 					
 					//Create Transaction
@@ -492,7 +484,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 		 
 			/* Immediate accounting */
 			if (MClient.isClientAccountingImmediate()) {
-				String ignoreError = DocumentEngine.postImmediate(getCtx(), getAD_Client_ID(), m_M_Production.get_Table_ID(), m_M_Production.get_ID(), true, get_TrxName());						
+				DocumentEngine.postImmediate(getCtx(), getAD_Client_ID(), m_M_Production.get_Table_ID(), 
+						m_M_Production.get_ID(), true, get_TrxName());						
 			}
 	}
 }
