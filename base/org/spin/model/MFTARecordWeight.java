@@ -254,14 +254,17 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				return DocAction.STATUS_Invalid;
 		}
 		//	End Dixon Martinez
+		//Carlos Parada 2014-01-16
+		if (getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt))
+			m_processMsg = calculatePayWeight();
+		//End Carlos Parada
 		
-		m_processMsg = calculatePayWeight();
 		if(m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
 		log.info(toString());	
 		//	Generate Material Receipt
-		String msg = createMaterialReceipt();
+		String msg = createMaterialReceiptOrShipment();
 		if(m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		else
@@ -704,9 +707,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 																								 //	Load Order not found.
 			if(getFTA_LoadOrder_ID() == 0)
 				msg = "@FTA_LoadOrder_ID@ @NotFound@";
-		}else if(getOperationType()
+		}else if(//2014-01-16 Carlos Parada 
+				 //Comment Validation For Operation Tipe Product Bulk Receipt
+				/*getOperationType()
 					.equals(X_FTA_EntryTicket.OPERATIONTYPE_ProductBulkReceipt)
-					|| getOperationType()
+					|| */getOperationType()
 							.equals(X_FTA_EntryTicket.OPERATIONTYPE_RawMaterialReceipt)){//	Id Operation Type In Product Bulk Receipt and Raw Material
 																						 // Receipt and Load Order equals 0 view msg Quality Analysis not found.
 			if(getFTA_QualityAnalysis_ID() == 0)
@@ -729,108 +734,197 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return
 	 * @return String
 	 */
-	private String createMaterialReceipt() {
+	private String createMaterialReceiptOrShipment() {
 		//	this yet generated
 		if(validReference() != null)
 			return "";
 		//	
-		int m_FTA_Farming_ID = DB.getSQLValue(get_TrxName(), "SELECT fr.FTA_Farming_ID " +
-				"FROM FTA_Farming fr " +
-				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = fr.FTA_Farming_ID) " +
-				"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
-				"WHERE et.FTA_EntryTicket_ID=?", getFTA_EntryTicket_ID());
 		
-		MFTAFarming m_Farming = new MFTAFarming(getCtx(), m_FTA_Farming_ID, get_TrxName());
-		//	Get Order and Line
-		MOrderLine oLine = (MOrderLine) m_Farming.getC_OrderLine();
-		MOrder order = oLine.getParent();
-		
-		if(order == null)
-			m_processMsg = "@C_Order_ID@ @NotFound@";
-		
-		MDocType m_DocType = MDocType.get(getCtx(), order.getC_DocType_ID());
-		
-		if(m_DocType.getC_DocTypeShipment_ID() == 0)
-			m_processMsg = "@C_DocTypeShipment_ID@ @NotFound@";
-		//	Create Receipt
-		MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
-		m_Receipt.setDateAcct(getDateDoc());
-		//	Set New Organization and warehouse
-		m_Receipt.setAD_Org_ID(getAD_Org_ID());
-		m_Receipt.setAD_OrgTrx_ID(getAD_Org_ID());
-		//	Get Chute
-		MFTAChute chute = null;
-		int m_M_Warehouse_ID = 0;
-		int m_M_Locator_ID = 0;
-		//	Get Chute from Table or Default
-		if(getFTA_Chute_ID() != 0)
-			chute = new MFTAChute(getCtx(), getFTA_Chute_ID(), get_TableName());
-		else {
-			int m_FTA_Chute_ID = DB.getSQLValue(get_TrxName(), "SELECT c.FTA_Chute_ID " +
-					"FROM FTA_Chute c " +
-					"WHERE AD_Org_ID = ? " +
-					"ORDER BY IsDefault DESC",getAD_Org_ID());
-			//	Search Chute
-			if(m_FTA_Chute_ID > 0)
-				chute = new MFTAChute(getCtx(), m_FTA_Chute_ID, get_TableName());
+		//DocumentNo 
+		String l_DocumentNo = new String(); 
+		//Carlos Parada 2014-01-16
+		//Create Material Receipt or Shipment by Operation Type
+		if (getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt))
+		{
+			int m_FTA_Farming_ID = DB.getSQLValue(get_TrxName(), "SELECT fr.FTA_Farming_ID " +
+					"FROM FTA_Farming fr " +
+					"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = fr.FTA_Farming_ID) " +
+					"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
+					"WHERE et.FTA_EntryTicket_ID=?", getFTA_EntryTicket_ID());
+			
+			MFTAFarming m_Farming = new MFTAFarming(getCtx(), m_FTA_Farming_ID, get_TrxName());
+			//	Get Order and Line
+			MOrderLine oLine = (MOrderLine) m_Farming.getC_OrderLine();
+			MOrder order = oLine.getParent();
+			
+			if(order == null){
+				m_processMsg = "@C_Order_ID@ @NotFound@";
+				return null;
+			}
+			
+			MDocType m_DocType = MDocType.get(getCtx(), order.getC_DocType_ID());
+			
+			if(m_DocType.getC_DocTypeShipment_ID() == 0){
+				m_processMsg = "@C_DocTypeShipment_ID@ @NotFound@";
+				return null;
+			}
+			//	Create Receipt
+			MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
+			m_Receipt.setDateAcct(getDateDoc());
+			//	Set New Organization and warehouse
+			m_Receipt.setAD_Org_ID(getAD_Org_ID());
+			m_Receipt.setAD_OrgTrx_ID(getAD_Org_ID());
+			//	Get Chute
+			MFTAChute chute = null;
+			int m_M_Warehouse_ID = 0;
+			int m_M_Locator_ID = 0;
+			//	Get Chute from Table or Default
+			if(getFTA_Chute_ID() != 0)
+				chute = new MFTAChute(getCtx(), getFTA_Chute_ID(), get_TableName());
+			else {
+				int m_FTA_Chute_ID = DB.getSQLValue(get_TrxName(), "SELECT c.FTA_Chute_ID " +
+						"FROM FTA_Chute c " +
+						"WHERE AD_Org_ID = ? " +
+						"ORDER BY IsDefault DESC",getAD_Org_ID());
+				//	Search Chute
+				if(m_FTA_Chute_ID > 0)
+					chute = new MFTAChute(getCtx(), m_FTA_Chute_ID, get_TableName());
+			}
+			//	Set Warehouse and Locator
+			if(chute != null) {
+				m_M_Warehouse_ID = chute.getM_Warehouse_ID();
+				m_M_Locator_ID = chute.getM_Locator_ID();
+			}
+			else { 
+				m_M_Warehouse_ID = Env.getContextAsInt(getCtx(), "#M_Warehouse_ID");
+			}
+			//	Set Warehouse
+			m_Receipt.setM_Warehouse_ID(m_M_Warehouse_ID);
+			//	Set Farmer Credit and Record Weight
+			m_Receipt.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_Farming_ID);
+			m_Receipt.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
+			//	Save
+			m_Receipt.saveEx(get_TrxName());
+			//
+			MInOutLine ioLine = new MInOutLine(m_Receipt);
+			
+			MProduct product = MProduct.get(getCtx(), oLine.getM_Product_ID());
+			//	Rate Convert
+			BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+					product.getM_Product_ID(), getC_UOM_ID());
+			
+			if(rate == null){
+				m_processMsg = "@NoUOMConversion@";
+				return null;
+			}
+			
+			BigDecimal m_MovementQty = getNetWeight().multiply(rate);
+			//	Set Product
+			ioLine.setProduct(product);
+			//	Set Quality Analysis
+			MFTAQualityAnalysis qa = getQualityAnalysis(true);
+			//	Set Instance
+			MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), qa.getQualityAnalysis_ID(), get_TrxName());
+			//	Set Lot
+			MLot lot = new MLot(getCtx(), m_Farming.getPlantingCycle_ID(), get_TrxName());
+			//	
+			asi.setM_Lot_ID(m_Farming.getPlantingCycle_ID());
+			asi.setLot(lot.getName());
+			
+			//	
+			asi.setDescription();
+			//	Save
+			asi.saveEx(get_TrxName());
+			ioLine.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
+			ioLine.setC_OrderLine_ID(oLine.getC_OrderLine_ID());
+			//	Set Locator
+			if(m_M_Locator_ID != 0)
+				ioLine.setM_Locator_ID(m_M_Locator_ID);
+			else
+				ioLine.setM_Locator_ID(m_MovementQty);
+			//	Set Quantity
+			ioLine.setQty(m_MovementQty);
+			ioLine.saveEx(get_TrxName());
+			//	Manually Process Shipment
+			m_Receipt.processIt(DocAction.ACTION_Complete);
+			m_Receipt.saveEx(get_TrxName());
+			
+			l_DocumentNo = m_Receipt.getDocumentNo();
 		}
-		//	Set Warehouse and Locator
-		if(chute != null) {
-			m_M_Warehouse_ID = chute.getM_Warehouse_ID();
-			m_M_Locator_ID = chute.getM_Locator_ID();
-		}
-		else { 
-			m_M_Warehouse_ID = Env.getContextAsInt(getCtx(), "#M_Warehouse_ID");
-		}
-		//	Set Warehouse
-		m_Receipt.setM_Warehouse_ID(m_M_Warehouse_ID);
-		//	Set Farmer Credit and Record Weight
-		m_Receipt.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_Farming_ID);
-		m_Receipt.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
-		//	Save
-		m_Receipt.saveEx(get_TrxName());
-		//
-		MInOutLine ioLine = new MInOutLine(m_Receipt);
-		
-		MProduct product = MProduct.get(getCtx(), oLine.getM_Product_ID());
-		//	Rate Convert
-		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
-				product.getM_Product_ID(), getC_UOM_ID());
-		
-		if(rate == null)
-			m_processMsg = "@NoUOMConversion@";
-		
-		BigDecimal m_MovementQty = getNetWeight().multiply(rate);
-		//	Set Product
-		ioLine.setProduct(product);
-		//	Set Quality Analysis
-		MFTAQualityAnalysis qa = getQualityAnalysis(true);
-		//	Set Instance
-		MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), qa.getQualityAnalysis_ID(), get_TrxName());
-		//	Set Lot
-		MLot lot = new MLot(getCtx(), m_Farming.getPlantingCycle_ID(), get_TrxName());
-		//	
-		asi.setM_Lot_ID(m_Farming.getPlantingCycle_ID());
-		asi.setLot(lot.getName());
-		
-		//	
-		asi.setDescription();
-		//	Save
-		asi.saveEx(get_TrxName());
-		ioLine.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
-		ioLine.setC_OrderLine_ID(oLine.getC_OrderLine_ID());
-		//	Set Locator
-		if(m_M_Locator_ID != 0)
-			ioLine.setM_Locator_ID(m_M_Locator_ID);
-		else
+		//Product Bulk Receipt
+		else if (getOperationType().equals(OPERATIONTYPE_ProductBulkReceipt))
+		{
+			//	Get Order and Line
+			MOrder order = null;
+			MAttributeSetInstance asi = null;
+			MProduct product = (MProduct)getM_Product();
+			MFTAEntryTicket et = new MFTAEntryTicket(getCtx(), getFTA_EntryTicket_ID(), get_TableName());
+			if (et.getC_Order_ID()!=0)
+				order =(MOrder) et.getC_Order();
+			
+			if(order == null){
+				m_processMsg = "@C_Order_ID@ @NotFound@";
+				return null;
+			}
+			
+			if (product==null){
+				m_processMsg = "@M_Product_ID@ @NotFound@";
+				return null;
+			}
+			
+			MDocType m_DocType = MDocType.get(getCtx(), order.getC_DocType_ID());
+			
+			if(m_DocType.getC_DocTypeShipment_ID() == 0)
+			{
+				m_processMsg = "@C_DocTypeShipment_ID@ @NotFound@";
+				return null;
+			}
+			//	Create Receipt
+			MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
+			m_Receipt.setDateAcct(getDateDoc());
+			//	Set New Organization and warehouse
+			m_Receipt.setAD_Org_ID(getAD_Org_ID());
+			m_Receipt.setAD_OrgTrx_ID(getAD_Org_ID());
+			//	Set Warehouse
+			m_Receipt.setM_Warehouse_ID(order.getM_Warehouse_ID());
+			//	Set Farmer Credit and Record Weight
+			m_Receipt.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
+			//	Save
+			m_Receipt.saveEx(get_TrxName());
+			//
+			MInOutLine ioLine = new MInOutLine(m_Receipt);
+			
+			//	Rate Convert
+			BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+					product.getM_Product_ID(), getC_UOM_ID());
+			
+			if(rate == null){
+				m_processMsg = "@NoUOMConversion@";
+				return null;
+			}
+			
+			BigDecimal m_MovementQty = getNetWeight().multiply(rate);
+			//	Set Product
+			ioLine.setProduct(product);
+			//	Set Quality Analysis
+			MFTAQualityAnalysis qa = getQualityAnalysis(true);
+			//	Set Instance
+			if (qa != null)
+				asi = new MAttributeSetInstance(getCtx(), qa.getQualityAnalysis_ID(), get_TrxName());
+
+			if (asi != null)
+				ioLine.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
 			ioLine.setM_Locator_ID(m_MovementQty);
-		//	Set Quantity
-		ioLine.setQty(m_MovementQty);
-		ioLine.saveEx(get_TrxName());
-		//	Manually Process Shipment
-		m_Receipt.processIt(DocAction.ACTION_Complete);
-		m_Receipt.saveEx(get_TrxName());
-		
-		return "@M_InOut_ID@: " + m_Receipt.getDocumentNo();
+			
+			//	Set Quantity
+			ioLine.setQty(m_MovementQty);
+			ioLine.saveEx(get_TrxName());
+			//	Manually Process Shipment
+			m_Receipt.processIt(DocAction.ACTION_Complete);
+			m_Receipt.saveEx(get_TrxName());
+			
+			l_DocumentNo = m_Receipt.getDocumentNo();
+		}
+		return "@M_InOut_ID@: " + l_DocumentNo;
 	}	//	createMaterialReceipt
 }
