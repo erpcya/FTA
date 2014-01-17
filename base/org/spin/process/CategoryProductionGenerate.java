@@ -16,17 +16,32 @@
  *****************************************************************************/
 package org.spin.process;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.process.DocAction;
+import org.compiere.model.MClient;
+import org.compiere.model.MLocator;
+import org.compiere.model.MProduct;
+import org.compiere.model.MStorage;
+import org.compiere.model.MTransaction;
+import org.compiere.model.Query;
+import org.compiere.model.X_M_Attribute;
+import org.compiere.model.X_M_Production;
+import org.compiere.model.X_M_ProductionLine;
+import org.compiere.model.X_M_ProductionPlan;
+import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.spin.model.MFTACategoryCalc;
+import org.spin.model.MFTACategoryCalcFilter;
 import org.spin.model.MFTACategoryCalcGroup;
 
 /**
@@ -40,6 +55,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 	private int			p_AD_Org_ID = 0;
 	/**	Warehouse					*/
 	private int			p_M_Warehouse_ID = 0;
+	/**	Locator						*/
+	private int 		p_M_Locator_ID = 0;
 	/**	Operation Type				*/
 	private String 		p_OperationType = null;
 	/**	Document Date from			*/
@@ -50,8 +67,18 @@ public class CategoryProductionGenerate extends SvrProcess {
 	private int 		p_FTA_CategoryCalcGroup_ID = 0;
 	/**	Category Calculation		*/
 	private int 		p_FTA_CategoryCalc_ID = 0;
-	/**	Document Action				*/
-	private String 		p_DocAction	= DocAction.ACTION_Prepare;
+	/**	Org Trx						*/
+	private int 		p_AD_OrgTrx_ID = 0;
+	/**	Project						*/
+	private int 		p_C_Project_ID = 0;
+	/**	Activity					*/
+	private int 		p_C_Activity_ID = 0;
+	/**	Campaign					*/
+	private int 		p_C_Campaign_ID = 0;
+	/**	Locator To					*/
+	private int 		p_M_LocatorTo_ID = 0;
+	/**	Movement Date				*/
+	private Timestamp	p_MovementDate = null;
 	
 	@Override
 	protected void prepare() {
@@ -64,6 +91,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 				p_AD_Org_ID = para.getParameterAsInt();
 			else if(name.equals("M_Warehouse_ID"))
 				p_M_Warehouse_ID = para.getParameterAsInt();
+			else if(name.equals("M_Locator_ID"))
+				p_M_Locator_ID = para.getParameterAsInt();
 			else if(name.equals("OperationType"))
 				p_OperationType = (String) para.getParameter();
 			else if(name.equals("DateDoc")){
@@ -73,8 +102,18 @@ public class CategoryProductionGenerate extends SvrProcess {
 				p_FTA_CategoryCalcGroup_ID = para.getParameterAsInt();
 			else if(name.equals("FTA_CategoryCalc_ID"))
 				p_FTA_CategoryCalc_ID = para.getParameterAsInt();
-			else if(name.equals("DocAction"))
-				p_DocAction = (String) para.getParameter();
+			else if(name.equals("AD_OrgTrx_ID"))
+				p_AD_OrgTrx_ID = para.getParameterAsInt();
+			else if(name.equals("M_LocatorTo_ID"))
+				p_M_LocatorTo_ID = para.getParameterAsInt();
+			else if(name.equals("MovementDate"))
+				p_MovementDate = (Timestamp) para.getParameter();
+			else if(name.equals("C_Project_ID"))
+				p_C_Project_ID = para.getParameterAsInt();
+			else if(name.equals("C_Activity_ID"))
+				p_C_Activity_ID = para.getParameterAsInt();
+			else if(name.equals("C_Campaign_ID"))
+				p_C_Campaign_ID = para.getParameterAsInt();
 		}
 	}
 
@@ -124,27 +163,336 @@ public class CategoryProductionGenerate extends SvrProcess {
 	 * @throws SQLException 
 	 */
 	private String productionGenerate(MFTACategoryCalc m_cCalc) throws SQLException{
+		//	Get Filters
+		MFTACategoryCalcFilter [] m_filters = m_cCalc.getLines(false);
+		//			
 		PreparedStatement ps=null;
 		ResultSet rs =null;
-		
-		StringBuffer sql = new StringBuffer("SELECT qa.M_Product_ID, qa.QualityAnalysis_ID, rw.DocumentNo, rw.NetWeight, rw.PayWeight " +
+		//	SQL
+		StringBuffer sql = new StringBuffer("SELECT qa.M_Product_ID, qa.QualityAnalysis_ID, rw.DocumentNo, rw.NetWeight, rw.PayWeight, iol.M_Locator_ID " +
 				"FROM FTA_RecordWeight rw " +
 				"INNER JOIN FTA_QualityAnalysis qa ON(qa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID) " +
 				"INNER JOIN FTA_CategoryCalc cc ON(cc.M_Product_ID = qa.M_Product_ID) " +
-				"INNER JOIN FTA_RV_AttributeValue av ON(av.M_AttributeSetInstance_ID = qa.QualityAnalysis_ID) ");
+				"INNER JOIN FTA_RV_AttributeValue av ON(av.M_AttributeSetInstance_ID = qa.QualityAnalysis_ID) " +
+				"INNER JOIN M_InOut io ON(io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID) " +
+				"INNER JOIN M_InOutLine iol ON(iol.M_InOut_ID = io.M_InOut_ID) ");
+		//	Where
+		sql.append("WHERE cc.FTA_CategoryCalc_ID = ? " +
+				"AND rw.DocStatus = 'CO' " +
+				"AND io.DocStatus = 'CO' ");
+		
+		//	Add search criteria
+		for(MFTACategoryCalcFilter m_filter : m_filters){
+			//	Just Number
+			if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_Number)){
+				//	Operator
+				BigDecimal valueNumber = m_filter.getValueNumber();
+				BigDecimal valueNumber2 = m_filter.getValueNumber2();
+				//	Equal both
+				if(valueNumber != null
+						&& valueNumber2 != null
+						&& valueNumber.equals(valueNumber2)){
+					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
+						.append(" AND av.ValueNumber").append("=").append(valueNumber)
+						.append(" AND av.AttributeValueType = 'N')")
+						.append(" OR av.AttributeValueType <> 'N')");
+				} else if(valueNumber != null
+						&& valueNumber2 == null){
+					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
+						.append(" AND av.ValueNumber").append(">=").append(valueNumber)
+						.append(" AND av.AttributeValueType = 'N')")
+						.append(" OR av.AttributeValueType <> 'N')");
+				} else if(valueNumber == null
+						&& valueNumber2 != null){
+					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
+						.append(" AND av.ValueNumber").append("<=").append(valueNumber2)
+						.append(" AND av.AttributeValueType = 'N')")
+						.append(" OR av.AttributeValueType <> 'N')");
+				} else if(valueNumber != null
+						&& valueNumber2 != null
+						& !valueNumber.equals(valueNumber2)){
+					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
+						.append(" AND (av.ValueNumber").append(">=").append(valueNumber)
+						.append(" AND av.ValueNumber").append("<=").append(valueNumber2).append(")")
+						.append(" AND av.AttributeValueType = 'N')")
+						.append(" OR av.AttributeValueType <> 'N')");
+				}	
+			}
+			//	Just String Value
+			else if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_StringMax40)){
+				//	Operator
+				String value = m_filter.getValue();
+				String value2 = m_filter.getValue2();
+				if(value != null
+						&& value2 != null
+						&& value.equals(value2)){
+					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
+						.append(" AND av.ValueNumber").append("=").append("'").append(value).append("'")
+						.append(" AND av.AttributeValueType = 'N')")
+						.append(" OR av.AttributeValueType <> 'N')");
+				} else if(value != null
+						&& value2 == null){
+					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
+						.append(" AND av.ValueNumber").append(">=").append("'").append(value).append("'")
+						.append(" AND av.AttributeValueType = 'N')")
+						.append(" OR av.AttributeValueType <> 'N')");
+				} else if(value == null
+						&& value2 != null){
+					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
+						.append(" AND av.ValueNumber").append("<=").append("'").append(value2).append("'")
+						.append(" AND av.AttributeValueType = 'N')")
+						.append(" OR av.AttributeValueType <> 'N')");
+				} else if(value != null
+						&& value2 != null
+						& !value.equals(value2)){
+					sql.append(" AND ").append("((av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
+						.append(" AND (av.ValueNumber").append("=>").append("'").append(value).append("'")
+						.append(" AND av.ValueNumber").append("<=").append("'").append(value2).append("')")
+						.append(" AND av.AttributeValueType = 'N')")
+						.append(" OR av.AttributeValueType <> 'N')");
+				}
+			}
+			else if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_List)){
+				//	Operator
+				int m_M_AttributeValue_ID = m_filter.getM_AttributeValue_ID();
+				int m_M_AttributeValue2_ID = m_filter.getM_AttributeValue2_ID();
+				//	Equal both
+				if(m_M_AttributeValue_ID != 0
+						&& m_M_AttributeValue_ID != 0
+						&& m_M_AttributeValue_ID == m_M_AttributeValue2_ID){
+					sql.append(" AND ").append("((av.M_AttributeValue_ID = ").append(m_M_AttributeValue_ID)
+						.append(" AND av.AttributeValueType = 'L')")
+						.append(" OR av.AttributeValueType <> 'L')");
+				} else if(m_M_AttributeValue_ID != 0
+						&& m_M_AttributeValue2_ID == 0){
+					sql.append(" AND ").append("((av.M_AttributeValue_ID = ").append(m_M_AttributeValue_ID)
+						.append(" AND av.AttributeValueType = 'N')")
+						.append(" OR av.AttributeValueType <> 'N')");
+				} else if(m_M_AttributeValue_ID == 0
+						&& m_M_AttributeValue2_ID != 0){
+					sql.append(" AND ").append("((av.M_AttributeValue_ID = ").append(m_M_AttributeValue2_ID)
+						.append(" AND av.AttributeValueType = 'L')")
+						.append(" OR av.AttributeValueType <> 'L')");
+				} else if(m_M_AttributeValue_ID != 0
+						&& m_M_AttributeValue2_ID != 0
+						& m_M_AttributeValue_ID != m_M_AttributeValue2_ID){
+					sql.append(" AND ").append("((av.M_AttributeValue_ID >= ").append(m_M_AttributeValue_ID)
+						.append(" AND av.M_AttributeValue_ID").append("<=").append(m_M_AttributeValue_ID)
+						.append(" AND av.AttributeValueType = 'L')")
+						.append(" OR av.AttributeValueType <> 'L')");
+				}
+			}
+		}
+		//	Parameters
+		if(p_AD_Org_ID != 0)
+			sql.append(" AND rw.AD_Org_ID = ? ");
+		if(p_M_Warehouse_ID != 0)
+			sql.append(" AND io.M_Warehouse_ID = ? ");
+		if(p_M_Locator_ID != 0)
+			sql.append(" AND iol.M_Locator_ID = ? ");
+		if(p_OperationType != null)
+			sql.append(" AND rw.OperationType = ? ");
+		if(p_DateDoc != null)
+			sql.append(" AND rw.DateDoc >= ? ");
+		if(p_DateDoc_To != null)
+			sql.append(" AND rw.DateDoc <= ? ");
 		
 		//	Group By
-		sql.append("GROUP BY qa.M_Product_ID, rw.FTA_RecordWeight_ID, qa.QualityAnalysis_ID ");
+		sql.append(" GROUP BY qa.M_Product_ID, rw.FTA_RecordWeight_ID, qa.QualityAnalysis_ID, iol.M_Locator_ID ");
 		//	Order By
 		sql.append("ORDER BY qa.M_Product_ID, rw.FTA_RecordWeight_ID");
+		//	Prepare
 		ps = DB.prepareStatement(sql.toString(), get_TrxName());
-		ps.setInt(1, m_cCalc.getFTA_CategoryCalc_ID());
+		//	Parameters
+		int i = 1;
+		ps.setInt(i++, m_cCalc.getFTA_CategoryCalc_ID());
+		//	Values
+		if(p_AD_Org_ID != 0)
+			ps.setInt(i++, p_AD_Org_ID);
+		if(p_M_Warehouse_ID != 0)
+			ps.setInt(i++, p_M_Warehouse_ID);
+		if(p_M_Locator_ID != 0)
+			ps.setInt(i++, p_M_Locator_ID);
+		if(p_OperationType != null)
+			ps.setString(i++, p_OperationType);
+		if(p_DateDoc != null)
+			ps.setTimestamp(i++, p_DateDoc);
+		if(p_DateDoc_To != null)
+			ps.setTimestamp(i++, p_DateDoc_To);
+		//	
 		rs = ps.executeQuery();
-		
+		//	Loop
+		int m_Current_M_Product_ID = 0;
+		X_M_Production m_Current_Production = null;
+		X_M_ProductionPlan m_Current_ProductionPlan = null;
+		BigDecimal m_ProductionQty = Env.ZERO;
+		int m_level = 1;
+		int m_line = 10;
 		while(rs.next()){
-			
+			int m_M_Product_ID = rs.getInt("M_Product_ID");
+			int m_QualityAnalysis_ID = rs.getInt("QualityAnalysis_ID");
+			String m_DocumentNo = rs.getString("DocumentNo");
+			BigDecimal m_NetWeight = rs.getBigDecimal("NetWeight");
+			BigDecimal m_PayWeight = rs.getBigDecimal("PayWeight");
+			int m_M_Locator_ID = rs.getInt("M_Locator_ID");
+			//	Create new
+			if(m_Current_Production == null){
+				m_Current_Production = new X_M_Production(getCtx(), 0, get_TrxName());
+				m_Current_Production.setName(Msg.parseTranslation(getCtx(), "@M_Production_ID@: " + p_MovementDate));
+				m_Current_Production.setMovementDate(p_MovementDate);
+				m_Current_Production.setIsCreated(true);
+				//	Set optional values
+				if(p_C_Project_ID != 0)
+					m_Current_Production.setC_Project_ID(p_C_Project_ID);
+				if(p_C_Activity_ID != 0)
+					m_Current_Production.setC_Activity_ID(p_C_Activity_ID);
+				if(p_C_Campaign_ID != 0)
+					m_Current_Production.setC_Campaign_ID(p_C_Campaign_ID);
+				//	Save
+				m_Current_Production.saveEx();
+			}
+			//	Create production plan
+			if(m_Current_M_Product_ID != m_M_Product_ID){
+				//	Create Line Production
+				if(m_Current_M_Product_ID != 0){
+					X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
+					pl.setAD_Org_ID(p_AD_OrgTrx_ID);
+					pl.setLine(m_line);
+					pl.setM_Product_ID(m_Current_M_Product_ID);
+					pl.setM_Locator_ID(p_M_LocatorTo_ID);
+					pl.setM_ProductionPlan_ID(m_Current_ProductionPlan.getM_ProductionPlan_ID());
+					pl.setM_AttributeSetInstance_ID(m_cCalc.getM_AttributeSetInstance_ID());
+					pl.setMovementQty(m_ProductionQty);
+					pl.saveEx();
+					//	Set Production Quantity
+					m_Current_ProductionPlan.setProductionQty(m_ProductionQty);
+					m_Current_ProductionPlan.saveEx();
+					//	Set Production Quantity
+					m_ProductionQty = Env.ZERO;
+				}
+				//	Create Plan
+				m_Current_ProductionPlan = new X_M_ProductionPlan(getCtx(), 0, get_TrxName());
+				m_Current_ProductionPlan.setM_Production_ID(m_Current_Production.getM_Production_ID());
+				m_Current_ProductionPlan.setM_Product_ID(m_M_Product_ID);
+				m_Current_ProductionPlan.set_ValueOfColumn("M_AttributeSetInstance_ID", m_cCalc.getM_AttributeSetInstance_ID());
+				m_Current_ProductionPlan.setM_Locator_ID(p_M_LocatorTo_ID);
+				m_Current_ProductionPlan.setLine(m_level);
+				m_Current_ProductionPlan.saveEx();
+				m_level += 1;
+				//	Set Current Product
+				m_Current_M_Product_ID = m_M_Product_ID;
+			}
+			//	Create Lines
+			X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
+			pl.setAD_Org_ID(p_AD_OrgTrx_ID);
+			pl.setLine(m_line);
+			pl.setDescription(Msg.parseTranslation(getCtx(), "@FTA_RecordWeight_ID@: " + m_DocumentNo));
+			pl.setM_Product_ID(m_M_Product_ID);
+			pl.setM_Locator_ID(m_M_Locator_ID);
+			pl.setM_ProductionPlan_ID(m_Current_ProductionPlan.getM_ProductionPlan_ID());
+			pl.setM_AttributeSetInstance_ID(m_QualityAnalysis_ID);
+			pl.setMovementQty(m_NetWeight.negate());
+			pl.saveEx();
+			//	Set Values
+			m_line += 10;
+			m_ProductionQty = m_ProductionQty.add(m_PayWeight);
 		}
-		
-		return null;
+		//	Create last
+		if(m_Current_M_Product_ID != 0){
+			X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
+			pl.setAD_Org_ID(p_AD_OrgTrx_ID);
+			pl.setLine(m_line);
+			pl.setM_Product_ID(m_Current_M_Product_ID);
+			pl.setM_Locator_ID(p_M_LocatorTo_ID);
+			pl.setM_ProductionPlan_ID(m_Current_ProductionPlan.getM_ProductionPlan_ID());
+			pl.setM_AttributeSetInstance_ID(m_cCalc.getM_AttributeSetInstance_ID());
+			pl.setMovementQty(m_ProductionQty);
+			pl.saveEx();
+			//	Set Production Quantity
+			m_Current_ProductionPlan.setProductionQty(m_ProductionQty);
+			m_Current_ProductionPlan.saveEx();
+			//	Set Production Quantity
+			m_ProductionQty = Env.ZERO;
+		}
+		//	Apply Production
+		applyProduction(m_Current_Production);
+		//	Return
+		return (m_Current_Production != null? "@Created@: " + m_Current_Production.getName(): "");
+	}
+	
+	private void applyProduction(X_M_Production m_M_Production){
+		String whereClause = "M_Production_ID=? ";
+		List<X_M_ProductionPlan> lines = new Query(getCtx(), X_M_ProductionPlan.Table_Name , whereClause, get_TrxName())
+												  .setParameters(m_M_Production.getM_Production_ID())
+												  .setOrderBy("Line, M_Product_ID")
+												  .list();
+			for (X_M_ProductionPlan pp :lines)
+			{	
+
+				whereClause = "M_ProductionPlan_ID= ? ";
+				List<X_M_ProductionLine> production_lines = new Query(getCtx(), X_M_ProductionLine.Table_Name , whereClause, get_TrxName())
+						.setParameters(pp.getM_ProductionPlan_ID())
+						.setOrderBy("Line")
+						.list();
+			
+				for (X_M_ProductionLine pline : production_lines)
+				{
+					MLocator locator = MLocator.get(getCtx(), pline.getM_Locator_ID());
+					String MovementType = MTransaction.MOVEMENTTYPE_ProductionPlus;					
+					BigDecimal MovementQty = pline.getMovementQty();						
+					if (MovementQty.signum() == 0)
+						continue ;
+					else if(MovementQty.signum() < 0)
+					{
+						BigDecimal QtyAvailable = MStorage.getQtyAvailable(
+								locator.getM_Warehouse_ID(), 
+								locator.getM_Locator_ID(), 
+								pline.getM_Product_ID(), 
+								pline.getM_AttributeSetInstance_ID(),
+								get_TrxName());
+						
+						/*if(mustBeStocked && QtyAvailable.add(MovementQty).signum() < 0)
+						{	
+							raiseError("@NotEnoughStocked@: " + pline.getM_Product().getName(), "");
+						}*/
+						
+						MovementType = MTransaction.MOVEMENTTYPE_Production_;
+					}
+				
+					if (!MStorage.add(getCtx(), locator.getM_Warehouse_ID(),
+						locator.getM_Locator_ID(),
+						pline.getM_Product_ID(), 
+						pline.getM_AttributeSetInstance_ID(), 0 , 
+						MovementQty,
+						Env.ZERO,
+						Env.ZERO,
+						get_TrxName()))
+					{
+						throw new AdempiereException("Cannot correct Inventory");
+						//raiseError("Cannot correct Inventory", "");
+					}
+					
+					//Create Transaction
+					MTransaction mtrx = new MTransaction (getCtx(), pline.getAD_Org_ID(), 
+						MovementType, locator.getM_Locator_ID(),
+						pline.getM_Product_ID(), pline.getM_AttributeSetInstance_ID(), 
+						MovementQty, m_M_Production.getMovementDate(), get_TrxName());
+					mtrx.setM_ProductionLine_ID(pline.getM_ProductionLine_ID());
+					mtrx.saveEx();
+					
+					pline.setProcessed(true);
+					pline.saveEx();
+				} // Production Line
+
+				pp.setProcessed(true);
+				pp.saveEx();
+			} 			
+			m_M_Production.setProcessed(true);
+			m_M_Production.saveEx();	
+		 
+			/* Immediate accounting */
+			if (MClient.isClientAccountingImmediate()) {
+				String ignoreError = DocumentEngine.postImmediate(getCtx(), getAD_Client_ID(), m_M_Production.get_Table_ID(), m_M_Production.get_ID(), true, get_TrxName());						
+			}
 	}
 }

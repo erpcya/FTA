@@ -75,7 +75,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 	/**	Quantity To Deliver			*/
 	private BigDecimal	p_QtyToDeliver			= null;
 	
-	private int 		p_Owner					= 0;
+	private int 		p_Owner_ID					= 0;
 	/**	Is Printed					*/
 	private boolean		p_IsPrinted				= false;
 	
@@ -102,8 +102,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 				p_QtyToDeliver = (BigDecimal)para.getParameter();
 			else if (name.equals("MaxQty"))
 				p_MaxQty = para.getParameterAsInt();
-			else if (name.equals("Owner"))
-				p_Owner = para.getParameterAsInt();
+			else if (name.equals("Owner_ID"))
+				p_Owner_ID = para.getParameterAsInt();
 			else if (name.equals("IsPrinted"))
 				p_IsPrinted = para.getParameterAsBoolean();
 		}
@@ -125,8 +125,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 		if(m_Farming.getC_OrderLine_ID() == 0)
 			throw new AdempiereUserError("@C_OrderLine_ID@ @NotFound@");
 		//	Valid Owner
-		if(p_Owner == 0)
-			throw new AdempiereUserError("@Owner@ @NotFound@");
+		if(p_Owner_ID == 0)
+			throw new AdempiereUserError("@Owner_ID@ @NotFound@");
 		
 		//	Get Vehicle Type
 		MFTAVehicleType m_VehicleType = new MFTAVehicleType(getCtx(), p_FTA_VehicleType_ID, get_TrxName());
@@ -281,7 +281,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_MobilizationGuide.setFTA_VehicleType_ID(p_FTA_VehicleType_ID);
 			m_MobilizationGuide.setM_Warehouse_ID(p_M_Warehouse_ID);
 			m_MobilizationGuide.setQtyToDeliver(m_QtyToDeliver.setScale(precision, BigDecimal.ROUND_HALF_UP));
-			m_MobilizationGuide.setOwner_ID(p_Owner);
+			m_MobilizationGuide.setOwner_ID(p_Owner_ID);
 			m_MobilizationGuide.saveEx();
 			//	Complete Document
 			m_MobilizationGuide.processIt(DocAction.ACTION_Complete);
