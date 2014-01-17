@@ -34,7 +34,6 @@ import org.compiere.model.Query;
 import org.compiere.model.X_C_DocType;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.compiere.util.Trx;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
