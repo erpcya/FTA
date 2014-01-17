@@ -626,6 +626,9 @@ public class LoadOrder {
 		//	Set Entry Ticket
 		if(m_FTA_EntryTicket_ID != 0)
 			loadOrder.setFTA_EntryTicket_ID(m_FTA_EntryTicket_ID);
+		//	Set Product
+		if(m_M_Product_ID != 0)
+			loadOrder.setM_Product_ID(m_M_Product_ID);
 		//	Save Order
 		loadOrder.saveEx();
 		//	Loop for add Lines
