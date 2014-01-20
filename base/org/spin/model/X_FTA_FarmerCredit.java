@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140115L;
+	private static final long serialVersionUID = 20140120L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
