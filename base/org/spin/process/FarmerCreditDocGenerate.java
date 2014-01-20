@@ -63,9 +63,11 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	/**	Charge								*/
 	private int 		p_C_Charge_ID = 0;
 	/**	Product								*/
-	private int 		p_M_Product_ID = 0;
+	private int 		p_M_Product_ID = 0;	
 	/**	Amount								*/
 	private BigDecimal	p_Amt = null;
+	/**	Current Invoice						*/
+	private int			m_Current_C_Invoice_ID = 0;
 	/**	Farmer Credit						*/
 	private MFTAFarmerCredit 	m_FTA_FarmerCredit = null;
 	/**	Business Partner					*/
@@ -231,6 +233,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		//	
 		m_ARinvoiceLine.setTaxAmt();
 		m_ARinvoiceLine.saveEx();
+		//	Add Invoice
+		m_Current_C_Invoice_ID = m_ARInvoice.getC_Invoice_ID();
 		//	Complete
 		completeDoument(m_ARInvoice);
 	}
@@ -329,6 +333,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		paymentRequest.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
 		paymentRequest.setC_BPartner_ID(m_FTA_FarmerCredit.getC_BPartner_ID());
 		paymentRequest.setPayAmt(p_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
+		paymentRequest.setC_Invoice_ID(m_Current_C_Invoice_ID);
 		paymentRequest.setC_BP_BankAccount_ID(p_C_BP_BankAccount_ID);
 		paymentRequest.setName(Msg.parseTranslation(getCtx(), "@FTA_PaymentRequest_ID@ @to@") 
 				+ ": " + bpartner.getName());
