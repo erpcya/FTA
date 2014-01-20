@@ -155,29 +155,35 @@ public class FTAModelValidator implements ModelValidator {
 			} else if(po.get_TableName().equals(MInvoice.Table_Name)){
 				MInvoice inv = (MInvoice) po;
 				if(inv.isSOTrx()
-						&& inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){	
+						&& inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
 					String msg = null;
-					MDocType docType = MDocType.get(Env.getCtx(), inv.getC_DocType_ID());
-					BigDecimal multiplier = Env.ONE;
-					if(docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_APCreditMemo)
-							|| docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo))
-						multiplier = multiplier.negate();
-					//	Is Manual
-					if(inv.get_ValueAsBoolean("IsCreditFactManual")){
-						MOrder ord = new MOrder(Env.getCtx(), inv.getC_Order_ID(), inv.get_TrxName());
-						if(!inv.getGrandTotal().equals(ord.getGrandTotal())){
+					if(inv.getReversal_ID() == 0){
+						MDocType docType = MDocType.get(Env.getCtx(), inv.getC_DocType_ID());
+						BigDecimal multiplier = Env.ONE;
+						if(docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_APCreditMemo)
+								|| docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo))
+							multiplier = multiplier.negate();
+						//	Is Manual
+						if(inv.get_ValueAsBoolean("IsCreditFactManual")){
+							MOrder ord = new MOrder(Env.getCtx(), inv.getC_Order_ID(), inv.get_TrxName());
+							if(!inv.getGrandTotal().equals(ord.getGrandTotal())){
+								msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), multiplier, inv.get_TrxName());
+							} else
+								msg = MFTAFact.copyFromFact(Env.getCtx(), ord, inv, ord.get_TrxName());
+						} else {
 							msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), multiplier, inv.get_TrxName());
-						} else
-							msg = MFTAFact.copyFromFact(Env.getCtx(), ord, inv, ord.get_TrxName());
+						}
+						//	Set Posted
+						if(msg != null){
+							inv.set_ValueOfColumn("IsCreditFactPosted", false);
+						} else{
+							inv.set_ValueOfColumn("IsCreditFactPosted", true);
+						}
 					} else {
-						msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), multiplier, inv.get_TrxName());
+						MInvoice reversal = MInvoice.get(Env.getCtx(), inv.getReversal_ID());
+						msg = MFTAFact.copyFromFact(Env.getCtx(), reversal, inv, Env.ONE.negate(), inv.get_TrxName());
 					}
-					//	Set Posted
-					if(msg != null){
-						inv.set_ValueOfColumn("IsCreditFactPosted", false);
-					} else{
-						inv.set_ValueOfColumn("IsCreditFactPosted", true);
-					}
+					//	Return
 					return msg;
 				}
 			}
