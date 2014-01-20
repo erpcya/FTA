@@ -654,6 +654,7 @@ public class VLoadOrder extends LoadOrder
 			clearData();
 		} else if(name.equals("OperationType")){
 			m_OperationType = ((String)(value != null? value: 0));
+			Env.setContext(Env.getCtx(), m_WindowNo, "OperationType", m_OperationType);
 			ArrayList<KeyNamePair> data = getDataDocumentType(trxName);
 			docTypeSearch.removeActionListener(this);
 			m_C_DocType_ID = loadComboBox(docTypeSearch, data);
