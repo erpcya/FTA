@@ -26,6 +26,7 @@ import org.compiere.model.MCurrency;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MRefList;
 import org.compiere.model.X_C_Invoice;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -211,7 +212,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		//Set in Dispute
 		m_ARInvoice.setIsInDispute(p_IsIndispute);
 		
-		//	Set Business PArtner
+		//	Set Business Partner
 		
 		m_ARInvoice.setBPartner(bpartner);
 		//	Set Farmer Credit
@@ -276,10 +277,13 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_Invoice.setDocAction(X_C_Invoice.DOCACTION_Complete);
 		m_Invoice.processIt(X_C_Invoice.DOCACTION_Complete);
 		m_Invoice.saveEx();
+		String msg = m_Invoice.getProcessMsg();
 		//	Add Log
 		addLog("@DocumentNo@ " + m_Invoice.getDocumentNo() 
 				+ " - @GrandTotal@ = " + m_Invoice.getGrandTotal() 
-				+ " @OK@");
+				+ " - @DocStatus@ = " + MRefList.getListName(getCtx(), 
+							X_C_Invoice.DOCSTATUS_AD_Reference_ID, m_Invoice.getDocStatus())
+				+ (msg == null? " @OK@": " @Error@:" + msg));
 		//	Set Generated
 		generated++;
 	}
@@ -336,11 +340,15 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		paymentRequest.setDocAction(X_FTA_PaymentRequest.DOCACTION_Complete);
 		paymentRequest.processIt(X_FTA_PaymentRequest.DOCACTION_Complete);
 		paymentRequest.saveEx();
+		String msg = paymentRequest.getProcessMsg();
 		//	Add Log
 		addLog("@FTA_PaymentRequest_ID@ @DocumentNo@ " + paymentRequest.getDocumentNo() 
 				+ " - @PayAmt@ = " + paymentRequest.getPayAmt() 
-				+ " @OK@");
+				+ " - @DocStatus@ = " + MRefList.getListName(getCtx(), 
+							X_FTA_PaymentRequest.DOCSTATUS_AD_Reference_ID, paymentRequest.getDocStatus())
+				+ (msg == null? " @OK@": " @Error@:" + msg));
 		//	Set Generated
+		
 		generated++;
 	}
 }

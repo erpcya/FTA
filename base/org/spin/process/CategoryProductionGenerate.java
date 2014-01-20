@@ -179,7 +179,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 		//	Where
 		sql.append("WHERE cc.FTA_CategoryCalc_ID = ? " +
 				"AND rw.DocStatus = 'CO' " +
-				"AND io.DocStatus = 'CO' ");
+				"AND io.DocStatus = 'CO' " +
+				"AND rw.M_ProductionLine_ID IS NULL ");
 		
 		//	Add search criteria
 		for(MFTACategoryCalcFilter m_filter : m_filters){

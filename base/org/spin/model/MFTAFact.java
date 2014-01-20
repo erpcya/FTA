@@ -354,18 +354,23 @@ public class MFTAFact extends X_FTA_Fact {
 	 * @param ctx
 	 * @param p_From
 	 * @param p_To
+	 * @param p_Multiplier
 	 * @param trxName
 	 * @return
 	 * @return String
 	 */
-	public static String copyFromFact(Properties ctx, PO p_From, PO p_To, String trxName){
-		String sql = new String("SELECT f.* FTA_Fact f " +
+	public static String copyFromFact(Properties ctx, PO p_From, PO p_To, BigDecimal p_Multiplier, String trxName){
+		String sql = new String("SELECT f.* " +
+				"FROM FTA_Fact f " +
 				"WHERE f.AD_Table_ID = ? " +
 				"AND f.Record_ID = ?");
 		
 		if(p_From == null
 				|| p_To == null)
 			return null;
+		
+		if(p_Multiplier == null)
+			p_Multiplier = Env.ONE;
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -387,6 +392,7 @@ public class MFTAFact extends X_FTA_Fact {
 					//	Set Values
 					m_fta_FactTarget.setAD_Table_ID(p_To.get_Table_ID());
 					m_fta_FactTarget.setRecord_ID(p_To.get_ID());
+					m_fta_FactTarget.setAmt(m_fta_FactTarget.getAmt().multiply(p_Multiplier));
 					//	Save
 					m_fta_FactTarget.saveEx();
 				}
@@ -398,6 +404,20 @@ public class MFTAFact extends X_FTA_Fact {
 			return e.getMessage();
 		}
 		return null;
+	}
+	
+	/**
+	 * Copy Fact
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 20/01/2014, 09:54:29
+	 * @param ctx
+	 * @param p_From
+	 * @param p_To
+	 * @param trxName
+	 * @return
+	 * @return String
+	 */
+	public static String copyFromFact(Properties ctx, PO p_From, PO p_To, String trxName){
+		return copyFromFact(ctx, p_From, p_To, null, trxName);
 	}
 	
 }
