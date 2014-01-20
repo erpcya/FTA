@@ -378,21 +378,6 @@ public interface I_FTA_RecordWeight
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_ProductionLine_ID */
-    public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
-
-	/** Set Production Line.
-	  * Document Line representing a production
-	  */
-	public void setM_ProductionLine_ID (int M_ProductionLine_ID);
-
-	/** Get Production Line.
-	  * Document Line representing a production
-	  */
-	public int getM_ProductionLine_ID();
-
-	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
-
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
 
