@@ -248,7 +248,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		
 		//	Dixon Martinez 09/01/2014
 		//	Adding Validation to not complete if no quality analysis chute
-		if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt)){
+		//  Carlos Parada 2014-01-19 
+		//  Adding Exlude Validation for Import Records
+		if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt) &&  !isI_IsImported()){
 			m_processMsg = validateChuteQualityAnalysis();
 			if(m_processMsg != null) 
 				return DocAction.STATUS_Invalid;
@@ -741,7 +743,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	
 		
 		//DocumentNo 
-		String l_DocumentNo = new String(); 
+		String l_DocumentNo = null; 
 		//Carlos Parada 2014-01-16
 		//Create Material Receipt or Shipment by Operation Type
 		if (getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt))
@@ -849,7 +851,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			m_Receipt.processIt(DocAction.ACTION_Complete);
 			m_Receipt.saveEx(get_TrxName());
 			
-			l_DocumentNo = m_Receipt.getDocumentNo();
+			l_DocumentNo ="@M_InOut_ID@: " + m_Receipt.getDocumentNo();
 		}
 		//Product Bulk Receipt
 		else if (getOperationType().equals(OPERATIONTYPE_ProductBulkReceipt))
@@ -923,8 +925,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			m_Receipt.processIt(DocAction.ACTION_Complete);
 			m_Receipt.saveEx(get_TrxName());
 			
-			l_DocumentNo = m_Receipt.getDocumentNo();
+			l_DocumentNo = "@M_InOut_ID@: " + m_Receipt.getDocumentNo();
 		}
-		return "@M_InOut_ID@: " + l_DocumentNo;
+		return l_DocumentNo;
 	}	//	createMaterialReceipt
 }
