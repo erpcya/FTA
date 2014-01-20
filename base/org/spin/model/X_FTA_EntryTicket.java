@@ -31,7 +31,7 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140115L;
+	private static final long serialVersionUID = 20140120L;
 
     /** Standard Constructor */
     public X_FTA_EntryTicket (Properties ctx, int FTA_EntryTicket_ID, String trxName)
@@ -555,8 +555,8 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 
 	/** OperationType AD_Reference_ID=53597 */
 	public static final int OPERATIONTYPE_AD_Reference_ID=53597;
-	/** Raw Material Receipt = RMR */
-	public static final String OPERATIONTYPE_RawMaterialReceipt = "RMR";
+	/** Delivery Bulk Material (Liquidated) = DBL */
+	public static final String OPERATIONTYPE_DeliveryBulkMaterialLiquidated = "DBL";
 	/** Product Bulk Receipt = PBR */
 	public static final String OPERATIONTYPE_ProductBulkReceipt = "PBR";
 	/** Receipt More than one Product = RMP */

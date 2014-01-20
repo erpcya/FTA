@@ -22,10 +22,10 @@ import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_VehicleBrand
+/** Generated Model for FTA_CDL_Report
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS - $Id$ */
-public class X_FTA_VehicleBrand extends PO implements I_FTA_VehicleBrand, I_Persistent 
+public class X_FTA_CDL_Report extends PO implements I_FTA_CDL_Report, I_Persistent 
 {
 
 	/**
@@ -34,18 +34,18 @@ public class X_FTA_VehicleBrand extends PO implements I_FTA_VehicleBrand, I_Pers
 	private static final long serialVersionUID = 20140120L;
 
     /** Standard Constructor */
-    public X_FTA_VehicleBrand (Properties ctx, int FTA_VehicleBrand_ID, String trxName)
+    public X_FTA_CDL_Report (Properties ctx, int FTA_CDL_Report_ID, String trxName)
     {
-      super (ctx, FTA_VehicleBrand_ID, trxName);
-      /** if (FTA_VehicleBrand_ID == 0)
+      super (ctx, FTA_CDL_Report_ID, trxName);
+      /** if (FTA_CDL_Report_ID == 0)
         {
-			setFTA_VehicleBrand_ID (0);
+			setFTA_CDL_Report_ID (0);
 			setName (null);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_VehicleBrand (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_CDL_Report (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -67,7 +67,7 @@ public class X_FTA_VehicleBrand extends PO implements I_FTA_VehicleBrand, I_Pers
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_VehicleBrand[")
+      StringBuffer sb = new StringBuffer ("X_FTA_CDL_Report[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -89,21 +89,21 @@ public class X_FTA_VehicleBrand extends PO implements I_FTA_VehicleBrand, I_Pers
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Vehicle Brand.
-		@param FTA_VehicleBrand_ID Vehicle Brand	  */
-	public void setFTA_VehicleBrand_ID (int FTA_VehicleBrand_ID)
+	/** Set CDL Report.
+		@param FTA_CDL_Report_ID CDL Report	  */
+	public void setFTA_CDL_Report_ID (int FTA_CDL_Report_ID)
 	{
-		if (FTA_VehicleBrand_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleBrand_ID, null);
+		if (FTA_CDL_Report_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_CDL_Report_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_VehicleBrand_ID, Integer.valueOf(FTA_VehicleBrand_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_CDL_Report_ID, Integer.valueOf(FTA_CDL_Report_ID));
 	}
 
-	/** Get Vehicle Brand.
-		@return Vehicle Brand	  */
-	public int getFTA_VehicleBrand_ID () 
+	/** Get CDL Report.
+		@return CDL Report	  */
+	public int getFTA_CDL_Report_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_VehicleBrand_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CDL_Report_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
