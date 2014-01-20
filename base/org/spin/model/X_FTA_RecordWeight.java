@@ -33,7 +33,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140115L;
+	private static final long serialVersionUID = 20140120L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeight (Properties ctx, int FTA_RecordWeight_ID, String trxName)
@@ -655,6 +655,34 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		return ii.intValue();
 	}
 
+	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException
+    {
+		return (I_M_ProductionLine)MTable.get(getCtx(), I_M_ProductionLine.Table_Name)
+			.getPO(getM_ProductionLine_ID(), get_TrxName());	}
+
+	/** Set Production Line.
+		@param M_ProductionLine_ID 
+		Document Line representing a production
+	  */
+	public void setM_ProductionLine_ID (int M_ProductionLine_ID)
+	{
+		if (M_ProductionLine_ID < 1) 
+			set_Value (COLUMNNAME_M_ProductionLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
+	}
+
+	/** Get Production Line.
+		@return Document Line representing a production
+	  */
+	public int getM_ProductionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_Shipper getM_Shipper() throws RuntimeException
     {
 		return (I_M_Shipper)MTable.get(getCtx(), I_M_Shipper.Table_Name)
@@ -698,8 +726,8 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 
 	/** OperationType AD_Reference_ID=53597 */
 	public static final int OPERATIONTYPE_AD_Reference_ID=53597;
-	/** Raw Material Receipt = RMR */
-	public static final String OPERATIONTYPE_RawMaterialReceipt = "RMR";
+	/** Delivery Bulk Material (Liquidated) = DBL */
+	public static final String OPERATIONTYPE_DeliveryBulkMaterialLiquidated = "DBL";
 	/** Product Bulk Receipt = PBR */
 	public static final String OPERATIONTYPE_ProductBulkReceipt = "PBR";
 	/** Receipt More than one Product = RMP */
