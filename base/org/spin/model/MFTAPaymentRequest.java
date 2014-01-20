@@ -26,6 +26,7 @@ import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
+import org.compiere.model.X_C_Invoice;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
@@ -225,6 +226,16 @@ public class MFTAPaymentRequest extends X_FTA_PaymentRequest implements DocActio
 				|| getPayAmt().equals(Env.ZERO)){
 			m_processMsg = "@Amt@ = @0@";
 			return DocAction.STATUS_Invalid;
+		} else if(getC_Invoice_ID() != 0){
+			String invoiceStatus = DB.getSQLValueString(get_TrxName(), "SELECT i.DocStatus " +
+					"FROM C_Invoice i " +
+					"WHERE i.C_Invoice_ID = ?", getC_Invoice_ID());
+			if(invoiceStatus == null
+					|| (!invoiceStatus.equals(X_C_Invoice.DOCSTATUS_Completed)
+							&& !invoiceStatus.equals(X_C_Invoice.DOCSTATUS_Closed))){
+				m_processMsg = "@C_Invoice_ID@/@InvoiceCreateDocNotCompleted@";
+				return DocAction.STATUS_Invalid;
+			}
 		}
 		//	Valid Product or Charge for no Liquidation
 		if(getM_Product_ID() == 0

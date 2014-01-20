@@ -26,6 +26,7 @@ import org.compiere.model.MCurrency;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MRefList;
 import org.compiere.model.X_C_Invoice;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -62,9 +63,11 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	/**	Charge								*/
 	private int 		p_C_Charge_ID = 0;
 	/**	Product								*/
-	private int 		p_M_Product_ID = 0;
+	private int 		p_M_Product_ID = 0;	
 	/**	Amount								*/
 	private BigDecimal	p_Amt = null;
+	/**	Current Invoice						*/
+	private int			m_Current_C_Invoice_ID = 0;
 	/**	Farmer Credit						*/
 	private MFTAFarmerCredit 	m_FTA_FarmerCredit = null;
 	/**	Business Partner					*/
@@ -230,6 +233,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		//	
 		m_ARinvoiceLine.setTaxAmt();
 		m_ARinvoiceLine.saveEx();
+		//	Add Invoice
+		m_Current_C_Invoice_ID = m_ARInvoice.getC_Invoice_ID();
 		//	Complete
 		completeDoument(m_ARInvoice);
 	}
@@ -276,10 +281,13 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_Invoice.setDocAction(X_C_Invoice.DOCACTION_Complete);
 		m_Invoice.processIt(X_C_Invoice.DOCACTION_Complete);
 		m_Invoice.saveEx();
+		String msg = m_Invoice.getProcessMsg();
 		//	Add Log
 		addLog("@DocumentNo@ " + m_Invoice.getDocumentNo() 
 				+ " - @GrandTotal@ = " + m_Invoice.getGrandTotal() 
-				+ " @OK@");
+				+ " - @DocStatus@ = " + MRefList.getListName(getCtx(), 
+							X_C_Invoice.DOCSTATUS_AD_Reference_ID, m_Invoice.getDocStatus())
+				+ (msg == null? " @OK@": " @Error@:" + msg));
 		//	Set Generated
 		generated++;
 	}
@@ -325,6 +333,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		paymentRequest.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
 		paymentRequest.setC_BPartner_ID(m_FTA_FarmerCredit.getC_BPartner_ID());
 		paymentRequest.setPayAmt(p_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
+		paymentRequest.setC_Invoice_ID(m_Current_C_Invoice_ID);
 		paymentRequest.setC_BP_BankAccount_ID(p_C_BP_BankAccount_ID);
 		paymentRequest.setName(Msg.parseTranslation(getCtx(), "@FTA_PaymentRequest_ID@ @to@") 
 				+ ": " + bpartner.getName());
@@ -336,11 +345,15 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		paymentRequest.setDocAction(X_FTA_PaymentRequest.DOCACTION_Complete);
 		paymentRequest.processIt(X_FTA_PaymentRequest.DOCACTION_Complete);
 		paymentRequest.saveEx();
+		String msg = paymentRequest.getProcessMsg();
 		//	Add Log
 		addLog("@FTA_PaymentRequest_ID@ @DocumentNo@ " + paymentRequest.getDocumentNo() 
 				+ " - @PayAmt@ = " + paymentRequest.getPayAmt() 
-				+ " @OK@");
+				+ " - @DocStatus@ = " + MRefList.getListName(getCtx(), 
+							X_FTA_PaymentRequest.DOCSTATUS_AD_Reference_ID, paymentRequest.getDocStatus())
+				+ (msg == null? " @OK@": " @Error@:" + msg));
 		//	Set Generated
+		
 		generated++;
 	}
 }
