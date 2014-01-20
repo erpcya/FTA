@@ -85,9 +85,7 @@ public class FTAModelValidator implements ModelValidator {
 	@Override
 	public String modelChange(PO po, int type) throws Exception {
 		if (po.get_TableName().equals(I_C_Invoice.Table_Name) 
-				&& 
-				(type == TYPE_BEFORE_NEW
-						|| type == TYPE_BEFORE_CHANGE)) {
+				&& type == TYPE_BEFORE_NEW) {
 			MInvoice invoice = (MInvoice) po;
 			int m_C_Order_ID = invoice.getC_Order_ID();
 			if(m_C_Order_ID != 0){
