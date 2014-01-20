@@ -225,7 +225,7 @@ public class MFTAPaymentRequest extends X_FTA_PaymentRequest implements DocActio
 				|| getPayAmt().equals(Env.ZERO)){
 			m_processMsg = "@Amt@ = @0@";
 			return DocAction.STATUS_Invalid;
-		}
+		} //else if()
 		//	Valid Product or Charge for no Liquidation
 		if(getM_Product_ID() == 0
 				&& getC_Charge_ID() == 0 && getFTA_FarmerLiquidation_ID()==0) {
