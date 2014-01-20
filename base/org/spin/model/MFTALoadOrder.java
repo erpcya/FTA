@@ -294,13 +294,14 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		if(getVolume() == null
 				|| getVolume().equals(Env.ZERO))
 			return "@Volume@ = @0@";
-		
-		if((getLoadCapacity().subtract(getWeight()).compareTo(getWeight()) < 0))
-				return "@Weight@ >= @LoadCapacity@";
+		//	Yamel Senih 2014-01-20, 17:21:00
+		//	Correct Validation
+		if((getLoadCapacity().subtract(getWeight()).doubleValue() < 0))
+				return "@Weight@ > @LoadCapacity@";
 
-		if((getVolumeCapacity().subtract(getVolume()).compareTo(getVolume()) < 0))
-			return "@Volume@ >= @VolumeCapacity@";
-		
+		if((getVolumeCapacity().subtract(getVolume()).doubleValue() < 0))
+			return "@Volume@ > @VolumeCapacity@";
+		//	End Yamel Senih
 		/*MFTALoadOrderLine[] lines = getLines(true); 
 		for (MFTALoadOrderLine m_FTALoadOrderLine : lines) {
 			m_FTALoadOrderLine
