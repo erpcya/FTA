@@ -44,6 +44,7 @@ import org.compiere.util.Msg;
 import org.spin.model.MFTACategoryCalc;
 import org.spin.model.MFTACategoryCalcFilter;
 import org.spin.model.MFTACategoryCalcGroup;
+import org.spin.model.MFTARecordWeight;
 
 /**
  * Generate Category Production
@@ -170,7 +171,7 @@ public class CategoryProductionGenerate extends SvrProcess {
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		//	SQL
-		StringBuffer sql = new StringBuffer("SELECT qa.M_Product_ID, qa.QualityAnalysis_ID, rw.DocumentNo, rw.NetWeight, rw.PayWeight, iol.M_Locator_ID " +
+		StringBuffer sql = new StringBuffer("SELECT qa.M_Product_ID, qa.QualityAnalysis_ID, rw.FTA_RecordWeight_ID, rw.DocumentNo, rw.NetWeight, rw.PayWeight, iol.M_Locator_ID " +
 				"FROM FTA_RecordWeight rw " +
 				"INNER JOIN FTA_QualityAnalysis qa ON(qa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID) " +
 				"INNER JOIN FTA_CategoryCalc cc ON(cc.M_Product_ID = qa.M_Product_ID) " +
@@ -312,6 +313,7 @@ public class CategoryProductionGenerate extends SvrProcess {
 		while(rs.next()){
 			int m_M_Product_ID = rs.getInt("M_Product_ID");
 			int m_QualityAnalysis_ID = rs.getInt("QualityAnalysis_ID");
+			int m_FTA_RecordWeight_ID = rs.getInt("FTA_RecordWeight_ID");
 			String m_DocumentNo = rs.getString("DocumentNo");
 			BigDecimal m_NetWeight = rs.getBigDecimal("NetWeight");
 			BigDecimal m_PayWeight = rs.getBigDecimal("PayWeight");
@@ -380,6 +382,10 @@ public class CategoryProductionGenerate extends SvrProcess {
 			pl.setM_AttributeSetInstance_ID(m_QualityAnalysis_ID);
 			pl.setMovementQty(m_NetWeight.negate());
 			pl.saveEx();
+			//	Update Record Weight
+			MFTARecordWeight recordWeight = new MFTARecordWeight(getCtx(), m_FTA_RecordWeight_ID, get_TrxName());
+			recordWeight.setM_ProductionLine_ID(pl.getM_ProductionLine_ID());
+			recordWeight.saveEx();
 			//	Set Values
 			m_line += 10;
 			m_ProductionQty = m_ProductionQty.add(m_PayWeight2);
