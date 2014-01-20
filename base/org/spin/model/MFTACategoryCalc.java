@@ -215,4 +215,13 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 		list.toArray (m_lines);
 		return m_lines;
 	}	//	getLines
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		boolean ok = super.beforeSave(newRecord);
+		if(getEventType().equals(EVENTTYPE_Dried))
+			if(getM_AttributeSetInstance_ID() == 0)
+				throw new AdempiereException("@M_AttributeSetInstance_ID@ @NotFound@");
+		return ok;
+	}
 }
