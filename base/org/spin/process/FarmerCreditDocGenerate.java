@@ -211,7 +211,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		//Set in Dispute
 		m_ARInvoice.setIsInDispute(p_IsIndispute);
 		
-		//	Set Business PArtner
+		//	Set Business Partner
 		
 		m_ARInvoice.setBPartner(bpartner);
 		//	Set Farmer Credit
