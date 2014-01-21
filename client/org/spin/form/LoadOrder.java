@@ -933,13 +933,12 @@ public class LoadOrder {
 		int m_ID = 0;
 		for(KeyNamePair pp : data) {
 			comboSearch.addItem(pp);
+			if(m_ID == 0)
+				m_ID = pp.getKey();
 		}
-		
-		if (comboSearch.getItemCount() != 0) {
+		//	Set Default
+		if (comboSearch.getItemCount() != 0)
 			comboSearch.setSelectedIndex(0);
-			KeyNamePair pp = (KeyNamePair) comboSearch.getSelectedItem();
-			m_ID = (pp != null? pp.getKey(): 0);
-		}
 		return m_ID;
 	}
 	
