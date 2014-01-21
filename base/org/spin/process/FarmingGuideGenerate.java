@@ -166,7 +166,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 		
 		MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
 		if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
-			return "@C_UOM_Weight_ID@ = @NotFound@";
+			return "@C_UOM_Weight_ID@ @NotFound@";
 		
 		//	Get Category
 		MProduct product = MProduct.get(getCtx(), m_Farming.getCategory_ID());
@@ -217,7 +217,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 			m_QtyDelivered = Env.ZERO;
 		
 		//	Max Quantity to Generate
-		m_MaxQtyToDeliver = m_Qty.subtract(m_QtyDelivered);
+		m_MaxQtyToDeliver = m_Qty.add(m_Re_EstimatedQty)
+									.subtract(m_QtyDelivered);
 		
 		log.fine("MaxWeight=" + m_MaxQtyToDeliver);
 		
@@ -265,7 +266,6 @@ public class FarmingGuideGenerate extends SvrProcess {
 			
 			//	Calculate Re-EstimatedQty
 			m_Diff_Re_EstimatedQty = m_Farming_MaxQty
-					.add(m_Re_EstimatedQty)
 					.subtract(m_QtyDelivered)
 					.subtract(m_WeightGenerated.add(m_QtyToDeliver));
 			

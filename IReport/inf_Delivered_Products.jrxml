@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Delivered Quantity" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="81c107fa-d7f7-488f-bd46-8bee95a707b3">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
+	<parameter name="DateDoc1" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DateDoc2" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DocStatus" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="M_Product_ID" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[SELECT 1 seqNo,
+	mg.DocumentNo MobilizationGuide,
+	et.Ext_Guide,
+	et.DocumentNo EntryTicket,
+	qa.DocumentNo QualityAnalysis,
+	rw.DocumentNo,
+	rw.DateDoc,
+	rw.TareWeight,
+	rw.GrossWeight,
+	rw.NetWeight,
+	(rw.NetWeight - rw.PayWeight) Discount,
+	rw.PayWeight,
+	av.Name AttributeSet,
+	av.Name Att,
+	av.Value,
+	av.ValueNumber,
+	bp.TaxID,
+	bp.Name,
+	TO_Char($P{DateDoc1}::timestamp,'DD/MM/YYYY') DateDoc1,
+	TO_Char($P{DateDoc2}::timestamp,'DD/MM/YYYY') DateDoc2,
+	mp.Value ValueProduct,
+	mp.Name NameProduct
+FROM FTA_EntryTicket et
+INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
+INNER JOIN FTA_QualityAnalysis qa ON(qa.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID)
+INNER JOIN FTA_RecordWeight rw ON(rw.FTA_QualityAnalysis_ID = qa.FTA_QualityAnalysis_ID)
+INNER JOIN FTA_RV_AttributeValue av ON(av.M_AttributeSetInstance_ID = qa.QualityAnalysis_ID)
+LEFT JOIN C_BPartner bp ON (bp.C_BPartner_ID=et.C_BPartner_ID)
+LEFT JOIN M_Product mp ON (mp.M_Product_ID=qa.M_Product_ID)
+WHERE av.Name IN('Humedad', 'Impureza')
+AND (et.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
+AND (mp.M_Product_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
+AND (rw.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
+AND (rw.DateDoc >= $P{DateDoc1} /*OR  IS NULL*/)
+AND (rw.DateDoc <= $P{DateDoc2} /*OR  IS NULL*/)]]>
+	</queryString>
+	<field name="seqno" class="java.lang.Integer"/>
+	<field name="mobilizationguide" class="java.lang.String"/>
+	<field name="ext_guide" class="java.lang.String"/>
+	<field name="entryticket" class="java.lang.String"/>
+	<field name="qualityanalysis" class="java.lang.String"/>
+	<field name="documentno" class="java.lang.String"/>
+	<field name="datedoc" class="java.sql.Timestamp"/>
+	<field name="tareweight" class="java.math.BigDecimal"/>
+	<field name="grossweight" class="java.math.BigDecimal"/>
+	<field name="netweight" class="java.math.BigDecimal"/>
+	<field name="discount" class="java.math.BigDecimal"/>
+	<field name="payweight" class="java.math.BigDecimal"/>
+	<field name="attributeset" class="java.lang.String"/>
+	<field name="att" class="java.lang.String"/>
+	<field name="value" class="java.lang.String"/>
+	<field name="valuenumber" class="java.math.BigDecimal"/>
+	<field name="taxid" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="datedoc1" class="java.lang.String"/>
+	<field name="datedoc2" class="java.lang.String"/>
+	<field name="valueproduct" class="java.lang.String"/>
+	<field name="nameproduct" class="java.lang.String"/>
+	<sortField name="att"/>
+	<variable name="GrossWeiht" class="java.math.BigDecimal" resetType="Group" resetGroup="Att" calculation="Sum">
+		<variableExpression><![CDATA[$F{grossweight}]]></variableExpression>
+	</variable>
+	<variable name="TareWeiht" class="java.math.BigDecimal" resetType="Group" resetGroup="Att" calculation="Sum">
+		<variableExpression><![CDATA[$F{tareweight}]]></variableExpression>
+	</variable>
+	<variable name="NetWeiht" class="java.math.BigDecimal" resetType="Group" resetGroup="Att" calculation="Sum">
+		<variableExpression><![CDATA[$F{netweight}]]></variableExpression>
+	</variable>
+	<variable name="Discount" class="java.math.BigDecimal" resetType="Group" resetGroup="Att" calculation="Sum">
+		<variableExpression><![CDATA[$F{discount}]]></variableExpression>
+	</variable>
+	<variable name="PayWeiht" class="java.math.BigDecimal" resetType="Group" resetGroup="Att" calculation="Sum">
+		<variableExpression><![CDATA[$F{payweight}]]></variableExpression>
+	</variable>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="47">
+			<staticText>
+				<reportElement x="279" y="0" width="195" height="20" uuid="d7351f45-5e38-4951-b975-9b315bc3793b"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Listado de Recepción]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="691" y="0" width="61" height="12" uuid="18e97207-94a0-455e-8495-e824504e17ec"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="646" y="0" width="41" height="12" uuid="8706d7f5-9496-4baf-afc5-9c6d5cf795c7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="646" y="15" width="41" height="12" uuid="a901b44c-ca94-4a67-8189-8624080d44dd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="646" y="30" width="41" height="12" uuid="1a8eb91d-0f94-4393-b490-bdc38f4ccfe4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Paginas:]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="691" y="30" width="61" height="12" uuid="dd21f6c4-3996-4e2c-8ccc-93cd6c7a25dc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="h.mm.ss a">
+				<reportElement x="691" y="15" width="61" height="12" uuid="5bb9f0b8-5c6e-4231-8db9-e232bb6175b6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="0" width="266" height="47" uuid="89a120cd-26fc-4e12-95b3-6bedfeb8e35f"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{C_BPartner_ID} ==null ? "" :"Socio de Negocio = " + $F{taxid} + " " + $F{name} + "\n") +
+($P{DateDoc1} ==null ? "" :"F. Documento. >=" + $F{datedoc1} + "\n") +
+($P{DateDoc2} ==null ? "" :"F. Documento. <=" + $F{datedoc2} + "\n") +
+($P{M_Product_ID} ==null ? "" :"Producto = " + $F{valueproduct} + " " + $F{nameproduct} + "\n")]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="58"/>
+	</summary>
+</jasperReport>
