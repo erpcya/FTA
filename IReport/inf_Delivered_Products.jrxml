@@ -99,7 +99,7 @@ AND (rw.DateDoc <= $P{DateDoc2} /*OR  IS NULL*/)]]>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Listado de Recepción]]></text>
+				<text><![CDATA[Entrega de Insumos]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="691" y="0" width="61" height="12" uuid="18e97207-94a0-455e-8495-e824504e17ec"/>
