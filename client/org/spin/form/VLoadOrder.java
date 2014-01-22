@@ -23,7 +23,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -574,9 +573,9 @@ public class VLoadOrder extends LoadOrder
 		
 		//	Date
 		dateDocField.setMandatory(true);
-		dateDocField.setValue(new Timestamp(System.currentTimeMillis()));
+		dateDocField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		shipDateField.setMandatory(true);
-		shipDateField.setValue(new Timestamp(System.currentTimeMillis()));
+		shipDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		
 		/*orderLineTable.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
@@ -673,10 +672,10 @@ public class VLoadOrder extends LoadOrder
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
 			if(m_FTA_EntryTicket_ID != 0){
 				ArrayList<KeyNamePair> data = getDataDriver(trxName);
-				m_FTA_Driver_ID = loadComboBox(driverSearch, data);
+				m_FTA_Driver_ID = loadComboBox(driverSearch, data, true);
 				//	Vehicle
 				data = getVehicleData(trxName);
-				m_FTA_Vehicle_ID = loadComboBox(vehicleSearch, data);
+				m_FTA_Vehicle_ID = loadComboBox(vehicleSearch, data, true);
 				m_FTA_VehicleType_ID = getFTA_VehicleType_ID(m_FTA_EntryTicket_ID, trxName);
 				vehicleTypePick.setValue(m_FTA_VehicleType_ID);
 				vehicleTypePick.setReadWrite(false);
@@ -843,7 +842,26 @@ public class VLoadOrder extends LoadOrder
 		stockModel = new DefaultTableModel(null, getstockColumnNames());
 		stockTable.setModel(stockModel);
 		setStockColumnClass(stockTable);
-		//selectAllAction.setPressed(false);
+		//	Parameters
+		salesRegionPick.setValue(null);
+		salesRepSearch.setValue(null);
+		//warehouseSearch.setValue(null);
+		//operationTypePick.setValue(null);
+		docTypeSearch.setValue(null);
+		docTypeTargetPick.setValue(null);
+		invoiceRulePick.setValue(null);
+		deliveryRulePick.setValue(null);
+		dateDocField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		shipDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		entryTicketPick.setValue(null);
+		shipperPick.setValue(null);
+		vehicleTypePick.setValue(null);
+		driverSearch.removeAllItems();
+		docTypeSearch.removeAllItems();
+		docTypeSearch.removeAllItems();
+		loadCapacityField.setValue(0);
+		volumeCapacityField.setValue(0);
+		productSearch.setValue(null);
 	}
 
 	/**
@@ -869,6 +887,9 @@ public class VLoadOrder extends LoadOrder
 		//	Vehicle Type
 		else if(m_FTA_VehicleType_ID == 0)
 			msg = "@FTA_VehicleType_ID@ @NotFound@";
+		//	Document Type Load Order
+		else if(m_C_DocTypeTarget_ID == 0)
+			msg = "@C_DocTypeTarget_ID@ @NotFound@";
 		//	
 		if(msg != null){
 			ADialog.info(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), msg));
@@ -1136,8 +1157,7 @@ public class VLoadOrder extends LoadOrder
 			driverSearch.removeAllItems();
 			vehicleSearch.removeAllItems();
 			parameterCollapsiblePanel.setCollapsed(false);
-			//locatorToSearch.removeAllItems();
-			//loadOrder();
+			//	Clear Data
 			clearData();
 			calculate();
 		}
