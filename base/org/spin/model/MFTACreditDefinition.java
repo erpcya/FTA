@@ -18,17 +18,24 @@ package org.spin.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.compiere.model.MDocType;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
@@ -736,5 +743,42 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		
 		return index;
 	}
-	
+		
+	/**
+	 * Copy Lines From Credit Definition
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 22/01/2014, 16:13:42
+	 * @param otherCreditDefinition
+	 * @param counter
+	 * @param setOrder
+	 * @return
+	 * @return int
+	 */
+	public int copyLinesFrom (MFTACreditDefinition otherCreditDefinition, boolean counter, boolean setOrder)
+	{
+		MFTACreditDefinitionLine[] fromLines = otherCreditDefinition.getLines(false);
+		
+		int count = 0;
+		for (int i = 0; i < fromLines.length; i++)
+		{
+		 	MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
+		 	MFTACreditDefinitionLine fromLine = fromLines[i];
+		 	if(counter)
+		 		PO.copyValues(fromLine, line, getAD_Client_ID(), getAD_Org_ID());
+		 	else
+		 		PO.copyValues(fromLine, line, line.getAD_Client_ID(), line.getAD_Org_ID());
+		 	
+		 	line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+		 
+		 	//
+			line.setProcessed(false);
+			if (line.save(get_TrxName()))
+				count++;
+		}
+		if (fromLines.length != count)
+			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
+		return count;
+	}	//	copyLinesFrom
+
+
 }
+
