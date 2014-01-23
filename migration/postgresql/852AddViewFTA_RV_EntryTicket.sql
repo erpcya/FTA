@@ -1,5 +1,5 @@
 ﻿--DROP VIEW FTA_RV_EntryTicket ;
---CREATE OR REPLACE VIEW FTA_RV_EntryTicket AS
+CREATE OR REPLACE VIEW FTA_RV_EntryTicket AS
 SELECT 
 	et.FTA_EntryTicket_ID,
 	et.FTA_EntryTicket_ID AS FTA_RV_EntryTicket_ID, 
@@ -45,8 +45,13 @@ SELECT
 	-- Driver
 	d.Value,
 	d.Name,
-	
-
+	-- Vehicle
+	v.FTA_VehicleBrand_ID,
+	v.FTA_VehicleModel_ID,
+	v.FTA_VehicleType_ID,
+	v.VehiclePlate,
+	v.VolumeCapacity,
+	v.LoadCapacity
 FROM FTA_EntryTicket et 
 INNER JOIN C_DocType dt ON (dt.C_DocType_ID = et.C_DocType_ID)
 INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID = et.C_BPartner_ID)
@@ -59,6 +64,6 @@ INNER JOIN AD_OrgInfo  oi ON (oi.AD_Org_ID = et.AD_Org_ID)
 LEFT JOIN M_Shipper s ON (s.M_Shipper_ID = et.M_Shipper_ID)
 LEFT JOIN FTA_Driver d ON (d.FTA_Driver_ID = et.FTA_Driver_ID)
 LEFT JOIN FTA_Vehicle v ON (v.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
-WHERE  FTA_EntryTicket_ID=1000092
+--WHERE  FTA_EntryTicket_ID=1000092
 
-;
+;--SELECT * FROM FTA_Vehicle LIMIT 1
