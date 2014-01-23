@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
@@ -75,13 +76,15 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	}
 
 	/** Lines					*/
-	private MFTACreditDefinitionLine[]		m_lines = null;
+	private MFTACreditDefinitionLine[]		m_lines 	 = null;
 	/**	Product List Approved	*/
-	private MFTAProductListApproved[]		m_PLA_Lines = null;
+	private MFTAProductListApproved[]		m_PLA_Lines  = null;
 	/** Credit Lines			*/
-	private MFTAFarmerCredit[]				m_credits = null;
+	private MFTAFarmerCredit[]				m_credits 	 = null;
 	/** Credit Act			*/
-	private MFTACreditAct[]					m_creditAct = null;
+	private MFTACreditAct[]					m_creditAct  = null;
+	/** Count Products      */										
+	private int 							countProduct = 0;
 	/**
 	 * 	Get Document Info
 	 *	@return document info (untranslated)
@@ -761,27 +764,107 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		MFTACreditDefinitionLine[] fromLines = otherCreditDefinition.getLines(false);
 		
 		int count = 0;
-		for (int i = 0; i < fromLines.length; i++)
+
+		for (MFTACreditDefinitionLine mftaCreditDefinitionLine : fromLines)
 		{
-		 	MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
-		 	MFTACreditDefinitionLine fromLine = fromLines[i];
-		 	if(counter)
-		 		PO.copyValues(fromLine, line, getAD_Client_ID(), getAD_Org_ID());
-		 	else
-		 		PO.copyValues(fromLine, line, line.getAD_Client_ID(), line.getAD_Org_ID());
-		 	
-		 	line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+			MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
+		 	MFTACreditDefinitionLine fromLine = new MFTACreditDefinitionLine(getCtx(), mftaCreditDefinitionLine.get_ID(), get_TrxName());
 		 
-		 	//
-			line.setProcessed(false);
-			if (line.save(get_TrxName()))
-				count++;
+		 	MFTACDLCategory m_FTA_CDL_Category = MFTACDLCategory.get(getCtx(), mftaCreditDefinitionLine.getFTA_CDL_Category_ID());
+		 	
+		 	if(m_FTA_CDL_Category.getValue().equals(MFTACDLCategory.T_CATEGORY)
+		 			|| m_FTA_CDL_Category.getValue().equals(MFTACDLCategory.T_DISTRIBUTION)){
+		 			continue;
+		 		}else{
+		 			if(counter)
+				 		PO.copyValues(fromLine, line, getAD_Client_ID(), getAD_Org_ID());
+				 	else
+				 		PO.copyValues(fromLine, line, line.getAD_Client_ID(), line.getAD_Org_ID());
+
+				 	line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+				 
+				 	//
+					line.setProcessed(false);
+					if (line.save(get_TrxName()))
+						count++;
+		 		}
 		}
+		
+		
 		if (fromLines.length != count)
 			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
+		
 		return count;
 	}	//	copyLinesFrom
 	
+	
+	
+	public int copyProductsFrom (MFTACreditDefinition otherCreditDefinition, boolean counter, boolean setOrder)
+	{
+		MFTAProductListApproved listProduct [] = otherCreditDefinition.getProductLines(true, null);
+		for (MFTAProductListApproved mftaProductListApproved : listProduct)
+		{
+			/*MFTAProductListApproved product = new MFTAProductListApproved(getCtx(), 0, get_TrxName());
+			
+			if(counter)
+		 		PO.copyValues(mftaProductListApproved, product, getAD_Client_ID(), getAD_Org_ID());
+		 	else
+		 		PO.copyValues(mftaProductListApproved, product, product.getAD_Client_ID(), product.getAD_Org_ID());
+
+		 	product.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+		 
+		 	//
+			product.setProcessed(false);
+			//if (
+			product.saveEx();
+			//)*/
+			
+			MFTAProductListApproved product = new MFTAProductListApproved(getCtx(), 0, get_TrxName());
+			product.set_ValueOfColumn("AD_Client_ID", otherCreditDefinition.getAD_Client_ID());
+			product.set_ValueOfColumn("AD_Org_ID", otherCreditDefinition.getAD_Org_ID());
+			product.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+			product.setM_Product_ID(mftaProductListApproved.get_ValueAsInt("M_Product_ID"));
+			if(mftaProductListApproved.get_ValueAsInt("Substitute_ID") > 0)
+				product.setSubstitute_ID(mftaProductListApproved.get_ValueAsInt("Substitute_ID"));
+			else
+				product.setSubstitute_ID(0);
+			
+			product.setProcessed(false);
+			product.setIsActive(true);
+			product.setApprovedQty(BigDecimal.valueOf( mftaProductListApproved.get_ValueAsInt("ApprovedQty")));
+			
+			product.saveEx();
+			/*
+			MAttributeSetInstance asi = new MAttributeSetInstance(ctx, 0, trxName);
+			asi.setClientOrg(product.getAD_Client_ID(), 0);
+			asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
+			// Create new Lot, Serial# and Guarantee Date
+			if (asi.getM_AttributeSet_ID() > 0)
+			{
+				asi.getLot(true, product.get_ID());
+				asi.getSerNo(true);
+				asi.getGuaranteeDate(true);
+			}
+			//
+			asi.saveEx();
+			return asi;*/
+				countProduct++;
+
+		}
+		
+		if (listProduct.length != countProduct)
+			log.log(Level.SEVERE, "Product Approved difference - From=" + listProduct.length + " <> Saved=" + countProduct);
+		
+		return countProduct;
+	}	//	copyLinesFrom
+
+	public void setCountProduct(int countProduct){
+		this.countProduct = countProduct;
+	}
+	
+	public int getCountProduct(){
+		return countProduct;
+	}
 	/**
 	 * Get Product List Approved
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/01/2014, 09:59:29

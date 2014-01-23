@@ -76,8 +76,9 @@ public class CopyFromCreditDefinition extends SvrProcess
 	
 		//
 		int no = to.copyLinesFrom (from, false, false);
+		int product = to.copyProductsFrom (from, false, false);
 		//
-		return "@Copied@=" + no;
+		return "@Lines@ @Copied@=" + no + "@Products@ @Copied@="+product;
 	}
 
 }
