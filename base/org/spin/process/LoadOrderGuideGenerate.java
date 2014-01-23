@@ -49,7 +49,7 @@ import org.spin.model.MFTAVehicleType;
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class FarmingGuideGenerate extends SvrProcess {
+public class LoadOrderGuideGenerate extends SvrProcess {
 
 	/**	Organization				*/
 	private int 		p_AD_Org_ID				= 0;
@@ -151,8 +151,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 		m_Re_EstimatedQty = m_Farming.getRe_EstimatedQty();
 		if(m_Re_EstimatedQty == null)
 			m_Re_EstimatedQty = Env.ZERO;
-		if(m_Re_EstimatedQty.compareTo(m_Qty) >= 0)
-			m_Re_EstimatedQty = m_Re_EstimatedQty.subtract(m_Qty);
+		m_Re_EstimatedQty = m_Re_EstimatedQty.subtract(m_Qty);
 		
 		m_Diff_Re_EstimatedQty = Env.ZERO;
 		
