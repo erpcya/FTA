@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Delivered Quantity" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="81c107fa-d7f7-488f-bd46-8bee95a707b3">
-	<property name="ireport.zoom" value="1.9487171000000014"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="3.1384283767210035"/>
+	<property name="ireport.x" value="785"/>
+	<property name="ireport.y" value="50"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
 	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
@@ -17,24 +17,24 @@
 	<parameter name="DocStatus" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, lot.Name PlantingCycle, ft.DateDoc, SUM(il.QtyInvoiced) QtyInvoiced,
-COALESCE(CASE WHEN il.M_Product_ID IS NOT NULL THEN pr.Name WHEN il.C_Charge_ID IS NOT NULL THEN cr.Name ELSE il.Description END || '(' || ROUND(cdl.Qty, 2) || ' ' || uom.UomSymbol || ')', '--') Description
-FROM FTA_RV_DocumentFact ft
-INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = ft.FTA_CreditDefinition_ID)
-INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinitionLine_ID = ft.FTA_CreditDefinitionLine_ID)
+pr.Name ||  '(' || ROUND(pa.ApprovedQty*fc.ApprovedQty, 2) || ' ' || uom.UomSymbol || ')' Description
+FROM FTA_CreditDefinition cd
 INNER JOIN M_Lot lot ON(lot.M_Lot_ID = cd.PlantingCycle_ID)
-INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = ft.Record_ID)
-INNER JOIN C_UOM uom ON(uom.C_UOM_ID = il.C_UOM_ID)
+INNER JOIN FTA_ProductListApproved pa ON(pa.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID)
+INNER JOIN M_Product pr ON(pa.M_Product_ID = pr.M_Product_ID)
+INNER JOIN FTA_RV_DocumentFact ft ON(ft.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID)
+INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = ft.Record_ID AND (il.M_Product_ID = pa.M_Product_ID OR il.M_Product_ID = pa.Substitute_ID))
+INNER JOIN C_UOM uom ON(uom.C_UOM_ID = pr.C_UOM_ID)
 INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = ft.C_BPartner_ID)
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = ft.FTA_FarmerCredit_ID)
-LEFT JOIN M_Product pr ON(il.M_Product_ID = pr.M_Product_ID)
-LEFT JOIN C_Charge cr ON(cr.C_Charge_ID = il.C_Charge_ID)
 WHERE (ft.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
 AND (ft.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
 AND (ft.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 AND (ft.DateDoc >= $P{DateDoc1} /*OR  IS NULL*/)
 AND (ft.DateDoc <= $P{DateDoc2} /*OR  IS NULL*/)
-GROUP BY cp.TaxID, cp.Name, fc.DocumentNo, cd.DocumentNo, lot.Name, ft.DateDoc, il.M_Product_ID, il.C_Charge_ID, il.Description, pr.Name, cr.Name, cdl.Qty, uom.UomSymbol
-ORDER BY il.M_Product_ID]]>
+GROUP BY cp.TaxID, cp.Name, fc.DocumentNo, cd.DocumentNo, lot.Name, ft.DateDoc, il.M_Product_ID, il.C_Charge_ID, il.Description, pr.Name, pa.ApprovedQty, uom.UomSymbol, fc.ApprovedQty
+HAVING(SUM(il.QtyInvoiced) > 0)
+ORDER BY ft.DateDoc]]>
 	</queryString>
 	<field name="taxid" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
@@ -48,7 +48,7 @@ ORDER BY il.M_Product_ID]]>
 		<band/>
 	</background>
 	<title>
-		<band height="76">
+		<band height="69">
 			<staticText>
 				<reportElement x="279" y="0" width="195" height="20" uuid="d7351f45-5e38-4951-b975-9b315bc3793b"/>
 				<textElement textAlignment="Center">
@@ -71,28 +71,28 @@ ORDER BY il.M_Product_ID]]>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="646" y="15" width="41" height="12" uuid="a901b44c-ca94-4a67-8189-8624080d44dd"/>
+				<reportElement x="646" y="11" width="41" height="12" uuid="a901b44c-ca94-4a67-8189-8624080d44dd"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Hora:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="646" y="30" width="41" height="12" uuid="1a8eb91d-0f94-4393-b490-bdc38f4ccfe4"/>
+				<reportElement x="646" y="22" width="41" height="12" uuid="1a8eb91d-0f94-4393-b490-bdc38f4ccfe4"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Paginas:]]></text>
 			</staticText>
 			<textField evaluationTime="Report">
-				<reportElement x="691" y="30" width="61" height="12" uuid="dd21f6c4-3996-4e2c-8ccc-93cd6c7a25dc"/>
+				<reportElement x="691" y="22" width="61" height="12" uuid="dd21f6c4-3996-4e2c-8ccc-93cd6c7a25dc"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="h.mm.ss a">
-				<reportElement x="691" y="15" width="61" height="12" uuid="5bb9f0b8-5c6e-4231-8db9-e232bb6175b6"/>
+				<reportElement x="691" y="11" width="61" height="12" uuid="5bb9f0b8-5c6e-4231-8db9-e232bb6175b6"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
@@ -106,42 +106,42 @@ ORDER BY il.M_Product_ID]]>
 				<textFieldExpression><![CDATA[($P{C_BPartner_ID} ==null ? "" :"Socio de Negocio = " + $F{taxid} + " - " + $F{name})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="54" width="65" height="12" uuid="4ada7b66-3841-4776-8743-ea24b96b6beb"/>
+				<reportElement x="0" y="45" width="65" height="12" uuid="4ada7b66-3841-4776-8743-ea24b96b6beb"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<text><![CDATA[F. Documento >=]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="65" y="54" width="42" height="12" uuid="145ff9f8-3d81-488e-9168-3e3a55db89da"/>
+				<reportElement x="65" y="45" width="42" height="12" uuid="145ff9f8-3d81-488e-9168-3e3a55db89da"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{DateDoc1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="120" y="54" width="42" height="12" uuid="eff648ca-9072-42b6-afe6-34554c6fd33a"/>
+				<reportElement x="120" y="45" width="42" height="12" uuid="eff648ca-9072-42b6-afe6-34554c6fd33a"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{DateDoc2}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="107" y="54" width="13" height="12" uuid="ab16b0b4-795b-4189-975d-2c1f8d032f43"/>
+				<reportElement x="107" y="45" width="13" height="12" uuid="ab16b0b4-795b-4189-975d-2c1f8d032f43"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<text><![CDATA[<=]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="27" width="266" height="12" uuid="2dfa44fa-87fc-4791-953b-58ab596e040f"/>
+				<reportElement x="0" y="23" width="266" height="12" uuid="2dfa44fa-87fc-4791-953b-58ab596e040f"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($P{FTA_CreditDefinition_ID} ==null ? "" :"Definición de Crédito = " + $F{creditdefiniton} + " - " + $F{plantingcycle})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="42" width="266" height="12" uuid="4aaa52b2-c108-42e7-a730-2692d519fd45"/>
+				<reportElement x="0" y="34" width="266" height="12" uuid="4aaa52b2-c108-42e7-a730-2692d519fd45"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
@@ -156,7 +156,7 @@ ORDER BY il.M_Product_ID]]>
 				<crosstabHeaderCell>
 					<cellContents>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="46" height="40" uuid="59499bc4-56af-4de1-9381-0b98b9f9e342"/>
+							<reportElement style="Crosstab Data Text" x="0" y="28" width="46" height="12" uuid="59499bc4-56af-4de1-9381-0b98b9f9e342"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
