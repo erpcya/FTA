@@ -19,6 +19,7 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 
 /**
@@ -91,10 +92,40 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 	
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
-		super.beforeSave(newRecord);
+		boolean ok = super.beforeSave(newRecord);
+		if(!newRecord
+				&& (is_ValueChanged("M_Product_Category_ID")
+						|| is_ValueChanged("M_Product_ID")
+						|| is_ValueChanged("C_ChargeType_ID")
+						|| is_ValueChanged("C_Charge_ID")
+						|| is_ValueChanged("IsDistributionLine")
+						|| is_ValueChanged("IsExceedCreditLimit")
+						|| is_ValueChanged("FTA_CDL_Category_ID"))){
+			int reference_ID = DB.getSQLValue(get_TrxName(), "SELECT ft.FTA_Fact_ID " +
+					"FROM FTA_Fact ft " +
+					"WHERE ft.FTA_CreditDefinitionLine_ID = ?", getFTA_CreditDefinitionLine_ID());
+			if(reference_ID != -1)
+				throw new AdempiereException("@SQLErrorReferenced@");
+		}
 		if(isDistributionLine())
 			setIsExceedCreditLimit(true);
-		return true;
+		return ok;
+	}
+	
+	@Override
+	protected boolean beforeDelete() {
+		boolean ok = super.beforeDelete();
+		MFTACDLCategory category = MFTACDLCategory.get(getCtx(), getFTA_CDL_Category_ID());
+		if(category.getValue().equals(MFTACDLCategory.T_CATEGORY)
+				|| category.getValue().equals(MFTACDLCategory.T_DISTRIBUTION))
+			throw new AdempiereException("@DeleteError@");
+		//	Valid Reference
+		int reference_ID = DB.getSQLValue(get_TrxName(), "SELECT ft.FTA_Fact_ID " +
+				"FROM FTA_Fact ft " +
+				"WHERE ft.FTA_CreditDefinitionLine_ID = ?", getFTA_CreditDefinitionLine_ID());
+		if(reference_ID != -1)
+			throw new AdempiereException("@SQLErrorReferenced@");
+		return ok;
 	}
 	
 	@Override
@@ -102,7 +133,7 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 		super.afterSave(newRecord, success);
 		return updateHeader();
 	}
-
+	
 	/**
      *  Add to Description
      *  @param description text

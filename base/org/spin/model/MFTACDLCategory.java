@@ -19,6 +19,7 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
 
@@ -92,4 +93,21 @@ public class MFTACDLCategory extends X_FTA_CDL_Category {
 		}
 	}
 
+	/**
+	 * Get CDL Category from ID
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/01/2014, 11:29:18
+	 * @param ctx
+	 * @param FTA_CDL_Category_ID
+	 * @return
+	 * @return MFTACDLCategory
+	 */
+	public static MFTACDLCategory get (Properties ctx, int FTA_CDL_Category_ID)
+	{
+		final String whereClause = "FTA_CDL_Category_ID=?";
+		MFTACDLCategory retValue = new Query(ctx,I_FTA_CDL_Category.Table_Name,whereClause,null)
+		.setParameters(FTA_CDL_Category_ID)
+		.firstOnly();
+		return retValue;
+	}	//	get
+	
 }
