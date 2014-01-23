@@ -18,7 +18,6 @@ package org.spin.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -27,10 +26,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.model.MDocType;
-import org.compiere.model.MInOutLine;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
 import org.compiere.model.ModelValidationEngine;
@@ -81,6 +76,8 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 
 	/** Lines					*/
 	private MFTACreditDefinitionLine[]		m_lines = null;
+	/**	Product List Approved	*/
+	private MFTAProductListApproved[]		m_PLAlines = null;
 	/** Credit Lines			*/
 	private MFTAFarmerCredit[]				m_credits = null;
 	/** Credit Act			*/
@@ -483,8 +480,16 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
         		"WHERE FTA_CreditDefinition_ID=?",
         		new Object[]{processed, get_ID()},
         		get_TrxName());
+        log.fine("setProcessed - Credit Definition Line" + processed + " - Lines=" + noLine);
+        //	Product List Approved
+        noLine = DB.executeUpdateEx("UPDATE FTA_ProductListApproved " +
+        		"SET Processed=? " +
+        		"WHERE FTA_CreditDefinition_ID=?",
+        		new Object[]{processed, get_ID()},
+        		get_TrxName());
+        
         m_lines = null;
-        log.fine("setProcessed - " + processed + " - Lines=" + noLine);
+        log.fine("setProcessed - Product List Approved" + processed + " - Lines=" + noLine);
     }   //  setProcessed
 
     /**
@@ -711,13 +716,11 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	
 	@Override
 	public int getDoc_User_ID() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int getC_Currency_ID() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
@@ -778,6 +781,31 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
 		return count;
 	}	//	copyLinesFrom
+	
+	/**
+	 * Get Product List Approved
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/01/2014, 09:59:29
+	 * @param requery
+	 * @param whereClause
+	 * @return
+	 * @return MFTAProductListApproved[]
+	 */
+	public MFTAProductListApproved[] getLines (boolean requery, String whereClause)
+	{
+		if (m_PLAlines != null && !requery)
+		{
+			set_TrxName(m_PLAlines, get_TrxName());
+			return m_PLAlines;
+		}
+		List<MFTAProductListApproved> list = new Query(getCtx(), MFTAProductListApproved.Table_Name, "FTA_CreditDefinition_ID=?"
+				+ (whereClause != null && whereClause.length() != 0? " AND " + whereClause: ""), get_TrxName())
+		.setParameters(getFTA_CreditDefinition_ID())
+		.list();
+
+		m_PLAlines = new MFTAProductListApproved[list.size ()];
+		list.toArray (m_PLAlines);
+		return m_PLAlines;
+	}	//	getLines
 
 
 }
