@@ -77,7 +77,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	/** Lines					*/
 	private MFTACreditDefinitionLine[]		m_lines = null;
 	/**	Product List Approved	*/
-	private MFTAProductListApproved[]		m_PLAlines = null;
+	private MFTAProductListApproved[]		m_PLA_Lines = null;
 	/** Credit Lines			*/
 	private MFTAFarmerCredit[]				m_credits = null;
 	/** Credit Act			*/
@@ -451,9 +451,9 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if (m_processMsg != null)
 			return false;
 
-		m_processMsg = validReferenceBoE();
-		if(m_processMsg != null)
-			return false;
+		//m_processMsg = validReferenceBoE();
+		//if(m_processMsg != null)
+			//return false;
 		
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
@@ -790,21 +790,21 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	 * @return
 	 * @return MFTAProductListApproved[]
 	 */
-	public MFTAProductListApproved[] getLines (boolean requery, String whereClause)
+	public MFTAProductListApproved[] getProductLines (boolean requery, String whereClause)
 	{
-		if (m_PLAlines != null && !requery)
+		if (m_PLA_Lines != null && !requery)
 		{
-			set_TrxName(m_PLAlines, get_TrxName());
-			return m_PLAlines;
+			set_TrxName(m_PLA_Lines, get_TrxName());
+			return m_PLA_Lines;
 		}
 		List<MFTAProductListApproved> list = new Query(getCtx(), MFTAProductListApproved.Table_Name, "FTA_CreditDefinition_ID=?"
 				+ (whereClause != null && whereClause.length() != 0? " AND " + whereClause: ""), get_TrxName())
 		.setParameters(getFTA_CreditDefinition_ID())
 		.list();
 
-		m_PLAlines = new MFTAProductListApproved[list.size ()];
-		list.toArray (m_PLAlines);
-		return m_PLAlines;
+		m_PLA_Lines = new MFTAProductListApproved[list.size ()];
+		list.toArray (m_PLA_Lines);
+		return m_PLA_Lines;
 	}	//	getLines
 
 
