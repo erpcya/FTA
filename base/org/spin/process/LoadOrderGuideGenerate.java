@@ -18,38 +18,31 @@ package org.spin.process;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.compiere.model.MClientInfo;
-import org.compiere.model.MProcess;
 import org.compiere.model.MProduct;
-import org.compiere.model.MQuery;
-import org.compiere.model.MTable;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
-import org.compiere.model.PrintInfo;
-import org.compiere.model.X_AD_ReportView;
-import org.compiere.print.MPrintFormat;
-import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
-import org.compiere.util.Msg;
-import org.spin.model.MFTAFarming;
+import org.spin.model.I_FTA_LoadOrder;
+import org.spin.model.I_FTA_RecordWeight;
+import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTAMobilizationGuide;
-import org.spin.model.MFTAVehicleType;
+import org.spin.model.MFTARecordWeight;
+import org.spin.model.X_FTA_RecordWeight;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
 public class LoadOrderGuideGenerate extends SvrProcess {
+
+	/**	Organization 				*/
+	private int 		p_AD_Org_ID			= 0;
 
 	/**	Organization Transaction	*/
 	private int 		p_AD_OrgTrx_ID			= 0;
@@ -60,7 +53,7 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 	/**	Load Order					*/
 	private int 		p_FTA_LoadOrder_ID		= 0;
 	/**	Record Weight				*/
-	private int 		p_FTA_RecordWeight_ID		= 0;
+	private int 		p_FTA_RecordWeight_ID	= 0;
 	
 	/**	Document Type Target		*/
 	private int 		p_C_DocTypeTarget_ID	= 0;
@@ -68,275 +61,101 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 	/**	Document Date				*/
 	private Timestamp 	p_DateDoc 				= null;
 	
-	/**	Quantity To Deliver			*/
-	private BigDecimal	p_QtyToDeliver			= null;
-	
-	/**	Is Printed					*/
-	private boolean		p_IsPrinted				= false;
-	
-	/**	Guides Generates			*/
-	List <MFTAMobilizationGuide> m_Guides 		= null;
-	
 	@Override
 	protected void prepare() {
 		for (ProcessInfoParameter para:getParameter()){
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
+			else if (name.equals("AD_Org_ID"))
+				p_AD_Org_ID = para.getParameterAsInt();
 			else if (name.equals("AD_OrgTrx_ID"))
 				p_AD_OrgTrx_ID = para.getParameterAsInt();
 			else if (name.equals("M_Warehouse_ID"))
 				p_M_Warehouse_ID = para.getParameterAsInt();
 			else if (name.equals("FTA_LoadOrder_ID"))
 				p_FTA_LoadOrder_ID = para.getParameterAsInt();
+			else if (name.equals("FTA_RecordWeight_ID"))
+				p_FTA_RecordWeight_ID = para.getParameterAsInt();
 			else if (name.equals("C_DocTypeTarget_ID"))
 				p_C_DocTypeTarget_ID = para.getParameterAsInt();
 			else if (name.equals("DateDoc"))
 				p_DateDoc = (Timestamp) para.getParameter();
-			else if (name.equals("QtyToDeliver"))
-				p_QtyToDeliver = (BigDecimal)para.getParameter();
-			else if (name.equals("IsPrinted"))
-				p_IsPrinted = para.getParameterAsBoolean();
 		}
 		//	Get Record Identifier
-		p_FTA_Farming_ID = getRecord_ID();
+		if(getRecord_ID() != 0){
+			if(getTable_ID() == I_FTA_RecordWeight.Table_ID)
+				p_FTA_RecordWeight_ID = getRecord_ID();
+			else if(getTable_ID() == I_FTA_LoadOrder.Table_ID)
+				p_FTA_LoadOrder_ID = getRecord_ID();
+		}
+		//	Set Org
+		if(p_AD_Org_ID == 0)
+			p_AD_Org_ID = p_AD_OrgTrx_ID;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.compiere.process.SvrProcess#doIt()
-	 */
+	
 	@Override
 	protected String doIt() throws Exception {
-		//	Get Farming
-		MFTAFarming m_Farming = new MFTAFarming(getCtx(), p_FTA_Farming_ID, get_TrxName());
-		//	Valid Credit
-		if(m_Farming.getFTA_FarmerCredit_ID() == 0)
-			throw new AdempiereUserError("@FTA_FarmerCredit_ID@ @NotFound@");
-		//	Valid Purchase Order
-		if(m_Farming.getC_OrderLine_ID() == 0)
-			throw new AdempiereUserError("@C_OrderLine_ID@ @NotFound@");
-		//	Valid Owner
-		if(p_Owner_ID == 0)
-			throw new AdempiereUserError("@Owner_ID@ @NotFound@");
-		
-		//	Get Vehicle Type
-		MFTAVehicleType m_VehicleType = new MFTAVehicleType(getCtx(), p_FTA_VehicleType_ID, get_TrxName());
-		//	Declare Objects
-		BigDecimal m_MaxReceipt;
-		BigDecimal m_Qty;
-		BigDecimal m_QtyDelivered;
-		BigDecimal m_QtyToDeliver;
-		BigDecimal m_Farming_MaxQty;
-		BigDecimal m_MaxQtyToDeliver;
-		BigDecimal m_Re_EstimatedQty;
-		BigDecimal m_Diff_Re_EstimatedQty;
-		
-		//	Get Estimated Quantity
-		m_Qty = m_Farming.getQty();
-		log.fine("Qty=" + m_Qty);
-		//	Get Max Quantity
-		m_Farming_MaxQty = m_Farming.getMaxQty();
-		log.fine("Farming MaxQty=" + m_Farming_MaxQty);
-		
-		//	Get Re-Estimated Quantity
-		m_Re_EstimatedQty = m_Farming.getRe_EstimatedQty();
-		if(m_Re_EstimatedQty == null)
-			m_Re_EstimatedQty = Env.ZERO;
-		m_Re_EstimatedQty = m_Re_EstimatedQty.subtract(m_Qty);
-		
-		m_Diff_Re_EstimatedQty = Env.ZERO;
-		
-		if(m_Farming_MaxQty == null)
-			m_Farming_MaxQty = Env.ZERO;
-		
-		//	Valid Quantity
-		if(m_Qty == null
-				|| m_Qty.equals(Env.ZERO))
-			throw new AdempiereUserError("@Qty@ = @0@");
-		
-		
-		MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
-		if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
-			return "@C_UOM_Weight_ID@ @NotFound@";
-		
-		//	Get Category
-		MProduct product = MProduct.get(getCtx(), m_Farming.getCategory_ID());
-		//	Rate Convert
-		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
-				product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
-		MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
-		//	Set Precision
-		int precision = uom.getStdPrecision();
-		//	Valid Conversion
-		if(rate == null)
-			throw new AdempiereUserError("@NoUOMConversion@");
-		
-		//	Max Warehouse Receipt
-		m_MaxReceipt = DB.getSQLValueBD(get_TrxName(), "SELECT rc.Qty - SUM(COALESCE(mg.QtyToDeliver, 0)) " +
-				"FROM FTA_ReceptionCapacity rc " +
-				"LEFT JOIN FTA_MobilizationGuide mg ON(mg.M_Warehouse_ID = rc.M_Warehouse_ID) " +
-				"WHERE rc.AD_Org_ID = ? " +
-				"AND rc.M_Warehouse_ID = ? " +
-				"AND rc.ValidFrom <= ? " +
-				"AND rc.IsActive = 'Y' " +
-				"AND mg.DateDoc >= rc.ValidFrom " +
-				"AND (mg.DocStatus IN('CO', 'CL') OR mg.DocStatus IS NULL) " +
-				"GROUP BY rc.Qty, rc.ValidFrom " +
-				"ORDER BY rc.ValidFrom DESC", p_AD_OrgTrx_ID, p_M_Warehouse_ID, p_DateDoc);
-		
-		log.fine("MaxReceipt=" + m_MaxReceipt);
-		
-		if(m_MaxReceipt != null
-				&& m_MaxReceipt.compareTo(Env.ZERO) <= 0)
-			throw new AdempiereUserError("@FTA_ReceptionCapacity_ID@ <= @0@");
-		//	Convert to UOM of Product
-		
-		if(m_MaxReceipt != null)
-			m_MaxReceipt = m_MaxReceipt.multiply(rate);
-		
-		//	Quantity Delivered
-		m_QtyDelivered = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(mg.QtyToDeliver) " +
-				"FROM FTA_MobilizationGuide mg " +
-				"WHERE mg.FTA_Farming_ID = ?" +
-				"AND mg.DocStatus IN('CO', 'CL') ", 
-				p_FTA_Farming_ID);
-		
-		log.fine("WeightDelivered=" + m_QtyDelivered);
-		
-		//	Valid Quantity Delivered
-		if(m_QtyDelivered == null)
-			m_QtyDelivered = Env.ZERO;
-		
-		//	Max Quantity to Generate
-		m_MaxQtyToDeliver = m_Qty.add(m_Re_EstimatedQty)
-									.subtract(m_QtyDelivered);
-		
-		log.fine("MaxWeight=" + m_MaxQtyToDeliver);
-		
-		if(m_MaxQtyToDeliver.compareTo(Env.ZERO) <= 0)
-			throw new AdempiereUserError("@Qty@ <= @QtyToDeliver@");
-		
-		if(p_MaxQty <= 0)
-			throw new AdempiereUserError("@MaxQty@ <= @0@");
-		
-		//	Valid the Minimum to Generate
-		if(m_MaxReceipt != null
-				&& m_MaxReceipt.compareTo(m_MaxQtyToDeliver) <= 0)
-			m_MaxQtyToDeliver = m_MaxReceipt;
-		
-		//	Set Quantity To Deliver
-		if(p_QtyToDeliver != null
-				&& p_QtyToDeliver.compareTo(Env.ZERO) > 0){
-			m_QtyToDeliver = p_QtyToDeliver;
-			//	Valid Exceed Load Capacity
-			if(m_QtyToDeliver.compareTo(m_VehicleType.getLoadCapacity()) > 0)
-				throw new AdempiereUserError("@QtyToDeliver@ > @LoadCapacity@");
+		MFTARecordWeight recordWeight = null;
+		if(p_FTA_RecordWeight_ID != 0){
+			recordWeight = new MFTARecordWeight(getCtx(), p_FTA_RecordWeight_ID, get_TrxName());
 		}
-		else
-			m_QtyToDeliver = m_VehicleType.getLoadCapacity();
+		//	Get Load Order
+		if(recordWeight != null)
+			p_FTA_LoadOrder_ID = recordWeight.getFTA_LoadOrder_ID();
+		//	Valid Load Order
+		if(p_FTA_LoadOrder_ID == 0)
+			throw new AdempiereUserError("@FTA_LoadOrder_ID@ @NotFound@");
 		
-		//	Convert
-		m_QtyToDeliver = m_QtyToDeliver.multiply(rate);
+		//	Instance Load Order
+		MFTALoadOrder lOrder = new MFTALoadOrder(getCtx(), p_FTA_LoadOrder_ID, get_TrxName());
 		
-		log.fine("New MaxWeight=" + m_MaxQtyToDeliver);
-		
-		//	Weight Generated
-		BigDecimal m_WeightGenerated = Env.ZERO;
-		//	Quantity of Guides to Generate
-		int count = 0;
-		m_Guides = new ArrayList<MFTAMobilizationGuide>();
-		// Generate
-		while(m_MaxQtyToDeliver.compareTo(m_WeightGenerated) >= 0
-				&& p_MaxQty > count){
-
-			//	Valid Remainder
-			if(m_QtyToDeliver.add(m_WeightGenerated).compareTo(m_MaxQtyToDeliver) >= 0)
-				m_QtyToDeliver = m_MaxQtyToDeliver.subtract(m_WeightGenerated);
-			if(m_QtyToDeliver.compareTo(Env.ZERO) <= 0)
-				break;
-			
-			//	Calculate Re-EstimatedQty
-			m_Diff_Re_EstimatedQty = m_Farming_MaxQty
-					.subtract(m_QtyDelivered)
-					.subtract(m_WeightGenerated.add(m_QtyToDeliver));
-			
-			if(!m_Farming_MaxQty.equals(Env.ZERO) 
-					&& m_Diff_Re_EstimatedQty.compareTo(Env.ZERO) < 0)
-				break;
-			
-			MFTAMobilizationGuide m_MobilizationGuide = new MFTAMobilizationGuide(getCtx(), 0, get_TrxName());
-			m_MobilizationGuide.setAD_Org_ID(p_AD_OrgTrx_ID);
-			m_MobilizationGuide.setC_DocType_ID(p_C_DocTypeTarget_ID);
-			m_MobilizationGuide.setDateDoc(p_DateDoc);
-			m_MobilizationGuide.setFTA_Farming_ID(p_FTA_Farming_ID);
-			m_MobilizationGuide.setFTA_VehicleType_ID(p_FTA_VehicleType_ID);
+		//	Create Guide
+		MFTAMobilizationGuide m_MobilizationGuide = new MFTAMobilizationGuide(getCtx(), 0, get_TrxName());
+		m_MobilizationGuide.setAD_Org_ID(p_AD_Org_ID);
+		m_MobilizationGuide.setAD_OrgTrx_ID(p_AD_OrgTrx_ID);
+		m_MobilizationGuide.setC_DocType_ID(p_C_DocTypeTarget_ID);
+		m_MobilizationGuide.setDateDoc(p_DateDoc);
+		m_MobilizationGuide.setFTA_VehicleType_ID(lOrder.getFTA_VehicleType_ID());
+		//	Set Warehouse
+		if(p_M_Warehouse_ID != 0)
 			m_MobilizationGuide.setM_Warehouse_ID(p_M_Warehouse_ID);
-			m_MobilizationGuide.setQtyToDeliver(m_QtyToDeliver.setScale(precision, BigDecimal.ROUND_HALF_UP));
-			m_MobilizationGuide.setOwner_ID(p_Owner_ID);
-			m_MobilizationGuide.saveEx();
-			//	Complete Document
-			m_MobilizationGuide.processIt(DocAction.ACTION_Complete);
-			m_MobilizationGuide.saveEx();
-			m_Guides.add(m_MobilizationGuide);
-			//	Add Weight
-			m_WeightGenerated = m_WeightGenerated.add(m_QtyToDeliver);
-			count ++;
-		}
-		
-		BigDecimal m_ToptoDeliver = m_QtyToDeliver.multiply(new BigDecimal(p_MaxQty));
-		//	Diff
-		if(m_ToptoDeliver.compareTo(m_Qty) < 0)
-			m_Qty = m_ToptoDeliver;
-		
-		//	Valid Max Qty
-		if(!m_Farming_MaxQty.equals(Env.ZERO) 
-				&& m_Diff_Re_EstimatedQty.compareTo(Env.ZERO) < 0){
-			String msg = "@Created@ = " + count + " [@QtyDelivered@ > @MaxQty@ @MustGenerate@ @a@ @Re_EstimatedQty@ @of@ = " 
-					+ m_Qty.subtract(m_Farming_MaxQty).doubleValue() + "]";
-			//	Log
-			addLog (0, null, null, msg);
-			return msg;
-		}
-		
-		//	Print Guide
-		if(m_Guides != null
-				&& !m_Guides.isEmpty()
-				&& p_IsPrinted) {
-			//	Get Table
-			int m_AD_Process_ID = MProcess.getProcess_ID("FTA_RV_MobilizationGuide Mobilization", get_TrxName());
-			MProcess pr = MProcess.get(getCtx(), m_AD_Process_ID);
-			if(pr != null){
-				X_AD_ReportView rv = new X_AD_ReportView(getCtx(), pr.getAD_ReportView_ID(), get_TrxName());
-				if(rv != null){
-					MTable table = MTable.get(getCtx(), rv.getAD_Table_ID());
-					int m_AD_Table_ID = table.getAD_Table_ID();
-					String tableName = table.getTableName();
-					boolean directPrint = !Ini.isPropertyBool(Ini.P_PRINTPREVIEW);
-					MPrintFormat f = MPrintFormat.get(getCtx(), rv.getAD_ReportView_ID(), m_AD_Table_ID);
-					//	for all Mobilization Guide
-					for (MFTAMobilizationGuide guide : m_Guides)
-					{	
-						if(f != null) {
-							MQuery q = new MQuery(tableName);
-							q.addRestriction("FTA_MobilizationGuide_ID", "=", guide.getFTA_MobilizationGuide_ID());
-							PrintInfo i = new PrintInfo(Msg.translate(getCtx(), "FTA_MobilizationGuide_ID"), m_AD_Table_ID, guide.getFTA_MobilizationGuide_ID());
-							i.setAD_Table_ID(m_AD_Table_ID);
-							ReportEngine re = new ReportEngine(Env.getCtx(), f, q, i, get_TrxName());
-							//	Print
-							if(re != null){
-								//	Is Direct Print
-								if(directPrint)
-									re.print();
-								else
-									ReportCtl.preview(re);
-							}	
-						} else 
-							log.warning(Msg.parseTranslation(getCtx(), "@NoDocPrintFormat@ AD_Table_ID=" + m_AD_Table_ID));
-					}	
-				}	
-			}
-		}
-		
-		return "@Created@ = " + count;
+		//	If is Record Weight
+		if(recordWeight != null
+				&& recordWeight.getOperationType()
+						.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryBulkMaterial)){
+			MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
+			if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
+				return "@C_UOM_Weight_ID@ @NotFound@";
+			//	Get Category
+			MProduct product = MProduct.get(getCtx(), recordWeight.getM_Product_ID());
+			//	Rate Convert
+			BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+					product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
+			MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
+			//	Set Precision
+			int precision = uom.getStdPrecision();
+			//	Valid Conversion
+			if(rate == null)
+				throw new AdempiereUserError("@NoUOMConversion@");
+			
+			//	Get Weight
+			m_MobilizationGuide.setQtyToDeliver(recordWeight.getNetWeight()
+					.multiply(rate)
+					.setScale(precision, BigDecimal.ROUND_HALF_UP));
+		} else
+			m_MobilizationGuide.setQtyToDeliver(lOrder.getWeight());
+		//	
+		m_MobilizationGuide.saveEx();
+		//	Complete Document
+		m_MobilizationGuide.processIt(DocAction.ACTION_Complete);
+		m_MobilizationGuide.saveEx();
+		//	Message
+		String msg = m_MobilizationGuide.getProcessMsg();
+		if(msg != null)
+			return "@Error@: " + msg;
+		//	
+		return "@FTA_MobilizationGuide_ID@ = " + m_MobilizationGuide.getDocumentNo();
 	}
 }
