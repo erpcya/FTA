@@ -69,16 +69,19 @@ public class CopyFromCreditDefinition extends SvrProcess
 		log.info("From C_Invoice_ID=" + p_FTA_CreditDefinition_ID + " to " + p_Target_CreditDefinition_ID);
 		if (p_Target_CreditDefinition_ID == 0)
 			throw new IllegalArgumentException("Target FTA_CreditDefinition_ID  == 0");
+		
 		if (p_FTA_CreditDefinition_ID == 0)
 			throw new IllegalArgumentException("Source FTA_CreditDefinition_ID  == 0");
-		MFTACreditDefinition from = new MFTACreditDefinition(getCtx(), p_FTA_CreditDefinition_ID, get_TrxName());
-		MFTACreditDefinition to = new MFTACreditDefinition(getCtx(), p_Target_CreditDefinition_ID, get_TrxName());
+		
+		MFTACreditDefinition m_FTA_CreditDefinitionFrom = new MFTACreditDefinition(getCtx(), p_FTA_CreditDefinition_ID, get_TrxName());
+		
+		MFTACreditDefinition m_FTA_CreditDefinitionTo = new MFTACreditDefinition(getCtx(), p_Target_CreditDefinition_ID, get_TrxName());
 	
 		//
-		int no = to.copyLinesFrom (from, false, false);
-		int product = to.copyProductsFrom (from, false, false);
+		int no = m_FTA_CreditDefinitionTo.copyLinesProductsFrom (m_FTA_CreditDefinitionFrom, false, false);
+		
 		//
-		return "@Lines@ @Copied@=" + no + "@Products@ @Copied@="+product;
+		return "@Line@ @Copied@= " + no + " @Product@ @Copied@= "+m_FTA_CreditDefinitionTo.getCountProduct();
 	}
 
 }
