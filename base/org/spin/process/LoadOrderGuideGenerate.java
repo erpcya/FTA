@@ -51,11 +51,16 @@ import org.spin.model.MFTAVehicleType;
  */
 public class LoadOrderGuideGenerate extends SvrProcess {
 
-	/**	Organization				*/
-	private int 		p_AD_Org_ID				= 0;
+	/**	Organization Transaction	*/
+	private int 		p_AD_OrgTrx_ID			= 0;
 	
 	/**	Warehouse					*/
 	private int 		p_M_Warehouse_ID		= 0;
+	
+	/**	Load Order					*/
+	private int 		p_FTA_LoadOrder_ID		= 0;
+	/**	Record Weight				*/
+	private int 		p_FTA_RecordWeight_ID		= 0;
 	
 	/**	Document Type Target		*/
 	private int 		p_C_DocTypeTarget_ID	= 0;
@@ -63,19 +68,9 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 	/**	Document Date				*/
 	private Timestamp 	p_DateDoc 				= null;
 	
-	/**	Vehicle Type				*/
-	private int 		p_FTA_VehicleType_ID 	= 0;
-	
-	/**	Max Quantity				*/
-	private int 		p_MaxQty				= 0;
-	
-	/**	Farming						*/
-	private int 		p_FTA_Farming_ID		= 0;
-	
 	/**	Quantity To Deliver			*/
 	private BigDecimal	p_QtyToDeliver			= null;
 	
-	private int 		p_Owner_ID					= 0;
 	/**	Is Printed					*/
 	private boolean		p_IsPrinted				= false;
 	
@@ -88,22 +83,18 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("AD_Org_ID"))
-				p_AD_Org_ID = para.getParameterAsInt();
+			else if (name.equals("AD_OrgTrx_ID"))
+				p_AD_OrgTrx_ID = para.getParameterAsInt();
 			else if (name.equals("M_Warehouse_ID"))
 				p_M_Warehouse_ID = para.getParameterAsInt();
+			else if (name.equals("FTA_LoadOrder_ID"))
+				p_FTA_LoadOrder_ID = para.getParameterAsInt();
 			else if (name.equals("C_DocTypeTarget_ID"))
 				p_C_DocTypeTarget_ID = para.getParameterAsInt();
 			else if (name.equals("DateDoc"))
 				p_DateDoc = (Timestamp) para.getParameter();
-			else if (name.equals("FTA_VehicleType_ID"))
-				p_FTA_VehicleType_ID = para.getParameterAsInt();
 			else if (name.equals("QtyToDeliver"))
 				p_QtyToDeliver = (BigDecimal)para.getParameter();
-			else if (name.equals("MaxQty"))
-				p_MaxQty = para.getParameterAsInt();
-			else if (name.equals("Owner_ID"))
-				p_Owner_ID = para.getParameterAsInt();
 			else if (name.equals("IsPrinted"))
 				p_IsPrinted = para.getParameterAsBoolean();
 		}
@@ -191,7 +182,7 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 				"AND mg.DateDoc >= rc.ValidFrom " +
 				"AND (mg.DocStatus IN('CO', 'CL') OR mg.DocStatus IS NULL) " +
 				"GROUP BY rc.Qty, rc.ValidFrom " +
-				"ORDER BY rc.ValidFrom DESC", p_AD_Org_ID, p_M_Warehouse_ID, p_DateDoc);
+				"ORDER BY rc.ValidFrom DESC", p_AD_OrgTrx_ID, p_M_Warehouse_ID, p_DateDoc);
 		
 		log.fine("MaxReceipt=" + m_MaxReceipt);
 		
@@ -274,7 +265,7 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 				break;
 			
 			MFTAMobilizationGuide m_MobilizationGuide = new MFTAMobilizationGuide(getCtx(), 0, get_TrxName());
-			m_MobilizationGuide.setAD_Org_ID(p_AD_Org_ID);
+			m_MobilizationGuide.setAD_Org_ID(p_AD_OrgTrx_ID);
 			m_MobilizationGuide.setC_DocType_ID(p_C_DocTypeTarget_ID);
 			m_MobilizationGuide.setDateDoc(p_DateDoc);
 			m_MobilizationGuide.setFTA_Farming_ID(p_FTA_Farming_ID);

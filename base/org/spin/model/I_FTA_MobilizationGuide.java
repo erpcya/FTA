@@ -63,6 +63,19 @@ public interface I_FTA_MobilizationGuide
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 

@@ -34,7 +34,7 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140123L;
+	private static final long serialVersionUID = 20140124L;
 
     /** Standard Constructor */
     public X_FTA_MobilizationGuide (Properties ctx, int FTA_MobilizationGuide_ID, String trxName)
@@ -84,6 +84,29 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_C_BPartner getC_BPartner() throws RuntimeException
     {

@@ -53,7 +53,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 
 	/**	Organization				*/
 	private int 		p_AD_Org_ID				= 0;
-	
+	/**	Organization				*/
+	private int 		p_AD_OrgTrx_ID				= 0;	
 	/**	Warehouse					*/
 	private int 		p_M_Warehouse_ID		= 0;
 	
@@ -90,6 +91,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 				;
 			else if (name.equals("AD_Org_ID"))
 				p_AD_Org_ID = para.getParameterAsInt();
+			else if (name.equals("AD_OrgTrx_ID"))
+				p_AD_OrgTrx_ID = para.getParameterAsInt();
 			else if (name.equals("M_Warehouse_ID"))
 				p_M_Warehouse_ID = para.getParameterAsInt();
 			else if (name.equals("C_DocTypeTarget_ID"))
@@ -276,6 +279,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 			
 			MFTAMobilizationGuide m_MobilizationGuide = new MFTAMobilizationGuide(getCtx(), 0, get_TrxName());
 			m_MobilizationGuide.setAD_Org_ID(p_AD_Org_ID);
+			m_MobilizationGuide.setAD_OrgTrx_ID(p_AD_OrgTrx_ID);
 			m_MobilizationGuide.setC_DocType_ID(p_C_DocTypeTarget_ID);
 			m_MobilizationGuide.setDateDoc(p_DateDoc);
 			m_MobilizationGuide.setFTA_Farming_ID(p_FTA_Farming_ID);
