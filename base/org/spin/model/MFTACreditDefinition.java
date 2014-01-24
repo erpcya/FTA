@@ -751,7 +751,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	}
 		
 	/**
-	 * Copy Lines From Credit Definition
+	 * Copy Lines and Products From Credit Definition
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 22/01/2014, 16:13:42
 	 * @param otherCreditDefinition
 	 * @param counter
@@ -759,7 +759,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	 * @return
 	 * @return int
 	 */
-	public int copyLinesFrom (MFTACreditDefinition otherCreditDefinition, boolean counter, boolean setOrder)
+	public int copyLinesProductsFrom (MFTACreditDefinition otherCreditDefinition, boolean counter, boolean setOrder)
 	{
 		MFTACreditDefinitionLine[] fromLines = otherCreditDefinition.getLines(false);
 		
@@ -768,7 +768,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		for (MFTACreditDefinitionLine mftaCreditDefinitionLine : fromLines)
 		{
 			MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
-		 	MFTACreditDefinitionLine fromLine = new MFTACreditDefinitionLine(getCtx(), mftaCreditDefinitionLine.get_ID(), get_TrxName());
 		 
 		 	MFTACDLCategory m_FTA_CDL_Category = MFTACDLCategory.get(getCtx(), mftaCreditDefinitionLine.getFTA_CDL_Category_ID());
 		 	
@@ -777,9 +776,9 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		 			continue;
 		 		}else{
 		 			if(counter)
-				 		PO.copyValues(fromLine, line, getAD_Client_ID(), getAD_Org_ID());
+				 		PO.copyValues(mftaCreditDefinitionLine, line, getAD_Client_ID(), getAD_Org_ID());
 				 	else
-				 		PO.copyValues(fromLine, line, line.getAD_Client_ID(), line.getAD_Org_ID());
+				 		PO.copyValues(mftaCreditDefinitionLine, line, line.getAD_Client_ID(), line.getAD_Org_ID());
 
 				 	line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
 				 
@@ -787,38 +786,16 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 					line.setProcessed(false);
 					if (line.save(get_TrxName()))
 						count++;
-		 		}
+		 		}		 	
 		}
-		
 		
 		if (fromLines.length != count)
 			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
-		
-		return count;
-	}	//	copyLinesFrom
-	
-	
-	
-	public int copyProductsFrom (MFTACreditDefinition otherCreditDefinition, boolean counter, boolean setOrder)
-	{
+
 		MFTAProductListApproved listProduct [] = otherCreditDefinition.getProductLines(true, null);
 		for (MFTAProductListApproved mftaProductListApproved : listProduct)
 		{
-			/*MFTAProductListApproved product = new MFTAProductListApproved(getCtx(), 0, get_TrxName());
-			
-			if(counter)
-		 		PO.copyValues(mftaProductListApproved, product, getAD_Client_ID(), getAD_Org_ID());
-		 	else
-		 		PO.copyValues(mftaProductListApproved, product, product.getAD_Client_ID(), product.getAD_Org_ID());
-
-		 	product.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
-		 
-		 	//
-			product.setProcessed(false);
-			//if (
-			product.saveEx();
-			//)*/
-			
+				
 			MFTAProductListApproved product = new MFTAProductListApproved(getCtx(), 0, get_TrxName());
 			product.set_ValueOfColumn("AD_Client_ID", otherCreditDefinition.getAD_Client_ID());
 			product.set_ValueOfColumn("AD_Org_ID", otherCreditDefinition.getAD_Org_ID());
@@ -831,33 +808,19 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 			
 			product.setProcessed(false);
 			product.setIsActive(true);
-			product.setApprovedQty(BigDecimal.valueOf( mftaProductListApproved.get_ValueAsInt("ApprovedQty")));
+			product.setApprovedQty((BigDecimal)mftaProductListApproved.get_Value("ApprovedQty"));
 			
 			product.saveEx();
-			/*
-			MAttributeSetInstance asi = new MAttributeSetInstance(ctx, 0, trxName);
-			asi.setClientOrg(product.getAD_Client_ID(), 0);
-			asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
-			// Create new Lot, Serial# and Guarantee Date
-			if (asi.getM_AttributeSet_ID() > 0)
-			{
-				asi.getLot(true, product.get_ID());
-				asi.getSerNo(true);
-				asi.getGuaranteeDate(true);
-			}
-			//
-			asi.saveEx();
-			return asi;*/
-				countProduct++;
+			countProduct++;
 
 		}
-		
+
 		if (listProduct.length != countProduct)
 			log.log(Level.SEVERE, "Product Approved difference - From=" + listProduct.length + " <> Saved=" + countProduct);
-		
-		return countProduct;
+		return count;
 	}	//	copyLinesFrom
 
+	
 	public void setCountProduct(int countProduct){
 		this.countProduct = countProduct;
 	}
