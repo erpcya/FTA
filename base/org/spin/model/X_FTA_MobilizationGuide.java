@@ -49,10 +49,8 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 			setDocStatus (null);
 // DR
 			setDocumentNo (null);
-			setFTA_Farming_ID (0);
 			setFTA_MobilizationGuide_ID (0);
 			setFTA_VehicleType_ID (0);
-			setM_Warehouse_ID (0);
 			setQtyToDeliver (Env.ZERO);
         } */
     }

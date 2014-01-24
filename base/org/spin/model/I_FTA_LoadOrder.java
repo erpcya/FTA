@@ -242,6 +242,17 @@ public interface I_FTA_LoadOrder
 	/** Get Load Order	  */
 	public int getFTA_LoadOrder_ID();
 
+    /** Column name FTA_MobilizationGuide_ID */
+    public static final String COLUMNNAME_FTA_MobilizationGuide_ID = "FTA_MobilizationGuide_ID";
+
+	/** Set Mobilization Guide	  */
+	public void setFTA_MobilizationGuide_ID (int FTA_MobilizationGuide_ID);
+
+	/** Get Mobilization Guide	  */
+	public int getFTA_MobilizationGuide_ID();
+
+	public org.spin.model.I_FTA_MobilizationGuide getFTA_MobilizationGuide() throws RuntimeException;
+
     /** Column name FTA_Vehicle_ID */
     public static final String COLUMNNAME_FTA_Vehicle_ID = "FTA_Vehicle_ID";
 
@@ -418,6 +429,15 @@ public interface I_FTA_LoadOrder
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name ShipDate */
     public static final String COLUMNNAME_ShipDate = "ShipDate";

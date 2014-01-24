@@ -417,6 +417,31 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_FTA_MobilizationGuide getFTA_MobilizationGuide() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_MobilizationGuide)MTable.get(getCtx(), org.spin.model.I_FTA_MobilizationGuide.Table_Name)
+			.getPO(getFTA_MobilizationGuide_ID(), get_TrxName());	}
+
+	/** Set Mobilization Guide.
+		@param FTA_MobilizationGuide_ID Mobilization Guide	  */
+	public void setFTA_MobilizationGuide_ID (int FTA_MobilizationGuide_ID)
+	{
+		if (FTA_MobilizationGuide_ID < 1) 
+			set_Value (COLUMNNAME_FTA_MobilizationGuide_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_MobilizationGuide_ID, Integer.valueOf(FTA_MobilizationGuide_ID));
+	}
+
+	/** Get Mobilization Guide.
+		@return Mobilization Guide	  */
+	public int getFTA_MobilizationGuide_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_MobilizationGuide_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_FTA_QualityAnalysis getFTA_QualityAnalysis() throws RuntimeException
     {
 		return (org.spin.model.I_FTA_QualityAnalysis)MTable.get(getCtx(), org.spin.model.I_FTA_QualityAnalysis.Table_Name)
@@ -803,6 +828,27 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	public boolean isProcessed () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Process Now.
+		@param Processing Process Now	  */
+	public void setProcessing (boolean Processing)
+	{
+		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
+	}
+
+	/** Get Process Now.
+		@return Process Now	  */
+	public boolean isProcessing () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processing);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
