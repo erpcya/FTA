@@ -1001,7 +1001,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					return null;
 				}
 					
-				BigDecimal m_MovementQty = (!getPayWeight().equals(Env.ZERO)?getPayWeight().multiply(rate):getNetWeight());
+				//BigDecimal m_MovementQty = (!getPayWeight().equals(Env.ZERO)?getPayWeight().multiply(rate):getNetWeight().multiply(rate));
+				BigDecimal m_MovementQty =lol[i].getQty().multiply(rate);
+				
 				//	Set Product
 				ioLine.setProduct(product);
 				//	Set Quality Analysis
