@@ -89,6 +89,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
+			else if (name.equals("FTA_Farming_ID"))
+				p_FTA_Farming_ID = para.getParameterAsInt();
 			else if (name.equals("AD_Org_ID"))
 				p_AD_Org_ID = para.getParameterAsInt();
 			else if (name.equals("AD_OrgTrx_ID"))
@@ -111,7 +113,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 				p_IsPrinted = para.getParameterAsBoolean();
 		}
 		//	Get Record Identifier
-		p_FTA_Farming_ID = getRecord_ID();
+		if(p_FTA_Farming_ID == 0)
+			p_FTA_Farming_ID = getRecord_ID();
 	}
 
 	/* (non-Javadoc)
@@ -119,6 +122,8 @@ public class FarmingGuideGenerate extends SvrProcess {
 	 */
 	@Override
 	protected String doIt() throws Exception {
+		if(p_FTA_Farming_ID == 0)
+			throw new AdempiereUserError("@FTA_Farming_ID@ @NotFound@");
 		//	Get Farming
 		MFTAFarming m_Farming = new MFTAFarming(getCtx(), p_FTA_Farming_ID, get_TrxName());
 		//	Valid Credit
