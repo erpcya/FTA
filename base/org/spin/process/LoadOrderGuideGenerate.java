@@ -27,6 +27,7 @@ import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.spin.model.I_FTA_LoadOrder;
 import org.spin.model.I_FTA_RecordWeight;
@@ -85,31 +86,45 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 		}
 		//	Get Record Identifier
 		if(getRecord_ID() != 0){
-			if(getTable_ID() == I_FTA_RecordWeight.Table_ID)
+			if(getTable_ID() == I_FTA_RecordWeight.Table_ID){
 				p_FTA_RecordWeight_ID = getRecord_ID();
+			}
 			else if(getTable_ID() == I_FTA_LoadOrder.Table_ID)
 				p_FTA_LoadOrder_ID = getRecord_ID();
 		}
-		//	Set Org
-		if(p_AD_Org_ID == 0)
-			p_AD_Org_ID = p_AD_OrgTrx_ID;
 	}
 	
 	@Override
 	protected String doIt() throws Exception {
-		MFTARecordWeight recordWeight = null;
+		MFTARecordWeight m_RecordWeight = null;
 		if(p_FTA_RecordWeight_ID != 0){
-			recordWeight = new MFTARecordWeight(getCtx(), p_FTA_RecordWeight_ID, get_TrxName());
+			m_RecordWeight = new MFTARecordWeight(getCtx(), p_FTA_RecordWeight_ID, get_TrxName());
+			if(p_AD_Org_ID == 0){
+				p_AD_Org_ID = m_RecordWeight.getAD_Org_ID();
+				p_AD_OrgTrx_ID = p_AD_Org_ID;
+			}
 		}
 		//	Get Load Order
-		if(recordWeight != null)
-			p_FTA_LoadOrder_ID = recordWeight.getFTA_LoadOrder_ID();
+		if(m_RecordWeight != null)
+			p_FTA_LoadOrder_ID = m_RecordWeight.getFTA_LoadOrder_ID();
 		//	Valid Load Order
 		if(p_FTA_LoadOrder_ID == 0)
 			throw new AdempiereUserError("@FTA_LoadOrder_ID@ @NotFound@");
+		//	Valid if this yet generated
+		int mobilizationGuide_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(mg.FTA_MobilizationGuide_ID) " +
+				"FROM FTA_MobilizationGuide mg " +
+				"WHERE mg.DocStatus NOT IN('VO', 'RE') " +
+				"AND mg.FTA_LoadOrder_ID = ?", p_FTA_LoadOrder_ID);
+		//	
+		if(mobilizationGuide_ID > 0)
+			return "";
 		
 		//	Instance Load Order
-		MFTALoadOrder lOrder = new MFTALoadOrder(getCtx(), p_FTA_LoadOrder_ID, get_TrxName());
+		MFTALoadOrder m_LoadOrder = new MFTALoadOrder(getCtx(), p_FTA_LoadOrder_ID, get_TrxName());
+		if(p_AD_Org_ID == 0){
+			p_AD_Org_ID = m_LoadOrder.getAD_Org_ID();
+			p_AD_OrgTrx_ID = p_AD_Org_ID;
+		}
 		
 		//	Create Guide
 		MFTAMobilizationGuide m_MobilizationGuide = new MFTAMobilizationGuide(getCtx(), 0, get_TrxName());
@@ -117,19 +132,38 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 		m_MobilizationGuide.setAD_OrgTrx_ID(p_AD_OrgTrx_ID);
 		m_MobilizationGuide.setC_DocType_ID(p_C_DocTypeTarget_ID);
 		m_MobilizationGuide.setDateDoc(p_DateDoc);
-		m_MobilizationGuide.setFTA_VehicleType_ID(lOrder.getFTA_VehicleType_ID());
+		m_MobilizationGuide.setFTA_VehicleType_ID(m_LoadOrder.getFTA_VehicleType_ID());
+		//	Set References
+		m_MobilizationGuide.setFTA_LoadOrder_ID(p_FTA_LoadOrder_ID);
+		//	Get Record Weight
+		if(m_RecordWeight != null)
+			m_MobilizationGuide.setFTA_RecordWeight_ID(m_RecordWeight.getFTA_RecordWeight_ID());
+		else {
+			p_FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
+					"FROM FTA_RecordWeight rw " +
+					"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
+					"AND rw.FTA_LoadOrder_ID = ?", p_FTA_LoadOrder_ID);
+			if(p_FTA_RecordWeight_ID != -1){
+				m_RecordWeight = new MFTARecordWeight(getCtx(), p_FTA_RecordWeight_ID, get_TrxName());
+				m_MobilizationGuide.setFTA_RecordWeight_ID(p_FTA_RecordWeight_ID);
+			}
+		}
 		//	Set Warehouse
 		if(p_M_Warehouse_ID != 0)
 			m_MobilizationGuide.setM_Warehouse_ID(p_M_Warehouse_ID);
 		//	If is Record Weight
-		if(recordWeight != null
-				&& recordWeight.getOperationType()
+		if(m_RecordWeight != null
+				&& m_RecordWeight.getOperationType()
 						.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryBulkMaterial)){
 			MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
 			if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
 				return "@C_UOM_Weight_ID@ @NotFound@";
 			//	Get Category
-			MProduct product = MProduct.get(getCtx(), recordWeight.getM_Product_ID());
+			MProduct product = null;
+			if(m_RecordWeight.getM_Product_ID() != 0)
+				product = MProduct.get(getCtx(), m_RecordWeight.getM_Product_ID());
+			else
+				product = MProduct.get(getCtx(), m_LoadOrder.getM_Product_ID());
 			//	Rate Convert
 			BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
 					product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
@@ -141,11 +175,11 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 				throw new AdempiereUserError("@NoUOMConversion@");
 			
 			//	Get Weight
-			m_MobilizationGuide.setQtyToDeliver(recordWeight.getNetWeight()
+			m_MobilizationGuide.setQtyToDeliver(m_RecordWeight.getNetWeight()
 					.multiply(rate)
 					.setScale(precision, BigDecimal.ROUND_HALF_UP));
 		} else
-			m_MobilizationGuide.setQtyToDeliver(lOrder.getWeight());
+			m_MobilizationGuide.setQtyToDeliver(m_LoadOrder.getWeight());
 		//	
 		m_MobilizationGuide.saveEx();
 		//	Complete Document

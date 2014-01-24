@@ -696,11 +696,11 @@ public class LoadOrder {
 		m_C_UOM_Weight_ID = getC_UOM_Weight_ID(trxName);
 		m_C_UOM_Volume_ID = getC_UOM_Volume_ID(trxName);
 		//	Get Weight Precision
-		if(m_C_UOM_Weight_ID != 0) {
+		if(m_C_UOM_Weight_ID > 0) {
 			m_WeightPrecision = MUOM.getPrecision(Env.getCtx(), m_C_UOM_Weight_ID);
 		}
 		//	Get Volume Precision
-		if(m_C_UOM_Volume_ID != 0) {
+		if(m_C_UOM_Volume_ID > 0) {
 			m_VolumePrecision = MUOM.getPrecision(Env.getCtx(), m_C_UOM_Volume_ID);
 		}
 	}

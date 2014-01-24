@@ -386,12 +386,14 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	 * @return String
 	 */
 	private String validReference(){
-		/*int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
-				"FROM FTA_QualityAnalysis qa " +
-				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
-				"AND qa.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
-		if(m_Reference_ID != 0)
-			return "@SQLErrorReferenced@";*/
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
+				"FROM FTA_RecordWeight rw " +
+				"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
+				"AND rw.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+		if(m_Reference_ID > 0) {
+			MFTARecordWeight recordWeight = new MFTARecordWeight(getCtx(), m_Reference_ID, get_TrxName());
+			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + recordWeight.getDocumentNo();
+		}
 		return null;
 	}
 	

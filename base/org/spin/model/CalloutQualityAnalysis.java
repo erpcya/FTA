@@ -71,7 +71,7 @@ public class CalloutQualityAnalysis extends CalloutEngine
 
 			p_FTA_RecordWeight_ID = DB.getSQLValue(null, sql,
 					m_FTA_EntryTicket_ID);
-			if(p_FTA_RecordWeight_ID != 0)				
+			if(p_FTA_RecordWeight_ID > 0)				
 				mTab.setValue("FTA_RecordWeight_ID", p_FTA_RecordWeight_ID);
 
 			return "";

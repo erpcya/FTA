@@ -104,7 +104,7 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 			int reference_ID = DB.getSQLValue(get_TrxName(), "SELECT ft.FTA_Fact_ID " +
 					"FROM FTA_Fact ft " +
 					"WHERE ft.FTA_CreditDefinitionLine_ID = ?", getFTA_CreditDefinitionLine_ID());
-			if(reference_ID != -1)
+			if(reference_ID > 0)
 				throw new AdempiereException("@SQLErrorReferenced@");
 		}
 		if(isDistributionLine())
@@ -123,7 +123,7 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 		int reference_ID = DB.getSQLValue(get_TrxName(), "SELECT ft.FTA_Fact_ID " +
 				"FROM FTA_Fact ft " +
 				"WHERE ft.FTA_CreditDefinitionLine_ID = ?", getFTA_CreditDefinitionLine_ID());
-		if(reference_ID != -1)
+		if(reference_ID > 0)
 			throw new AdempiereException("@SQLErrorReferenced@");
 		return ok;
 	}

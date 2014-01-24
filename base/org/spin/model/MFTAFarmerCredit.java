@@ -378,7 +378,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
 				"WHERE et.DocStatus NOT IN('VO', 'RE') " +
 				"AND frm.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@ @FTA_EntryTicket_ID@ @completed@";
 		return null;
 	}
@@ -394,7 +394,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				"FROM FTA_BillOfExchange be " +
 				"WHERE be.DocStatus NOT IN('VO', 'RE') " +
 				"AND be.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@ @FTA_BillOfExchange_ID@ @completed@";
 		return null;
 	}
@@ -410,7 +410,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				"FROM C_Invoice i " +
 				"WHERE i.DocStatus NOT IN('VO', 'RE') " +
 				"AND i.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@ @C_Invoice_ID@ @completed@";
 		return null;
 	}
@@ -426,7 +426,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				"FROM C_Order o " +
 				"WHERE o.DocStatus NOT IN('VO', 'RE') " +
 				"AND o.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@ @C_Order_ID@ @completed@";
 		return null;
 	}

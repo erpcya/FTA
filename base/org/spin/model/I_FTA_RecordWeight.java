@@ -240,17 +240,6 @@ public interface I_FTA_RecordWeight
 
 	public org.spin.model.I_FTA_LoadOrder getFTA_LoadOrder() throws RuntimeException;
 
-    /** Column name FTA_MobilizationGuide_ID */
-    public static final String COLUMNNAME_FTA_MobilizationGuide_ID = "FTA_MobilizationGuide_ID";
-
-	/** Set Mobilization Guide	  */
-	public void setFTA_MobilizationGuide_ID (int FTA_MobilizationGuide_ID);
-
-	/** Get Mobilization Guide	  */
-	public int getFTA_MobilizationGuide_ID();
-
-	public org.spin.model.I_FTA_MobilizationGuide getFTA_MobilizationGuide() throws RuntimeException;
-
     /** Column name FTA_QualityAnalysis_ID */
     public static final String COLUMNNAME_FTA_QualityAnalysis_ID = "FTA_QualityAnalysis_ID";
 

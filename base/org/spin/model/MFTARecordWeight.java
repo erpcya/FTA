@@ -264,13 +264,17 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if(m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
-		log.info(toString());	
-		//	Generate Material Receipt
-		String msg = createMaterialReceiptOrShipment();
-		if(m_processMsg != null)
-			return DocAction.STATUS_Invalid;
-		else
-			m_processMsg = msg;
+		log.info(toString());
+		if(getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
+				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)
+				|| getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)){
+			//	Generate Material Receipt
+			String msg = createInOut();
+			if(m_processMsg != null)
+				return DocAction.STATUS_Invalid;
+			else
+				m_processMsg = msg;
+		}
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -443,11 +447,24 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
-		
-		m_processMsg = reverseInOut();
-		if (m_processMsg != null)
-			return false;
-		
+		if(getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
+				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)
+				|| getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)){
+			//	Valid Mobilization Guide Reference
+			m_processMsg = validMGReference();
+			if (m_processMsg != null)
+				return false;
+		}
+		//	Reverse only M_InOut record
+		if(!getOperationType().equals(OPERATIONTYPE_MaterialInputMovement)
+				&& !getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)
+				&& !getOperationType().equals(OPERATIONTYPE_OtherRecordWeight)){
+			//	Reverse In/Out
+			m_processMsg = reverseInOut();
+			if (m_processMsg != null)
+				return false;
+		}
+		//	
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
@@ -552,13 +569,32 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return
 	 * @return String
 	 */
-	private String validReference(){
+	private String validInOutReference(){
 		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(re.M_InOut_ID) " +
 				"FROM M_InOut re " +
 				"WHERE re.DocStatus NOT IN('VO', 'RE') " +
 				"AND re.FTA_RecordWeight_ID = ?", getFTA_RecordWeight_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@";
+		return null;
+	}
+	
+	
+	/**
+	 * Valid Mobilization Guide reference
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/01/2014, 18:40:22
+	 * @return
+	 * @return String
+	 */
+	private String validMGReference(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(mg.FTA_MobilizationGuide_ID) " +
+				"FROM FTA_MobilizationGuide mg " +
+				"WHERE mg.DocStatus NOT IN('VO', 'RE') " +
+				"AND mg.FTA_RecordWeight_ID = ?", getFTA_RecordWeight_ID());
+		if(m_Reference_ID > 0) {
+			MFTAMobilizationGuide mobilizationGuide = new MFTAMobilizationGuide(getCtx(), m_Reference_ID, get_TrxName());
+			return "@SQLErrorReferenced@ @FTA_MobilizationGuide_ID@: " + mobilizationGuide.getDocumentNo();
+		}
 		return null;
 	}
 	
@@ -743,9 +779,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return
 	 * @return String
 	 */
-	private String createMaterialReceiptOrShipment() {
+	private String createInOut() {
 		//	this yet generated
-		if(validReference() != null)
+		if(validInOutReference() != null)
 			return "";
 		//	
 		

@@ -381,13 +381,13 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 				"FROM FTA_RecordWeight rw " +
 				"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
 				"AND rw.FTA_QualityAnalysis_ID = ?", getFTA_QualityAnalysis_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@";
 		m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
 				"FROM FTA_QualityAnalysis qa " +
 				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
 				"AND qa.Orig_QualityAnalysis_ID = ?", getFTA_QualityAnalysis_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@";
 		return null;
 	}
