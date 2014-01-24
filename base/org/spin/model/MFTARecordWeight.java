@@ -312,22 +312,26 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return String
 	 */
 	private String calculatePayWeight(){
-		MFTAQualityAnalysis qa = getQualityAnalysis(true);
-		//	
-		MFTACategoryCalc m_CC = MFTACategoryCalc.get(getCtx(), qa.getM_Product_ID(), 
-				(isSOTrx()? EVENTTYPE_SHIPMENT: EVENTTYPE_RECEIPT), 
-				get_TrxName());
-		//	
-		MAttributeSetInstance att = qa.getAttributeSetInstance();
-		//	Valid Attribute Set Instance
-		if(att == null)
-			return "@M_AttributeSetInstance_ID@ @NotFound@";
-		//	Valid Category Calc
-		if(m_CC == null)
-			return "@FTA_CategoryCalc_ID@ @NotFound@";
-			
-		BigDecimal m_PayWeight = m_CC.getPaidWeight(getNetWeight(), att);
-		setPayWeight(m_PayWeight);
+		MFTAQualityAnalysis qa = getQualityAnalysis();
+		// Carlos Parada Valid When Quality Analysis is Null
+		if (qa !=null)
+		{
+			//	
+			MFTACategoryCalc m_CC = MFTACategoryCalc.get(getCtx(), qa.getM_Product_ID(), 
+					(isSOTrx()? EVENTTYPE_SHIPMENT: EVENTTYPE_RECEIPT), 
+					get_TrxName());
+			//	
+			MAttributeSetInstance att = qa.getAttributeSetInstance();
+			//	Valid Attribute Set Instance
+			if(att == null)
+				return "@M_AttributeSetInstance_ID@ @NotFound@";
+			//	Valid Category Calc
+			if(m_CC == null)
+				return "@FTA_CategoryCalc_ID@ @NotFound@";
+				
+			BigDecimal m_PayWeight = m_CC.getPaidWeight(getNetWeight(), att);
+			setPayWeight(m_PayWeight);
+		}//
 		return null;
 	}
 	
@@ -338,13 +342,16 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return
 	 * @return MFTAQualityAnalysis
 	 */
-	public MFTAQualityAnalysis getQualityAnalysis(boolean reQuery){
-		if(reQuery
-				|| m_QualityAnalysis == null) {
+	public MFTAQualityAnalysis getQualityAnalysis(){
+		if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt) 
+				|| getOperationType().equals(OPERATIONTYPE_ProductBulkReceipt)) {
 			if(getFTA_QualityAnalysis_ID() != 0)
 				m_QualityAnalysis = new MFTAQualityAnalysis(getCtx(), getFTA_QualityAnalysis_ID(), get_TrxName());
 			else
 				m_QualityAnalysis = null;
+		}
+		else if (getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)){
+			m_QualityAnalysis = new Query(getCtx(),MFTAQualityAnalysis.Table_Name, "FTA_RecordWeight_ID=? AND DocStatus IN (?,?)", get_TrxName()).setParameters(getFTA_RecordWeight_ID(),DOCSTATUS_Completed,DOCSTATUS_Closed).first(); 
 		}
 		//	Return
 		return m_QualityAnalysis;
@@ -743,7 +750,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	
 		
 		//DocumentNo 
-		String l_DocumentNo = null; 
+		String l_DocumentNo = ""; 
 		//Carlos Parada 2014-01-16
 		//Create Material Receipt or Shipment by Operation Type
 		if (getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt))
@@ -824,7 +831,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			//	Set Product
 			ioLine.setProduct(product);
 			//	Set Quality Analysis
-			MFTAQualityAnalysis qa = getQualityAnalysis(true);
+			MFTAQualityAnalysis qa = getQualityAnalysis();
 			//	Set Instance
 			MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), qa.getQualityAnalysis_ID(), get_TrxName());
 			//	Set Lot
@@ -909,7 +916,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			//	Set Product
 			ioLine.setProduct(product);
 			//	Set Quality Analysis
-			MFTAQualityAnalysis qa = getQualityAnalysis(true);
+			MFTAQualityAnalysis qa = getQualityAnalysis();
 			//	Set Instance
 			if (qa != null)
 				asi = new MAttributeSetInstance(getCtx(), qa.getQualityAnalysis_ID(), get_TrxName());
@@ -917,7 +924,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			if (asi != null)
 				ioLine.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
 			ioLine.setM_Locator_ID(m_MovementQty);
-			
+			MOrderLine[] orderLines = order.getLines("M_Product_ID=" + product.getM_Product_ID(), "");
+			for (int i=0; i > orderLines.length;i++)
+				ioLine.setC_OrderLine_ID(orderLines[i].getC_OrderLine_ID());
 			//	Set Quantity
 			ioLine.setQty(m_MovementQty);
 			ioLine.saveEx(get_TrxName());
@@ -926,6 +935,100 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			m_Receipt.saveEx(get_TrxName());
 			
 			l_DocumentNo = "@M_InOut_ID@: " + m_Receipt.getDocumentNo();
+		}
+		//Delivery Bulk Material
+		else if (getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial))
+		{
+			// Get Orders From Load Order
+			MFTALoadOrder lo = null;
+			lo = (MFTALoadOrder) getFTA_LoadOrder();
+			
+			if (lo == null){
+				m_processMsg = "@FTA_LoadOrder_ID@ @NotFound@";
+				return null;
+			}
+			// Get Lines from Load Order
+			MFTALoadOrderLine[] lol = lo.getLines(true);
+			// Create Shipments
+			for (int i=0; i <lol.length;i++){
+				
+				//Get Order and Line
+				MOrder order = null;
+				MAttributeSetInstance asi = null;
+				MProduct product = null;
+				if (lol[i].getC_OrderLine_ID()!=0){
+					order =(MOrder) lol[i].getC_OrderLine().getC_Order();
+					product = (MProduct)lol[i].getC_OrderLine().getM_Product();
+				}
+				if(order == null){
+					m_processMsg = "@C_Order_ID@ @NotFound@";
+					return null;
+				}
+				
+				if (product==null){
+					m_processMsg = "@M_Product_ID@ @NotFound@";
+					return null;
+				}
+				
+				MDocType m_DocType = MDocType.get(getCtx(), order.getC_DocType_ID());
+				
+				if(m_DocType.getC_DocTypeShipment_ID() == 0){
+					m_processMsg = "@C_DocTypeShipment_ID@ @NotFound@";
+					return null;
+				}
+				
+				//	Create Receipt
+				MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
+				m_Receipt.setDateAcct(getDateDoc());
+				//	Set New Organization and warehouse
+				m_Receipt.setAD_Org_ID(getAD_Org_ID());
+				m_Receipt.setAD_OrgTrx_ID(getAD_Org_ID());
+				//	Set Warehouse
+				m_Receipt.setM_Warehouse_ID(order.getM_Warehouse_ID());
+				//	Set Farmer Credit and Record Weight
+				m_Receipt.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
+				//	Save
+				m_Receipt.saveEx(get_TrxName());
+				//
+				MInOutLine ioLine = new MInOutLine(m_Receipt);
+				
+				//	Rate Convert
+				BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+						product.getM_Product_ID(), getC_UOM_ID());
+				
+				if(rate == null){
+					m_processMsg = "@NoUOMConversion@";
+					return null;
+				}
+					
+				BigDecimal m_MovementQty = (!getPayWeight().equals(Env.ZERO)?getPayWeight().multiply(rate):getNetWeight());
+				//	Set Product
+				ioLine.setProduct(product);
+				//	Set Quality Analysis
+				
+				MFTAQualityAnalysis qa = getQualityAnalysis();
+				//	Set Instance
+				if (qa != null)
+					asi = new MAttributeSetInstance(getCtx(), qa.getQualityAnalysis_ID(), get_TrxName());
+
+				if (asi != null)
+					ioLine.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
+				
+				ioLine.setM_Locator_ID(m_MovementQty);
+				ioLine.setC_OrderLine_ID(lol[i].getC_OrderLine_ID());
+				
+				//	Set Quantity
+				ioLine.setQty(m_MovementQty);
+				ioLine.saveEx(get_TrxName());
+				//	Manually Process Shipment
+				m_Receipt.processIt(DocAction.ACTION_Complete);
+				m_Receipt.saveEx(get_TrxName());
+				
+				l_DocumentNo = " - " + l_DocumentNo + "@M_InOut_ID@: " + m_Receipt.getDocumentNo();
+
+			}// Create Shipments
+			
+				
 		}
 		return l_DocumentNo;
 	}	//	createMaterialReceipt
