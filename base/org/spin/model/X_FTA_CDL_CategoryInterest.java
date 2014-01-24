@@ -30,7 +30,7 @@ public class X_FTA_CDL_CategoryInterest extends PO implements I_FTA_CDL_Category
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140120L;
+	private static final long serialVersionUID = 20140123L;
 
     /** Standard Constructor */
     public X_FTA_CDL_CategoryInterest (Properties ctx, int FTA_CDL_CategoryInterest_ID, String trxName)

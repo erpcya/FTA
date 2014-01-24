@@ -174,11 +174,12 @@ public class LoadOrder {
 				"INNER JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
 				"LEFT JOIN C_City cit ON(cit.C_City_ID = loc.C_City_ID) " +
 				"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
-				"	(COALESCE(lord.QtyOrdered, 0) - SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') THEN lc.Qty ELSE 0 END)) QtyAvailable " +
+				"	(COALESCE(lord.QtyOrdered, 0) - SUM(lc.Qty)) QtyAvailable " +
 				"	FROM C_OrderLine lord " +
 				"	LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
 				"	LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
 				"	WHERE lord.M_Product_ID IS NOT NULL " +
+				"	AND (c.DocStatus NOT IN('VO', 'RE') OR c.DocStatus IS NULL ) " +
 				"	GROUP BY lord.C_Order_ID, lord.C_OrderLine_ID, lord.QtyOrdered " +
 				"	ORDER BY lord.C_OrderLine_ID ASC) qafl " +
 				"	ON(qafl.C_OrderLine_ID = lord.C_OrderLine_ID) " +
@@ -534,8 +535,8 @@ public class LoadOrder {
 		StringBuffer sql = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
 				"pro.C_UOM_ID, uomp.UOMSymbol, SUM(s.QtyOnHand) QtyOnHand, " +
 				"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
-				"SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END) QtyLoc, " +
-				"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END)) Qty, " +
+				"SUM(CASE WHEN c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END) QtyLoc, " +
+				"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END)) Qty, " +
 				"pro.Weight, pro.Volume " +
 				"FROM C_Order ord " +
 				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
@@ -545,19 +546,17 @@ public class LoadOrder {
 				"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
 				"LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
 				"LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
-				"LEFT JOIN M_InOutLine del ON(del.M_InOutLine_ID = lc.M_InOutLine_ID) " +
-				"LEFT JOIN M_InOut de ON(de.M_InOut_ID = del.M_InOut_ID) " +
 				"LEFT JOIN (" +
 				"				SELECT l.M_Warehouse_ID, st.M_Product_ID, COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
 				"				FROM M_Storage st " +
 				"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
 				"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s ON(s.M_Product_ID = lord.M_Product_ID " +
 				"																								AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
-				"																								AND (" +
-				"																										(lord.M_AttributeSetInstance_ID <> 0 AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) " +
-				"																										OR lord.M_AttributeSetInstance_ID = 0)" +
-				"																									) " +
-				"WHERE pro.IsStocked = 'Y' AND ").append(sqlWhere).append(" ");
+				"																								AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
+				.append("WHERE pro.IsStocked = 'Y' ")
+				.append("AND (c.DocStatus NOT IN('VO', 'RE') OR c.DocStatus IS NULL) ")
+				.append("AND ")
+				.append(sqlWhere).append(" ");
 		//	Add Where
 		if(m_IsBulk)
 			sql.append("AND lord.M_Product_ID = ?").append(" ");
@@ -566,7 +565,7 @@ public class LoadOrder {
 				"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 				"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume").append(" ");
 		//	Having
-		sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE WHEN c.DocStatus NOT IN('VO', 'RE') THEN lc.Qty ELSE 0 END)) > 0").append(" ");
+		sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(lc.Qty)) > 0").append(" ");
 		//	Order By
 		sql.append("ORDER BY lord.C_Order_ID ASC");
 		
@@ -925,21 +924,36 @@ public class LoadOrder {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 14:22:20
 	 * @param comboSearch
 	 * @param data
+	 * @param mandatory
 	 * @return
 	 * @return int
 	 */
-	protected int loadComboBox(CComboBox comboSearch, ArrayList<KeyNamePair> data) {
+	protected int loadComboBox(CComboBox comboSearch, ArrayList<KeyNamePair> data, boolean mandatory) {
 		comboSearch.removeAllItems();
+		if(!mandatory)
+			comboSearch.addItem(new KeyNamePair(0, ""));
 		int m_ID = 0;
 		for(KeyNamePair pp : data) {
 			comboSearch.addItem(pp);
-			if(m_ID == 0)
-				m_ID = pp.getKey();
 		}
 		//	Set Default
-		if (comboSearch.getItemCount() != 0)
+		if (comboSearch.getItemCount() != 0){
 			comboSearch.setSelectedIndex(0);
+			m_ID = ((KeyNamePair)comboSearch.getSelectedItem()).getKey();
+		}
 		return m_ID;
+	}
+	
+	/**
+	 * Load Combo Box from ArrayList (No Mandatory)
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 22/01/2014, 12:14:30
+	 * @param comboSearch
+	 * @param data
+	 * @return
+	 * @return int
+	 */
+	protected int loadComboBox(CComboBox comboSearch, ArrayList<KeyNamePair> data){
+		return loadComboBox(comboSearch, data, false);
 	}
 	
 	/**
@@ -959,11 +973,8 @@ public class LoadOrder {
 			PreparedStatement pstmt = DB.prepareStatement(sql, trxName);
 			ResultSet rs = pstmt.executeQuery();
 			//
-			KeyNamePair pp = new KeyNamePair(0, "");
-			data.add(pp);
 			while (rs.next()) {
-				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				data.add(pp);
+				data.add(new KeyNamePair(rs.getInt(1), rs.getString(2)));
 			}
 			rs.close();
 			pstmt.close();
