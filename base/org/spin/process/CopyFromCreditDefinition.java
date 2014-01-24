@@ -16,17 +16,11 @@
  *****************************************************************************/
 package org.spin.process;
 
-import java.util.Properties;
 import java.util.logging.Level;
 
-
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MInvoice;
-import org.compiere.model.PO;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.spin.model.MFTACreditDefinition;
-import org.spin.model.MFTACreditDefinitionLine;
 import org.spin.model.X_FTA_CreditDefinition;
 
 /**

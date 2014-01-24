@@ -52,6 +52,7 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 	
 	/**	Load Order					*/
 	private int 		p_FTA_LoadOrder_ID		= 0;
+	
 	/**	Record Weight				*/
 	private int 		p_FTA_RecordWeight_ID	= 0;
 	
@@ -93,7 +94,6 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 		if(p_AD_Org_ID == 0)
 			p_AD_Org_ID = p_AD_OrgTrx_ID;
 	}
-
 	
 	@Override
 	protected String doIt() throws Exception {
