@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
@@ -291,7 +290,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	 * @return
 	 * @return String
 	 */
-	private String validReferenceBoE(){
+	/*private String validReferenceBoE(){
 		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fc.FTA_FarmerCredit_ID) " +
 				"FROM FTA_FarmerCredit fc " +
 				"INNER JOIN FTA_BillOfExchange be ON(be.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID) " +
@@ -300,7 +299,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if(m_Reference_ID != 0)
 			return "@SQLErrorReferenced@ @FTA_BillOfExchange_ID@ @completed@";
 		return null;
-	}
+	}*/
 	
 	/**
 	 * Valid Reference in Farmer Credit
@@ -753,52 +752,52 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	/**
 	 * Copy Lines and Products From Credit Definition
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 22/01/2014, 16:13:42
-	 * @param otherCreditDefinition
+	 * @contributor <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/01/2014, 08:32:42
+	 * @param fromCreditDefinition
 	 * @param counter
 	 * @param setOrder
 	 * @return
 	 * @return int
 	 */
-	public int copyLinesProductsFrom (MFTACreditDefinition otherCreditDefinition, boolean counter, boolean setOrder)
+	public int copyLinesProductsFrom (MFTACreditDefinition fromCreditDefinition, boolean counter, boolean setOrder)
 	{
-		MFTACreditDefinitionLine[] fromLines = otherCreditDefinition.getLines(false);
+		MFTACreditDefinitionLine[] fromLines = fromCreditDefinition.getLines(false);
 		
 		int count = 0;
-
+		//	Loop in line
 		for (MFTACreditDefinitionLine mftaCreditDefinitionLine : fromLines)
 		{
 			MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
-		 
+			//	Valid Category
 		 	MFTACDLCategory m_FTA_CDL_Category = MFTACDLCategory.get(getCtx(), mftaCreditDefinitionLine.getFTA_CDL_Category_ID());
 		 	
 		 	if(m_FTA_CDL_Category.getValue().equals(MFTACDLCategory.T_CATEGORY)
 		 			|| m_FTA_CDL_Category.getValue().equals(MFTACDLCategory.T_DISTRIBUTION)){
 		 			continue;
-		 		}else{
-		 			if(counter)
-				 		PO.copyValues(mftaCreditDefinitionLine, line, getAD_Client_ID(), getAD_Org_ID());
-				 	else
-				 		PO.copyValues(mftaCreditDefinitionLine, line, line.getAD_Client_ID(), line.getAD_Org_ID());
+		 	}else{
+		 		if(counter)
+		 			PO.copyValues(mftaCreditDefinitionLine, line, getAD_Client_ID(), getAD_Org_ID());
+		 		else
+		 			PO.copyValues(mftaCreditDefinitionLine, line, line.getAD_Client_ID(), line.getAD_Org_ID());
 
-				 	line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
-				 
-				 	//
-					line.setProcessed(false);
-					if (line.save(get_TrxName()))
-						count++;
-		 		}		 	
+		 		line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+		 		
+		 		//
+		 		line.setProcessed(false);
+		 		if (line.save(get_TrxName()))
+		 			count++;
+		 	}		 	
 		}
 		
 		if (fromLines.length != count)
 			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
 
-		MFTAProductListApproved listProduct [] = otherCreditDefinition.getProductLines(true, null);
+		MFTAProductListApproved listProduct [] = fromCreditDefinition.getProductLines(true, null);
 		for (MFTAProductListApproved mftaProductListApproved : listProduct)
 		{
-				
 			MFTAProductListApproved product = new MFTAProductListApproved(getCtx(), 0, get_TrxName());
-			product.set_ValueOfColumn("AD_Client_ID", otherCreditDefinition.getAD_Client_ID());
-			product.set_ValueOfColumn("AD_Org_ID", otherCreditDefinition.getAD_Org_ID());
+			product.set_ValueOfColumn("AD_Client_ID", fromCreditDefinition.getAD_Client_ID());
+			product.set_ValueOfColumn("AD_Org_ID", fromCreditDefinition.getAD_Org_ID());
 			product.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
 			product.setM_Product_ID(mftaProductListApproved.get_ValueAsInt("M_Product_ID"));
 			if(mftaProductListApproved.get_ValueAsInt("Substitute_ID") > 0)
@@ -812,7 +811,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 			
 			product.saveEx();
 			countProduct++;
-
 		}
 
 		if (listProduct.length != countProduct)

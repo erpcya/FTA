@@ -170,7 +170,10 @@ public class VLoadOrder extends LoadOrder
 	/**	Product				*/
 	private JLabel 			productLabel = new JLabel();
 	private VLookup 		productSearch = null;
-
+	/**	Business Partner	*/
+	private JLabel 			bpartnerLabel = new JLabel();
+	private VLookup 		bpartnerSearch = null;
+	
 	
 	/**/
 	private JSplitPane 		infoPanel = new JSplitPane();
@@ -399,6 +402,11 @@ public class VLoadOrder extends LoadOrder
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(productSearch, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	Business Partner
+		parameterPanel.add(bpartnerLabel, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(bpartnerSearch, new GridBagConstraints(3, 7, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	Search
 		parameterPanel.add(bSearch, new GridBagConstraints(5, 7, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
@@ -546,9 +554,17 @@ public class VLoadOrder extends LoadOrder
 		MLookup lookupProduct = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
 		productSearch = new VLookup("M_Product_ID", true, false, true, lookupProduct);
 		productSearch.addVetoableChangeListener(this);
+		
+		//	Business Partner
+		AD_Column_ID = 2762;		//	C_Order.C_BPartner_ID
+		MLookup lookupBPartner = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
+		bpartnerSearch = new VLookup("C_BPartner_ID", true, false, true, lookupBPartner);
+		bpartnerSearch.addVetoableChangeListener(this);
+		
 		//	Visible
 		productLabel.setVisible(false);
 		productSearch.setVisible(false);
+		bpartnerSearch.setVisible(false);
 		
 		driverSearch.setEnabled(false);
 		driverSearch.setEditable(false);		
@@ -707,28 +723,36 @@ public class VLoadOrder extends LoadOrder
 		boolean isOrder = (e.getSource().equals(orderTable.getModel()));
 		boolean isOrderLine = (e.getSource().equals(orderLineTable.getModel()));
 		if(isOrder){
-			if(m_C_UOM_Weight_ID != 0){
-				StringBuffer sql = getQueryLine(orderTable);
-				Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
-				Vector<String> columnNames = getOrderLineColumnNames();
-				
-				loadBuffer(orderLineTable);
-				//  Remove previous listeners
-				orderLineTable.getModel().removeTableModelListener(this);
-				
-				//  Set Model
-				DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
-				modelP.addTableModelListener(this);
-				orderLineTable.setModel(modelP);
-				setOrderLineColumnClass(orderLineTable);
-				setValueFromBuffer(orderLineTable);	
+			if(col == SELECT){
+				if(m_IsBulk){
+					if(moreOneSelect(orderTable)) {
+						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
+						orderTable.setValueAt(false, row, SELECT);
+					}	
+				}
 			} else {
-				ADialog.info(m_WindowNo, panel, "Error", Msg.parseTranslation(Env.getCtx(), "@C_UOM_ID@ @NotFound@"));
-				//loadOrder();
-				calculate();
+				if(m_C_UOM_Weight_ID != 0){
+					StringBuffer sql = getQueryLine(orderTable);
+					Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
+					Vector<String> columnNames = getOrderLineColumnNames();
+					
+					loadBuffer(orderLineTable);
+					//  Remove previous listeners
+					orderLineTable.getModel().removeTableModelListener(this);
+					
+					//  Set Model
+					DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
+					modelP.addTableModelListener(this);
+					orderLineTable.setModel(modelP);
+					setOrderLineColumnClass(orderLineTable);
+					setValueFromBuffer(orderLineTable);	
+				} else {
+					ADialog.info(m_WindowNo, panel, "Error", Msg.parseTranslation(Env.getCtx(), "@C_UOM_ID@ @NotFound@"));
+					//loadOrder();
+					calculate();
+				}
 			}
-			
-		}else if(isOrderLine){
+		} else if(isOrderLine){
 			if(col == OL_QTY){	//Qty
 				BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
 				BigDecimal weight = (BigDecimal) orderLineTable.getValueAt(row, OL_WEIGHT);
@@ -820,6 +844,7 @@ public class VLoadOrder extends LoadOrder
 		//	Set Context
 		productLabel.setVisible(m_IsBulk);
 		productSearch.setVisible(m_IsBulk);
+		bpartnerSearch.setVisible(m_IsBulk);
 	}
 	
 	/**
@@ -862,6 +887,7 @@ public class VLoadOrder extends LoadOrder
 		loadCapacityField.setValue(0);
 		volumeCapacityField.setValue(0);
 		productSearch.setValue(null);
+		bpartnerSearch.setValue(null);
 	}
 
 	/**
@@ -873,7 +899,7 @@ public class VLoadOrder extends LoadOrder
 		getPanelValues();
 		String msg = null;
 		//	Valid Organization
-		if(m_AD_Org_ID == 0)
+		if(m_AD_Org_ID == -1)
 			msg = "@AD_Org_ID@ @NotFound@";
 		//	Valid Weight UOM
 		else if(m_C_UOM_Weight_ID == 0)
@@ -890,6 +916,12 @@ public class VLoadOrder extends LoadOrder
 		//	Document Type Load Order
 		else if(m_C_DocTypeTarget_ID == 0)
 			msg = "@C_DocTypeTarget_ID@ @NotFound@";
+		else if(m_IsBulk){
+			if(m_M_Product_ID == 0)
+				msg = "@M_Product_ID@ @NotFound@";
+			else if(m_C_BPartner_ID == 0)
+				msg = "@C_BPartner_ID@ @NotFound@";
+		}
 		//	
 		if(msg != null){
 			ADialog.info(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), msg));
@@ -960,6 +992,9 @@ public class VLoadOrder extends LoadOrder
 		//	Product
 		value = productSearch.getValue();
 		m_M_Product_ID = ((Integer)(value != null? value: 0)).intValue();
+		//	Business Partner
+		value = bpartnerSearch.getValue();
+		m_C_BPartner_ID = ((Integer)(value != null? value: 0)).intValue();
 		//	Weight Symbol
 		if(m_C_UOM_Weight_ID != 0) {
 			MUOM uom = MUOM.get(Env.getCtx(), m_C_UOM_Weight_ID);

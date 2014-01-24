@@ -132,6 +132,8 @@ public class LoadOrder {
 	protected String 	m_UOM_Volume_Symbol = null;
 	/**	Product				*/
 	protected int		m_M_Product_ID = 0;
+	/**	Business Partner	*/
+	protected int		m_C_BPartner_ID = 0;
 	
 	/**	Total Weight		*/
 	protected BigDecimal	totalWeight = Env.ZERO;
@@ -199,8 +201,10 @@ public class LoadOrder {
 			sql.append("AND ord.SalesRep_ID=? ");
 		if (m_C_DocType_ID != 0 )
 			sql.append("AND ord.C_DocType_ID=? ");
-		if(m_IsBulk)
+		if(m_IsBulk) {
 			sql.append("AND lord.M_Product_ID=? ");
+			sql.append("AND ord.C_BPartner_ID=? ");
+		}
 		
 		//	Group By
 		sql.append("GROUP BY wr.Name, ord.C_Order_ID, ord.DocumentNo, ord.DateOrdered, " +
@@ -237,8 +241,10 @@ public class LoadOrder {
 				pstmt.setInt(param++, m_SalesRep_ID);
 			if (m_C_DocType_ID != 0 )
 				pstmt.setInt(param++, m_C_DocType_ID);
-			if(m_IsBulk)
+			if(m_IsBulk) {
 				pstmt.setInt(param++, m_M_Product_ID);
+				pstmt.setInt(param++, m_C_BPartner_ID);
+			}
 			
 			log.fine("AD_Org_ID=" + m_AD_Org_ID);
 			log.fine("M_Warehouse_ID=" + m_M_Warehouse_ID);
@@ -681,67 +687,6 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Evalua el resultado de los querys generados para validar concurrencia
-	 * @return
-	 */
-	/*private String viewResult(){
-		String m_Result = null;
-		try {
-			StringBuffer m_SB_Add = new StringBuffer();
-			PreparedStatement pstmt = DB.prepareStatement(m_QueryAdd.toString(), null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()){
-				m_SB_Add.append(Msg.translate(Env.getCtx(), "C_Order_ID") + " = " + rs.getString("OrderName") + " ");
-				m_SB_Add.append(Msg.translate(Env.getCtx(), "M_Product_ID") + " = " + rs.getString("ProductName") + " ");
-				m_SB_Add.append(Msg.translate(Env.getCtx(), "QtyAvailable") + " = " + rs.getBigDecimal("QtyAvailable") + " ");
-				m_SB_Add.append(Msg.translate(Env.getCtx(), "QtyLoc") + " = " + rs.getBigDecimal("QtyLoc") + "\n");
-			}
-			rs.close();
-			pstmt.close();
-			m_Result = m_SB_Add.toString();
-			m_QueryAdd = new StringBuffer();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, m_QueryAdd.toString(), e);
-		} 
-		return m_Result;
-	}*/
-	
-	/**
-	 * Agrega un Query a una UNION de Querys para consultar
-	 * @param m_C_OrderLine_ID
-	 * @param qty
-	 */
-	/*private void addQuery(int m_C_OrderLine_ID, BigDecimal qty){
-		String queryTemp = new String("SELECT ord.DocumentNo OrderName, pr.Name ProductName, " +
-				"COALESCE(lord.QtyOrdered, 0) - " +
-				"COALESCE(lord.QtyDelivered, 0) - " +
-				"SUM(CASE WHEN c.XX_Annulled = 'N' AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END) QtyAvailable, " +
-				qty.doubleValue() + " QtyLoc " +
-				"FROM C_Order ord " +
-				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
-				"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
-				"LEFT JOIN XX_LoadOrderLine lc ON(lord.C_OrderLine_ID = lc.C_OrderLine_ID) " +
-				"LEFT JOIN XX_LoadOrder c ON(c.XX_LoadOrder_ID = lc.XX_LoadOrder_ID) " +
-				"WHERE lord.M_Product_ID IS NOT NULL " +
-				"AND lc.M_InOut_ID IS NULL " +
-				"AND lord.C_OrderLine_ID = " + 
-				m_C_OrderLine_ID + 
-				" " +
-				"GROUP BY ord.DocumentNo, pr.Name, lord.C_OrderLine_ID " +
-				"HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
-				"SUM(CASE WHEN c.XX_Annulled = 'N' AND c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END)) < " + 
-				qty.doubleValue() + 
-				" ");
-		if(m_QueryAdd.length() > 0){
-			m_QueryAdd.append(" UNION ALL ");
-		}
-		m_QueryAdd.append(queryTemp);
-		
-	}*/
-	
-	/**
 	 * Load the Default Values
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 11:10:31
 	 * @param trxName
@@ -1171,5 +1116,27 @@ public class LoadOrder {
 	 */
 	protected boolean isBulk() {
 		return (m_OperationType.equals("DBM"));
-	}	
+	}
+	
+	/**
+	 * Verify if more one is selected
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/01/2014, 10:38:48
+	 * @param table
+	 * @return
+	 * @return boolean
+	 */
+	protected boolean moreOneSelect(IMiniTable table) {
+		int rows = table.getRowCount();
+		int cont = 0;
+		for (int i = 0; i < rows; i++) {
+			if (((Boolean)table.getValueAt(i, SELECT)).booleanValue()) {
+				cont++;
+				if(cont > 1){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 }
