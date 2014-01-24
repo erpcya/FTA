@@ -253,6 +253,8 @@ public class VLoadOrder extends LoadOrder
 		labelShipDate.setText(Msg.translate(Env.getCtx(), "ShipDate"));
 		//	Product
 		productLabel.setText(Msg.translate(Env.getCtx(), "M_Product_ID"));
+		//	Business Partner
+		bpartnerLabel.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		
 		bSearch.setText(Msg.translate(Env.getCtx(), "Search"));
 		
@@ -564,6 +566,7 @@ public class VLoadOrder extends LoadOrder
 		//	Visible
 		productLabel.setVisible(false);
 		productSearch.setVisible(false);
+		bpartnerLabel.setVisible(false);
 		bpartnerSearch.setVisible(false);
 		
 		driverSearch.setEnabled(false);
@@ -844,6 +847,7 @@ public class VLoadOrder extends LoadOrder
 		//	Set Context
 		productLabel.setVisible(m_IsBulk);
 		productSearch.setVisible(m_IsBulk);
+		bpartnerLabel.setVisible(m_IsBulk);
 		bpartnerSearch.setVisible(m_IsBulk);
 	}
 	
