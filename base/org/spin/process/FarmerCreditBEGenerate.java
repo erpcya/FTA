@@ -141,7 +141,7 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 				"WHERE be.DocStatus NOT IN('VO', 'RE') " +
 				"AND be.FTA_FarmerCredit_ID = ?", p_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
 		//	
-		if(billOfExchange_ID != 0)
+		if(billOfExchange_ID > 0)
 			return;
 		//	Set Amount
 		BigDecimal approvedAmt = p_FTA_FarmerCredit.getApprovedAmt();

@@ -315,7 +315,7 @@ public class MFTAFact extends X_FTA_Fact {
 							+ "WHERE FTA_CreditDefinitionLine_ID = ?", m_FTA_CreditDefinitionLine_ID);
 					
 					//	
-					if(m_FTA_CreditDefinitionLine_ID != 0) {
+					if(m_FTA_CreditDefinitionLine_ID > 0) {
 						//	Create Fact
 						MFTAFact m_fta_Fact = new MFTAFact(ctx, 0, trxName);
 						//	Set Values

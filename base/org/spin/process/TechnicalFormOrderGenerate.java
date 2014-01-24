@@ -112,7 +112,7 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 				"AND o.FTA_TechnicalForm_ID = ?", m_TechnicalForm.getFTA_TechnicalForm_ID());		
 		if(m_TechnicalForm.getGenerateOrder() != null
 				&& m_TechnicalForm.getGenerateOrder().equals("Y")
-				&& order_ID != 0)
+				&& order_ID > 0)
 			return "";
 		//	Get Default Farmer Credit
 		m_DefaultFarmerCredit_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fm.FTA_FarmerCredit_ID) " +
@@ -259,7 +259,7 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 		if(pFTA_FarmerCredit_ID != 0){
 			m_CurrentFarmerCredit_ID = pFTA_FarmerCredit_ID;
 			m_Order.set_ValueOfColumn("FTA_FarmerCredit_ID", pFTA_FarmerCredit_ID);
-		} else if(m_DefaultFarmerCredit_ID != 0){
+		} else if(m_DefaultFarmerCredit_ID > 0){
 			m_CurrentFarmerCredit_ID = m_DefaultFarmerCredit_ID;
 			m_Order.set_ValueOfColumn("FTA_FarmerCredit_ID", m_DefaultFarmerCredit_ID);
 			m_Order.setDescription(Msg.translate(getCtx(), "FTA_FarmerCredit_ID")

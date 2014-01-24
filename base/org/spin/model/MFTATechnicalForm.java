@@ -396,7 +396,7 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 				"FROM C_Order o " +
 				"WHERE o.DocStatus NOT IN('VO', 'RE') " +
 				"AND o.FTA_TechnicalForm_ID = ?", getFTA_TechnicalForm_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@";
 		return null;
 	}

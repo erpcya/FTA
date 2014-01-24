@@ -345,7 +345,7 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 				"FROM FTA_QualityAnalysis qa " +
 				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
 				"AND qa.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@";
 		return null;
 	}

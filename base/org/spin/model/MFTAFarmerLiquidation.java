@@ -404,7 +404,7 @@ public class MFTAFarmerLiquidation extends X_FTA_FarmerLiquidation implements Do
 				"INNER JOIN FTA_AllocationLine al ON(al.FTA_Allocation_ID = a.FTA_Allocation_ID)" +
 				"WHERE a.DocStatus NOT IN('VO', 'RE') " +
 				"AND al.FTA_FarmerLiquidation_ID = ?", getFTA_FarmerLiquidation_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@";
 		return null;
 	}

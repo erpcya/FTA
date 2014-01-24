@@ -171,11 +171,6 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 			return DocAction.STATUS_Invalid;
 		}
 		
-		//	Valid Qty
-		m_processMsg = validQtyToDeliver();
-		if(m_processMsg != null)
-			return DocAction.STATUS_Invalid;
-		
 		//	Add up Amounts
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
@@ -313,7 +308,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 				"FROM FTA_EntryTicket et " +
 				"WHERE et.DocStatus NOT IN('VO', 'RE') " +
 				"AND et.FTA_MobilizationGuide_ID = ?", getFTA_MobilizationGuide_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@";
 		return null;
 	}
@@ -496,6 +491,9 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		if(getQtyToDeliver() == null
 				|| getQtyToDeliver().equals(Env.ZERO))
 			return "@QtyToDeliver@ = @0@";
+		//	Just Farming
+		if(getFTA_Farming_ID() == 0)
+			return null;
 		
 		MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
 		if(m_ClientInfo.getC_UOM_Weight_ID() == 0)

@@ -306,7 +306,7 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 				"FROM FTA_FarmerCredit fc " +
 				"WHERE fc.DocStatus IN('CO', 'CL') " +
 				"AND fc.FTA_CreditAct_ID = ?", getFTA_CreditAct_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@";
 		return null;
 	}

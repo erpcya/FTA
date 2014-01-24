@@ -117,7 +117,7 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 		
 		if(m_FTA_FarmerCredit.getGenerateOrder() != null
 				&& m_FTA_FarmerCredit.getGenerateOrder().equals("Y")
-				&& order_ID != 0)
+				&& order_ID > 0)
 			return "";
 		
 		MOrder po = new MOrder (getCtx(), 0, get_TrxName());

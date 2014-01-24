@@ -198,6 +198,17 @@ public interface I_FTA_MobilizationGuide
 
 	public org.spin.model.I_FTA_Farming getFTA_Farming() throws RuntimeException;
 
+    /** Column name FTA_LoadOrder_ID */
+    public static final String COLUMNNAME_FTA_LoadOrder_ID = "FTA_LoadOrder_ID";
+
+	/** Set Load Order	  */
+	public void setFTA_LoadOrder_ID (int FTA_LoadOrder_ID);
+
+	/** Get Load Order	  */
+	public int getFTA_LoadOrder_ID();
+
+	public org.spin.model.I_FTA_LoadOrder getFTA_LoadOrder() throws RuntimeException;
+
     /** Column name FTA_MobilizationGuide_ID */
     public static final String COLUMNNAME_FTA_MobilizationGuide_ID = "FTA_MobilizationGuide_ID";
 
@@ -206,6 +217,17 @@ public interface I_FTA_MobilizationGuide
 
 	/** Get Mobilization Guide	  */
 	public int getFTA_MobilizationGuide_ID();
+
+    /** Column name FTA_RecordWeight_ID */
+    public static final String COLUMNNAME_FTA_RecordWeight_ID = "FTA_RecordWeight_ID";
+
+	/** Set Record Weight	  */
+	public void setFTA_RecordWeight_ID (int FTA_RecordWeight_ID);
+
+	/** Get Record Weight	  */
+	public int getFTA_RecordWeight_ID();
+
+	public org.spin.model.I_FTA_RecordWeight getFTA_RecordWeight() throws RuntimeException;
 
     /** Column name FTA_VehicleType_ID */
     public static final String COLUMNNAME_FTA_VehicleType_ID = "FTA_VehicleType_ID";

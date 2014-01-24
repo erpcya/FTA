@@ -167,7 +167,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 					"AND i.FTA_FarmerCredit_ID = ? " +
 					"AND i.C_BPartner_ID = " + m_FTA_FarmerCredit.getC_BPartner_ID(), m_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
 			//	
-			if(reference_ID == 0){
+			if(reference_ID <= 0){
 				addDocument();
 				if(p_GeneratePayRequest != null
 						&& p_GeneratePayRequest.equals("Y"))
@@ -185,7 +185,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 						"AND i.FTA_FarmerCredit_ID = ? " 
 						+ "AND i.C_BPartner_ID = " + m_FTA_FarmerCredit.getBeneficiary_ID(), m_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
 				//	
-				if(reference_ID == 0){
+				if(reference_ID <= 0){
 					addCounterDocument();
 				}
 			}

@@ -338,6 +338,31 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_FTA_LoadOrder getFTA_LoadOrder() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_LoadOrder)MTable.get(getCtx(), org.spin.model.I_FTA_LoadOrder.Table_Name)
+			.getPO(getFTA_LoadOrder_ID(), get_TrxName());	}
+
+	/** Set Load Order.
+		@param FTA_LoadOrder_ID Load Order	  */
+	public void setFTA_LoadOrder_ID (int FTA_LoadOrder_ID)
+	{
+		if (FTA_LoadOrder_ID < 1) 
+			set_Value (COLUMNNAME_FTA_LoadOrder_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_LoadOrder_ID, Integer.valueOf(FTA_LoadOrder_ID));
+	}
+
+	/** Get Load Order.
+		@return Load Order	  */
+	public int getFTA_LoadOrder_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_LoadOrder_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Mobilization Guide.
 		@param FTA_MobilizationGuide_ID Mobilization Guide	  */
 	public void setFTA_MobilizationGuide_ID (int FTA_MobilizationGuide_ID)
@@ -353,6 +378,31 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	public int getFTA_MobilizationGuide_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_MobilizationGuide_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_FTA_RecordWeight getFTA_RecordWeight() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_RecordWeight)MTable.get(getCtx(), org.spin.model.I_FTA_RecordWeight.Table_Name)
+			.getPO(getFTA_RecordWeight_ID(), get_TrxName());	}
+
+	/** Set Record Weight.
+		@param FTA_RecordWeight_ID Record Weight	  */
+	public void setFTA_RecordWeight_ID (int FTA_RecordWeight_ID)
+	{
+		if (FTA_RecordWeight_ID < 1) 
+			set_Value (COLUMNNAME_FTA_RecordWeight_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_RecordWeight_ID, Integer.valueOf(FTA_RecordWeight_ID));
+	}
+
+	/** Get Record Weight.
+		@return Record Weight	  */
+	public int getFTA_RecordWeight_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_RecordWeight_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

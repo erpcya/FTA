@@ -312,7 +312,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 				"FROM FTA_FarmerCredit fc " +
 				"WHERE fc.DocStatus NOT IN('VO', 'RE') " +
 				"AND fc.FTA_CreditDefinition_ID = ?", getFTA_CreditDefinition_ID());
-		if(m_Reference_ID != 0)
+		if(m_Reference_ID > 0)
 			return "@SQLErrorReferenced@ @FTA_FarmerCredit_ID@ @completed@";
 		return null;
 	}
