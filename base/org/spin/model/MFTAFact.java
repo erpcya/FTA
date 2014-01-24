@@ -206,9 +206,18 @@ public class MFTAFact extends X_FTA_Fact {
 								break;
 							m_Current_Line_ID = m_Line_ID;
 							m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_Amt));
+							//	
 							if(m_Balance.compareTo(Env.ZERO) < 0){
-								m_RemainingAmt = m_Balance.abs();
-								m_Amt = m_Amt.add(m_Balance);
+								//	Balance exceed credit limit
+								if(m_Balance.abs().compareTo(m_Amt) > 0){
+									m_Balance = m_Amt.negate();
+									m_RemainingAmt = m_Balance.abs();
+									continue;
+									//m_Amt = m_Amt.add(m_Balance);
+								} else {
+									m_RemainingAmt = m_Balance.abs();
+									m_Amt = m_Amt.add(m_Balance);
+								}
 							} else {
 								m_RemainingAmt = Env.ZERO;
 							}
@@ -226,6 +235,9 @@ public class MFTAFact extends X_FTA_Fact {
 							if(!m_RemainingAmt.equals(Env.ZERO))
 								break;
 						}
+					} else if(m_Current_Line_ID == m_Line_ID){
+						m_Amt = m_RemainingAmt;
+						m_RemainingAmt = Env.ZERO;
 					}
 					//	
 					if(m_Amt.equals(Env.ZERO))

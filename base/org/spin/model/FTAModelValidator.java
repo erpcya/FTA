@@ -33,6 +33,7 @@ import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_DocType;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -269,11 +270,18 @@ public class FTAModelValidator implements ModelValidator {
 					alloc.processIt(X_FTA_Allocation.DOCACTION_Complete);
 					alloc.save(pay.get_TrxName());
 				}
+			}	
+		} else if(timing == TIMING_BEFORE_REVERSECORRECT){
+			if (po.get_TableName().equals(I_C_Invoice.Table_Name)){
+				MInvoice invoice = (MInvoice) po;
+				String referenceNo = DB.getSQLValueString(invoice.get_TrxName(), "SELECT pr.DocumentNo " +
+						"FROM FTA_PaymentRequest pr " +
+						"WHERE pr.C_Invoice_ID = ? " +
+						"AND pr.DocStatus IN('CO', 'CL')", invoice.getC_Invoice_ID());
+				if(referenceNo != null)
+					return "@SQLErrorReferenced@ @FTA_PaymentRequest_ID@: " + referenceNo + " @completed@";
 			}
-				
-				
 		}
 		return null;
 	}
-
 }

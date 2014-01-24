@@ -235,15 +235,15 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				|| getCreditType().equals(CREDITTYPE_ReceptionAgreement)
 				|| getCreditType().equals(CREDITTYPE_Extension)){
 			if(getFTA_CreditDefinition_ID() == 0){
-				m_processMsg = "@FTA_CreditDefinition_ID@";
+				m_processMsg = "@FTA_CreditDefinition_ID@ @NotFound@";
 				return DocAction.STATUS_Invalid;
 			}
-			//	Very Lines
+			/*//	Very Lines
 			MFTAFarming[] lines = getLines(false);
 			if (lines.length == 0){
 				m_processMsg = "@NoLines@";
 				return DocAction.STATUS_Invalid;
-			}
+			}*/
 			//	Valid Credit Act
 			if(getFTA_CreditAct_ID() == 0){
 				m_processMsg = "@FTA_CreditAct_ID@ @NotFound@";

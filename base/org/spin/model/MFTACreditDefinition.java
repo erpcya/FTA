@@ -23,12 +23,15 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
+import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
@@ -73,11 +76,15 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	}
 
 	/** Lines					*/
-	private MFTACreditDefinitionLine[]		m_lines = null;
+	private MFTACreditDefinitionLine[]		m_lines 	 = null;
+	/**	Product List Approved	*/
+	private MFTAProductListApproved[]		m_PLA_Lines  = null;
 	/** Credit Lines			*/
-	private MFTAFarmerCredit[]				m_credits = null;
+	private MFTAFarmerCredit[]				m_credits 	 = null;
 	/** Credit Act			*/
-	private MFTACreditAct[]					m_creditAct = null;
+	private MFTACreditAct[]					m_creditAct  = null;
+	/** Count Products      */										
+	private int 							countProduct = 0;
 	/**
 	 * 	Get Document Info
 	 *	@return document info (untranslated)
@@ -447,9 +454,9 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if (m_processMsg != null)
 			return false;
 
-		m_processMsg = validReferenceBoE();
-		if(m_processMsg != null)
-			return false;
+		//m_processMsg = validReferenceBoE();
+		//if(m_processMsg != null)
+			//return false;
 		
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
@@ -476,8 +483,16 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
         		"WHERE FTA_CreditDefinition_ID=?",
         		new Object[]{processed, get_ID()},
         		get_TrxName());
+        log.fine("setProcessed - Credit Definition Line" + processed + " - Lines=" + noLine);
+        //	Product List Approved
+        noLine = DB.executeUpdateEx("UPDATE FTA_ProductListApproved " +
+        		"SET Processed=? " +
+        		"WHERE FTA_CreditDefinition_ID=?",
+        		new Object[]{processed, get_ID()},
+        		get_TrxName());
+        
         m_lines = null;
-        log.fine("setProcessed - " + processed + " - Lines=" + noLine);
+        log.fine("setProcessed - Product List Approved" + processed + " - Lines=" + noLine);
     }   //  setProcessed
 
     /**
@@ -704,13 +719,11 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	
 	@Override
 	public int getDoc_User_ID() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int getC_Currency_ID() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
@@ -736,5 +749,147 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		
 		return index;
 	}
+		
+	/**
+	 * Copy Lines From Credit Definition
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 22/01/2014, 16:13:42
+	 * @param otherCreditDefinition
+	 * @param counter
+	 * @param setOrder
+	 * @return
+	 * @return int
+	 */
+	public int copyLinesFrom (MFTACreditDefinition otherCreditDefinition, boolean counter, boolean setOrder)
+	{
+		MFTACreditDefinitionLine[] fromLines = otherCreditDefinition.getLines(false);
+		
+		int count = 0;
+
+		for (MFTACreditDefinitionLine mftaCreditDefinitionLine : fromLines)
+		{
+			MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
+		 	MFTACreditDefinitionLine fromLine = new MFTACreditDefinitionLine(getCtx(), mftaCreditDefinitionLine.get_ID(), get_TrxName());
+		 
+		 	MFTACDLCategory m_FTA_CDL_Category = MFTACDLCategory.get(getCtx(), mftaCreditDefinitionLine.getFTA_CDL_Category_ID());
+		 	
+		 	if(m_FTA_CDL_Category.getValue().equals(MFTACDLCategory.T_CATEGORY)
+		 			|| m_FTA_CDL_Category.getValue().equals(MFTACDLCategory.T_DISTRIBUTION)){
+		 			continue;
+		 		}else{
+		 			if(counter)
+				 		PO.copyValues(fromLine, line, getAD_Client_ID(), getAD_Org_ID());
+				 	else
+				 		PO.copyValues(fromLine, line, line.getAD_Client_ID(), line.getAD_Org_ID());
+
+				 	line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+				 
+				 	//
+					line.setProcessed(false);
+					if (line.save(get_TrxName()))
+						count++;
+		 		}
+		}
+		
+		
+		if (fromLines.length != count)
+			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
+		
+		return count;
+	}	//	copyLinesFrom
 	
+	
+	
+	public int copyProductsFrom (MFTACreditDefinition otherCreditDefinition, boolean counter, boolean setOrder)
+	{
+		MFTAProductListApproved listProduct [] = otherCreditDefinition.getProductLines(true, null);
+		for (MFTAProductListApproved mftaProductListApproved : listProduct)
+		{
+			/*MFTAProductListApproved product = new MFTAProductListApproved(getCtx(), 0, get_TrxName());
+			
+			if(counter)
+		 		PO.copyValues(mftaProductListApproved, product, getAD_Client_ID(), getAD_Org_ID());
+		 	else
+		 		PO.copyValues(mftaProductListApproved, product, product.getAD_Client_ID(), product.getAD_Org_ID());
+
+		 	product.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+		 
+		 	//
+			product.setProcessed(false);
+			//if (
+			product.saveEx();
+			//)*/
+			
+			MFTAProductListApproved product = new MFTAProductListApproved(getCtx(), 0, get_TrxName());
+			product.set_ValueOfColumn("AD_Client_ID", otherCreditDefinition.getAD_Client_ID());
+			product.set_ValueOfColumn("AD_Org_ID", otherCreditDefinition.getAD_Org_ID());
+			product.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+			product.setM_Product_ID(mftaProductListApproved.get_ValueAsInt("M_Product_ID"));
+			if(mftaProductListApproved.get_ValueAsInt("Substitute_ID") > 0)
+				product.setSubstitute_ID(mftaProductListApproved.get_ValueAsInt("Substitute_ID"));
+			else
+				product.setSubstitute_ID(0);
+			
+			product.setProcessed(false);
+			product.setIsActive(true);
+			product.setApprovedQty(BigDecimal.valueOf( mftaProductListApproved.get_ValueAsInt("ApprovedQty")));
+			
+			product.saveEx();
+			/*
+			MAttributeSetInstance asi = new MAttributeSetInstance(ctx, 0, trxName);
+			asi.setClientOrg(product.getAD_Client_ID(), 0);
+			asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
+			// Create new Lot, Serial# and Guarantee Date
+			if (asi.getM_AttributeSet_ID() > 0)
+			{
+				asi.getLot(true, product.get_ID());
+				asi.getSerNo(true);
+				asi.getGuaranteeDate(true);
+			}
+			//
+			asi.saveEx();
+			return asi;*/
+				countProduct++;
+
+		}
+		
+		if (listProduct.length != countProduct)
+			log.log(Level.SEVERE, "Product Approved difference - From=" + listProduct.length + " <> Saved=" + countProduct);
+		
+		return countProduct;
+	}	//	copyLinesFrom
+
+	public void setCountProduct(int countProduct){
+		this.countProduct = countProduct;
+	}
+	
+	public int getCountProduct(){
+		return countProduct;
+	}
+	/**
+	 * Get Product List Approved
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/01/2014, 09:59:29
+	 * @param requery
+	 * @param whereClause
+	 * @return
+	 * @return MFTAProductListApproved[]
+	 */
+	public MFTAProductListApproved[] getProductLines (boolean requery, String whereClause)
+	{
+		if (m_PLA_Lines != null && !requery)
+		{
+			set_TrxName(m_PLA_Lines, get_TrxName());
+			return m_PLA_Lines;
+		}
+		List<MFTAProductListApproved> list = new Query(getCtx(), MFTAProductListApproved.Table_Name, "FTA_CreditDefinition_ID=?"
+				+ (whereClause != null && whereClause.length() != 0? " AND " + whereClause: ""), get_TrxName())
+		.setParameters(getFTA_CreditDefinition_ID())
+		.list();
+
+		m_PLA_Lines = new MFTAProductListApproved[list.size ()];
+		list.toArray (m_PLA_Lines);
+		return m_PLA_Lines;
+	}	//	getLines
+
+
 }
+
