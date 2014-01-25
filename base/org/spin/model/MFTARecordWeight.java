@@ -447,9 +447,14 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
+		//	
 		if(getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
 				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)
 				|| getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)){
+			//	Valid QualityAnalysis Reference
+			m_processMsg = validQAReference();
+			if (m_processMsg != null)
+				return false;
 			//	Valid Mobilization Guide Reference
 			m_processMsg = validMGReference();
 			if (m_processMsg != null)
@@ -594,6 +599,24 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if(m_Reference_ID > 0) {
 			MFTAMobilizationGuide mobilizationGuide = new MFTAMobilizationGuide(getCtx(), m_Reference_ID, get_TrxName());
 			return "@SQLErrorReferenced@ @FTA_MobilizationGuide_ID@: " + mobilizationGuide.getDocumentNo();
+		}
+		return null;
+	}
+	
+	/**
+	 * Valid Reference in Quality Analysis
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 25/01/2014, 12:13:56
+	 * @return
+	 * @return String
+	 */
+	private String validQAReference(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
+				"FROM FTA_QualityAnalysis qa " +
+				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
+				"AND qa.FTA_RecordWeight_ID = ?", getFTA_RecordWeight_ID());
+		if(m_Reference_ID > 0) {
+			MFTAQualityAnalysis qualityAnalysis = new MFTAQualityAnalysis(getCtx(), m_Reference_ID, get_TrxName());
+			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + qualityAnalysis.getDocumentNo();
 		}
 		return null;
 	}

@@ -569,6 +569,27 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		return false;
 	}
 
+	/** Set Is Handle Record Weight.
+		@param IsHandleRecordWeight Is Handle Record Weight	  */
+	public void setIsHandleRecordWeight (boolean IsHandleRecordWeight)
+	{
+		set_Value (COLUMNNAME_IsHandleRecordWeight, Boolean.valueOf(IsHandleRecordWeight));
+	}
+
+	/** Get Is Handle Record Weight.
+		@return Is Handle Record Weight	  */
+	public boolean isHandleRecordWeight () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsHandleRecordWeight);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Invoiced.
 		@param IsInvoiced 
 		Is this invoiced?
