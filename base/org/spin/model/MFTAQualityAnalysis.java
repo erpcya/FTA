@@ -353,11 +353,21 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
-		
-		m_processMsg = validReference();
-		if(m_processMsg != null)
-			return false;
-		
+		//	Valid Reference
+		if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt)
+				|| getOperationType().equals(OPERATIONTYPE_ProductBulkReceipt)
+				|| getOperationType().equals(OPERATIONTYPE_ReceiptMoreThanOneProduct)
+				|| getOperationType().equals(OPERATIONTYPE_MaterialInputMovement)){
+			//	Chute Analysis
+			m_processMsg = validCAReference();
+			if(m_processMsg != null)
+				return false;
+			//	Record Weight
+			m_processMsg = validRWReference();
+			if(m_processMsg != null)
+				return false;
+		}
+		//	
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 
 		// After Void
@@ -376,20 +386,33 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 	 * @return
 	 * @return String
 	 */
-	private String validReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
-				"FROM FTA_RecordWeight rw " +
-				"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
-				"AND rw.FTA_QualityAnalysis_ID = ?", getFTA_QualityAnalysis_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@";
-		m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
+	private String validCAReference(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
 				"FROM FTA_QualityAnalysis qa " +
 				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
 				"AND qa.Orig_QualityAnalysis_ID = ?", getFTA_QualityAnalysis_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@";
-		return null;
+		if(m_Reference_ID > 0) {
+			MFTAQualityAnalysis qualityAnalysis = new MFTAQualityAnalysis(getCtx(), m_Reference_ID, get_TrxName());
+			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + qualityAnalysis.getDocumentNo();
+		}
+		return null;		
+	}
+	
+	/**
+	 * Valid Record Weight Reference
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 25/01/2014, 12:39:26
+	 * @return
+	 * @return String
+	 */
+	private String validRWReference(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
+				"FROM FTA_RecordWeight rw " +
+				"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
+				"AND rw.FTA_QualityAnalysis_ID = ?", getFTA_QualityAnalysis_ID());if(m_Reference_ID > 0) {
+			MFTARecordWeight recordWeight = new MFTARecordWeight(getCtx(), m_Reference_ID, get_TrxName());
+			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + recordWeight.getDocumentNo();
+		}
+		return null;		
 	}
 	
 	/**
@@ -463,9 +486,14 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
-		m_processMsg = validReference();
-		if(m_processMsg != null)
-			return false;
+		if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt)
+				|| getOperationType().equals(OPERATIONTYPE_ProductBulkReceipt)
+				|| getOperationType().equals(OPERATIONTYPE_MaterialInputMovement)){
+			//	Record Weight
+			m_processMsg = validRWReference();
+			if(m_processMsg != null)
+				return false;
+		}
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
