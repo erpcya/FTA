@@ -312,6 +312,15 @@ public interface I_FTA_LoadOrder
 	/** Get Delivered	  */
 	public boolean isDelivered();
 
+    /** Column name IsHandleRecordWeight */
+    public static final String COLUMNNAME_IsHandleRecordWeight = "IsHandleRecordWeight";
+
+	/** Set Is Handle Record Weight	  */
+	public void setIsHandleRecordWeight (boolean IsHandleRecordWeight);
+
+	/** Get Is Handle Record Weight	  */
+	public boolean isHandleRecordWeight();
+
     /** Column name IsInvoiced */
     public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
 

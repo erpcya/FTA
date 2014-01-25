@@ -689,18 +689,16 @@ public class VLoadOrder extends LoadOrder
 			calculate();
 		} else if(name.equals("FTA_EntryTicket_ID")){
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
-			if(m_FTA_EntryTicket_ID != 0){
-				ArrayList<KeyNamePair> data = getDataDriver(trxName);
-				m_FTA_Driver_ID = loadComboBox(driverSearch, data, true);
-				//	Vehicle
-				data = getVehicleData(trxName);
-				m_FTA_Vehicle_ID = loadComboBox(vehicleSearch, data, true);
-				m_FTA_VehicleType_ID = getFTA_VehicleType_ID(m_FTA_EntryTicket_ID, trxName);
-				vehicleTypePick.setValue(m_FTA_VehicleType_ID);
-				vehicleTypePick.setReadWrite(false);
-				//	Set Capacity
-				setFillCapacity();
-			}
+			ArrayList<KeyNamePair> data = getDataDriver(trxName);
+			m_FTA_Driver_ID = loadComboBox(driverSearch, data, true);
+			//	Vehicle
+			data = getVehicleData(trxName);
+			m_FTA_Vehicle_ID = loadComboBox(vehicleSearch, data, true);
+			m_FTA_VehicleType_ID = getFTA_VehicleType_ID(m_FTA_EntryTicket_ID, trxName);
+			vehicleTypePick.setValue(m_FTA_VehicleType_ID);
+			vehicleTypePick.setReadWrite(!(m_FTA_EntryTicket_ID > 0));
+			//	Set Capacity
+			setFillCapacity();
 		}
 		calculate();
 		
