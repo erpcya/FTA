@@ -162,7 +162,7 @@ public class CalloutRecordWeight extends CalloutEngine {
 	 */
 	public String product(Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 
-		if (value ==null || !mField.getColumnName().equals("FTA_QualityAnalysis_ID") || !mField.getColumnName().equals("FTA_LoadOrder_ID"))
+		if (value ==null)
 			return "";
 		
 		if (mField.getColumnName().equals("FTA_QualityAnalysis_ID")){
