@@ -317,11 +317,23 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
-		
-		m_processMsg = validReference();
+		//	Valid QualityAnalysis Completed
+		m_processMsg = validQAReference();
 		if(m_processMsg != null)
 			return false;
-		
+		//	Valid Record Weight Completed
+		m_processMsg = validRWReference();
+		if(m_processMsg != null)
+			return false;
+		//	Valid Load Order Completed
+		if(getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
+				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)
+				|| getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)){
+			m_processMsg = validLOReference();
+			if(m_processMsg != null)
+				return false;
+		}
+		//	
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 
 		// After Void
@@ -335,18 +347,56 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	}	//	voidIt
 	
 	/**
-	 * Valid Reference in another record
+	 * Valid Reference in Quality Analysis
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/09/2013, 16:05:21
 	 * @return
 	 * @return String
 	 */
-	private String validReference(){
+	private String validQAReference(){
 		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
 				"FROM FTA_QualityAnalysis qa " +
 				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
 				"AND qa.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@";
+		if(m_Reference_ID > 0) {
+			MFTAQualityAnalysis qualityAnalysis = new MFTAQualityAnalysis(getCtx(), m_Reference_ID, get_TrxName());
+			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + qualityAnalysis.getDocumentNo();
+		}
+		return null;
+	}
+	
+	/**
+	 * Valid Reference in Record Weight
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 25/01/2014, 11:57:13
+	 * @return
+	 * @return String
+	 */
+	private String validRWReference(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
+				"FROM FTA_RecordWeight rw " +
+				"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
+				"AND rw.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
+		if(m_Reference_ID > 0) {
+			MFTARecordWeight recordWeight = new MFTARecordWeight(getCtx(), m_Reference_ID, get_TrxName());
+			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + recordWeight.getDocumentNo();
+		}
+		return null;
+	}
+	
+	/**
+	 * Valid Reference in Load Order
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 25/01/2014, 12:01:48
+	 * @return
+	 * @return String
+	 */
+	private String validLOReference(){
+		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(lo.FTA_LoadOrder_ID) " +
+				"FROM FTA_LoadOrder lo " +
+				"WHERE lo.DocStatus NOT IN('VO', 'RE') " +
+				"AND lo.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
+		if(m_Reference_ID > 0) {
+			MFTALoadOrder loadOrder = new MFTALoadOrder(getCtx(), m_Reference_ID, get_TrxName());
+			return "@SQLErrorReferenced@ @FTA_LoadOrder_ID@: " + loadOrder.getDocumentNo();
+		}
 		return null;
 	}
 	
@@ -424,7 +474,7 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
-		m_processMsg = validReference();
+		m_processMsg = validQAReference();
 		if(m_processMsg != null)
 			return false;
 		// After reActivate
