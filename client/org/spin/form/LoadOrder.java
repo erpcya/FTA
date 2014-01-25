@@ -571,7 +571,7 @@ public class LoadOrder {
 				"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 				"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume").append(" ");
 		//	Having
-		sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(lc.Qty)) > 0").append(" ");
+		sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(COALESCE(lc.Qty, 0))) > 0").append(" ");
 		//	Order By
 		sql.append("ORDER BY lord.C_Order_ID ASC");
 		
