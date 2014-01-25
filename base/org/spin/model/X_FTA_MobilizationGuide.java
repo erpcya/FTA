@@ -34,7 +34,7 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140124L;
+	private static final long serialVersionUID = 20140125L;
 
     /** Standard Constructor */
     public X_FTA_MobilizationGuide (Properties ctx, int FTA_MobilizationGuide_ID, String trxName)
@@ -431,6 +431,30 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Sales Transaction.
+		@param IsSOTrx 
+		This is a Sales Transaction
+	  */
+	public void setIsSOTrx (boolean IsSOTrx)
+	{
+		set_Value (COLUMNNAME_IsSOTrx, Boolean.valueOf(IsSOTrx));
+	}
+
+	/** Get Sales Transaction.
+		@return This is a Sales Transaction
+	  */
+	public boolean isSOTrx () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSOTrx);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException

@@ -133,6 +133,7 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 		m_MobilizationGuide.setC_DocType_ID(p_C_DocTypeTarget_ID);
 		m_MobilizationGuide.setDateDoc(p_DateDoc);
 		m_MobilizationGuide.setFTA_VehicleType_ID(m_LoadOrder.getFTA_VehicleType_ID());
+		m_MobilizationGuide.setIsSOTrx(true);
 		//	Set References
 		m_MobilizationGuide.setFTA_LoadOrder_ID(p_FTA_LoadOrder_ID);
 		//	Get Record Weight
