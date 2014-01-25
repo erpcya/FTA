@@ -225,7 +225,25 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		m_processMsg = validQtyToDeliver();
 		if(m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		
+		//	Verify Mandatory References
+		if(getFTA_VehicleType_ID() == 0)
+			m_processMsg = "@FTA_LoadOrder_ID@ @NotFound@";
+		if(isSOTrx()) {
+			if(getFTA_LoadOrder_ID() == 0)
+				m_processMsg = "@FTA_LoadOrder_ID@ @NotFound@";
+			else if(getFTA_RecordWeight_ID() == 0) {
+				MFTALoadOrder loadOrder = new MFTALoadOrder(getCtx(), getFTA_LoadOrder_ID(), get_TrxName());
+				if(loadOrder.isHandleRecordWeight())
+					m_processMsg = "@FTA_RecordWeight_ID@ @NotFound@";
+			} else 
+				m_processMsg = validMGReference();
+		} else {
+			if(getFTA_Farming_ID() == 0)
+				m_processMsg = "@FTA_Farming_ID@ @NotFound@";
+		}
+		//	Return
+		if(m_processMsg != null)
+			return DocAction.STATUS_Invalid;
 		//	Implicit Approval
 		//if (!isApproved())
 			//approveIt();
@@ -309,6 +327,22 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 				"WHERE et.DocStatus NOT IN('VO', 'RE') " +
 				"AND et.FTA_MobilizationGuide_ID = ?", getFTA_MobilizationGuide_ID());
 		if(m_Reference_ID > 0)
+			return "@SQLErrorReferenced@";
+		return null;
+	}
+	
+	/**
+	 * Valid if exists another guide
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 25/01/2014, 13:53:44
+	 * @return
+	 * @return String
+	 */
+	private String validMGReference(){
+		int mobilizationGuide_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(mg.FTA_MobilizationGuide_ID) " +
+				"FROM FTA_MobilizationGuide mg " +
+				"WHERE mg.DocStatus NOT IN('VO', 'RE') " +
+				"AND mg.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+		if(mobilizationGuide_ID > 0)
 			return "@SQLErrorReferenced@";
 		return null;
 	}
