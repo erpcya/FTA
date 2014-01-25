@@ -726,34 +726,33 @@ public class VLoadOrder extends LoadOrder
 		boolean isOrder = (e.getSource().equals(orderTable.getModel()));
 		boolean isOrderLine = (e.getSource().equals(orderLineTable.getModel()));
 		if(isOrder){
-			if(col == SELECT){
-				if(m_IsBulk){
-					if(moreOneSelect(orderTable)) {
-						ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
-						orderTable.setValueAt(false, row, SELECT);
-					}	
-				}
+			if(col == SELECT
+					&& m_IsBulk
+					&& moreOneSelect(orderTable)){
+				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
+				orderTable.setValueAt(false, row, SELECT);
+				return;
+			}
+			//	Load Lines
+			if(m_C_UOM_Weight_ID != 0){
+				StringBuffer sql = getQueryLine(orderTable);
+				Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
+				Vector<String> columnNames = getOrderLineColumnNames();
+				
+				loadBuffer(orderLineTable);
+				//  Remove previous listeners
+				orderLineTable.getModel().removeTableModelListener(this);
+				
+				//  Set Model
+				DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
+				modelP.addTableModelListener(this);
+				orderLineTable.setModel(modelP);
+				setOrderLineColumnClass(orderLineTable);
+				setValueFromBuffer(orderLineTable);	
 			} else {
-				if(m_C_UOM_Weight_ID != 0){
-					StringBuffer sql = getQueryLine(orderTable);
-					Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
-					Vector<String> columnNames = getOrderLineColumnNames();
-					
-					loadBuffer(orderLineTable);
-					//  Remove previous listeners
-					orderLineTable.getModel().removeTableModelListener(this);
-					
-					//  Set Model
-					DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
-					modelP.addTableModelListener(this);
-					orderLineTable.setModel(modelP);
-					setOrderLineColumnClass(orderLineTable);
-					setValueFromBuffer(orderLineTable);	
-				} else {
-					ADialog.info(m_WindowNo, panel, "Error", Msg.parseTranslation(Env.getCtx(), "@C_UOM_ID@ @NotFound@"));
-					//loadOrder();
-					calculate();
-				}
+				ADialog.info(m_WindowNo, panel, "Error", Msg.parseTranslation(Env.getCtx(), "@C_UOM_ID@ @NotFound@"));
+				//loadOrder();
+				calculate();
 			}
 		} else if(isOrderLine){
 			if(col == OL_QTY){	//Qty
