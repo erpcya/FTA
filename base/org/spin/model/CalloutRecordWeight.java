@@ -162,17 +162,32 @@ public class CalloutRecordWeight extends CalloutEngine {
 	 */
 	public String product(Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 
-		if (value ==null || !mField.getColumnName().equals("FTA_QualityAnalysis_ID"))
+		if (value ==null)
 			return "";
 		
-		int l_FTA_QualityAnalysis_ID = (value == null ? 0 : (Integer)value);
-		
-		if (l_FTA_QualityAnalysis_ID != 0)
-		{
-			MFTAQualityAnalysis qa = new MFTAQualityAnalysis(ctx, l_FTA_QualityAnalysis_ID, null);
-			mTab.setValue("M_Product_ID", qa.getM_Product_ID());
+		if (mField.getColumnName().equals("FTA_QualityAnalysis_ID")){
+			int l_FTA_QualityAnalysis_ID = (value == null ? 0 : (Integer)value);
+			
+			if (l_FTA_QualityAnalysis_ID != 0)
+			{
+				MFTAQualityAnalysis qa = new MFTAQualityAnalysis(ctx, l_FTA_QualityAnalysis_ID, null);
+				mTab.setValue("M_Product_ID", qa.getM_Product_ID());
+			}
 		}
-		
+		else if (mField.getColumnName().equals("FTA_LoadOrder_ID")){
+			
+			int l_FTA_LoadOrder_ID = (value == null ? 0 : (Integer)value);
+			
+			if (l_FTA_LoadOrder_ID != 0)
+			{
+				MFTALoadOrder lo = new MFTALoadOrder(ctx, l_FTA_LoadOrder_ID, null);
+				MFTALoadOrderLine[] lolines = lo.getLines(true);
+				//get First Product From Load Order
+				if (lolines.length > 0 )
+					mTab.setValue("M_Product_ID", lolines[0].getM_Product_ID());
+			}
+		}
+			
 		return "";
 	}
 
