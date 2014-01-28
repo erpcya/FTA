@@ -302,12 +302,12 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 	 * @return String
 	 */
 	private String validReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fc.FTA_FarmerCredit_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(fc.DocumentNo) " +
 				"FROM FTA_FarmerCredit fc " +
 				"WHERE fc.DocStatus IN('CO', 'CL') " +
 				"AND fc.FTA_CreditAct_ID = ?", getFTA_CreditAct_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@";
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @FTA_FarmerCredit_ID@: " + m_ReferenceNo;
 		return null;
 	}
 	

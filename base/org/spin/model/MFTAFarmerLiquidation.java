@@ -399,13 +399,13 @@ public class MFTAFarmerLiquidation extends X_FTA_FarmerLiquidation implements Do
 	 * @return String
 	 */
 	private String validReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(a.FTA_Allocation_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(a.DocumentNo) " +
 				"FROM FTA_Allocation a " +
 				"INNER JOIN FTA_AllocationLine al ON(al.FTA_Allocation_ID = a.FTA_Allocation_ID)" +
 				"WHERE a.DocStatus NOT IN('VO', 'RE') " +
 				"AND al.FTA_FarmerLiquidation_ID = ?", getFTA_FarmerLiquidation_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@";
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @FTA_Allocation_ID@: " + m_ReferenceNo;
 		return null;
 	}
 	

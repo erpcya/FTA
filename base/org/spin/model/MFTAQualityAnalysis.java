@@ -387,14 +387,12 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 	 * @return String
 	 */
 	private String validCAReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(qa.DocumentNo) " +
 				"FROM FTA_QualityAnalysis qa " +
 				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
 				"AND qa.Orig_QualityAnalysis_ID = ?", getFTA_QualityAnalysis_ID());
-		if(m_Reference_ID > 0) {
-			MFTAQualityAnalysis qualityAnalysis = new MFTAQualityAnalysis(getCtx(), m_Reference_ID, get_TrxName());
-			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + qualityAnalysis.getDocumentNo();
-		}
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo;
 		return null;		
 	}
 	
@@ -405,13 +403,12 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 	 * @return String
 	 */
 	private String validRWReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(rw.DocumentNo) " +
 				"FROM FTA_RecordWeight rw " +
 				"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
-				"AND rw.FTA_QualityAnalysis_ID = ?", getFTA_QualityAnalysis_ID());if(m_Reference_ID > 0) {
-			MFTARecordWeight recordWeight = new MFTARecordWeight(getCtx(), m_Reference_ID, get_TrxName());
-			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + recordWeight.getDocumentNo();
-		}
+				"AND rw.FTA_QualityAnalysis_ID = ?", getFTA_QualityAnalysis_ID());
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;
 		return null;		
 	}
 	
