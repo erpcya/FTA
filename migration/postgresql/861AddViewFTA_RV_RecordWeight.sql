@@ -1,5 +1,5 @@
 ﻿-- DROP VIEW FTA_RV_RecordWeight
- --CREATE OR REPLACE VIEW FTA_RV_RecordWeight AS
+CREATE OR REPLACE VIEW FTA_RV_RecordWeight AS
 SELECT 
 	rw.AD_Client_ID, rw.AD_Org_ID, rw.Created, rw.CreatedBy, rw.IsActive, rw.Updated, rw.UpdatedBy, 
 	rw.C_DocType_ID, rw.C_UOM_ID, rw.DateDoc, rw.Description, 
