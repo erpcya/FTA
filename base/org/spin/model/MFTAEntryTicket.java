@@ -353,14 +353,12 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	 * @return String
 	 */
 	private String validQAReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(qa.DocumentNo) " +
 				"FROM FTA_QualityAnalysis qa " +
 				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
 				"AND qa.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
-		if(m_Reference_ID > 0) {
-			MFTAQualityAnalysis qualityAnalysis = new MFTAQualityAnalysis(getCtx(), m_Reference_ID, get_TrxName());
-			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + qualityAnalysis.getDocumentNo();
-		}
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo;
 		return null;
 	}
 	
@@ -371,14 +369,12 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	 * @return String
 	 */
 	private String validRWReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(rw.DocumentNo) " +
 				"FROM FTA_RecordWeight rw " +
 				"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
 				"AND rw.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
-		if(m_Reference_ID > 0) {
-			MFTARecordWeight recordWeight = new MFTARecordWeight(getCtx(), m_Reference_ID, get_TrxName());
-			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + recordWeight.getDocumentNo();
-		}
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;
 		return null;
 	}
 	
@@ -389,14 +385,12 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	 * @return String
 	 */
 	private String validLOReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(lo.FTA_LoadOrder_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(lo.FTA_LoadOrder_ID) " +
 				"FROM FTA_LoadOrder lo " +
 				"WHERE lo.DocStatus NOT IN('VO', 'RE') " +
 				"AND lo.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
-		if(m_Reference_ID > 0) {
-			MFTALoadOrder loadOrder = new MFTALoadOrder(getCtx(), m_Reference_ID, get_TrxName());
-			return "@SQLErrorReferenced@ @FTA_LoadOrder_ID@: " + loadOrder.getDocumentNo();
-		}
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @FTA_LoadOrder_ID@: " + m_ReferenceNo;
 		return null;
 	}
 	

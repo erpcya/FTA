@@ -322,12 +322,12 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 	 * @return String
 	 */
 	private String validReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(et.FTA_EntryTicket_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(et.DocumentNo) " +
 				"FROM FTA_EntryTicket et " +
 				"WHERE et.DocStatus NOT IN('VO', 'RE') " +
 				"AND et.FTA_MobilizationGuide_ID = ?", getFTA_MobilizationGuide_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@";
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @FTA_EntryTicket_ID@: " + m_ReferenceNo;
 		return null;
 	}
 	
@@ -338,12 +338,12 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 	 * @return String
 	 */
 	private String validMGReference(){
-		int mobilizationGuide_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(mg.FTA_MobilizationGuide_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(mg.DocumentNo) " +
 				"FROM FTA_MobilizationGuide mg " +
 				"WHERE mg.DocStatus NOT IN('VO', 'RE') " +
 				"AND mg.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
-		if(mobilizationGuide_ID > 0)
-			return "@SQLErrorReferenced@";
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @FTA_MobilizationGuide_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_LoadOrder_ID@";
 		return null;
 	}
 	
