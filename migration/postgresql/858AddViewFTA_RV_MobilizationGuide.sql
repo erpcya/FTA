@@ -24,7 +24,6 @@ SELECT
 	ci.C_Uom_Weight_ID, 
 	mg.FTA_VehicleType_ID,
 	vt.Name AS VehicleType,vt.LoadCapacity,
-	--l.Address1||' '||l.Address2||' '||l.Address3||' '||l.Address4 AS Address,
 	l.C_Region_ID,
 	l.C_Country_ID,
 	l.C_City_ID,
