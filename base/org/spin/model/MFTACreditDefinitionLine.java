@@ -101,11 +101,11 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 						|| is_ValueChanged("IsDistributionLine")
 						|| is_ValueChanged("IsExceedCreditLimit")
 						|| is_ValueChanged("FTA_CDL_Category_ID"))){
-			int reference_ID = DB.getSQLValue(get_TrxName(), "SELECT ft.FTA_Fact_ID " +
+			String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(ft.DocumentNo) " +
 					"FROM FTA_Fact ft " +
 					"WHERE ft.FTA_CreditDefinitionLine_ID = ?", getFTA_CreditDefinitionLine_ID());
-			if(reference_ID > 0)
-				throw new AdempiereException("@SQLErrorReferenced@");
+			if(m_ReferenceNo != null)
+				throw new AdempiereException("@SQLErrorReferenced@ @FTA_Fact_ID@: " + m_ReferenceNo);
 		}
 		if(isDistributionLine())
 			setIsExceedCreditLimit(true);
@@ -120,11 +120,11 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 				|| category.getValue().equals(MFTACDLCategory.T_DISTRIBUTION))
 			throw new AdempiereException("@DeleteError@");
 		//	Valid Reference
-		int reference_ID = DB.getSQLValue(get_TrxName(), "SELECT ft.FTA_Fact_ID " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(ft.DocumentNo) " +
 				"FROM FTA_Fact ft " +
 				"WHERE ft.FTA_CreditDefinitionLine_ID = ?", getFTA_CreditDefinitionLine_ID());
-		if(reference_ID > 0)
-			throw new AdempiereException("@SQLErrorReferenced@");
+		if(m_ReferenceNo != null)
+			throw new AdempiereException("@SQLErrorReferenced@ @FTA_Fact_ID@: " + m_ReferenceNo);
 		return ok;
 	}
 	

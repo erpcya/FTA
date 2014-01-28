@@ -392,12 +392,12 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 	 * @return String
 	 */
 	private String validReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(o.C_Order_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(o.DocumentNo) " +
 				"FROM C_Order o " +
 				"WHERE o.DocStatus NOT IN('VO', 'RE') " +
 				"AND o.FTA_TechnicalForm_ID = ?", getFTA_TechnicalForm_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@";
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @C_Order_ID@: " + m_ReferenceNo;
 		return null;
 	}
 	

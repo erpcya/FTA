@@ -372,14 +372,14 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	 * @return String
 	 */
 	private String validReferenceET(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(et.FTA_EntryTicket_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(et.DocumentNo) " +
 				"FROM FTA_Farming frm " +
 				"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = frm.FTA_Farming_ID) " +
 				"INNER JOIN FTA_EntryTicket et ON(et.FTA_MobilizationGuide_ID = mg.FTA_MobilizationGuide_ID) " +
 				"WHERE et.DocStatus NOT IN('VO', 'RE') " +
 				"AND frm.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@ @FTA_EntryTicket_ID@ @completed@";
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @FTA_EntryTicket_ID@: " + m_ReferenceNo + " @completed@";
 		return null;
 	}
 	
@@ -390,12 +390,12 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	 * @return String
 	 */
 	private String validReferenceBoE(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(be.FTA_BillOfExchange_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(be.DocumentNo) " +
 				"FROM FTA_BillOfExchange be " +
 				"WHERE be.DocStatus NOT IN('VO', 'RE') " +
 				"AND be.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@ @FTA_BillOfExchange_ID@ @completed@";
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @FTA_BillOfExchange_ID@: " + m_ReferenceNo + " @completed@";
 		return null;
 	}
 	
@@ -406,12 +406,12 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	 * @return String
 	 */
 	private String validReferenceInvoice(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(i.C_Invoice_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(i.DocumentNo) " +
 				"FROM C_Invoice i " +
 				"WHERE i.DocStatus NOT IN('VO', 'RE') " +
 				"AND i.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@ @C_Invoice_ID@ @completed@";
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @C_Invoice_ID@: " + m_ReferenceNo + " @completed@";
 		return null;
 	}
 	
@@ -422,12 +422,12 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	 * @return String
 	 */
 	private String validReferenceOrder(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(o.C_Order_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(o.DocumentNo) " +
 				"FROM C_Order o " +
 				"WHERE o.DocStatus NOT IN('VO', 'RE') " +
 				"AND o.FTA_FarmerCredit_ID = ?", getFTA_FarmerCredit_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@ @C_Order_ID@ @completed@";
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @C_Order_ID@: " + m_ReferenceNo + " @completed@";
 		return null;
 	}
 	

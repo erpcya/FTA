@@ -575,12 +575,12 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return String
 	 */
 	private String validInOutReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(re.M_InOut_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(re.DocumentNo) " +
 				"FROM M_InOut re " +
 				"WHERE re.DocStatus NOT IN('VO', 'RE') " +
 				"AND re.FTA_RecordWeight_ID = ?", getFTA_RecordWeight_ID());
-		if(m_Reference_ID > 0)
-			return "@SQLErrorReferenced@";
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @M_InOut_ID@: " + m_ReferenceNo;
 		return null;
 	}
 	
@@ -592,14 +592,12 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return String
 	 */
 	private String validMGReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(mg.FTA_MobilizationGuide_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(mg.DocumentNo) " +
 				"FROM FTA_MobilizationGuide mg " +
 				"WHERE mg.DocStatus NOT IN('VO', 'RE') " +
 				"AND mg.FTA_RecordWeight_ID = ?", getFTA_RecordWeight_ID());
-		if(m_Reference_ID > 0) {
-			MFTAMobilizationGuide mobilizationGuide = new MFTAMobilizationGuide(getCtx(), m_Reference_ID, get_TrxName());
-			return "@SQLErrorReferenced@ @FTA_MobilizationGuide_ID@: " + mobilizationGuide.getDocumentNo();
-		}
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @FTA_MobilizationGuide_ID@: " + m_ReferenceNo;
 		return null;
 	}
 	
@@ -610,14 +608,12 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return String
 	 */
 	private String validQAReference(){
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(qa.FTA_QualityAnalysis_ID) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(qa.DocumentNo) " +
 				"FROM FTA_QualityAnalysis qa " +
 				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
 				"AND qa.FTA_RecordWeight_ID = ?", getFTA_RecordWeight_ID());
-		if(m_Reference_ID > 0) {
-			MFTAQualityAnalysis qualityAnalysis = new MFTAQualityAnalysis(getCtx(), m_Reference_ID, get_TrxName());
-			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + qualityAnalysis.getDocumentNo();
-		}
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo;
 		return null;
 	}
 	
