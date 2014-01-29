@@ -86,6 +86,9 @@ public class CalloutRecordWeight extends CalloutEngine {
 		mTab.setValue("FTA_QualityAnalysis_ID", m_FTA_QualityAnalysis_ID);
 		Env.setContext(ctx, WindowNo, "FTA_QualityAnalysis_ID", (m_FTA_QualityAnalysis_ID==-1?0:m_FTA_QualityAnalysis_ID));
 		
+		//	Dixon Martinez 2014-01-28
+		//	Set load order
+		
 		//	Return Load Order 
 		sql = " SELECT FTA_LoadOrder_ID FROM FTA_LoadOrder" +
 				" WHERE FTA_EntryTicket_ID = ?";
@@ -93,7 +96,7 @@ public class CalloutRecordWeight extends CalloutEngine {
 		int m_FTA_LoadOrder_ID = DB.getSQLValue(null, sql, m_FTA_EntryTicket_ID);
 		//	Set Value Load Order into Record Weight
 		mTab.setValue("FTA_LoadOrder_ID", m_FTA_LoadOrder_ID);
-		
+		//	End Dixon Martinez
 		return "";
 	}
 	
