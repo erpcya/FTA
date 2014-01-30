@@ -229,7 +229,7 @@ public class CreditSOAllocation extends SvrProcess {
 									+"FTA_FarmerCredit fc "
 									+"Inner Join FTA_CreditDefinitionLine cdfl On fc.FTA_CreditDefinition_ID=cdfl.FTA_CreditDefinition_ID "
 									+"Inner Join FTA_CDL_Category cc On cc.FTA_CDL_Category_ID=cdfl.FTA_CDL_Category_ID "
-									+"Where fc.DocStatus In ('CO','CL'))  "
+									+"Where fc.DocStatus In ('CO','CL') And cdfl.IsExceedCreditLimit = 'N')  "
 									+"Credits On Facts.C_BPartner_ID=Credits.C_BPartner_ID " 
 									+"AND Facts.FTA_FarmerCredit_ID=Credits.FTA_FarmerCredit_ID "
 									+"AND Facts.FTA_CreditDefinitionLine_ID=Credits.FTA_CreditDefinitionLine_ID "
