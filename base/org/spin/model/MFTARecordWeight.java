@@ -786,9 +786,19 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if(msg != null)
 			throw new AdempiereException(msg);
 		//	End Dixon Martinez
+		
+		//	Set Sales Transaction
+		if(getOperationType().equals(X_FTA_EntryTicket.OPERATIONTYPE_RawMaterialReceipt)
+				|| getOperationType().equals(X_FTA_EntryTicket.OPERATIONTYPE_ProductBulkReceipt)
+				|| getOperationType().equals(X_FTA_EntryTicket.OPERATIONTYPE_ReceiptMoreThanOneProduct)
+				|| getOperationType().equals(X_FTA_EntryTicket.OPERATIONTYPE_MaterialInputMovement))
+			setIsSOTrx(false);
+		else if(getOperationType().equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryBulkMaterial)
+				|| getOperationType().equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryFinishedProduct)
+				|| getOperationType().equals(X_FTA_EntryTicket.OPERATIONTYPE_MaterialOutputMovement))
+			setIsSOTrx(true);
+		//	
 		return true;
-	
-	
 	}
 	
 	/**
