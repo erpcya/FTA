@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Delivered Quantity" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="81c107fa-d7f7-488f-bd46-8bee95a707b3">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Delivered Quantity" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="81c107fa-d7f7-488f-bd46-8bee95a707b3">
 	<property name="ireport.zoom" value="3.1384283767210035"/>
-	<property name="ireport.x" value="785"/>
-	<property name="ireport.y" value="50"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="102"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
 	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
@@ -103,7 +103,7 @@ ORDER BY ft.DateDoc]]>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($P{C_BPartner_ID} ==null ? "" :"Socio de Negocio = " + $F{taxid} + " - " + $F{name})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($P{C_BPartner_ID} != null && $F{taxid} != null? "Socio de Negocio = " + $F{taxid} + " - " + $F{name}: "")]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="45" width="65" height="12" uuid="4ada7b66-3841-4776-8743-ea24b96b6beb"/>
@@ -138,14 +138,14 @@ ORDER BY ft.DateDoc]]>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($P{FTA_CreditDefinition_ID} ==null ? "" :"Definición de Crédito = " + $F{creditdefiniton} + " - " + $F{plantingcycle})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($P{FTA_CreditDefinition_ID} != null && $F{creditdefiniton} != null? "Definición de Crédito = " + $F{creditdefiniton} + " - " + $F{plantingcycle}: "")]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="34" width="266" height="12" uuid="4aaa52b2-c108-42e7-a730-2692d519fd45"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($P{FTA_FarmerCredit_ID} ==null ? "" :"Crédito = " + $F{credit})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null && $F{credit} != null? "Crédito = " + $F{credit}: "")]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
