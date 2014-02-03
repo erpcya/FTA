@@ -24,7 +24,11 @@ SELECT
 		ELSE
 			NULL
 		END AS Copy
-	, mg.C_City_ID
+	, mg.C_City_ID,
+	lol.C_OrderLine_ID,
+	o.C_Order_ID,
+	lo.FTA_LoadOrder_ID,
+	lol.FTA_LoadOrderLine_ID
 FROM FTA_RecordWeight rw
 INNER JOIN FTA_EntryTicket et ON(et.FTA_EntryTicket_ID = rw.FTA_EntryTicket_ID)
 INNER JOIN FTA_RV_MobilizationGuide mg ON (mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
@@ -32,4 +36,8 @@ INNER JOIN FTA_Driver dr ON(dr.FTA_Driver_ID = et.FTA_Driver_ID)
 INNER JOIN FTA_Vehicle vh ON(vh.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
 INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = et.C_BPartner_ID)
 INNER JOIN AD_OrgInfo oi ON(oi.AD_Org_ID = rw.AD_Org_ID)
+LEFT JOIN FTA_LoadOrder lo ON (rw.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID)
+LEFT JOIN FTA_LoadOrderLine lol ON (lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID)
+LEFT JOIN C_OrderLine ol ON (ol.C_OrderLine_ID = lol.C_OrderLine_ID)
+LEFT JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID)
 LEFT JOIN FTA_QualityAnalysis qa ON(qa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID)
