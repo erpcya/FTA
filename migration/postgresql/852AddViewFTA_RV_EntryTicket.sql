@@ -33,7 +33,7 @@ SELECT
 	dt.PrintName AS DocumentType	,
 	-- Guia de Movilizacion
 	et.FTA_MobilizationGuide_ID,
-	p.M_Product_ID,
+	COALESCE(p.M_Product_ID,lo.M_Product_ID) M_Product_ID,
 	CASE WHEN et.IsPrinted ='Y' THEN
 		'*' 
 	ELSE
@@ -54,16 +54,17 @@ SELECT
 	v.LoadCapacity
 FROM FTA_EntryTicket et 
 INNER JOIN C_DocType dt ON (dt.C_DocType_ID = et.C_DocType_ID)
-INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID = et.C_BPartner_ID)
-INNER JOIN FTA_MobilizationGuide mg ON (mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
-INNER JOIN FTA_Farming f ON (f.FTA_Farming_ID = mg.FTA_Farming_ID) 
-INNER JOIN FTA_FarmDivision fd ON (fd.FTA_FarmDivision_ID = f.FTA_FarmDivision_ID)
-INNER JOIN M_Lot l ON (l.M_Lot_ID = f.PlantingCycle_ID)
-INNER JOIN M_Product p ON (p.M_Product_ID = f.Category_ID)
-INNER JOIN AD_OrgInfo  oi ON (oi.AD_Org_ID = et.AD_Org_ID)
+LEFT JOIN FTA_MobilizationGuide mg ON (mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
+LEFT JOIN FTA_Farming f ON (f.FTA_Farming_ID = mg.FTA_Farming_ID) 
+LEFT JOIN FTA_FarmDivision fd ON (fd.FTA_FarmDivision_ID = f.FTA_FarmDivision_ID)
+LEFT JOIN M_Lot l ON (l.M_Lot_ID = f.PlantingCycle_ID)
+LEFT JOIN M_Product p ON (p.M_Product_ID = f.Category_ID)
+LEFT JOIN AD_OrgInfo  oi ON (oi.AD_Org_ID = et.AD_Org_ID)
 LEFT JOIN M_Shipper s ON (s.M_Shipper_ID = et.M_Shipper_ID)
 LEFT JOIN FTA_Driver d ON (d.FTA_Driver_ID = et.FTA_Driver_ID)
 LEFT JOIN FTA_Vehicle v ON (v.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
---WHERE  FTA_EntryTicket_ID=1000092
+LEFT JOIN C_BPartner bp ON (bp.C_BPartner_ID = et.C_BPartner_ID)
+LEFT JOIN FTA_LoadOrder lo ON (lo.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID AND lo.DocStatus IN ('CO','CL'))
+--WHERE  et.FTA_EntryTicket_ID=1000126
 
 ;--SELECT * FROM FTA_Vehicle LIMIT 1
