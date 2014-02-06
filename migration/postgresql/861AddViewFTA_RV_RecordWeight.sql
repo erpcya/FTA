@@ -28,7 +28,8 @@ SELECT
 	lol.C_OrderLine_ID,
 	o.C_Order_ID,
 	lo.FTA_LoadOrder_ID,
-	lol.FTA_LoadOrderLine_ID
+	lol.FTA_LoadOrderLine_ID,
+	rw.TrailerPlate
 FROM FTA_RecordWeight rw
 INNER JOIN FTA_EntryTicket et ON(et.FTA_EntryTicket_ID = rw.FTA_EntryTicket_ID)
 INNER JOIN FTA_RV_MobilizationGuide mg ON (mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)

@@ -90,8 +90,10 @@ public class CalloutRecordWeight extends CalloutEngine {
 		//	Set load order
 		
 		//	Return Load Order 
-		sql = " SELECT FTA_LoadOrder_ID FROM FTA_LoadOrder" +
-				" WHERE FTA_EntryTicket_ID = ?";
+		sql = " SELECT FTA_LoadOrder_ID " +
+				" FROM FTA_LoadOrder" +
+				" WHERE FTA_EntryTicket_ID = ?" +
+				" AND FTA_LoadOrder.DocStatus IN ('CO')";
 		
 		int m_FTA_LoadOrder_ID = DB.getSQLValue(null, sql, m_FTA_EntryTicket_ID);
 		//	Set Value Load Order into Record Weight
