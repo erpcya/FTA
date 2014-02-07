@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="288"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="DocStatus" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="AD_Org_ID" class="java.math.BigDecimal"/>
 	<parameter name="M_Warehouse_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_EntryTicket_ID" class="java.math.BigDecimal"/>
-	<parameter name="OperationType" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
 	<parameter name="PlantingCycle_ID" class="java.math.BigDecimal"/>
 	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
@@ -26,6 +25,7 @@
 	<parameter name="DateDoc2" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="OperationType" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT 1 seqNo,
 	mg.DocumentNo MobilizationGuide,
@@ -52,7 +52,8 @@
 	fc.DocumentNo Credit,
 	lot.Name PlantingCycle,
 	wh.Name Warehouse,
-	org.Name Org
+	org.Name Org,
+	rw.OperationType
 FROM FTA_EntryTicket et
 INNER JOIN AD_Org org ON(org.AD_Org_ID = et.AD_Org_ID)
 INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
@@ -68,7 +69,7 @@ LEFT JOIN M_Lot lot ON(lot.M_Lot_ID = fm.PlantingCycle_ID)
 WHERE av.Name IN('Humedad', 'Impureza')
 AND (et.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
 AND (et.FTA_EntryTicket_ID=$P{FTA_EntryTicket_ID} OR $P{FTA_EntryTicket_ID} IS NULL)
-AND (et.OperationType = $P{OperationType} OR $P{OperationType} IS NULL)
+
 AND (fc.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
 AND (lot.M_Lot_ID=$P{PlantingCycle_ID} OR $P{PlantingCycle_ID} IS NULL)
 AND (et.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
@@ -81,7 +82,8 @@ AND (qa.FTA_QualityAnalysis_ID=$P{FTA_QualityAnalysis_ID} OR $P{FTA_QualityAnaly
 AND (mp.M_Product_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
 AND (rw.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
 AND rw.DateDoc >= $P{DateDoc1}
-AND rw.DateDoc <= $P{DateDoc2}]]>
+AND rw.DateDoc <= $P{DateDoc2}
+AND rw.OperationType = $P{OperationType}]]>
 	</queryString>
 	<field name="seqno" class="java.lang.Integer"/>
 	<field name="mobilizationguide" class="java.lang.String"/>
@@ -109,6 +111,7 @@ AND rw.DateDoc <= $P{DateDoc2}]]>
 	<field name="plantingcycle" class="java.lang.String"/>
 	<field name="warehouse" class="java.lang.String"/>
 	<field name="org" class="java.lang.String"/>
+	<field name="operationtype" class="java.lang.String"/>
 	<sortField name="att"/>
 	<variable name="GrossWeiht" class="java.math.BigDecimal" resetType="Group" resetGroup="Att" calculation="Sum">
 		<variableExpression><![CDATA[$F{grossweight}]]></variableExpression>
@@ -132,7 +135,7 @@ AND rw.DateDoc <= $P{DateDoc2}]]>
 		<band/>
 	</background>
 	<title>
-		<band height="75">
+		<band height="86">
 			<textField>
 				<reportElement x="279" y="0" width="195" height="42" uuid="2c5cb4b3-244b-4f25-a4bc-1b931e89f9d9"/>
 				<textElement textAlignment="Center" markup="none">
@@ -183,7 +186,7 @@ AND rw.DateDoc <= $P{DateDoc2}]]>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2" y="0" width="266" height="75" uuid="63011de2-e6e1-4337-af62-b0e250b0e679"/>
+				<reportElement x="2" y="0" width="266" height="86" uuid="63011de2-e6e1-4337-af62-b0e250b0e679"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
@@ -193,7 +196,8 @@ AND rw.DateDoc <= $P{DateDoc2}]]>
 ($P{C_BPartner_ID} == null ? "" :"Ciclo = " + $F{plantingcycle} + "\n") +
 ($P{C_BPartner_ID} == null ? "" :"Almacén = " + $F{warehouse} + "\n") +
 ($P{DateDoc1} ==null ? "" :"F. Documento. >=" + $F{datedoc1} + "\n") +
-($P{DateDoc2} ==null ? "" :"F. Documento. <=" + $F{datedoc2} + "\n")]]></textFieldExpression>
+($P{DateDoc2} ==null ? "" :"F. Documento. <=" + $F{datedoc2} + "\n") +
+($P{OperationType}==null ? "" :"Tipo de Operación. <=" + $F{operationtype}  + "\n")]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
