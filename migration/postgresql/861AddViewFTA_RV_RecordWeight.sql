@@ -2,7 +2,7 @@
 CREATE OR REPLACE VIEW FTA_RV_RecordWeight AS
 SELECT 
 	rw.AD_Client_ID, rw.AD_Org_ID, rw.Created, rw.CreatedBy, rw.IsActive, rw.Updated, rw.UpdatedBy, 
-	rw.C_DocType_ID, rw.C_UOM_ID, rw.DateDoc, rw.Description, 
+	rw.C_DocType_ID, rw.C_UOM_ID, mg.DateDoc, rw.Description, 
 	rw.DocStatus, rw.DocumentNo, rw.FTA_EntryTicket_ID, rw.FTA_QualityAnalysis_ID, 
 	rw.FTA_RecordWeight_ID, rw.GrossWeight, rw.InDate, rw.IsSOTrx, rw.NetWeight, rw.OutDate, 
 	rw.TareWeight, rw.WeightStatus, dr.FTA_Driver_ID, dr.Value, vh.FTA_Vehicle_ID, vh.VehiclePlate, 
@@ -14,23 +14,22 @@ SELECT
 	rw.SelectionWeight,
 	rw.PayWeight,
 	rw.ImportWeight,
-
 	et.Ext_Guide,
 	COALESCE(cp.Value,cp.TaxID) BPTaxID, 
 	cp.Name ||' '|| COALESCE(cp.Name2,'') AS Name,
 	qa.DateDoc QualytiDate,
-		CASE WHEN rw.IsPrinted ='Y' THEN
-			'*' 
-		ELSE
-			NULL
-		END AS Copy
-	, mg.C_City_ID,
+	CAST(NULL AS TEXT)AS  Copy,
+	mg.C_City_ID,
 	lol.C_OrderLine_ID,
 	o.C_Order_ID,
 	lo.FTA_LoadOrder_ID,
 	lol.FTA_LoadOrderLine_ID,
 	rw.TrailerPlate,
-	rw.OperationType
+	rw.OperationType,
+	vh.FTA_VehicleBrand_ID,
+	vh.LoadCapacity,
+	vh.VolumeCapacity,
+	mg.QtyToDeliver
 FROM FTA_RecordWeight rw
 INNER JOIN FTA_EntryTicket et ON(et.FTA_EntryTicket_ID = rw.FTA_EntryTicket_ID)
 INNER JOIN FTA_RV_MobilizationGuide mg ON (mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
@@ -43,3 +42,4 @@ LEFT JOIN FTA_LoadOrderLine lol ON (lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID)
 LEFT JOIN C_OrderLine ol ON (ol.C_OrderLine_ID = lol.C_OrderLine_ID)
 LEFT JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID)
 LEFT JOIN FTA_QualityAnalysis qa ON(qa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID)
+--WHERE rw.FTA_RecordWeight_ID=1000083
