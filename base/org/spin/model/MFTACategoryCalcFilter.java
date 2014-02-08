@@ -16,8 +16,13 @@
  *****************************************************************************/
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.PO;
+import org.compiere.model.Query;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -53,4 +58,56 @@ public class MFTACategoryCalcFilter extends X_FTA_CategoryCalcFilter {
 		super(ctx, rs, trxName);
 	}
 
+	/**
+	 * Get Category Calc Filter from Category Calc
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 08/02/2014, 15:10:44
+	 * @param ctx
+	 * @param p_FTA_CategoryCalc_ID
+	 * @param trxName
+	 * @return
+	 * @return MFTACategoryCalcFilter
+	 */
+	public static MFTACategoryCalcFilter get(Properties ctx, int p_FTA_CategoryCalc_ID, String trxName){
+		MFTACategoryCalcFilter m_FTA_CategoryCalcFilter = new Query(ctx, I_FTA_CategoryCalcFilter.Table_Name, "FTA_CategoryCalc_ID = ? ", trxName)
+			.setOnlyActiveRecords(true).
+			setParameters(p_FTA_CategoryCalc_ID).
+			first();
+		
+		//	
+		return m_FTA_CategoryCalcFilter;
+	}
+
+	public int copyLinesFrom (MFTACategoryCalc p_FTA_CategoryCalc, boolean counter, boolean setOrder)
+	{
+		MFTACategoryCalcFilter [] fromLines = p_FTA_CategoryCalc.getLines(false);
+		
+		
+		
+		int count = 0;
+		//	Loop in line
+		for (MFTACategoryCalcFilter mftaCategoryCalcFilter : fromLines)
+		{
+			MFTACategoryCalcFilter toLine = new MFTACategoryCalcFilter(getCtx(), 0, get_TrxName());
+			
+			MFTACategoryCalcFilter m_FTA_CategoryCalcFilter = MFTACategoryCalcFilter.get(getCtx(), mftaCategoryCalcFilter.getFTA_CategoryCalc_ID(), get_TrxName());
+			
+			if(counter)
+				PO.copyValues(m_FTA_CategoryCalcFilter, toLine, getAD_Client_ID(),getAD_Org_ID());
+			else
+				PO.copyValues(m_FTA_CategoryCalcFilter, toLine, toLine.getAD_Client_ID(), toLine.getAD_Org_ID());
+	 		
+			if (toLine.save(get_TrxName()))
+	 			count++;
+		}
+		
+		if (fromLines.length != count)
+			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
+
+		return count;
+	}	//	copyLinesFrom
+
+
+
+	
+	
 }
