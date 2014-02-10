@@ -34,7 +34,7 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140125L;
+	private static final long serialVersionUID = 20140209L;
 
     /** Standard Constructor */
     public X_FTA_Farming (Properties ctx, int FTA_Farming_ID, String trxName)
@@ -175,6 +175,23 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Effective Area.
+		@param EffectiveArea Effective Area	  */
+	public void setEffectiveArea (BigDecimal EffectiveArea)
+	{
+		set_Value (COLUMNNAME_EffectiveArea, EffectiveArea);
+	}
+
+	/** Get Effective Area.
+		@return Effective Area	  */
+	public BigDecimal getEffectiveArea () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_EffectiveArea);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Estimated Date.

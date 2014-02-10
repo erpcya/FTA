@@ -74,6 +74,19 @@ public interface I_FTA_CategoryCalc
 
 	public I_AD_Rule getAD_Rule() throws RuntimeException;
 
+    /** Column name CopyFrom */
+    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
+
+	/** Set Copy From.
+	  * Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom);
+
+	/** Get Copy From.
+	  * Copy From Record
+	  */
+	public String getCopyFrom();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
