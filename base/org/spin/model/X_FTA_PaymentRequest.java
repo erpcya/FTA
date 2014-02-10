@@ -34,7 +34,7 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140125L;
+	private static final long serialVersionUID = 20140209L;
 
     /** Standard Constructor */
     public X_FTA_PaymentRequest (Properties ctx, int FTA_PaymentRequest_ID, String trxName)
@@ -155,9 +155,9 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
 		if (C_Charge_ID < 1) 
-			set_Value (COLUMNNAME_C_Charge_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
@@ -211,9 +211,9 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
 		if (C_Invoice_ID < 1) 
-			set_Value (COLUMNNAME_C_Invoice_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.

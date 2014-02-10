@@ -499,6 +499,15 @@ public interface I_FTA_RecordWeight
 	/** Get Tare Weight	  */
 	public BigDecimal getTareWeight();
 
+    /** Column name TrailerPlate */
+    public static final String COLUMNNAME_TrailerPlate = "TrailerPlate";
+
+	/** Set Trailer Plate	  */
+	public void setTrailerPlate (String TrailerPlate);
+
+	/** Get Trailer Plate	  */
+	public String getTrailerPlate();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
