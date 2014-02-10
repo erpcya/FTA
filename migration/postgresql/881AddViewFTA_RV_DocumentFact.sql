@@ -1,4 +1,4 @@
-﻿--DROP VIEW FTA_RV_DocumentFact
+--DROP VIEW FTA_RV_DocumentFact
 CREATE OR REPLACE VIEW FTA_RV_DocumentFact AS
 SELECT i.AD_Client_ID, i.AD_Org_ID, i.Updated, i.UpdatedBy, i.Created, i.CreatedBy, i.IsActive, 
 i.C_BPartner_ID, i.DateInvoiced DateDoc, i.DocumentNo, i.Description, 
@@ -18,9 +18,10 @@ INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_Credit
 INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = i.C_Invoice_ID) 
 INNER JOIN C_Tax t ON(t.C_Tax_ID = il.C_Tax_ID)  
 INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) 
+LEFT JOIN FTA_Fact ft ON(ft.FTA_FarmerCredit_ID = i.FTA_FarmerCredit_ID 
+				AND ft.FTA_CreditDefinitionLine_ID = cdl.FTA_CreditDefinitionLine_ID AND ft.AD_Table_ID = 318)
 LEFT JOIN M_Product pr ON(pr.M_Product_ID = il.M_Product_ID) 
-LEFT JOIN C_Charge cr ON(cr.C_Charge_ID = il.C_Charge_ID) 
-LEFT JOIN FTA_Fact ft ON(ft.FTA_CreditDefinitionLine_ID = cdl.FTA_CreditDefinitionLine_ID AND ft.AD_Table_ID = 318) 
+LEFT JOIN C_Charge cr ON(cr.C_Charge_ID = il.C_Charge_ID)  
 WHERE (
 		(cdl.M_Product_ID = il.M_Product_ID 
 			AND il.M_Product_ID IS NOT NULL) 
@@ -54,9 +55,10 @@ INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_Credit
 INNER JOIN C_OrderLine ol ON(ol.C_Order_ID = o.C_Order_ID) 
 INNER JOIN C_Tax t ON(t.C_Tax_ID = ol.C_Tax_ID)  
 INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) 
+LEFT JOIN FTA_Fact ft ON(ft.FTA_FarmerCredit_ID = o.FTA_FarmerCredit_ID 
+				AND ft.FTA_CreditDefinitionLine_ID = cdl.FTA_CreditDefinitionLine_ID AND ft.AD_Table_ID = 318)
 LEFT JOIN M_Product pr ON(pr.M_Product_ID = ol.M_Product_ID) 
 LEFT JOIN C_Charge cr ON(cr.C_Charge_ID = ol.C_Charge_ID) 
-LEFT JOIN FTA_Fact ft ON(ft.FTA_CreditDefinitionLine_ID = cdl.FTA_CreditDefinitionLine_ID AND ft.AD_Table_ID = 318) 
 WHERE (
 		(cdl.M_Product_ID = ol.M_Product_ID 
 			AND ol.M_Product_ID IS NOT NULL) 
