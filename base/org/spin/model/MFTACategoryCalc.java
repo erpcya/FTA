@@ -254,8 +254,8 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 			toLine.setFTA_CategoryCalc_ID(p_FTA_CategoryCalc_To.get_ID());
 			
 			//	Saved 
-			if (toLine.save(get_TrxName()))
-	 			count++;
+			toLine.saveEx();
+	 		count++;
 		}
 		
 		if (fromLines.length != count)
