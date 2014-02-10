@@ -33,7 +33,7 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140125L;
+	private static final long serialVersionUID = 20140209L;
 
     /** Standard Constructor */
     public X_FTA_CategoryCalcFilter (Properties ctx, int FTA_CategoryCalcFilter_ID, String trxName)
@@ -41,9 +41,8 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
       super (ctx, FTA_CategoryCalcFilter_ID, trxName);
       /** if (FTA_CategoryCalcFilter_ID == 0)
         {
-			setAttributeValueType (null);
+			setFTA_CategoryCalcFilter_ID (0);
 			setFTA_CategoryCalc_ID (0);
-			setM_Attribute_ID (0);
         } */
     }
 
@@ -101,6 +100,26 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 		return (String)get_Value(COLUMNNAME_AttributeValueType);
 	}
 
+	/** Set Category Calc Filter.
+		@param FTA_CategoryCalcFilter_ID Category Calc Filter	  */
+	public void setFTA_CategoryCalcFilter_ID (int FTA_CategoryCalcFilter_ID)
+	{
+		if (FTA_CategoryCalcFilter_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_CategoryCalcFilter_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FTA_CategoryCalcFilter_ID, Integer.valueOf(FTA_CategoryCalcFilter_ID));
+	}
+
+	/** Get Category Calc Filter.
+		@return Category Calc Filter	  */
+	public int getFTA_CategoryCalcFilter_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CategoryCalcFilter_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_FTA_CategoryCalc getFTA_CategoryCalc() throws RuntimeException
     {
 		return (org.spin.model.I_FTA_CategoryCalc)MTable.get(getCtx(), org.spin.model.I_FTA_CategoryCalc.Table_Name)
@@ -124,6 +143,30 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Lot.
+		@param IsLot 
+		The product instances have a Lot Number
+	  */
+	public void setIsLot (boolean IsLot)
+	{
+		set_Value (COLUMNNAME_IsLot, Boolean.valueOf(IsLot));
+	}
+
+	/** Get Lot.
+		@return The product instances have a Lot Number
+	  */
+	public boolean isLot () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsLot);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public I_M_Attribute getM_Attribute() throws RuntimeException
@@ -202,6 +245,31 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 	public int getM_AttributeValue_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeValue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_Lot getPlantingCycle() throws RuntimeException
+    {
+		return (I_M_Lot)MTable.get(getCtx(), I_M_Lot.Table_Name)
+			.getPO(getPlantingCycle_ID(), get_TrxName());	}
+
+	/** Set Planting Cycle.
+		@param PlantingCycle_ID Planting Cycle	  */
+	public void setPlantingCycle_ID (int PlantingCycle_ID)
+	{
+		if (PlantingCycle_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PlantingCycle_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PlantingCycle_ID, Integer.valueOf(PlantingCycle_ID));
+	}
+
+	/** Get Planting Cycle.
+		@return Planting Cycle	  */
+	public int getPlantingCycle_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PlantingCycle_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

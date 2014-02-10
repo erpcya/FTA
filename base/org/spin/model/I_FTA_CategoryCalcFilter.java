@@ -92,6 +92,15 @@ public interface I_FTA_CategoryCalcFilter
 	  */
 	public int getCreatedBy();
 
+    /** Column name FTA_CategoryCalcFilter_ID */
+    public static final String COLUMNNAME_FTA_CategoryCalcFilter_ID = "FTA_CategoryCalcFilter_ID";
+
+	/** Set Category Calc Filter	  */
+	public void setFTA_CategoryCalcFilter_ID (int FTA_CategoryCalcFilter_ID);
+
+	/** Get Category Calc Filter	  */
+	public int getFTA_CategoryCalcFilter_ID();
+
     /** Column name FTA_CategoryCalc_ID */
     public static final String COLUMNNAME_FTA_CategoryCalc_ID = "FTA_CategoryCalc_ID";
 
@@ -115,6 +124,19 @@ public interface I_FTA_CategoryCalcFilter
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsLot */
+    public static final String COLUMNNAME_IsLot = "IsLot";
+
+	/** Set Lot.
+	  * The product instances have a Lot Number
+	  */
+	public void setIsLot (boolean IsLot);
+
+	/** Get Lot.
+	  * The product instances have a Lot Number
+	  */
+	public boolean isLot();
 
     /** Column name M_Attribute_ID */
     public static final String COLUMNNAME_M_Attribute_ID = "M_Attribute_ID";
@@ -156,6 +178,17 @@ public interface I_FTA_CategoryCalcFilter
 	public int getM_AttributeValue_ID();
 
 	public I_M_AttributeValue getM_AttributeValue() throws RuntimeException;
+
+    /** Column name PlantingCycle_ID */
+    public static final String COLUMNNAME_PlantingCycle_ID = "PlantingCycle_ID";
+
+	/** Set Planting Cycle	  */
+	public void setPlantingCycle_ID (int PlantingCycle_ID);
+
+	/** Get Planting Cycle	  */
+	public int getPlantingCycle_ID();
+
+	public I_M_Lot getPlantingCycle() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

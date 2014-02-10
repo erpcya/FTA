@@ -17,3 +17,6 @@ CREATE UNIQUE INDEX UK_FTA_CDL_CategoryValue ON FTA_CDL_Category (AD_Client_ID,V
 CREATE UNIQUE INDEX UK_FTA_InterestTypeValue ON FTA_InterestType (AD_Client_ID,Value);
 CREATE UNIQUE INDEX UK_FTA_PaymentRequestDocumentNo ON FTA_PaymentRequest (AD_Client_ID,DocumentNo);
 CREATE UNIQUE INDEX UK_FTA_LoadOrderDocumentNo ON FTA_LoadOrder (AD_Client_ID,DocumentNo);
+
+CREATE UNIQUE INDEX UK_FTA_CategoryCalcFilterPlantingCycle ON FTA_CategoryCalcFilter (FTA_CategoryCalc_ID,PlantingCycle_ID);
+CREATE UNIQUE INDEX UK_FTA_CategoryCalcFilterAttribute ON FTA_CategoryCalcFilter (FTA_CategoryCalc_ID,M_Attribute_ID);
