@@ -33,7 +33,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140125L;
+	private static final long serialVersionUID = 20140209L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeight (Properties ctx, int FTA_RecordWeight_ID, String trxName)
@@ -893,6 +893,20 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Trailer Plate.
+		@param TrailerPlate Trailer Plate	  */
+	public void setTrailerPlate (String TrailerPlate)
+	{
+		set_ValueNoCheck (COLUMNNAME_TrailerPlate, TrailerPlate);
+	}
+
+	/** Get Trailer Plate.
+		@return Trailer Plate	  */
+	public String getTrailerPlate () 
+	{
+		return (String)get_Value(COLUMNNAME_TrailerPlate);
 	}
 
 	/** WeightStatus AD_Reference_ID=53529 */

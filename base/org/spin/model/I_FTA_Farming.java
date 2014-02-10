@@ -127,6 +127,15 @@ public interface I_FTA_Farming
 	  */
 	public String getDescription();
 
+    /** Column name EffectiveArea */
+    public static final String COLUMNNAME_EffectiveArea = "EffectiveArea";
+
+	/** Set Effective Area	  */
+	public void setEffectiveArea (BigDecimal EffectiveArea);
+
+	/** Get Effective Area	  */
+	public BigDecimal getEffectiveArea();
+
     /** Column name EstimatedDate */
     public static final String COLUMNNAME_EstimatedDate = "EstimatedDate";
 
