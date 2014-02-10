@@ -257,7 +257,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		}
 		//	End Dixon Martinez
 		//Carlos Parada 2014-01-16
-		if (getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt))
+		if (getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt)
+				|| getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial))
 			m_processMsg = calculatePayWeight();
 		//End Carlos Parada
 		
@@ -265,7 +266,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			return DocAction.STATUS_Invalid;
 		
 		log.info(toString());
-		if(getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
+		if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt) 
+				|| getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
 				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)
 				|| getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)){
 			//	Generate Material Receipt
