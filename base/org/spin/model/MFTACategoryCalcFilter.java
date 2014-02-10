@@ -75,39 +75,5 @@ public class MFTACategoryCalcFilter extends X_FTA_CategoryCalcFilter {
 		
 		//	
 		return m_FTA_CategoryCalcFilter;
-	}
-
-	public int copyLinesFrom (MFTACategoryCalc p_FTA_CategoryCalc, boolean counter, boolean setOrder)
-	{
-		MFTACategoryCalcFilter [] fromLines = p_FTA_CategoryCalc.getLines(false);
-		
-		
-		
-		int count = 0;
-		//	Loop in line
-		for (MFTACategoryCalcFilter mftaCategoryCalcFilter : fromLines)
-		{
-			MFTACategoryCalcFilter toLine = new MFTACategoryCalcFilter(getCtx(), 0, get_TrxName());
-			
-			MFTACategoryCalcFilter m_FTA_CategoryCalcFilter = MFTACategoryCalcFilter.get(getCtx(), mftaCategoryCalcFilter.getFTA_CategoryCalc_ID(), get_TrxName());
-			
-			if(counter)
-				PO.copyValues(m_FTA_CategoryCalcFilter, toLine, getAD_Client_ID(),getAD_Org_ID());
-			else
-				PO.copyValues(m_FTA_CategoryCalcFilter, toLine, toLine.getAD_Client_ID(), toLine.getAD_Org_ID());
-	 		
-			if (toLine.save(get_TrxName()))
-	 			count++;
-		}
-		
-		if (fromLines.length != count)
-			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
-
-		return count;
-	}	//	copyLinesFrom
-
-
-
-	
-	
+	}	
 }
