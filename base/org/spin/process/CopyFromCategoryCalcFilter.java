@@ -18,15 +18,10 @@ package org.spin.process;
 
 import java.util.logging.Level;
 
-import org.compiere.model.PO;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
-import org.spin.model.MFTACDLCategory;
 import org.spin.model.MFTACategoryCalc;
-import org.spin.model.MFTACategoryCalcFilter;
-import org.spin.model.MFTACreditDefinition;
-import org.spin.model.MFTACreditDefinitionLine;
 
 /**
  * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
@@ -38,7 +33,10 @@ public class CopyFromCategoryCalcFilter extends SvrProcess
 	/** Category Calc 						*/
 	private int p_FTA_CategoryCalc_ID 			= 0;
 	
+	/** Category Calc 						*/
+	private int p_FTA_CategoryCalc_ID_To		= 0;
 	
+
 	/* (non-Javadoc)
 	 * @see org.compiere.process.SvrProcess#prepare()
 	 */
@@ -56,8 +54,7 @@ public class CopyFromCategoryCalcFilter extends SvrProcess
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 				
 		}
-
-
+		p_FTA_CategoryCalc_ID_To = getRecord_ID();
 	}
 
 	/* (non-Javadoc)
@@ -66,29 +63,17 @@ public class CopyFromCategoryCalcFilter extends SvrProcess
 	@Override
 	protected String doIt() throws Exception
 	{
+		//	Validate parameter
 		if(p_FTA_CategoryCalc_ID == 0)
 			throw new AdempiereUserError("@FTA_CategoryCalc_ID@ @NotFount@");
-		/*log.info("From C_Invoice_ID=" + p_FTA_CreditDefinition_ID + " to " + p_Target_CreditDefinition_ID);
-		if (p_Target_CreditDefinition_ID == 0)
-			throw new IllegalArgumentException("Target FTA_CreditDefinition_ID  == 0");
 		
-		if (p_FTA_CreditDefinition_ID == 0)
-			throw new IllegalArgumentException("Source FTA_CreditDefinition_ID  == 0");
+		//	Instance Copy From
+		MFTACategoryCalc m_FTA_CategoryCalc_ID_From = new MFTACategoryCalc(getCtx(), p_FTA_CategoryCalc_ID, getName());
 		
-		MFTACreditDefinition m_FTA_CreditDefinitionFrom = new MFTACreditDefinition(getCtx(), p_FTA_CreditDefinition_ID, get_TrxName());
+		//	Instance Copy To
+		MFTACategoryCalc m_FTA_CategoryCalc_ID_To = new MFTACategoryCalc(getCtx(), p_FTA_CategoryCalc_ID_To, get_TrxName());
 		
-		MFTACreditDefinition m_FTA_CreditDefinitionTo = new MFTACreditDefinition(getCtx(), p_Target_CreditDefinition_ID, get_TrxName());
-	
-		//
-		int no = m_FTA_CreditDefinitionTo.copyLinesProductsFrom (m_FTA_CreditDefinitionFrom, false, false);
-		
-		//
-		return "@Line@ @Copied@= " + no + " @Product@ @Copied@= "+m_FTA_CreditDefinitionTo.getCountProduct();
-		
-		
-		
-		*/
-		return String.valueOf(p_FTA_CategoryCalc_ID);
+		return  "@Line@ @Copied@= "+ String.valueOf(m_FTA_CategoryCalc_ID_To.copyLinesFrom(m_FTA_CategoryCalc_ID_From,m_FTA_CategoryCalc_ID_To));
 	}
 
 }

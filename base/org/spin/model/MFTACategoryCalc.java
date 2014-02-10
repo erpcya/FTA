@@ -21,10 +21,12 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MRule;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.Scriptlet;
 
@@ -224,4 +226,43 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 				throw new AdempiereException("@M_AttributeSetInstance_ID@ @NotFound@");
 		return ok;
 	}
+
+	/**
+	 * Copy lines from 
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 10/02/2014, 08:27:49
+	 * @param p_FTA_CategoryCalc
+	 * @param p_FTA_CategoryCalc_To
+	 * @return
+	 * @return int
+	 */
+	public int copyLinesFrom (MFTACategoryCalc p_FTA_CategoryCalc,MFTACategoryCalc p_FTA_CategoryCalc_To)
+	{
+		//	Array lines of Category Calc From
+		MFTACategoryCalcFilter [] fromLines = p_FTA_CategoryCalc.getLines(false);
+		
+		int count = 0;
+		//	Loop in line
+		for (MFTACategoryCalcFilter m_FTA_CategoryCalcFilter_Array : fromLines)
+		{
+			//	Instance new line 
+			MFTACategoryCalcFilter toLine = new MFTACategoryCalcFilter(getCtx(), 0, get_TrxName());
+			
+			//	Copy Values From Category Calc To Category Calc
+			PO.copyValues(m_FTA_CategoryCalcFilter_Array, toLine, toLine.getAD_Client_ID(), toLine.getAD_Org_ID());
+	 		
+			//	Set Category Calc to new line
+			toLine.setFTA_CategoryCalc_ID(p_FTA_CategoryCalc_To.get_ID());
+			
+			//	Saved 
+			if (toLine.save(get_TrxName()))
+	 			count++;
+		}
+		
+		if (fromLines.length != count)
+			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
+
+		return count;		
+		
+	}	//	copyLinesFrom
+
 }
