@@ -193,8 +193,12 @@ public class CategoryProductionGenerate extends SvrProcess {
 				.append("WHERE av.M_AttributeSetInstance_ID = qa.QualityAnalysis_ID ")
 				.append("AND av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
 				.append(" ");
+			//	Just Lot
+			if(m_filter.isLot()){
+				sql.append("AND av.M_Lot_ID = ").append(m_filter.getPlantingCycle_ID());
+			}
 			//	Just Number
-			if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_Number)){
+			else if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_Number)){
 				//	Operator
 				BigDecimal valueNumber = m_filter.getValueNumber();
 				BigDecimal valueNumber2 = m_filter.getValueNumber2();
