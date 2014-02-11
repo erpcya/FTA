@@ -335,7 +335,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			if(m_CC == null)
 				return "@FTA_CategoryCalc_ID@ @NotFound@";
 				
-			BigDecimal m_PayWeight = m_CC.getPaidWeight(getNetWeight(), att);
+			BigDecimal m_PayWeight = m_CC.getPaidWeight(getNetWeight(), att,get_TrxName());
 			setPayWeight(m_PayWeight);
 		}//
 		return null;
