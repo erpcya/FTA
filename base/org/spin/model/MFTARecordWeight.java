@@ -461,6 +461,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			m_processMsg = validMGReference();
 			if (m_processMsg != null)
 				return false;
+		} else if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt)){
+			//	Valid QualityAnalysis Reference
+			m_processMsg = validQAReference();
+			if (m_processMsg != null)
+				return false;
 		}
 		//	Reverse only M_InOut record
 		if(!getOperationType().equals(OPERATIONTYPE_MaterialInputMovement)
