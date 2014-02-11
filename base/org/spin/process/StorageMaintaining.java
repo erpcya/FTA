@@ -83,7 +83,7 @@ public class StorageMaintaining extends SvrProcess {
 				"INNER JOIN C_OrderLine ol ON(ol.C_Order_ID = o.C_Order_ID) " +
 				"INNER JOIN C_DocType dt ON(dt.C_DocType_ID = o.C_DocType_ID) " +
 				"WHERE o.DocStatus IN('IP', 'CO') " +
-				"AND ol.QtyReserved <> 0 AND o.IsSOTrx = 'Y' " +
+				"AND (ol.QtyOrdered - ol.QtyDelivered) > 0 AND o.IsSOTrx = 'Y' " +
 				"AND o.AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
 		//	Org
 		if(p_AD_Org_ID != 0)
@@ -98,9 +98,9 @@ public class StorageMaintaining extends SvrProcess {
 		//	Log
 		log.fine("orderSQL=" + orderSQL.toString());
 		//	Update
-		int updated = DB.executeUpdate(deleteSQL.toString(), get_TrxName());
+		int storageUpdated = DB.executeUpdate(deleteSQL.toString(), get_TrxName());
 		//	Log
-		log.fine("Updated=" + updated);
+		log.fine("Storage Updated=" + storageUpdated);
 		
 		PreparedStatement ps=null;
 		ResultSet rs =null;
@@ -113,7 +113,31 @@ public class StorageMaintaining extends SvrProcess {
 			addLog("@C_Order_ID@ " + order.getDocumentNo() + " @Processed@");
 		}
 		DB.close(rs, ps);
-		return "@Updated@=" + updated;
+		
+		//	Delete Bad transactions
+		StringBuffer deleteTSQL = new StringBuffer("DELETE " +
+				"FROM M_Transaction " +
+				"WHERE EXISTS(SELECT 1 " +
+				"					FROM M_InOut io " +
+				"					INNER JOIN M_InOutLine iol ON(iol.M_InOut_ID = io.M_InOut_ID) " +
+				"					WHERE io.DocStatus NOT IN('CO', 'CL', 'RE', 'VO') " +
+				"					AND iol.M_InOutLine_ID = M_Transaction.M_InOutLine_ID) ");
+		deleteTSQL.append("AND AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
+		//	Org
+		if(p_AD_Org_ID != 0)
+			deleteTSQL.append("AND AD_Org_ID = ").append(p_AD_Org_ID).append(" ");
+		//	Warehouse
+		if(p_M_Warehouse_ID != 0)
+			deleteSQL.append("AND EXISTS(SELECT 1 " +
+					"FROM M_Locator l " +
+					"WHERE l.M_Locator_ID = M_Transaction.M_Locator_ID " +
+					"AND l.M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(") ");
+
+		//	Execute
+		int transactionDeleted = DB.executeUpdate(deleteTSQL.toString(), get_TrxName());
+		//	Log
+		log.fine("Transaction Deleted=" + transactionDeleted);
+		return "@Updated@=" + storageUpdated + " @M_Transaction_ID@ @Deleted@=" + transactionDeleted;
 	}
 	
 	
