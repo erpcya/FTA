@@ -43,8 +43,6 @@ public class StorageMaintaining extends SvrProcess {
 	private int 		p_AD_Org_ID = 0;
 	/**	Warehouse			*/
 	private int 		p_M_Warehouse_ID = 0;
-	/**	Client				*/
-	private int			p_AD_Client_ID;
 	
 	@Override
 	protected void prepare() {
@@ -58,8 +56,6 @@ public class StorageMaintaining extends SvrProcess {
 			else if(name.equals("M_Warehouse_ID"))
 				p_M_Warehouse_ID = para.getParameterAsInt();
 		}
-		//	Client
-		p_AD_Client_ID = getAD_Client_ID();
 	}
 
 	@Override
@@ -69,36 +65,42 @@ public class StorageMaintaining extends SvrProcess {
 				"WHERE QtyReserved <> 0 " +
 				"AND QtyOnHand = 0 " +
 				"AND QtyOrdered = 0 " +
-				"AND AD_Client_ID = ").append(p_AD_Client_ID).append(" ");
+				"AND AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
 		//	Where
 		//	Org
 		if(p_AD_Org_ID != 0)
 			deleteSQL.append("AND AD_Org_ID = ").append(p_AD_Org_ID).append(" ");
 		//	Warehouse
 		if(p_M_Warehouse_ID != 0)
-			deleteSQL.append("AND M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(" ");
+			deleteSQL.append("AND EXISTS(SELECT 1 " +
+					"FROM M_Locator l " +
+					"WHERE l.M_Locator_ID = M_Storage.M_Locator_ID " +
+					"AND l.M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(") ");
 		//	Log
 		log.fine("deleteSQL=" + deleteSQL.toString());
-		StringBuffer orderSQL = new StringBuffer("SELECT o.* " +
+		StringBuffer orderSQL = new StringBuffer("SELECT o.C_Order_ID " +
 				"FROM C_Order o " +
 				"INNER JOIN C_OrderLine ol ON(ol.C_Order_ID = o.C_Order_ID) " +
 				"INNER JOIN C_DocType dt ON(dt.C_DocType_ID = o.C_DocType_ID) " +
 				"WHERE o.DocStatus IN('IP', 'CO') " +
-				"AND dt.DocSubTypeSO IN('SO') " +
-				"AND ol.QtyReserved <> 0 AND o.IsSOTrx = 'Y' " +
-				"AND o.AD_Client_ID = ").append(p_AD_Client_ID).append(" ");
+				"AND (ol.QtyOrdered - ol.QtyDelivered) > 0 AND o.IsSOTrx = 'Y' " +
+				"AND o.AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
 		//	Org
 		if(p_AD_Org_ID != 0)
-			orderSQL.append("AND AD_Org_ID = ").append(p_AD_Org_ID).append(" ");
+			orderSQL.append("AND o.AD_Org_ID = ").append(p_AD_Org_ID).append(" ");
 		//	Warehouse
 		if(p_M_Warehouse_ID != 0)
-			orderSQL.append("AND M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(" ");
+			orderSQL.append("AND ol.M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(" ");
+		//	Group By
+		orderSQL.append("GROUP BY o.C_Order_ID ");
+		//	Order By
+		orderSQL.append("ORDER BY o.DateOrdered");
 		//	Log
 		log.fine("orderSQL=" + orderSQL.toString());
 		//	Update
-		int updated = DB.executeUpdate(deleteSQL.toString(), get_TrxName());
+		int storageUpdated = DB.executeUpdate(deleteSQL.toString(), get_TrxName());
 		//	Log
-		log.fine("Updated=" + updated);
+		log.fine("Storage Updated=" + storageUpdated);
 		
 		PreparedStatement ps=null;
 		ResultSet rs =null;
@@ -106,17 +108,41 @@ public class StorageMaintaining extends SvrProcess {
 		rs = ps.executeQuery();
 		//	Loop
 		while(rs.next()){
-			MOrder order = new MOrder(getCtx(), rs, get_TrxName());
-			System.out.println(order);
+			MOrder order = new MOrder(getCtx(), rs.getInt(1), get_TrxName());
 			reserveStock(order);
+			addLog("@C_Order_ID@ " + order.getDocumentNo() + " @Processed@");
 		}
 		DB.close(rs, ps);
-		return null;
+		
+		//	Delete Bad transactions
+		StringBuffer deleteTSQL = new StringBuffer("DELETE " +
+				"FROM M_Transaction " +
+				"WHERE EXISTS(SELECT 1 " +
+				"					FROM M_InOut io " +
+				"					INNER JOIN M_InOutLine iol ON(iol.M_InOut_ID = io.M_InOut_ID) " +
+				"					WHERE io.DocStatus NOT IN('CO', 'CL', 'RE', 'VO') " +
+				"					AND iol.M_InOutLine_ID = M_Transaction.M_InOutLine_ID) ");
+		deleteTSQL.append("AND AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
+		//	Org
+		if(p_AD_Org_ID != 0)
+			deleteTSQL.append("AND AD_Org_ID = ").append(p_AD_Org_ID).append(" ");
+		//	Warehouse
+		if(p_M_Warehouse_ID != 0)
+			deleteSQL.append("AND EXISTS(SELECT 1 " +
+					"FROM M_Locator l " +
+					"WHERE l.M_Locator_ID = M_Transaction.M_Locator_ID " +
+					"AND l.M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(") ");
+
+		//	Execute
+		int transactionDeleted = DB.executeUpdate(deleteTSQL.toString(), get_TrxName());
+		//	Log
+		log.fine("Transaction Deleted=" + transactionDeleted);
+		return "@Updated@=" + storageUpdated + " @M_Transaction_ID@ @Deleted@=" + transactionDeleted;
 	}
 	
 	
 	/**
-	 * 	Reserve Inventory.
+	 * 	Reserve Inventory. (Copy from MOrder)
 	 * 	Counterpart: MInOut.completeIt()
 	 * 	@param dt document type or null
 	 * 	@param order (ordered by M_Product_ID for deadlock prevention)
@@ -133,7 +159,9 @@ public class StorageMaintaining extends SvrProcess {
 		//	Not binding - i.e. Target=0
 		if (X_C_Order.DOCSTATUS_Voided.equals(order.getDocStatus())
 				//	Closing Binding Quotation
-				|| X_C_Order.DOCSTATUS_Closed.equals(order.getDocStatus()))
+				|| (MDocType.DOCSUBTYPESO_Quotation.equals(dt.getDocSubTypeSO()) 
+					&& X_C_Order.DOCSTATUS_Closed.equals(order.getDocStatus())) 
+				) // || isDropShip() )
 			binding = false;
 		boolean isSOTrx = order.isSOTrx();
 		log.fine("Binding=" + binding + " - IsSOTrx=" + isSOTrx);
@@ -152,6 +180,8 @@ public class StorageMaintaining extends SvrProcess {
 		for (int i = 0; i < lines.length; i++)
 		{
 			MOrderLine line = lines[i];
+			//	Set Reserved to Zero
+			line.setQtyReserved(Env.ZERO);
 			//	Check/set WH/Org
 			if (header_M_Warehouse_ID != 0)	//	enforce WH
 			{
@@ -163,7 +193,7 @@ public class StorageMaintaining extends SvrProcess {
 			//	Binding
 			BigDecimal target = binding ? line.getQtyOrdered() : Env.ZERO; 
 			BigDecimal difference = target
-				//.subtract(line.getQtyReserved())
+				.subtract(line.getQtyReserved())
 				.subtract(line.getQtyDelivered()); 
 			if (difference.signum() <= 0)
 			{
@@ -220,7 +250,7 @@ public class StorageMaintaining extends SvrProcess {
 						return false;
 				}	//	stockec
 				//	update line
-				line.setQtyReserved(/*line.getQtyReserved().add(*/difference/*)*/);
+				line.setQtyReserved(line.getQtyReserved().add(difference));
 				if (!line.save(get_TrxName()))
 					return false;
 				//
