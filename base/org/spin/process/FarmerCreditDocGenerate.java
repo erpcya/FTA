@@ -17,7 +17,13 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -33,6 +39,7 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.spin.model.MFTAFarmerCredit;
@@ -87,9 +94,13 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	/** Business Partner Bank Account*/
 	private int p_C_BP_BankAccount_ID = 0;
 	
+	/** Sql*/
+	StringBuffer sql = new StringBuffer();
 	
 	@Override
 	protected void prepare() {
+		
+		
 		for (ProcessInfoParameter para:getParameter()){
 			String name = para.getParameterName();
 
@@ -121,6 +132,54 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				p_C_BP_BankAccount_ID = para.getParameterAsInt();
 			
 		}
+		
+		//2014-02-12 Add Support to SmartBrowse
+		HashMap<Integer, BigDecimal> dist = new HashMap<Integer, BigDecimal>();
+		PreparedStatement ps = null ;
+		ResultSet rs = null;
+		sql.append("Select " +
+					"ts.AD_PInstance_ID, " + 
+					"ts.T_Selection_ID As FTA_FarmerCreditLine_ID, " + 
+					"tsb.FTA_FarmerCredit_ID, " +
+					"tsb.Amt, " +
+					"tsb.NetAmt " +
+					"From " +   
+					"T_Selection ts " + 
+					"Inner Join (Select  tsb.AD_PInstance_ID, " + 
+					"tsb.T_Selection_ID, " + 
+					"Max(Case When tsb.ColumnName = 'CBC_FTA_FarmerCredit_ID' Then tsb.Value_Number Else Null End) As FTA_FarmerCredit_ID, " + 
+					"Max(Case When tsb.ColumnName = 'CBC_Amt' Then tsb.Value_Number Else Null End) As Amt, " +  
+					"(Select Sum(Case When tsbs.ColumnName = 'CBC_Amt' Then tsbs.Value_Number Else Null End) From T_Selection_Browse tsbs Where tsbs.AD_PInstance_ID=tsb.AD_PInstance_ID) As NetAmt " +
+					"From T_Selection_Browse tsb " +  
+					"Group By " + 
+					"tsb.AD_PInstance_ID, " + 
+					"tsb.T_Selection_ID) " +  
+					"tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID " );
+		sql.append("Where ts.AD_PInstance_ID=?");
+		try{
+			ps = DB.prepareStatement(sql.toString(), null);
+			rs = ps.executeQuery();
+			while (rs.next()){
+				//Set Farmer Credit From Selection
+				if (p_FTA_FarmerCredit_ID == 0)
+					p_FTA_FarmerCredit_ID = rs.getInt("FTA_FarmerCredit_ID");
+				//Set Amount From Selection
+				if (p_Amt == null)
+					p_Amt = rs.getBigDecimal("NetAmt");
+				
+				dist.put(rs.getInt("FTA_FarmerCreditLine_ID"), rs.getBigDecimal("Amt"));
+				
+			}
+		}
+		catch (SQLException ex){
+			new AdempiereException(ex.getMessage());
+		}
+		finally{
+			DB.close(rs, ps);
+			rs=null; ps=null;
+		}
+		//End Carlos Parada
+		
 		//	Get Technical From Identifier
 		if(p_FTA_FarmerCredit_ID == 0)
 			p_FTA_FarmerCredit_ID = getRecord_ID();
@@ -132,6 +191,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 
 	@Override
 	protected String doIt() throws Exception {
+		
 		//	Valid Organization
 		if(p_AD_Org_ID == 0)
 			throw new AdempiereUserError("@AD_Org_ID@ @NotFound@");
@@ -197,6 +257,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 			out = e.getMessage();
 		}
 		return out;
+
 	}
 	
 	/**
