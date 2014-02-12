@@ -637,6 +637,25 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	}	//	getLines
 	
 	/**
+	 * Get Movement of Farmer Credit
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 12/02/2014, 11:54:42
+	 * @param whereClause
+	 * @return
+	 * @return MFTAFact[]
+	 */
+	public MFTAFact[] getMovements (String whereClause)
+	{
+		List<MFTAFact> list = new Query(getCtx(), I_FTA_Fact.Table_Name, "FTA_FarmerCredit_ID=?"
+				+ (whereClause != null && whereClause.length() != 0? " AND " + whereClause: ""), get_TrxName())
+		.setParameters(getFTA_FarmerCredit_ID())
+		.list();
+
+		MFTAFact [] m_facts = new MFTAFact[list.size ()];
+		list.toArray (m_facts);
+		return m_facts;
+	}	//	getLines
+	
+	/**
 	 * Get Lines
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/10/2013, 12:30:09
 	 * @param requery

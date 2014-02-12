@@ -523,11 +523,17 @@ public class MFTACreditAct extends X_FTA_CreditAct implements DocAction, DocOpti
 			if(((l_docStatus.equals(STATUS_Drafted)
 					|| l_docStatus.equals(STATUS_InProgress)
 					|| l_docStatus.equals(STATUS_Invalid))
-				&&(p_DocStatus.equals(STATUS_Completed)||p_DocStatus.equals(STATUS_Closed)))
+				&&(p_DocStatus.equals(STATUS_Completed)
+						|| p_DocStatus.equals(STATUS_Closed)))
 				
-				||(l_docStatus.equals(STATUS_Completed) && (p_DocStatus.equals(STATUS_Closed) || p_DocStatus.equals(STATUS_Voided) || p_DocStatus.equals(STATUS_InProgress))))
+				||(l_docStatus.equals(STATUS_Completed) && 
+						(p_DocStatus.equals(STATUS_Closed) 
+								|| p_DocStatus.equals(STATUS_Voided)
+								//	Yamel Senih, not in progress
+								//|| p_DocStatus.equals(STATUS_InProgress)
+								)))
 			{
-				p_DocStatus= (p_DocStatus==STATUS_InProgress?ACTION_ReActivate:p_DocStatus);
+				p_DocStatus= (p_DocStatus == STATUS_InProgress? ACTION_ReActivate: p_DocStatus);
 				credit.setDocAction(p_DocStatus);
 				credit.processIt(p_DocStatus);
 				credit.saveEx(get_TrxName());

@@ -593,15 +593,52 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		List<MFTACreditDefinitionLine> list = new Query(getCtx(), MFTACreditDefinitionLine.Table_Name, "FTA_CreditDefinition_ID=?", get_TrxName())
-		.setParameters(getFTA_CreditDefinition_ID())
-		.setOrderBy(MFTACreditDefinitionLine.COLUMNNAME_Line)
+		List<MFTACreditDefinitionLine> list = new Query(getCtx(), I_FTA_CreditDefinitionLine.Table_Name, 
+				"FTA_CreditDefinition_ID=?", get_TrxName())
+				.setParameters(getFTA_CreditDefinition_ID())
+				.setOrderBy(MFTACreditDefinitionLine.COLUMNNAME_Line)
 		.list();
 
 		m_lines = new MFTACreditDefinitionLine[list.size ()];
 		list.toArray (m_lines);
 		return m_lines;
 	}	//	getLines
+	
+	
+	/**
+	 * Get Line Equivalent from other line
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 12/02/2014, 14:07:31
+	 * @param fromLine
+	 * @return
+	 * @return MFTACreditDefinitionLine
+	 */
+	public MFTACreditDefinitionLine getEquivalentLine(MFTACreditDefinitionLine fromLine){
+		//	not null
+		if(fromLine == null)
+			return null;
+		//	Get Lines
+		getLines(false);
+		//	Loop
+		for(MFTACreditDefinitionLine line : m_lines){
+			//	Only 
+			if(line.getFTA_CDL_Category_ID() != fromLine.getFTA_CDL_Category_ID())
+				continue;
+			//	Distribution Line
+			if(fromLine.isDistributionLine()
+					&& line.isDistributionLine())
+				return line;
+			//	Production Line
+			else if(line.getM_Product_ID() == getCategory_ID())
+				return line;
+			//	Any
+			if(line.getM_Product_ID() == fromLine.getM_Product_ID()
+					|| line.getM_Product_Category_ID() == fromLine.getM_Product_Category_ID()
+					|| line.getC_Charge_ID() == fromLine.getC_Charge_ID()
+					|| line.getC_ChargeType_ID() == fromLine.getC_ChargeType_ID())
+				return line;
+		}
+		return null;
+	}
 
 	/**
 	 * Get Lines, Farmer Credits
