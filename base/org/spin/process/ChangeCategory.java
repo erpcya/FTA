@@ -164,7 +164,7 @@ public class ChangeCategory extends SvrProcess{
 				movement.setFTA_CreditDefinitionLine_ID(equivalentLine.getFTA_CreditDefinitionLine_ID());
 			else
 				throw new AdempiereException("@NotEquivalentLine@ @FTA_CreditDefinition_ID@: " 
-						+ fromLine.getLine() 
+						+ fromLine.getLine() + " "
 						+ (fromLine.getDescription() != null? fromLine.getDescription(): ""));
 			//	Save Movement
 			movement.saveEx();
