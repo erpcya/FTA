@@ -45,15 +45,18 @@ public class CalloutFarming extends CalloutEngine {
 		if (value == null)
 			return "";
 		//	Get Quantity
+		//	Yamel Senih 2014-02-13, 14:59:39
+		//	Change to EffectiveArea
 		BigDecimal m_EstimatedYield = (BigDecimal) mTab.getValue("EstimatedYield");
-		BigDecimal m_Area = (BigDecimal) mTab.getValue("Area");
+		BigDecimal m_EffectiveArea = (BigDecimal) mTab.getValue("EffectiveArea");
+		//	End Yamel Senih
 		//	Valid Quantity
 		if(m_EstimatedYield == null)
 			m_EstimatedYield = Env.ZERO;
-		if(m_Area == null)
-			m_Area = Env.ZERO;
+		if(m_EffectiveArea == null)
+			m_EffectiveArea = Env.ZERO;
 		//	Calculate Quantity
-		BigDecimal m_EstimatedQty = m_EstimatedYield.multiply(m_Area);
+		BigDecimal m_EstimatedQty = m_EstimatedYield.multiply(m_EffectiveArea);
 		//	Set Quantity
 		mTab.setValue("EstimatedQty", m_EstimatedQty);
 		mTab.setValue("Qty", m_EstimatedQty);
