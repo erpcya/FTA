@@ -21,9 +21,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -39,9 +39,10 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+
+import org.spin.model.MFTAFact;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAPaymentRequest;
 import org.spin.model.X_FTA_FarmerCredit;
@@ -97,6 +98,13 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	/** Sql*/
 	StringBuffer sql = new StringBuffer();
 	
+	/** Credit Distribution */
+	HashMap<Integer, BigDecimal> m_dist = new HashMap<Integer, BigDecimal>();
+	
+	/**Process From Browse*/
+	private boolean processFromBrowse = false;
+	
+	
 	@Override
 	protected void prepare() {
 		
@@ -134,7 +142,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		}
 		
 		//2014-02-12 Add Support to SmartBrowse
-		HashMap<Integer, BigDecimal> dist = new HashMap<Integer, BigDecimal>();
+		
 		PreparedStatement ps = null ;
 		ResultSet rs = null;
 		sql.append("Select " +
@@ -158,16 +166,18 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		sql.append("Where ts.AD_PInstance_ID=?");
 		try{
 			ps = DB.prepareStatement(sql.toString(), null);
+			ps.setInt(1, getAD_PInstance_ID());
 			rs = ps.executeQuery();
 			while (rs.next()){
 				//Set Farmer Credit From Selection
 				if (p_FTA_FarmerCredit_ID == 0)
 					p_FTA_FarmerCredit_ID = rs.getInt("FTA_FarmerCredit_ID");
+					processFromBrowse = true;
 				//Set Amount From Selection
 				if (p_Amt == null)
 					p_Amt = rs.getBigDecimal("NetAmt");
 				
-				dist.put(rs.getInt("FTA_FarmerCreditLine_ID"), rs.getBigDecimal("Amt"));
+				m_dist.put(rs.getInt("FTA_FarmerCreditLine_ID"), rs.getBigDecimal("Amt"));
 				
 			}
 		}
@@ -249,6 +259,12 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 					addCounterDocument();
 				}
 			}
+			
+			//2014-02-13 Carlos Parada Add Allocation Credit Document
+			if (m_Current_C_Invoice_ID!=0 && processFromBrowse)
+				allocateInvoice(m_Current_C_Invoice_ID);
+			//End Carlos Parada
+			
 			out = "@Generated@ = " + generated;
 			trx.commit();
 		} catch (Exception e) {
@@ -416,5 +432,35 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		//	Set Generated
 		
 		generated++;
+	}
+	
+	/**
+	 * Allocation Credit Invoice
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> Feb 13, 2014, 9:34:04 AM
+	 * @param p_C_Invoice_ID
+	 * @return void
+	 */
+	private void allocateInvoice(int p_C_Invoice_ID){
+		
+		Iterator<?> it =  m_dist.entrySet().iterator();
+		MInvoice inv = new MInvoice(getCtx(), p_C_Invoice_ID, trxName);
+		MFTAFact.deleteFact(MInvoice.Table_ID, inv.getC_Invoice_ID(), true, trxName);
+		while (it.hasNext()){
+			Entry<?, ?> selection = (Entry<?, ?>) it.next();
+			
+			MFTAFact fact=  new MFTAFact(getCtx(), 0, trxName);
+			
+			fact.setAD_Table_ID(MInvoice.Table_ID);
+			fact.setAmt((BigDecimal)selection.getValue());
+			fact.setC_BPartner_ID(inv.getC_BPartner_ID());
+			fact.setFTA_CreditDefinitionLine_ID((Integer)selection.getKey());
+			fact.setFTA_CreditDefinition_ID(fact.getFTA_CreditDefinitionLine().getFTA_CreditDefinition_ID());
+			fact.setFTA_FarmerCredit_ID(p_FTA_FarmerCredit_ID);
+			fact.setIsCreditFactManual(true);
+			fact.setRecord_ID(inv.getC_Invoice_ID());
+			fact.setDateDoc(inv.getDateInvoiced());
+			fact.setDescription(inv.getDescription());
+			fact.saveEx(trxName);
+		}
 	}
 }
