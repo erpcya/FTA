@@ -39,7 +39,8 @@ import org.compiere.util.Msg;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
- *
+ * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
+ * <ol> Add amount when the type of credit is credit or Extension
  */
 public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, DocOptions {
 	
@@ -689,15 +690,32 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
+		/* 	Dixon Martinez
+		 * 	2/14/2014 09:39:00
+		 *  Add mount 
+		 */
+		
+		if(getCreditType().equals(CREDITTYPE_Credit)
+				|| getCreditType().equals(CREDITTYPE_Extension)){
+			final String wehereClause = I_FTA_CreditDefinition.COLUMNNAME_FTA_CreditDefinition_ID + "=?";
+			BigDecimal amt = DB.getSQLValueBD(get_TrxName(), "SELECT Amt FROM FTA_CreditDefinition WHERE " + wehereClause, getFTA_CreditDefinition_ID());
+			amt = getQty().multiply(amt);
+			setAmt(amt);
+		}
+		//	Comments not used
 		//	Set Default Values
-		if(newRecord){
+		/*if(newRecord){
 			setGenerateOrder("N");
 			setFTA_CreditAct_ID(0);
 			setQty(Env.ZERO);
 			setAmt(Env.ZERO);
-		}
+		}*/
+		
+		//	End Dixon Martinez
 		if(getCreditType().equals(CREDITTYPE_Loan))
 			setQty(Env.ONE);
+			
+		
 		return true;
 	}
 	
