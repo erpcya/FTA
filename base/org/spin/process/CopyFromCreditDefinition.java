@@ -72,10 +72,10 @@ public class CopyFromCreditDefinition extends SvrProcess
 		MFTACreditDefinition m_FTA_CreditDefinitionTo = new MFTACreditDefinition(getCtx(), p_Target_CreditDefinition_ID, get_TrxName());
 	
 		//
-		int no = m_FTA_CreditDefinitionTo.copyLinesProductsFrom (m_FTA_CreditDefinitionFrom, false, false);
-		
+		int no = m_FTA_CreditDefinitionTo.copyLinesFrom (m_FTA_CreditDefinitionFrom,m_FTA_CreditDefinitionTo);
+		int noProducts = m_FTA_CreditDefinitionTo.copyProductsFrom(m_FTA_CreditDefinitionFrom,m_FTA_CreditDefinitionTo);
 		//
-		return "@Line@ @Copied@= " + no + " @Product@ @Copied@= "+m_FTA_CreditDefinitionTo.getCountProduct();
+		return "@Line@ @Copied@= " + no + "/ @Product@ @Copied@= "+noProducts;
 	}
 
 }
