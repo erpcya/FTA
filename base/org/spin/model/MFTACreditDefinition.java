@@ -82,8 +82,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	private MFTAFarmerCredit[]				m_credits 	 = null;
 	/** Credit Act			*/
 	private MFTACreditAct[]					m_creditAct  = null;
-	/** Count Products      */										
-	private int 							countProduct = 0;
+	
 	/**
 	 * 	Get Document Info
 	 *	@return document info (untranslated)
@@ -791,13 +790,13 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 22/01/2014, 16:13:42
 	 * @contributor <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/01/2014, 08:32:42
 	 * @param fromCreditDefinition
-	 * @param counter
-	 * @param setOrder
+	 * @param fromCreditDefinitionTo
 	 * @return
 	 * @return int
 	 */
-	public int copyLinesProductsFrom (MFTACreditDefinition fromCreditDefinition, boolean counter, boolean setOrder)
+	public int copyLinesFrom (MFTACreditDefinition fromCreditDefinition,MFTACreditDefinition fromCreditDefinitionTo)
 	{
+				
 		MFTACreditDefinitionLine[] fromLines = fromCreditDefinition.getLines(false);
 		
 		int count = 0;
@@ -812,29 +811,44 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		 			|| m_FTA_CDL_Category.getValue().equals(MFTACDLCategory.T_DISTRIBUTION)){
 		 			continue;
 		 	}else{
-		 		if(counter)
-		 			PO.copyValues(mftaCreditDefinitionLine, line, getAD_Client_ID(), getAD_Org_ID());
-		 		else
-		 			PO.copyValues(mftaCreditDefinitionLine, line, line.getAD_Client_ID(), line.getAD_Org_ID());
+		 		PO.copyValues(mftaCreditDefinitionLine, line, line.getAD_Client_ID(), line.getAD_Org_ID());
 
 		 		line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
 		 		
 		 		//
 		 		line.setProcessed(false);
-		 		if (line.save(get_TrxName()))
+		 		line.saveEx();
 		 			count++;
 		 	}		 	
 		}
 		
 		if (fromLines.length != count)
-			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
+			log.log(Level.INFO, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
+		return count;
+	}	//	copyLinesFrom
 
-		MFTAProductListApproved listProduct [] = fromCreditDefinition.getProductLines(true, null);
+
+	
+	/**
+	 * Copy Lines and Products From Credit Definition
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 22/01/2014, 16:13:42
+	 * @contributor <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/01/2014, 08:32:42
+	 * @param from
+	 * @param To
+	 * @return
+	 * @return int
+	 */
+	public int copyProductsFrom (MFTACreditDefinition from,MFTACreditDefinition To)
+	{
+		
+		int countProduct = 0;
+
+		MFTAProductListApproved listProduct [] = from.getProductLines(true, null);
 		for (MFTAProductListApproved mftaProductListApproved : listProduct)
 		{
 			MFTAProductListApproved product = new MFTAProductListApproved(getCtx(), 0, get_TrxName());
-			product.set_ValueOfColumn("AD_Client_ID", fromCreditDefinition.getAD_Client_ID());
-			product.set_ValueOfColumn("AD_Org_ID", fromCreditDefinition.getAD_Org_ID());
+			product.set_ValueOfColumn("AD_Client_ID", To.getAD_Client_ID());
+			product.set_ValueOfColumn("AD_Org_ID", To.getAD_Org_ID());
 			product.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
 			product.setM_Product_ID(mftaProductListApproved.get_ValueAsInt("M_Product_ID"));
 			if(mftaProductListApproved.get_ValueAsInt("Substitute_ID") > 0)
@@ -849,20 +863,15 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 			product.saveEx();
 			countProduct++;
 		}
-
+		
 		if (listProduct.length != countProduct)
-			log.log(Level.SEVERE, "Product Approved difference - From=" + listProduct.length + " <> Saved=" + countProduct);
-		return count;
-	}	//	copyLinesFrom
+			log.log(Level.INFO, "Product Approved difference - From=" + listProduct.length + " <> Saved=" + countProduct);
+		return countProduct;
+	}	//	copyProductsFrom
+
 
 	
-	public void setCountProduct(int countProduct){
-		this.countProduct = countProduct;
-	}
 	
-	public int getCountProduct(){
-		return countProduct;
-	}
 	/**
 	 * Get Product List Approved
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/01/2014, 09:59:29
