@@ -181,17 +181,20 @@ public class MFTACategoryCalc extends X_FTA_CategoryCalc {
 	 * @param p_EventType
 	 * @param trxName
 	 * @return
-	 * @return MFTACategoryCalc
+	 * @return MFTACategoryCalc[]
 	 */
-	public static MFTACategoryCalc get(Properties ctx, int p_Category_ID, String p_EventType, String trxName){
-		MFTACategoryCalc categoryCalc = new Query(ctx, I_FTA_CategoryCalc.Table_Name, 
+	public static MFTACategoryCalc[] getList(Properties ctx, int p_Category_ID, String p_EventType, String trxName){
+		List<MFTACategoryCalc> categoryCalcList = new Query(ctx, I_FTA_CategoryCalc.Table_Name, 
 				" M_Product_ID=? AND EventType=?"
 				, trxName)
 			.setOnlyActiveRecords(true)
 			.setParameters(p_Category_ID, p_EventType)
-			.first();
+			.setOrderBy(I_FTA_CategoryCalc.COLUMNNAME_SeqNo)
+			.list();
 		//	
-		return categoryCalc;
+		MFTACategoryCalc [] ccArray = new MFTACategoryCalc[categoryCalcList.size()];
+		categoryCalcList.toArray(ccArray);
+		return ccArray;
 	}
 	
 	/**

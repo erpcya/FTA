@@ -34,7 +34,7 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140209L;
+	private static final long serialVersionUID = 20140217L;
 
     /** Standard Constructor */
     public X_FTA_PaymentRequest (Properties ctx, int FTA_PaymentRequest_ID, String trxName)
@@ -99,9 +99,9 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
 		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -418,9 +418,9 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 	public void setFTA_FarmerCredit_ID (int FTA_FarmerCredit_ID)
 	{
 		if (FTA_FarmerCredit_ID < 1) 
-			set_Value (COLUMNNAME_FTA_FarmerCredit_ID, null);
+			set_ValueNoCheck (COLUMNNAME_FTA_FarmerCredit_ID, null);
 		else 
-			set_Value (COLUMNNAME_FTA_FarmerCredit_ID, Integer.valueOf(FTA_FarmerCredit_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_FarmerCredit_ID, Integer.valueOf(FTA_FarmerCredit_ID));
 	}
 
 	/** Get Credit/Loan.
@@ -554,7 +554,7 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 	  */
 	public void setPayAmt (BigDecimal PayAmt)
 	{
-		set_Value (COLUMNNAME_PayAmt, PayAmt);
+		set_ValueNoCheck (COLUMNNAME_PayAmt, PayAmt);
 	}
 
 	/** Get Payment amount.

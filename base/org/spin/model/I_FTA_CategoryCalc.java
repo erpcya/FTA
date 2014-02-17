@@ -162,6 +162,15 @@ public interface I_FTA_CategoryCalc
 	  */
 	public boolean isActive();
 
+    /** Column name IsPayWeight */
+    public static final String COLUMNNAME_IsPayWeight = "IsPayWeight";
+
+	/** Set Is Pay Weight	  */
+	public void setIsPayWeight (boolean IsPayWeight);
+
+	/** Get Is Pay Weight	  */
+	public boolean isPayWeight();
+
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -204,6 +213,21 @@ public interface I_FTA_CategoryCalc
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name SeqNo */
+    public static final String COLUMNNAME_SeqNo = "SeqNo";
+
+	/** Set Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo);
+
+	/** Get Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public int getSeqNo();
 
     /** Column name StdPrecision */
     public static final String COLUMNNAME_StdPrecision = "StdPrecision";

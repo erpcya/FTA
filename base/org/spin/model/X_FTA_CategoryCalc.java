@@ -31,7 +31,7 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140209L;
+	private static final long serialVersionUID = 20140217L;
 
     /** Standard Constructor */
     public X_FTA_CategoryCalc (Properties ctx, int FTA_CategoryCalc_ID, String trxName)
@@ -218,6 +218,27 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Is Pay Weight.
+		@param IsPayWeight Is Pay Weight	  */
+	public void setIsPayWeight (boolean IsPayWeight)
+	{
+		set_Value (COLUMNNAME_IsPayWeight, Boolean.valueOf(IsPayWeight));
+	}
+
+	/** Get Is Pay Weight.
+		@return Is Pay Weight	  */
+	public boolean isPayWeight () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPayWeight);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
     {
 		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
@@ -289,6 +310,26 @@ public class X_FTA_CategoryCalc extends PO implements I_FTA_CategoryCalc, I_Pers
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** Set Sequence.
+		@param SeqNo 
+		Method of ordering records; lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo)
+	{
+		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
+	}
+
+	/** Get Sequence.
+		@return Method of ordering records; lowest number comes first
+	  */
+	public int getSeqNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Standard Precision.
