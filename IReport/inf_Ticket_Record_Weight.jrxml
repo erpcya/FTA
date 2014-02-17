@@ -39,10 +39,11 @@
 	rw.NetWeight,
 	(rw.NetWeight - rw.PayWeight) Discount,
 	rw.PayWeight,
-	av.Name AttributeSet,
-	av.Name Att,
+	av.Att AttributeSet,
+	av.Att,
 	av.Value,
 	av.ValueNumber,
+	av.Weight,
 	bp.TaxID,
 	bp.Name,
 	TO_Char($P{DateDoc1}::timestamp,'DD/MM/YYYY') DateDoc1,
@@ -60,16 +61,21 @@ LEFT JOIN FTA_MobilizationGuide mg ON(mg.FTA_MobilizationGuide_ID = et.FTA_Mobil
 LEFT JOIN M_Warehouse wh ON(wh.M_Warehouse_ID = mg.M_Warehouse_ID)
 LEFT JOIN FTA_QualityAnalysis qa ON(qa.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID)
 LEFT JOIN FTA_RecordWeight rw ON(rw.FTA_QualityAnalysis_ID = qa.FTA_QualityAnalysis_ID)
-LEFT JOIN FTA_RV_AttributeValue av ON(av.M_AttributeSetInstance_ID = qa.QualityAnalysis_ID)
+LEFT JOIN (SELECT 'N' isWeight, av.Name Att, av.Value, av.ValueNumber, 0 Weight,av.QualityAnalysis_ID, 0 FTA_RecordWeight_ID
+		FROM FTA_RV_AttributeValue av
+		UNION ALL
+		SELECT 'Y' isWeight, cc.Name Att, '' "Value", 0 ValueNumber, rwd.Weight, 0 QualityAnalysis_ID, rwd.FTA_RecordWeight_ID
+		FROM FTA_RecordWeightDetail rwd
+		INNER JOIN FTA_CategoryCalc cc ON(cc.FTA_CategoryCalc_ID = rwd.FTA_CategoryCalc_ID)
+		) av ON(av.QualityAnalysis_ID = qa.QualityAnalysis_ID OR av.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID)
 LEFT JOIN C_BPartner bp ON (bp.C_BPartner_ID=et.C_BPartner_ID)
 LEFT JOIN M_Product mp ON (mp.M_Product_ID=qa.M_Product_ID)
 LEFT JOIN FTA_Farming fm ON(fm.FTA_Farming_ID = mg.FTA_Farming_ID)
 LEFT JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = fm.FTA_FarmerCredit_ID)
 LEFT JOIN M_Lot lot ON(lot.M_Lot_ID = fm.PlantingCycle_ID)
-WHERE av.Name IN('Humedad', 'Impureza')
-AND (et.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
+WHERE (av.Att IN('Humedad', 'Impureza') OR av.IsWeight = 'Y')
+AND (rw.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
 AND (et.FTA_EntryTicket_ID=$P{FTA_EntryTicket_ID} OR $P{FTA_EntryTicket_ID} IS NULL)
-
 AND (fc.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
 AND (lot.M_Lot_ID=$P{PlantingCycle_ID} OR $P{PlantingCycle_ID} IS NULL)
 AND (et.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
@@ -83,7 +89,8 @@ AND (mp.M_Product_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
 AND (rw.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
 AND rw.DateDoc >= $P{DateDoc1}
 AND rw.DateDoc <= $P{DateDoc2}
-AND rw.OperationType = $P{OperationType}]]>
+AND rw.OperationType = $P{OperationType}
+ORDER BY rw.DateDoc, av.Att]]>
 	</queryString>
 	<field name="seqno" class="java.lang.Integer"/>
 	<field name="mobilizationguide" class="java.lang.String"/>
@@ -101,6 +108,7 @@ AND rw.OperationType = $P{OperationType}]]>
 	<field name="att" class="java.lang.String"/>
 	<field name="value" class="java.lang.String"/>
 	<field name="valuenumber" class="java.math.BigDecimal"/>
+	<field name="weight" class="java.math.BigDecimal"/>
 	<field name="taxid" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="datedoc1" class="java.lang.String"/>
@@ -196,8 +204,7 @@ AND rw.OperationType = $P{OperationType}]]>
 ($P{C_BPartner_ID} == null ? "" :"Ciclo = " + $F{plantingcycle} + "\n") +
 ($P{C_BPartner_ID} == null ? "" :"Almacén = " + $F{warehouse} + "\n") +
 ($P{DateDoc1} ==null ? "" :"F. Documento. >=" + $F{datedoc1} + "\n") +
-($P{DateDoc2} ==null ? "" :"F. Documento. <=" + $F{datedoc2} + "\n") +
-($P{OperationType}==null ? "" :"Tipo de Operación. <=" + $F{operationtype}  + "\n")]]></textFieldExpression>
+($P{DateDoc2} ==null ? "" :"F. Documento. <=" + $F{datedoc2} + "\n")]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -288,7 +295,7 @@ AND rw.OperationType = $P{OperationType}]]>
 							<text><![CDATA[Boleta]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="300" y="0" width="60" height="8" uuid="763e50f9-5035-4842-bc4c-9ce72f397c80"/>
+							<reportElement style="Crosstab Data Text" x="300" y="0" width="40" height="8" uuid="763e50f9-5035-4842-bc4c-9ce72f397c80"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -301,7 +308,7 @@ AND rw.OperationType = $P{OperationType}]]>
 							<text><![CDATA[Fecha]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="360" y="0" width="60" height="8" uuid="a3c1e5ce-98dc-4bf0-8216-7708a44fe4a8"/>
+							<reportElement style="Crosstab Data Text" x="340" y="0" width="35" height="8" uuid="a3c1e5ce-98dc-4bf0-8216-7708a44fe4a8"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -314,7 +321,7 @@ AND rw.OperationType = $P{OperationType}]]>
 							<text><![CDATA[P. Bruto]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="420" y="0" width="60" height="8" uuid="c8eebd09-e062-4758-906d-3bca2c90e1ac"/>
+							<reportElement style="Crosstab Data Text" x="375" y="0" width="35" height="8" uuid="c8eebd09-e062-4758-906d-3bca2c90e1ac"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -327,7 +334,7 @@ AND rw.OperationType = $P{OperationType}]]>
 							<text><![CDATA[P. Tara]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="480" y="0" width="60" height="8" uuid="2c1abc4a-b17b-4906-a6c5-5ce4883bb40b"/>
+							<reportElement style="Crosstab Data Text" x="410" y="0" width="35" height="8" uuid="2c1abc4a-b17b-4906-a6c5-5ce4883bb40b"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -340,7 +347,7 @@ AND rw.OperationType = $P{OperationType}]]>
 							<text><![CDATA[P. Neto]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="540" y="0" width="60" height="8" uuid="f3d6d19b-71b7-4a36-9010-c76bbc69b3f9"/>
+							<reportElement style="Crosstab Data Text" x="445" y="0" width="35" height="8" uuid="f3d6d19b-71b7-4a36-9010-c76bbc69b3f9"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -353,7 +360,7 @@ AND rw.OperationType = $P{OperationType}]]>
 							<text><![CDATA[Descuento]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="600" y="0" width="60" height="8" uuid="e22f5dbb-e30a-4a09-99a3-f15795f91c40"/>
+							<reportElement style="Crosstab Data Text" x="480" y="0" width="35" height="8" uuid="e22f5dbb-e30a-4a09-99a3-f15795f91c40"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -407,7 +414,7 @@ AND rw.OperationType = $P{OperationType}]]>
 								<text><![CDATA[Resumen]]></text>
 							</staticText>
 							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="360" y="0" width="60" height="13" uuid="263665ca-4bd9-4260-8880-4b68780469e2"/>
+								<reportElement style="Crosstab Data Text" x="340" y="0" width="35" height="13" uuid="263665ca-4bd9-4260-8880-4b68780469e2"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
@@ -418,7 +425,7 @@ AND rw.OperationType = $P{OperationType}]]>
 								<textFieldExpression><![CDATA[$P{GrossWeiht}]]></textFieldExpression>
 							</textField>
 							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="420" y="0" width="60" height="13" uuid="af332603-d408-492a-abee-1bddf0e4dace"/>
+								<reportElement style="Crosstab Data Text" x="375" y="0" width="35" height="13" uuid="af332603-d408-492a-abee-1bddf0e4dace"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
@@ -429,7 +436,7 @@ AND rw.OperationType = $P{OperationType}]]>
 								<textFieldExpression><![CDATA[$P{TareWeiht}]]></textFieldExpression>
 							</textField>
 							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="480" y="0" width="60" height="13" uuid="d72614df-8f62-4241-9ee8-18a89a3316cb"/>
+								<reportElement style="Crosstab Data Text" x="410" y="0" width="35" height="13" uuid="d72614df-8f62-4241-9ee8-18a89a3316cb"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
@@ -440,7 +447,7 @@ AND rw.OperationType = $P{OperationType}]]>
 								<textFieldExpression><![CDATA[$P{NetWeiht}]]></textFieldExpression>
 							</textField>
 							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="540" y="0" width="60" height="13" uuid="ad2802eb-4e7d-4b0a-ac8c-c668d51a31c0"/>
+								<reportElement style="Crosstab Data Text" x="445" y="0" width="35" height="13" uuid="ad2802eb-4e7d-4b0a-ac8c-c668d51a31c0"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
@@ -451,7 +458,7 @@ AND rw.OperationType = $P{OperationType}]]>
 								<textFieldExpression><![CDATA[$P{Discount}]]></textFieldExpression>
 							</textField>
 							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="600" y="0" width="60" height="13" uuid="b61dc5e9-456d-4032-833d-e848da1483fe"/>
+								<reportElement style="Crosstab Data Text" x="480" y="0" width="35" height="13" uuid="b61dc5e9-456d-4032-833d-e848da1483fe"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
@@ -564,14 +571,14 @@ AND rw.OperationType = $P{OperationType}]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="datedoc" width="60">
+				<rowGroup name="datedoc" width="40">
 					<bucket class="java.sql.Timestamp">
 						<bucketExpression><![CDATA[$F{datedoc}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="60" height="13" uuid="a60ac16e-da71-4fb8-86ef-9d26242aa37a"/>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="13" uuid="a60ac16e-da71-4fb8-86ef-9d26242aa37a"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -589,14 +596,14 @@ AND rw.OperationType = $P{OperationType}]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="grossweight" width="60">
+				<rowGroup name="grossweight" width="35">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{grossweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="60" height="13" uuid="9b666df0-07c1-4dc5-86e1-e083442ea671"/>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="35" height="13" uuid="9b666df0-07c1-4dc5-86e1-e083442ea671"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -614,14 +621,14 @@ AND rw.OperationType = $P{OperationType}]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="tareweight" width="60">
+				<rowGroup name="tareweight" width="35">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{tareweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="60" height="13" uuid="76f8fa5b-a3c9-4b3e-bf27-20365aab0c2c"/>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="35" height="13" uuid="76f8fa5b-a3c9-4b3e-bf27-20365aab0c2c"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -639,14 +646,14 @@ AND rw.OperationType = $P{OperationType}]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="netweight" width="60">
+				<rowGroup name="netweight" width="35">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{netweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="60" height="13" uuid="a5ad5890-0570-491e-8e36-c5d6d509512d"/>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="35" height="13" uuid="a5ad5890-0570-491e-8e36-c5d6d509512d"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -664,14 +671,14 @@ AND rw.OperationType = $P{OperationType}]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="discount" width="60">
+				<rowGroup name="discount" width="35">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{discount}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="60" height="13" uuid="b5ea157a-f43d-402e-888c-7c7a9fddbb7a"/>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="35" height="13" uuid="b5ea157a-f43d-402e-888c-7c7a9fddbb7a"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -689,14 +696,14 @@ AND rw.OperationType = $P{OperationType}]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="payweight" width="60">
+				<rowGroup name="payweight" width="35">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{payweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="60" height="13" uuid="1de263c1-6c31-42fc-8ab5-53e8ecc0fd07"/>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="35" height="13" uuid="1de263c1-6c31-42fc-8ab5-53e8ecc0fd07"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -724,7 +731,7 @@ AND rw.OperationType = $P{OperationType}]]>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="8" uuid="cd378f39-316b-4786-b62d-301057331584"/>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="55" height="8" uuid="cd378f39-316b-4786-b62d-301057331584"/>
 								<textElement verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 								</textElement>
@@ -739,31 +746,40 @@ AND rw.OperationType = $P{OperationType}]]>
 				<measure name="valuenumberMeasure" class="java.math.BigDecimal" calculation="Average">
 					<measureExpression><![CDATA[$F{valuenumber}]]></measureExpression>
 				</measure>
-				<crosstabCell width="40" height="13">
+				<measure name="weightMeasure" class="java.math.BigDecimal" calculation="Sum">
+					<measureExpression><![CDATA[$F{weight}]]></measureExpression>
+				</measure>
+				<crosstabCell width="55" height="13">
 					<cellContents>
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField pattern="###0.00;-###0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="13" uuid="61c47a19-bfee-4d14-93c2-2cdd244caa6e"/>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="55" height="13" uuid="61c47a19-bfee-4d14-93c2-2cdd244caa6e"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font size="6"/>
 							</textElement>
-							<textFieldExpression><![CDATA[$V{valuenumberMeasure}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[($V{weightMeasure} != null
+    && $V{weightMeasure}.doubleValue() > 0
+        ? $V{weightMeasure}
+        : $V{valuenumberMeasure})]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="40" height="13" rowTotalGroup="mobilizationguide">
+				<crosstabCell width="55" height="13" rowTotalGroup="mobilizationguide">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField pattern="###0.00;-###0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="13" uuid="202f239e-ceee-4b32-8df1-f405ba54a817"/>
+						<textField pattern="#,##0.00;-#,##0.00">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="55" height="13" uuid="202f239e-ceee-4b32-8df1-f405ba54a817"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font size="6" isBold="true" isItalic="true"/>
 							</textElement>
-							<textFieldExpression><![CDATA[$V{valuenumberMeasure}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[($V{weightMeasure} != null
+    && $V{weightMeasure}.doubleValue() > 0
+        ? $V{weightMeasure}
+        : $V{valuenumberMeasure})]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
