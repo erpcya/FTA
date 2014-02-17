@@ -10,7 +10,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2013 E.R.P. Consultores y Asociados, C.A.               *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
  * Contributor(s): Yamel Senih www.erpconsultoresyasociados.com               *
  *****************************************************************************/
@@ -323,7 +323,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if (qa !=null)
 		{
 			//	
-			MFTACategoryCalc m_CC = MFTACategoryCalc.get(getCtx(), qa.getM_Product_ID(), 
+			MFTACategoryCalc [] m_CCArray = MFTACategoryCalc.getList(getCtx(), qa.getM_Product_ID(), 
 					(isSOTrx()? EVENTTYPE_SHIPMENT: EVENTTYPE_RECEIPT), 
 					get_TrxName());
 			//	
@@ -332,11 +332,38 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			if(att == null)
 				return "@M_AttributeSetInstance_ID@ @NotFound@";
 			//	Valid Category Calc
-			if(m_CC == null)
+			if(m_CCArray == null)
 				return "@FTA_CategoryCalc_ID@ @NotFound@";
-				
-			BigDecimal m_PayWeight = m_CC.getPaidWeight(getNetWeight(), att,get_TrxName());
-			setPayWeight(m_PayWeight);
+			
+			//	Set Pay Weight to 0
+			setPayWeight(Env.ZERO);
+			
+			//	Delete old
+			DB.executeUpdate("DELETE FROM " 
+								+ I_FTA_RecordWeightDetail.Table_Name 
+								+ " WHERE " + I_FTA_RecordWeightDetail.COLUMNNAME_FTA_RecordWeight_ID 
+								+ "=" + getFTA_RecordWeight_ID(), get_TrxName());
+			//	Iterate
+			int line = 10;
+			for(MFTACategoryCalc m_CC : m_CCArray){
+				//	Calculate Pay Weight
+				BigDecimal m_PayWeight = m_CC.getPaidWeight(getNetWeight(), att,get_TrxName());
+				//	Set to header
+				if(m_CC.isPayWeight()){
+					setPayWeight(m_PayWeight);
+				} else {
+					//	Set to Detail
+					MFTARecordWeightDetail detail = new MFTARecordWeightDetail(getCtx(), 0, get_TrxName());
+					detail.setFTA_RecordWeight_ID(getFTA_RecordWeight_ID());
+					detail.setFTA_CategoryCalc_ID(m_CC.getFTA_CategoryCalc_ID());
+					detail.setWeight(m_PayWeight);
+					detail.setLine(line);
+					detail.setProcessed(true);
+					detail.saveEx();
+					//	Add Line
+					line += 10;
+				}	
+			}
 		}//
 		return null;
 	}
