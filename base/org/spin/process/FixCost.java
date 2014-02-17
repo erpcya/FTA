@@ -17,6 +17,7 @@
 
 package org.spin.process;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.compiere.model.MAcctSchema;
@@ -28,6 +29,7 @@ import org.compiere.model.MProduct;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -93,9 +95,11 @@ public class FixCost extends SvrProcess{
 			
 			//Advance for Unprocessed Cost Detail
 			if (new Query(getCtx(), MCostDetail.Table_Name, 
-					"Processed ='N'" 
+					"Processed = 'N' AND " +  
+					"M_Product_ID = ? "  
 					, get_TrxName())
 				.setOnlyActiveRecords(true)
+				.setParameters(product.getM_Product_ID())
 				.match()){
 				addLog("@NotValid@" + " " + Msg.translate(getCtx(), "M_CostDetail_ID") +" "+ product.getValue() + " " + product.getName());
 				continue;
@@ -108,15 +112,8 @@ public class FixCost extends SvrProcess{
 										.list();
 			for (MCostDetail costdetail : costdetails){
 				//Unprocessed for Set Amt
-				costdetail.setProcessed(false);
-				costdetail.setAmt(costdetail.getQty().multiply(cost.getCurrentCostPrice()).abs());
-				costdetail.saveEx(get_TrxName());
-				
-				//Save As Processed
-				costdetail.setProcessed(true);
-				costdetail.set_ValueOfColumn("Updated", costdetail.getM_InventoryLine().getUpdated());
-				costdetail.saveEx(get_TrxName());
-				
+				//Update From Sql Query for Don't Change Update Date
+				DB.executeUpdateEx("Update M_CostDetail Set Amt= ? Where M_CostDetail_ID=?", new Object[]{costdetail.getQty().multiply(cost.getCurrentCostPrice()).abs(),costdetail.getM_CostDetail_ID()}, get_TrxName());				
 			}
 			
 			//Create Costs Lines From Inventory Line
@@ -131,6 +128,7 @@ public class FixCost extends SvrProcess{
 							.list();
 			for (MInventoryLine iLine : inventorylines){
 				MCostDetail costDet = new MCostDetail(getCtx(), 0, get_TrxName());
+				costDet.setAD_Org_ID(iLine.getAD_Org_ID());
 				costDet.setC_AcctSchema_ID(as.getC_AcctSchema_ID());
 				costDet.setM_Product_ID(product.getM_Product_ID());
 				costDet.setM_AttributeSetInstance_ID(iLine.getM_AttributeSetInstance_ID());
@@ -146,15 +144,66 @@ public class FixCost extends SvrProcess{
 				costDet.setCumulatedQty(costDet.getQty());
 				costDet.saveEx(get_TrxName());
 				
-				costDet.setProcessed(true);
-				costDet.set_ValueOfColumn("Updated", iLine.getUpdated());
-				costDet.saveEx(get_TrxName());
+				//Update Date Update
+				DB.executeUpdateEx("Update M_CostDetail Set Processed=?,Updated=? Where M_CostDetail_ID=?", new Object[]{"Y",iLine.getUpdated(),costDet.getM_CostDetail_ID()}, get_TrxName());				
 			}
+			
+			BigDecimal cumulatedAmt = Env.ZERO;
+			BigDecimal cumulatedQty = Env.ZERO;
+			BigDecimal currentQty	= Env.ZERO;
+			
+			BigDecimal sumAmt		= Env.ZERO;
+			BigDecimal sumQty		= Env.ZERO;
+			
+			BigDecimal currentCost	= Env.ZERO;
+			
+			
+			List<MCostDetail> costToFix =  new Query(getCtx(), MCostDetail.Table_Name, "M_Product_ID=?", get_TrxName())
+							.setOnlyActiveRecords(true)
+							.setParameters(product.getM_Product_ID())
+							.setOrderBy("Updated")
+							.list();
+			
+			for (MCostDetail cd: costToFix){
+				//Inventory 
+				if (cd.getM_InventoryLine_ID()!=0){
+					cumulatedAmt = cumulatedAmt.add(cd.getAmt());
+					cumulatedQty = cumulatedQty.add(cd.getQty());
+					currentQty = currentQty.add(cd.getQty());
+					
+					sumAmt = cd.getAmt();
+					sumQty = cd.getQty();
+					currentCost = sumAmt.divide(sumQty, as.getCostingPrecision());
+					DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?,CurrentQty=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,cd.getM_CostDetail_ID()}, get_TrxName());
+				}//End Inventory
+				//Receipt / Shipment Movement 
+				else if (cd.getM_InOutLine_ID()!=0){
+					currentQty = currentQty.add(cd.getQty());
+					sumQty = sumQty.add(cd.getQty());
+					sumAmt = sumAmt.add(cd.getAmt().multiply(new BigDecimal(cd.getQty().signum())));
+					currentCost = sumAmt.divide(sumQty, as.getCostingPrecision());
+					DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?, CurrentQty=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,cd.getM_CostDetail_ID()}, get_TrxName());
+				}//End Receipt / Shipment Movement
+				//Order Movements 
+				else if (cd.getC_OrderLine_ID()!=0){
+					DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?, CurrentQty=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,cd.getM_CostDetail_ID()}, get_TrxName());
+				}//End Order Movements
+				else if (cd.getC_InvoiceLine_ID()!=0){
+					cumulatedAmt = cumulatedAmt.add(cd.getAmt());
+					cumulatedQty = cumulatedQty.add(cd.getQty());
+					currentQty = currentQty.add(cd.getQty());
+					
+					DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?,CurrentQty=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,cd.getM_CostDetail_ID()}, get_TrxName());
+				}
+			}
+				
 				
 		}
 			
 		return null;
 	}
+	
+	
 	
 	/** Product to Fix Cost*/ 
 	int p_M_Product_ID = 0;
