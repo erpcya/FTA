@@ -1,0 +1,26 @@
+Create View FTA_RV_AllocationCreditAct AS 
+Select 
+AD_Client_ID,
+AD_Org_ID,
+Amt,
+Beneficiary_ID,
+C_BPartner_ID,
+C_Charge_ID,
+C_DocType_ID,
+C_UOM_ID,
+DateDoc,
+Description,
+DocAction,
+DocStatus,
+DocumentNo,
+FarmingAlloc,
+FTA_CreditAct_ID,
+FTA_CreditDefinition_ID,
+FTA_FarmerCredit_ID,
+IsActive,
+IsApproved,
+Processed,
+Processing,
+Qty,
+Case When FTA_CreditAct_ID IS Null Then 'N' Else 'Y' End As IsAllocated
+From FTA_FarmerCredit ;
