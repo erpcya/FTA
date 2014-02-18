@@ -96,10 +96,10 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	private int p_C_BP_BankAccount_ID = 0;
 	
 	/** Sql*/
-	StringBuffer sql = new StringBuffer();
+	private StringBuffer sql = new StringBuffer();
 	
 	/** Credit Distribution */
-	HashMap<Integer, BigDecimal> m_dist = new HashMap<Integer, BigDecimal>();
+	private HashMap<Integer, BigDecimal> m_dist = new HashMap<Integer, BigDecimal>();
 	
 	/**Process From Browse*/
 	private boolean processFromBrowse = false;
