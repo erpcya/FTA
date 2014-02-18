@@ -18,6 +18,7 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.List;
 
 import org.compiere.model.MAcctSchema;
@@ -59,10 +60,10 @@ public class FixCost extends SvrProcess{
 	@Override
 	protected String doIt() throws Exception {
 		// TODO Auto-generated method stub
-		int l_M_CostElement_ID =0;
+		String resp = new String();
 		//Get Produts to Fix Cost
-		List<MProduct>products = new Query(getCtx(), MProduct.Table_Name, "M_Product_ID=? OR ?=0", get_TrxName())
-								.setParameters(p_M_Product_ID,p_M_Product_ID)
+		List<MProduct>products = new Query(getCtx(), MProduct.Table_Name, "(M_Product_ID=? OR ?=0) AND AD_Client_ID=? AND ProductType='I'", get_TrxName())
+								.setParameters(p_M_Product_ID,p_M_Product_ID,getAD_Client_ID())
 								.setOnlyActiveRecords(true)
 								.list();
 
@@ -157,50 +158,86 @@ public class FixCost extends SvrProcess{
 			
 			BigDecimal currentCost	= Env.ZERO;
 			
+			int costingPrecision = as.getCostingPrecision();
 			
 			List<MCostDetail> costToFix =  new Query(getCtx(), MCostDetail.Table_Name, "M_Product_ID=?", get_TrxName())
 							.setOnlyActiveRecords(true)
 							.setParameters(product.getM_Product_ID())
-							.setOrderBy("Updated")
+							.setOrderBy("Created")
 							.list();
-			
-			for (MCostDetail cd: costToFix){
-				//Inventory 
-				if (cd.getM_InventoryLine_ID()!=0){
-					cumulatedAmt = cumulatedAmt.add(cd.getAmt());
-					cumulatedQty = cumulatedQty.add(cd.getQty());
-					currentQty = currentQty.add(cd.getQty());
+			try{
 					
-					sumAmt = cd.getAmt();
-					sumQty = cd.getQty();
-					currentCost = sumAmt.divide(sumQty, as.getCostingPrecision());
-					DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?,CurrentQty=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,cd.getM_CostDetail_ID()}, get_TrxName());
-				}//End Inventory
-				//Receipt / Shipment Movement 
-				else if (cd.getM_InOutLine_ID()!=0){
-					currentQty = currentQty.add(cd.getQty());
-					sumQty = sumQty.add(cd.getQty());
-					sumAmt = sumAmt.add(cd.getAmt().multiply(new BigDecimal(cd.getQty().signum())));
-					currentCost = sumAmt.divide(sumQty, as.getCostingPrecision());
-					DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?, CurrentQty=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,cd.getM_CostDetail_ID()}, get_TrxName());
-				}//End Receipt / Shipment Movement
-				//Order Movements 
-				else if (cd.getC_OrderLine_ID()!=0){
-					DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?, CurrentQty=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,cd.getM_CostDetail_ID()}, get_TrxName());
-				}//End Order Movements
-				else if (cd.getC_InvoiceLine_ID()!=0){
-					cumulatedAmt = cumulatedAmt.add(cd.getAmt());
-					cumulatedQty = cumulatedQty.add(cd.getQty());
-					currentQty = currentQty.add(cd.getQty());
-					
-					DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?,CurrentQty=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,cd.getM_CostDetail_ID()}, get_TrxName());
+				for (MCostDetail cd: costToFix){
+					//Inventory 
+					if (cd.getM_InventoryLine_ID()!=0){
+						cumulatedAmt = cumulatedAmt.add(cd.getAmt());
+						cumulatedQty = cumulatedQty.add(cd.getQty());
+						currentQty = currentQty.add(cd.getQty());
+						
+						sumQty =sumQty.add(cd.getQty());
+						sumAmt = cd.getAmt().divide(cd.getQty(),MathContext.DECIMAL128).multiply(sumQty);
+						
+						//Only Calculate When Sum Qty Nt Equals to Zero
+						if (!sumQty.setScale(costingPrecision,BigDecimal.ROUND_HALF_UP).equals(Env.ZERO.setScale(costingPrecision,BigDecimal.ROUND_HALF_UP)))
+							currentCost = sumAmt.divide(sumQty, costingPrecision);
+						
+						DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?,CurrentQty=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,cd.getM_CostDetail_ID()}, get_TrxName());
+					}//End Inventory
+					//Receipt / Shipment Movement 
+					else if (cd.getM_InOutLine_ID()!=0){
+						currentQty = currentQty.add(cd.getQty());
+						sumQty = sumQty.add(cd.getQty());
+						
+						if (!currentCost.abs().setScale(costingPrecision,BigDecimal.ROUND_HALF_UP).equals(cd.getAmt().divide(cd.getQty(),MathContext.DECIMAL128).abs().setScale(costingPrecision,BigDecimal.ROUND_HALF_UP)))
+							sumAmt = sumAmt.add(currentCost.multiply(cd.getQty()));
+						else
+							sumAmt = sumAmt.add(cd.getAmt().multiply(new BigDecimal(cd.getQty().signum())));
+						
+						//Only Calculate When Sum Qty Nt Equals to Zero
+						if (!sumQty.setScale(costingPrecision,BigDecimal.ROUND_HALF_UP).equals(Env.ZERO.setScale(costingPrecision,BigDecimal.ROUND_HALF_UP)))
+							currentCost = sumAmt.divide(sumQty, costingPrecision);
+						
+						DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?, CurrentQty=?,Amt=Abs(Qty * ?),CurrentCostPrice=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,currentCost,currentCost,cd.getM_CostDetail_ID()}, get_TrxName());
+					}//End Receipt / Shipment Movement
+					//Order Movements 
+					else if (cd.getC_OrderLine_ID()!=0){
+						DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?, CurrentQty=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,cd.getM_CostDetail_ID()}, get_TrxName());
+					}//End Order Movements
+					else if (cd.getC_InvoiceLine_ID()!=0){
+						cumulatedAmt = cumulatedAmt.add(cd.getAmt());
+						cumulatedQty = cumulatedQty.add(cd.getQty());
+						currentQty = currentQty.add(cd.getQty());
+						
+						sumQty = sumQty.add(cd.getQty());
+						sumAmt = sumAmt.add(cd.getAmt().multiply(new BigDecimal(cd.getQty().signum())));
+						//Only Calculate When Sum Qty Nt Equals to Zero
+						if (!sumQty.setScale(costingPrecision,BigDecimal.ROUND_HALF_UP).equals(Env.ZERO.setScale(costingPrecision,BigDecimal.ROUND_HALF_UP)))
+							currentCost = sumAmt.divide(sumQty, costingPrecision);
+						
+						DB.executeUpdateEx("Update M_CostDetail Set CumulatedAmt=?, CumulatedQty=?,CurrentQty=? Where M_CostDetail_ID=?", new Object[]{cumulatedAmt,cumulatedQty,currentQty,cd.getM_CostDetail_ID()}, get_TrxName());
+					}
 				}
 			}
+			catch(Exception e){
+				addLog(e.getMessage() +" "+ product.getValue() + " " + product.getName() );
+				e.printStackTrace();
+			}
+			
+			//Update Current Cost
+			if (!currentCost.equals(Env.ZERO)){
+				cost.setCurrentCostPrice(currentCost.setScale(costingPrecision, BigDecimal.ROUND_HALF_UP));
+				cost.setCumulatedAmt(cumulatedAmt);
+				cost.setCumulatedQty(cumulatedQty);
+				cost.setCurrentQty(sumQty);
+				cost.saveEx(get_TrxName());
 				
-				
+				m_Updated ++;
+			}
+			resp = "@Updated@ " + m_Updated;
+			
 		}
 			
-		return null;
+		return resp;
 	}
 	
 	
@@ -217,4 +254,6 @@ public class FixCost extends SvrProcess{
 	/** Acct Schema*/
 	int p_C_AcctSchema_ID = 0;
 
+	/**Updated*/
+	int m_Updated = 0;
 }
