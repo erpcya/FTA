@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="ANSI_X3.4-1968" standalone="no"?>
 <jardesc>
     <jar path="FTA/packages/FTA/lib/FTA.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/FTA/FTA.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
@@ -12,6 +12,7 @@
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
         <javaElement handleIdentifier="=FTA/base"/>
+        <javaElement handleIdentifier="=FTA/patches"/>
         <javaElement handleIdentifier="=FTA/client"/>
     </selectedElements>
 </jardesc>
