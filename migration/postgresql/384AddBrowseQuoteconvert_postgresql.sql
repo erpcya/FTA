@@ -475,3 +475,13 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53592, SeqNo=12,Updated=TO_TIMESTAMP('2014-02
 UPDATE AD_TreeNodeMM SET Parent_ID=53592, SeqNo=13,Updated=TO_TIMESTAMP('2014-02-18 12:24:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tree_ID=10 AND Node_ID=53762
 ;
 
+-- Feb 18, 2014 2:08:04 PM VET
+-- Farming Technical Assistance
+UPDATE AD_Browse_Field SET AD_Reference_ID=30, AD_Val_Rule_ID=52222,Updated=TO_TIMESTAMP('2014-02-18 14:08:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_Field_ID=53544
+;
+
+-- Feb 18, 2014 2:08:32 PM VET
+-- Farming Technical Assistance
+UPDATE AD_Browse_Field SET AD_Val_Rule_ID=52207,Updated=TO_TIMESTAMP('2014-02-18 14:08:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_Field_ID=53549
+;
+
