@@ -120,7 +120,7 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 				|| category.getValue().equals(MFTACDLCategory.T_DISTRIBUTION))
 			throw new AdempiereException("@DeleteError@");
 		//	Valid Reference
-		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(ft.DocumentNo) " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(ft.Description) " +
 				"FROM FTA_Fact ft " +
 				"WHERE ft.FTA_CreditDefinitionLine_ID = ?", getFTA_CreditDefinitionLine_ID());
 		if(m_ReferenceNo != null)
