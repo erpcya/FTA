@@ -33,7 +33,7 @@
 	et.DocumentNo EntryTicket,
 	qa.DocumentNo QualityAnalysis,
 	rw.DocumentNo,
-	rw.DateDoc,
+	rw.OutDate DateDoc,
 	rw.TareWeight,
 	rw.GrossWeight,
 	rw.NetWeight,
