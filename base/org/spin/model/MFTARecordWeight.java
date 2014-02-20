@@ -591,6 +591,23 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//m_processMsg = validReference();
 		//if(m_processMsg != null)
 			//return false;
+		
+		//	Dixon Martinez 2014-02-20 16:57:40
+		//	Validate referenced in Material Imput/Output Movement
+		
+		//	
+		//	Reverse only M_InOut record
+		if(!getOperationType().equals(OPERATIONTYPE_MaterialInputMovement)
+				&& !getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)
+				&& !getOperationType().equals(OPERATIONTYPE_OtherRecordWeight)){
+			//	Reverse In/Out
+			m_processMsg = validInOutReference();
+			if (m_processMsg != null)
+				return false;
+		}
+
+		//	End Dixon Martinez
+		
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
