@@ -122,7 +122,7 @@ public class FixCost extends SvrProcess{
 							"NOT EXISTS(SELECT 1  FROM M_CostDetail WHERE M_CostDetail.M_InventoryLine_ID = M_InventoryLine.M_InventoryLine_ID) AND " +
 							"EXISTS(SELECT 1 FROM M_Inventory WHERE M_Inventory.M_Inventory_ID=M_InventoryLine.M_Inventory_ID AND DocStatus NOT IN ('DR','IN','IP')) AND " +
 							"M_Product_ID =? AND " +
-							"(QtyCount-QtyBook)<>0"
+							"((QtyCount-QtyBook)<>0 OR QtyInternalUse<>0)"
 							, get_TrxName())
 							.setOnlyActiveRecords(true)
 							.setParameters(product.getM_Product_ID())

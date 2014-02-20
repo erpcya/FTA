@@ -33,7 +33,8 @@ SELECT
 	vh.FTA_VehicleBrand_ID,
 	vh.LoadCapacity,
 	vh.VolumeCapacity,
-	mg.QtyToDeliver
+	mg.QtyToDeliver,
+	mg.C_DocType_ID C_DocTypeMobilizationGuide_ID
 FROM FTA_RecordWeight rw
 LEFT JOIN FTA_EntryTicket et ON(et.FTA_EntryTicket_ID = rw.FTA_EntryTicket_ID)
 LEFT JOIN FTA_Driver dr ON(dr.FTA_Driver_ID = et.FTA_Driver_ID)
