@@ -10,7 +10,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2013 E.R.P. Consultores y Asociados, C.A.               *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
  * Contributor(s): Yamel Senih www.erpconsultoresyasociados.com               *
  *****************************************************************************/
@@ -204,7 +204,7 @@ public class MFTAFact extends X_FTA_Fact {
 						if(m_Current_Line_ID != m_Line_ID){
 							if(!m_RemainingAmt.equals(Env.ZERO))
 								break;
-							m_Current_Line_ID = m_Line_ID;
+							//	
 							m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_Amt));
 							//	
 							if(m_Balance.compareTo(Env.ZERO) < 0){
@@ -243,6 +243,8 @@ public class MFTAFact extends X_FTA_Fact {
 					if(m_Amt.equals(Env.ZERO))
 						break;
 					
+					//	Set Line
+					m_Current_Line_ID = m_Line_ID;
 					//	Create Fact
 					MFTAFact m_fta_Fact = new MFTAFact(ctx, 0, trxName);
 					//	Set Values

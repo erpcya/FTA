@@ -16,12 +16,9 @@
  *****************************************************************************/
 package org.spin.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
-import org.compiere.model.PO;
 import org.compiere.model.Query;
 
 /**

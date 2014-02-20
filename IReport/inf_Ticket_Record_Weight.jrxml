@@ -4,7 +4,9 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
-	<parameter name="DocStatus" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="DocStatus" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<parameter name="AD_Org_ID" class="java.math.BigDecimal"/>
 	<parameter name="M_Warehouse_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_EntryTicket_ID" class="java.math.BigDecimal"/>
@@ -86,9 +88,9 @@ AND (et.FTA_MobilizationGuide_ID=$P{FTA_MobilizationGuide_ID} OR $P{FTA_Mobiliza
 AND (et.Ext_Guide=$P{Ext_Guide} OR $P{Ext_Guide} IS NULL)
 AND (qa.FTA_QualityAnalysis_ID=$P{FTA_QualityAnalysis_ID} OR $P{FTA_QualityAnalysis_ID} IS NULL)
 AND (mp.M_Product_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
-AND (rw.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
-AND rw.DateDoc >= $P{DateDoc1}
-AND rw.DateDoc <= $P{DateDoc2}
+AND rw.DocStatus = $P{DocStatus}
+AND rw.OutDate >= $P{DateDoc1}
+AND rw.OutDate <= $P{DateDoc2}
 AND rw.OperationType = $P{OperationType}
 ORDER BY rw.DateDoc, av.Att]]>
 	</queryString>
