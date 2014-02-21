@@ -188,6 +188,12 @@ public class InvoiceGenerate extends SvrProcess{
 							}
 						}
 					}//End invoice From In-Out
+					
+					//Process Invoice
+					invoice.set_ValueOfColumn("FTA_FarmerLiquidation_ID", m_FTA_FarmerLiquidation_ID);
+					invoice.processIt(MInvoice.DOCACTION_Complete);
+					invoice.saveEx(get_TrxName());
+					
 				}//End Invoice Line Created
 				
 				/** Process Invoice Document And Allocate With Liquidations Documents*/ 
@@ -207,11 +213,6 @@ public class InvoiceGenerate extends SvrProcess{
 					l_TotalAlloc = l_TotalAlloc==null ? Env.ZERO : l_TotalAlloc;
 					
 					if (allocs.size()>0){
-						//Process InvoiceDelete From Fact_Acct Where Record_ID In(Select C_Invoice_ID From C_Invoice Where DocumentNo ='prueba01') And AD_Table_ID = 318;
-						invoice.set_ValueOfColumn("FTA_FarmerLiquidation_ID", m_FTA_FarmerLiquidation_ID);
-						invoice.processIt(MInvoice.DOCACTION_Complete);
-						invoice.saveEx(get_TrxName());
-						
 						MAllocationHdr allochdr = new MAllocationHdr(getCtx(), 0, get_TrxName());
 						allochdr.setDateTrx(invoice.getDateInvoiced());
 						allochdr.setDateAcct(invoice.getDateAcct());
