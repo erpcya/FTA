@@ -142,7 +142,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		
 		while (rs.next())
 		{
-			if (m_C_BPartner_ID!=rs.getInt("C_BPartner_ID") && m_Category_ID!=rs.getInt("Category_ID"))
+			if (m_C_BPartner_ID!=rs.getInt("C_BPartner_ID"))
 			{
 				if (liquidation!=null)
 					processDocument(liquidation);
