@@ -485,3 +485,8 @@ UPDATE AD_Browse_Field SET AD_Reference_ID=30, AD_Val_Rule_ID=52222,Updated=TO_D
 UPDATE AD_Browse_Field SET AD_Val_Rule_ID=52207,Updated=TO_DATE('2014-02-18 14:08:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_Field_ID=53549
 ;
 
+-- 20/02/2014 08:14:46 PM VET
+-- Farming Technical Assistance
+UPDATE AD_Browse SET WhereClause='FTA_FarmerCredit_ID Is Not Null And IsSOTrx=''Y''',Updated=TO_DATE('2014-02-20 20:14:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50032
+;
+
