@@ -173,9 +173,9 @@ public class InvoiceGenerate extends SvrProcess{
 							MInOutLine  miol = new Query(getCtx(),MInOutLine.Table_Name,"Exists(SELECT 1 FROM " + 
 											"M_InOut mio " + 
 											"INNER JOIN FTA_FarmerLiquidationLine fll On mio.FTA_RecordWeight_ID=fll.FTA_RecordWeight_ID " +
-											"WHERE mio.M_InOut_ID=M_InOutLine.M_InOut_ID AND fll.FTA_FarmerLiquidation_ID=?)",get_TrxName())
+											"WHERE mio.M_InOut_ID=M_InOutLine.M_InOut_ID AND fll.FTA_FarmerLiquidationLine_ID=?)",get_TrxName())
 											.setOnlyActiveRecords(true)
-											.setParameters(fll.getFTA_FarmerLiquidation_ID())
+											.setParameters(fll.getFTA_FarmerLiquidationLine_ID())
 											.firstOnly();
 							if(miol!=null){
 								MInvoiceLine invoiceline = new MInvoiceLine(invoice);
