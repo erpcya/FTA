@@ -20,7 +20,10 @@ import java.util.logging.Level;
 
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.spin.model.MFTACreditDefinition;
+import org.spin.model.MFTACreditDefinitionLine;
 import org.spin.model.X_FTA_CreditDefinition;
 
 /**
@@ -34,6 +37,9 @@ public class CopyFromCreditDefinition extends SvrProcess
 	int p_FTA_CreditDefinition_ID 				= 0;
 	/**	Credit Definition to Copy 				*/
 	int p_FTA_CreditDefinition_ID_To 			= 0;
+	
+	boolean p_CopyOnlyProduct 						= false;
+	boolean p_CopyLines 						= false;
 	
 	/**	Credit Definition Target 				*/
 	static int p_Target_CreditDefinition_ID = 0;
@@ -49,6 +55,8 @@ public class CopyFromCreditDefinition extends SvrProcess
 				;
 			else if(name.equals(X_FTA_CreditDefinition.COLUMNNAME_FTA_CreditDefinition_ID))
 				p_FTA_CreditDefinition_ID = parameter.getParameterAsInt();
+			else if(name.equals("CopyOnlyProduct"))
+				p_CopyOnlyProduct = parameter.getParameterAsBoolean();
 			else
 				log.log(Level.SEVERE,"Unknow Parameter "+name);				
 		}
@@ -70,12 +78,65 @@ public class CopyFromCreditDefinition extends SvrProcess
 		MFTACreditDefinition m_FTA_CreditDefinitionFrom = new MFTACreditDefinition(getCtx(), p_FTA_CreditDefinition_ID, get_TrxName());
 		
 		MFTACreditDefinition m_FTA_CreditDefinitionTo = new MFTACreditDefinition(getCtx(), p_Target_CreditDefinition_ID, get_TrxName());
+		
+		String sqlLines = "", sqlProducts = "";
+		int lines = 0;
+		int products = 0;
+		int no = 0;
+		int noProducts = 0;
+		String msg = "";
+		
+		sqlLines = "SELECT COUNT(FTA_CreditDefinitionLine_ID) " +
+					" FROM FTA_CreditDefinition cd" +
+					" INNER JOIN FTA_CreditDefinitionLine cdl ON (cd.FTA_CreditDefinition_ID = cdl.FTA_CreditDefinition_ID )" +
+					" INNER JOIN FTA_CDL_Category cdlc ON (cdlc.FTA_CDL_Category_ID = cdl.FTA_CDL_Category_ID)" +
+					" WHERE" +
+					"		cd.FTA_CreditDefinition_ID = ?" +
+					"		AND cdlc.Value NOT IN ('DC','DD')";
+				
+		sqlProducts = " SELECT COUNT(cd.FTA_CreditDefinition_ID)" +
+					  "	FROM FTA_CreditDefinition cd" +
+					  "	INNER JOIN FTA_ProductListApproved pla ON (cd.FTA_CreditDefinition_ID = pla.FTA_CreditDefinition_ID)" +
+					  "	WHERE" +
+					  "		cd.FTA_CreditDefinition_ID = ?";
+		
+		if(p_CopyOnlyProduct){			
+			products = DB.getSQLValue(get_TrxName(), sqlProducts,m_FTA_CreditDefinitionTo.getFTA_CreditDefinition_ID());
+			
+			if(products > 0)
+				msg = "@List@ @of@ @Products@ @RecordFound@ @isDeleteOldRecords@"  ;
+			else{
+				noProducts = m_FTA_CreditDefinitionTo.copyProductsFrom(m_FTA_CreditDefinitionFrom,m_FTA_CreditDefinitionTo);
+				msg = "@List@ @of@ @Products@  @Copied@= "+noProducts;
+			}
+			
+		}else{
+			
+			lines = DB.getSQLValue(get_TrxName(), sqlLines, m_FTA_CreditDefinitionTo.getFTA_CreditDefinition_ID());
+			products = DB.getSQLValue(get_TrxName(), sqlProducts,m_FTA_CreditDefinitionTo.getFTA_CreditDefinition_ID());
+			
+			if(lines > 0)
+				msg = "@FTA_CreditDefinitionLine_ID@ @RecordFound@ @isDeleteOldRecords@";
+			else{
+				no = m_FTA_CreditDefinitionTo.copyLinesFrom (m_FTA_CreditDefinitionFrom,m_FTA_CreditDefinitionTo);
+				msg = msg + "@FTA_CreditDefinitionLine_ID@ @Copied@= " + no ;
+			}
+		
+			if(msg.length() > 0)
+				msg = msg + " - ";
+			
+			if(products > 0)
+				msg = msg + "@List@ @of@ @Products@ @RecordFound@ @isDeleteOldRecords@"  ;
+			else{
+				noProducts = m_FTA_CreditDefinitionTo.copyProductsFrom(m_FTA_CreditDefinitionFrom,m_FTA_CreditDefinitionTo);
+				msg = msg + "@List@ @of@ @Products@ @Copied@= "+noProducts;
+			}
+		}
+		
+		//
+		return msg;
+	}	
 	
-		//
-		int no = m_FTA_CreditDefinitionTo.copyLinesFrom (m_FTA_CreditDefinitionFrom,m_FTA_CreditDefinitionTo);
-		int noProducts = m_FTA_CreditDefinitionTo.copyProductsFrom(m_FTA_CreditDefinitionFrom,m_FTA_CreditDefinitionTo);
-		//
-		return "@Line@ @Copied@= " + no + "/ @Product@ @Copied@= "+noProducts;
-	}
+	
 
 }

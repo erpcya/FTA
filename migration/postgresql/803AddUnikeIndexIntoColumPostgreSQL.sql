@@ -20,6 +20,7 @@ CREATE UNIQUE INDEX UK_FTA_LoadOrderDocumentNo ON FTA_LoadOrder (AD_Client_ID,Do
 
 CREATE UNIQUE INDEX UK_FTA_CategoryCalcFilterPlantingCycle ON FTA_CategoryCalcFilter (FTA_CategoryCalc_ID,PlantingCycle_ID);
 CREATE UNIQUE INDEX UK_FTA_CategoryCalcFilterAttribute ON FTA_CategoryCalcFilter (FTA_CategoryCalc_ID,M_Attribute_ID);
+
 CREATE UNIQUE INDEX UK_FTA_CDL_Category_Product ON FTA_CreditDefinitionLine (FTA_CreditDefinition_ID,FTA_CDL_Category_ID,M_Product_ID);
 CREATE UNIQUE INDEX UK_FTA_CDL_Category_ProductCategory ON FTA_CreditDefinitionLine  (FTA_CreditDefinition_ID,FTA_CDL_Category_ID,M_Product_Category_ID);
 CREATE UNIQUE INDEX UK_FTA_CDL_Category_Charge ON FTA_CreditDefinitionLine  (FTA_CreditDefinition_ID,FTA_CDL_Category_ID,C_Charge_ID);
