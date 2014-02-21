@@ -131,7 +131,9 @@ public class MFTACreditDefinitionLine extends X_FTA_CreditDefinitionLine {
 	@Override
 	protected boolean afterSave(boolean newRecord, boolean success) {
 		super.afterSave(newRecord, success);
-		return updateHeader();
+		if(success)
+			return updateHeader();
+		return false;
 	}
 	
 	/**
