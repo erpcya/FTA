@@ -32,7 +32,6 @@ import org.compiere.model.ModelValidator;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
-import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -598,7 +597,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		if(m_MaxReceipt != null
 				&& m_MaxReceipt.compareTo(m_MaxQtyToDeliver) <= 0)
 			m_MaxQtyToDeliver = m_MaxReceipt;
-		//	Verify Qty to Deliver with Max to Deliver
+		//	Verify Quantity to Deliver with Max to Deliver
 		if(getQtyToDeliver().compareTo(m_MaxQtyToDeliver) > 0)
 			return "@QtyToDeliver@ > (@EstimatedQty@ - @QtyDelivered@):"
 					+ " \n@EstimatedQty@=" + m_Qty.doubleValue() 
