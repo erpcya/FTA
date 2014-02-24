@@ -31,7 +31,7 @@ public class X_FTA_VehicleModel extends PO implements I_FTA_VehicleModel, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140217L;
+	private static final long serialVersionUID = 20140224L;
 
     /** Standard Constructor */
     public X_FTA_VehicleModel (Properties ctx, int FTA_VehicleModel_ID, String trxName)

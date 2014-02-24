@@ -187,6 +187,15 @@ public interface I_FTA_MobilizationGuide
 	  */
 	public String getDocumentNo();
 
+    /** Column name Ext_Guide */
+    public static final String COLUMNNAME_Ext_Guide = "Ext_Guide";
+
+	/** Set Ext. Guide	  */
+	public void setExt_Guide (String Ext_Guide);
+
+	/** Get Ext. Guide	  */
+	public String getExt_Guide();
+
     /** Column name FTA_Farming_ID */
     public static final String COLUMNNAME_FTA_Farming_ID = "FTA_Farming_ID";
 

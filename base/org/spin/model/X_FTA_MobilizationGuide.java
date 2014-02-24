@@ -34,7 +34,7 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140217L;
+	private static final long serialVersionUID = 20140224L;
 
     /** Standard Constructor */
     public X_FTA_MobilizationGuide (Properties ctx, int FTA_MobilizationGuide_ID, String trxName)
@@ -311,6 +311,20 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 	public String getDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
+	/** Set Ext. Guide.
+		@param Ext_Guide Ext. Guide	  */
+	public void setExt_Guide (String Ext_Guide)
+	{
+		set_Value (COLUMNNAME_Ext_Guide, Ext_Guide);
+	}
+
+	/** Get Ext. Guide.
+		@return Ext. Guide	  */
+	public String getExt_Guide () 
+	{
+		return (String)get_Value(COLUMNNAME_Ext_Guide);
 	}
 
 	public org.spin.model.I_FTA_Farming getFTA_Farming() throws RuntimeException
