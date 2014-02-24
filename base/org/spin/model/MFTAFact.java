@@ -266,8 +266,8 @@ public class MFTAFact extends X_FTA_Fact {
 					m_fta_Fact.setRecord_ID(m_Record_ID);
 					m_fta_Fact.setLine_ID(m_Line_ID);
 					m_fta_Fact.setAD_Table_ID(table_ID);
-					m_fta_Fact.setAmt(m_Amt.multiply(p_Multiplier)
-												.setScale(precision, BigDecimal.ROUND_HALF_UP));
+					m_fta_Fact.setAmt(m_Amt);
+					m_fta_Fact.setMultiplier(p_Multiplier);
 					m_fta_Fact.setIsCreditFactManual(false);
 					//	Save
 					m_fta_Fact.saveEx();

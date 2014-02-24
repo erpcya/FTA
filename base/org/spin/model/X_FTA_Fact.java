@@ -33,7 +33,7 @@ public class X_FTA_Fact extends PO implements I_FTA_Fact, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140217L;
+	private static final long serialVersionUID = 20140224L;
 
     /** Standard Constructor */
     public X_FTA_Fact (Properties ctx, int FTA_Fact_ID, String trxName)
@@ -191,6 +191,27 @@ public class X_FTA_Fact extends PO implements I_FTA_Fact, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	public org.spin.model.I_FTA_CDL_Category getFTA_CDL_Category() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_CDL_Category)MTable.get(getCtx(), org.spin.model.I_FTA_CDL_Category.Table_Name)
+			.getPO(getFTA_CDL_Category_ID(), get_TrxName());	}
+
+	/** Set Credit Definition Line Category.
+		@param FTA_CDL_Category_ID Credit Definition Line Category	  */
+	public void setFTA_CDL_Category_ID (int FTA_CDL_Category_ID)
+	{
+		throw new IllegalArgumentException ("FTA_CDL_Category_ID is virtual column");	}
+
+	/** Get Credit Definition Line Category.
+		@return Credit Definition Line Category	  */
+	public int getFTA_CDL_Category_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CDL_Category_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_FTA_CreditDefinition getFTA_CreditDefinition() throws RuntimeException
     {
 		return (org.spin.model.I_FTA_CreditDefinition)MTable.get(getCtx(), org.spin.model.I_FTA_CreditDefinition.Table_Name)
@@ -331,6 +352,26 @@ public class X_FTA_Fact extends PO implements I_FTA_Fact, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Multiplier.
+		@param Multiplier 
+		Type Multiplier (Credit = -1)
+	  */
+	public void setMultiplier (BigDecimal Multiplier)
+	{
+		set_Value (COLUMNNAME_Multiplier, Multiplier);
+	}
+
+	/** Get Multiplier.
+		@return Type Multiplier (Credit = -1)
+	  */
+	public BigDecimal getMultiplier () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Multiplier);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Record ID.

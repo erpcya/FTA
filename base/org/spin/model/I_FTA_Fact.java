@@ -148,6 +148,17 @@ public interface I_FTA_Fact
 	  */
 	public String getDescription();
 
+    /** Column name FTA_CDL_Category_ID */
+    public static final String COLUMNNAME_FTA_CDL_Category_ID = "FTA_CDL_Category_ID";
+
+	/** Set Credit Definition Line Category	  */
+	public void setFTA_CDL_Category_ID (int FTA_CDL_Category_ID);
+
+	/** Get Credit Definition Line Category	  */
+	public int getFTA_CDL_Category_ID();
+
+	public org.spin.model.I_FTA_CDL_Category getFTA_CDL_Category() throws RuntimeException;
+
     /** Column name FTA_CreditDefinition_ID */
     public static final String COLUMNNAME_FTA_CreditDefinition_ID = "FTA_CreditDefinition_ID";
 
@@ -228,6 +239,19 @@ public interface I_FTA_Fact
 	  * Transaction line ID (internal)
 	  */
 	public int getLine_ID();
+
+    /** Column name Multiplier */
+    public static final String COLUMNNAME_Multiplier = "Multiplier";
+
+	/** Set Multiplier.
+	  * Type Multiplier (Credit = -1)
+	  */
+	public void setMultiplier (BigDecimal Multiplier);
+
+	/** Get Multiplier.
+	  * Type Multiplier (Credit = -1)
+	  */
+	public BigDecimal getMultiplier();
 
     /** Column name Record_ID */
     public static final String COLUMNNAME_Record_ID = "Record_ID";
