@@ -32,6 +32,7 @@ import org.compiere.model.ModelValidator;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
+import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -546,8 +547,63 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		if(getQtyToDeliver().multiply(rate)
 				.compareTo(getFTA_VehicleType().getLoadCapacity()) > 0) 
 			return "@QtyToDeliver@ > @LoadCapacity@ @of@ @FTA_VehicleType_ID@";
-		if(getQtyToDeliver().compareTo(getFTA_Farming().getEstimatedQty()) > 0)
-			return "@QtyToDeliver@ > @EstimatedQty@";
+		
+		//	Max Warehouse Receipt
+		BigDecimal m_MaxReceipt = DB.getSQLValueBD(get_TrxName(), "SELECT rc.Qty - SUM(COALESCE(mg.QtyToDeliver, 0)) " +
+				"FROM FTA_ReceptionCapacity rc " +
+				"LEFT JOIN FTA_MobilizationGuide mg ON(mg.M_Warehouse_ID = rc.M_Warehouse_ID) " +
+				"WHERE rc.AD_Org_ID = ? " +
+				"AND rc.M_Warehouse_ID = ? " +
+				"AND rc.ValidFrom <= ? " +
+				"AND rc.IsActive = 'Y' " +
+				"AND mg.DateDoc >= rc.ValidFrom " +
+				"AND (mg.DocStatus IN('CO', 'CL') OR mg.DocStatus IS NULL) " +
+				"GROUP BY rc.Qty, rc.ValidFrom " +
+				"ORDER BY rc.ValidFrom DESC", getAD_Org_ID(), getM_Warehouse_ID(), getDateDoc());
+		
+		log.fine("MaxReceipt=" + m_MaxReceipt);
+		//	Valid Max Receipt
+		if(m_MaxReceipt != null
+				&& m_MaxReceipt.compareTo(Env.ZERO) <= 0)
+			return "@FTA_ReceptionCapacity_ID@ <= @0@";
+		//	Valid Quantity To Deliver
+		BigDecimal m_Qty = m_Farming.getQty();
+		BigDecimal m_Re_EstimatedQty = m_Farming.getRe_EstimatedQty();
+		//	
+		if(m_Re_EstimatedQty == null)
+			m_Re_EstimatedQty = Env.ZERO;
+		if(m_Re_EstimatedQty.compareTo(m_Qty) >= 0)
+			m_Re_EstimatedQty = m_Re_EstimatedQty.subtract(m_Qty);
+		
+		//	Quantity Delivered
+		BigDecimal m_QtyDelivered = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(mg.QtyToDeliver) " +
+				"FROM FTA_MobilizationGuide mg " +
+				"WHERE mg.FTA_Farming_ID = ?" +
+				"AND mg.DocStatus IN('CO', 'CL') ", 
+				getFTA_Farming_ID());
+		
+		log.fine("WeightDelivered=" + m_QtyDelivered);
+		
+		//	Valid Quantity Delivered
+		if(m_QtyDelivered == null)
+			m_QtyDelivered = Env.ZERO;
+		
+		//	Max Quantity to Generate
+		BigDecimal m_MaxQtyToDeliver = m_Qty.add(m_Re_EstimatedQty)
+									.subtract(m_QtyDelivered);
+		//	Valid To Deliver
+		if(m_MaxQtyToDeliver.compareTo(Env.ZERO) <= 0)
+			return "@Qty@ <= @QtyToDeliver@";
+		//	Valid the Minimum to Generate
+		if(m_MaxReceipt != null
+				&& m_MaxReceipt.compareTo(m_MaxQtyToDeliver) <= 0)
+			m_MaxQtyToDeliver = m_MaxReceipt;
+		//	Verify Qty to Deliver with Max to Deliver
+		if(getQtyToDeliver().compareTo(m_MaxQtyToDeliver) > 0)
+			return "@QtyToDeliver@ > (@EstimatedQty@ - @QtyDelivered@):"
+					+ " \n@EstimatedQty@=" + m_Qty.doubleValue() 
+					+ " \n@QtyDelivered@=" + m_QtyDelivered.doubleValue() 
+					+ " \n@QtyToDeliver@=" + getQtyToDeliver().doubleValue();
 		return null;
 	}
 
