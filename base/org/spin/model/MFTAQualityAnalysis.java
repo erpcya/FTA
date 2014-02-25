@@ -405,7 +405,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 	private String validRWReference(){
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(rw.DocumentNo) " +
 				"FROM FTA_RecordWeight rw " +
-				"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
+				"WHERE rw.DocStatus IN('CO', 'CL') " +
 				"AND rw.FTA_QualityAnalysis_ID = ?", getFTA_QualityAnalysis_ID());
 		if(m_ReferenceNo != null) 
 			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;
