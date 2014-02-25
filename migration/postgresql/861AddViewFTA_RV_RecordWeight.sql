@@ -11,7 +11,7 @@ SELECT
 	dr.FTA_Driver_ID, dr.Value, vh.FTA_Vehicle_ID, vh.VehiclePlate, 
 	COALESCE(cp.C_BPartner_ID,o.C_BPartner_ID)C_BPartner_ID, et.FTA_MobilizationGuide_ID, COALESCE(qaa.M_Product_ID,qa.M_Product_ID,lo.M_Product_ID,ol.M_Product_ID) M_Product_ID, 
 	COALESCE(qaa.QualityAnalysis_ID, qa.QualityAnalysis_ID)QualityAnalysis_ID,
-	oi.C_Location_ID AS Org_Location_ID, oi.TaxID,mg.M_Warehouse_ID, rw.FTA_RecordWeight_ID AS FTA_RV_RecordWeight_ID,
+	oi.C_Location_ID AS Org_Location_ID, oi.TaxID,io.M_Warehouse_ID, rw.FTA_RecordWeight_ID AS FTA_RV_RecordWeight_ID,
 	rw.InDate InTime,
 	rw.OutDate OutTime,
 	qa.AnalysisType,
@@ -36,6 +36,7 @@ SELECT
 	mg.QtyToDeliver,
 	mg.C_DocType_ID C_DocTypeMobilizationGuide_ID
 FROM FTA_RecordWeight rw
+LEFT JOIN M_InOut io ON(io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND io.DocStatus IN('CO', 'CL'))
 LEFT JOIN FTA_EntryTicket et ON(et.FTA_EntryTicket_ID = rw.FTA_EntryTicket_ID)
 LEFT JOIN FTA_Driver dr ON(dr.FTA_Driver_ID = et.FTA_Driver_ID)
 LEFT JOIN FTA_Vehicle vh ON(vh.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
@@ -56,11 +57,3 @@ LEFT JOIN
 		FROM FTA_QualityAnalysis qa 
 		
 	) qaa ON (qaa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID)
-WHERE rw.DocStatus IN ('CO','CL')
---AND rw.FTA_RecordWeight_ID IN (1000116)
-	
---AND rw.OperationType = 'RMR'
-
---SELECT * FROM FTA_QualityAnalysis WHERE QualityAnalysis_ID = 1039677
-
---SELECT COUNT(*) FROM FTA_RecordWeight WHERE OperationType = 'RMR'
