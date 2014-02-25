@@ -38,10 +38,11 @@ SELECT
 	p.M_Product_ID,
 	ci.C_UOM_Conversion_ID,
 	fd.FTA_FarmDivision_ID,
-	lo.M_Lot_ID
-	,l.C_Location_ID,
+	lo.M_Lot_ID,
+	l.C_Location_ID,
 	--bpl.C_Location_ID
-	mg.Owner_ID
+	mg.Owner_ID, 
+	mg.AD_OrgTrx_ID
 
 FROM FTA_MobilizationGuide mg
 INNER JOIN FTA_Farming f ON (f.FTA_Farming_ID = mg.FTA_Farming_ID)
