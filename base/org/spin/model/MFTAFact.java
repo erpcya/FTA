@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MCharge;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MProduct;
@@ -432,6 +433,18 @@ public class MFTAFact extends X_FTA_Fact {
 	 */
 	public static String copyFromFact(Properties ctx, PO p_From, PO p_To, String trxName){
 		return copyFromFact(ctx, p_From, p_To, null, trxName);
+	}
+	
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		// TODO Auto-generated method stub
+		if (getFTA_FarmerCredit_ID()!=0){
+			if(getFTA_FarmerCredit().getC_BPartner_ID()!=getC_BPartner_ID())
+				throw new AdempiereException("@Invalid@ @FTA_FarmerCredit_ID@");
+		}
+			
+		return true;
 	}
 	
 }
