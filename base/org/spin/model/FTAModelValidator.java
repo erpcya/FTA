@@ -134,7 +134,12 @@ public class FTAModelValidator implements ModelValidator {
 								pay.setC_Order_ID(fming.getC_OrderLine().getC_Order_ID());
 						
 					}
+					//	Dixon Martinez 2014-02-28 
+					//	Set Farmer Credit
 					
+					pay.set_ValueOfColumn("FTA_FarmerCredit_ID", pr.getFTA_FarmerCredit_ID());
+					
+					//	End Dixon Martinez
 					pay.save();
 					
 				}
