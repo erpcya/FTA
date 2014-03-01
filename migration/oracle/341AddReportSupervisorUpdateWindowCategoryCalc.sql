@@ -63,11 +63,6 @@ DELETE FROM AD_Field WHERE AD_Field_ID=72126
 DELETE  FROM  AD_Column_Trl WHERE AD_Column_ID=71171
 ;
 
--- Jan 15, 2014 10:03:59 AM VET
--- Farming Technical Assistance
-DELETE FROM AD_Column WHERE AD_Column_ID=71171
-;
-
 -- Jan 15, 2014 10:04:27 AM VET
 -- Farming Technical Assistance
 DELETE  FROM  AD_Column_Trl WHERE AD_Column_ID=71279
