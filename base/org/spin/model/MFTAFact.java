@@ -148,7 +148,7 @@ public class MFTAFact extends X_FTA_Fact {
 		
 		//	SQL
 		String sql = new String("SELECT i.AD_Org_ID, i.C_BPartner_ID, i.DateDoc, " +
-				"i.DocumentNo, i.Description, i.FTA_CreditDefinition_ID, Min(i.FTA_CreditDefinitionLine_ID) As FTA_CreditDefinitionLine_ID,  " +
+				"i.DocumentNo, i.Description, i.FTA_CreditDefinition_ID, i.FTA_CreditDefinitionLine_ID, " +
 				"i.FTA_FarmerCredit_ID, " +
 				"i.Record_ID, i.Line_ID, " +
 				"i.Amt, i.SO_CreditLimit, " +
@@ -158,21 +158,7 @@ public class MFTAFact extends X_FTA_Fact {
 				"AND i.AD_Table_ID = ? " +
 				"AND i.AD_Client_ID = ? " +
 				"AND i.IsCreditFactManual = 'N' " +
-				"Group By " + 
-				"i.AD_Org_ID," + 
-				"i.C_BPartner_ID, " + 
-				"i.DateDoc, " +
-				"i.DocumentNo, " +
-				"i.Description, " +
-				"i.FTA_CreditDefinition_ID, " + 
-				"i.FTA_FarmerCredit_ID, " +
-				"i.Record_ID, " +
-				"i.Line_ID, " +
-				"i.Amt, " +
-				"i.SO_CreditLimit, " + 
-				"i.SO_CreditUsed, " +
-				"i.IsExceedCreditLimit " +
-				"ORDER BY i.Record_ID, i.Line_ID, /*i.Line,*/ i.IsExceedCreditLimit");
+				"ORDER BY i.Record_ID, i.Line_ID, i.Line, i.IsExceedCreditLimit");
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -256,7 +242,7 @@ public class MFTAFact extends X_FTA_Fact {
 					}
 					//	
 					if(m_Amt.equals(Env.ZERO))
-						break;
+						continue;
 					
 					//	Set Line
 					m_Current_Line_ID = m_Line_ID;
