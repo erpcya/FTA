@@ -74,13 +74,14 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	private int 		p_M_Product_ID = 0;	
 	/**	Amount								*/
 	private BigDecimal	p_Amt = null;
+	/**	Description							*/
+	private String		p_Description = null;
 	/**	Current Invoice						*/
 	private int			m_Current_C_Invoice_ID = 0;
 	/**	Farmer Credit						*/
 	private MFTAFarmerCredit 	m_FTA_FarmerCredit = null;
 	/**	Business Partner					*/
 	private MBPartner 	bpartner = null;
-	
 	/**	Generated							*/
 	private int 		generated = 0;
 	/**	Precision							*/
@@ -138,6 +139,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				p_IsIndispute = para.getParameterAsBoolean();
 			else if(name.equals("C_BP_BankAccount_ID"))
 				p_C_BP_BankAccount_ID = para.getParameterAsInt();
+			else if(name.equals("Description"))
+				p_Description = (String) para.getParameter();
 			
 		}
 		
@@ -334,6 +337,9 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_APInvoice.setBPartner(bpartner);
 		//	Set Farmer Credit
 		m_APInvoice.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit_ID);
+		//	Description
+		if(p_Description != null)
+			m_APInvoice.setDescription(p_Description);
 		m_APInvoice.saveEx();
 		//	Create Line
 		MInvoiceLine m_APIinvoiceLine = new MInvoiceLine(m_APInvoice);
@@ -343,6 +349,10 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_APIinvoiceLine.setQty(Env.ONE);
 		//	Each
 		m_APIinvoiceLine.setPrice(m_FTA_FarmerCredit.getAmt());
+		//	Description
+		if(p_Description != null)
+			m_APIinvoiceLine.setDescription(p_Description);
+
 		m_APIinvoiceLine.setTaxAmt();
 		//	Complete
 		completeDoument(m_APInvoice);
@@ -418,7 +428,10 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 			paymentRequest.setC_Charge_ID(p_C_Charge_ID);
 		else if(p_M_Product_ID != 0)
 			paymentRequest.setM_Product_ID(p_M_Product_ID);
-		
+		//	Description
+		if(p_Description != null)
+			paymentRequest.setDescription(p_Description);
+		//	
 		paymentRequest.setDocAction(X_FTA_PaymentRequest.DOCACTION_Complete);
 		paymentRequest.processIt(X_FTA_PaymentRequest.DOCACTION_Complete);
 		paymentRequest.saveEx();
