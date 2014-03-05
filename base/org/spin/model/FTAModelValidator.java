@@ -160,13 +160,12 @@ public class FTAModelValidator implements ModelValidator {
 				}
 			} else if(po.get_TableName().equals(MInvoice.Table_Name)){
 				MInvoice inv = (MInvoice) po;
-				if(inv.isSOTrx()
-						&& inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
+				if(inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
 					String msg = null;
 					if(inv.getReversal_ID() == 0){
 						MDocType docType = MDocType.get(Env.getCtx(), inv.getC_DocType_ID());
 						BigDecimal multiplier = Env.ONE;
-						if(docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_APCreditMemo)
+						if(docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_APInvoice)
 								|| docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo))
 							multiplier = multiplier.negate();
 						//	Is Manual
