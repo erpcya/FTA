@@ -33,7 +33,7 @@ public class X_FTA_Fact extends PO implements I_FTA_Fact, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140224L;
+	private static final long serialVersionUID = 20140306L;
 
     /** Standard Constructor */
     public X_FTA_Fact (Properties ctx, int FTA_Fact_ID, String trxName)

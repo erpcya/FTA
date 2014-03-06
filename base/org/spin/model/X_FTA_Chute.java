@@ -31,7 +31,7 @@ public class X_FTA_Chute extends PO implements I_FTA_Chute, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140224L;
+	private static final long serialVersionUID = 20140306L;
 
     /** Standard Constructor */
     public X_FTA_Chute (Properties ctx, int FTA_Chute_ID, String trxName)
