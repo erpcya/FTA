@@ -32,14 +32,15 @@ LEFT JOIN AD_OrgInfo oi ON (oi.AD_Org_ID = a.AD_Org_ID)
 
 
 --DROP VIEW FTA_RV_AllocationLine;
-CREATE OR REPLACE VIEW FTA_RV_AllocationLine AS
+CREATE OR REPLACE VIEW 
+ AS
 SELECT 
 	al.AD_Client_ID, 
 	al.AD_Org_ID, 
 	al.CreatedBy, 
 	al.DateDoc, 
 	al.Updated, 
-	al.UpdatedBy, 	
+	al.UpdatedBy, 
 	al.AllocationNo, 
 	al.Amount, 
 	al.C_BPartner_ID, 
@@ -54,7 +55,8 @@ SELECT
 	al.FTA_FarmerLiquidation_ID, 
 	al.IsActive, 
 	al.OverUnderAmt, 
-	al.WriteOffAmt
+	al.WriteOffAmt,
+	fl.Amt
 FROM FTA_AllocationLine al
 INNER JOIN FTA_Allocation a ON (a.FTA_Allocation_ID = al.FTA_Allocation_ID)
 INNER JOIN FTA_FarmerLiquidation fl ON (al.FTA_FarmerLiquidation_ID = fl.FTA_FarmerLiquidation_ID)
@@ -62,5 +64,4 @@ LEFT JOIN C_BPartner bp ON (bp.C_BPartner_ID = al.C_BPartner_ID )
 LEFT JOIN C_Invoice i ON (i.C_Invoice_ID = al.C_Invoice_ID )
 LEFT JOIN C_Payment p ON (p.C_Payment_ID = al.C_Payment_ID)
 LEFT JOIN C_Order c ON (c.C_Order_ID = al.C_Order_ID)
-LEFT JOIN C_CashLine cl ON (cl.C_CashLine_ID = al.C_CashLine_ID)
-
+LEFT JOIN C_CashLine cl ON (cl.C_CashLine_ID = al.C_CashLine_ID);

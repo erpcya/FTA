@@ -12,6 +12,7 @@ UPDATE AD_Column SET ReadOnlyLogic=NULL,Updated=TO_TIMESTAMP('2014-01-23 11:49:3
 -- Farming Technical Assistance
 UPDATE AD_Column SET AD_Reference_ID=30, AD_Reference_Value_ID=162, IsUpdateable='N',Updated=TO_TIMESTAMP('2014-01-23 14:53:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=71353
 ;
+
 -- Jan 23, 2014 7:00:49 PM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Process (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Process_ID,CopyFromProcess,Created,CreatedBy,EntityType,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,IsServerProcess,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value) VALUES ('3',0,0,53561,'N',TO_TIMESTAMP('2014-01-23 19:00:47','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','N','N','N','N','Supplies Delivered','Y',0,0,TO_TIMESTAMP('2014-01-23 19:00:47','YYYY-MM-DD HH24:MI:SS'),100,'FTA_SuppliesDelivered Report')
