@@ -123,6 +123,24 @@ public interface I_FTA_VehicleType
 	/** Get Load Capacity	  */
 	public BigDecimal getLoadCapacity();
 
+    /** Column name MinLoadCapacity */
+    public static final String COLUMNNAME_MinLoadCapacity = "MinLoadCapacity";
+
+	/** Set Minimum Load Capacity	  */
+	public void setMinLoadCapacity (BigDecimal MinLoadCapacity);
+
+	/** Get Minimum Load Capacity	  */
+	public BigDecimal getMinLoadCapacity();
+
+    /** Column name MinVolumeCapacity */
+    public static final String COLUMNNAME_MinVolumeCapacity = "MinVolumeCapacity";
+
+	/** Set Minimum Volume Capacity	  */
+	public void setMinVolumeCapacity (BigDecimal MinVolumeCapacity);
+
+	/** Get Minimum Volume Capacity	  */
+	public BigDecimal getMinVolumeCapacity();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 

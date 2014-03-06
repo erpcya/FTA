@@ -32,7 +32,7 @@ LEFT JOIN AD_OrgInfo oi ON (oi.AD_Org_ID = a.AD_Org_ID)
 
 
 --DROP VIEW FTA_RV_AllocationLine;
-CREATE OR REPLACE VIEW 
+CREATE OR REPLACE VIEW FTA_RV_AllocationLine
  AS
 SELECT 
 	al.AD_Client_ID, 
@@ -56,7 +56,8 @@ SELECT
 	al.IsActive, 
 	al.OverUnderAmt, 
 	al.WriteOffAmt,
-	fl.Amt
+	fl.Amt,
+	al.Amount + al.OverUnderAmt InvoicedAmt
 FROM FTA_AllocationLine al
 INNER JOIN FTA_Allocation a ON (a.FTA_Allocation_ID = al.FTA_Allocation_ID)
 INNER JOIN FTA_FarmerLiquidation fl ON (al.FTA_FarmerLiquidation_ID = fl.FTA_FarmerLiquidation_ID)

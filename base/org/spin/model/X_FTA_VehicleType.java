@@ -33,7 +33,7 @@ public class X_FTA_VehicleType extends PO implements I_FTA_VehicleType, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140224L;
+	private static final long serialVersionUID = 20140306L;
 
     /** Standard Constructor */
     public X_FTA_VehicleType (Properties ctx, int FTA_VehicleType_ID, String trxName)
@@ -126,6 +126,40 @@ public class X_FTA_VehicleType extends PO implements I_FTA_VehicleType, I_Persis
 	public BigDecimal getLoadCapacity () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_LoadCapacity);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Minimum Load Capacity.
+		@param MinLoadCapacity Minimum Load Capacity	  */
+	public void setMinLoadCapacity (BigDecimal MinLoadCapacity)
+	{
+		set_Value (COLUMNNAME_MinLoadCapacity, MinLoadCapacity);
+	}
+
+	/** Get Minimum Load Capacity.
+		@return Minimum Load Capacity	  */
+	public BigDecimal getMinLoadCapacity () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinLoadCapacity);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Minimum Volume Capacity.
+		@param MinVolumeCapacity Minimum Volume Capacity	  */
+	public void setMinVolumeCapacity (BigDecimal MinVolumeCapacity)
+	{
+		set_Value (COLUMNNAME_MinVolumeCapacity, MinVolumeCapacity);
+	}
+
+	/** Get Minimum Volume Capacity.
+		@return Minimum Volume Capacity	  */
+	public BigDecimal getMinVolumeCapacity () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinVolumeCapacity);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
