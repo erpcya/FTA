@@ -32,7 +32,8 @@ SELECT
 	pr.PayAmt,
 	pr.FTA_PaymentRequest_ID FTA_RV_PaymentRequest_ID,
 	oi.TaxID,
-	oi.C_Location_ID Org_Location_ID	
+	oi.C_Location_ID Org_Location_ID,
+	pr.C_Invoice_ID
 FROM FTA_PaymentRequest pr
 INNER JOIN C_BPartner bp ON (pr.C_BPartner_ID = bp.C_BPartner_ID)
 INNER JOIN C_DocType dt ON (dt.C_DocType_ID = pr.C_DocType_ID)
