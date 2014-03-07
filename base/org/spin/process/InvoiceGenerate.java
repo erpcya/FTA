@@ -124,12 +124,12 @@ public class InvoiceGenerate extends SvrProcess{
 		
 		PreparedStatement ps =null;
 		ResultSet rs = null;
-		
+		MInvoice invoice =null;
 		try{
 			ps = DB.prepareStatement(sql.toString(), get_TrxName());
 			ps.setInt(1, getAD_PInstance_ID());
 			rs = ps.executeQuery();
-			MInvoice invoice =null;
+			
 			
 			while (rs.next()){
 				if (m_C_Order_ID!=rs.getInt("C_Order_ID")){
@@ -190,7 +190,7 @@ public class InvoiceGenerate extends SvrProcess{
 					}//End invoice From In-Out
 					
 					//Process Invoice
-					invoice.set_ValueOfColumn("FTA_FarmerLiquidation_ID", m_FTA_FarmerLiquidation_ID);
+					invoice.set_ValueOfColumn("FTA_FarmerLiquidation_ID", rs.getInt("FTA_FarmerLiquidation_ID"));
 					invoice.processIt(MInvoice.DOCACTION_Complete);
 					invoice.saveEx(get_TrxName());
 					
@@ -267,7 +267,7 @@ public class InvoiceGenerate extends SvrProcess{
 		}
 		
 		
-		return "@Created@ "+ m_Created;
+		return "@Created@ "+ m_Created + " " + invoice.getDocumentNo();
 		
 	}
 	
