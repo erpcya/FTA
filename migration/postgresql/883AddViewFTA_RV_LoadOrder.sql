@@ -1,13 +1,14 @@
-﻿SELECT 
+﻿--DROP VIEW FTA_RV_LoadOrder;
+CREATE OR REPLACE VIEW FTA_RV_LoadOrder AS
+SELECT 
 	lo.AD_Client_ID, 
-	lo.AD_Org_ID,
-	lo.Created, 
-	lo.CreatedBy, 
-	lo.Updated, 
-	lo.UpdatedBy, 
-	lo.IsActive, 
+	lo.AD_Org_ID, 
 	lo.C_DocType_ID, 
 	lo.ConfirmedWeight, 
+	lo.Created, 
+	lo.CreatedBy, 
+	lo.C_UOM_Volume_ID, 
+	lo.C_UOM_Weight_ID, 
 	lo.DateDoc, 
 	lo.DeliveryRule, 
 	lo.Description, 
@@ -20,18 +21,58 @@
 	lo.FTA_Vehicle_ID, 
 	lo.FTA_VehicleType_ID, 
 	lo.InvoiceRule, 
+	lo.IsActive, 
 	lo.IsApproved, 
 	lo.IsDelivered, 
+	lo.IsHandleRecordWeight, 
 	lo.IsInvoiced, 
 	lo.IsMoved, 
 	lo.IsWeightRegister, 
 	lo.LoadCapacity, 
+	lo.M_Product_ID, 
 	lo.M_Shipper_ID, 
 	lo.M_Warehouse_ID, 
 	lo.OperationType, 
 	lo.Processed, 
-	lo.ShipDate,  
+	lo.Processing, 
+	lo.ShipDate, 
+	lo.Updated, 
+	lo.UpdatedBy, 
 	lo.Volume, 
-	lo.Weight
+	lo.VolumeCapacity, 
+	lo.Weight,
+	oi.C_Location_ID Org_Location_ID,
+	oi.TaxID
+	
 FROM FTA_LoadOrder lo
 INNER JOIN C_DocType dt ON (dt.C_DocType_ID = lo.C_DocType_ID)
+LEFT JOIN AD_OrgInfo oi ON (oi.AD_Org_ID = lo.AD_Org_ID);
+
+--DROP VIEW FTA_RV_LoadOrder;
+CREATE OR REPLACE VIEW FTA_RV_LoadOrderLine AS
+SELECT 
+	lol.AD_Client_ID, 
+	lol.AD_Org_ID, 
+	lol.C_BPartner_ID, 
+	lol.C_InvoiceLine_ID, 
+	lol.ConfirmedQty, 
+	lol.ConfirmedWeight, 
+	lol.C_OrderLine_ID, 
+	lol.Created, 
+	lol.CreatedBy, 
+	lol.DD_OrderLine_ID, 
+	lol.Description, 
+	lol.FTA_LoadOrder_ID, 
+	lol.FTA_LoadOrderLine_ID, 
+	lol.IsActive, 
+	lol.M_InOutLine_ID, 
+	lol.M_MovementLine_ID, 
+	lol.M_Product_ID, 
+	lol.Processed, 
+	lol.Qty, 
+	lol.SeqNo, 
+	lol.Updated, 
+	lol.UpdatedBy, 
+	lol.Volume, 
+	lol.Weight
+FROM FTA_LoadOrderLine lol;
