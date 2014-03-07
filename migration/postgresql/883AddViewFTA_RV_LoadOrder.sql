@@ -42,7 +42,8 @@ SELECT
 	lo.VolumeCapacity, 
 	lo.Weight,
 	oi.C_Location_ID Org_Location_ID,
-	oi.TaxID
+	oi.TaxID,
+	lo.FTA_LoadOrder_ID FTA_RV_LoadOrder_ID
 	
 FROM FTA_LoadOrder lo
 INNER JOIN C_DocType dt ON (dt.C_DocType_ID = lo.C_DocType_ID)
