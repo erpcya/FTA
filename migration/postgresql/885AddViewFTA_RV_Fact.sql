@@ -16,7 +16,10 @@ cdlc.Name || COALESCE(' - ' || CASE
 END, '') || COALESCE(' - ' || cdl.Description, '') LineDescription,
 p.C_Payment_ID,
 psc.C_PaySelectionCheck_ID,
-ftapr.FTA_PaymentRequest_ID
+ftapr.FTA_PaymentRequest_ID,
+ft.FTA_Fact_ID,
+(CASE WHEN (ft.Amt * ft.Multiplier) > 0 THEN ft.Amt ELSE 0 END -
+CASE WHEN (ft.Amt * ft.Multiplier) < 0 THEN ABS(ft.Amt) ELSE 0 END) Balance
 FROM FTA_Fact ft
 LEFT JOIN C_Invoice i ON(i.C_Invoice_ID = ft.Record_ID AND ft.AD_Table_ID = 318)
 LEFT JOIN C_Order o ON(o.C_Order_ID = ft.Record_ID AND ft.AD_Table_ID = 259)
