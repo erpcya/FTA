@@ -158,7 +158,7 @@ public class MFTAFact extends X_FTA_Fact {
 				"AND i.AD_Table_ID = ? " +
 				"AND i.AD_Client_ID = ? " +
 				"AND i.IsCreditFactManual = 'N' " +
-				"ORDER BY i.Record_ID, i.Line_ID, i.Line, i.IsExceedCreditLimit");
+				"ORDER BY i.SeqNo, i.Record_ID, i.Line_ID, i.Line, i.IsExceedCreditLimit");
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

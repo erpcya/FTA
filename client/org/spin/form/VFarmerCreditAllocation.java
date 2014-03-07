@@ -430,8 +430,8 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		invoiceInfo.setText(calculateInvoice(invoiceTable, multiCurrency.isSelected()));
 		
 		//	Set AllocationDate
-		if (allocDate != null)
-			dateField.setValue(allocDate);
+		//if (allocDate != null)
+			//dateField.setValue(allocDate);
 		//  Set Allocation Currency
 		allocCurrencyLabel.setText(currencyPick.getDisplay());
 		//  Difference

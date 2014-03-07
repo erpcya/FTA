@@ -128,6 +128,12 @@ public class FarmerCreditAllocation
 			+ "AND lq.DocStatus = 'CO' "
 			+ "AND lq.FTA_FarmerCredit_ID = ? "
 			+ "AND lq.C_BPartner_ID=?");                   		//      #5
+		//	Not Invoiced
+		sql.append(" AND NOT EXISTS(SELECT 1 " +
+				"						FROM C_Invoice i " +
+				"						WHERE i.DocStatus NOT IN('VO', 'RE') " +
+				"						AND i.FTA_FarmerLiquidation_ID = lq.FTA_FarmerLiquidation_ID)");
+		//	Multi Currency
 		if (!isMultiCurrency)
 			sql.append(" AND lq.C_Currency_ID=?");				//      #6
 		if (m_AD_Org_ID != 0 )
