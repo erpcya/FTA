@@ -290,6 +290,7 @@ public class MFTAFarmerLiquidation extends X_FTA_FarmerLiquidation implements Do
 		m_processMsg = validReference();
 		if(m_processMsg != null)
 			return false;
+		
 		//	Delete Fact
 		MFTAFact.deleteFact(Table_ID, getFTA_FarmerLiquidation_ID(), true, get_TrxName());
 		
