@@ -47,6 +47,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.python.modules.newmodule;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -264,6 +265,48 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		m_lines = new MFTAAllocationLine[list.size ()];
 		list.toArray (m_lines);
 		return m_lines;
+	}	//	getLines
+	
+	/**
+	 * Get lines for credit fact
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 07/03/2014, 10:52:01
+	 * @return
+	 * @return MFTAAllocationLine[]
+	 */
+	public MFTAAllocationLine[] getLinesForFact()
+	{
+		//
+		String sql = "SELECT * FROM FTA_AllocationLine " +
+				"WHERE FTA_Allocation_ID=? " +
+				"ORDER BY FTA_FarmerLiquidation_ID";
+		ArrayList<MFTAAllocationLine> list = new ArrayList<MFTAAllocationLine>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, get_TrxName());
+			pstmt.setInt (1, getFTA_Allocation_ID());
+			rs = pstmt.executeQuery ();
+			while (rs.next ())
+			{
+				MFTAAllocationLine line = new MFTAAllocationLine(getCtx(), rs, get_TrxName());
+				line.setParent(this);
+				list.add (line);
+			}
+		} 
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		//
+		MFTAAllocationLine [] lines = new MFTAAllocationLine[list.size ()];
+		list.toArray (lines);
+		return lines;
 	}	//	getLines
 
 	/**
@@ -489,7 +532,12 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		if (!isApproved())
 			approveIt();
 		log.info(toString());
-
+		
+		//	Create Fact
+		m_processMsg = createFact();
+		if(m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		
 		//	Link
 		getLines(false);
 		HashSet<Integer> bps = new HashSet<Integer>();
@@ -498,6 +546,7 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 			MFTAAllocationLine line = m_lines[i];
 			bps.add(new Integer(line.processIt(false)));	//	not reverse
 		}
+		//	
 		updateBP(bps);
 
 		//	User Validation
@@ -512,6 +561,51 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
+	
+	/**
+	 * Create Credit Fact
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 07/03/2014, 10:40:03
+	 * @return String
+	 */
+	private String createFact(){
+		//	All Message
+		StringBuffer msgAll = new StringBuffer();
+		MFTAAllocationLine [] lines = getLinesForFact();
+		int currentFTA_FarmerLiquidation_ID = 0;
+		for (MFTAAllocationLine line : lines) {
+			if(line.getFTA_FarmerLiquidation_ID() != currentFTA_FarmerLiquidation_ID){
+				//	Get Liquidation
+				MFTAFarmerLiquidation liquidation = new MFTAFarmerLiquidation(getCtx(), line.getFTA_FarmerLiquidation_ID(), get_TrxName());
+				//	Reverse
+				String m_Msg = MFTAFact.createFact(Env.getCtx(), this, getDateDoc(), liquidation.getAmt(), Env.ONE, get_TrxName());
+				//	
+				if (m_Msg != null){
+					//	Is not first
+					if(msgAll.length() > 0)
+						msgAll.append("\n");
+					//	Add Message
+					msgAll.append(m_Msg);
+				}
+				//	Set Current Liquidation
+				currentFTA_FarmerLiquidation_ID = line.getFTA_FarmerLiquidation_ID();
+			}
+			//	Allocate Lines
+			String m_Msg = MFTAFact.createFact(Env.getCtx(), this, getDateDoc(), line.getAmount(), Env.ONE, get_TrxName());
+			//	
+			if (m_Msg != null){
+				//	Is not first
+				if(msgAll.length() > 0)
+					msgAll.append("\n");
+				//	Add Message
+				msgAll.append(m_Msg);
+			}
+		}
+		//	Return
+		if(msgAll.length() > 0)
+			return msgAll.toString();
+		else 
+			return null;
+	}
 	
 	/**
 	 * 	Void Document.

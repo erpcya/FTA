@@ -21,9 +21,7 @@ import java.util.logging.Level;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 import org.spin.model.MFTACreditDefinition;
-import org.spin.model.MFTACreditDefinitionLine;
 import org.spin.model.X_FTA_CreditDefinition;
 
 /**

@@ -32,7 +32,7 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140306L;
+	private static final long serialVersionUID = 20140307L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrderLine (Properties ctx, int FTA_LoadOrderLine_ID, String trxName)
@@ -76,6 +76,34 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {

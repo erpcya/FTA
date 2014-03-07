@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.compiere.model.I_C_Invoice;
+import org.compiere.model.I_C_Order;
+import org.compiere.model.I_C_Payment;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MClient;
 import org.compiere.model.MDocType;
@@ -152,21 +154,22 @@ public class FTAModelValidator implements ModelValidator {
 	public String docValidate(PO po, int timing) {
 		if(timing == TIMING_AFTER_COMPLETE){
 			//	Order
-			if(po.get_TableName().equals(MOrder.Table_Name)){
+			if(po.get_TableName().equals(I_C_Order.Table_Name)){
 				MOrder ord = (MOrder) po;
 				if(ord.isSOTrx()
 						&& ord.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
 					return MFTAFact.createFact(Env.getCtx(), ord, ord.getDateOrdered(), ord.getGrandTotal(), Env.ONE, ord.get_TrxName());
 				}
-			} else if(po.get_TableName().equals(MInvoice.Table_Name)){
+			} else if(po.get_TableName().equals(I_C_Invoice.Table_Name)){
 				MInvoice inv = (MInvoice) po;
-				if(inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
+				if(inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0
+						&& inv.isSOTrx()){
 					String msg = null;
 					if(inv.getReversal_ID() == 0){
 						MDocType docType = MDocType.get(Env.getCtx(), inv.getC_DocType_ID());
 						BigDecimal multiplier = Env.ONE;
-						if(docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_APInvoice)
-								|| docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo))
+						if(/*docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_APInvoice)
+								|| */docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo))
 							multiplier = multiplier.negate();
 						//	Is Manual
 						if(inv.get_ValueAsBoolean("IsCreditFactManual")){
@@ -187,6 +190,28 @@ public class FTAModelValidator implements ModelValidator {
 					} else {
 						MInvoice reversal = MInvoice.get(Env.getCtx(), inv.getReversal_ID());
 						msg = MFTAFact.copyFromFact(Env.getCtx(), reversal, inv, Env.ONE.negate(), inv.get_TrxName());
+					}
+					//	Return
+					return msg;
+				}
+			} else if(po.get_TableName().equals(I_C_Payment.Table_Name)){
+				MPayment payment = (MPayment) po;
+				if(payment.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
+					String msg = null;
+					if(payment.getReversal_ID() == 0){
+						BigDecimal multiplier = Env.ONE;
+						if(payment.isReceipt())
+							multiplier = multiplier.negate();
+						msg = MFTAFact.createFact(Env.getCtx(), payment, payment.getDateTrx(), payment.getPayAmt(), multiplier, payment.get_TrxName());
+						//	Set Posted
+						if(msg != null){
+							payment.set_ValueOfColumn("IsCreditFactPosted", false);
+						} else{
+							payment.set_ValueOfColumn("IsCreditFactPosted", true);
+						}
+					} else {
+						MPayment reversal = new MPayment(Env.getCtx(), payment.getReversal_ID(), payment.get_TrxName());
+						msg = MFTAFact.copyFromFact(Env.getCtx(), reversal, payment, Env.ONE.negate(), payment.get_TrxName());
 					}
 					//	Return
 					return msg;

@@ -228,16 +228,16 @@ public class MFTAFarmerLiquidation extends X_FTA_FarmerLiquidation implements Do
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
-		//	Create Fact
-		m_processMsg = MFTAFact.createFact(Env.getCtx(), this, getDateDoc(), getAmt(), Env.ONE.negate(), get_TrxName());
-		if (m_processMsg != null)
-			return DocAction.STATUS_InProgress;
 		
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
 		log.info(toString());
-		//
+
+		//	Create Fact
+		m_processMsg = MFTAFact.createFact(Env.getCtx(), this, getDateDoc(), getAmt(), Env.ONE.negate(), get_TrxName());
+		if (m_processMsg != null)
+			return DocAction.STATUS_InProgress;
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
