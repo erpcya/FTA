@@ -31,7 +31,7 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140306L;
+	private static final long serialVersionUID = 20140307L;
 
     /** Standard Constructor */
     public X_FTA_QualityAnalysis (Properties ctx, int FTA_QualityAnalysis_ID, String trxName)
@@ -611,5 +611,21 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Reference No.
+		@param ReferenceNo 
+		Your customer or vendor number at the Business Partner's site
+	  */
+	public void setReferenceNo (String ReferenceNo)
+	{
+		throw new IllegalArgumentException ("ReferenceNo is virtual column");	}
+
+	/** Get Reference No.
+		@return Your customer or vendor number at the Business Partner's site
+	  */
+	public String getReferenceNo () 
+	{
+		return (String)get_Value(COLUMNNAME_ReferenceNo);
 	}
 }

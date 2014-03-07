@@ -21,7 +21,6 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.python.modules.newmodule;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
