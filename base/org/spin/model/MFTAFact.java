@@ -190,11 +190,11 @@ public class MFTAFact extends X_FTA_Fact {
 					m_FTA_CreditDefinitionLine_ID 	= rs.getInt("FTA_CreditDefinitionLine_ID");
 					m_FTA_FarmerCredit_ID 			= rs.getInt("FTA_FarmerCredit_ID");
 					int m_Record_ID 				= rs.getInt("Record_ID");
-					int m_Line_ID 						= rs.getInt("Line_ID");
-					BigDecimal m_Amt					= rs.getBigDecimal("Amt");
-					m_SO_CreditLimit					= rs.getBigDecimal("SO_CreditLimit");
-					BigDecimal m_SO_CreditUsed			= rs.getBigDecimal("SO_CreditUsed");
-					String m_IsExceedCreditLimit		= rs.getString("IsExceedCreditLimit");
+					int m_Line_ID 					= rs.getInt("Line_ID");
+					BigDecimal m_Amt				= rs.getBigDecimal("Amt");
+					m_SO_CreditLimit				= rs.getBigDecimal("SO_CreditLimit");
+					BigDecimal m_SO_CreditUsed		= rs.getBigDecimal("SO_CreditUsed");
+					String m_IsExceedCreditLimit	= rs.getString("IsExceedCreditLimit");
 					//	Current Balance
 					BigDecimal m_Balance = Env.ZERO;
 					
@@ -236,7 +236,8 @@ public class MFTAFact extends X_FTA_Fact {
 							if(!m_RemainingAmt.equals(Env.ZERO))
 								break;
 						}
-					} else if(m_Current_Line_ID == m_Line_ID){
+					} else if(m_Current_Line_ID == m_Line_ID
+								&& m_Line_ID != 0){
 						m_Amt = m_RemainingAmt;
 						m_RemainingAmt = Env.ZERO;
 					}

@@ -47,7 +47,7 @@ public class CallOutEntryTicket extends CalloutEngine {
 		if (m_FTA_MobilizationGuide_ID == null || m_FTA_MobilizationGuide_ID.intValue() == 0)
 			return "";
 		
-		//	get Mobilization Guide
+		//	get Business Partner
 		String sql = new String("SELECT f.C_BPartner_ID " +
 				"FROM FTA_Farm f " +
 				"INNER JOIN FTA_FarmDivision fd ON(fd.FTA_Farm_ID = f.FTA_Farm_ID) " +
@@ -58,7 +58,22 @@ public class CallOutEntryTicket extends CalloutEngine {
 		int m_C_BPartner_ID = DB.getSQLValue(null, sql, m_FTA_MobilizationGuide_ID);
 		//	Set Business Partner
 		mTab.setValue("C_BPartner_ID", m_C_BPartner_ID);
-		
+
+		//	Dixon Martinez 8/03/2014 15:54:00
+		//	Add product of Mobilization Guide
+		if(mField.get_ValueAsString("OperationType").equals(X_FTA_EntryTicket.OPERATIONTYPE_RawMaterialReceipt)){
+			//	get Product
+			sql = new String("SELECT fg.Category_ID " +
+					"FROM FTA_Farm f " +
+					"INNER JOIN FTA_FarmDivision fd ON(fd.FTA_Farm_ID = f.FTA_Farm_ID) " +
+					"INNER JOIN FTA_Farming fg ON(fg.FTA_FarmDivision_ID = fd.FTA_FarmDivision_ID) " +
+					"INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_Farming_ID = fg.FTA_Farming_ID) " +
+					"WHERE mg.FTA_MobilizationGuide_ID = ?");
+			//
+			int m_Category_ID = DB.getSQLValue(null, sql, m_FTA_MobilizationGuide_ID);
+			//	Set Business Partner
+			mTab.setValue("M_Product_ID", m_Category_ID);
+		}//	End Dixon Martinez
 		return "";
 	}
 	
