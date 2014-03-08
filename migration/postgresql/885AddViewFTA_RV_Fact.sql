@@ -13,9 +13,10 @@ cdlc.Name || COALESCE(' - ' || CASE
 	WHEN cdl.M_Product_ID IS NOT NULL THEN pr.Name 
 	WHEN cdl.C_Charge_ID IS NOT NULL THEN cr.Name
 	WHEN cdl.C_ChargeType_ID IS NOT NULL THEN ct.Name
-END, '') || COALESCE(' - ' || cdl.Description, '') LineDescription
-
-
+END, '') || COALESCE(' - ' || cdl.Description, '') LineDescription,
+p.C_Payment_ID,
+psc.C_PaySelectionCheck_ID,
+ftapr.FTA_PaymentRequest_ID
 FROM FTA_Fact ft
 LEFT JOIN C_Invoice i ON(i.C_Invoice_ID = ft.Record_ID AND ft.AD_Table_ID = 318)
 LEFT JOIN C_Order o ON(o.C_Order_ID = ft.Record_ID AND ft.AD_Table_ID = 259)
@@ -26,3 +27,6 @@ LEFT JOIN M_Product_Category pc ON(pc.M_Product_Category_ID = cdl.M_Product_Cate
 LEFT JOIN M_Product pr ON(pr.M_Product_ID = cdl.M_Product_ID)
 LEFT JOIN C_Charge cr ON(cr.C_Charge_ID = cdl.C_Charge_ID)
 LEFT JOIN C_ChargeType ct ON(ct.C_ChargeType_ID = cdl.C_ChargeType_ID)
+LEFT JOIN FTA_PaymentRequest ftapr ON (i.C_Invoice_ID = ftapr.C_Invoice_ID) 
+LEFT JOIN C_PaySelectionCheck psc ON (ftapr.C_PaySelectionCheck_ID = psc.C_PaySelectionCheck_ID)
+LEFT JOIN C_Payment p ON (psc.C_Payment_ID = p.C_Payment_ID)
