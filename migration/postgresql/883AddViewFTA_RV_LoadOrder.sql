@@ -75,5 +75,8 @@ SELECT
 	lol.Updated, 
 	lol.UpdatedBy, 
 	lol.Volume, 
-	lol.Weight
-FROM FTA_LoadOrderLine lol;
+	lol.Weight,
+	lo.DocStatus,
+	lo.C_DocType_ID
+FROM FTA_LoadOrderLine lol
+INNER JOIN FTA_LoadOrder lo ON (lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID );

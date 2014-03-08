@@ -47,7 +47,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.python.modules.newmodule;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -534,9 +533,9 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		log.info(toString());
 		
 		//	Create Fact
-		m_processMsg = createFact();
-		if(m_processMsg != null)
-			return DocAction.STATUS_Invalid;
+		m_processMsg = MFTAFact.createFact(Env.getCtx(), this, getDateDoc(), Env.ZERO, Env.ONE, get_TrxName());
+		if (m_processMsg != null)
+			return DocAction.STATUS_InProgress;
 		
 		//	Link
 		getLines(false);
@@ -563,51 +562,6 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 	}	//	completeIt
 	
 	/**
-	 * Create Credit Fact
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 07/03/2014, 10:40:03
-	 * @return String
-	 */
-	private String createFact(){
-		//	All Message
-		StringBuffer msgAll = new StringBuffer();
-		MFTAAllocationLine [] lines = getLinesForFact();
-		int currentFTA_FarmerLiquidation_ID = 0;
-		for (MFTAAllocationLine line : lines) {
-			if(line.getFTA_FarmerLiquidation_ID() != currentFTA_FarmerLiquidation_ID){
-				//	Get Liquidation
-				MFTAFarmerLiquidation liquidation = new MFTAFarmerLiquidation(getCtx(), line.getFTA_FarmerLiquidation_ID(), get_TrxName());
-				//	Reverse
-				String m_Msg = MFTAFact.createFact(Env.getCtx(), this, getDateDoc(), liquidation.getAmt(), Env.ONE, get_TrxName());
-				//	
-				if (m_Msg != null){
-					//	Is not first
-					if(msgAll.length() > 0)
-						msgAll.append("\n");
-					//	Add Message
-					msgAll.append(m_Msg);
-				}
-				//	Set Current Liquidation
-				currentFTA_FarmerLiquidation_ID = line.getFTA_FarmerLiquidation_ID();
-			}
-			//	Allocate Lines
-			String m_Msg = MFTAFact.createFact(Env.getCtx(), this, getDateDoc(), line.getAmount(), Env.ONE, get_TrxName());
-			//	
-			if (m_Msg != null){
-				//	Is not first
-				if(msgAll.length() > 0)
-					msgAll.append("\n");
-				//	Add Message
-				msgAll.append(m_Msg);
-			}
-		}
-		//	Return
-		if(msgAll.length() > 0)
-			return msgAll.toString();
-		else 
-			return null;
-	}
-	
-	/**
 	 * 	Void Document.
 	 * 	Same as Close.
 	 * 	@return true if success 
@@ -623,6 +577,9 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 
 		boolean retValue = reverseIt();
 
+		//	Delete Fact
+		MFTAFact.deleteFact(Table_ID, getFTA_Allocation_ID(), true, get_TrxName());
+		
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
