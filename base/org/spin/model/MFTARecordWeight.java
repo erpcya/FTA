@@ -269,7 +269,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt) 
 				|| getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
 				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)
-				|| getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)){
+				|| getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)
+				|| getOperationType().equals(OPERATIONTYPE_ProductBulkReceipt)){
 			//	Generate Material Receipt
 			String msg = createInOut();
 			if(m_processMsg != null)
