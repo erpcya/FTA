@@ -24,6 +24,8 @@ import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MDocType;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -99,6 +101,27 @@ public class CalloutRecordWeight extends CalloutEngine {
 		//	Set Value Load Order into Record Weight
 		mTab.setValue("FTA_LoadOrder_ID", m_FTA_LoadOrder_ID);
 		//	End Dixon Martinez
+		
+		//Carlos Parada Set Product From Order
+		
+		if (mTab.get_ValueAsString("OperationType").equals(MFTARecordWeight.OPERATIONTYPE_ProductBulkReceipt)){
+			int l_FTA_EntryTickect_ID = (value == null ? 0 : (Integer)value);
+			
+			if (l_FTA_EntryTickect_ID != 0)
+			{
+				MFTAEntryTicket et = new MFTAEntryTicket(ctx, l_FTA_EntryTickect_ID, null);
+				if (et != null ){
+					MOrder order = new MOrder(ctx, et.getC_Order_ID(), null);
+					
+					MOrderLine[] lolines = order.getLines();
+					//get First Product From Load Order
+					if (lolines.length > 0 )
+						mTab.setValue("M_Product_ID", lolines[0].getM_Product_ID());
+				}
+			}
+		}
+		//End Carlos Parada
+		
 		return "";
 	}
 	
@@ -201,7 +224,7 @@ public class CalloutRecordWeight extends CalloutEngine {
 					mTab.setValue("M_Product_ID", lolines[0].getM_Product_ID());
 			}
 		}
-			
+		
 		return "";
 	}
 
