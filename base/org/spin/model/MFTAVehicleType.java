@@ -67,9 +67,9 @@ public class MFTAVehicleType extends X_FTA_VehicleType {
 				|| getLoadCapacity().equals(Env.ZERO)) {
 			throw new AdempiereException("@LoadCapacity@ = @0@");
 		}else if(getMinLoadCapacity().compareTo(getLoadCapacity()) > 0 )
-    		throw new AdempiereException("@MinLoadCapacity@ > @LoadCapcity@"  );
+    		throw new AdempiereException("@MinLoadCapacity@ > @LoadCapacity@"  );
     	else if(getMinVolumeCapacity().compareTo(getVolumeCapacity()) > 0 )
-    		throw new AdempiereException("@MinVolumeCapacity@ > @VolumeCapcity@"  );
+    		throw new AdempiereException("@MinVolumeCapacity@ > @VolumeCapacity@"  );
     	
 		
 		return true;

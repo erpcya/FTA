@@ -576,7 +576,12 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 			return false;
 
 		boolean retValue = reverseIt();
-
+		
+		//	Valid Invoice Reference
+		m_processMsg = validReference();
+		if (m_processMsg != null)
+			return false;
+		
 		//	Delete Fact
 		MFTAFact.deleteFact(Table_ID, getFTA_Allocation_ID(), true, get_TrxName());
 		
@@ -589,6 +594,24 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 
 		return retValue;
 	}	//	voidIt
+	
+	/**
+	 * Valid Reference with Invoice
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 07/03/2014, 16:50:34
+	 * @return
+	 * @return String
+	 */
+	private String validReference(){
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(i.DocumentNo) " +
+				"FROM FTA_AllocationLine al " +
+				"INNER JOIN FTA_FarmerLiquidation l ON(l.FTA_FarmerLiquidation_ID = al.FTA_FarmerLiquidation_ID) " +
+				"INNER JOIN C_Invoice i ON(i.FTA_FarmerLiquidation_ID = l.FTA_FarmerLiquidation_ID) " +
+				"WHERE i.DocStatus NOT IN('VO', 'RE') " +
+				"AND al.FTA_Allocation_ID = ?", getFTA_Allocation_ID());
+		if(m_ReferenceNo != null)
+			return "@SQLErrorReferenced@ @C_Invoice_ID@: " + m_ReferenceNo;
+		return null;
+	}
 	
 	/**
 	 * 	Close Document.

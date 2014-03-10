@@ -11,7 +11,7 @@ CASE
 	THEN 'Y' 
 	ELSE cdl.IsExceedCreditLimit 
 END IsExceedCreditLimit, 
-i.IsCreditFactManual, i.IsSOTrx, cdl.Line, i.C_Invoice_ID Record_ID, 318 AD_Table_ID
+i.IsCreditFactManual, i.IsSOTrx, cdl.Line, i.C_Invoice_ID Record_ID, 318 AD_Table_ID, 0 SeqNo
 FROM C_Invoice i 
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = i.FTA_FarmerCredit_ID) 
 INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID) 
@@ -48,7 +48,7 @@ CASE
 	THEN 'Y' 
 	ELSE cdl.IsExceedCreditLimit 
 END IsExceedCreditLimit, 
-o.IsCreditFactManual, o.IsSOTrx, cdl.Line, o.C_Order_ID Record_ID, 259 AD_Table_ID
+o.IsCreditFactManual, o.IsSOTrx, cdl.Line, o.C_Order_ID Record_ID, 259 AD_Table_ID, 0 SeqNo
 FROM C_Order o 
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = o.FTA_FarmerCredit_ID) 
 INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID) 
@@ -79,7 +79,7 @@ l.C_BPartner_ID, l.DateDoc, l.DocumentNo, l.Description::VARCHAR,
 cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, l.FTA_FarmerCredit_ID, 
 ll.FTA_FarmerLiquidationLine_ID Line_ID, ll.LineNetAmt Amt, (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, 
 0 SO_CreditUsed,'Y' IsExceedCreditLimit, 
-'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, l.FTA_FarmerLiquidation_ID Record_ID, 53564 AD_Table_ID
+'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, l.FTA_FarmerLiquidation_ID Record_ID, 53564 AD_Table_ID, 0 SeqNo
 FROM FTA_FarmerLiquidation l 
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = l.FTA_FarmerCredit_ID) 
 INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID) 
@@ -100,7 +100,7 @@ al.C_BPartner_ID, a.DateDoc, a.DocumentNo, a.DocumentNo || ' <-> ' || l.Document
 cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, 
 0 Line_ID, (liquidationAvailable(l.FTA_FarmerLiquidation_ID) + SUM(al.Amount))Amt, 0 SO_CreditLimit, 
 0 SO_CreditUsed,'Y' IsExceedCreditLimit, 
-'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, a.FTA_Allocation_ID Record_ID, 53566 AD_Table_ID
+'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, a.FTA_Allocation_ID Record_ID, 53566 AD_Table_ID, 0 SeqNo
 FROM FTA_Allocation a 
 INNER JOIN FTA_AllocationLine al ON(al.FTA_Allocation_ID = a.FTA_Allocation_ID)
 INNER JOIN FTA_FarmerLiquidation l ON(l.FTA_FarmerLiquidation_ID = al.FTA_FarmerLiquidation_ID) 
@@ -116,9 +116,9 @@ UNION ALL
 SELECT a.AD_Client_ID, a.AD_Org_ID, a.Updated, a.UpdatedBy, a.Created, a.CreatedBy, a.IsActive, 
 al.C_BPartner_ID, a.DateDoc, a.DocumentNo, a.DocumentNo || ' -> ' || i.DocumentNo || ' ' || COALESCE(a.Description, '')::VARCHAR, 
 cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, 
-al.FTA_AllocationLine_ID Line_ID, al.Amount Amt, 0 SO_CreditLimit, 
+al.FTA_AllocationLine_ID Line_ID, al.Amount * -1 Amt, 0 SO_CreditLimit, 
 0 SO_CreditUsed,'Y' IsExceedCreditLimit, 
-'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, a.FTA_Allocation_ID Record_ID, 53566 AD_Table_ID
+'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, a.FTA_Allocation_ID Record_ID, 53566 AD_Table_ID, 1 SeqNo
 FROM FTA_Allocation a 
 INNER JOIN FTA_AllocationLine al ON(al.FTA_Allocation_ID = a.FTA_Allocation_ID)
 INNER JOIN C_Invoice i ON(i.C_Invoice_ID = al.C_Invoice_ID)
@@ -135,9 +135,9 @@ UNION ALL
 SELECT a.AD_Client_ID, a.AD_Org_ID, a.Updated, a.UpdatedBy, a.Created, a.CreatedBy, a.IsActive, 
 al.C_BPartner_ID, a.DateDoc, a.DocumentNo, a.DocumentNo || ' <=> ' || l.DocumentNo || ' ' || COALESCE(a.Description, '')::VARCHAR, 
 cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, 
-0 Line_ID, liquidationAvailable(l.FTA_FarmerLiquidation_ID) Amt, 0 SO_CreditLimit, 
+0 Line_ID, (liquidationAvailable(l.FTA_FarmerLiquidation_ID) * -1) Amt, 0 SO_CreditLimit, 
 0 SO_CreditUsed,'Y' IsExceedCreditLimit, 
-'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, a.FTA_Allocation_ID Record_ID, 53566 AD_Table_ID
+'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, a.FTA_Allocation_ID Record_ID, 53566 AD_Table_ID, 2 SeqNo
 FROM FTA_Allocation a 
 INNER JOIN FTA_AllocationLine al ON(al.FTA_Allocation_ID = a.FTA_Allocation_ID)
 INNER JOIN FTA_FarmerLiquidation l ON(l.FTA_FarmerLiquidation_ID = al.FTA_FarmerLiquidation_ID) 
