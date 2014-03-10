@@ -1041,7 +1041,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			if (asi != null)
 				ioLine.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
 			ioLine.setM_Locator_ID(m_MovementQty);
-			MOrderLine[] orderLines = order.getLines("M_Product_ID=" + product.getM_Product_ID(), "");
+			MOrderLine[] orderLines = order.getLines("AND M_Product_ID=" + product.getM_Product_ID(), "");
 			for (int i=0; i > orderLines.length;i++)
 				ioLine.setC_OrderLine_ID(orderLines[i].getC_OrderLine_ID());
 			//	Set Quantity
