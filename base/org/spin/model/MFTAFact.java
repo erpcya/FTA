@@ -344,8 +344,9 @@ public class MFTAFact extends X_FTA_Fact {
 						if(!m_Distributed_Amt.equals(Env.ZERO))
 							p_Amt = p_Amt.subtract(m_Distributed_Amt.abs());
 						//	
-						m_fta_Fact.setAmt(p_Amt.multiply(p_Multiplier)
-											.setScale(precision, BigDecimal.ROUND_HALF_UP));
+						m_fta_Fact.setAmt(p_Amt);
+						m_fta_Fact.setMultiplier(p_Multiplier);
+						//	
 						m_fta_Fact.setIsCreditFactManual(false);
 						//	Save
 						m_fta_Fact.saveEx();
