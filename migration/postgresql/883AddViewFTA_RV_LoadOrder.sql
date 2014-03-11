@@ -54,7 +54,7 @@ CREATE OR REPLACE VIEW FTA_RV_LoadOrderLine AS
 SELECT 
 	lol.AD_Client_ID, 
 	lol.AD_Org_ID, 
-	lol.C_BPartner_ID, 
+	o.C_BPartner_ID, 
 	lol.C_InvoiceLine_ID, 
 	lol.ConfirmedQty, 
 	lol.ConfirmedWeight, 
@@ -79,4 +79,7 @@ SELECT
 	lo.DocStatus,
 	lo.C_DocType_ID
 FROM FTA_LoadOrderLine lol
-INNER JOIN FTA_LoadOrder lo ON (lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID );
+INNER JOIN FTA_LoadOrder lo ON (lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID )
+LEFT JOIN C_OrderLine ol ON (ol.C_OrderLine_ID = lol.C_OrderLine_ID)
+LEFT JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID )
+;
