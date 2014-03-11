@@ -602,7 +602,10 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				&& !getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)
 				&& !getOperationType().equals(OPERATIONTYPE_OtherRecordWeight)){
 			//	Reverse In/Out
-			m_processMsg = validInOutReference();
+			//m_processMsg = validInOutReference();
+			//if (m_processMsg != null)
+				//return false;
+			m_processMsg = reverseInOut();
 			if (m_processMsg != null)
 				return false;
 		}
