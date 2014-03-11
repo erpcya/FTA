@@ -33,6 +33,7 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -144,6 +145,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	/**	Event Type					*/
 	private final String EVENTTYPE_RECEIPT = "EW";
 	private final String EVENTTYPE_SHIPMENT = "OW";
+	
+	private BigDecimal m_Valideight = Env.ZERO;
 	/**
 	 * 	Unlock Document.
 	 * 	@return true if success 
@@ -947,7 +950,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				return null;
 			}
 			
-			BigDecimal m_MovementQty = getNetWeight().multiply(rate);
+			//Carlos Parada Change for Get Valid Weight
+			//BigDecimal m_MovementQty = getNetWeight().multiply(rate);
+			BigDecimal m_MovementQty = getValidWeight(false).multiply(rate);
+			//End Carlos Parada
+			
 			//	Set Product
 			ioLine.setProduct(product);
 			//	Set Quality Analysis
@@ -1032,7 +1039,10 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				return null;
 			}
 			
-			BigDecimal m_MovementQty = getNetWeight().multiply(rate);
+			//Carlos Parada Change for Get Valid Weight
+			//BigDecimal m_MovementQty = getNetWeight().multiply(rate);
+			BigDecimal m_MovementQty = getValidWeight(false).multiply(rate);
+			//End Carlos Parada
 			//	Set Product
 			ioLine.setProduct(product);
 			//	Set Quality Analysis
@@ -1069,9 +1079,14 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			}
 			// Get Lines from Load Order
 			MFTALoadOrderLine[] lol = lo.getLines(true);
+			
+			BigDecimal m_AcumWeight = Env.ZERO;
+			BigDecimal m_TotalWeight = null;
 			// Create Shipments
 			for (int i=0; i <lol.length;i++){
 				
+				if (m_AcumWeight.compareTo(m_TotalWeight) == 1)
+					break;
 				//Get Order and Line
 				MOrder order = null;
 				MAttributeSetInstance asi = null;
@@ -1120,10 +1135,23 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					m_processMsg = "@NoUOMConversion@";
 					return null;
 				}
+
+				if (m_TotalWeight == null)
+					m_TotalWeight = getValidWeight(false).multiply(rate);
 					
 				//BigDecimal m_MovementQty = (!getPayWeight().equals(Env.ZERO)?getPayWeight().multiply(rate):getNetWeight().multiply(rate));
 				BigDecimal m_MovementQty =lol[i].getQty().multiply(rate);
 				
+				if (lol.length == 1)
+					m_MovementQty = getValidWeight(false).multiply(rate);
+				else{
+					m_AcumWeight = m_AcumWeight.add(m_MovementQty);
+					if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == 1)
+						m_MovementQty = m_MovementQty.subtract(m_AcumWeight.subtract(getValidWeight(false).multiply(rate)));
+					else if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == -1)
+						m_MovementQty = m_MovementQty.add(getValidWeight(false).multiply(rate).subtract(m_AcumWeight));
+				}
+					
 				//	Set Product
 				ioLine.setProduct(product);
 				//	Set Quality Analysis
@@ -1154,4 +1182,22 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		}
 		return l_DocumentNo;
 	}	//	createMaterialReceipt
+	
+	/**
+	 * Get Valid Weight For Shipment or Receipt
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 07/03/2014, 15:24:55
+	 * @param reload
+	 * @return
+	 * @return BigDecimal
+	 */
+	private BigDecimal getValidWeight(boolean reload){
+		if (!reload && m_Valideight != null)
+			return m_Valideight;
+		
+		if (MSysConfig.getBooleanValue("FTA_IS_PAY_WEIGHT_RECEIPT_QTY", false))
+			return getPayWeight();
+		else
+			return getNetWeight();
+	}
+
 }
