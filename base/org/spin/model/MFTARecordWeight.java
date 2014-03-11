@@ -146,7 +146,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	private final String EVENTTYPE_RECEIPT = "EW";
 	private final String EVENTTYPE_SHIPMENT = "OW";
 	
-	private BigDecimal m_Valideight = Env.ZERO;
+	private BigDecimal m_Valideight = null;
 	/**
 	 * 	Unlock Document.
 	 * 	@return true if success 
