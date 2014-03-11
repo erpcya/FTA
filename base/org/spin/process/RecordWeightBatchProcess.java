@@ -16,10 +16,16 @@
  *****************************************************************************/
 package org.spin.process;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.logging.Level;
 
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
+import org.spin.model.MFTARecordWeight;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -37,6 +43,10 @@ public class RecordWeightBatchProcess extends SvrProcess {
 	private int 			p_C_DocType_ID = 0;
 	/**	Record Weight Identifier*/
 	private int 			p_FTA_RecordWeight_ID = 0;
+	/**	Document Status			*/
+	private String 			p_DocStatus = null;
+	/**	Document Action			*/
+	private String 			p_DocAction = null;
 	
 	@Override
 	protected void prepare() {
@@ -50,6 +60,10 @@ public class RecordWeightBatchProcess extends SvrProcess {
 				p_C_DocType_ID = para.getParameterAsInt();
 			else if (name.equals("FTA_RecordWeight_ID"))
 				p_FTA_RecordWeight_ID = para.getParameterAsInt();
+			else if (name.equals("DocStatus"))
+				p_DocStatus = (String) para.getParameter();
+			else if (name.equals("DocAction"))
+				p_DocAction = (String) para.getParameter();	
 			else if (name.equals("DateDoc")){
 				p_DateDoc = (Timestamp) para.getParameter();
 				p_DateDoc_To = (Timestamp) para.getParameter_To();
@@ -59,9 +73,92 @@ public class RecordWeightBatchProcess extends SvrProcess {
 
 	@Override
 	protected String doIt() throws Exception {
+		//	Valid Mandatory
+		if (p_OperationType == null)
+			throw new AdempiereUserError("@NotFound@: @OperationType@");
+		if (p_DocStatus == null || p_DocStatus.length() != 2)
+			throw new AdempiereUserError("@NotFound@: @DocStatus@");
+		if (p_DocAction == null || p_DocAction.length() != 2)
+			throw new AdempiereUserError("@NotFound@: @DocAction@");
+		//	SQL
+		StringBuffer sql = new StringBuffer("SELECT rw.* " +
+				"FROM FTA_RecordWeight rw ");
+		//	Where Clause
+		sql.append("rw.OperationType = ? ");
+		sql.append("rw.DocStatus = ? ");
+		//	Optional Parameter
+		//	Document Type
+		if(p_C_DocType_ID != 0)
+			sql.append("rw.C_DocType_ID = ? ");
+		//	ID
+		if(p_FTA_RecordWeight_ID != 0)
+			sql.append("rw.FTA_RecordWeight_ID = ? ");
+		//	Document Date
+		if (p_DateDoc != null)
+			sql.append(" AND TRUNC(i.DateInvoiced, 'DD') >= ").append(DB.TO_DATE(p_DateDoc, true));
+		if (p_DateDoc_To != null)
+			sql.append(" AND TRUNC(i.DateInvoiced, 'DD') <= ").append(DB.TO_DATE(p_DateDoc_To, true));
 		
-		
-		return null;
+		int counter = 0;
+		int errCounter = 0;
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
+			pstmt.setString(1, p_OperationType);
+			pstmt.setString(2, p_DocStatus);
+			if(p_C_DocType_ID != 0)
+				pstmt.setInt(3, p_C_DocType_ID);
+			if(p_FTA_RecordWeight_ID != 0)
+				pstmt.setInt(4, p_FTA_RecordWeight_ID);
+			//	
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				if (process(new MFTARecordWeight(getCtx(),rs, get_TrxName())))
+					counter++;
+				else
+					errCounter++;
+			}
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		return "@Updated@=" + counter + ", @Errors@=" + errCounter;
 	}
-
+	
+	/**
+	 * 	Process Record Weight
+	 *	@param recordWright
+	 *	@return true if ok
+	 */
+	private boolean process (MFTARecordWeight recordWright)
+	{
+		log.info(recordWright.toString());
+		//
+		recordWright.setDocAction(p_DocAction);
+		if (recordWright.processIt(p_DocAction))
+		{
+			recordWright.save();
+			addLog(0, null, null, recordWright.getDocumentNo() + ": OK");
+			return true;
+		}
+		//	Log
+		addLog (0, null, null, recordWright.getDocumentNo() + ": Error " + recordWright.getProcessMsg());
+		return false;
+	}	//	process
 }
