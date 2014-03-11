@@ -144,7 +144,8 @@ INNER JOIN FTA_FarmerLiquidation l ON(l.FTA_FarmerLiquidation_ID = al.FTA_Farmer
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = a.FTA_FarmerCredit_ID) 
 INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID) 
 INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) 
-WHERE cdl.IsDistributionLine = 'Y'
+WHERE cdl.IsDistributionLine = 'Y' 
+AND liquidationAvailable(l.FTA_FarmerLiquidation_ID) <> 0
 GROUP BY a.AD_Client_ID, a.AD_Org_ID, a.Updated, a.UpdatedBy, a.Created, a.CreatedBy, a.IsActive, 
 al.FTA_FarmerLiquidation_ID, al.C_BPartner_ID, a.DateDoc, a.DocumentNo, a.Description, 
 cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, 
