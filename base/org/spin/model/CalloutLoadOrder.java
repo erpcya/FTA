@@ -19,11 +19,13 @@ package org.spin.model;
 import java.math.BigDecimal;
 import java.util.Properties;
 
+import org.apache.poi.hssf.util.HSSFColor.OLIVE_GREEN;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.eevolution.model.MDDOrderLine;
 
@@ -54,6 +56,8 @@ public class CalloutLoadOrder extends CalloutEngine {
 		}
 		//	Get Product from Order Line
 		int m_M_Product_ID = 0;
+		int m_MBPartner_ID = 0;
+		
 		if(name.equals("C_OrderLine_ID")){
 			MOrderLine oLine = new MOrderLine(ctx, m_OrderLine_ID, null);
 			m_M_Product_ID = oLine.getM_Product_ID();
@@ -64,8 +68,24 @@ public class CalloutLoadOrder extends CalloutEngine {
 		//	Valid Product 
 		if (m_M_Product_ID == 0)
 			return "";
+		
 		mTab.setValue("M_Product_ID", m_M_Product_ID);		
+		
+		//	Search Business Partner
+		String sql = "SELECT o.C_BPartner_ID FROM C_Order o" +
+				" INNER JOIN  C_OrderLine ol ON (o.C_Order_ID = ol.C_Order_ID)" +
+				" WHERE ol.C_OrderLine_ID = "+m_OrderLine_ID;
+		System.out.println(sql);
+		m_MBPartner_ID = DB.getSQLValue(null, sql);
+		System.out.println(m_MBPartner_ID);
+		//	Valid Business Partner
+		if (m_MBPartner_ID == 0)
+			return "";
+		//	Set Business Partner
+		mTab.setValue("C_BPartner_ID", m_MBPartner_ID);		
+				
 		return "";
+		
 	}
 	
 	/**
