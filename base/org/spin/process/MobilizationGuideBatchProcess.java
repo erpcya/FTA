@@ -25,27 +25,28 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.spin.model.MFTAMobilizationGuide;
 import org.spin.model.MFTARecordWeight;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class RecordWeightBatchProcess extends SvrProcess {
+public class MobilizationGuideBatchProcess extends SvrProcess {
 
-	/**	Document Date			*/
+	/**	Document Date					*/
 	private Timestamp 		p_DateDoc = null;
-	/**	Document Date To		*/
+	/**	Document Date To				*/
 	private Timestamp 		p_DateDoc_To = null;
-	/**	Operation Type			*/
-	private String 			p_OperationType = null;
-	/**	Document Type			*/
+	/**	Business Partner				*/
+	private int				p_C_BPartner_ID = 0;
+	/**	Document Type					*/
 	private int 			p_C_DocType_ID = 0;
-	/**	Record Weight Identifier*/
-	private int 			p_FTA_RecordWeight_ID = 0;
-	/**	Document Status			*/
+	/**	Mobilization Guide Identifier	*/
+	private int 			p_FTA_MobilizationGuide_ID = 0;
+	/**	Document Status					*/
 	private String 			p_DocStatus = null;
-	/**	Document Action			*/
+	/**	Document Action					*/
 	private String 			p_DocAction = null;
 	
 	@Override
@@ -54,12 +55,12 @@ public class RecordWeightBatchProcess extends SvrProcess {
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("OperationType"))
-				p_OperationType = (String) para.getParameter();
+			else if (name.equals("C_BPartner_ID"))
+				p_C_BPartner_ID = para.getParameterAsInt();
 			else if (name.equals("C_DocType_ID"))
 				p_C_DocType_ID = para.getParameterAsInt();
-			else if (name.equals("FTA_RecordWeight_ID"))
-				p_FTA_RecordWeight_ID = para.getParameterAsInt();
+			else if (name.equals("FTA_MobilizationGuide_ID"))
+				p_FTA_MobilizationGuide_ID = para.getParameterAsInt();
 			else if (name.equals("DocStatus"))
 				p_DocStatus = (String) para.getParameter();
 			else if (name.equals("DocAction"))
@@ -74,30 +75,29 @@ public class RecordWeightBatchProcess extends SvrProcess {
 	@Override
 	protected String doIt() throws Exception {
 		//	Valid Mandatory
-		if (p_OperationType == null)
-			throw new AdempiereUserError("@NotFound@: @OperationType@");
 		if (p_DocStatus == null || p_DocStatus.length() != 2)
 			throw new AdempiereUserError("@NotFound@: @DocStatus@");
 		if (p_DocAction == null || p_DocAction.length() != 2)
 			throw new AdempiereUserError("@NotFound@: @DocAction@");
 		//	SQL
-		StringBuffer sql = new StringBuffer("SELECT rw.* " +
-				"FROM FTA_RecordWeight rw ");
+		StringBuffer sql = new StringBuffer("SELECT mg.* " +
+				"FROM FTA_MobilizationGuide mg ");
 		//	Where Clause
-		sql.append("rw.OperationType = ? ");
-		sql.append("rw.DocStatus = ? ");
-		//	Optional Parameter
+		sql.append("mg.DocStatus = ? ");
 		//	Document Type
 		if(p_C_DocType_ID != 0)
-			sql.append("rw.C_DocType_ID = ? ");
+			sql.append("mg.C_DocType_ID = ? ");
+		//	Business Partner
+		if(p_C_BPartner_ID != 0)
+			sql.append("mg.C_BPartner_ID = ? ");
 		//	ID
-		if(p_FTA_RecordWeight_ID != 0)
-			sql.append("rw.FTA_RecordWeight_ID = ? ");
+		if(p_FTA_MobilizationGuide_ID != 0)
+			sql.append("mg.FTA_MobilizationGuide_ID = ? ");
 		//	Document Date
 		if (p_DateDoc != null)
-			sql.append(" AND TRUNC(rw.DateDoc, 'DD') >= ").append(DB.TO_DATE(p_DateDoc, true));
+			sql.append(" AND TRUNC(mg.DateDoc, 'DD') >= ").append(DB.TO_DATE(p_DateDoc, true));
 		if (p_DateDoc_To != null)
-			sql.append(" AND TRUNC(rw.DateDoc, 'DD') <= ").append(DB.TO_DATE(p_DateDoc_To, true));
+			sql.append(" AND TRUNC(mg.DateDoc, 'DD') <= ").append(DB.TO_DATE(p_DateDoc_To, true));
 		
 		int counter = 0;
 		int errCounter = 0;
@@ -106,17 +106,21 @@ public class RecordWeightBatchProcess extends SvrProcess {
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			pstmt.setString(i++, p_OperationType);
 			pstmt.setString(i++, p_DocStatus);
+			//	Document Type
 			if(p_C_DocType_ID != 0)
 				pstmt.setInt(i++, p_C_DocType_ID);
-			if(p_FTA_RecordWeight_ID != 0)
-				pstmt.setInt(i++, p_FTA_RecordWeight_ID);
+			//	Business Partner
+			if(p_C_BPartner_ID != 0)
+				pstmt.setInt(i++, p_C_BPartner_ID);
+			//	ID
+			if(p_FTA_MobilizationGuide_ID != 0)
+				pstmt.setInt(i++, p_FTA_MobilizationGuide_ID);
 			//	
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				if (process(new MFTARecordWeight(getCtx(),rs, get_TrxName())))
+				if (process(new MFTAMobilizationGuide(getCtx(),rs, get_TrxName())))
 					counter++;
 				else
 					errCounter++;
@@ -144,22 +148,22 @@ public class RecordWeightBatchProcess extends SvrProcess {
 	
 	/**
 	 * 	Process Record Weight
-	 *	@param recordWeight
+	 *	@param mobilizationGuide
 	 *	@return true if ok
 	 */
-	private boolean process (MFTARecordWeight recordWeight)
+	private boolean process (MFTAMobilizationGuide mobilizationGuide)
 	{
-		log.info(recordWeight.toString());
+		log.info(mobilizationGuide.toString());
 		//
-		recordWeight.setDocAction(p_DocAction);
-		if (recordWeight.processIt(p_DocAction))
+		mobilizationGuide.setDocAction(p_DocAction);
+		if (mobilizationGuide.processIt(p_DocAction))
 		{
-			recordWeight.save();
-			addLog(0, null, null, recordWeight.getDocumentNo() + ": OK");
+			mobilizationGuide.save();
+			addLog(0, null, null, mobilizationGuide.getDocumentNo() + ": OK");
 			return true;
 		}
 		//	Log
-		addLog (0, null, null, recordWeight.getDocumentNo() + ": Error " + recordWeight.getProcessMsg());
+		addLog (0, null, null, mobilizationGuide.getDocumentNo() + ": Error " + mobilizationGuide.getProcessMsg());
 		return false;
 	}	//	process
 }
