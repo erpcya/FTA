@@ -117,6 +117,40 @@ public class CallOutEntryTicket extends CalloutEngine {
 		return "";
 		
 	}
+	/**
+	 * Set Product of Order Line
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 12/03/2014, 12:14:48
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String orderLine (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		Integer m_OrderLine_ID = (Integer)value;
+		
+		if (m_OrderLine_ID == null 
+				|| m_OrderLine_ID.intValue() == 0)
+			return "";
+	
+		//	Search Product
+		String sql = "SELECT ol.M_Product_ID FROM C_OrderLine ol WHERE ol.C_OrderLine_ID =" +m_OrderLine_ID;
+		
+		int m_Product_ID = DB.getSQLValue(null, sql);
+		
+		//	Validate Product ID
+		if(m_Product_ID == 0)
+			return "";
+		
+		//	Set Product
+		mTab.setValue("M_Product_ID", m_Product_ID);
+		
+		return "";
+		
+	}//orderLine
+	
 	
 	/**
 	 * Set context Is Sales Order Transaction.
