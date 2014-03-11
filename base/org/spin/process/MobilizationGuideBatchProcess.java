@@ -26,7 +26,6 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.spin.model.MFTAMobilizationGuide;
-import org.spin.model.MFTARecordWeight;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
