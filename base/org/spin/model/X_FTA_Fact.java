@@ -33,7 +33,7 @@ public class X_FTA_Fact extends PO implements I_FTA_Fact, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140307L;
+	private static final long serialVersionUID = 20140312L;
 
     /** Standard Constructor */
     public X_FTA_Fact (Properties ctx, int FTA_Fact_ID, String trxName)
@@ -372,6 +372,34 @@ public class X_FTA_Fact extends PO implements I_FTA_Fact, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public org.spin.model.I_FTA_FarmerCredit getParent_FarmerCredit() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_FarmerCredit)MTable.get(getCtx(), org.spin.model.I_FTA_FarmerCredit.Table_Name)
+			.getPO(getParent_FarmerCredit_ID(), get_TrxName());	}
+
+	/** Set Parent Credit/Loan.
+		@param Parent_FarmerCredit_ID 
+		Parent Farmer Credit or Loan
+	  */
+	public void setParent_FarmerCredit_ID (int Parent_FarmerCredit_ID)
+	{
+		if (Parent_FarmerCredit_ID < 1) 
+			set_Value (COLUMNNAME_Parent_FarmerCredit_ID, null);
+		else 
+			set_Value (COLUMNNAME_Parent_FarmerCredit_ID, Integer.valueOf(Parent_FarmerCredit_ID));
+	}
+
+	/** Get Parent Credit/Loan.
+		@return Parent Farmer Credit or Loan
+	  */
+	public int getParent_FarmerCredit_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Parent_FarmerCredit_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Record ID.

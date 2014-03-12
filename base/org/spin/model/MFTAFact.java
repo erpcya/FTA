@@ -25,7 +25,6 @@ import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MCharge;
-import org.compiere.model.MCurrency;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductCategory;
 import org.compiere.model.PO;
@@ -124,8 +123,6 @@ public class MFTAFact extends X_FTA_Fact {
 	 */
 	public static String createFact(Properties ctx, PO document, Timestamp p_DateDoc, BigDecimal p_Amt, BigDecimal p_Multiplier, String trxName) {
 		String msg = null;
-		//	Get Precision
-		int precision = MCurrency.getStdPrecision(ctx, Env.getContextAsInt(ctx, "$C_Currency_ID"));
 		//
 		if(document == null)
 			return null;
@@ -140,6 +137,7 @@ public class MFTAFact extends X_FTA_Fact {
 		String m_DocumentNo = document.get_ValueAsString("DocumentNo");
 		String m_Description = document.get_ValueAsString("Description");
 		int m_FTA_FarmerCredit_ID = document.get_ValueAsInt("FTA_FarmerCredit_ID");
+		int m_Parent_FarmerCredit_ID = 0;
 		int m_FTA_CreditDefinition_ID = 0;
 		int m_FTA_CreditDefinitionLine_ID = 0;
 		
@@ -189,6 +187,7 @@ public class MFTAFact extends X_FTA_Fact {
 					m_FTA_CreditDefinition_ID 		= rs.getInt("FTA_CreditDefinition_ID");
 					m_FTA_CreditDefinitionLine_ID 	= rs.getInt("FTA_CreditDefinitionLine_ID");
 					m_FTA_FarmerCredit_ID 			= rs.getInt("FTA_FarmerCredit_ID");
+					m_Parent_FarmerCredit_ID		= rs.getInt("Parent_FarmerCredit_ID");
 					int m_Record_ID 				= rs.getInt("Record_ID");
 					int m_Line_ID 					= rs.getInt("Line_ID");
 					BigDecimal m_Amt				= rs.getBigDecimal("Amt");
@@ -265,6 +264,8 @@ public class MFTAFact extends X_FTA_Fact {
 					m_fta_Fact.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition_ID);
 					m_fta_Fact.setFTA_CreditDefinitionLine_ID(m_FTA_CreditDefinitionLine_ID);
 					m_fta_Fact.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit_ID);
+					//	Set Parent
+					m_fta_Fact.setParent_FarmerCredit_ID(m_Parent_FarmerCredit_ID);
 					m_fta_Fact.setRecord_ID(m_Record_ID);
 					m_fta_Fact.setLine_ID(m_Line_ID);
 					m_fta_Fact.setAD_Table_ID(table_ID);
@@ -338,6 +339,8 @@ public class MFTAFact extends X_FTA_Fact {
 						m_fta_Fact.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition_ID);
 						m_fta_Fact.setFTA_CreditDefinitionLine_ID(m_FTA_CreditDefinitionLine_ID);
 						m_fta_Fact.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit_ID);
+						//	Set Parent
+						m_fta_Fact.setParent_FarmerCredit_ID(m_Parent_FarmerCredit_ID);
 						m_fta_Fact.setRecord_ID(record_ID);
 						m_fta_Fact.setAD_Table_ID(table_ID);
 						//	Set Distributed Amount
@@ -440,7 +443,6 @@ public class MFTAFact extends X_FTA_Fact {
 	
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
-		// TODO Auto-generated method stub
 		if (getFTA_FarmerCredit_ID()!=0){
 			if(getFTA_FarmerCredit().getC_BPartner_ID()!=getC_BPartner_ID())
 				throw new AdempiereException("@Invalid@ @FTA_FarmerCredit_ID@");

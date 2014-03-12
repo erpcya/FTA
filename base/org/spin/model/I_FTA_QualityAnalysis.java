@@ -345,12 +345,14 @@ public interface I_FTA_QualityAnalysis
 	/** Set Reference No.
 	  * Your customer or vendor number at the Business Partner's site
 	  */
-	public void setReferenceNo (String ReferenceNo);
+	public void setReferenceNo (int ReferenceNo);
 
 	/** Get Reference No.
 	  * Your customer or vendor number at the Business Partner's site
 	  */
-	public String getReferenceNo();
+	public int getReferenceNo();
+
+	public org.spin.model.I_FTA_EntryTicket getReferenc() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

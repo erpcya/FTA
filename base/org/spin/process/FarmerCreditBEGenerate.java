@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.sql.Timestamp;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MCurrency;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -164,13 +165,22 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 			//	
 			m_FTA_BillOfExchange.setAmt(amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
 			m_FTA_BillOfExchange.setFTA_FarmerCredit_ID(p_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
+			//	Set Location from farming
 			if(p_C_BPartner_Location_ID == 0)
 				p_C_BPartner_Location_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fr.C_BPartner_Location_ID) " +
 						"FROM FTA_Farm fr " +
 						"INNER JOIN FTA_FarmDivision fd ON(fd.FTA_Farm_ID = fr.FTA_Farm_ID) " +
 						"INNER JOIN FTA_Farming fm ON(fm.FTA_FarmDivision_ID = fd.FTA_FarmDivision_ID) " +
 						"WHERE fm.FTA_FarmerCredit_ID = ?", p_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
-			
+			//	Set Location from any farm  own farmer
+			if(p_C_BPartner_Location_ID == 0)
+				p_C_BPartner_Location_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(fr.C_BPartner_Location_ID) " +
+						"FROM FTA_Farm fr " +
+						"WHERE fr.C_BPartner_ID = ?", p_FTA_FarmerCredit.getC_BPartner_ID());
+			//	Is not Farmer
+			if(p_C_BPartner_Location_ID == 0)
+				throw new AdempiereException("@C_BPartner_Location_ID@ @from@ @FTA_Farm_ID@ @NotFount@");
+			//	
 			m_FTA_BillOfExchange.setC_BPartner_Location_ID(p_C_BPartner_Location_ID);
 			if(p_ValidTo != null)
 				m_FTA_BillOfExchange.setValidTo(p_ValidTo);

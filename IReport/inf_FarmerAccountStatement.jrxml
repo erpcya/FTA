@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inf_FarmerAccountStatement" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91c80499-e68d-49ef-947f-a0080fa9d852">
-	<property name="ireport.zoom" value="3.1384283767210137"/>
+	<property name="ireport.zoom" value="1.4641000000000062"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
@@ -26,7 +26,7 @@ LEFT JOIN C_Payment p ON(p.C_Payment_ID = st.C_Payment_ID)
 WHERE st.AD_Table_ID <> 259
 AND (st.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
 AND (st.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
-AND (st.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
+AND (COALESCE(st.Parent_FarmerCredit_ID, st.FTA_FarmerCredit_ID)=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 AND (st.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
 AND (st.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
 GROUP BY cl.Name, cp.TaxID, cp.Name, st.DocumentNo, cd.DocumentNo, lot.Name, st.DateDoc, fc.Qty, fc.ApprovedQty, st.Description, st.AmtAcctCR, st.AmtAcctDR, p.DocumentNo, st.FTA_Fact_ID, st.AD_Table_ID, fc.DocumentNo
@@ -51,6 +51,12 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 	<variable name="balance" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{amtacctdr}.subtract($F{amtacctcr})]]></variableExpression>
 	</variable>
+	<variable name="amtacctdr_summary" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{amtacctdr}]]></variableExpression>
+	</variable>
+	<variable name="amtacctcr_summary" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{amtacctcr}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -61,7 +67,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle" markup="none">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<text><![CDATA[Area (Aprobada) =]]></text>
 			</staticText>
@@ -70,7 +76,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{approvedqty}]]></textFieldExpression>
 			</textField>
@@ -79,7 +85,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<text><![CDATA[F. Documento <=]]></text>
 			</staticText>
@@ -88,16 +94,16 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null && $F{effectivearea} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{effectivearea}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="206" height="12" uuid="88336536-26f6-4a58-93b2-b2a113360632">
 					<printWhenExpression><![CDATA[($P{C_BPartner_ID} != null && $F{taxid} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Socio de Negocio = " + $F{taxid} + " - " + $F{name}]]></textFieldExpression>
 			</textField>
@@ -106,7 +112,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
 			</textField>
@@ -115,7 +121,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<text><![CDATA[F. Documento >=]]></text>
 			</staticText>
@@ -124,7 +130,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null && $F{effectivearea} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle" markup="none">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<text><![CDATA[Area (Efectiva) =]]></text>
 			</staticText>
@@ -133,7 +139,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{DateDoc2}]]></textFieldExpression>
 			</textField>
@@ -142,7 +148,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null && $F{credit} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Crédito = " + $F{credit}]]></textFieldExpression>
 			</textField>
@@ -151,7 +157,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle" markup="none">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<text><![CDATA[Area (Solicitada) =]]></text>
 			</staticText>
@@ -160,7 +166,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[(($P{FTA_CreditDefinition_ID} != null || $P{FTA_FarmerCredit_ID} != null) && $F{creditdefiniton} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Definición de Crédito = " + $F{creditdefiniton} + " - " + $F{plantingcycle}]]></textFieldExpression>
 			</textField>
@@ -169,59 +175,58 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{DateDoc1}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="206" y="0" width="185" height="34" uuid="bb467026-b923-474e-91f3-3dc9ad19cb45"/>
+			<textField>
+				<reportElement x="209" y="0" width="154" height="77" uuid="bbf016e2-37c2-4098-91a7-588766b3d991"/>
 				<textElement textAlignment="Center" markup="none">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Estado de Cuenta
-(Productor)]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA["Estado de Cuenta (Productor) \n\"" + $F{client} + "\""]]></textFieldExpression>
+			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="511" y="22" width="61" height="12" uuid="15c8b75c-987e-4afa-94ac-fb72e3a26c71"/>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="466" y="11" width="41" height="12" uuid="5cca0034-3d52-4c39-b373-ae014801629e"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Hora:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="511" y="0" width="61" height="12" uuid="c77d5ce9-7232-4ace-aa4d-28db8d10d012"/>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="466" y="0" width="41" height="12" uuid="61de88dd-329a-4622-80f6-860a1bdd9b7e"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<textField pattern="h.mm.ss a">
 				<reportElement x="511" y="11" width="61" height="12" uuid="2f20c151-2cca-4542-9996-adc8f9333e94"/>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="466" y="22" width="41" height="12" uuid="e0dc9f43-7af0-40a0-8ebf-7989f17b5ed1"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Paginas:]]></text>
+				<text><![CDATA[Página:]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -236,7 +241,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
+					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No Documento]]></text>
 			</staticText>
@@ -249,12 +254,12 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
+					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="102" y="0" width="209" height="12" uuid="b3e19e7d-45c7-4dbe-bfec-f143398c8bc2"/>
+				<reportElement x="102" y="0" width="215" height="12" uuid="b3e19e7d-45c7-4dbe-bfec-f143398c8bc2"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -262,20 +267,20 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
+					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Descripción]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="311" y="0" width="65" height="12" uuid="e50fae8f-567d-4b8a-b7a5-a51a676f07c0"/>
+				<reportElement x="317" y="0" width="59" height="12" uuid="e50fae8f-567d-4b8a-b7a5-a51a676f07c0"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Tipo]]></text>
 			</staticText>
@@ -288,7 +293,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
+					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ref. Pago]]></text>
 			</staticText>
@@ -301,7 +306,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
+					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Débito]]></text>
 			</staticText>
@@ -314,7 +319,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
+					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Crédito]]></text>
 			</staticText>
@@ -327,7 +332,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
+					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Saldo]]></text>
 			</staticText>
@@ -345,7 +350,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5" lineStyle="Solid"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{documentno}]]></textFieldExpression>
 			</textField>
@@ -359,12 +364,12 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{datedoc}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="102" y="0" width="209" height="12" uuid="44036e71-c174-4a0a-ad77-12f890272538"/>
+				<reportElement stretchType="RelativeToBandHeight" x="102" y="0" width="215" height="12" uuid="44036e71-c174-4a0a-ad77-12f890272538"/>
 				<box>
 					<pen lineStyle="Dashed"/>
 					<topPen lineWidth="0.25" lineStyle="Dashed"/>
@@ -373,12 +378,12 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5" lineStyle="Solid"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="311" y="0" width="65" height="12" uuid="e3e38f8e-3e14-46cb-bdf4-16771d508eb2"/>
+				<reportElement stretchType="RelativeToBandHeight" x="317" y="0" width="59" height="12" uuid="e3e38f8e-3e14-46cb-bdf4-16771d508eb2"/>
 				<box>
 					<pen lineStyle="Dashed"/>
 					<topPen lineWidth="0.25" lineStyle="Dashed"/>
@@ -386,13 +391,15 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
 					<rightPen lineWidth="0.5" lineStyle="Solid"/>
 				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{ad_table_id} == 318? "Fac./Abono/Cargo":
+				<textFieldExpression><![CDATA[($F{ad_table_id} == 318?
+        ($F{amtacctdr}.compareTo(new BigDecimal("0")) > 0? "Cargo":
+            ($F{amtacctcr}.compareTo(new BigDecimal("0")) > 0? "Abono": "Abono/Cargo")):
     ($F{ad_table_id} == 53564? "Liquidación":
         $F{ad_table_id} == 53566? "Cruce de Cuentas":
-            ($F{ad_table_id} == 335? "Cruce de Cuentas":"Otro")))]]></textFieldExpression>
+            ($F{ad_table_id} == 335? "Pago":"Otro")))]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="376" y="0" width="41" height="12" uuid="6985a611-eec3-4b5e-acb4-db69d9733f6e"/>
@@ -404,7 +411,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{payreference}]]></textFieldExpression>
 			</textField>
@@ -418,7 +425,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amtacctdr}]]></textFieldExpression>
 			</textField>
@@ -432,7 +439,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amtacctcr}]]></textFieldExpression>
 			</textField>
@@ -446,14 +453,14 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{balance}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="28" splitType="Stretch"/>
+		<band height="18" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="59" splitType="Stretch">
@@ -466,9 +473,9 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{amtacctdr}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{amtacctdr_summary}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="467" y="0" width="50" height="12" uuid="a91ae25d-e926-4f50-a0a3-578db8d5d774"/>
@@ -479,9 +486,9 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{amtacctcr}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{amtacctcr_summary}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="517" y="0" width="55" height="12" uuid="433be3d9-dcef-4aca-9c09-7a8fa8911f5e"/>
@@ -492,7 +499,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{balance}]]></textFieldExpression>
 			</textField>
@@ -505,35 +512,35 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement verticalAlignment="Middle" markup="none">
-					<font size="7" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Resumen:]]></text>
 			</staticText>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="517" y="47" width="55" height="12" uuid="4a108c59-fa7d-4d72-92b7-0bd648129ce1"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($V{balance}.compareTo(new BigDecimal("0")) > 0? $V{balance}: 0)]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="405" y="47" width="112" height="12" uuid="9cbe7fcf-cb4d-458e-a46b-93426829b421"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Saldo a favor de A.N.C.A:]]></text>
 			</staticText>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="517" y="35" width="55" height="12" uuid="93bbd50b-00d2-4884-aa8b-e6773e990e62"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($V{balance}.compareTo(new BigDecimal("0")) < 0? $V{balance}.abs(): 0)]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="405" y="35" width="112" height="12" uuid="cc2c133f-3293-47be-99df-8ee7dcee3126"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="7" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Saldo a favor del Productor:]]></text>
 			</staticText>

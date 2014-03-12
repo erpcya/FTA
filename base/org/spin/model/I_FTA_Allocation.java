@@ -222,6 +222,15 @@ public interface I_FTA_Allocation
 	  */
 	public boolean isApproved();
 
+    /** Column name IsCreditFactPosted */
+    public static final String COLUMNNAME_IsCreditFactPosted = "IsCreditFactPosted";
+
+	/** Set Is Credit Fact Posted	  */
+	public void setIsCreditFactPosted (boolean IsCreditFactPosted);
+
+	/** Get Is Credit Fact Posted	  */
+	public boolean isCreditFactPosted();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 

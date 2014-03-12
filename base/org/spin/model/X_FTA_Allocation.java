@@ -33,7 +33,7 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140307L;
+	private static final long serialVersionUID = 20140312L;
 
     /** Standard Constructor */
     public X_FTA_Allocation (Properties ctx, int FTA_Allocation_ID, String trxName)
@@ -340,6 +340,27 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 	public boolean isApproved () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsApproved);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Credit Fact Posted.
+		@param IsCreditFactPosted Is Credit Fact Posted	  */
+	public void setIsCreditFactPosted (boolean IsCreditFactPosted)
+	{
+		set_Value (COLUMNNAME_IsCreditFactPosted, Boolean.valueOf(IsCreditFactPosted));
+	}
+
+	/** Get Is Credit Fact Posted.
+		@return Is Credit Fact Posted	  */
+	public boolean isCreditFactPosted () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCreditFactPosted);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

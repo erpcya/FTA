@@ -2,7 +2,7 @@
 CREATE OR REPLACE VIEW FTA_RV_DocumentFact AS
 SELECT i.AD_Client_ID, i.AD_Org_ID, i.Updated, i.UpdatedBy, i.Created, i.CreatedBy, i.IsActive, 
 i.C_BPartner_ID, i.DateInvoiced DateDoc, i.DocumentNo, i.Description::VARCHAR, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 il.C_InvoiceLine_ID Line_ID, 
 il.LineNetAmt + (il.LineNetAmt * t.Rate / 100) Amt, (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, 
 COALESCE(SUM(ft.Amt), 0) SO_CreditUsed, 
@@ -34,12 +34,12 @@ WHERE (
 	) 
 GROUP BY i.AD_Client_ID, i.AD_Org_ID, i.Updated, i.UpdatedBy, i.Created, i.CreatedBy, i.IsActive, 
 i.C_Invoice_ID, i.C_BPartner_ID, i.DateInvoiced, i.DocumentNo, i.Description::VARCHAR, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, i.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 i.C_Invoice_ID, il.C_InvoiceLine_ID, il.LineNetAmt, t.Rate, cdl.Amt, fc.ApprovedQty, cdl.Line, ft.AD_Table_ID
 UNION ALL
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.Updated, o.UpdatedBy, o.Created, o.CreatedBy, o.IsActive, 
 o.C_BPartner_ID, o.DateOrdered DateDoc, o.DocumentNo, o.Description, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, o.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, o.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 ol.C_OrderLine_ID Line_ID, 
 ol.LineNetAmt + (ol.LineNetAmt * t.Rate / 100) Amt, (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, 
 COALESCE(SUM(ft.Amt), 0) SO_CreditUsed, 
@@ -71,12 +71,12 @@ WHERE (
 	) 
 GROUP BY o.AD_Client_ID, o.AD_Org_ID, o.Updated, o.UpdatedBy, o.Created, o.CreatedBy, o.IsActive, 
 o.C_Order_ID, o.C_BPartner_ID, o.DateOrdered, o.DocumentNo, o.Description, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, o.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, o.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 o.C_Order_ID, ol.C_OrderLine_ID, ol.LineNetAmt, t.Rate, cdl.Amt, fc.ApprovedQty, cdl.Line, ft.AD_Table_ID 
 UNION ALL
 SELECT l.AD_Client_ID, l.AD_Org_ID, l.Updated, l.UpdatedBy, l.Created, l.CreatedBy, l.IsActive, 
 l.C_BPartner_ID, l.DateDoc, l.DocumentNo, l.Description::VARCHAR, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, l.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, l.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 ll.FTA_FarmerLiquidationLine_ID Line_ID, ll.LineNetAmt Amt, (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, 
 0 SO_CreditUsed,'Y' IsExceedCreditLimit, 
 'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, l.FTA_FarmerLiquidation_ID Record_ID, 53564 AD_Table_ID, 0 SeqNo
@@ -92,12 +92,12 @@ WHERE (cdl.M_Product_ID = l.M_Product_ID
 		AND pr.M_Product_Category_ID IS NOT NULL) 
 GROUP BY l.AD_Client_ID, l.AD_Org_ID, l.Updated, l.UpdatedBy, l.Created, l.CreatedBy, l.IsActive, 
 l.FTA_FarmerLiquidation_ID, l.C_BPartner_ID, l.DateDoc, l.DocumentNo, l.Description, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, l.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, l.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 l.FTA_FarmerLiquidation_ID, ll.FTA_FarmerLiquidationLine_ID, ll.LineNetAmt, cdl.Amt, fc.ApprovedQty, cdl.Line
 UNION ALL
 SELECT a.AD_Client_ID, a.AD_Org_ID, a.Updated, a.UpdatedBy, a.Created, a.CreatedBy, a.IsActive, 
 al.C_BPartner_ID, a.DateDoc, a.DocumentNo, a.DocumentNo || ' <-> ' || l.DocumentNo || ' ' || COALESCE(a.Description, '')::VARCHAR, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 0 Line_ID, (liquidationAvailable(l.FTA_FarmerLiquidation_ID) + SUM(al.Amount))Amt, 0 SO_CreditLimit, 
 0 SO_CreditUsed,'Y' IsExceedCreditLimit, 
 'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, a.FTA_Allocation_ID Record_ID, 53566 AD_Table_ID, 0 SeqNo
@@ -110,12 +110,12 @@ INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_
 WHERE cdl.IsDistributionLine = 'Y'
 GROUP BY a.AD_Client_ID, a.AD_Org_ID, a.Updated, a.UpdatedBy, a.Created, a.CreatedBy, a.IsActive, 
 al.FTA_FarmerLiquidation_ID, al.C_BPartner_ID, a.DateDoc, a.DocumentNo, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 a.FTA_Allocation_ID, l.Amt, cdl.Amt, fc.ApprovedQty, cdl.Line, l.FTA_FarmerLiquidation_ID, l.DocumentNo
 UNION ALL
 SELECT a.AD_Client_ID, a.AD_Org_ID, a.Updated, a.UpdatedBy, a.Created, a.CreatedBy, a.IsActive, 
 al.C_BPartner_ID, a.DateDoc, a.DocumentNo, a.DocumentNo || ' -> ' || i.DocumentNo || ' ' || COALESCE(a.Description, '')::VARCHAR, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 al.FTA_AllocationLine_ID Line_ID, al.Amount * -1 Amt, 0 SO_CreditLimit, 
 0 SO_CreditUsed,'Y' IsExceedCreditLimit, 
 'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, a.FTA_Allocation_ID Record_ID, 53566 AD_Table_ID, 1 SeqNo
@@ -129,12 +129,12 @@ INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_
 WHERE cdl.IsDistributionLine = 'Y'
 GROUP BY a.AD_Client_ID, a.AD_Org_ID, a.Updated, a.UpdatedBy, a.Created, a.CreatedBy, a.IsActive, 
 al.FTA_FarmerLiquidation_ID, al.C_BPartner_ID, a.DateDoc, a.DocumentNo, a.Description, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 a.FTA_Allocation_ID, l.Amt, cdl.Amt, fc.ApprovedQty, cdl.Line, al.FTA_AllocationLine_ID, i.DocumentNo
 UNION ALL
 SELECT a.AD_Client_ID, a.AD_Org_ID, a.Updated, a.UpdatedBy, a.Created, a.CreatedBy, a.IsActive, 
 al.C_BPartner_ID, a.DateDoc, a.DocumentNo, a.DocumentNo || ' <=> ' || l.DocumentNo || ' ' || COALESCE(a.Description, '')::VARCHAR, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 0 Line_ID, (liquidationAvailable(l.FTA_FarmerLiquidation_ID) * -1) Amt, 0 SO_CreditLimit, 
 0 SO_CreditUsed,'Y' IsExceedCreditLimit, 
 'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, a.FTA_Allocation_ID Record_ID, 53566 AD_Table_ID, 2 SeqNo
@@ -148,12 +148,12 @@ WHERE cdl.IsDistributionLine = 'Y'
 AND liquidationAvailable(l.FTA_FarmerLiquidation_ID) <> 0
 GROUP BY a.AD_Client_ID, a.AD_Org_ID, a.Updated, a.UpdatedBy, a.Created, a.CreatedBy, a.IsActive, 
 al.FTA_FarmerLiquidation_ID, al.C_BPartner_ID, a.DateDoc, a.DocumentNo, a.Description, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 a.FTA_Allocation_ID, l.Amt, cdl.Amt, fc.ApprovedQty, cdl.Line, l.FTA_FarmerLiquidation_ID, l.DocumentNo
 UNION ALL
 SELECT p.AD_Client_ID, p.AD_Org_ID, p.Updated, p.UpdatedBy, p.Created, p.CreatedBy, p.IsActive, 
 p.C_BPartner_ID, p.DateTrx DateDoc, p.DocumentNo, COALESCE(p.Description, '')::VARCHAR, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, p.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, p.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 0 Line_ID, p.PayAmt, 0 SO_CreditLimit, 
 0 SO_CreditUsed,'Y' IsExceedCreditLimit, 
 'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, p.C_Payment_ID Record_ID, 335 AD_Table_ID, 0 SeqNo
@@ -164,5 +164,5 @@ INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_
 WHERE cdl.IsDistributionLine = 'Y'
 GROUP BY p.AD_Client_ID, p.AD_Org_ID, p.Updated, p.UpdatedBy, p.Created, p.CreatedBy, p.IsActive, 
 p.C_BPartner_ID, p.DateTrx, p.DocumentNo, 
-cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, p.FTA_FarmerCredit_ID, 
+cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, p.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID, 
 p.C_Payment_ID, p.PayAmt, cdl.Amt, fc.ApprovedQty, cdl.Line, p.DocumentNo

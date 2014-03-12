@@ -31,7 +31,7 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140307L;
+	private static final long serialVersionUID = 20140312L;
 
     /** Standard Constructor */
     public X_FTA_QualityAnalysis (Properties ctx, int FTA_QualityAnalysis_ID, String trxName)
@@ -613,19 +613,27 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_FTA_EntryTicket getReferenc() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_EntryTicket)MTable.get(getCtx(), org.spin.model.I_FTA_EntryTicket.Table_Name)
+			.getPO(getReferenceNo(), get_TrxName());	}
+
 	/** Set Reference No.
 		@param ReferenceNo 
 		Your customer or vendor number at the Business Partner's site
 	  */
-	public void setReferenceNo (String ReferenceNo)
+	public void setReferenceNo (int ReferenceNo)
 	{
 		throw new IllegalArgumentException ("ReferenceNo is virtual column");	}
 
 	/** Get Reference No.
 		@return Your customer or vendor number at the Business Partner's site
 	  */
-	public String getReferenceNo () 
+	public int getReferenceNo () 
 	{
-		return (String)get_Value(COLUMNNAME_ReferenceNo);
+		Integer ii = (Integer)get_Value(COLUMNNAME_ReferenceNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

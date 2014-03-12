@@ -11,7 +11,7 @@ cdlc.Name || COALESCE(' - ' || CASE
 	WHEN cdl.C_Charge_ID IS NOT NULL THEN cr.Name
 	WHEN cdl.C_ChargeType_ID IS NOT NULL THEN ct.Name
 END, '') || COALESCE(' - ' || cdl.Description, '') LineDescription, 
-fc.FTA_FarmerCredit_ID, fc.C_BPartner_ID, ft.AD_Table_ID,
+COALESCE(fc.Parent_FarmerCredit_ID, fc.FTA_FarmerCredit_ID) FTA_FarmerCredit_ID, fc.C_BPartner_ID, ft.AD_Table_ID,
 (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, 
 COALESCE(SUM(ft.Amt), 0) SO_CreditUsed, 
 (cdl.Amt * fc.ApprovedQty) - COALESCE(SUM(ft.Amt), 0) Balance, 
