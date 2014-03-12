@@ -150,7 +150,7 @@ public class MFTAFact extends X_FTA_Fact {
 				"i.FTA_FarmerCredit_ID, " +
 				"i.Record_ID, i.Line_ID, " +
 				"i.Amt, i.SO_CreditLimit, " +
-				"i.SO_CreditUsed, i.IsExceedCreditLimit " +
+				"i.SO_CreditUsed, i.IsExceedCreditLimit, Parent_FarmerCredit_ID " +
 				"FROM FTA_RV_DocumentFact i " +
 				"WHERE i.Record_ID = ? " +
 				"AND i.AD_Table_ID = ? " +
