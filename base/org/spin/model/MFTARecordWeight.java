@@ -146,7 +146,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	private final String EVENTTYPE_RECEIPT = "EW";
 	private final String EVENTTYPE_SHIPMENT = "OW";
 	
-	private BigDecimal m_Valideight = Env.ZERO;
+	private BigDecimal m_Valideight = null;
 	/**
 	 * 	Unlock Document.
 	 * 	@return true if success 
@@ -1174,10 +1174,16 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				m_Receipt.processIt(DocAction.ACTION_Complete);
 				m_Receipt.saveEx(get_TrxName());
 				
+				
 				l_DocumentNo = " - " + l_DocumentNo + "@M_InOut_ID@: " + m_Receipt.getDocumentNo();
 
 			}// Create Shipments
 			
+			//Carlos Parada Set Delivered And Weight Registered
+			lo.setIsDelivered(true);
+			lo.setIsWeightRegister(true);
+			lo.save(get_TrxName());
+			// End Carlos Parada
 				
 		}
 		return l_DocumentNo;

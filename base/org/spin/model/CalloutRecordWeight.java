@@ -102,24 +102,11 @@ public class CalloutRecordWeight extends CalloutEngine {
 		mTab.setValue("FTA_LoadOrder_ID", m_FTA_LoadOrder_ID);
 		//	End Dixon Martinez
 		
-		//Carlos Parada Set Product From Order
-		
-		if (mTab.get_ValueAsString("OperationType").equals(MFTARecordWeight.OPERATIONTYPE_ProductBulkReceipt)){
-			int l_FTA_EntryTickect_ID = (value == null ? 0 : (Integer)value);
-			
-			if (l_FTA_EntryTickect_ID != 0)
-			{
-				MFTAEntryTicket et = new MFTAEntryTicket(ctx, l_FTA_EntryTickect_ID, null);
-				if (et != null ){
-					MOrder order = new MOrder(ctx, et.getC_Order_ID(), null);
-					
-					MOrderLine[] lolines = order.getLines();
-					//get First Product From Load Order
-					if (lolines.length > 0 )
-						mTab.setValue("M_Product_ID", lolines[0].getM_Product_ID());
-				}
-			}
-		}
+		//Carlos Parada Set Product From Entry Ticket
+		MFTAEntryTicket et = new MFTAEntryTicket(ctx, m_FTA_EntryTicket_ID, null);
+		if (et != null )
+			if (et.getM_Product_ID()!= 0 )
+				mTab.setValue("M_Product_ID", et.getM_Product_ID());
 		//End Carlos Parada
 		
 		return "";
