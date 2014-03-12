@@ -23,6 +23,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
 import org.compiere.model.MDocType;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPeriod;
@@ -691,10 +693,34 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
 		/* 	Dixon Martinez
-		 * 	2/14/2014 09:39:00
-		 *  Add mount 
+		 *  
 		 */
+		/*
+		 * 12/03/2014
+		 * Set null Credit Act
+		 * Set Credit Definition from Farmer Credit
+		 */
+		if(is_new())
+			setFTA_CreditAct_ID(0);
 		
+		if(is_new()
+				|| is_ValueChanged("Parent_FarmerCredit_ID")){
+			//	Search Credit Definition
+			String sql = " SELECT fc.FTA_CreditDefinition_ID " +
+						 " FROM FTA_FarmerCredit fc " +
+						 " WHERE fc.FTA_FarmerCredit_ID = " +
+						 " "+getParent_FarmerCredit_ID();
+			//	
+			int m_FTA_FarmerCredit = DB.getSQLValue(null, sql);
+
+			//	Set Credit Definition
+			setFTA_CreditDefinition_ID(m_FTA_FarmerCredit);
+		}
+		
+		/*
+		 * 	2/14/2014 09:39:00
+		 *  Add mount
+		 */
 		if(getCreditType().equals(CREDITTYPE_Credit)
 				|| getCreditType().equals(CREDITTYPE_Extension)){
 			final String wehereClause = I_FTA_CreditDefinition.COLUMNNAME_FTA_CreditDefinition_ID + "=?";
