@@ -196,6 +196,26 @@ public class FTAModelValidator implements ModelValidator {
 				}
 			} else if(po.get_TableName().equals(I_C_Payment.Table_Name)){
 				MPayment payment = (MPayment) po;
+				//2014-03-11 Carlos Parada Set Farmer Credit From Invoice When is From Liquidation
+				if (payment.get_ValueAsInt("FTA_FarmerCredit_ID")==0){
+					if (payment.getC_Invoice_ID()!=0){
+						MInvoice inv = new MInvoice(Env.getCtx(), payment.getC_Invoice_ID(), payment.get_TrxName());
+						if (inv.get_ValueAsInt("FTA_FarmerLiquidation_ID") !=0 && inv.get_ValueAsInt("FTA_FarmerCredit_ID")!=0)
+							payment.set_ValueOfColumn("FTA_FarmerCredit_ID", inv.get_ValueAsInt("FTA_FarmerCredit_ID"));
+					}
+					
+					List<MInvoice> invoices = new Query(Env.getCtx(), MInvoice.Table_Name, 
+											" EXISTS(SELECT 1 FROM C_PaymentAllocate invall WHERE invall.C_Invoice_ID = C_Invoice.C_Invoice_ID AND invall.C_Payment_ID = ?) " +
+											" AND FTA_FarmerLiquidation_ID IS NOT NULL " +
+											" AND FTA_FarmerCredit_ID IS NOT NULL ", 
+											payment.get_TrxName())
+											.setParameters(payment.getC_Payment_ID())
+											.list();
+				
+					if (invoices.size() > 0)
+						payment.set_ValueOfColumn("FTA_FarmerCredit_ID", invoices.get(0).get_ValueAsInt("FTA_FarmerCredit_ID"));
+				}//End Carlos Parada
+					
 				if(payment.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
 					String msg = null;
 					if(payment.getReversal_ID() == 0){
