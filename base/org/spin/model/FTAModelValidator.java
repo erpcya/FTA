@@ -272,6 +272,11 @@ public class FTAModelValidator implements ModelValidator {
 					alloc.processIt(X_FTA_Allocation.DOCACTION_Void);
 					alloc.save(pay.get_TrxName());
 				}
+				
+				//2014-03-12 Carlos Parada Delete Fact When Reversed or Void 
+				if (pay.get_ValueAsInt("FTA_FarmerCredit_ID")!=0)
+					MFTAFact.deleteFact(MPayment.Table_ID, pay.getC_Payment_ID(), false,pay.get_TrxName());
+				//End Carlos Parada
 			}
 			// Carlos Parada Set 
 			else if (po.get_TableName().equals(MInvoice.Table_Name)){
