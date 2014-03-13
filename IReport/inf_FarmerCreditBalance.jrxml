@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inf_FarmerAccountStatement" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91c80499-e68d-49ef-947f-a0080fa9d852">
-	<property name="ireport.zoom" value="5.559917313492263"/>
-	<property name="ireport.x" value="2090"/>
-	<property name="ireport.y" value="545"/>
+	<property name="ireport.zoom" value="1.948717100000011"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
 	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal"/>
@@ -32,7 +32,7 @@ AND (cb.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = C
 GROUP BY cl.Name, cp.TaxID, cp.Name, fc.DocumentNo, cd.DocumentNo, lot.Name,
 cb.LineDescription, cdlc.Name, cb.FTA_CreditDefinition_ID, cb.FTA_CreditDefinitionLine_ID,
 cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, cb.FTA_CDL_Category_ID, cb.SO_CreditLimit, cb.SO_CreditUsed, cb.Balance
-ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, cb.FTA_CDL_Category_ID]]>
+ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, cdlc.Name]]>
 	</queryString>
 	<field name="client" class="java.lang.String"/>
 	<field name="taxid" class="java.lang.String"/>
@@ -48,6 +48,15 @@ ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, c
 	<field name="so_creditlimit" class="java.math.BigDecimal"/>
 	<field name="so_creditused" class="java.math.BigDecimal"/>
 	<field name="balance" class="java.math.BigDecimal"/>
+	<variable name="balance_group" class="java.math.BigDecimal" resetType="Group" resetGroup="Partida" calculation="Sum">
+		<variableExpression><![CDATA[$F{balance}]]></variableExpression>
+	</variable>
+	<variable name="so_creditlimit_group" class="java.math.BigDecimal" resetType="Group" resetGroup="Partida" calculation="Sum">
+		<variableExpression><![CDATA[$F{so_creditlimit}]]></variableExpression>
+	</variable>
+	<variable name="so_creditused_group" class="java.math.BigDecimal" resetType="Group" resetGroup="Partida" calculation="Sum">
+		<variableExpression><![CDATA[$F{so_creditused}]]></variableExpression>
+	</variable>
 	<variable name="balance_summary" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{balance}]]></variableExpression>
 	</variable>
@@ -57,6 +66,65 @@ ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, c
 	<variable name="so_creditused_summary" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{so_creditused}]]></variableExpression>
 	</variable>
+	<group name="Partida">
+		<groupExpression><![CDATA[$F{cdlcategory}]]></groupExpression>
+		<groupFooter>
+			<band height="12">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="377" y="0" width="65" height="12" uuid="a8c8a582-fe13-468b-9958-c8f72a5a0a05"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="6" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{so_creditlimit_group}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="442" y="0" width="65" height="12" uuid="fcef3322-cf30-4eca-993d-f5eb8e05228a"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="6" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{so_creditused_group}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="507" y="0" width="65" height="12" uuid="175d8333-fd1b-4b01-8097-407ac00530af"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="6" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{balance_group}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="377" height="12" uuid="6d85a866-1846-4929-bd10-13128d47b713"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font size="6" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total " + $F{cdlcategory}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -373,11 +441,8 @@ ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, c
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="18" splitType="Stretch"/>
-	</pageFooter>
 	<summary>
-		<band height="59" splitType="Stretch">
+		<band height="12" splitType="Stretch">
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="377" y="0" width="65" height="12" uuid="9972fee3-3ad8-4082-afcb-11bf6129ab3e"/>
 				<box>
@@ -428,7 +493,7 @@ ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, c
 				<textElement verticalAlignment="Middle" markup="none">
 					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Resumen:]]></text>
+				<text><![CDATA[Total General:]]></text>
 			</staticText>
 		</band>
 	</summary>
