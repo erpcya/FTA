@@ -23,6 +23,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MDocType;
 import org.compiere.model.MProduct;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -75,7 +76,16 @@ public class CalloutFarmerCredit extends CalloutEngine {
 		mTab.setValue("Parent_FarmerCredit_ID", null);
 		return "";
 	}
-	
+	/**
+	 * Set UOM of Product
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
 	public String product (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		Integer m_M_Product_ID = (Integer)value;
 		if (m_M_Product_ID == null || m_M_Product_ID.intValue() == 0)
@@ -85,5 +95,5 @@ public class CalloutFarmerCredit extends CalloutEngine {
 		mTab.setValue("C_UOM_ID", m_M_Product.getC_UOM_ID());
 		return "";
 	}
-	
+
 }
