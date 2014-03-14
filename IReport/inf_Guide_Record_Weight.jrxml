@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="670"/>
+	<property name="ireport.x" value="8"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="DocStatus" class="java.lang.String">
@@ -21,6 +21,7 @@
 	<parameter name="Ext_Guide" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="FTA_QualityAnalysis_ID" class="java.math.BigDecimal"/>
 	<parameter name="M_Product_ID" class="java.math.BigDecimal"/>
+	<parameter name="OperationType" class="java.lang.String"/>
 	<parameter name="DateDoc1" class="java.sql.Timestamp">
 		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -29,7 +30,22 @@
 		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="OperationType" class="java.lang.String"/>
+	<parameter name="InDate1" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="InDate2" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="OutDate1" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="OutDate2" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT 1 seqNo,
 	mg.DocumentNo MobilizationGuide,
@@ -98,8 +114,12 @@ AND (mp.M_Product_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
 AND (fc.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 AND (rw.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
 AND rw.OperationType = $P{OperationType}
-AND (rw.OutDate >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
-AND (rw.OutDate <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
+AND (DATE(rw.OutDate) >= $P{OutDate1} OR COALESCE($P{OutDate1}, Current_Timestamp) = Current_Timestamp)
+AND (DATE(rw.OutDate) <= $P{OutDate2} OR COALESCE($P{OutDate2}, Current_Timestamp) = Current_Timestamp)
+AND (DATE(rw.InDate) >= $P{InDate1} OR COALESCE($P{InDate1}, Current_Timestamp) = Current_Timestamp)
+AND (DATE(rw.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
+AND (rw.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
+AND (rw.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
 ORDER BY rw.DateDoc, av.Att]]>
 	</queryString>
 	<field name="seqno" class="java.lang.Integer"/>
