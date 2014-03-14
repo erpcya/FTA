@@ -703,8 +703,9 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if(is_new())
 			setFTA_CreditAct_ID(0);
 		
-		if(is_new()
-				|| is_ValueChanged("Parent_FarmerCredit_ID")){
+		if((is_new()
+				&& getParent_FarmerCredit_ID() != 0)
+					|| is_ValueChanged("Parent_FarmerCredit_ID")){
 			//	Search Credit Definition
 			String sql = " SELECT fc.FTA_CreditDefinition_ID " +
 						 " FROM FTA_FarmerCredit fc " +
