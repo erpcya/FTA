@@ -48,7 +48,8 @@ SELECT
 	COALESCE(bp.Value, bp.TaxID) AS BPTaxID, 
 	bp.Name::text || COALESCE(bp.Name2, ''::character varying)::text AS BPName, 
 	oi.TaxID, lo.C_Location_ID AS Org_Location_ID, 
-	m.C_BPartner_Location_ID
+	m.C_BPartner_Location_ID,
+	mc.M_MovementConfirm_ID
 FROM M_Movement m
 LEFT JOIN FTA_Driver d ON (m.FTA_Driver_ID = d.FTA_Driver_ID)
 LEFT JOIN FTA_Vehicle v ON (m.FTA_Vehicle_ID = v.FTA_Vehicle_ID)
@@ -56,9 +57,9 @@ LEFT JOIN M_Shipper s ON (m.M_Shipper_ID = s.M_Shipper_ID)
 LEFT JOIN C_BPartner bp ON (bp.C_BPartner_ID = m.C_BPartner_ID)
 LEFT JOIN AD_OrgInfo oi ON (oi.AD_Org_ID = m.AD_Org_ID )
 LEFT JOIN C_Location lo ON (lo.C_Location_ID = oi.C_Location_ID)
+LEFT JOIN M_MovementConfirm mc ON (m.M_Movement_ID = mc.M_Movement_ID)
 
 
-
---WHERE m.M_Movement_ID =1000099
+--WHERE m.M_Movement_ID =1000120
 ;
 
