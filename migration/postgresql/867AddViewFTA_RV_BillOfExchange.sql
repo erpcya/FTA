@@ -4,7 +4,8 @@ SELECT be.AD_Client_ID, be.AD_Org_ID, be.Created, be.CreatedBy, be.Updated, be.U
 be.FTA_BillOfExchange_ID, be.FTA_BillOfExchange_ID FTA_RV_BillOfExchange_ID, be.C_DocType_ID, be.DocumentNo, 
 be.DateDoc, be.ValidTo, be.Amt, be.Amt AmtInWords, be.C_BPartner_ID, 
 be.FTA_FarmerCredit_ID, be.Description, be.DocStatus, be.IsApproved, be.Processed, be.Status, re.Name RegionName,
-be.C_BPartner_Location_ID, lo.Name, fc.FTA_CreditAct_ID, loc.C_City_ID,loc.City
+be.C_BPartner_Location_ID, lo.Name, fc.FTA_CreditAct_ID, loc.C_City_ID,loc.City, 
+fc.credittype
 
 FROM FTA_BillOfExchange be
 LEFT JOIN AD_OrgInfo oinf ON(oinf.AD_Org_ID = be.AD_Org_ID)
@@ -14,6 +15,5 @@ LEFT JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = be.FTA_FarmerCredit_ID
 LEFT JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID)
 LEFT JOIN M_Lot lo ON(lo.M_Lot_ID = cd.PlantingCycle_ID)
 
---WHERE FTA_BillOfExchange_ID=1001695
 
---SELECT * FROM C_Location
+--WHERE FTA_BillOfExchange_ID=1001695
