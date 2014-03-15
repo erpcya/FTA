@@ -22,12 +22,11 @@
 	COALESCE(bp.TaxID,bp.Value) BPTaxID,
 	bp.Name||' '||COALESCE(bp.Name2,'') BPName,
 	f.Name FarmerName,
-
 	ROUND(f.Area,2) Area,
-	COALESCE(f.FrontierNorth,df.FrontierNorth,'') FrontierNorth,
-	COALESCE(f.FrontierSouth, df.FrontierSouth,'') FrontierSouth,
-	COALESCE(f.FrontierEast, df.FrontierEast, '') FrontierEast,
-	COALESCE(f.FrontierWest, df.FrontierWest,'') FrontierWest,
+	COALESCE(f.FrontierNorth,MAX(df.FrontierNorth),'') FrontierNorth,
+	COALESCE(f.FrontierSouth, MAX(df.FrontierSouth),'') FrontierSouth,
+	COALESCE(f.FrontierEast, MAX(df.FrontierEast), '') FrontierEast,
+	COALESCE(f.FrontierWest, MAX(df.FrontierWest),'') FrontierWest,
 	COALESCE(p.Name, '') as Name,
 	ROUND(fc.ApprovedAmt,2) ApprovedAmt,
 	ROUND(fc.ApprovedQty,2) ApprovedQty,
@@ -53,9 +52,12 @@ LEFT JOIN (SELECT df.C_BPartner_ID, df.FrontierNorth, df.FrontierSouth, df.Front
 		FROM FTA_Farm df
 		INNER JOIN C_BPartner_Location bpl ON (bpl.C_BPartner_Location_ID = df.C_BPartner_Location_ID)
 		INNER JOIN C_Location lo ON (lo.C_Location_ID = bpl.C_Location_ID)
-		ORDER BY IsDefault DESC LIMIT 1) df ON(df.C_BPartner_ID = fc.C_BPartner_ID)
+	) df ON(df.C_BPartner_ID = fc.C_BPartner_ID)
 WHERE  (fc.FTA_CreditAct_ID = $P{FTA_CreditAct_ID} OR $P{FTA_CreditAct_ID} IS NULL)
-AND (fc.FTA_FarmerCredit_ID = $P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)]]>
+AND (fc.FTA_FarmerCredit_ID = $P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
+GROUP BY fc.AD_Org_ID, fc.AD_Client_ID, fc.CreatedBy, fc.Created, fc.Updated, fc.UpdatedBy, fc.IsActive, oi.TaxID, bp.TaxID, bp.Value, bp.Name, bp.Name2, f.Name, f.Area, f.FrontierNorth, f.FrontierSouth, f.FrontierEast, f.FrontierWest,
+p.Name, fc.ApprovedAmt, fc.ApprovedQty, l.Name, fc.Amt, c.Name, lo.Address1, lo.Address2, lo.Address3, lo.Address4,
+df.Address1, df.Address2, df.Address3, df.Address4]]>
 	</queryString>
 	<field name="ad_org_id" class="java.math.BigDecimal"/>
 	<field name="ad_client_id" class="java.math.BigDecimal"/>
