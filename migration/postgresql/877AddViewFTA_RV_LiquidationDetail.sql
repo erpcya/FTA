@@ -1,4 +1,4 @@
-﻿-- DROP VIEW FTA_RV_LiquidationDetail  ;
+﻿-- DROP VIEW FTA_RV_LiquidationDetail
 CREATE OR REPLACE VIEW FTA_RV_LiquidationDetail AS
 SELECT 	
 	fl.FTA_FarmerLiquidation_ID,  	
@@ -30,10 +30,12 @@ SELECT
 	fl.C_Currency_ID,
 	fll.Processed, 
 	fll.PayWeight,  
-	Price,  
-	PriceList,
+	fll.Price,  
+	fll.PriceList,
 	fll.FTA_RecordWeight_ID,
-	mg.M_Warehouse_ID
+	mg.M_Warehouse_ID,
+	(fll.Price * fll.PayWeight) LineNetAmt,
+	mg.FTA_MobilizationGuide_ID
 FROM FTA_FarmerLiquidation fl
 INNER JOIN C_DocType dt ON (dt.C_DocType_ID = fl.C_DocType_ID)
 INNER JOIN FTA_FarmerLiquidationLine fll ON (fll.FTA_FarmerLiquidation_ID =fl.FTA_FarmerLiquidation_ID)
