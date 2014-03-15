@@ -198,6 +198,19 @@ public interface I_FTA_Farm
 	  */
 	public boolean isActive();
 
+    /** Column name IsDefault */
+    public static final String COLUMNNAME_IsDefault = "IsDefault";
+
+	/** Set Default.
+	  * Default value
+	  */
+	public void setIsDefault (boolean IsDefault);
+
+	/** Get Default.
+	  * Default value
+	  */
+	public boolean isDefault();
+
     /** Column name IsValid */
     public static final String COLUMNNAME_IsValid = "IsValid";
 

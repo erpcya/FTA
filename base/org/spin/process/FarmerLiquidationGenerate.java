@@ -131,7 +131,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		PreparedStatement ps =null;
 		ResultSet rs = null;
 		int m_C_BPartner_ID=0;
-		int m_Category_ID=0;
+		//	int m_Category_ID=0;
 		
 		precision = MCurrency.getStdPrecision(ctx, Env.getContextAsInt(ctx, "$C_Currency_ID"));
 		
@@ -149,7 +149,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				
 				liquidation=addDocument(rs);
 				m_C_BPartner_ID=rs.getInt("C_BPartner_ID");
-				m_Category_ID=rs.getInt("Category_ID");
+				// 	m_Category_ID=rs.getInt("Category_ID");
 			}
 			
 			if (liquidation!=null)

@@ -23,7 +23,6 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MDocType;
 import org.compiere.model.MProduct;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
