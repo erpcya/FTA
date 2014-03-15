@@ -66,8 +66,9 @@ SELECT
 	qa.QualityAnalysis_ID,
 	fl.C_BPartner_ID,
 	qa.M_Product_ID,
-	(fll.Price * fll.PayWeight) LineNetAmt,
-	mg.FTA_MobilizationGuide_ID
+	ROUND((fll.Price * fll.PayWeight), 2) LineNetAmt,
+	mg.FTA_MobilizationGuide_ID,
+	fl.FTA_FarmerCredit_ID
 FROM FTA_FarmerLiquidationLine fll
 INNER JOIN FTA_FarmerLiquidation fl ON (fll.FTA_FarmerLiquidation_ID =fl.FTA_FarmerLiquidation_ID)
 INNER JOIN FTA_RecordWeight rw ON (rw.FTA_RecordWeight_ID = fll.FTA_RecordWeight_ID)
