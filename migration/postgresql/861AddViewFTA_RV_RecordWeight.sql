@@ -47,13 +47,14 @@ LEFT JOIN FTA_LoadOrder lo ON (rw.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID)
 LEFT JOIN FTA_LoadOrderLine lol ON (lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID)
 LEFT JOIN C_OrderLine ol ON (ol.C_OrderLine_ID = lol.C_OrderLine_ID)
 LEFT JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID)
-LEFT JOIN FTA_QualityAnalysis qa ON(qa.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID)
+LEFT JOIN FTA_QualityAnalysis qa ON(qa.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND qa.DocStatus IN ('CO','CL'))
 LEFT JOIN 
 	(
 		SELECT 
 			qa.FTA_QualityAnalysis_ID,
 			qa.M_Product_ID,
-			QualityAnalysis_ID
+			QualityAnalysis_ID,
+			qa.DocStatus
 		FROM FTA_QualityAnalysis qa 
-		
+		WHERE qa.DocStatus IN ('CO','CL')
 	) qaa ON (qaa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID)

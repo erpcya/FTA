@@ -31,7 +31,7 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140312L;
+	private static final long serialVersionUID = 20140316L;
 
     /** Standard Constructor */
     public X_FTA_EntryTicket (Properties ctx, int FTA_EntryTicket_ID, String trxName)
@@ -553,6 +553,27 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 		return false;
 	}
 
+	/** Set Printed Sample.
+		@param IsPrintedSample Printed Sample	  */
+	public void setIsPrintedSample (boolean IsPrintedSample)
+	{
+		set_Value (COLUMNNAME_IsPrintedSample, Boolean.valueOf(IsPrintedSample));
+	}
+
+	/** Get Printed Sample.
+		@return Printed Sample	  */
+	public boolean isPrintedSample () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPrintedSample);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	public I_M_Product getM_Product() throws RuntimeException
     {
 		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
@@ -681,5 +702,19 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	public String getReferenceNo () 
 	{
 		return (String)get_Value(COLUMNNAME_ReferenceNo);
+	}
+
+	/** Set Trailer Plate.
+		@param TrailerPlate Trailer Plate	  */
+	public void setTrailerPlate (String TrailerPlate)
+	{
+		set_Value (COLUMNNAME_TrailerPlate, TrailerPlate);
+	}
+
+	/** Get Trailer Plate.
+		@return Trailer Plate	  */
+	public String getTrailerPlate () 
+	{
+		return (String)get_Value(COLUMNNAME_TrailerPlate);
 	}
 }
