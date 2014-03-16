@@ -899,8 +899,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		@param TrailerPlate Trailer Plate	  */
 	public void setTrailerPlate (String TrailerPlate)
 	{
-		set_ValueNoCheck (COLUMNNAME_TrailerPlate, TrailerPlate);
-	}
+		throw new IllegalArgumentException ("TrailerPlate is virtual column");	}
 
 	/** Get Trailer Plate.
 		@return Trailer Plate	  */
