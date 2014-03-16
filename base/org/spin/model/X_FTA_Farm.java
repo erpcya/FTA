@@ -33,7 +33,7 @@ public class X_FTA_Farm extends PO implements I_FTA_Farm, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140312L;
+	private static final long serialVersionUID = 20140316L;
 
     /** Standard Constructor */
     public X_FTA_Farm (Properties ctx, int FTA_Farm_ID, String trxName)
@@ -264,6 +264,30 @@ public class X_FTA_Farm extends PO implements I_FTA_Farm, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Default.
+		@param IsDefault 
+		Default value
+	  */
+	public void setIsDefault (boolean IsDefault)
+	{
+		set_Value (COLUMNNAME_IsDefault, Boolean.valueOf(IsDefault));
+	}
+
+	/** Get Default.
+		@return Default value
+	  */
+	public boolean isDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Valid.

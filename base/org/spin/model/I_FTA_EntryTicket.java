@@ -327,6 +327,15 @@ public interface I_FTA_EntryTicket
 	  */
 	public boolean isPrinted();
 
+    /** Column name IsPrintedSample */
+    public static final String COLUMNNAME_IsPrintedSample = "IsPrintedSample";
+
+	/** Set Printed Sample	  */
+	public void setIsPrintedSample (boolean IsPrintedSample);
+
+	/** Get Printed Sample	  */
+	public boolean isPrintedSample();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
