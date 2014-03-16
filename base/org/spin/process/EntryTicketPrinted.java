@@ -18,7 +18,6 @@ package org.spin.process;
 
 import java.util.List;
 
-import org.compiere.model.MInvoice;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
@@ -33,7 +32,6 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.spin.model.MFTAEntryTicket;
-import org.spin.model.MFTAMobilizationGuide;
 import org.spin.model.X_FTA_EntryTicket;
 
 /**

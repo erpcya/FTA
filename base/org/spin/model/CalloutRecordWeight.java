@@ -104,10 +104,22 @@ public class CalloutRecordWeight extends CalloutEngine {
 		
 		//Carlos Parada Set Product From Entry Ticket
 		MFTAEntryTicket et = new MFTAEntryTicket(ctx, m_FTA_EntryTicket_ID, null);
-		if (et != null )
+		//	Dixon Martinez 15/03/2014 11:29:00
+		//	Set Trailer Plate, Vehicle and driver of Entry Ticket
+		if (et != null ){
 			if (et.getM_Product_ID()!= 0 )
 				mTab.setValue("M_Product_ID", et.getM_Product_ID());
+			if(et.getTrailerPlate().length() > 0)
+				mTab.setValue("TrailerPlate", et.getTrailerPlate());
+			if(et.getFTA_Driver_ID() > 0)
+				mTab.setValue("FTA_Driver_ID", et.getFTA_Driver_ID());
+			if(et.getFTA_Vehicle_ID() > 0)
+				mTab.setValue("FTA_Vehicle_ID", et.getFTA_Vehicle_ID());
+			
+		}//	End Dixon Martinez
 		//End Carlos Parada
+		
+			
 		
 		return "";
 	}

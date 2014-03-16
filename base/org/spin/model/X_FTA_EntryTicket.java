@@ -703,4 +703,18 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 	{
 		return (String)get_Value(COLUMNNAME_ReferenceNo);
 	}
+
+	/** Set Trailer Plate.
+		@param TrailerPlate Trailer Plate	  */
+	public void setTrailerPlate (String TrailerPlate)
+	{
+		set_Value (COLUMNNAME_TrailerPlate, TrailerPlate);
+	}
+
+	/** Get Trailer Plate.
+		@return Trailer Plate	  */
+	public String getTrailerPlate () 
+	{
+		return (String)get_Value(COLUMNNAME_TrailerPlate);
+	}
 }
