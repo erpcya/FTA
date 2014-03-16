@@ -108,6 +108,8 @@ public class EntryTicketPrinted extends SvrProcess {
 									ReportCtl.preview(re);
 							}	
 							impress ++;
+							entryTicket.setIsPrintedSample(true);
+							entryTicket.saveEx();
 						
 						} else 
 							log.warning(Msg.parseTranslation(getCtx(), "@NoDocPrintFormat@ AD_Table_ID=" + m_AD_Table_ID));

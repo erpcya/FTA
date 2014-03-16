@@ -51,7 +51,8 @@ SELECT
 	v.FTA_VehicleType_ID,
 	v.VehiclePlate,
 	v.VolumeCapacity,
-	v.LoadCapacity
+	v.LoadCapacity,
+	et.IsPrintedSample
 FROM FTA_EntryTicket et 
 INNER JOIN C_DocType dt ON (dt.C_DocType_ID = et.C_DocType_ID)
 LEFT JOIN FTA_MobilizationGuide mg ON (mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
