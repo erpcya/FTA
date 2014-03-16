@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AnalyticalInventory" pageWidth="612" pageHeight="792" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e1c96eec-08a1-4344-8833-51631677ce88">
-	<property name="ireport.zoom" value="5.054470284992944"/>
-	<property name="ireport.x" value="2353"/>
-	<property name="ireport.y" value="133"/>
+	<property name="ireport.zoom" value="1.6105100000000014"/>
+	<property name="ireport.x" value="143"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="M_Product_ID" class="java.math.BigDecimal">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -53,7 +53,8 @@
     TO_Char($P{MovementDate1}::timestamp,'DD/MM/YYYY') MovementDate1,
     TO_Char($P{MovementDate2}::timestamp,'DD/MM/YYYY') MovementDate2,
     ref.Name AS ReferenceName,
-    ac.Name AS ClientName
+    ac.Name AS ClientName,
+    mpc.Name AS ProductCategoryName
 FROM
 AD_Client ac
 INNER JOIN AD_Org ao ON ac.AD_Client_ID = ao.AD_Client_ID
@@ -70,6 +71,7 @@ LEFT JOIN M_Movement mm ON mm.M_Movement_ID = mml.M_Movement_ID
 LEFT JOIN M_ProductionLine mpl ON mpl.M_ProductionLine_ID = mt.M_ProductionLine_ID
 LEFT JOIN M_ProductionPlan mpp ON mpp.M_ProductionPlan_ID = mpl.M_ProductionPlan_ID
 LEFT JOIN M_Production mpr ON mpr.M_Production_ID = mpp.M_Production_ID
+LEFT JOIN M_Product_Category mpc ON mpc.M_Product_Category_ID = mp.M_Product_Category_ID
 LEFT JOIN (SELECT M_Locator_ID,M_Product_ID,Sum(MovementQty) AS MovementQty
             FROM
             M_Transaction
@@ -116,6 +118,7 @@ ORDER BY wh.M_WareHouse_ID, ml.M_Locator_ID, mp.M_Product_ID, mt.MovementDate]]>
 	<field name="movementdate2" class="java.lang.String"/>
 	<field name="referencename" class="java.lang.String"/>
 	<field name="clientname" class="java.lang.String"/>
+	<field name="productcategoryname" class="java.lang.String"/>
 	<variable name="MovementQtyAccumulated" class="java.math.BigDecimal" resetType="Group" resetGroup="M_Product_ID" calculation="Sum">
 		<variableExpression><![CDATA[$F{movementqty}]]></variableExpression>
 	</variable>
@@ -360,6 +363,7 @@ ORDER BY wh.M_WareHouse_ID, ml.M_Locator_ID, mp.M_Product_ID, mt.MovementDate]]>
 ($P{AD_Org_ID} == null ? "" :"Organización = " + $F{orgkey} + " - " + $F{orgname}  + "\n") +
 ($P{M_WareHouse_ID} == null ? "" :"Almacen = " + $F{warehousevalue}  + " - " + $F{warehousename} + "\n") +
 ($P{M_Locator_ID} == null ? "" :"Localizador = " + $F{locatorvalue} + "\n") +
+($P{M_Product_Category_ID} == null ? "" :"Categoría de Producto = " + $F{productcategoryname} + "\n") +
 ($P{M_Product_ID} == null ? "" :"Producto = " + $F{productvalue} + " - " + $F{productname} + "\n") +
 ($P{MovementDate1} ==null ? "" :"Fecha de Movimiento >=" + $F{movementdate1} + "\n") +
 ($P{MovementDate2} ==null ? "" :"Fecha de Movimiento <=" + $F{movementdate2} + "\n")]]></textFieldExpression>
