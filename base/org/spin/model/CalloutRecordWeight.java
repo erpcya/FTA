@@ -24,8 +24,6 @@ import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MDocType;
-import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
