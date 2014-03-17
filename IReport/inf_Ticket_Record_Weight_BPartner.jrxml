@@ -77,8 +77,6 @@
 	org.Name Org,
 	rw.OperationType,
 	vh.VehiclePlate,
-	mg.DateDoc DateGuide,
-	mg.QtyToDeliver,
 	sr.Summary_TareWeight,
 	sr.Summary_GrossWeight,
 	sr.Summary_NetWeight,
@@ -189,8 +187,6 @@ ORDER BY rw.OutDate]]>
 	<field name="org" class="java.lang.String"/>
 	<field name="operationtype" class="java.lang.String"/>
 	<field name="vehicleplate" class="java.lang.String"/>
-	<field name="dateguide" class="java.sql.Timestamp"/>
-	<field name="qtytodeliver" class="java.math.BigDecimal"/>
 	<field name="summary_tareweight" class="java.math.BigDecimal"/>
 	<field name="summary_grossweight" class="java.math.BigDecimal"/>
 	<field name="summary_netweight" class="java.math.BigDecimal"/>
@@ -221,11 +217,11 @@ ORDER BY rw.OutDate]]>
 	<title>
 		<band height="141">
 			<textField>
-				<reportElement x="279" y="0" width="195" height="86" uuid="2c5cb4b3-244b-4f25-a4bc-1b931e89f9d9"/>
+				<reportElement x="279" y="0" width="195" height="42" uuid="2c5cb4b3-244b-4f25-a4bc-1b931e89f9d9"/>
 				<textElement textAlignment="Center" markup="none">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Listado de Recepción(Guiado)" + ($P{AD_Org_ID} != null? "(" + $F{org} + ")": "")]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Listado de Recepción" + ($P{AD_Org_ID} != null? "(" + $F{org} + ")": "")]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="691" y="0" width="61" height="12" uuid="5bac3e0e-8b1c-4f99-8772-bd51ae9aefab"/>
@@ -283,7 +279,33 @@ ORDER BY rw.OutDate]]>
 ($P{DateDoc2} ==null ? "" :"F. Documento. <=" + $F{datedoc2} + "\n")]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="100" y="121" width="50" height="12" uuid="113ea557-b942-4335-a1d5-fc6aa79e5183"/>
+				<reportElement x="0" y="121" width="50" height="12" uuid="b643ece9-9bd9-456e-bb0c-0c2fba55d1d4"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{summary_grossweight}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="50" y="121" width="50" height="12" uuid="57aa3db2-fcaf-4545-a886-24779ed9f9c2"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{summary_tareweight}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="100" y="121" width="50" height="12" uuid="6295a828-1288-4e0e-bb40-0761b676384d"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -296,7 +318,7 @@ ORDER BY rw.OutDate]]>
 				<textFieldExpression><![CDATA[$F{summary_netweight}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="150" y="121" width="50" height="12" uuid="21e8ef2c-112e-464b-a1dd-d202fa27695d"/>
+				<reportElement x="150" y="121" width="50" height="12" uuid="d94fd1c6-4a5f-49a0-8217-0bb8ef1db67d"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -308,21 +330,47 @@ ORDER BY rw.OutDate]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{summary_discount}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="0" y="97" width="250" height="12" uuid="23dbe571-6421-412a-bef8-0b4d5dd5c96d"/>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="200" y="121" width="50" height="12" uuid="0c410efc-7767-4b33-9ed2-a30460ee4d7d"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Resumen de Recepciones a la Fecha]]></text>
+				<textFieldExpression><![CDATA[$F{summary_payweight}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="109" width="50" height="12" uuid="124502d3-3415-40ee-956a-a54bad86bcf1"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Total Peso Bruto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="100" y="109" width="50" height="12" uuid="076b4057-3f96-4228-9f59-a55a37c99cf0"/>
+				<reportElement x="50" y="109" width="50" height="12" uuid="21568178-fc5d-49ac-98ea-047f789484c0"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Total Peso Tara]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="109" width="50" height="12" uuid="6f58cb53-c88d-4df5-a84a-73b5e9276e34"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -335,46 +383,7 @@ ORDER BY rw.OutDate]]>
 				<text><![CDATA[Total Peso Neto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="109" width="50" height="12" uuid="d270d149-8c68-427f-9145-b757083bb28a"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Total Peso Bruto]]></text>
-			</staticText>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="50" y="121" width="50" height="12" uuid="200da442-c26d-4733-9ee5-6eef70ccb940"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{summary_tareweight}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="200" y="109" width="50" height="12" uuid="9e983b82-c2a2-40e7-a66d-46f7ae136f59"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Total Peso Acondicionado]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="150" y="109" width="50" height="12" uuid="20cde021-e529-4303-ae52-cdd4b13e5dca"/>
+				<reportElement x="150" y="109" width="50" height="12" uuid="e891d7c1-905e-4b18-899d-2128244816c8"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -387,7 +396,7 @@ ORDER BY rw.OutDate]]>
 				<text><![CDATA[Total Descuento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="50" y="109" width="50" height="12" uuid="cf8e5bcd-d99a-4b64-83e1-5a3d7685c333"/>
+				<reportElement x="200" y="109" width="50" height="12" uuid="5c81a2be-4e0b-46cf-a3fc-b1fba74e80d5"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -397,34 +406,21 @@ ORDER BY rw.OutDate]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Total Peso Tara]]></text>
+				<text><![CDATA[Total Peso Acondicionado]]></text>
 			</staticText>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="200" y="121" width="50" height="12" uuid="0d27d792-544d-45fd-bd1c-9e1786bf43b6"/>
+			<staticText>
+				<reportElement x="0" y="97" width="250" height="12" uuid="74ca4ee3-12fb-42d6-a3c7-2469bb1ba43c"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{summary_payweight}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="0" y="121" width="50" height="12" uuid="82fcbf3f-b68e-4e97-89f8-d935e5aa5f02"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{summary_grossweight}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Resumen de Recepciones a la Fecha]]></text>
+			</staticText>
 		</band>
 	</title>
 	<summary>
@@ -459,7 +455,7 @@ ORDER BY rw.OutDate]]>
 							<textElement verticalAlignment="Middle">
 								<font size="5" isBold="true"/>
 							</textElement>
-							<text><![CDATA[Guía Mov.]]></text>
+							<text><![CDATA[Soc. Negocio]]></text>
 						</staticText>
 						<staticText>
 							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="45" y="0" width="45" height="8" uuid="b2c75085-2883-4221-83c2-d8f3c962ccc5"/>
@@ -475,7 +471,7 @@ ORDER BY rw.OutDate]]>
 							<text><![CDATA[Guía INSAI]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="225" y="0" width="60" height="8" uuid="b3c9050e-5210-4a2b-b28b-f8966886d693"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="150" y="0" width="60" height="8" uuid="b3c9050e-5210-4a2b-b28b-f8999886d693"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -488,7 +484,20 @@ ORDER BY rw.OutDate]]>
 							<text><![CDATA[Ticket Ent.]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="319" y="0" width="60" height="8" uuid="89a48075-50cb-488d-a59f-685957e5c564"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="90" y="0" width="60" height="8" uuid="b3c9050e-5210-4a2b-b28b-f8966886d693"/>
+							<box>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font size="5" isBold="true"/>
+							</textElement>
+							<text><![CDATA[Planta R.]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="244" y="0" width="60" height="8" uuid="89a48075-50cb-488d-a59f-685957e5c564"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -501,7 +510,7 @@ ORDER BY rw.OutDate]]>
 							<text><![CDATA[Análisis]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="285" y="0" width="34" height="8" uuid="89a48075-50cb-488d-a59f-685957e5c584"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="210" y="0" width="34" height="8" uuid="89a48075-50cb-488d-a59f-685957e5c584"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -514,7 +523,7 @@ ORDER BY rw.OutDate]]>
 							<text><![CDATA[Placa]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="379" y="0" width="60" height="8" uuid="d076f41b-31a4-4b48-ab01-6eaac2da2f4e"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="304" y="0" width="60" height="8" uuid="d076f41b-31a4-4b48-ab01-6eaac2da2f4e"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -527,7 +536,7 @@ ORDER BY rw.OutDate]]>
 							<text><![CDATA[Boleta]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="439" y="0" width="40" height="8" uuid="763e50f9-5035-4842-bc4c-9ce72f397c80"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="364" y="0" width="40" height="8" uuid="763e50f9-5035-4842-bc4c-9ce72f397c80"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -540,7 +549,33 @@ ORDER BY rw.OutDate]]>
 							<text><![CDATA[Fecha]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="479" y="0" width="35" height="8" uuid="a3c1e5ce-98dc-4bf0-8216-7708a44fe4a8"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="404" y="0" width="40" height="8" uuid="a3c1e5ce-98dc-4bf0-8216-7708a44fe4a8"/>
+							<box>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="5" isBold="true"/>
+							</textElement>
+							<text><![CDATA[P. Bruto]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="444" y="0" width="35" height="8" uuid="c8eebd09-e062-4758-906d-3bca2c90e1ac"/>
+							<box>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="5" isBold="true"/>
+							</textElement>
+							<text><![CDATA[P. Tara]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="479" y="0" width="40" height="8" uuid="2c1abc4a-b17b-4906-a6c5-5ce4883bb40b"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -553,46 +588,7 @@ ORDER BY rw.OutDate]]>
 							<text><![CDATA[P. Neto]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="90" y="0" width="40" height="8" uuid="c8eebd09-e062-4758-906d-3bca2c90e1ac"/>
-							<box>
-								<topPen lineWidth="0.5"/>
-								<leftPen lineWidth="0.5"/>
-								<bottomPen lineWidth="0.5"/>
-								<rightPen lineWidth="0.5"/>
-							</box>
-							<textElement verticalAlignment="Middle">
-								<font size="5" isBold="true"/>
-							</textElement>
-							<text><![CDATA[F. Guía]]></text>
-						</staticText>
-						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="130" y="0" width="35" height="8" uuid="2c1abc4a-b17b-4906-a6c5-5ce4883bb40b"/>
-							<box>
-								<topPen lineWidth="0.5"/>
-								<leftPen lineWidth="0.5"/>
-								<bottomPen lineWidth="0.5"/>
-								<rightPen lineWidth="0.5"/>
-							</box>
-							<textElement textAlignment="Right" verticalAlignment="Middle">
-								<font size="5" isBold="true"/>
-							</textElement>
-							<text><![CDATA[P. Guiado]]></text>
-						</staticText>
-						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="165" y="0" width="60" height="8" uuid="2c1abc4a-b17b-4906-a6c5-5ce4883bb40b"/>
-							<box>
-								<topPen lineWidth="0.5"/>
-								<leftPen lineWidth="0.5"/>
-								<bottomPen lineWidth="0.5"/>
-								<rightPen lineWidth="0.5"/>
-							</box>
-							<textElement verticalAlignment="Middle">
-								<font size="5" isBold="true"/>
-							</textElement>
-							<text><![CDATA[Planta. R]]></text>
-						</staticText>
-						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="514" y="0" width="35" height="8" uuid="f3d6d19b-71b7-4a36-9010-c76bbc69b3f9"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="519" y="0" width="35" height="8" uuid="f3d6d19b-71b7-4a36-9010-c76bbc69b3f9"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -605,7 +601,7 @@ ORDER BY rw.OutDate]]>
 							<text><![CDATA[Descuento]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="549" y="0" width="35" height="8" uuid="e22f5dbb-e30a-4a09-99a3-f15795f91c40"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="554" y="0" width="40" height="8" uuid="e22f5dbb-e30a-4a09-99a3-f15795f91c40"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -619,17 +615,17 @@ ORDER BY rw.OutDate]]>
 						</staticText>
 					</cellContents>
 				</crosstabHeaderCell>
-				<rowGroup name="mobilizationguide" width="45" totalPosition="End">
+				<rowGroup name="bpname" width="45" totalPosition="End">
 					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$F{mobilizationguide}]]></bucketExpression>
+						<bucketExpression><![CDATA[$F{bpname}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents backcolor="#F0F8FF" mode="Opaque">
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
-							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="45" height="12" uuid="1a43680f-f153-4253-bf57-4251535cd586"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="1a43680f-f153-4253-bf57-4251535cd586"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -639,7 +635,7 @@ ORDER BY rw.OutDate]]>
 								<textElement verticalAlignment="Middle">
 									<font size="5"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{mobilizationguide}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{bpname}]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabRowHeader>
@@ -658,8 +654,30 @@ ORDER BY rw.OutDate]]>
 								</textElement>
 								<text><![CDATA[Resumen]]></text>
 							</staticText>
-							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="479" y="0" width="35" height="12" uuid="d72614df-8f62-4241-9ee8-18a89a3316cb"/>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="404" y="0" width="40" height="12" uuid="263665ca-4bd9-4260-8880-4b68780469e2"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="5" isBold="true" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{GrossWeiht}]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="444" y="0" width="35" height="12" uuid="af332603-d408-492a-abee-1bddf0e4dace"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="5" isBold="true" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{TareWeiht}]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="479" y="0" width="40" height="12" uuid="d72614df-8f62-4241-9ee8-18a89a3316cb"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
@@ -669,8 +687,8 @@ ORDER BY rw.OutDate]]>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{NetWeiht}]]></textFieldExpression>
 							</textField>
-							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="514" y="0" width="35" height="12" uuid="ad2802eb-4e7d-4b0a-ac8c-c668d51a31c0"/>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="519" y="0" width="35" height="12" uuid="ad2802eb-4e7d-4b0a-ac8c-c668d51a31c0"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
@@ -680,8 +698,8 @@ ORDER BY rw.OutDate]]>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{Discount}]]></textFieldExpression>
 							</textField>
-							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="549" y="0" width="35" height="12" uuid="b61dc5e9-456d-4032-833d-e848da1483fe"/>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="554" y="0" width="40" height="12" uuid="b61dc5e9-456d-4032-833d-e848da1483fe"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
@@ -700,8 +718,8 @@ ORDER BY rw.OutDate]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="45" height="12" uuid="df296626-fd71-4f5e-ae03-c22eff629b8f"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="df296626-fd71-4f5e-ae03-c22eff629b8f"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -719,64 +737,14 @@ ORDER BY rw.OutDate]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="dateguide" width="40">
-					<bucket class="java.util.Date">
-						<bucketExpression><![CDATA[$F{dateguide}]]></bucketExpression>
-					</bucket>
-					<crosstabRowHeader>
-						<cellContents>
-							<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="12" uuid="df296626-fd71-4f5e-ae03-c23eff629b8f"/>
-								<box>
-									<topPen lineWidth="0.5"/>
-									<leftPen lineWidth="0.5"/>
-									<bottomPen lineWidth="0.5"/>
-									<rightPen lineWidth="0.5"/>
-								</box>
-								<textElement verticalAlignment="Middle">
-									<font size="5"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{dateguide}]]></textFieldExpression>
-							</textField>
-						</cellContents>
-					</crosstabRowHeader>
-					<crosstabTotalRowHeader>
-						<cellContents/>
-					</crosstabTotalRowHeader>
-				</rowGroup>
-				<rowGroup name="qtytodeliver" width="35">
-					<bucket class="java.math.BigDecimal">
-						<bucketExpression><![CDATA[$F{qtytodeliver}]]></bucketExpression>
-					</bucket>
-					<crosstabRowHeader>
-						<cellContents>
-							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="35" height="12" uuid="a5ad5890-0570-491e-8e39-c6d6d509512d"/>
-								<box>
-									<topPen lineWidth="0.5"/>
-									<leftPen lineWidth="0.5"/>
-									<bottomPen lineWidth="0.5"/>
-									<rightPen lineWidth="0.5"/>
-								</box>
-								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="5"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$V{qtytodeliver}]]></textFieldExpression>
-							</textField>
-						</cellContents>
-					</crosstabRowHeader>
-					<crosstabTotalRowHeader>
-						<cellContents/>
-					</crosstabTotalRowHeader>
-				</rowGroup>
 				<rowGroup name="warehouse" width="60">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{warehouse}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="60" height="12" uuid="8bc06870-64d8-4d21-baac-b314d20a126e"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="12" uuid="5363db5a-d693-4273-8e75-3baebdb634b7"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -800,8 +768,8 @@ ORDER BY rw.OutDate]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="60" height="12" uuid="8bc06070-64d8-4d21-baac-b384d20a126e"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="12" uuid="8bc06070-64d8-4d21-baac-b384d20a126e"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -825,8 +793,8 @@ ORDER BY rw.OutDate]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="34" height="12" uuid="20aa1aa3-e564-4d1a-b1e5-ffca09c073ef"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="34" height="12" uuid="20aa1aa3-e564-4d1a-b1e5-ffca09c073ef"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -850,8 +818,8 @@ ORDER BY rw.OutDate]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="60" height="12" uuid="ac483086-f94f-4320-abd8-d6632454fcd7"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="12" uuid="ac483086-f94f-4320-abd8-d6632454fcd7"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -875,8 +843,8 @@ ORDER BY rw.OutDate]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="60" height="12" uuid="4500d88a-558d-4a33-bdeb-5c4915f79737"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="12" uuid="4500d88a-558d-4a33-bdeb-5c4915f79737"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -900,8 +868,8 @@ ORDER BY rw.OutDate]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="12" uuid="a60ac16e-da71-4fb8-86ef-9d26242aa37a"/>
+							<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="40" height="12" uuid="a60ac16e-da71-4fb8-86ef-9d26242aa37a"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -919,14 +887,64 @@ ORDER BY rw.OutDate]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="netweight" width="35">
+				<rowGroup name="grossweight" width="40">
+					<bucket class="java.math.BigDecimal">
+						<bucketExpression><![CDATA[$F{grossweight}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="40" height="12" uuid="9b666df0-07c1-4dc5-86e1-e083442ea671"/>
+								<box>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{grossweight}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="tareweight" width="35">
+					<bucket class="java.math.BigDecimal">
+						<bucketExpression><![CDATA[$F{tareweight}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="35" height="12" uuid="76f8fa5b-a3c9-4b3e-bf27-20365aab0c2c"/>
+								<box>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{tareweight}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="netweight" width="40">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{netweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="35" height="12" uuid="a5ad5890-0570-491e-8e36-c5d6d509512d"/>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="40" height="12" uuid="a5ad5890-0570-491e-8e36-c5d6d509512d"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -950,8 +968,8 @@ ORDER BY rw.OutDate]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="35" height="12" uuid="b5ea157a-f43d-402e-888c-7c7a9fddbb7a"/>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="35" height="12" uuid="b5ea157a-f43d-402e-888c-7c7a9fddbb7a"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -969,14 +987,14 @@ ORDER BY rw.OutDate]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="payweight" width="35">
+				<rowGroup name="payweight" width="40">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{payweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField pattern="#,##0.00;#,##0.00-">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="35" height="12" uuid="1de263c1-6c31-42fc-8ab5-53e8ecc0fd07"/>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="40" height="12" uuid="1de263c1-6c31-42fc-8ab5-53e8ecc0fd07"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -1027,8 +1045,8 @@ ORDER BY rw.OutDate]]>
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField pattern="###0.00;-###0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="35" height="12" uuid="61c47a19-bfee-4d14-93c2-2cdd244caa6e"/>
+						<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00">
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="35" height="12" uuid="61c47a19-bfee-4d14-93c2-2cdd244caa6e"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font size="5"/>
 							</textElement>
@@ -1039,13 +1057,13 @@ ORDER BY rw.OutDate]]>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="35" height="12" rowTotalGroup="mobilizationguide">
+				<crosstabCell width="35" height="12" rowTotalGroup="bpname">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField pattern="#,##0.00;-#,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="35" height="12" uuid="202f239e-ceee-4b32-8df1-f405ba54a817"/>
+						<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00">
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="35" height="12" uuid="202f239e-ceee-4b32-8df1-f405ba54a817"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font size="5" isBold="true" isItalic="true"/>
 							</textElement>
@@ -1067,7 +1085,7 @@ ORDER BY rw.OutDate]]>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell rowTotalGroup="mobilizationguide" columnTotalGroup="att">
+				<crosstabCell rowTotalGroup="bpname" columnTotalGroup="att">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -1108,6 +1126,18 @@ ORDER BY rw.OutDate]]>
 				<crosstabCell rowTotalGroup="datedoc" columnTotalGroup="att">
 					<cellContents/>
 				</crosstabCell>
+				<crosstabCell height="13" rowTotalGroup="grossweight">
+					<cellContents/>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="grossweight" columnTotalGroup="att">
+					<cellContents/>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="tareweight">
+					<cellContents/>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="tareweight" columnTotalGroup="att">
+					<cellContents/>
+				</crosstabCell>
 				<crosstabCell rowTotalGroup="netweight">
 					<cellContents/>
 				</crosstabCell>
@@ -1130,6 +1160,12 @@ ORDER BY rw.OutDate]]>
 					<cellContents/>
 				</crosstabCell>
 				<crosstabCell rowTotalGroup="vehicleplate" columnTotalGroup="att">
+					<cellContents/>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="warehouse">
+					<cellContents/>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="warehouse" columnTotalGroup="att">
 					<cellContents/>
 				</crosstabCell>
 			</crosstab>
