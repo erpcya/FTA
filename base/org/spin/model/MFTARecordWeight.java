@@ -368,6 +368,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					line += 10;
 				}	
 			}
+		}
+		else{
+			setPayWeight(getNetWeight());
 		}//
 		return null;
 	}
@@ -1151,7 +1154,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					else if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == -1)
 						m_MovementQty = m_MovementQty.add(getValidWeight(false).multiply(rate).subtract(m_AcumWeight));
 				}
-					
+				
+				
 				//	Set Product
 				ioLine.setProduct(product);
 				//	Set Quality Analysis
@@ -1174,12 +1178,17 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				m_Receipt.processIt(DocAction.ACTION_Complete);
 				m_Receipt.saveEx(get_TrxName());
 				
+				lol[i].setConfirmedQty(m_MovementQty);
+				lol[i].setConfirmedWeight(getValidWeight(false));
+				lol[i].setM_InOutLine_ID(ioLine.getM_InOutLine_ID());
+				lol[i].saveEx(get_TrxName());
 				
 				l_DocumentNo = " - " + l_DocumentNo + "@M_InOut_ID@: " + m_Receipt.getDocumentNo();
 
 			}// Create Shipments
 			
 			//Carlos Parada Set Delivered And Weight Registered
+			
 			lo.setIsDelivered(true);
 			lo.setIsWeightRegister(true);
 			lo.save(get_TrxName());
