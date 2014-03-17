@@ -81,7 +81,7 @@ public class RecordWeightBatchProcess extends SvrProcess {
 		if (p_DocAction == null || p_DocAction.length() != 2)
 			throw new AdempiereUserError("@NotFound@: @DocAction@");
 		//	SQL
-		StringBuffer sql = new StringBuffer("SELECT rw.* " +
+		StringBuffer sql = new StringBuffer("SELECT rw.FTA_RecordWeight_ID " +
 				"FROM FTA_RecordWeight rw ");
 		//	Where Clause
 		sql.append("WHERE rw.OperationType = ? ");
@@ -116,7 +116,7 @@ public class RecordWeightBatchProcess extends SvrProcess {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				if (process(new MFTARecordWeight(getCtx(),rs, get_TrxName())))
+				if (process(new MFTARecordWeight(getCtx(),rs.getInt(1), get_TrxName())))
 					counter++;
 				else
 					errCounter++;

@@ -82,16 +82,16 @@ public class MobilizationGuideBatchProcess extends SvrProcess {
 		StringBuffer sql = new StringBuffer("SELECT mg.* " +
 				"FROM FTA_MobilizationGuide mg ");
 		//	Where Clause
-		sql.append("mg.DocStatus = ? ");
+		sql.append("WHERE mg.DocStatus = ? ");
 		//	Document Type
 		if(p_C_DocType_ID != 0)
-			sql.append("mg.C_DocType_ID = ? ");
+			sql.append("AND mg.C_DocType_ID = ? ");
 		//	Business Partner
 		if(p_C_BPartner_ID != 0)
-			sql.append("mg.C_BPartner_ID = ? ");
+			sql.append("AND mg.C_BPartner_ID = ? ");
 		//	ID
 		if(p_FTA_MobilizationGuide_ID != 0)
-			sql.append("mg.FTA_MobilizationGuide_ID = ? ");
+			sql.append("AND mg.FTA_MobilizationGuide_ID = ? ");
 		//	Document Date
 		if (p_DateDoc != null)
 			sql.append(" AND TRUNC(mg.DateDoc, 'DD') >= ").append(DB.TO_DATE(p_DateDoc, true));
