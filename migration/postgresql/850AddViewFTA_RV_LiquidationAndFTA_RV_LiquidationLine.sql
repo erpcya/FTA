@@ -1,6 +1,7 @@
-﻿-- DROP VIEW FTA_RV_Liquidation ;
+﻿
+-- DROP VIEW FTA_RV_Liquidation ;
 CREATE OR REPLACE VIEW FTA_RV_Liquidation AS
-SELECT 	
+SELECT 
 	-- Documento Liquidación
 	fl.FTA_FarmerLiquidation_ID,  
 	fl.AD_Client_ID,  
@@ -10,12 +11,12 @@ SELECT
 	fl.Created,  
 	fl.CreatedBy,
 	fl.IsActive,
-	fl.Processed,  
+	fl.Processed, 
 	fl.DateDoc,    
 	fl.DocStatus,  
 	fl.DocumentNo,  
 	fl.Amt,    
-	NetWeight, 
+	fl.NetWeight, 
 	--Producto
 	fl.M_Product_ID, 
 	p.Value,
@@ -26,10 +27,10 @@ SELECT
 	--Tipo de Documento
 	fl.C_DocType_ID,  
 	dt.PrintName AS DocumentType,
+
 	--Organización
 	oi.c_location_id AS org_location_id, 
 	oi.taxid,
-
 	-- Crédito Productor
 	fl.FTA_FarmerCredit_ID,
 	fl.FTA_FarmerLiquidation_ID AS FTA_RV_Liquidation_ID,
@@ -43,6 +44,7 @@ INNER JOIN FTA_FarmerCredit fc ON (fc.FTA_FarmerCredit_ID = fl.FTA_FarmerCredit_
 INNER JOIN AD_OrgInfo  oi ON (oi.AD_Org_ID = fl.AD_Org_ID)
 LEFT JOIN FTA_CategoryCalc cc ON (cc.FTA_CategoryCalc_ID = fl.FTA_CategoryCalc_ID)
 ;
+
 
 --DROP VIEW FTA_RV_LiquidationLine ;
 CREATE OR REPLACE VIEW FTA_RV_LiquidationLine AS
@@ -68,11 +70,15 @@ SELECT
 	qa.M_Product_ID,
 	ROUND((fll.Price * fll.PayWeight), 2) LineNetAmt,
 	mg.FTA_MobilizationGuide_ID,
-	fl.FTA_FarmerCredit_ID
+	fl.FTA_FarmerCredit_ID,
+	v.VehiclePlate
 FROM FTA_FarmerLiquidationLine fll
 INNER JOIN FTA_FarmerLiquidation fl ON (fll.FTA_FarmerLiquidation_ID =fl.FTA_FarmerLiquidation_ID)
 INNER JOIN FTA_RecordWeight rw ON (rw.FTA_RecordWeight_ID = fll.FTA_RecordWeight_ID)
 INNER JOIN FTA_QualityAnalysis qa ON (qa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID)
 INNER JOIN FTA_EntryTicket et ON (et.FTA_EntryTicket_ID = qa.FTA_EntryTicket_ID)
 INNER JOIN FTA_MobilizationGuide mg ON (mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
+LEFT JOIN FTA_Vehicle v ON (v.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
 ;
+
+--SELECT * FROM FTA_EntryTicket

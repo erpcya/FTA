@@ -81,18 +81,18 @@ public class RecordWeightBatchProcess extends SvrProcess {
 		if (p_DocAction == null || p_DocAction.length() != 2)
 			throw new AdempiereUserError("@NotFound@: @DocAction@");
 		//	SQL
-		StringBuffer sql = new StringBuffer("SELECT rw.* " +
+		StringBuffer sql = new StringBuffer("SELECT rw.FTA_RecordWeight_ID " +
 				"FROM FTA_RecordWeight rw ");
 		//	Where Clause
-		sql.append("rw.OperationType = ? ");
-		sql.append("rw.DocStatus = ? ");
+		sql.append("WHERE rw.OperationType = ? ");
+		sql.append("AND rw.DocStatus = ? ");
 		//	Optional Parameter
 		//	Document Type
 		if(p_C_DocType_ID != 0)
-			sql.append("rw.C_DocType_ID = ? ");
+			sql.append("AND rw.C_DocType_ID = ? ");
 		//	ID
 		if(p_FTA_RecordWeight_ID != 0)
-			sql.append("rw.FTA_RecordWeight_ID = ? ");
+			sql.append("AND rw.FTA_RecordWeight_ID = ? ");
 		//	Document Date
 		if (p_DateDoc != null)
 			sql.append(" AND TRUNC(rw.DateDoc, 'DD') >= ").append(DB.TO_DATE(p_DateDoc, true));
@@ -116,7 +116,7 @@ public class RecordWeightBatchProcess extends SvrProcess {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				if (process(new MFTARecordWeight(getCtx(),rs, get_TrxName())))
+				if (process(new MFTARecordWeight(getCtx(),rs.getInt(1), get_TrxName())))
 					counter++;
 				else
 					errCounter++;
