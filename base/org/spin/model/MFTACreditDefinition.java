@@ -322,24 +322,31 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		//	Create Default Lines
 		if(newRecord
 				&& success){
-			//	For Category
-			MFTACDLCategory category = MFTACDLCategory
-					.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_CATEGORY, get_TrxName());
-			if(category == null)
-				return false;
-			MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
-			line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
-			line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
-			MProduct product = MProduct.get(getCtx(), getCategory_ID());
-			line.setM_Product_ID(product.getM_Product_ID());
-			line.setC_UOM_ID(product.getC_UOM_ID());
-			line.setQty(Env.ZERO);
-			line.setPrice(Env.ZERO);
-			line.setAmt(Env.ZERO);
-			line.setIsDistributionLine(false);
-			line.setIsExceedCreditLimit(true);
-			line.setLine(10);
-			line.saveEx();
+			MFTACDLCategory category = null;
+			MFTACreditDefinitionLine line = null;
+			int nLine = 0;
+			if(!getCreditType().equals(X_FTA_CreditDefinition.CREDITTYPE_Loan)){
+
+				//	For Category
+				category = MFTACDLCategory
+						.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_CATEGORY, get_TrxName());
+				if(category == null)
+					return false;
+				nLine = 10;
+				line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
+				line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+				line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
+				MProduct product = MProduct.get(getCtx(), getCategory_ID());
+				line.setM_Product_ID(product.getM_Product_ID());
+				line.setC_UOM_ID(product.getC_UOM_ID());
+				line.setQty(Env.ZERO);
+				line.setPrice(Env.ZERO);
+				line.setAmt(Env.ZERO);
+				line.setIsDistributionLine(false);
+				line.setIsExceedCreditLimit(true);
+				line.setLine(nLine);
+				line.saveEx();
+			}
 			//	For Distribution
 			category = MFTACDLCategory.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_DISTRIBUTION, get_TrxName());
 			line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
@@ -351,7 +358,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 			line.setAmt(Env.ZERO);
 			line.setIsDistributionLine(true);
 			line.setIsExceedCreditLimit(true);
-			line.setLine(20);
+			line.setLine(nLine + 10);
 			line.saveEx();
 		}
 		return true;

@@ -34,7 +34,7 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140316L;
+	private static final long serialVersionUID = 20140318L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinition (Properties ctx, int FTA_CreditDefinition_ID, String trxName)
@@ -45,6 +45,7 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 			setAmt (Env.ZERO);
 			setCategory_ID (0);
 			setC_DocType_ID (0);
+			setCreditType (null);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setDocAction (null);
@@ -174,6 +175,34 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	public String getCopyFrom () 
 	{
 		return (String)get_Value(COLUMNNAME_CopyFrom);
+	}
+
+	/** CreditType AD_Reference_ID=53549 */
+	public static final int CREDITTYPE_AD_Reference_ID=53549;
+	/** Credit = C */
+	public static final String CREDITTYPE_Credit = "C";
+	/** Loan = L */
+	public static final String CREDITTYPE_Loan = "L";
+	/** Reception Agreement = R */
+	public static final String CREDITTYPE_ReceptionAgreement = "R";
+	/** Extension = E */
+	public static final String CREDITTYPE_Extension = "E";
+	/** Set Credit Type.
+		@param CreditType 
+		If is Credit, Loan and other
+	  */
+	public void setCreditType (String CreditType)
+	{
+
+		set_Value (COLUMNNAME_CreditType, CreditType);
+	}
+
+	/** Get Credit Type.
+		@return If is Credit, Loan and other
+	  */
+	public String getCreditType () 
+	{
+		return (String)get_Value(COLUMNNAME_CreditType);
 	}
 
 	/** Set Document Date.

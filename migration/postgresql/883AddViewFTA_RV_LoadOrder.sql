@@ -77,7 +77,8 @@ SELECT
 	lol.Volume, 
 	lol.Weight,
 	lo.DocStatus,
-	lo.C_DocType_ID
+	lo.C_DocType_ID,
+	o.C_Order_ID
 FROM FTA_LoadOrderLine lol
 INNER JOIN FTA_LoadOrder lo ON (lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID )
 LEFT JOIN C_OrderLine ol ON (ol.C_OrderLine_ID = lol.C_OrderLine_ID)

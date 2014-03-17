@@ -131,6 +131,19 @@ public interface I_FTA_CreditDefinition
 	  */
 	public int getCreatedBy();
 
+    /** Column name CreditType */
+    public static final String COLUMNNAME_CreditType = "CreditType";
+
+	/** Set Credit Type.
+	  * If is Credit, Loan and other
+	  */
+	public void setCreditType (String CreditType);
+
+	/** Get Credit Type.
+	  * If is Credit, Loan and other
+	  */
+	public String getCreditType();
+
     /** Column name DateDoc */
     public static final String COLUMNNAME_DateDoc = "DateDoc";
 
