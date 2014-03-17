@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AnalyticalInventory" pageWidth="612" pageHeight="792" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e1c96eec-08a1-4344-8833-51631677ce88">
 	<property name="ireport.zoom" value="1.6105100000000014"/>
-	<property name="ireport.x" value="143"/>
+	<property name="ireport.x" value="13"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="M_Product_ID" class="java.math.BigDecimal">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -15,7 +15,7 @@
 	<parameter name="MovementDate2" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="M_WareHouse_ID" class="java.math.BigDecimal">
+	<parameter name="M_Warehouse_ID" class="java.math.BigDecimal">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="AD_Org_ID" class="java.math.BigDecimal">
@@ -83,7 +83,7 @@ LEFT JOIN (Select rf.Value,rft.Name
 	 INNER JOIN AD_Ref_List_Trl rft ON rf.AD_Ref_List_ID=rft.AD_Ref_List_ID
 	 WHERE r.AD_Reference_ID=189 AND rft.AD_Language = 'es_VE') ref ON ref.Value = mt.MovementType
 WHERE (ao.AD_Org_ID = $P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
-    AND (wh.M_WareHouse_ID = $P{M_WareHouse_ID} OR $P{M_WareHouse_ID} IS NULL)
+    AND (wh.M_WareHouse_ID = $P{M_Warehouse_ID} OR $P{M_Warehouse_ID} IS NULL)
     AND (mp.M_Product_ID = $P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
     AND (ml.M_Locator_ID = $P{M_Locator_ID} OR $P{M_Locator_ID} IS NULL)
     AND (mp.M_Product_Category_ID = $P{M_Product_Category_ID} OR $P{M_Product_Category_ID} IS NULL)
@@ -361,7 +361,7 @@ ORDER BY wh.M_WareHouse_ID, ml.M_Locator_ID, mp.M_Product_ID, mt.MovementDate]]>
 				</textElement>
 				<textFieldExpression><![CDATA[($P{AD_Client_ID} == null ? "" :"Compañía = " + $F{clientname}  + "\n") +
 ($P{AD_Org_ID} == null ? "" :"Organización = " + $F{orgkey} + " - " + $F{orgname}  + "\n") +
-($P{M_WareHouse_ID} == null ? "" :"Almacen = " + $F{warehousevalue}  + " - " + $F{warehousename} + "\n") +
+($P{M_Warehouse_ID} == null ? "" :"Almacen = " + $F{warehousevalue}  + " - " + $F{warehousename} + "\n") +
 ($P{M_Locator_ID} == null ? "" :"Localizador = " + $F{locatorvalue} + "\n") +
 ($P{M_Product_Category_ID} == null ? "" :"Categoría de Producto = " + $F{productcategoryname} + "\n") +
 ($P{M_Product_ID} == null ? "" :"Producto = " + $F{productvalue} + " - " + $F{productname} + "\n") +

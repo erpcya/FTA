@@ -1084,7 +1084,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			MFTALoadOrderLine[] lol = lo.getLines(true);
 			
 			BigDecimal m_AcumWeight = Env.ZERO;
-			BigDecimal m_TotalWeight = null;
+			BigDecimal m_TotalWeight = Env.ZERO;
 			// Create Shipments
 			for (int i=0; i <lol.length;i++){
 				
@@ -1139,7 +1139,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					return null;
 				}
 
-				if (m_TotalWeight == null)
+				if (m_TotalWeight == Env.ZERO)
 					m_TotalWeight = getValidWeight(false).multiply(rate);
 					
 				//BigDecimal m_MovementQty = (!getPayWeight().equals(Env.ZERO)?getPayWeight().multiply(rate):getNetWeight().multiply(rate));
