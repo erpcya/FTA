@@ -109,7 +109,6 @@ LEFT JOIN M_Lot lot ON(lot.M_Lot_ID = fm.PlantingCycle_ID),
 	FROM FTA_EntryTicket et
 	INNER JOIN FTA_RecordWeight rw ON(rw.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID)
 	LEFT JOIN FTA_MobilizationGuide mg ON(mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
-	LEFT JOIN FTA_QualityAnalysis qa ON(qa.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID)
 	LEFT JOIN C_BPartner bp ON (bp.C_BPartner_ID=et.C_BPartner_ID)
 	LEFT JOIN FTA_Farming fm ON(fm.FTA_Farming_ID = mg.FTA_Farming_ID)
 	LEFT JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = fm.FTA_FarmerCredit_ID)
@@ -126,8 +125,7 @@ LEFT JOIN M_Lot lot ON(lot.M_Lot_ID = fm.PlantingCycle_ID),
 	AND (et.FTA_Vehicle_ID=$P{FTA_Vehicle_ID} OR $P{FTA_Vehicle_ID} IS NULL)
 	AND (et.FTA_MobilizationGuide_ID=$P{FTA_MobilizationGuide_ID} OR $P{FTA_MobilizationGuide_ID} IS NULL)
 	AND (et.Ext_Guide=$P{Ext_Guide} OR $P{Ext_Guide} IS NULL)
-	AND (qa.FTA_QualityAnalysis_ID=$P{FTA_QualityAnalysis_ID} OR $P{FTA_QualityAnalysis_ID} IS NULL)
-	AND (qa.M_Product_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
+	AND (fm.Category_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
 	AND (fc.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 	AND (rw.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
 	AND (DATE(rw.OutDate) <= $P{OutDate2} OR COALESCE($P{OutDate2}, Current_Timestamp) = Current_Timestamp)
@@ -419,7 +417,7 @@ ORDER BY rw.OutDate]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Totales a la Fecha]]></text>
+				<text><![CDATA[Resumen de Recepciones a la Fecha]]></text>
 			</staticText>
 		</band>
 	</title>
