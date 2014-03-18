@@ -737,9 +737,11 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		}*/
 		
 		//	End Dixon Martinez
-		if(getCreditType().equals(CREDITTYPE_Loan))
+		//	Dixon Martinez 15/03/2014 09:33:15
+		//	Comment for not edit Qty
+		/*if(getCreditType().equals(CREDITTYPE_Loan))
 			setQty(Env.ONE);
-			
+			*/
 		
 		return true;
 	}
