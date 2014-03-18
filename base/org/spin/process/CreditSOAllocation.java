@@ -128,6 +128,7 @@ public class CreditSOAllocation extends SvrProcess {
 					fact.setFTA_CreditDefinitionLine_ID(FTA_CreditDefinitionLine_ID);
 					fact.setFTA_FarmerCredit_ID(FTA_FarmerCredit_ID);
 					fact.setIsCreditFactManual(IsManual);
+					fact.setMultiplier(Env.ONE);
 					
 					//Set Credit Definition
 					MFTACreditDefinitionLine cdfl = new MFTACreditDefinitionLine(getCtx(), FTA_CreditDefinitionLine_ID, get_TrxName());
