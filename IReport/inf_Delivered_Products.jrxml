@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Delivered Quantity" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="81c107fa-d7f7-488f-bd46-8bee95a707b3">
+	<property name="ireport.zoom" value="3.1384283767210035"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
+	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
+	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal"/>
+	<parameter name="DateDoc1" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DateDoc2" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DocStatus" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, lot.Name PlantingCycle, ft.DateDoc, SUM(il.QtyInvoiced) QtyInvoiced,
+pr.Name ||  '(' || ROUND(pa.ApprovedQty*fc.ApprovedQty, 2) || ' ' || uom.UomSymbol || ')' Description, fc.Qty, fc.ApprovedQty, SUM(fm.EffectiveArea) EffectiveArea
+FROM FTA_CreditDefinition cd
+INNER JOIN AD_Client cl ON(cl.AD_Client_ID = cd.AD_Client_ID)
+INNER JOIN M_Lot lot ON(lot.M_Lot_ID = cd.PlantingCycle_ID)
+INNER JOIN FTA_ProductListApproved pa ON(pa.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID)
+INNER JOIN M_Product pr ON(pa.M_Product_ID = pr.M_Product_ID)
+INNER JOIN FTA_RV_DocumentFact ft ON(ft.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID)
+INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = ft.Record_ID AND (il.M_Product_ID = pa.M_Product_ID OR il.M_Product_ID = pa.Substitute_ID))
+INNER JOIN C_UOM uom ON(uom.C_UOM_ID = pr.C_UOM_ID)
+INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = ft.C_BPartner_ID)
+INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = ft.FTA_FarmerCredit_ID)
+LEFT JOIN FTA_Farming fm ON(fm.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
+WHERE (ft.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
+AND (ft.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
+AND (ft.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
+AND (ft.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
+AND (ft.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
+GROUP BY cl.AD_Client_ID, cp.TaxID, cp.Name, fc.DocumentNo, cd.DocumentNo, lot.Name, ft.DateDoc, il.M_Product_ID, il.C_Charge_ID, il.Description, pr.Name, pa.ApprovedQty, uom.UomSymbol, fc.ApprovedQty, fc.Qty
+HAVING(SUM(il.QtyInvoiced) > 0)
+ORDER BY ft.DateDoc]]>
+	</queryString>
+	<field name="client" class="java.lang.String"/>
+	<field name="taxid" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="credit" class="java.lang.String"/>
+	<field name="creditdefiniton" class="java.lang.String"/>
+	<field name="plantingcycle" class="java.lang.String"/>
+	<field name="datedoc" class="java.sql.Timestamp"/>
+	<field name="qtyinvoiced" class="java.math.BigDecimal"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="qty" class="java.math.BigDecimal"/>
+	<field name="approvedqty" class="java.math.BigDecimal"/>
+	<field name="effectivearea" class="java.math.BigDecimal"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="92">
+			<textField>
+				<reportElement x="279" y="0" width="195" height="55" uuid="035d0f6d-4b99-440f-a8d1-7e7b620a93d8"/>
+				<textElement textAlignment="Center" markup="none">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Entrega de Insumos \n(" + $F{client} + ")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="691" y="0" width="61" height="12" uuid="18e97207-94a0-455e-8495-e824504e17ec"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="646" y="0" width="41" height="12" uuid="8706d7f5-9496-4baf-afc5-9c6d5cf795c7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="646" y="11" width="41" height="12" uuid="a901b44c-ca94-4a67-8189-8624080d44dd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="646" y="22" width="41" height="12" uuid="1a8eb91d-0f94-4393-b490-bdc38f4ccfe4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Paginas:]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="691" y="22" width="61" height="12" uuid="dd21f6c4-3996-4e2c-8ccc-93cd6c7a25dc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="h.mm.ss a">
+				<reportElement x="691" y="11" width="61" height="12" uuid="5bb9f0b8-5c6e-4231-8db9-e232bb6175b6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="266" height="12" uuid="89a120cd-26fc-4e12-95b3-6bedfeb8e35f">
+					<printWhenExpression><![CDATA[($P{C_BPartner_ID} != null && $F{taxid} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Socio de Negocio = " + $F{taxid} + " - " + $F{name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="66" width="65" height="12" uuid="4ada7b66-3841-4776-8743-ea24b96b6beb">
+					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[F. Documento >=]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="65" y="66" width="42" height="12" uuid="145ff9f8-3d81-488e-9168-3e3a55db89da">
+					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateDoc1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="65" y="77" width="42" height="12" uuid="eff648ca-9072-42b6-afe6-34554c6fd33a">
+					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateDoc2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="77" width="65" height="12" uuid="ab16b0b4-795b-4189-975d-2c1f8d032f43">
+					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[F. Documento <=]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="11" width="266" height="12" uuid="2dfa44fa-87fc-4791-953b-58ab596e040f">
+					<printWhenExpression><![CDATA[(($P{FTA_CreditDefinition_ID} != null || $P{FTA_FarmerCredit_ID} != null) && $F{creditdefiniton} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Definición de Crédito = " + $F{creditdefiniton} + " - " + $F{plantingcycle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="22" width="266" height="12" uuid="4aaa52b2-c108-42e7-a730-2692d519fd45">
+					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null && $F{credit} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Crédito = " + $F{credit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="33" width="67" height="12" uuid="1922c0d2-357e-498c-810a-0077da37b2bf">
+					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Area (Solicitada) =]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="44" width="67" height="12" uuid="01bb7a96-17ca-400c-9f04-f4c5976f0894">
+					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Area (Aprobada) =]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="55" width="63" height="12" uuid="08c3d357-d53e-4467-ba92-8d6bc6edfc37">
+					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null && $F{effectivearea} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Area (Efectiva) =]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="67" y="33" width="65" height="12" uuid="119c7264-d847-4100-a038-3c203195a5a2">
+					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="67" y="44" width="65" height="12" uuid="ce1231e9-6131-4841-86dc-b69e4ce74db5">
+					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{approvedqty}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="63" y="55" width="65" height="12" uuid="914d05a3-eac8-4a70-abb5-dea3756baa1a">
+					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null && $F{effectivearea} != null)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{effectivearea}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="58">
+			<crosstab>
+				<reportElement x="0" y="0" width="752" height="58" uuid="f7898b34-dd7f-4753-ad29-e0bbe101cade"/>
+				<crosstabHeaderCell>
+					<cellContents>
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="0" y="28" width="46" height="12" uuid="59499bc4-56af-4de1-9381-0b98b9f9e342"/>
+							<box>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font size="7" isBold="true"/>
+							</textElement>
+							<text><![CDATA[Fecha]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="datedoc" width="46" totalPosition="End">
+					<bucket class="java.sql.Timestamp">
+						<bucketExpression><![CDATA[$F{datedoc}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField pattern="dd/MM/yyyy">
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="46" height="12" uuid="b3440898-fc4b-43cc-936a-e5eab913f995"/>
+								<textElement verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{datedoc}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="46" height="12" uuid="223db710-260c-489c-8840-c2c546dafaf5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true" isItalic="true"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="description" height="40">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{description}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="40" uuid="cda84e1b-479b-47db-ae4c-c42cf0eaa2d5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{description}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="qtyinvoicedMeasure" class="java.math.BigDecimal" calculation="Sum">
+					<measureExpression><![CDATA[$F{qtyinvoiced}]]></measureExpression>
+				</measure>
+				<crosstabCell width="50" height="12">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="###0.00;-###0.00">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="12" uuid="6cad3de1-0c08-4e04-9049-58b372b48171"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{qtyinvoicedMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="12" rowTotalGroup="datedoc">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="###0.00;-###0.00">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="12" uuid="db2be04f-8e8c-4340-ae0c-5dfc96433408"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="7" isBold="true" isItalic="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{qtyinvoicedMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="description">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="20bde393-1fc3-48e2-b30a-10d2a63728cb"/>
+							<textFieldExpression><![CDATA[$V{qtyinvoicedMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="datedoc" columnTotalGroup="description">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="f917fb90-21c3-42c1-a1c1-6ec00be2d84e"/>
+							<textFieldExpression><![CDATA[$V{qtyinvoicedMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>
