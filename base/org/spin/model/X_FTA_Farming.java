@@ -34,7 +34,7 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140318L;
+	private static final long serialVersionUID = 20140319L;
 
     /** Standard Constructor */
     public X_FTA_Farming (Properties ctx, int FTA_Farming_ID, String trxName)
@@ -50,7 +50,7 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 			setPlantingCycle_ID (0);
 			setStartDate (new Timestamp( System.currentTimeMillis() ));
 			setStatus (null);
-// A
+// M
         } */
     }
 
@@ -548,6 +548,8 @@ public class X_FTA_Farming extends PO implements I_FTA_Farming, I_Persistent
 	public static final String STATUS_Harvesting = "H";
 	/** Damaged = D */
 	public static final String STATUS_Damaged = "D";
+	/** Making = M */
+	public static final String STATUS_Making = "M";
 	/** Set Status.
 		@param Status 
 		Status of the currently running check
