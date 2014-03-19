@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.util.Properties;
 
 import org.compiere.model.CalloutEngine;
@@ -23,6 +24,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MDocType;
 import org.compiere.model.MProduct;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -92,6 +94,34 @@ public class CalloutFarmerCredit extends CalloutEngine {
 		//	
 		MProduct m_M_Product = MProduct.get(ctx, m_M_Product_ID);
 		mTab.setValue("C_UOM_ID", m_M_Product.getC_UOM_ID());
+		return "";
+	}
+	/**
+	 * 
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 19/03/2014, 16:04:56
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String qty (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		BigDecimal p_Qty = (BigDecimal)value;
+		if (p_Qty== null || p_Qty.intValue() == 0)
+			return "";
+		
+		if(mTab.getValueAsBoolean("IsManual")){
+			//
+			String sql = "SELECT Amt FROM FTA_CreditDefinition WHERE FTA_CreditDefinition_ID = ?"; 
+			int i =  (Integer) mTab.getValue("FTA_CreditDefinition_ID");
+			 
+			BigDecimal amount = DB.getSQLValueBD(null, sql, i );
+			mTab.setValue("Amt", amount);
+		}else
+			return "";
+		
 		return "";
 	}
 

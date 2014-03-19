@@ -33,7 +33,7 @@ public class X_FTA_FarmDivision extends PO implements I_FTA_FarmDivision, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140318L;
+	private static final long serialVersionUID = 20140319L;
 
     /** Standard Constructor */
     public X_FTA_FarmDivision (Properties ctx, int FTA_FarmDivision_ID, String trxName)

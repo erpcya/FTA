@@ -359,6 +359,19 @@ public interface I_FTA_FarmerCredit
 	  */
 	public boolean isApproved();
 
+    /** Column name IsManual */
+    public static final String COLUMNNAME_IsManual = "IsManual";
+
+	/** Set Manual.
+	  * This is a manual process
+	  */
+	public void setIsManual (boolean IsManual);
+
+	/** Get Manual.
+	  * This is a manual process
+	  */
+	public boolean isManual();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
