@@ -354,7 +354,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{documentno}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="60" y="0" width="42" height="12" uuid="1ee71d8e-efcb-4da7-8a63-b7140bc6ac76"/>
 				<box>
 					<pen lineStyle="Dashed"/>
@@ -415,7 +415,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{payreference}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="417" y="0" width="50" height="12" uuid="324ded59-ecef-4971-b13b-5965d96ce123"/>
 				<box>
 					<pen lineStyle="Dashed"/>
@@ -429,7 +429,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amtacctdr}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="467" y="0" width="50" height="12" uuid="2410a015-3920-4869-9788-c338b334904a"/>
 				<box>
 					<pen lineStyle="Dashed"/>
@@ -443,7 +443,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amtacctcr}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="517" y="0" width="55" height="12" uuid="1698679c-9e2d-4bf1-9d31-c10f6f06267b"/>
 				<box>
 					<pen lineStyle="Dashed"/>

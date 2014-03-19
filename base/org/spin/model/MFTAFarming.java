@@ -73,7 +73,6 @@ public class MFTAFarming extends X_FTA_Farming {
 				|| is_ValueChanged("Area")){
 			setIsValid(false);
 			setFTA_FarmerCredit_ID(0);
-			setStatus(X_FTA_Farming.STATUS_Active);
 			setC_OrderLine_ID(0);
 		}
 		//		
