@@ -47,6 +47,8 @@ public class MobilizationGuideBatchProcess extends SvrProcess {
 	private String 			p_DocStatus = null;
 	/**	Document Action					*/
 	private String 			p_DocAction = null;
+	/**	Is Sales Order Transaction		*/
+	private boolean			p_IsSOTrx 	= false;
 	
 	@Override
 	protected void prepare() {
@@ -64,6 +66,8 @@ public class MobilizationGuideBatchProcess extends SvrProcess {
 				p_DocStatus = (String) para.getParameter();
 			else if (name.equals("DocAction"))
 				p_DocAction = (String) para.getParameter();	
+			else if(name.equals("IsSOTrx"))
+				p_IsSOTrx = para.getParameterAsBoolean();
 			else if (name.equals("DateDoc")){
 				p_DateDoc = (Timestamp) para.getParameter();
 				p_DateDoc_To = (Timestamp) para.getParameter_To();
@@ -82,7 +86,8 @@ public class MobilizationGuideBatchProcess extends SvrProcess {
 		StringBuffer sql = new StringBuffer("SELECT mg.* " +
 				"FROM FTA_MobilizationGuide mg ");
 		//	Where Clause
-		sql.append("WHERE mg.DocStatus = ? ");
+		sql.append("WHERE mg.DocStatus = ? " +
+				"AND mg.IsSOTrx = ? ");
 		//	Document Type
 		if(p_C_DocType_ID != 0)
 			sql.append("AND mg.C_DocType_ID = ? ");
@@ -106,6 +111,7 @@ public class MobilizationGuideBatchProcess extends SvrProcess {
 		{
 			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 			pstmt.setString(i++, p_DocStatus);
+			pstmt.setString(i++, p_IsSOTrx? "Y": "N");
 			//	Document Type
 			if(p_C_DocType_ID != 0)
 				pstmt.setInt(i++, p_C_DocType_ID);
