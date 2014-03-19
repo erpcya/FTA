@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
-	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
@@ -155,7 +155,7 @@ AND (DATE(rw.InDate) >= $P{InDate1} OR COALESCE($P{InDate1}, Current_Timestamp) 
 AND (DATE(rw.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
 AND (rw.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
 AND (rw.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
-ORDER BY rw.OutDate]]>
+ORDER BY (bp.TaxID || ' - ' || bp.Name),av.Att]]>
 	</queryString>
 	<field name="seqno" class="java.lang.Integer"/>
 	<field name="mobilizationguide" class="java.lang.String"/>
@@ -625,7 +625,7 @@ ORDER BY rw.OutDate]]>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField isStretchWithOverflow="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="1a43680f-f153-4253-bf57-4251535cd586"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="24" uuid="1a43680f-f153-4253-bf57-4251535cd586"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -644,16 +644,6 @@ ORDER BY rw.OutDate]]>
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
-							<staticText>
-								<reportElement x="0" y="0" width="45" height="12" uuid="21bb1904-ceaa-407a-907d-89c92b9a383a"/>
-								<box>
-									<rightPen lineWidth="0.5"/>
-								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="5" isBold="true" isItalic="true"/>
-								</textElement>
-								<text><![CDATA[Resumen]]></text>
-							</staticText>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="404" y="0" width="40" height="12" uuid="263665ca-4bd9-4260-8880-4b68780469e2"/>
 								<box>
@@ -663,7 +653,7 @@ ORDER BY rw.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$P{GrossWeiht}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{GrossWeight}.divide($V{AttCount})]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="444" y="0" width="35" height="12" uuid="af332603-d408-492a-abee-1bddf0e4dace"/>
@@ -674,7 +664,7 @@ ORDER BY rw.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$P{TareWeiht}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{TareWeight}.divide($V{AttCount})]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="479" y="0" width="40" height="12" uuid="d72614df-8f62-4241-9ee8-18a89a3316cb"/>
@@ -685,7 +675,7 @@ ORDER BY rw.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$P{NetWeiht}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{NetWeight}.divide($V{AttCount})]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="519" y="0" width="35" height="12" uuid="ad2802eb-4e7d-4b0a-ac8c-c668d51a31c0"/>
@@ -696,7 +686,7 @@ ORDER BY rw.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$P{Discount}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{Discount}.divide($V{AttCount})]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="554" y="0" width="40" height="12" uuid="b61dc5e9-456d-4032-833d-e848da1483fe"/>
@@ -707,12 +697,12 @@ ORDER BY rw.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$P{PayWeiht}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{PayWeight}.divide($V{AttCount})]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="ext_guide" width="45">
+				<rowGroup name="ext_guide" width="45" totalPosition="End">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{ext_guide}]]></bucketExpression>
 					</bucket>
@@ -734,7 +724,66 @@ ORDER BY rw.OutDate]]>
 						</cellContents>
 					</crosstabRowHeader>
 					<crosstabTotalRowHeader>
-						<cellContents/>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="359" y="0" width="40" height="12" uuid="263665ca-4bd9-4260-8880-4b68780469e2"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="5" isBold="true" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{GrossWeight}.divide($V{AttCount})]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="399" y="0" width="35" height="12" uuid="af332603-d408-492a-abee-1bddf0e4dace"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="5" isBold="true" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TareWeight}.divide($V{AttCount})]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="434" y="0" width="40" height="12" uuid="d72614df-8f62-4241-9ee8-18a89a3316cb"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="5" isBold="true" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{NetWeight}.divide($V{AttCount})]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="474" y="0" width="35" height="12" uuid="ad2802eb-4e7d-4b0a-ac8c-c668d51a31c0"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="5" isBold="true" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Discount}.divide($V{AttCount})]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="509" y="0" width="40" height="12" uuid="b61dc5e9-456d-4032-833d-e848da1483fe"/>
+								<box>
+									<leftPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="5" isBold="true" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{PayWeight}.divide($V{AttCount})]]></textFieldExpression>
+							</textField>
+						</cellContents>
 					</crosstabTotalRowHeader>
 				</rowGroup>
 				<rowGroup name="warehouse" width="60">
@@ -1039,6 +1088,24 @@ ORDER BY rw.OutDate]]>
 				</measure>
 				<measure name="weightMeasure" class="java.math.BigDecimal" calculation="Sum">
 					<measureExpression><![CDATA[$F{weight}]]></measureExpression>
+				</measure>
+				<measure name="GrossWeight" class="java.math.BigDecimal" calculation="Sum">
+					<measureExpression><![CDATA[$F{grossweight}]]></measureExpression>
+				</measure>
+				<measure name="AttCount" class="java.lang.Integer" calculation="DistinctCount">
+					<measureExpression><![CDATA[$F{att}]]></measureExpression>
+				</measure>
+				<measure name="TareWeight" class="java.math.BigDecimal" calculation="Sum">
+					<measureExpression><![CDATA[$F{tareweight}]]></measureExpression>
+				</measure>
+				<measure name="NetWeight" class="java.math.BigDecimal" calculation="Sum">
+					<measureExpression><![CDATA[$F{netweight}]]></measureExpression>
+				</measure>
+				<measure name="Discount" class="java.math.BigDecimal" calculation="Sum">
+					<measureExpression><![CDATA[$F{discount}]]></measureExpression>
+				</measure>
+				<measure name="PayWeight" class="java.math.BigDecimal" calculation="Sum">
+					<measureExpression><![CDATA[$F{payweight}]]></measureExpression>
 				</measure>
 				<crosstabCell width="35" height="12">
 					<cellContents>

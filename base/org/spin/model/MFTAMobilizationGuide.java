@@ -341,7 +341,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(mg.DocumentNo) " +
 				"FROM FTA_MobilizationGuide mg " +
 				"WHERE mg.DocStatus NOT IN('VO', 'RE') " +
-				"AND mg.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+				"AND mg.FTA_LoadOrder_ID = ? AND mg.FTA_MobilizationGuide_ID != ? ", getFTA_LoadOrder_ID(), getFTA_MobilizationGuide_ID());
 		if(m_ReferenceNo != null)
 			return "@SQLErrorReferenced@ @FTA_MobilizationGuide_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_LoadOrder_ID@";
 		return null;
