@@ -622,6 +622,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
 				{
 					options[index++] = DocumentEngine.ACTION_Void;
+					options[index++] = DocumentEngine.ACTION_ReActivate;
 				}
 		}
 		
