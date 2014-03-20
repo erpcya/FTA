@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="60"/>
+	<property name="ireport.y" value="2"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="DocStatus" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -47,60 +47,42 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT 1 seqNo,
-	mg.DocumentNo MobilizationGuide,
-	et.Ext_Guide,
-	et.DocumentNo EntryTicket,
-	qa.DocumentNo QualityAnalysis,
-	rw.DocumentNo,
-	rw.OutDate DateDoc,
-	rw.TareWeight,
-	rw.GrossWeight,
-	rw.NetWeight,
-	(rw.NetWeight - rw.PayWeight) Discount,
-	rw.PayWeight,
-	av.Att AttributeSet,
-	av.Att,
-	av.Value,
-	av.ValueNumber,
-	av.Weight,
-	bp.TaxID,
-	bp.Name,
+		<![CDATA[SELECT 	rwio.MobilizationGuide,
+	rwio.Ext_Guide,
+	rwio.EntryTicket,
+	rwio.QualityAnalysis,
+	rwio.RecordWeight,
+	rwio.OutDate DateDoc,
+	rwio.TareWeight,
+	rwio.GrossWeight,
+	rwio.NetWeight,
+	rwio.Discount,
+	rwio.PayWeight,
+	rwio.Att,
+	rwio.AttValue,
+	rwio.AttValueNumber,
+	rwio.AttributeValueType,
+	rwio.Weight,
+	rwio.BPLongName,
 	TO_Char($P{DateDoc1}::timestamp,'DD/MM/YYYY') DateDoc1,
 	TO_Char($P{DateDoc2}::timestamp,'DD/MM/YYYY') DateDoc2,
-	mp.Value ValueProduct,
-	mp.Name NameProduct,
-	fc.DocumentNo Credit,
-	lot.Name PlantingCycle,
-	wh.Name Warehouse,
-	org.Name Org,
-	rw.OperationType,
-	vh.VehiclePlate,
+	rwio.ValueProduct,
+	rwio.NameProduct,
+	rwio.Credit,
+	rwio.PlantingCycle,
+	rwio.Warehouse,
+	rwio.Org,
+	rwio.OperationType,
+	rwio.VehiclePlate,
+	rwio.DateGuide,
+	rwio.QtyToDeliver,
+	rwio.Client,
 	sr.Summary_TareWeight,
 	sr.Summary_GrossWeight,
 	sr.Summary_NetWeight,
 	sr.Summary_Discount,
 	sr.Summary_PayWeight
-FROM FTA_EntryTicket et
-INNER JOIN FTA_Vehicle vh ON(vh.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
-INNER JOIN AD_Org org ON(org.AD_Org_ID = et.AD_Org_ID)
-LEFT JOIN FTA_MobilizationGuide mg ON(mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
-LEFT JOIN FTA_QualityAnalysis qa ON(qa.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID)
-LEFT JOIN FTA_RecordWeight rw ON(rw.FTA_QualityAnalysis_ID = qa.FTA_QualityAnalysis_ID)
-LEFT JOIN M_InOut io ON(io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND io.DocStatus = rw.DocStatus)
-LEFT JOIN M_Warehouse wh ON(wh.M_Warehouse_ID = io.M_Warehouse_ID)
-LEFT JOIN (SELECT 'N' isWeight, av.Name Att, av.Value, av.ValueNumber, 0 Weight,av.QualityAnalysis_ID, 0 FTA_RecordWeight_ID
-		FROM FTA_RV_AttributeValue av
-		UNION ALL
-		SELECT 'Y' isWeight, cc.Name Att, '' "Value", 0 ValueNumber, rwd.Weight, 0 QualityAnalysis_ID, rwd.FTA_RecordWeight_ID
-		FROM FTA_RecordWeightDetail rwd
-		INNER JOIN FTA_CategoryCalc cc ON(cc.FTA_CategoryCalc_ID = rwd.FTA_CategoryCalc_ID)
-		) av ON(av.QualityAnalysis_ID = qa.QualityAnalysis_ID OR av.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID)
-LEFT JOIN C_BPartner bp ON (bp.C_BPartner_ID=et.C_BPartner_ID)
-LEFT JOIN M_Product mp ON (mp.M_Product_ID=qa.M_Product_ID)
-LEFT JOIN FTA_Farming fm ON(fm.FTA_Farming_ID = mg.FTA_Farming_ID)
-LEFT JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = fm.FTA_FarmerCredit_ID)
-LEFT JOIN M_Lot lot ON(lot.M_Lot_ID = fm.PlantingCycle_ID),
+FROM FTA_RV_RecordWeight_InOut rwio,
 (SELECT SUM(rw.TareWeight) Summary_TareWeight,
 	SUM(rw.GrossWeight) Summary_GrossWeight,
 	SUM(rw.NetWeight) Summary_NetWeight,
@@ -131,50 +113,48 @@ LEFT JOIN M_Lot lot ON(lot.M_Lot_ID = fm.PlantingCycle_ID),
 	AND (DATE(rw.OutDate) <= $P{OutDate2} OR COALESCE($P{OutDate2}, Current_Timestamp) = Current_Timestamp)
 	AND (DATE(rw.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
 	AND (rw.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)) sr
-WHERE rw.OperationType = $P{OperationType}
-AND (av.Att IN('Humedad', 'Impureza') OR av.IsWeight = 'Y')
-AND (rw.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
-AND (et.FTA_EntryTicket_ID=$P{FTA_EntryTicket_ID} OR $P{FTA_EntryTicket_ID} IS NULL)
-AND (fc.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
-AND (io.M_Warehouse_ID=$P{M_Warehouse_ID} OR $P{M_Warehouse_ID} IS NULL)
-AND (lot.M_Lot_ID=$P{PlantingCycle_ID} OR $P{PlantingCycle_ID} IS NULL)
-AND (et.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
-AND (qa.AnalysisType=$P{AnalysisType} OR $P{AnalysisType} IS NULL)
-AND (et.FTA_Driver_ID=$P{FTA_Driver_ID} OR $P{FTA_Driver_ID} IS NULL)
-AND (et.FTA_Vehicle_ID=$P{FTA_Vehicle_ID} OR $P{FTA_Vehicle_ID} IS NULL)
-AND (et.FTA_MobilizationGuide_ID=$P{FTA_MobilizationGuide_ID} OR $P{FTA_MobilizationGuide_ID} IS NULL)
-AND (et.Ext_Guide=$P{Ext_Guide} OR $P{Ext_Guide} IS NULL)
-AND (qa.FTA_QualityAnalysis_ID=$P{FTA_QualityAnalysis_ID} OR $P{FTA_QualityAnalysis_ID} IS NULL)
-AND (mp.M_Product_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
-AND (fc.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
-AND (rw.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
-AND (DATE(rw.OutDate) >= $P{OutDate1} OR COALESCE($P{OutDate1}, Current_Timestamp) = Current_Timestamp)
-AND (DATE(rw.OutDate) <= $P{OutDate2} OR COALESCE($P{OutDate2}, Current_Timestamp) = Current_Timestamp)
-AND (DATE(rw.InDate) >= $P{InDate1} OR COALESCE($P{InDate1}, Current_Timestamp) = Current_Timestamp)
-AND (DATE(rw.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
-AND (rw.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
-AND (rw.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
-ORDER BY rw.OutDate]]>
+WHERE rwio.OperationType = $P{OperationType}
+AND (rwio.Att IN('Humedad', 'Impureza') OR rwio.IsWeight = 'Y')
+AND (rwio.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
+AND (rwio.FTA_EntryTicket_ID=$P{FTA_EntryTicket_ID} OR $P{FTA_EntryTicket_ID} IS NULL)
+AND (rwio.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
+AND (rwio.M_Warehouse_ID=$P{M_Warehouse_ID} OR $P{M_Warehouse_ID} IS NULL)
+AND (rwio.M_Lot_ID=$P{PlantingCycle_ID} OR $P{PlantingCycle_ID} IS NULL)
+AND (rwio.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
+AND (rwio.AnalysisType=$P{AnalysisType} OR $P{AnalysisType} IS NULL)
+AND (rwio.FTA_Driver_ID=$P{FTA_Driver_ID} OR $P{FTA_Driver_ID} IS NULL)
+AND (rwio.FTA_Vehicle_ID=$P{FTA_Vehicle_ID} OR $P{FTA_Vehicle_ID} IS NULL)
+AND (rwio.FTA_MobilizationGuide_ID=$P{FTA_MobilizationGuide_ID} OR $P{FTA_MobilizationGuide_ID} IS NULL)
+AND (rwio.Ext_Guide=$P{Ext_Guide} OR $P{Ext_Guide} IS NULL)
+AND (rwio.FTA_QualityAnalysis_ID=$P{FTA_QualityAnalysis_ID} OR $P{FTA_QualityAnalysis_ID} IS NULL)
+AND (rwio.M_Product_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
+AND (rwio.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
+AND (rwio.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
+AND (DATE(rwio.OutDate) >= $P{OutDate1} OR COALESCE($P{OutDate1}, Current_Timestamp) = Current_Timestamp)
+AND (DATE(rwio.OutDate) <= $P{OutDate2} OR COALESCE($P{OutDate2}, Current_Timestamp) = Current_Timestamp)
+AND (DATE(rwio.InDate) >= $P{InDate1} OR COALESCE($P{InDate1}, Current_Timestamp) = Current_Timestamp)
+AND (DATE(rwio.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
+AND (rwio.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
+AND (rwio.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
+ORDER BY rwio.OutDate]]>
 	</queryString>
-	<field name="seqno" class="java.lang.Integer"/>
 	<field name="mobilizationguide" class="java.lang.String"/>
 	<field name="ext_guide" class="java.lang.String"/>
 	<field name="entryticket" class="java.lang.String"/>
 	<field name="qualityanalysis" class="java.lang.String"/>
-	<field name="documentno" class="java.lang.String"/>
+	<field name="recordweight" class="java.lang.String"/>
 	<field name="datedoc" class="java.sql.Timestamp"/>
 	<field name="tareweight" class="java.math.BigDecimal"/>
 	<field name="grossweight" class="java.math.BigDecimal"/>
 	<field name="netweight" class="java.math.BigDecimal"/>
 	<field name="discount" class="java.math.BigDecimal"/>
 	<field name="payweight" class="java.math.BigDecimal"/>
-	<field name="attributeset" class="java.lang.String"/>
 	<field name="att" class="java.lang.String"/>
-	<field name="value" class="java.lang.String"/>
-	<field name="valuenumber" class="java.math.BigDecimal"/>
+	<field name="attvalue" class="java.lang.String"/>
+	<field name="attvaluenumber" class="java.math.BigDecimal"/>
+	<field name="attributevaluetype" class="java.lang.String"/>
 	<field name="weight" class="java.math.BigDecimal"/>
-	<field name="taxid" class="java.lang.String"/>
-	<field name="name" class="java.lang.String"/>
+	<field name="bplongname" class="java.lang.String"/>
 	<field name="datedoc1" class="java.lang.String"/>
 	<field name="datedoc2" class="java.lang.String"/>
 	<field name="valueproduct" class="java.lang.String"/>
@@ -185,6 +165,9 @@ ORDER BY rw.OutDate]]>
 	<field name="org" class="java.lang.String"/>
 	<field name="operationtype" class="java.lang.String"/>
 	<field name="vehicleplate" class="java.lang.String"/>
+	<field name="dateguide" class="java.sql.Timestamp"/>
+	<field name="qtytodeliver" class="java.math.BigDecimal"/>
+	<field name="client" class="java.lang.String"/>
 	<field name="summary_tareweight" class="java.math.BigDecimal"/>
 	<field name="summary_grossweight" class="java.math.BigDecimal"/>
 	<field name="summary_netweight" class="java.math.BigDecimal"/>
@@ -213,14 +196,7 @@ ORDER BY rw.OutDate]]>
 		<band/>
 	</background>
 	<title>
-		<band height="141">
-			<textField>
-				<reportElement x="279" y="0" width="195" height="42" uuid="2c5cb4b3-244b-4f25-a4bc-1b931e89f9d9"/>
-				<textElement textAlignment="Center" markup="none">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Listado de Recepción" + ($P{AD_Org_ID} != null? "(" + $F{org} + ")": "")]]></textFieldExpression>
-			</textField>
+		<band height="155">
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="691" y="0" width="61" height="12" uuid="5bac3e0e-8b1c-4f99-8772-bd51ae9aefab"/>
 				<textElement verticalAlignment="Middle">
@@ -268,7 +244,7 @@ ORDER BY rw.OutDate]]>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($P{C_BPartner_ID} == null ? "" :"Socio de Negocio = " + $F{taxid} + " - " + $F{name} + "\n") +
+				<textFieldExpression><![CDATA[($P{C_BPartner_ID} == null ? "" :"Socio de Negocio = " + $F{bplongname} + "\n") +
 ($P{FTA_FarmerCredit_ID} == null ? "" :"Crédito = " + $F{credit} + "\n") +
 ($P{M_Product_ID} == null ? "" :"Rubro = " + $F{valueproduct} + " " + $F{nameproduct} + "\n") +
 ($P{FTA_FarmerCredit_ID} == null ? "" :"Ciclo = " + $F{plantingcycle} + "\n") +
@@ -276,8 +252,8 @@ ORDER BY rw.OutDate]]>
 ($P{DateDoc1} ==null ? "" :"F. Documento. >=" + $F{datedoc1} + "\n") +
 ($P{DateDoc2} ==null ? "" :"F. Documento. <=" + $F{datedoc2} + "\n")]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="0" y="121" width="50" height="12" uuid="b643ece9-9bd9-456e-bb0c-0c2fba55d1d4"/>
+			<staticText>
+				<reportElement x="300" y="110" width="150" height="14" uuid="6baf6df4-68ed-4d92-8129-17c0e278c926"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -285,12 +261,12 @@ ORDER BY rw.OutDate]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
+					<font size="9" isBold="true" isItalic="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{summary_grossweight}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Total Peso Neto]]></text>
+			</staticText>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="50" y="121" width="50" height="12" uuid="57aa3db2-fcaf-4545-a886-24779ed9f9c2"/>
+				<reportElement x="300" y="124" width="150" height="14" uuid="b0489fb4-7a6c-48b3-8512-25a61f8368f6"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -298,25 +274,12 @@ ORDER BY rw.OutDate]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{summary_tareweight}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="100" y="121" width="50" height="12" uuid="6295a828-1288-4e0e-bb40-0761b676384d"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
+					<font size="9" isBold="true" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{summary_netweight}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="150" y="121" width="50" height="12" uuid="d94fd1c6-4a5f-49a0-8217-0bb8ef1db67d"/>
+				<reportElement x="450" y="124" width="150" height="14" uuid="35265c19-0c32-4909-a083-4ac732591ded"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -324,12 +287,12 @@ ORDER BY rw.OutDate]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
+					<font size="9" isBold="true" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{summary_discount}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="200" y="121" width="50" height="12" uuid="0c410efc-7767-4b33-9ed2-a30460ee4d7d"/>
+				<reportElement x="600" y="124" width="150" height="14" uuid="0585919c-84c4-467e-9732-cb9567631b62"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -337,12 +300,12 @@ ORDER BY rw.OutDate]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
+					<font size="9" isBold="true" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{summary_payweight}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="109" width="50" height="12" uuid="124502d3-3415-40ee-956a-a54bad86bcf1"/>
+				<reportElement x="450" y="110" width="150" height="14" uuid="be3fa0fd-6b41-4cfe-9d8e-0110075f771d"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -350,51 +313,12 @@ ORDER BY rw.OutDate]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Total Peso Bruto]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="50" y="109" width="50" height="12" uuid="21568178-fc5d-49ac-98ea-047f789484c0"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Total Peso Tara]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="100" y="109" width="50" height="12" uuid="6f58cb53-c88d-4df5-a84a-73b5e9276e34"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Total Peso Neto]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="150" y="109" width="50" height="12" uuid="e891d7c1-905e-4b18-899d-2128244816c8"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
+					<font size="9" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Total Descuento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="200" y="109" width="50" height="12" uuid="5c81a2be-4e0b-46cf-a3fc-b1fba74e80d5"/>
+				<reportElement x="150" y="110" width="150" height="14" uuid="4168b6c1-eb10-4980-af1d-ac66c5c38247"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -402,12 +326,25 @@ ORDER BY rw.OutDate]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
+					<font size="9" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Total Peso Acondicionado]]></text>
+				<text><![CDATA[Total Peso Tara]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="97" width="250" height="12" uuid="74ca4ee3-12fb-42d6-a3c7-2469bb1ba43c"/>
+				<reportElement x="0" y="110" width="150" height="14" uuid="50b3a0a5-4c5d-4b6c-abdd-ba61c645554a"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Total Peso Bruto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="96" width="750" height="14" uuid="fa5ed0c2-8829-4f52-b0a0-e8dfe604a059"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -415,10 +352,56 @@ ORDER BY rw.OutDate]]>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="5" isBold="true" isItalic="true"/>
+					<font size="9" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Resumen de Recepciones a la Fecha]]></text>
 			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="150" y="124" width="150" height="14" uuid="2d4cf233-1401-46a3-b5e5-38e10086afaf"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{summary_tareweight}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="600" y="110" width="150" height="14" uuid="3d166be2-f301-4c8d-bdad-79090dbf407e"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Total Peso Acondicionado]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="0" y="124" width="150" height="14" uuid="03f2af68-eae5-4b79-a0a4-1ed3aa6585d6"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{summary_grossweight}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="0" width="195" height="86" uuid="aecb85e8-7d16-4d03-a7e8-06af47d7084a"/>
+				<textElement textAlignment="Center" markup="none">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Listado de Recepción(Guiado) \n\"" + $F{client} + "\""]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<summary>
@@ -837,7 +820,7 @@ ORDER BY rw.OutDate]]>
 				</rowGroup>
 				<rowGroup name="documentno" width="60">
 					<bucket class="java.lang.String">
-						<bucketExpression><![CDATA[$F{documentno}]]></bucketExpression>
+						<bucketExpression><![CDATA[$F{recordweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
@@ -1033,7 +1016,7 @@ ORDER BY rw.OutDate]]>
 					</crosstabTotalColumnHeader>
 				</columnGroup>
 				<measure name="valuenumberMeasure" class="java.math.BigDecimal" calculation="Average">
-					<measureExpression><![CDATA[$F{valuenumber}]]></measureExpression>
+					<measureExpression><![CDATA[$F{attvaluenumber}]]></measureExpression>
 				</measure>
 				<measure name="weightMeasure" class="java.math.BigDecimal" calculation="Sum">
 					<measureExpression><![CDATA[$F{weight}]]></measureExpression>
@@ -1049,7 +1032,7 @@ ORDER BY rw.OutDate]]>
 								<font size="5"/>
 							</textElement>
 							<textFieldExpression><![CDATA[($V{weightMeasure} != null
-    && $V{weightMeasure}.doubleValue() > 0
+    && $V{weightMeasure}.doubleValue() != 0
         ? $V{weightMeasure}
         : $V{valuenumberMeasure})]]></textFieldExpression>
 						</textField>
