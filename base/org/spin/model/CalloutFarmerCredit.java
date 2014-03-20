@@ -107,20 +107,25 @@ public class CalloutFarmerCredit extends CalloutEngine {
 	 * @return
 	 * @return String
 	 */
-	public String qty (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
-		BigDecimal p_Qty = (BigDecimal)value;
-		if (p_Qty== null || p_Qty.intValue() == 0)
-			return "";
+	public String amt (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		
-		if(mTab.getValueAsBoolean("IsManual")){
-			//
+		
+		Boolean p_IsManual = (Boolean) mTab.getValue("IsManual");
+		
+		if(p_IsManual == null 
+				|| !p_IsManual){
+			BigDecimal p_Qty = (BigDecimal) mTab.getValue("Qty");
+			
 			String sql = "SELECT Amt FROM FTA_CreditDefinition WHERE FTA_CreditDefinition_ID = ?"; 
 			int i =  (Integer) mTab.getValue("FTA_CreditDefinition_ID");
 			 
 			BigDecimal amount = DB.getSQLValueBD(null, sql, i );
-			mTab.setValue("Amt", amount);
+			mTab.setValue("Amt", p_Qty.multiply(amount));
 		}else
-			return "";
+			mTab.setValue("Amt", Env.ZERO);
+		
+		
+		//
 		
 		return "";
 	}
