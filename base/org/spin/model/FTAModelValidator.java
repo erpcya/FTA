@@ -188,8 +188,11 @@ public class FTAModelValidator implements ModelValidator {
 							inv.set_ValueOfColumn("IsCreditFactPosted", true);
 						}
 					} else {
+						//2014-03-20 Carlos Parada Delete Invoice Fact 
 						MInvoice reversal = MInvoice.get(Env.getCtx(), inv.getReversal_ID());
-						msg = MFTAFact.copyFromFact(Env.getCtx(), reversal, inv, Env.ONE.negate(), inv.get_TrxName());
+						//msg = MFTAFact.copyFromFact(Env.getCtx(), reversal, inv, Env.ONE.negate(), inv.get_TrxName());
+						MFTAFact.deleteFact(MInvoice.Table_ID, reversal.getC_Invoice_ID(), true,inv.get_TrxName());
+						//End Carlos Parada
 					}
 					//	Return
 					return msg;

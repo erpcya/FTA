@@ -26,6 +26,7 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MTable;
+import org.compiere.model.X_C_DocType;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -150,6 +151,9 @@ public class CreditSOAllocation extends SvrProcess {
 								m_processMsg = "@PeriodClosed@";
 								return -1;
 							}
+							//Set Multiplier
+							if(in.getC_DocType().getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo))
+								fact.setMultiplier(Env.ONE.negate());
 						}
 					}
 					else if(C_Order_ID!=0) {
