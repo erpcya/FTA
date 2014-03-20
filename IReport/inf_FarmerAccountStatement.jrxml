@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inf_FarmerAccountStatement" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91c80499-e68d-49ef-947f-a0080fa9d852">
 	<property name="ireport.zoom" value="3.797498335832429"/>
-	<property name="ireport.x" value="1532"/>
+	<property name="ireport.x" value="229"/>
 	<property name="ireport.y" value="509"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
 	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
@@ -246,7 +246,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				<text><![CDATA[No Documento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="60" y="0" width="42" height="13" uuid="7395561d-3c07-4716-8f46-27fb1c2de2a9"/>
+				<reportElement x="60" y="0" width="50" height="13" uuid="7395561d-3c07-4716-8f46-27fb1c2de2a9"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -259,7 +259,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				<text><![CDATA[Fecha]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="102" y="0" width="215" height="13" uuid="b3e19e7d-45c7-4dbe-bfec-f143398c8bc2"/>
+				<reportElement x="110" y="0" width="207" height="13" uuid="b3e19e7d-45c7-4dbe-bfec-f143398c8bc2"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -340,7 +340,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 	</columnHeader>
 	<detail>
 		<band height="13" splitType="Stretch">
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="13" uuid="3bb8fea9-925b-4dde-95ca-25974ce596ab"/>
 				<box>
 					<pen lineStyle="Dashed"/>
@@ -354,8 +354,8 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{documentno}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="60" y="0" width="42" height="13" uuid="1ee71d8e-efcb-4da7-8a63-b7140bc6ac76"/>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="60" y="0" width="50" height="13" uuid="1ee71d8e-efcb-4da7-8a63-b7140bc6ac76"/>
 				<box>
 					<pen lineStyle="Dashed"/>
 					<topPen lineWidth="0.25" lineStyle="Dashed"/>
@@ -369,7 +369,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				<textFieldExpression><![CDATA[$F{datedoc}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="102" y="0" width="215" height="13" uuid="44036e71-c174-4a0a-ad77-12f890272538"/>
+				<reportElement stretchType="RelativeToBandHeight" x="110" y="0" width="207" height="13" uuid="44036e71-c174-4a0a-ad77-12f890272538"/>
 				<box>
 					<pen lineStyle="Dashed"/>
 					<topPen lineWidth="0.25" lineStyle="Dashed"/>
@@ -382,7 +382,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="317" y="0" width="59" height="13" uuid="e3e38f8e-3e14-46cb-bdf4-16771d508eb2"/>
 				<box>
 					<pen lineStyle="Dashed"/>
@@ -401,7 +401,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
         $F{ad_table_id} == 53566? "Cruce de Cuentas":
             ($F{ad_table_id} == 335? "Pago":"Otro")))]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="376" y="0" width="41" height="13" uuid="6985a611-eec3-4b5e-acb4-db69d9733f6e"/>
 				<box>
 					<pen lineStyle="Dashed"/>
@@ -415,7 +415,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{payreference}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="417" y="0" width="50" height="13" uuid="324ded59-ecef-4971-b13b-5965d96ce123"/>
 				<box>
 					<pen lineStyle="Dashed"/>
@@ -429,7 +429,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amtacctdr}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="467" y="0" width="50" height="13" uuid="2410a015-3920-4869-9788-c338b334904a"/>
 				<box>
 					<pen lineStyle="Dashed"/>
@@ -443,7 +443,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amtacctcr}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="517" y="0" width="55" height="13" uuid="1698679c-9e2d-4bf1-9d31-c10f6f06267b"/>
 				<box>
 					<pen lineStyle="Dashed"/>
