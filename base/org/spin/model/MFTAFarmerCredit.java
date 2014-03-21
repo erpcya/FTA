@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPeriod;
@@ -254,13 +255,13 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				m_processMsg = "@FTA_CreditAct_ID@ @No@ @completed@";
 				return DocAction.STATUS_InProgress;
 			}
-		} else if(getCreditType().equals(CREDITTYPE_Loan)) {
-			if(getM_Product_ID() == 0
-					&& getC_Charge_ID() == 0) {
-				m_processMsg = "@C_Charge_ID@ @M_Product_ID@ @NotFound@";
-				return DocAction.STATUS_InProgress;
-			}		
-		}
+		} //else if(getCreditType().equals(CREDITTYPE_Loan)) {
+			//if(getM_Product_ID() == 0
+					//&& getC_Charge_ID() == 0) {
+				//m_processMsg = "@C_Charge_ID@ @M_Product_ID@ @NotFound@";
+				//return DocAction.STATUS_InProgress;
+			//}		
+		//}
 		//	Valid Amount
 		if(getAmt() == null
 				|| getAmt().equals(Env.ZERO)){
@@ -742,7 +743,10 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		/*if(getCreditType().equals(CREDITTYPE_Loan))
 			setQty(Env.ONE);
 			*/
-		
+		if(getQty() == null
+				|| getQty().equals(Env.ZERO))
+			throw new AdempiereException("@Qty@ = @0@");
+		//	
 		return true;
 	}
 	
