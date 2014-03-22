@@ -889,7 +889,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<font size="7"/>
 							</textElement>
 							<textFieldExpression><![CDATA[($V{weightMeasure} != null
-    && $V{weightMeasure}.doubleValue() > 0
+    && $V{weightMeasure}.doubleValue() != 0
         ? $V{weightMeasure}
         : $V{valuenumberMeasure})]]></textFieldExpression>
 						</textField>
