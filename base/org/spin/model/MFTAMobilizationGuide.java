@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
@@ -633,4 +634,103 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 	public String toString() {
 		return "DocumentNo=" + getDocumentNo();
 	}
+	/*
+	protected boolean afterSave (boolean newRecord, boolean success)
+	{
+		if(!newRecord
+				&& (is_ValueChanged(X_FTA_LoadOrder.COLUMNNAME_FTA_LoadOrder_ID))){
+			String sql ;
+			int p_C_BPartner_ID = 0;
+			
+			sql = "SELECT o.C_BPartner_ID"
+					+ " FROM C_Order o"
+					+ " INNER JOIN C_OrderLine  ol ON (o.C_Order_ID = ol.C_Order_ID) "
+					+ " INNER JOIN FTA_LoadOrderLine lol ON (ol.C_OrderLine_ID = lol.C_OrderLine_ID)"
+					+ " INNER JOIN FTA_LoadOrder lo ON (lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID)"
+					+ " INNER JOIN FTA_MobilizationGuide mg ON (lo.FTA_LoadOrder_ID = mg.FTA_LoadOrder_ID)"
+					+ " WHERE"
+					+ "		lo.OperationType = 'DBM'"
+					+ "		AND mg.FTA_MobilizationGuide_ID = "
+					+ this.get_ID(); 
+			
+			p_C_BPartner_ID = DB.getSQLValue(null, sql);
+			
+			if(p_C_BPartner_ID > 0)
+				setC_BPartner_ID(p_C_BPartner_ID);
+		}
+		
+		if(!newRecord
+				|| (is_ValueChanged(X_FTA_Farming.COLUMNNAME_FTA_Farming_ID))){
+			String sql ;
+			int p_C_BPartner_ID = 0;
+			
+			sql = "SELECT f.C_BPartner_ID"
+					+ " FROM FTA_Farm f"
+					+ " INNER JOIN FTA_FarmDivision fd ON (f.FTA_Farm_ID = fd.FTA_Farm_ID)"
+					+ " INNER JOIN FTA_Farming fa ON (fd.FTA_FarmDivision_ID = fa.FTA_FarmDivision_ID)"
+					+ " INNER JOIN FTA_MobilizationGuide mg ON (fa.FTA_Farming_ID = mg.FTA_Farming_ID)"
+					+ " WHERE"
+					+ "		mg.FTA_MobilizationGuide_ID = "
+					+ this.get_ID(); 
+			
+			p_C_BPartner_ID = DB.getSQLValue(null, sql);
+			
+			if(p_C_BPartner_ID > 0)
+				setC_BPartner_ID(p_C_BPartner_ID);
+		}
+
+		return success;
+	}	//	afterSave
+*/
+
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		boolean ok = super.beforeSave(newRecord);
+		if(newRecord
+				|| (is_ValueChanged(X_FTA_LoadOrder.COLUMNNAME_FTA_LoadOrder_ID))){
+			String sql ;
+			int p_C_BPartner_ID = 0;
+			
+			sql = "SELECT o.C_BPartner_ID"
+					+ " FROM C_Order o"
+					+ " INNER JOIN C_OrderLine  ol ON (o.C_Order_ID = ol.C_Order_ID) "
+					+ " INNER JOIN FTA_LoadOrderLine lol ON (ol.C_OrderLine_ID = lol.C_OrderLine_ID)"
+					+ " INNER JOIN FTA_LoadOrder lo ON (lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID)"
+					+ " WHERE"
+					+ "		lo.OperationType = ?"
+					+ "		AND lo.FTA_LoadOrder_ID = "
+					+ getFTA_LoadOrder_ID(); 
+			
+			p_C_BPartner_ID = DB.getSQLValue(get_TrxName(), 
+					sql,X_FTA_LoadOrder.OPERATIONTYPE_DeliveryBulkMaterial);
+			
+			if(p_C_BPartner_ID > 0){
+				setC_BPartner_ID(p_C_BPartner_ID);
+			}
+		}
+		
+		if(newRecord
+				|| (is_ValueChanged(X_FTA_Farming.COLUMNNAME_FTA_Farming_ID))){
+			String sql ;
+			int p_C_BPartner_ID = 0;
+			
+			sql = "SELECT f.C_BPartner_ID"
+					+ " FROM FTA_Farm f"
+					+ " INNER JOIN FTA_FarmDivision fd ON (f.FTA_Farm_ID = fd.FTA_Farm_ID)"
+					+ " INNER JOIN FTA_Farming fa ON (fd.FTA_FarmDivision_ID = fa.FTA_FarmDivision_ID)"
+					+ " WHERE"
+					+ "		fa.FTA_Farming_ID = "
+					+ getFTA_Farming_ID(); 
+			
+			p_C_BPartner_ID = DB.getSQLValue(null, sql);
+			
+			if(p_C_BPartner_ID > 0){
+				setC_BPartner_ID(p_C_BPartner_ID);
+			}
+		}
+
+		return ok;
+	}//	End beforeSave
+	
 }
