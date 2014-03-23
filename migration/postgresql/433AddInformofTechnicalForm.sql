@@ -743,3 +743,8 @@ UPDATE AD_PrintFormatItem SET IsOrderBy='Y', SortNo=2, XPosition=0, YPosition=0,
 UPDATE AD_PrintFormat SET AD_PrintFont_ID=133,Updated=TO_TIMESTAMP('2014-03-23 10:48:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormat_ID=50215
 ;
 
+UPDATE AD_PrintFormat SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE AD_PrintFormat_ID IN(50216,50215);
+UPDATE AD_PrintFormatItem SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE AD_PrintFormat_ID IN(50216,50215);
+UPDATE AD_PrintFormatItem_Trl SET AD_Client_ID = 0, AD_Org_ID = 0 WHERE AD_PrintFormatItem_ID IN(
+SELECT pfi.AD_PrintFormatItem_ID FROM 
+AD_PrintFormatItem pfi WHERE pfi.AD_PrintFormat_ID IN(50216,50215));
