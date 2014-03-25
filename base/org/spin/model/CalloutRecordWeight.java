@@ -107,7 +107,8 @@ public class CalloutRecordWeight extends CalloutEngine {
 		if (et != null ){
 			if (et.getM_Product_ID()!= 0 )
 				mTab.setValue("M_Product_ID", et.getM_Product_ID());
-			if(et.getTrailerPlate().length() > 0)
+			if(et.getTrailerPlate() != null
+					&& et.getTrailerPlate().length() > 0)
 				mTab.setValue("TrailerPlate", et.getTrailerPlate());
 			if(et.getFTA_Driver_ID() > 0)
 				mTab.setValue("FTA_Driver_ID", et.getFTA_Driver_ID());
