@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140319L;
+	private static final long serialVersionUID = 20140327L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -44,6 +44,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 			setAmt (Env.ZERO);
 			setC_BPartner_ID (0);
 			setC_DocType_ID (0);
+			setC_PaymentTerm_ID (0);
 			setCreditType (null);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
@@ -100,6 +101,23 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public BigDecimal getAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Amt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Farming Amount.
+		@param AmtFarming Farming Amount	  */
+	public void setAmtFarming (BigDecimal AmtFarming)
+	{
+		set_Value (COLUMNNAME_AmtFarming, AmtFarming);
+	}
+
+	/** Get Farming Amount.
+		@return Farming Amount	  */
+	public BigDecimal getAmtFarming () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AmtFarming);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -246,6 +264,34 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
+    {
+		return (I_C_PaymentTerm)MTable.get(getCtx(), I_C_PaymentTerm.Table_Name)
+			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
+
+	/** Set Payment Term.
+		@param C_PaymentTerm_ID 
+		The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
+	{
+		if (C_PaymentTerm_ID < 1) 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+	}
+
+	/** Get Payment Term.
+		@return The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -619,6 +665,30 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return false;
 	}
 
+	/** Set Pay Schedule valid.
+		@param IsPayScheduleValid 
+		Is the Payment Schedule is valid
+	  */
+	public void setIsPayScheduleValid (boolean IsPayScheduleValid)
+	{
+		set_Value (COLUMNNAME_IsPayScheduleValid, Boolean.valueOf(IsPayScheduleValid));
+	}
+
+	/** Get Pay Schedule valid.
+		@return Is the Payment Schedule is valid
+	  */
+	public boolean isPayScheduleValid () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPayScheduleValid);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	public I_M_Product getM_Product() throws RuntimeException
     {
 		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
@@ -735,6 +805,23 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public BigDecimal getQty () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Qty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Farming Quantity.
+		@param QtyFarming Farming Quantity	  */
+	public void setQtyFarming (BigDecimal QtyFarming)
+	{
+		set_Value (COLUMNNAME_QtyFarming, QtyFarming);
+	}
+
+	/** Get Farming Quantity.
+		@return Farming Quantity	  */
+	public BigDecimal getQtyFarming () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyFarming);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

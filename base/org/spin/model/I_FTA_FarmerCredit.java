@@ -76,6 +76,15 @@ public interface I_FTA_FarmerCredit
 	  */
 	public BigDecimal getAmt();
 
+    /** Column name AmtFarming */
+    public static final String COLUMNNAME_AmtFarming = "AmtFarming";
+
+	/** Set Farming Amount	  */
+	public void setAmtFarming (BigDecimal AmtFarming);
+
+	/** Get Farming Amount	  */
+	public BigDecimal getAmtFarming();
+
     /** Column name ApprovedAmt */
     public static final String COLUMNNAME_ApprovedAmt = "ApprovedAmt";
 
@@ -153,6 +162,21 @@ public interface I_FTA_FarmerCredit
 	public int getC_DocType_ID();
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
+
+    /** Column name C_PaymentTerm_ID */
+    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
+
+	/** Set Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
+
+	/** Get Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID();
+
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -372,6 +396,19 @@ public interface I_FTA_FarmerCredit
 	  */
 	public boolean isManual();
 
+    /** Column name IsPayScheduleValid */
+    public static final String COLUMNNAME_IsPayScheduleValid = "IsPayScheduleValid";
+
+	/** Set Pay Schedule valid.
+	  * Is the Payment Schedule is valid
+	  */
+	public void setIsPayScheduleValid (boolean IsPayScheduleValid);
+
+	/** Get Pay Schedule valid.
+	  * Is the Payment Schedule is valid
+	  */
+	public boolean isPayScheduleValid();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -436,6 +473,15 @@ public interface I_FTA_FarmerCredit
 	  * Quantity
 	  */
 	public BigDecimal getQty();
+
+    /** Column name QtyFarming */
+    public static final String COLUMNNAME_QtyFarming = "QtyFarming";
+
+	/** Set Farming Quantity	  */
+	public void setQtyFarming (BigDecimal QtyFarming);
+
+	/** Get Farming Quantity	  */
+	public BigDecimal getQtyFarming();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
