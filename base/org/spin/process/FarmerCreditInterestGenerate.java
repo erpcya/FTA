@@ -31,6 +31,7 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.X_C_DocType;
 import org.compiere.model.X_C_Invoice;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -70,6 +71,10 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 	private int 		precision = 0;
 	/**	Days for Calculate Rate				*/
 	private int 		daysC_Interes = 0;
+	//	Dixon Martinez 25/03/2014
+	//	Add parameter document action
+	/**	Days for Calculate Rate				*/
+	private String		p_DocAction = null;
 	
 	private MFTAInterestType m_InterestType = null;
 	private MFTAFarmerCredit m_FarmerCredit = null;
@@ -100,6 +105,12 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 				p_ValidFrom = (Timestamp)para.getParameter();
 				p_ValidFrom_To = (Timestamp)para.getParameter_To();
 			}
+			//	Dixon Martinez 25/03/2014
+			//	Initialize Doc Action
+			else if(name.equals("DocAction"))
+				p_DocAction = (String) para.getParameter();
+			//	End Dixon Martinez
+			
 		}
 		//	Get Technical From Identifier
 		if(p_FTA_FarmerCredit_ID == 0)
@@ -139,6 +150,12 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		//	Get Standard Days 
 		daysC_Interes= MSysConfig.getIntValue("FTA_DAYS_FOR_CALCULATE_INTEREST", 0, Env.getAD_Client_ID(Env.getCtx()));
 		
+		//	Dixon Martinez 25/03/2014 11:03:00
+		//	Validate Doc Action
+		if(p_DocAction == null
+				|| p_DocAction.length() < 0)
+			throw new AdempiereUserError("@DocAction@ @NotFound@");
+		//	End Dixon Martinez
 		m_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
 		try {
 			if(m_InterestType.getCalculationType()
@@ -382,8 +399,8 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 	private void completeDoument(){
 		if(m_Invoice == null)
 			return;
-		m_Invoice.setDocAction(X_C_Invoice.DOCACTION_Complete);
-		m_Invoice.processIt(X_C_Invoice.DOCACTION_Complete);
+		m_Invoice.setDocAction(p_DocAction);
+		m_Invoice.processIt(p_DocAction);
 		m_Invoice.saveEx();
 		//	Add Log
 		addLog("@DocumentNo@ " + m_Invoice.getDocumentNo() 

@@ -226,6 +226,17 @@ public interface I_FTA_BillOfExchange
 
 	public org.spin.model.I_FTA_FarmerCredit getFTA_FarmerCredit() throws RuntimeException;
 
+    /** Column name FTA_FC_PaySchedule_ID */
+    public static final String COLUMNNAME_FTA_FC_PaySchedule_ID = "FTA_FC_PaySchedule_ID";
+
+	/** Set Farmer Credit Payment Schedule	  */
+	public void setFTA_FC_PaySchedule_ID (int FTA_FC_PaySchedule_ID);
+
+	/** Get Farmer Credit Payment Schedule	  */
+	public int getFTA_FC_PaySchedule_ID();
+
+	public org.spin.model.I_FTA_FC_PaySchedule getFTA_FC_PaySchedule() throws RuntimeException;
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
