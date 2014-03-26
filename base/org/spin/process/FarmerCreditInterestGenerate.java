@@ -74,7 +74,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 	//	Dixon Martinez 25/03/2014
 	//	Add parameter document action
 	/**	Days for Calculate Rate				*/
-	private String		p_DocAction = "";
+	private String		p_DocAction = null;
 	
 	private MFTAInterestType m_InterestType = null;
 	private MFTAFarmerCredit m_FarmerCredit = null;
