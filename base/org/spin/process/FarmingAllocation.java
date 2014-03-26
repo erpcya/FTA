@@ -69,7 +69,7 @@ public class FarmingAllocation extends SvrProcess {
 		
 		//	Yamel Senih 2013-10-14, 00:46:06
 		//	Add Filter, just active and Valid
-		filter.append(" AND Status = 'A' AND IsValid = 'Y'");
+		filter.append(" AND Status IN('A', 'M') AND IsValid = 'Y'");
 		//	End Yamel Senih
 		
 		log.fine(filter.toString());
