@@ -31,7 +31,7 @@ public class X_FTA_CDL_Report extends PO implements I_FTA_CDL_Report, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140319L;
+	private static final long serialVersionUID = 20140326L;
 
     /** Standard Constructor */
     public X_FTA_CDL_Report (Properties ctx, int FTA_CDL_Report_ID, String trxName)
