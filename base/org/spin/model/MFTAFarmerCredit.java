@@ -26,6 +26,7 @@ import java.util.Properties;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MOrder;
+import org.compiere.model.MPaymentTerm;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -771,5 +772,11 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		}
 		
 		return index;
+	}
+
+	public MPaymentTerm getPaymenTerm(MPaymentTerm pt) {
+		MPaymentTerm m_PaymentTerm = new MPaymentTerm(getCtx(), pt.getC_PaymentTerm_ID(), get_TrxName());
+		
+		return m_PaymentTerm;
 	}
 }

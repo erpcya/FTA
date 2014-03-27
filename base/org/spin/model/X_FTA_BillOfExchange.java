@@ -34,7 +34,7 @@ public class X_FTA_BillOfExchange extends PO implements I_FTA_BillOfExchange, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140319L;
+	private static final long serialVersionUID = 20140326L;
 
     /** Standard Constructor */
     public X_FTA_BillOfExchange (Properties ctx, int FTA_BillOfExchange_ID, String trxName)
@@ -387,6 +387,31 @@ public class X_FTA_BillOfExchange extends PO implements I_FTA_BillOfExchange, I_
 	public int getFTA_FarmerCredit_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_FarmerCredit_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_FTA_FC_PaySchedule getFTA_FC_PaySchedule() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_FC_PaySchedule)MTable.get(getCtx(), org.spin.model.I_FTA_FC_PaySchedule.Table_Name)
+			.getPO(getFTA_FC_PaySchedule_ID(), get_TrxName());	}
+
+	/** Set Farmer Credit Payment Schedule.
+		@param FTA_FC_PaySchedule_ID Farmer Credit Payment Schedule	  */
+	public void setFTA_FC_PaySchedule_ID (int FTA_FC_PaySchedule_ID)
+	{
+		if (FTA_FC_PaySchedule_ID < 1) 
+			set_Value (COLUMNNAME_FTA_FC_PaySchedule_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_FC_PaySchedule_ID, Integer.valueOf(FTA_FC_PaySchedule_ID));
+	}
+
+	/** Get Farmer Credit Payment Schedule.
+		@return Farmer Credit Payment Schedule	  */
+	public int getFTA_FC_PaySchedule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_FC_PaySchedule_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
