@@ -383,6 +383,15 @@ public interface I_FTA_FarmerCredit
 	  */
 	public boolean isApproved();
 
+    /** Column name IsManagesPaymentProgram */
+    public static final String COLUMNNAME_IsManagesPaymentProgram = "IsManagesPaymentProgram";
+
+	/** Set Manages Payment Program	  */
+	public void setIsManagesPaymentProgram (boolean IsManagesPaymentProgram);
+
+	/** Get Manages Payment Program	  */
+	public boolean isManagesPaymentProgram();
+
     /** Column name IsManual */
     public static final String COLUMNNAME_IsManual = "IsManual";
 
