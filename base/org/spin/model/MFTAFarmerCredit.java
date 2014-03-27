@@ -267,6 +267,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if(getAmt() == null
 				|| getAmt().equals(Env.ZERO)){
 			m_processMsg = "@Amt@ = @0@";
+			
+		
 			return DocAction.STATUS_Invalid;
 		}
 		
@@ -277,6 +279,13 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			m_processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
+		//	Dixon Martinez 26/03/2014 17:44:00
+		//	Validate if Farmer credit manages payment program
+		if(isManagesPaymentProgram())
+			if(!isPayScheduleValid())
+				return DocAction.STATUS_Invalid;
+		//	End Dixon Martinez
+		
 		setDefiniteDocumentNo();
 
 		setProcessed(true);

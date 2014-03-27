@@ -346,14 +346,20 @@ public class FTAModelValidator implements ModelValidator {
 			if (po.get_TableName().equals(MFTAFarmerCredit.Table_Name))
 			{
 				MFTAFarmerCredit m_FTAFarmerCredit = (MFTAFarmerCredit) po;
-				if (m_FTAFarmerCredit.getC_PaymentTerm_ID() == 0)
+				
+				if(m_FTAFarmerCredit.isManagesPaymentProgram()){
+					if (m_FTAFarmerCredit.getC_PaymentTerm_ID() == 0)
+						return null;
+					
+					MFTAFCPaySchedule pay = new MFTAFCPaySchedule(m_FTAFarmerCredit.getCtx(), 
+							0,m_FTAFarmerCredit.getC_PaymentTerm_ID(),  m_FTAFarmerCredit.get_TrxName());
+					
+					log.fine(pay.toString());
+					pay.applyToFarmerCredit(m_FTAFarmerCredit);
+					
+				}else
 					return null;
 				
-				MFTAFCPaySchedule pay = new MFTAFCPaySchedule(m_FTAFarmerCredit.getCtx(), 
-						0,m_FTAFarmerCredit.getC_PaymentTerm_ID(),  m_FTAFarmerCredit.get_TrxName());
-				
-				log.fine(pay.toString());
-				pay.applyToFarmerCredit(m_FTAFarmerCredit);
 				return null;
 				
 			}
