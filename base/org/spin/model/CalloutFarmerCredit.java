@@ -117,9 +117,16 @@ public class CalloutFarmerCredit extends CalloutEngine {
 			BigDecimal p_Qty = (BigDecimal) mTab.getValue("Qty");
 			
 			String sql = "SELECT Amt FROM FTA_CreditDefinition WHERE FTA_CreditDefinition_ID = ?"; 
+			
+			if(mTab.getValue("FTA_CreditDefinition_ID") == null)
+				return "";
+			
 			int i =  (Integer) mTab.getValue("FTA_CreditDefinition_ID");
 			 
 			BigDecimal amount = DB.getSQLValueBD(null, sql, i );
+			if(amount == null)
+				return "";
+			
 			mTab.setValue("Amt", p_Qty.multiply(amount));
 		}else
 			mTab.setValue("Amt", Env.ZERO);

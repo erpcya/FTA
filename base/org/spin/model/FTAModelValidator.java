@@ -29,6 +29,7 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPayment;
+import org.compiere.model.MPaymentTerm;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
@@ -72,6 +73,7 @@ public class FTAModelValidator implements ModelValidator {
 		engine.addDocValidate(MInvoice.Table_Name, this);
 		engine.addModelChange(MPaySelectionCheck.Table_Name, this);
 		engine.addDocValidate(MPayment.Table_Name, this);
+		engine.addDocValidate(MFTAFarmerCredit.Table_Name, this);
 	}
 
 	@Override
@@ -340,7 +342,25 @@ public class FTAModelValidator implements ModelValidator {
 				if(referenceNo != null)
 					return "@SQLErrorReferenced@ @FTA_PaymentRequest_ID@: " + referenceNo + " @completed@";
 			}
+		}else if (timing == TIMING_BEFORE_PREPARE) {
+			if (po.get_TableName().equals(MFTAFarmerCredit.Table_Name))
+			{
+				MFTAFarmerCredit m_FTAFarmerCredit = (MFTAFarmerCredit) po;
+				if (m_FTAFarmerCredit.getC_PaymentTerm_ID() == 0)
+					return null;
+				
+				MFTAFCPaySchedule pay = new MFTAFCPaySchedule(m_FTAFarmerCredit.getCtx(), 
+						0,m_FTAFarmerCredit.getC_PaymentTerm_ID(),  m_FTAFarmerCredit.get_TrxName());
+				
+				log.fine(pay.toString());
+				pay.applyToFarmerCredit(m_FTAFarmerCredit);
+				return null;
+				
+			}
+			
 		}
+
+		
 		return null;
 	}
 }
