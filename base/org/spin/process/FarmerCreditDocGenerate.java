@@ -299,6 +299,9 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_ARInvoice.setBPartner(bpartner);
 		//	Set Farmer Credit
 		m_ARInvoice.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit_ID);
+		//	Description
+		if(p_Description != null)
+			m_ARInvoice.setDescription(p_Description);
 		m_ARInvoice.saveEx();
 		//	Create Line
 		MInvoiceLine m_ARinvoiceLine = new MInvoiceLine(m_ARInvoice);
@@ -310,6 +313,9 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		if(p_Amt == null)
 			p_Amt = m_FTA_FarmerCredit.getAmt();
 		m_ARinvoiceLine.setPrice(p_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
+		//	Description
+		if(p_Description != null)
+			m_ARinvoiceLine.setDescription(p_Description);
 		//	
 		m_ARinvoiceLine.setTaxAmt();
 		m_ARinvoiceLine.saveEx();
