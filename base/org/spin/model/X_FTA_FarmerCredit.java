@@ -44,7 +44,6 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 			setAmt (Env.ZERO);
 			setC_BPartner_ID (0);
 			setC_DocType_ID (0);
-			setC_PaymentTerm_ID (0);
 			setCreditType (null);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
@@ -632,6 +631,27 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public boolean isApproved () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsApproved);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Manages Payment Program.
+		@param IsManagesPaymentProgram Manages Payment Program	  */
+	public void setIsManagesPaymentProgram (boolean IsManagesPaymentProgram)
+	{
+		set_Value (COLUMNNAME_IsManagesPaymentProgram, Boolean.valueOf(IsManagesPaymentProgram));
+	}
+
+	/** Get Manages Payment Program.
+		@return Manages Payment Program	  */
+	public boolean isManagesPaymentProgram () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsManagesPaymentProgram);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
