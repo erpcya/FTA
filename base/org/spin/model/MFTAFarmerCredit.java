@@ -783,9 +783,33 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		return index;
 	}
 
-	public MPaymentTerm getPaymenTerm(MPaymentTerm pt) {
-		MPaymentTerm m_PaymentTerm = new MPaymentTerm(getCtx(), pt.getC_PaymentTerm_ID(), get_TrxName());
+
+	/** Lines					*/
+	private MFTAFCPaySchedule[]		m_paySchedule = null;
+
+	
+	/**
+	 * Get Lines Pay Schedule
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 28/03/2014, 09:55:30
+	 * @param requery
+	 * @param whereClause
+	 * @return
+	 * @return MFTAFCPaySchedule[]
+	 */
+	public MFTAFCPaySchedule[] getPaySchedule (boolean requery, String whereClause){
+		if(m_paySchedule != null
+				&& !requery){
+			set_TrxName(m_paySchedule, get_TrxName());
+			return m_paySchedule;
+		}
+			
+		List<MFTAFCPaySchedule> payScheduleList = new Query(getCtx(), MFTAFCPaySchedule.Table_Name, "FTA_FarmerCredit_ID=?"
+				+ (whereClause != null && whereClause.length() != 0? " AND " + whereClause: ""), get_TrxName())
+		.setParameters(getFTA_FarmerCredit_ID())
+		.list();
 		
-		return m_PaymentTerm;
+		m_paySchedule = new MFTAFCPaySchedule[payScheduleList.size()];
+		payScheduleList.toArray(m_paySchedule);
+		return m_paySchedule;
 	}
 }
