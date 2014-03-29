@@ -42,7 +42,8 @@ SELECT
 	l.C_Location_ID,
 	--bpl.C_Location_ID
 	mg.Owner_ID, 
-	mg.AD_OrgTrx_ID
+	mg.AD_OrgTrx_ID,
+	mg.Ext_Guide
 
 FROM FTA_MobilizationGuide mg
 INNER JOIN FTA_Farming f ON (f.FTA_Farming_ID = mg.FTA_Farming_ID)
