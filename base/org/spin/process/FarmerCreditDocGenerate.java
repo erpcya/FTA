@@ -29,10 +29,12 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCurrency;
+import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MRefList;
+import org.compiere.model.X_C_DocType;
 import org.compiere.model.X_C_Invoice;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -41,7 +43,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-
 import org.spin.model.MFTAFact;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAPaymentRequest;
@@ -463,6 +464,14 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		
 		Iterator<?> it =  m_dist.entrySet().iterator();
 		MInvoice inv = new MInvoice(getCtx(), p_C_Invoice_ID, trxName);
+		
+		//	Dixon Martinez 29/03/2014 14:20:00
+		//	Add support for Multiplier of Doc Type 
+		MDocType docType = MDocType.get(Env.getCtx(), inv.getC_DocType_ID());
+		BigDecimal multiplier = Env.ONE;
+		if(docType.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo))
+			multiplier = multiplier.negate();
+				
 		MFTAFact.deleteFact(MInvoice.Table_ID, inv.getC_Invoice_ID(), true, trxName);
 		while (it.hasNext()){
 			Entry<?, ?> selection = (Entry<?, ?>) it.next();
@@ -476,10 +485,12 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 			fact.setFTA_CreditDefinition_ID(fact.getFTA_CreditDefinitionLine().getFTA_CreditDefinition_ID());
 			fact.setFTA_FarmerCredit_ID(p_FTA_FarmerCredit_ID);
 			fact.setIsCreditFactManual(true);
+			fact.setMultiplier(multiplier);
 			fact.setRecord_ID(inv.getC_Invoice_ID());
 			fact.setDateDoc(inv.getDateInvoiced());
 			fact.setDescription(inv.getDescription());
 			fact.saveEx(trxName);
 		}
+		//	End Dixon Martinez
 	}
 }
