@@ -256,13 +256,23 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				m_processMsg = "@FTA_CreditAct_ID@ @No@ @completed@";
 				return DocAction.STATUS_InProgress;
 			}
-		} //else if(getCreditType().equals(CREDITTYPE_Loan)) {
+		} else if(getCreditType().equals(CREDITTYPE_Loan)) {
 			//if(getM_Product_ID() == 0
 					//&& getC_Charge_ID() == 0) {
 				//m_processMsg = "@C_Charge_ID@ @M_Product_ID@ @NotFound@";
 				//return DocAction.STATUS_InProgress;
-			//}		
-		//}
+			//}
+			if(getFTA_CreditAct_ID() == 0){
+				m_processMsg = "@FTA_CreditAct_ID@ @NotFound@";
+				return DocAction.STATUS_InProgress;
+			} else if(!getFTA_CreditAct().getDocStatus()
+								.equals(X_FTA_CreditAct.DOCSTATUS_Completed)){
+				m_processMsg = "@FTA_CreditAct_ID@ @No@ @completed@";
+				return DocAction.STATUS_InProgress;
+			}
+			
+		}
+		
 		//	Valid Amount
 		if(getAmt() == null
 				|| getAmt().equals(Env.ZERO)){
