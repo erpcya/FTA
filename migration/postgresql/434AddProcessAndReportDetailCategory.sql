@@ -590,7 +590,7 @@ UPDATE AD_Process SET AD_ReportView_ID=53120,Updated=TO_TIMESTAMP('2014-03-23 12
 
 -- Mar 23, 2014 12:07:34 PM VET
 -- Farming Technical Assistance
-INSERT INTO AD_PrintFormat (AD_Client_ID,AD_Org_ID,AD_PrintColor_ID,AD_PrintFont_ID,AD_PrintFormat_ID,AD_PrintPaper_ID,AD_ReportView_ID,AD_Table_ID,Created,CreatedBy,FooterMargin,HeaderMargin,IsActive,IsDefault,IsForm,IsStandardHeaderFooter,IsTableBased,Name,Updated,UpdatedBy) VALUES (11,11,100,130,50218,100,53120,53750,TO_TIMESTAMP('2014-03-23 12:07:32','YYYY-MM-DD HH24:MI:SS'),100,0,0,'Y','N','N','Y','Y','Cateogry Detail',TO_TIMESTAMP('2014-03-23 12:07:32','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_PrintFormat (AD_Client_ID,AD_Org_ID,AD_PrintColor_ID,AD_PrintFont_ID,AD_PrintFormat_ID,AD_PrintPaper_ID,AD_ReportView_ID,AD_Table_ID,Created,CreatedBy,FooterMargin,HeaderMargin,IsActive,IsDefault,IsForm,IsStandardHeaderFooter,IsTableBased,Name,Updated,UpdatedBy) VALUES (11,11,100,130,50218,100,53120,53750,TO_TIMESTAMP('2014-03-23 12:07:32','YYYY-MM-DD HH24:MI:SS'),100,0,0,'Y','N','N','Y','Y','Cateogry Detail ',TO_TIMESTAMP('2014-03-23 12:07:32','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Mar 23, 2014 12:08:16 PM VET

@@ -1878,11 +1878,6 @@ UPDATE AD_PrintFormatItem SET IsActive='N', IsGroupBy='N', IsPageBreak='N', Sort
 UPDATE AD_PrintFormatItem SET IsActive='N', IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2014-03-08 09:58:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=57113
 ;
 
--- Mar 8, 2014 9:59:43 AM VET
--- Farming Technical Assistance
-UPDATE FTA_LoadOrder SET Description='qwertyuiop;/.,mnbvcfdsdfghyjukiopoiu7y6t5r4e3edfvgbnhjmk,./', IsHandleRecordWeight='Y', M_Product_ID=136,Updated=TO_DATE('2014-03-08 09:59:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE FTA_LoadOrder_ID=1000037
-;
-
 -- Mar 8, 2014 9:59:52 AM VET
 -- Farming Technical Assistance
 UPDATE FTA_LoadOrderLine SET C_BPartner_ID=117,Updated=TO_DATE('2014-03-08 09:59:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE FTA_LoadOrderLine_ID=1000022
