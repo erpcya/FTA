@@ -142,11 +142,6 @@ EXISTS (SELECT mgi.FTA_RecordWeight_ID FROM FTA_MobilizationGuide mgi WHERE FTA_
 DELETE  FROM  AD_Reference_Trl WHERE AD_Reference_ID=53684
 ;
 
--- Mar 28, 2014 10:46:54 AM VET
--- Farming Technical Assistance
-DELETE FROM AD_Reference WHERE AD_Reference_ID=53684
-;
-
 -- Mar 28, 2014 10:47:10 AM VET
 -- Farming Technical Assistance
 DELETE FROM AD_RelationType WHERE AD_RelationType_ID=50012
@@ -242,11 +237,6 @@ UPDATE AD_RelationType SET IsActive='N',Updated=TO_DATE('2014-03-28 11:44:30','Y
 -- Mar 28, 2014 11:45:27 AM VET
 -- Farming Technical Assistance
 DELETE  FROM  AD_Reference_Trl WHERE AD_Reference_ID=53536
-;
-
--- Mar 28, 2014 11:45:28 AM VET
--- Farming Technical Assistance
-DELETE FROM AD_Reference WHERE AD_Reference_ID=53536
 ;
 
 -- Mar 28, 2014 11:45:40 AM VET
