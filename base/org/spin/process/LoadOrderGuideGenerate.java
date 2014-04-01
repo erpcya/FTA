@@ -188,7 +188,7 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 		//	
 		m_MobilizationGuide.saveEx();
 		//	Complete Document
-		m_MobilizationGuide.processIt(DocAction.ACTION_Complete);
+		m_MobilizationGuide.processIt(DocAction.ACTION_Prepare);
 		m_MobilizationGuide.saveEx();
 		//	Message
 		String msg = m_MobilizationGuide.getProcessMsg();
