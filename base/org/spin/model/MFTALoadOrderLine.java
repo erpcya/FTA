@@ -64,7 +64,7 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 	 * @return String
 	 */
 	public String validExcedeed(){
-		BigDecimal res = DB.getSQLValueBD(get_TrxName(), "SELECT ol.QtyOrdered - SUM(lol.Qty) " +
+		BigDecimal res = DB.getSQLValueBD(get_TrxName(), "SELECT ol.QtyOrdered - SUM(COALESCE(lol.ConfirmedQty, lol.Qty)) " +
 				"FROM C_OrderLine ol " +
 				"INNER JOIN FTA_LoadOrderLine lol ON(lol.C_OrderLine_ID = ol.C_OrderLine_ID) " +
 				"INNER JOIN FTA_LoadOrder lo ON(lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID) " +
