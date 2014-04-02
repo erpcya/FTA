@@ -28,7 +28,7 @@ SELECT
 	o.C_Order_ID,
 	lo.FTA_LoadOrder_ID,
 	lol.FTA_LoadOrderLine_ID,
-	rw.TrailerPlate,
+	(SELECT et.FTA_Driver_ID FROM FTA_EntryTicket et WHERE et.FTA_EntryTicket_ID = rw.FTA_EntryTicket_ID) TrailerPlate,
 	rw.OperationType,
 	vh.FTA_VehicleBrand_ID,
 	vh.LoadCapacity,
