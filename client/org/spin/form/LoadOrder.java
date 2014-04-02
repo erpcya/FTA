@@ -73,82 +73,82 @@ public class LoadOrder {
 	/**	Buffer				*/
 	public Vector<BufferTableSelect> m_BufferSelect = null;
 	
-	public StringBuffer m_Symmary = new StringBuffer();
-	public StringBuffer m_QueryAdd = new StringBuffer();
+	public StringBuffer 		m_Symmary = new StringBuffer();
+	public StringBuffer 		m_QueryAdd = new StringBuffer();
 	
 	/**	Client				*/
-	protected int 		m_AD_Client_ID = 0;
+	protected int 				m_AD_Client_ID = 0;
 	/**	Organization		*/
-	protected int 		m_AD_Org_ID = 0;
+	protected int 				m_AD_Org_ID = 0;
 	/**	Warehouse			*/
-	protected int 		m_C_SalesRegion_ID = 0;
+	protected int 				m_C_SalesRegion_ID = 0;
 	/**	Sales Rep			*/
-	protected int 		m_SalesRep_ID = 0;
+	protected int 				m_SalesRep_ID = 0;
 	/**	Warehouse			*/
-	protected int 		m_M_Warehouse_ID = 0;
+	protected int 				m_M_Warehouse_ID = 0;
 	/**	Operation Type		*/
-	protected String 	m_OperationType = null;
+	protected String 			m_OperationType = null;
 	/**	Document Type 		*/
-	protected int 		m_C_DocType_ID = 0;
+	protected int 				m_C_DocType_ID = 0;
 	/**	Document Type Target*/
-	protected int 		m_C_DocTypeTarget_ID = 0;
+	protected int 				m_C_DocTypeTarget_ID = 0;
 	/**	Invoice Rule		*/
-	protected String 	m_InvoiceRule = null;
+	protected String 			m_InvoiceRule = null;
 	/**	Delivery Rule		*/
-	protected String 	m_DeliveryRule = null;
+	protected String 			m_DeliveryRule = null;
 	/**	Vehicle Type		*/
-	protected int 		m_FTA_VehicleType_ID = 0;
+	protected int 				m_FTA_VehicleType_ID = 0;
 	/**	Document Date		*/
-	protected Timestamp	m_DateDoc = null;
+	protected Timestamp			m_DateDoc = null;
 	/**	Shipment Date		*/
-	protected Timestamp	m_ShipDate = null;
+	protected Timestamp			m_ShipDate = null;
 	/**	Entry Ticket		*/
-	protected int 		m_FTA_EntryTicket_ID = 0;
+	protected int 				m_FTA_EntryTicket_ID = 0;
 	/**	Shipper				*/
-	protected int 		m_M_Shipper_ID = 0;
+	protected int 				m_M_Shipper_ID = 0;
 	/**	Driver				*/
-	protected int 		m_FTA_Driver_ID = 0;
+	protected int 				m_FTA_Driver_ID = 0;
 	/**	Vehicle				*/
-	protected int 		m_FTA_Vehicle_ID = 0;
+	protected int 				m_FTA_Vehicle_ID = 0;
 	/**	Load Capacity		*/
-	protected BigDecimal m_LoadCapacity = Env.ZERO;
+	protected BigDecimal 		m_LoadCapacity = Env.ZERO;
 	/**	Volume Capacity		*/
-	protected BigDecimal m_VolumeCapacity = Env.ZERO;
+	protected BigDecimal 		m_VolumeCapacity = Env.ZERO;
 	/**	Weight Unit Measure	*/
-	protected int 		m_C_UOM_Weight_ID = 0;
+	protected int 				m_C_UOM_Weight_ID = 0;
 	/**	Volume Unit Measure	*/
-	protected int 		m_C_UOM_Volume_ID = 0;
+	protected int 				m_C_UOM_Volume_ID = 0;
 	/**	Weight Precision	*/
-	protected int 		m_WeightPrecision = 0;
+	protected int 				m_WeightPrecision = 0;
 	/**	Volume Precision	*/
-	protected int 		m_VolumePrecision = 0;
+	protected int 				m_VolumePrecision = 0;
 	/**	Rows Selected		*/
-	protected int		m_RowsSelected = 0;
+	protected int				m_RowsSelected = 0;
 	/**	Is Bulk Product		*/
-	protected boolean	m_IsBulk = false;
+	protected boolean			m_IsBulk = false;
 	/**	UOM Weight Symbol	*/
-	protected String 	m_UOM_Weight_Symbol = null;
+	protected String 			m_UOM_Weight_Symbol = null;
 	/**	UOM Volume Symbol	*/
-	protected String 	m_UOM_Volume_Symbol = null;
+	protected String 			m_UOM_Volume_Symbol = null;
 	/**	Product				*/
-	protected int		m_M_Product_ID = 0;
+	protected int				m_M_Product_ID = 0;
 	/**	Business Partner	*/
-	protected int		m_C_BPartner_ID = 0;
+	protected int				m_C_BPartner_ID = 0;
 	
 	/**	Total Weight		*/
-	protected BigDecimal	totalWeight = Env.ZERO;
+	protected BigDecimal		totalWeight = Env.ZERO;
 	/**	Total Volume		*/
-	protected BigDecimal	totalVolume = Env.ZERO;
+	protected BigDecimal		totalVolume = Env.ZERO;
 	
 	/**	Max Sequence		*/
-	protected int			m_MaxSeqNo = 0;
+	protected int				m_MaxSeqNo = 0;
 	
 	/**	Order Table			*/
-	protected MiniTable 	orderTable = new MiniTable();
+	protected MiniTable 		orderTable = new MiniTable();
 	/**	Order Line Table	*/
-	protected MiniTable 	orderLineTable = new MiniTable();
+	protected MiniTable 		orderLineTable = new MiniTable();
 	/**	Stock Table			*/
-	protected MiniTable		stockTable = new MiniTable();
+	protected MiniTable			stockTable = new MiniTable();
 	protected DefaultTableModel stockModel = null;
 	
 	
@@ -176,7 +176,7 @@ public class LoadOrder {
 				"INNER JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
 				"LEFT JOIN C_City cit ON(cit.C_City_ID = loc.C_City_ID) " +
 				"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
-				"	(COALESCE(lord.QtyOrdered, 0) - SUM(lc.Qty)) QtyAvailable " +
+				"	(COALESCE(lord.QtyOrdered, 0) - SUM(COALESCE(lc.ConfirmedQty, lc.Qty))) QtyAvailable " +
 				"	FROM C_OrderLine lord " +
 				"	LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
 				"	LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
@@ -189,7 +189,7 @@ public class LoadOrder {
 				"AND wr.IsActive = 'Y' " +
 				"AND ord.DocStatus = 'CO' " +
 				"AND pr.IsStocked = 'Y' " +
-				"AND (qafl.QtyAvailable > 0 OR qafl.QtyAvailable IS NULL) " +
+				"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
 				"AND ord.AD_Client_ID=? ");
 		if (m_AD_Org_ID != 0)
 			sql.append("AND ord.AD_Org_ID=? ");
@@ -571,7 +571,7 @@ public class LoadOrder {
 				"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 				"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume").append(" ");
 		//	Having
-		sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(COALESCE(lc.Qty, 0))) > 0").append(" ");
+		sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(COALESCE(lc.ConfirmedQty, lc.Qty))) > 0").append(" ");
 		//	Order By
 		sql.append("ORDER BY lord.C_Order_ID ASC");
 		
