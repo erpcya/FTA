@@ -656,7 +656,8 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	public void setIsHandleRecordWeight() {
 		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(ws.FTA_WeightScale_ID) " +
 				"FROM FTA_WeightScale ws " +
-				"WHERE ws.AD_Org_ID = ? ", getAD_Org_ID());
+				"WHERE ws.AD_Org_ID = ? "
+				+ " OR ws.AD_Org_ID = 0 ", getAD_Org_ID());
 		//	set Handle Record Weight
 		setIsHandleRecordWeight(m_Reference_ID > 0);
 	}
