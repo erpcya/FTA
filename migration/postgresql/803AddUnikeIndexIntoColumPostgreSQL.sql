@@ -1,6 +1,6 @@
 CREATE UNIQUE INDEX UK_FTA_EntryTicketDocumentNo ON FTA_EntryTicket (AD_Client_ID,DocumentNo);
 
-CREATE UNIQUE INDEX UK_FTA_EntryTicket_Ext_Guide ON FTA_EntryTicket (AD_Client_ID,FTA_MobilizationGuide_ID,Ext_Guide);
+CREATE UNIQUE INDEX UK_FTA_EntryTicket_Ext_Guide ON FTA_EntryTicket (AD_Client_ID,Ext_Guide);
 
 
 CREATE UNIQUE INDEX UK_FTA_MobilizationGuide_Ext_Guide ON FTA_MobilizationGuide (AD_Client_ID,FTA_RecordWeight_ID,FTA_LoadOrder_ID,Ext_Guide);
