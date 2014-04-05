@@ -17,6 +17,8 @@
 package org.spin.model;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 import org.compiere.model.I_C_Invoice;
@@ -175,12 +177,20 @@ public class FTAModelValidator implements ModelValidator {
 							multiplier = multiplier.negate();
 						//	Is Manual
 						if(inv.get_ValueAsBoolean("IsCreditFactManual")){
-							MOrder ord = new MOrder(Env.getCtx(), inv.getC_Order_ID(), inv.get_TrxName());
-							if(!inv.getGrandTotal().equals(ord.getGrandTotal())){
-								msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), multiplier, inv.get_TrxName());
-							} else
-								msg = MFTAFact.copyFromFact(Env.getCtx(), ord, inv, ord.get_TrxName());
+							if (inv.getC_Order_ID()!=0){
+								MOrder ord = new MOrder(Env.getCtx(), inv.getC_Order_ID(), inv.get_TrxName());
+								if(!inv.getGrandTotal().equals(ord.getGrandTotal())){
+									msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), multiplier, inv.get_TrxName());
+								} else
+									msg = MFTAFact.copyFromFact(Env.getCtx(), ord, inv, ord.get_TrxName());
+							}
+							else
+							{
+								if (!inv.get_ValueAsBoolean("IsExceedCreditLimit"))
+									msg = EvalutateCreditLimitDoc(MInvoice.Table_ID, inv.getC_Invoice_ID(), inv.get_ValueAsInt("FTA_FarmerCredit_ID"), inv.get_ValueAsBoolean("IsExceedCreditLimit"), inv.get_TrxName());
+							}
 						} else {
+							
 							msg = MFTAFact.createFact(Env.getCtx(), inv, inv.getDateInvoiced(), inv.getGrandTotal(), multiplier, inv.get_TrxName());
 						}
 						//	Set Posted
@@ -368,5 +378,73 @@ public class FTAModelValidator implements ModelValidator {
 
 		
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 05/04/2014, 14:20:34
+	 * @param AD_Table_ID
+	 * @param Record_ID
+	 * @param FTA_FarmerCredit_ID
+	 * @param IsExceedCreditLimit
+	 * @param trxName
+	 * @return
+	 * @return String
+	 */
+	public String EvalutateCreditLimitDoc(int AD_Table_ID,int Record_ID ,int FTA_FarmerCredit_ID,boolean IsExceedCreditLimit,String trxName){
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String msg = null;
+		String sql = "SELECT " + 
+					"SUM(f.Amt) Amt, " +
+					"cdl.Amt * Coalesce(fc.ApprovedQty,0) LimitAmt, " +
+					"cdl.IsExceedCreditLimit, " +
+					"cdl.FTA_CreditDefinitionLine_ID, " +
+					"cdl.Line, "+
+					"Coalesce(ch.Name,'')   || Coalesce(cht.Name,'') || Coalesce(mpc.Name,'') || Coalesce(mp.Name,'') || ' ' ||Coalesce(cdl.Description,'') Description " +
+					"FROM "  +
+					"FTA_Fact f " +
+					"INNER JOIN FTA_CreditDefinitionLine cdl ON f.FTA_CreditDefinitionLine_ID = cdl.FTA_CreditDefinitionLine_ID " +
+					"INNER JOIN " + 
+					"(Select FTA_CreditDefinitionLine_ID,AD_Table_ID " +
+					"FROM FTA_Fact Where Record_ID = ?) fact ON fact.FTA_CreditDefinitionLine_ID = f.FTA_CreditDefinitionLine_ID AND fact.AD_Table_ID = f.AD_Table_ID " +
+					"INNER JOIN FTA_FarmerCredit fc ON f.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID " +
+					"LEFT JOIN C_Charge ch On ch.C_Charge_ID = cdl.C_Charge_ID " +
+					"LEFT JOIN C_ChargeType cht On cht.C_ChargeType_ID = cdl.C_ChargeType_ID " +
+					"LEFT JOIN M_Product_Category mpc On mpc.M_Product_Category_ID = cdl.M_Product_Category_ID " +
+					"LEFT JOIN M_Product mp On mp.M_Product_ID = cdl.M_Product_ID " +
+					"WHERE " + 
+					"f.AD_Table_ID = ? " + 
+					"AND f.FTA_FarmerCredit_ID =? " +
+					"AND IsExceedCreditLimit=? " +
+					"GROUP BY " + 
+					"cdl.Amt,fc.ApprovedQty,IsExceedCreditLimit,cdl.FTA_CreditDefinitionLine_ID,ch.Name,cht.Name,mpc.Name,mp.Name " +
+					"Having Sum(f.Amt)>  cdl.Amt * Coalesce(fc.ApprovedQty,0) ";
+		try {
+			pstmt = DB.prepareStatement(sql, trxName);
+
+			pstmt.setInt(1, Record_ID);
+			pstmt.setInt(2, AD_Table_ID);
+			pstmt.setInt(3, FTA_FarmerCredit_ID);
+			pstmt.setString(4, (IsExceedCreditLimit?"Y":"N"));
+			rs = pstmt.executeQuery();			
+			 
+			while (rs.next()){
+				if (msg==null)
+					msg ="";
+				msg += "@Amt@ > @SO_CreditLimit@: " +
+						"@Amt@=" + rs.getBigDecimal("Amt").doubleValue() + " " +
+						"@SO_CreditLimit@=" + rs.getBigDecimal("LimitAmt").doubleValue() + " " +
+						"@FTA_CreditDefinitionLine_ID@: " + rs.getInt("Line") + " - " + rs.getString("Description");
+			}
+			
+			DB.close(rs, pstmt);
+			
+			} catch (Exception e) {
+				DB.close(rs, pstmt);
+				return e.getMessage();
+			}
+		return msg;
 	}
 }

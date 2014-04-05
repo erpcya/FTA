@@ -106,7 +106,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	/**Process From Browse*/
 	private boolean processFromBrowse = false;
 	
-	
+	/** Message Return */
+	private String m_MsgReturn = new String(""); 
 	@Override
 	protected void prepare() {
 		
@@ -276,7 +277,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 			log.log(Level.SEVERE, "Error:", e);
 			out = e.getMessage();
 		}
-		return out;
+		return out + " " + (processFromBrowse ? m_MsgReturn : "");
 
 	}
 	
@@ -383,6 +384,12 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 							X_C_Invoice.DOCSTATUS_AD_Reference_ID, m_Invoice.getDocStatus())
 				+ (msg == null? " @OK@": " @Error@:" + msg));
 		//	Set Generated
+		
+		//
+		m_MsgReturn+="@DocumentNo@ " + m_Invoice.getDocumentNo() 
+				+ " - @GrandTotal@ = " + m_Invoice.getGrandTotal() 
+				+ " - @DocStatus@ = " + MRefList.getListName(getCtx(),X_C_Invoice.DOCSTATUS_AD_Reference_ID, m_Invoice.getDocStatus());
+		
 		generated++;
 	}
 	
@@ -451,6 +458,10 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				+ (msg == null? " @OK@": " @Error@:" + msg));
 		//	Set Generated
 		
+		m_MsgReturn += " " +"@FTA_PaymentRequest_ID@ @DocumentNo@ " + paymentRequest.getDocumentNo() 
+				+ " - @PayAmt@ = " + paymentRequest.getPayAmt() 
+				+ " - @DocStatus@ = " + MRefList.getListName(getCtx(), 
+							X_FTA_PaymentRequest.DOCSTATUS_AD_Reference_ID, paymentRequest.getDocStatus());
 		generated++;
 	}
 	
@@ -491,6 +502,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 			fact.setDescription(inv.getDescription());
 			fact.saveEx(trxName);
 		}
+		inv.set_ValueOfColumn("IsCreditFactManual", true);
+		inv.save(trxName);
 		//	End Dixon Martinez
 	}
 }
