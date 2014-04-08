@@ -1,7 +1,7 @@
 ﻿-- DROP VIEW FTA_RV_RecordWeight
-CREATE OR REPLACE VIEW FTA_RV_RecordWeight AS
+--CREATE OR REPLACE VIEW FTA_RV_RecordWeight AS
 SELECT 
-	rw.AD_Client_ID, rw.AD_Org_ID, rw.Created, rw.CreatedBy, rw.IsActive, rw.Updated, rw.UpdatedBy, 
+	et.AD_Org_ID, rw.AD_Client_ID, rw.AD_Org_ID, rw.Created, rw.CreatedBy, rw.IsActive, rw.Updated, rw.UpdatedBy, 
 	rw.C_DocType_ID, rw.C_UOM_ID, 
 	mg.DateDoc, 
 	rw.Description, 
@@ -59,5 +59,8 @@ LEFT JOIN
 		FROM FTA_QualityAnalysis qa 
 		WHERE qa.DocStatus IN ('CO','CL')
 	) qaa ON (qaa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID)
-
-	
+WHERE rw.DocumentNo = 'A0000413'
+AND rw.DocStatus = 'CO' 
+AND rw.OperationType = 'RMR' 
+AND DATE(rw.OutDate) BETWEEN '2014-01-02' AND '2014-04-04' 
+--AND qa.M_Product_ID = 1000021
