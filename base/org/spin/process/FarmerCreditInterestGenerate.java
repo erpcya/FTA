@@ -31,8 +31,6 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MSysConfig;
-import org.compiere.model.X_C_DocType;
-import org.compiere.model.X_C_Invoice;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
@@ -152,6 +150,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		
 		//	Dixon Martinez 25/03/2014 11:03:00
 		//	Validate Doc Action
+		//	La Proxima Vez POR FAVOR DIXON, AGREEEEEEEEGA EL BENDITO PARAMETRO A ADEMPIEREEEEEEEEEEREEEEEEEEEEEEEEEE, SIIIIIIIIIIIII??????
 		if(p_DocAction == null
 				|| p_DocAction.length() < 0)
 			throw new AdempiereUserError("@DocAction@ @NotFound@");
