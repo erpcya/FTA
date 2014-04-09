@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inf_FarmerAccountStatement" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91c80499-e68d-49ef-947f-a0080fa9d852">
-	<property name="ireport.zoom" value="1.4641000000000066"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="3.797498335832429"/>
+	<property name="ireport.x" value="229"/>
+	<property name="ireport.y" value="509"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
 	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal"/>
@@ -23,7 +23,7 @@ INNER JOIN M_Lot lot ON(lot.M_Lot_ID = cd.PlantingCycle_ID)
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = st.FTA_FarmerCredit_ID)
 INNER JOIN FTA_Farming fm ON(fm.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
 LEFT JOIN C_Payment p ON(p.C_Payment_ID = st.C_Payment_ID)
-WHERE st.AD_Table_ID <> 259 AND st.AD_Table_ID <> 53566
+WHERE st.AD_Table_ID <> 259
 AND (st.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
 AND (st.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
 AND (COALESCE(st.Parent_FarmerCredit_ID, st.FTA_FarmerCredit_ID)=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
@@ -460,53 +460,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="93" splitType="Stretch">
-			<line>
-				<reportElement x="0" y="39" width="150" height="1" uuid="488fa546-86bc-4a5d-a31f-56282b483619"/>
-			</line>
-			<line>
-				<reportElement x="422" y="40" width="150" height="1" uuid="8eceef08-73fa-4083-b791-aab9d814f834"/>
-			</line>
-			<line>
-				<reportElement x="211" y="67" width="150" height="1" uuid="e15fd6d4-daf7-4cb6-83a7-9b590dc21547"/>
-			</line>
-			<staticText>
-				<reportElement x="211" y="7" width="150" height="13" uuid="c07095a5-462c-4794-b2c7-fb3e2e412bde">
-					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
-					<font size="7" isBold="true"/>
-				</textElement>
-				<text><![CDATA[RECIBÍ CONFORME]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="211" y="68" width="150" height="13" uuid="44073c1f-c6b3-4472-aaed-e6c55cfb0a0f">
-					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
-					<font size="7" isBold="true"/>
-				</textElement>
-				<text><![CDATA[EL AGRICULTOR]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="41" width="150" height="13" uuid="e8ee3bd5-c2fd-4031-9628-f185147f8f97">
-					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
-					<font size="7" isBold="true"/>
-				</textElement>
-				<text><![CDATA[DPTO. CONTABILIDAD]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="422" y="41" width="150" height="13" uuid="55cad3ff-4981-42ef-9218-ad75c81c3efe">
-					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
-					<font size="7" isBold="true"/>
-				</textElement>
-				<text><![CDATA[DPTO. CRÉDITO]]></text>
-			</staticText>
-		</band>
+		<band height="18" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="61" splitType="Stretch">
