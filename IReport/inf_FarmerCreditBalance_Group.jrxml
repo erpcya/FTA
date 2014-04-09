@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inf_FarmerAccountStatement" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91c80499-e68d-49ef-947f-a0080fa9d852">
 	<property name="ireport.zoom" value="1.948717100000011"/>
-	<property name="ireport.x" value="258"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
 	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal"/>
+	<parameter name="FTA_CDL_Report_ID" class="java.math.BigDecimal"/>
 	<parameter name="DateDoc1" class="java.sql.Timestamp">
 		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -14,16 +15,18 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, lot.Name PlantingCycle, MAX(fc.Qty) Qty, MAX(fc.ApprovedQty) ApprovedQty, SUM(fm.EffectiveArea) EffectiveArea, cb.LineDescription, cdlc.Name CDLCategory, cb.SO_CreditLimit, cb.SO_CreditUsed, cb.Balance
-FROM FTA_RV_CreditDefinitionBalance cb
-INNER JOIN FTA_CDL_Category cdlc ON(cdlc.FTA_CDL_Category_ID = cb.FTA_CDL_Category_ID)
+		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, lot.Name PlantingCycle, MAX(fc.Qty) Qty, MAX(fc.ApprovedQty) ApprovedQty, SUM(fm.EffectiveArea) EffectiveArea, cb.LineDescription, rl.PrintName CDLCategory, cb.SO_CreditLimit, cb.SO_CreditUsed, cb.Balance, rg.FTA_CDL_ReportGroup_ID, rg.PrintName ReportGroup
+FROM FTA_CDL_Report r
+INNER JOIN FTA_CDL_ReportLine rl ON(rl.FTA_CDL_Report_ID = r.FTA_CDL_Report_ID)
+INNER JOIN FTA_RV_CreditDefinitionBalance cb ON(cb.FTA_CDL_Category_ID = rl.FTA_CDL_Category_ID)
 INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = cb.FTA_CreditDefinition_ID)
 INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = cb.C_BPartner_ID)
 INNER JOIN AD_Client cl ON(cl.AD_Client_ID = cd.AD_Client_ID)
 INNER JOIN M_Lot lot ON(lot.M_Lot_ID = cd.PlantingCycle_ID)
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = cb.FTA_FarmerCredit_ID)
 INNER JOIN FTA_Farming fm ON(fm.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
-WHERE cb.SO_CreditUsed <> 0
+LEFT JOIN FTA_CDL_ReportGroup rg ON(rg.FTA_CDL_ReportGroup_ID = rl.FTA_CDL_ReportGroup_ID)
+WHERE r.FTA_CDL_Report_ID=$P{FTA_CDL_Report_ID}
 AND ((cb.AD_Table_ID <> 259 AND cb.AD_Table_ID <> 53566 AND cb.AD_Table_ID <> 335) OR cb.AD_Table_ID IS NULL)
 AND (cb.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
 AND (cb.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
@@ -31,9 +34,9 @@ AND (cb.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} I
 AND (cb.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
 AND (cb.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
 GROUP BY cl.Name, cp.TaxID, cp.Name, fc.DocumentNo, cd.DocumentNo, lot.Name,
-cb.LineDescription, cdlc.Name, cb.FTA_CreditDefinition_ID, cb.FTA_CreditDefinitionLine_ID,
-cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, cb.FTA_CDL_Category_ID, cb.SO_CreditLimit, cb.SO_CreditUsed, cb.Balance
-ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, cdlc.Name]]>
+cb.LineDescription, rl.PrintName, rl.SeqNo, cb.FTA_CreditDefinition_ID, cb.FTA_CreditDefinitionLine_ID,
+cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, cb.FTA_CDL_Category_ID, cb.SO_CreditLimit, cb.SO_CreditUsed, cb.Balance,  rg.FTA_CDL_ReportGroup_ID, rg.PrintName
+ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, rl.SeqNo]]>
 	</queryString>
 	<field name="client" class="java.lang.String"/>
 	<field name="taxid" class="java.lang.String"/>
@@ -49,13 +52,15 @@ ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, c
 	<field name="so_creditlimit" class="java.math.BigDecimal"/>
 	<field name="so_creditused" class="java.math.BigDecimal"/>
 	<field name="balance" class="java.math.BigDecimal"/>
-	<variable name="balance_group" class="java.math.BigDecimal" resetType="Group" resetGroup="Partida" calculation="Sum">
+	<field name="fta_cdl_reportgroup_id" class="java.math.BigDecimal"/>
+	<field name="reportgroup" class="java.lang.String"/>
+	<variable name="balance_group" class="java.math.BigDecimal" resetType="Group" resetGroup="ReportGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{balance}]]></variableExpression>
 	</variable>
-	<variable name="so_creditlimit_group" class="java.math.BigDecimal" resetType="Group" resetGroup="Partida" calculation="Sum">
+	<variable name="so_creditlimit_group" class="java.math.BigDecimal" resetType="Group" resetGroup="ReportGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{so_creditlimit}]]></variableExpression>
 	</variable>
-	<variable name="so_creditused_group" class="java.math.BigDecimal" resetType="Group" resetGroup="Partida" calculation="Sum">
+	<variable name="so_creditused_group" class="java.math.BigDecimal" resetType="Group" resetGroup="ReportGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{so_creditused}]]></variableExpression>
 	</variable>
 	<variable name="balance_summary" class="java.math.BigDecimal" calculation="Sum">
@@ -67,8 +72,8 @@ ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, c
 	<variable name="so_creditused_summary" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{so_creditused}]]></variableExpression>
 	</variable>
-	<group name="Partida">
-		<groupExpression><![CDATA[$F{cdlcategory}]]></groupExpression>
+	<group name="ReportGroup">
+		<groupExpression><![CDATA[$F{reportgroup}]]></groupExpression>
 		<groupFooter>
 			<band height="12">
 				<textField pattern="#,##0.00" isBlankWhenNull="true">
@@ -121,7 +126,7 @@ ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, c
 					<textElement verticalAlignment="Middle" markup="none">
 						<font size="6" isBold="true" isItalic="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Total " + $F{cdlcategory}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Total " + $F{reportgroup}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -253,7 +258,7 @@ ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, c
 				<textElement textAlignment="Center" markup="none">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Movimiento de Partida (Productor) \n\"" + $F{client} + "\""]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Saldo por Partida (Productor) \n\"" + $F{client} + "\""]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="511" y="22" width="61" height="12" uuid="15c8b75c-987e-4afa-94ac-fb72e3a26c71"/>
@@ -370,8 +375,8 @@ ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, c
 	</columnHeader>
 	<detail>
 		<band height="12" splitType="Stretch">
-			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="128" height="12" uuid="3bb8fea9-925b-4dde-95ca-25974ce596ab"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="0" width="128" height="12" uuid="3bb8fea9-925b-4dde-95ca-25974ce596ab"/>
 				<box>
 					<pen lineStyle="Dashed"/>
 					<topPen lineWidth="0.25" lineStyle="Dashed"/>
