@@ -13,8 +13,8 @@ cdlc.Name || COALESCE(' - ' || CASE
 END, '') || COALESCE(' - ' || cdl.Description, '') LineDescription, 
 COALESCE(fc.Parent_FarmerCredit_ID, fc.FTA_FarmerCredit_ID) FTA_FarmerCredit_ID, fc.C_BPartner_ID, ft.AD_Table_ID,
 (cdl.Amt * fc.ApprovedQty) SO_CreditLimit, 
-COALESCE(SUM(ft.Amt), 0) SO_CreditUsed, 
-(cdl.Amt * fc.ApprovedQty) - COALESCE(SUM(ft.Amt), 0) Balance, 
+COALESCE(SUM(ft.Amt * ft.Multiplier), 0) SO_CreditUsed, 
+(cdl.Amt * fc.ApprovedQty) - COALESCE(SUM(ft.Amt * ft.Multiplier), 0) Balance, 
 cdl.FTA_CDL_Category_ID, cp.C_BP_Group_ID
 FROM FTA_CreditDefinition cd
 INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID)

@@ -31,7 +31,6 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPayment;
-import org.compiere.model.MPaymentTerm;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
@@ -341,7 +340,21 @@ public class FTAModelValidator implements ModelValidator {
 					alloc.processIt(X_FTA_Allocation.DOCACTION_Complete);
 					alloc.save(pay.get_TrxName());
 				}
-			}	
+			} else if(po.get_TableName().equals(I_C_Order.Table_Name)){
+				MOrder ord = (MOrder) po;
+				int m_FTA_FarmerCredit_ID = ord.get_ValueAsInt("FTA_FarmerCredit_ID");
+				//	Valid Sales Transaction
+				if(ord.isSOTrx()
+						&& m_FTA_FarmerCredit_ID != 0){
+					//	Valid a Bill of exchange signed
+					int m_FTA_BillOfExchange_ID = DB.getSQLValue(ord.get_TrxName(), "SELECT MAX(bfe.FTA_BillOfExchange_ID) FROM FTA_BillOfExchange bfe " +
+							"WHERE bfe.FTA_FarmerCredit_ID = ? " +
+							"AND bfe.Status='S' " +
+							"AND bfe.DocStatus IN ('CO','CL')", m_FTA_FarmerCredit_ID);
+					if(m_FTA_BillOfExchange_ID == 0)
+						return "@FTA_BillOfExchange_ID@ @UnSigned@";
+				}
+			}
 		} else if(timing == TIMING_BEFORE_REVERSECORRECT){
 			if (po.get_TableName().equals(I_C_Invoice.Table_Name)){
 				MInvoice invoice = (MInvoice) po;
