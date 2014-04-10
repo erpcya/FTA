@@ -1,0 +1,119 @@
+-- Apr 1, 2014 9:36:12 AM VET
+-- LVE-HR
+ALTER TABLE AD_ClientInfo ADD C_UOM_Area_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:36:16 AM VET
+-- LVE-HR
+ALTER TABLE AD_ClientInfo ADD C_UOM_Conversion_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:37:12 AM VET
+-- LVE-HR
+ALTER TABLE C_BPartner ADD IsFarmer CHAR(1) DEFAULT 'N' CHECK (IsFarmer IN ('Y','N'))
+;
+
+-- Apr 1, 2014 9:37:39 AM VET
+-- LVE-HR
+ALTER TABLE C_DocType ADD OperationType NVARCHAR2(3) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:37:59 AM VET
+-- LVE-HR
+ALTER TABLE C_Invoice ADD FTA_FarmerCredit_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:38:03 AM VET
+-- LVE-HR
+ALTER TABLE C_Invoice ADD FTA_FarmerLiquidation_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:38:06 AM VET
+-- LVE-HR
+ALTER TABLE C_Invoice ADD IsCreditFactManual CHAR(1) DEFAULT 'N' CHECK (IsCreditFactManual IN ('Y','N'))
+;
+
+-- Apr 1, 2014 9:38:09 AM VET
+-- LVE-HR
+ALTER TABLE C_Invoice ADD IsCreditFactPosted CHAR(1) DEFAULT 'N' CHECK (IsCreditFactPosted IN ('Y','N'))
+;
+
+-- Apr 1, 2014 9:38:13 AM VET
+-- LVE-HR
+ALTER TABLE C_Invoice ADD IsExceedCreditLimit CHAR(1) DEFAULT NULL  CHECK (IsExceedCreditLimit IN ('Y','N'))
+;
+
+-- Apr 1, 2014 9:38:34 AM VET
+-- LVE-HR
+ALTER TABLE C_InvoiceLine ADD DocAffected VARCHAR2(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:38:55 AM VET
+-- LVE-HR
+ALTER TABLE C_Order ADD FTA_FarmerCredit_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:38:58 AM VET
+-- LVE-HR
+ALTER TABLE C_Order ADD FTA_TechnicalForm_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:39:01 AM VET
+-- LVE-HR
+ALTER TABLE C_Order ADD IsCreditFactManual CHAR(1) DEFAULT 'N' CHECK (IsCreditFactManual IN ('Y','N'))
+;
+
+-- Apr 1, 2014 9:39:06 AM VET
+-- LVE-HR
+ALTER TABLE C_Order ADD IsExceedCreditLimit CHAR(1) DEFAULT 'N' CHECK (IsExceedCreditLimit IN ('Y','N'))
+;
+
+-- Apr 1, 2014 9:39:24 AM VET
+-- LVE-HR
+ALTER TABLE C_Payment ADD FTA_FarmerCredit_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:39:27 AM VET
+-- LVE-HR
+ALTER TABLE C_Payment ADD IsCreditFactPosted CHAR(1) DEFAULT 'N' CHECK (IsCreditFactPosted IN ('Y','N'))
+;
+
+-- Apr 1, 2014 9:39:49 AM VET
+-- LVE-HR
+ALTER TABLE M_InOut ADD FTA_FarmerCredit_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:39:52 AM VET
+-- LVE-HR
+ALTER TABLE M_InOut ADD FTA_RecordWeight_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:40:20 AM VET
+-- LVE-HR
+ALTER TABLE M_Movement ADD FTA_Driver_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:40:22 AM VET
+-- LVE-HR
+ALTER TABLE M_Movement ADD FTA_Vehicle_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 9:40:40 AM VET
+-- LVE-HR
+ALTER TABLE M_Product ADD IsBulk CHAR(1) DEFAULT 'N' CHECK (IsBulk IN ('Y','N'))
+;
+
+-- Apr 1, 2014 9:40:43 AM VET
+-- LVE-HR
+ALTER TABLE M_Product ADD IsCategory CHAR(1) DEFAULT 'N' CHECK (IsCategory IN ('Y','N'))
+;
+
+-- Apr 1, 2014 9:41:06 AM VET
+-- LVE-HR
+ALTER TABLE M_RMA ADD FTA_FarmerCredit_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Apr 1, 2014 11:38:15 AM VET
+-- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
+ALTER TABLE FTA_LoadOrder ADD OperationType NVARCHAR2(3) NOT NULL
+;
