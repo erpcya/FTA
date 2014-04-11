@@ -67,7 +67,8 @@ WHERE  (fc.FTA_CreditAct_ID = $P{FTA_CreditAct_ID} OR $P{FTA_CreditAct_ID} IS NU
 AND (fc.FTA_FarmerCredit_ID = $P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 GROUP BY fc.AD_Org_ID, fc.AD_Client_ID, fc.CreatedBy, fc.Created, fc.Updated, fc.UpdatedBy, fc.IsActive, oi.TaxID, bp.TaxID, bp.Value, bp.Name, bp.Name2, f.Name, f.Area, f.FrontierNorth, f.FrontierSouth, f.FrontierEast, f.FrontierWest,
 p.Name, fc.ApprovedAmt, fc.ApprovedQty, l.Name, fc.Amt, c.Name, lo.Address1, lo.Address2, lo.Address3, lo.Address4,
-DefinedAmt, nationality, dta.DocumentNote]]>
+DefinedAmt, nationality, dta.DocumentNote
+ORDER BY BPName]]>
 	</queryString>
 	<field name="ad_org_id" class="java.math.BigDecimal"/>
 	<field name="ad_client_id" class="java.math.BigDecimal"/>
