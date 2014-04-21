@@ -64,7 +64,7 @@ public class StorageMaintaining extends SvrProcess {
 		StringBuffer deleteSQL = new StringBuffer("DELETE FROM M_Storage " +
 				"WHERE QtyReserved <> 0 " +
 				"AND QtyOnHand = 0 " +
-				"AND QtyOrdered = 0 " +
+				//"AND QtyOrdered = 0 " +
 				"AND AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
 		//	Where
 		//	Org
@@ -83,7 +83,8 @@ public class StorageMaintaining extends SvrProcess {
 				"INNER JOIN C_OrderLine ol ON(ol.C_Order_ID = o.C_Order_ID) " +
 				"INNER JOIN C_DocType dt ON(dt.C_DocType_ID = o.C_DocType_ID) " +
 				"WHERE o.DocStatus IN('IP', 'CO') " +
-				"AND (ol.QtyOrdered - ol.QtyDelivered) > 0 AND o.IsSOTrx = 'Y' " +
+				"AND (ol.QtyOrdered - ol.QtyDelivered) > 0 " +
+				//"AND o.IsSOTrx = 'Y' " +
 				"AND o.AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
 		//	Org
 		if(p_AD_Org_ID != 0)
