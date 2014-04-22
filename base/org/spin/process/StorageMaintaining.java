@@ -19,6 +19,7 @@ package org.spin.process;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
@@ -64,7 +65,6 @@ public class StorageMaintaining extends SvrProcess {
 		StringBuffer deleteSQL = new StringBuffer("DELETE FROM M_Storage " +
 				"WHERE QtyReserved <> 0 " +
 				"AND QtyOnHand = 0 " +
-				//"AND QtyOrdered = 0 " +
 				"AND AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
 		//	Where
 		//	Org
@@ -78,6 +78,7 @@ public class StorageMaintaining extends SvrProcess {
 					"AND l.M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(") ");
 		//	Log
 		log.fine("deleteSQL=" + deleteSQL.toString());
+		//	Process Orders
 		StringBuffer orderSQL = new StringBuffer("SELECT o.C_Order_ID " +
 				"FROM C_Order o " +
 				"INNER JOIN C_OrderLine ol ON(ol.C_Order_ID = o.C_Order_ID) " +
@@ -95,7 +96,7 @@ public class StorageMaintaining extends SvrProcess {
 		//	Group By
 		orderSQL.append("GROUP BY o.C_Order_ID ");
 		//	Order By
-		orderSQL.append("ORDER BY o.DateOrdered");
+		orderSQL.append("ORDER BY o.IsSOTrx, o.DateOrdered");
 		//	Log
 		log.fine("orderSQL=" + orderSQL.toString());
 		//	Update
@@ -148,8 +149,9 @@ public class StorageMaintaining extends SvrProcess {
 	 * 	@param dt document type or null
 	 * 	@param order (ordered by M_Product_ID for deadlock prevention)
 	 * 	@return true if (un) reserved
+	 * @throws SQLException 
 	 */
-	private boolean reserveStock (MOrder order)
+	private boolean reserveStock (MOrder order) throws SQLException
 	{
 		if(order == null)
 			return false;
@@ -262,6 +264,10 @@ public class StorageMaintaining extends SvrProcess {
 		
 		order.setVolume(Volume);
 		order.setWeight(Weight);
+		//	Update Is Delivered Flag
+		order.setIsDelivered(false);
+		order.updateIsDelivered();
+		//	Save
 		order.saveEx();
 		return true;
 	}	//	reserveStock
