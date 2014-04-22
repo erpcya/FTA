@@ -65,7 +65,7 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	private Timestamp 	p_DateDoc = null;
 	/**	Farmer Credit						*/
 	private int 		p_FTA_FarmerCredit_ID = 0;
-	/**	Payment Request					*/
+	/**	Payment Request						*/
 	private String 		p_GeneratePayRequest = null;
 	/**	Document for PAyment Request		*/
 	private int 		p_C_DocTypePayRequest_ID = 0;
@@ -94,19 +94,19 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	/** Document is In Dispute*/
 	private boolean		p_IsIndispute =false;
 	
-	/** Business Partner Bank Account*/
+	/** Business Partner Bank Account		*/
 	private int p_C_BP_BankAccount_ID = 0;
 	
 	/** Sql*/
 	private StringBuffer sql = new StringBuffer();
 	
-	/** Credit Distribution */
+	/** Credit Distribution 				*/
 	private HashMap<Integer, BigDecimal> m_dist = new HashMap<Integer, BigDecimal>();
 	
-	/**Process From Browse*/
+	/**Process From Browse					*/
 	private boolean processFromBrowse = false;
 	
-	/** Message Return */
+	/** Message Return 						*/
 	private String m_MsgReturn = new String(""); 
 	@Override
 	protected void prepare() {
@@ -231,17 +231,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				throw new AdempiereUserError("@C_DocTypeInvoice_ID@ @NotFound@");
 			//	Get Business Partner
 			bpartner = MBPartner.get(getCtx(), m_FTA_FarmerCredit.getC_BPartner_ID());
-			
+			//	Reference
 			int reference_ID = 0;
-			if(m_FTA_FarmerCredit.getCreditType()
-					.equals(X_FTA_FarmerCredit.CREDITTYPE_Loan))
-				reference_ID = DB.getSQLValue(trxName, "SELECT MAX(i.C_Invoice_ID) " +
-					"FROM C_Invoice i " +
-					"WHERE i.DocStatus NOT IN('VO', 'RE') " +
-					"AND i.IsSOTrx = 'Y' " +
-					"AND i.FTA_FarmerCredit_ID = ? " +
-					"AND i.C_BPartner_ID = " + m_FTA_FarmerCredit.getC_BPartner_ID(), m_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
-			//	
 			if(reference_ID <= 0){
 				addDocument();
 				if(p_GeneratePayRequest != null
