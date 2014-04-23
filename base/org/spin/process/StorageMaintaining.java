@@ -64,7 +64,7 @@ public class StorageMaintaining extends SvrProcess {
 		//	Delete Warehouse
 		StringBuffer deleteSQL = new StringBuffer("DELETE FROM M_Storage " +
 				"WHERE QtyReserved <> 0 " +
-				"AND QtyOnHand = 0 " +
+				//"AND QtyOnHand = 0 " +
 				"AND AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
 		//	Where
 		//	Org
