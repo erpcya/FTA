@@ -341,7 +341,11 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 	private String validMGReference(){
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(mg.DocumentNo) " +
 				"FROM FTA_MobilizationGuide mg " +
-				"WHERE mg.DocStatus NOT IN('VO', 'RE') " +
+				//Dixon Martinez 23/04/2014 09:51:00
+				//	Add Support for closed Load Order
+				//	"WHERE mg.DocStatus NOT IN('VO', 'RE') " +
+				"WHERE mg.DocStatus NOT IN('VO', 'RE','CL') " +
+				//	End Dixon Martinez				
 				"AND mg.FTA_LoadOrder_ID = ? AND mg.FTA_MobilizationGuide_ID != ? ", getFTA_LoadOrder_ID(), getFTA_MobilizationGuide_ID());
 		if(m_ReferenceNo != null)
 			return "@SQLErrorReferenced@ @FTA_MobilizationGuide_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_LoadOrder_ID@";

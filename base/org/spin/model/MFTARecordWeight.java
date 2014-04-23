@@ -534,6 +534,14 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
 		if (m_processMsg != null)
 			return false;
+		//	Dixon Martinez 23/04/2014 09:51:00
+		//	Add Support for closed Load Order 
+		
+		setProcessed(true);
+		setDocAction(DOCACTION_None);
+		
+		//	End Dixon Martinez
+
 		// After Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
 		if (m_processMsg != null)
@@ -795,9 +803,21 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				//	Complete                    ..  CO
 				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
 				{
+					//	Dixon Martinez 23/04/2014 09:51:00
+					//	Add Support for closed Record Weight
+
+					//	options[index++] = DocumentEngine.ACTION_Void;
+					//	options[index++] = DocumentEngine.ACTION_ReActivate;
+					
 					options[index++] = DocumentEngine.ACTION_Void;
 					options[index++] = DocumentEngine.ACTION_ReActivate;
-				}
+					options[index++] = DocumentEngine.ACTION_Close;
+					
+				}else if (docStatus.equals(DocumentEngine.STATUS_Closed))
+					options[index++] = DocumentEngine.ACTION_None;
+					
+				//	End Dixon Martinez
+			
 		}
 		
 		return index;

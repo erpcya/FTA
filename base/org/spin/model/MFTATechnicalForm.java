@@ -222,6 +222,15 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
+		//	Dixon Martinez 23/04/2014 15:31:00
+		//	Add support to validate farm business partner
+		if(getFTA_Farm_ID() > 0){
+			validateFarmBusinessPartner();
+			if(m_processMsg != null)
+				return DocAction.STATUS_Invalid;
+		}		
+		// End Dixon Martinez
+		
 		//	Very Lines
 		MFTATechnicalFormLine[] lines = getLines(false);
 		if (lines.length == 0){
@@ -248,6 +257,23 @@ public class MFTATechnicalForm extends X_FTA_TechnicalForm implements DocAction,
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	/**
+	 *  Add support to validate farm business partner
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 23/04/2014, 16:00:47
+	 * @return
+	 * @return String
+	 */
+	private String validateFarmBusinessPartner() {
+		String sql = "SELECT C_BPartner_ID FROM FTA_Farm WHERE FTA_Farm_ID = ?";
+		int business = DB.getSQLValue(get_TrxName(), sql, getFTA_Farm_ID());
+		if(business != getC_BPartner_ID())
+			m_processMsg = "@Verify@ @FTA_Farm_ID@";
+		else 
+			m_processMsg = null;
+		
+		return m_processMsg;
+	}
+
 	/**
 	 * 	Set the definite document number after completed
 	 */

@@ -142,7 +142,11 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 		else {
 			p_FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
 					"FROM FTA_RecordWeight rw " +
-					"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
+					//Dixon Martinez 23/04/2014 09:51:00
+					//	Add Support for closed Load Order
+					//	"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
+					"WHERE rw.DocStatus NOT IN('VO', 'RE','CL') " +
+					//	End Dixon Martinez
 					"AND rw.FTA_LoadOrder_ID = ?", p_FTA_LoadOrder_ID);
 			if(p_FTA_RecordWeight_ID > 0){
 				m_RecordWeight = new MFTARecordWeight(getCtx(), p_FTA_RecordWeight_ID, get_TrxName());

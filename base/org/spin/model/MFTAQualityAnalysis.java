@@ -595,9 +595,23 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 				//	Complete                    ..  CO
 				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
 				{
+					//	Dixon Martinez 23/04/2014 09:51:00
+					//	Add Support for closed Quality Analysis
+
+					//	options[index++] = DocumentEngine.ACTION_Void;
+					//	options[index++] = DocumentEngine.ACTION_ReActivate;
+					
 					options[index++] = DocumentEngine.ACTION_Void;
 					options[index++] = DocumentEngine.ACTION_ReActivate;
-				}
+					options[index++] = DocumentEngine.ACTION_Close;
+				}else if (docStatus.equals(DocumentEngine.STATUS_Closed))
+					options[index++] = DocumentEngine.ACTION_None;
+			
+				//	End Dixon Martinez
+			
+			// After Close
+			
+			
 		}
 		
 		return index;
