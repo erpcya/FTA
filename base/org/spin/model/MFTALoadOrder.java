@@ -35,7 +35,6 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.spin.form.VLoadOrder;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -414,17 +413,21 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			return false;
 		//	Dixon Martinez 23/04/2014 09:51:00
 		//	Add Support for closed Load Order 
-		
-		setProcessed(true);
-		setDocAction(DOCACTION_None);
-		
-		//	End Dixon Martinez
-		
+
+		m_processMsg = validReference();
+		if(m_processMsg != null)
+			return false;
+		//	Set Status
+
 		// After Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
 		if (m_processMsg != null)
 			return false;
 
+		setProcessed(true);
+		setDocAction(DOCACTION_None);
+
+		//	End Dixon Martinez
 		return true;
 	}	//	closeIt
 	
@@ -631,9 +634,10 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			{
 				options[index++] = DocumentEngine.ACTION_Void;
 			}*/
-			else if(docStatus.equals(DocumentEngine.STATUS_Completed))
+			else if(docStatus.equals(DocumentEngine.STATUS_Completed)){
 				options[index++] = DocumentEngine.ACTION_Close;
-			else
+				options[index++] = DocumentEngine.ACTION_Void;
+			}else
 				options[index++] = DocumentEngine.ACTION_None;
 			//	End Dixon Martinez
 		}
