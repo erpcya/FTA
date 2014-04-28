@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="756"/>
-	<property name="ireport.y" value="74"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="DocStatus" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -46,20 +46,24 @@
 		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="StdPrecision" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FTA_RecordWeight_ID" class="java.math.BigDecimal"/>
 	<queryString>
 		<![CDATA[SELECT 	TO_CHAR(rw.OutDate, 'DD/MM/YYYY') DateDoc,
 	1 seqNo,
-	SUM(rw.TareWeight) TareWeight,
-	SUM(rw.GrossWeight) GrossWeight,
-	SUM(rw.NetWeight) NetWeight,
-	SUM(rw.NetWeight - rw.PayWeight) Discount,
-	SUM(rw.PayWeight) PayWeight,
+	ROUND(SUM(rw.TareWeight),CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )TareWeight,
+	ROUND(SUM(rw.GrossWeight) ,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )GrossWeight,
+	ROUND(SUM(rw.NetWeight),CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )NetWeight,
+	ROUND(SUM(rw.NetWeight - rw.PayWeight),CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Discount,
+	ROUND(SUM(rw.PayWeight),CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )PayWeight,
 	COUNT(et.FTA_Vehicle_ID) Qty_Vehicle,
 	av.Att AttributeSet,
 	av.Att,
 	MAX(av.Value) "Value",
-	SUM(av.ValueNumber) ValueNumber,
-	SUM(av.Weight) Weight,
+	ROUND(SUM(av.ValueNumber),CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )ValueNumber,
+	ROUND(SUM(av.Weight) ,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Weight,
 	TO_Char($P{DateDoc1}::timestamp,'DD/MM/YYYY') DateDoc1,
 	TO_Char($P{DateDoc2}::timestamp,'DD/MM/YYYY') DateDoc2,
 	mp.Value ValueProduct,
@@ -69,11 +73,13 @@
 	MAX(wh.Name) Warehouse,
 	org.Name Org,
 	rw.OperationType,
-	sr.Summary_TareWeight,
-	sr.Summary_GrossWeight,
-	sr.Summary_NetWeight,
-	sr.Summary_Discount,
-	sr.Summary_PayWeight
+	ROUND(sr.Summary_TareWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_TareWeight,
+	ROUND(sr.Summary_GrossWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_GrossWeight,
+	ROUND(sr.Summary_NetWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_NetWeight,
+	ROUND(sr.Summary_Discount,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_Discount,
+	ROUND(sr.Summary_PayWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_PayWeight,
+rw.DocumentNo recordweight
+
 FROM FTA_EntryTicket et
 INNER JOIN FTA_Vehicle vh ON(vh.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
 INNER JOIN AD_Org org ON(org.AD_Org_ID = et.AD_Org_ID)
@@ -126,6 +132,7 @@ LEFT JOIN M_Lot lot ON(lot.M_Lot_ID = fm.PlantingCycle_ID),
 	AND (DATE(rw.OutDate) <= $P{OutDate2} OR COALESCE($P{OutDate2}, Current_Timestamp) = Current_Timestamp)
 	AND (DATE(rw.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
 	AND (rw.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)) sr
+
 WHERE rw.OperationType = $P{OperationType}
 AND (av.Att IN('Humedad', 'Impureza') OR av.IsWeight = 'Y')
 AND (rw.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
@@ -150,7 +157,7 @@ AND (DATE(rw.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) 
 AND (rw.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
 AND (rw.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
 GROUP BY 1, mp.Value, mp.Name, av.Att, lot.Name, org.Name, rw.OperationType, sr.Summary_TareWeight,
-	sr.Summary_GrossWeight, sr.Summary_NetWeight, sr.Summary_Discount, sr.Summary_PayWeight
+	sr.Summary_GrossWeight, sr.Summary_NetWeight, sr.Summary_Discount, sr.Summary_PayWeight,rw.DocumentNo
 ORDER BY 1]]>
 	</queryString>
 	<field name="datedoc" class="java.lang.String"/>
@@ -180,6 +187,7 @@ ORDER BY 1]]>
 	<field name="summary_netweight" class="java.math.BigDecimal"/>
 	<field name="summary_discount" class="java.math.BigDecimal"/>
 	<field name="summary_payweight" class="java.math.BigDecimal"/>
+	<field name="recordweight" class="java.lang.String"/>
 	<sortField name="att"/>
 	<variable name="GrossWeiht" class="java.math.BigDecimal" resetType="Group" resetGroup="Att" calculation="Sum">
 		<variableExpression><![CDATA[$F{grossweight}]]></variableExpression>
@@ -265,6 +273,7 @@ ORDER BY 1]]>
 ($P{M_Product_ID} == null ? "" :"Rubro = " + $F{valueproduct} + " " + $F{nameproduct} + "\n") +
 ($P{FTA_FarmerCredit_ID} == null ? "" :"Ciclo = " + $F{plantingcycle} + "\n") +
 ($P{M_Warehouse_ID} == null ? "" :"Almacén = " + $F{warehouse} + "\n") +
+($P{FTA_RecordWeight_ID} == null ? "" : "Registro de Peso =" + $F{recordweight} + "\n")+
 ($P{DateDoc1} ==null ? "" :"F. Documento. >=" + $F{datedoc1} + "\n") +
 ($P{DateDoc2} ==null ? "" :"F. Documento. <=" + $F{datedoc2} + "\n")]]></textFieldExpression>
 			</textField>

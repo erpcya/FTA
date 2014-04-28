@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="60"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="144"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="DocStatus" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -46,6 +46,10 @@
 		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="FTA_RecordWeight_ID" class="java.math.BigDecimal"/>
+	<parameter name="StdPrecision" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT 	rwio.MobilizationGuide,
 	rwio.Ext_Guide,
@@ -53,16 +57,16 @@
 	rwio.QualityAnalysis,
 	rwio.RecordWeight,
 	rwio.OutDate DateDoc,
-	rwio.TareWeight,
-	rwio.GrossWeight,
-	rwio.NetWeight,
-	rwio.Discount,
-	rwio.PayWeight,
+	ROUND(rwio.TareWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )TareWeight,
+	ROUND(rwio.GrossWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )GrossWeight,
+	ROUND(rwio.NetWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )NetWeight,
+	ROUND(rwio.Discount,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Discount,
+	ROUND(rwio.PayWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )PayWeight,
 	rwio.Att,
 	rwio.AttValue,
-	rwio.AttValueNumber,
+	ROUND(rwio.AttValueNumber,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )AttValueNumber,
 	rwio.AttributeValueType,
-	rwio.Weight,
+	ROUND(rwio.Weight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Weight,
 	rwio.BPLongName,
 	TO_Char($P{DateDoc1}::timestamp,'DD/MM/YYYY') DateDoc1,
 	TO_Char($P{DateDoc2}::timestamp,'DD/MM/YYYY') DateDoc2,
@@ -77,11 +81,13 @@
 	rwio.DateGuide,
 	rwio.QtyToDeliver,
 	rwio.Client,
-	sr.Summary_TareWeight,
-	sr.Summary_GrossWeight,
-	sr.Summary_NetWeight,
-	sr.Summary_Discount,
-	sr.Summary_PayWeight
+ROUND(sr.Summary_TareWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_TareWeight,
+	ROUND(sr.Summary_GrossWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_GrossWeight,
+	ROUND(sr.Summary_NetWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_NetWeight,
+	ROUND(sr.Summary_Discount,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_Discount,
+	ROUND(sr.Summary_PayWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_PayWeight,
+	rwio.recordweight
+
 FROM FTA_RV_RecordWeight_InOut rwio,
 (SELECT SUM(rw.TareWeight) Summary_TareWeight,
 	SUM(rw.GrossWeight) Summary_GrossWeight,
@@ -136,43 +142,44 @@ AND (DATE(rwio.InDate) >= $P{InDate1} OR COALESCE($P{InDate1}, Current_Timestamp
 AND (DATE(rwio.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
 AND (rwio.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
 AND (rwio.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
+AND (rwio.FTA_RecordWeight_ID = $P{FTA_RecordWeight_ID} OR $P{FTA_RecordWeight_ID} IS NULL)
 ORDER BY rwio.OutDate]]>
 	</queryString>
-	<field name="mobilizationguide" class="java.lang.String"/>
-	<field name="ext_guide" class="java.lang.String"/>
-	<field name="entryticket" class="java.lang.String"/>
-	<field name="qualityanalysis" class="java.lang.String"/>
-	<field name="recordweight" class="java.lang.String"/>
-	<field name="datedoc" class="java.sql.Timestamp"/>
-	<field name="tareweight" class="java.math.BigDecimal"/>
-	<field name="grossweight" class="java.math.BigDecimal"/>
-	<field name="netweight" class="java.math.BigDecimal"/>
-	<field name="discount" class="java.math.BigDecimal"/>
-	<field name="payweight" class="java.math.BigDecimal"/>
-	<field name="att" class="java.lang.String"/>
-	<field name="attvalue" class="java.lang.String"/>
-	<field name="attvaluenumber" class="java.math.BigDecimal"/>
-	<field name="attributevaluetype" class="java.lang.String"/>
-	<field name="weight" class="java.math.BigDecimal"/>
-	<field name="bplongname" class="java.lang.String"/>
-	<field name="datedoc1" class="java.lang.String"/>
-	<field name="datedoc2" class="java.lang.String"/>
-	<field name="valueproduct" class="java.lang.String"/>
-	<field name="nameproduct" class="java.lang.String"/>
-	<field name="credit" class="java.lang.String"/>
-	<field name="plantingcycle" class="java.lang.String"/>
-	<field name="warehouse" class="java.lang.String"/>
 	<field name="org" class="java.lang.String"/>
 	<field name="operationtype" class="java.lang.String"/>
-	<field name="vehicleplate" class="java.lang.String"/>
+	<field name="summary_netweight" class="java.math.BigDecimal"/>
+	<field name="summary_payweight" class="java.math.BigDecimal"/>
+	<field name="recordweight" class="java.lang.String"/>
+	<field name="payweight" class="java.math.BigDecimal"/>
+	<field name="weight" class="java.math.BigDecimal"/>
+	<field name="mobilizationguide" class="java.lang.String"/>
+	<field name="tareweight" class="java.math.BigDecimal"/>
+	<field name="att" class="java.lang.String"/>
+	<field name="summary_tareweight" class="java.math.BigDecimal"/>
+	<field name="attvalue" class="java.lang.String"/>
+	<field name="grossweight" class="java.math.BigDecimal"/>
 	<field name="dateguide" class="java.sql.Timestamp"/>
+	<field name="datedoc2" class="java.lang.String"/>
+	<field name="plantingcycle" class="java.lang.String"/>
 	<field name="qtytodeliver" class="java.math.BigDecimal"/>
 	<field name="client" class="java.lang.String"/>
-	<field name="summary_tareweight" class="java.math.BigDecimal"/>
+	<field name="datedoc1" class="java.lang.String"/>
 	<field name="summary_grossweight" class="java.math.BigDecimal"/>
-	<field name="summary_netweight" class="java.math.BigDecimal"/>
+	<field name="qualityanalysis" class="java.lang.String"/>
+	<field name="attvaluenumber" class="java.math.BigDecimal"/>
+	<field name="bplongname" class="java.lang.String"/>
 	<field name="summary_discount" class="java.math.BigDecimal"/>
-	<field name="summary_payweight" class="java.math.BigDecimal"/>
+	<field name="ext_guide" class="java.lang.String"/>
+	<field name="netweight" class="java.math.BigDecimal"/>
+	<field name="datedoc" class="java.sql.Timestamp"/>
+	<field name="credit" class="java.lang.String"/>
+	<field name="nameproduct" class="java.lang.String"/>
+	<field name="warehouse" class="java.lang.String"/>
+	<field name="entryticket" class="java.lang.String"/>
+	<field name="valueproduct" class="java.lang.String"/>
+	<field name="discount" class="java.math.BigDecimal"/>
+	<field name="vehicleplate" class="java.lang.String"/>
+	<field name="attributevaluetype" class="java.lang.String"/>
 	<sortField name="att"/>
 	<variable name="GrossWeiht" class="java.math.BigDecimal" resetType="Group" resetGroup="Att" calculation="Sum">
 		<variableExpression><![CDATA[$F{grossweight}]]></variableExpression>
@@ -256,6 +263,7 @@ ORDER BY rwio.OutDate]]>
 ($P{M_Product_ID} == null ? "" :"Rubro = " + $F{valueproduct} + " " + $F{nameproduct} + "\n") +
 ($P{FTA_FarmerCredit_ID} == null ? "" :"Ciclo = " + $F{plantingcycle} + "\n") +
 ($P{M_Warehouse_ID} == null ? "" :"Almacén = " + $F{warehouse} + "\n") +
+($P{FTA_RecordWeight_ID} == null ? "" : "Registro de Peso =" + $F{recordweight} + "\n")+
 ($P{DateDoc1} ==null ? "" :"F. Documento. >=" + $F{datedoc1} + "\n") +
 ($P{DateDoc2} ==null ? "" :"F. Documento. <=" + $F{datedoc2} + "\n")]]></textFieldExpression>
 			</textField>

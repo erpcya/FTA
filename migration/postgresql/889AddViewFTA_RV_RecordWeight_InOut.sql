@@ -48,7 +48,8 @@ SELECT 	mg.DocumentNo MobilizationGuide,
 	mp.M_Product_ID,
 	fc.FTA_FarmerCredit_ID,
 	rw.DocStatus,
-	1 seqNo
+	1 seqNo,
+	rw.FTA_RecordWeight_ID
 FROM FTA_EntryTicket et
 INNER JOIN FTA_Vehicle vh ON(vh.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
 INNER JOIN AD_Client cli ON(cli.AD_Client_ID = et.AD_Client_ID)
