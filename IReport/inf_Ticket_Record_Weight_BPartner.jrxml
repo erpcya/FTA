@@ -57,16 +57,16 @@
 	rwio.QualityAnalysis,
 	rwio.RecordWeight,
 	rwio.OutDate DateDoc,
-	ROUND(rwio.TareWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )TareWeight,
-	ROUND(rwio.GrossWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )GrossWeight,
-	ROUND(rwio.NetWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )NetWeight,
-	ROUND(rwio.Discount,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Discount,
-	ROUND(rwio.PayWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )PayWeight,
+	ROUND(rwio.TareWeight, $P{StdPrecision}) TareWeight,
+	ROUND(rwio.GrossWeight, $P{StdPrecision}) GrossWeight,
+	ROUND(rwio.NetWeight, $P{StdPrecision}) NetWeight,
+	ROUND(rwio.Discount, $P{StdPrecision}) Discount,
+	ROUND(rwio.PayWeight, $P{StdPrecision}) PayWeight,
 	rwio.Att,
 	rwio.AttValue,
-	ROUND(rwio.AttValueNumber,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )AttValueNumber,
+	ROUND(rwio.AttValueNumber, $P{StdPrecision}) AttValueNumber,
 	rwio.AttributeValueType,
-	ROUND(rwio.Weight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Weight,
+	ROUND(rwio.Weight, $P{StdPrecision}) Weight,
 	rwio.BPLongName,
 	TO_Char($P{DateDoc1}::timestamp,'DD/MM/YYYY') DateDoc1,
 	TO_Char($P{DateDoc2}::timestamp,'DD/MM/YYYY') DateDoc2,
@@ -81,11 +81,11 @@
 	rwio.DateGuide,
 	rwio.QtyToDeliver,
 	rwio.Client,
-ROUND(sr.Summary_TareWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_TareWeight,
-	ROUND(sr.Summary_GrossWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_GrossWeight,
-	ROUND(sr.Summary_NetWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_NetWeight,
-	ROUND(sr.Summary_Discount,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_Discount,
-	ROUND(sr.Summary_PayWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_PayWeight,
+ROUND(sr.Summary_TareWeight, $P{StdPrecision}) Summary_TareWeight,
+	ROUND(sr.Summary_GrossWeight, $P{StdPrecision}) Summary_GrossWeight,
+	ROUND(sr.Summary_NetWeight, $P{StdPrecision}) Summary_NetWeight,
+	ROUND(sr.Summary_Discount, $P{StdPrecision}) Summary_Discount,
+	ROUND(sr.Summary_PayWeight, $P{StdPrecision}) Summary_PayWeight,
 	rwio.recordweight
 
 FROM FTA_RV_RecordWeight_InOut rwio,
@@ -116,9 +116,7 @@ FROM FTA_RV_RecordWeight_InOut rwio,
 	AND (fm.Category_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
 	AND (fc.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 	AND (rw.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
-	AND (DATE(rw.OutDate) <= $P{OutDate2} OR COALESCE($P{OutDate2}, Current_Timestamp) = Current_Timestamp)
-	AND (DATE(rw.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
-	AND (rw.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)) sr
+	AND DATE(rw.OutDate) <= DATE(Current_Timestamp)) sr
 WHERE rwio.OperationType = $P{OperationType}
 AND (rwio.Att IN('Humedad', 'Impureza') OR rwio.IsWeight = 'Y')
 AND (rwio.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
