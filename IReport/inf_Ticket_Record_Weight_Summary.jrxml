@@ -53,17 +53,17 @@
 	<queryString>
 		<![CDATA[SELECT 	TO_CHAR(rw.OutDate, 'DD/MM/YYYY') DateDoc,
 	1 seqNo,
-	ROUND(SUM(rw.TareWeight),CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )TareWeight,
-	ROUND(SUM(rw.GrossWeight) ,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )GrossWeight,
-	ROUND(SUM(rw.NetWeight),CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )NetWeight,
-	ROUND(SUM(rw.NetWeight - rw.PayWeight),CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Discount,
-	ROUND(SUM(rw.PayWeight),CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )PayWeight,
+	ROUND(SUM(rw.TareWeight),$P{StdPrecision}) TareWeight,
+	ROUND(SUM(rw.GrossWeight) , $P{StdPrecision}) GrossWeight,
+	ROUND(SUM(rw.NetWeight), $P{StdPrecision}) NetWeight,
+	ROUND(SUM(rw.NetWeight - rw.PayWeight), $P{StdPrecision}) Discount,
+	ROUND(SUM(rw.PayWeight), $P{StdPrecision}) PayWeight,
 	COUNT(et.FTA_Vehicle_ID) Qty_Vehicle,
 	av.Att AttributeSet,
 	av.Att,
 	MAX(av.Value) "Value",
-	ROUND(SUM(av.ValueNumber),CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )ValueNumber,
-	ROUND(SUM(av.Weight) ,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Weight,
+	ROUND(SUM(av.ValueNumber), $P{StdPrecision}) ValueNumber,
+	ROUND(SUM(av.Weight) , $P{StdPrecision}) Weight,
 	TO_Char($P{DateDoc1}::timestamp,'DD/MM/YYYY') DateDoc1,
 	TO_Char($P{DateDoc2}::timestamp,'DD/MM/YYYY') DateDoc2,
 	mp.Value ValueProduct,
@@ -73,11 +73,11 @@
 	MAX(wh.Name) Warehouse,
 	org.Name Org,
 	rw.OperationType,
-	ROUND(sr.Summary_TareWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_TareWeight,
-	ROUND(sr.Summary_GrossWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_GrossWeight,
-	ROUND(sr.Summary_NetWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_NetWeight,
-	ROUND(sr.Summary_Discount,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_Discount,
-	ROUND(sr.Summary_PayWeight,CASE WHEN $P{StdPrecision} > -1 THEN $P{StdPrecision} ELSE 0 END )Summary_PayWeight,
+	ROUND(sr.Summary_TareWeight, $P{StdPrecision}) Summary_TareWeight,
+	ROUND(sr.Summary_GrossWeight, $P{StdPrecision}) Summary_GrossWeight,
+	ROUND(sr.Summary_NetWeight, $P{StdPrecision}) Summary_NetWeight,
+	ROUND(sr.Summary_Discount, $P{StdPrecision}) Summary_Discount,
+	ROUND(sr.Summary_PayWeight, $P{StdPrecision}) Summary_PayWeight,
 rw.DocumentNo recordweight
 
 FROM FTA_EntryTicket et
@@ -129,9 +129,7 @@ LEFT JOIN M_Lot lot ON(lot.M_Lot_ID = fm.PlantingCycle_ID),
 	AND (fm.Category_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
 	AND (fc.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 	AND (rw.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
-	AND (DATE(rw.OutDate) <= $P{OutDate2} OR COALESCE($P{OutDate2}, Current_Timestamp) = Current_Timestamp)
-	AND (DATE(rw.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
-	AND (rw.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)) sr
+	AND DATE(rw.OutDate) <= DATE(Current_Timestamp)) sr
 
 WHERE rw.OperationType = $P{OperationType}
 AND (av.Att IN('Humedad', 'Impureza') OR av.IsWeight = 'Y')
