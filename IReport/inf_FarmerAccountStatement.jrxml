@@ -14,7 +14,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, lot.Name PlantingCycle, st.DateDoc, fc.Qty, fc.ApprovedQty, SUM(fm.EffectiveArea) EffectiveArea, st.DocumentNo, st.Description, st.AmtAcctCR, st.AmtAcctDR, p.DocumentNo PayReference, st.AD_Table_ID
+		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, lot.Name PlantingCycle, st.DateDoc, fc.Qty, fc.ApprovedQty, SUM(fm.EffectiveArea) EffectiveArea, st.DocumentNo, st.Description, st.AmtAcctCR, st.AmtAcctDR, COALESCE(p.DocumentNo,lve_descriptionpayment(st.C_Invoice_ID)) PayReference, st.AD_Table_ID
 FROM FTA_RV_AccountStatement st
 INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = st.FTA_CreditDefinition_ID)
 INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = st.C_BPartner_ID)
@@ -29,7 +29,7 @@ AND (st.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefi
 AND (COALESCE(st.Parent_FarmerCredit_ID, st.FTA_FarmerCredit_ID)=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 AND (st.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
 AND (st.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
-GROUP BY cl.Name, cp.TaxID, cp.Name, st.DocumentNo, cd.DocumentNo, lot.Name, st.DateDoc, fc.Qty, fc.ApprovedQty, st.Description, st.AmtAcctCR, st.AmtAcctDR, p.DocumentNo, st.FTA_Fact_ID, st.AD_Table_ID, fc.DocumentNo
+GROUP BY cl.Name, cp.TaxID, cp.Name, st.DocumentNo, cd.DocumentNo, lot.Name, st.DateDoc, fc.Qty, fc.ApprovedQty, st.Description, st.AmtAcctCR, st.AmtAcctDR, p.DocumentNo, st.FTA_Fact_ID, st.AD_Table_ID, fc.DocumentNo,st.C_Invoice_ID
 ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 	</queryString>
 	<field name="client" class="java.lang.String"/>
