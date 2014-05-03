@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
 	<property name="ireport.zoom" value="1.5421731577181266"/>
-	<property name="ireport.x" value="397"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
-	<parameter name="DocStatus" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="AD_Org_ID" class="java.math.BigDecimal"/>
 	<parameter name="M_Warehouse_ID" class="java.math.BigDecimal"/>
+	<parameter name="OperationType" class="java.lang.String"/>
+	<parameter name="FTA_MobilizationGuide_ID" class="java.math.BigDecimal"/>
+	<parameter name="FTA_Driver_ID" class="java.math.BigDecimal"/>
+	<parameter name="FTA_Vehicle_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_EntryTicket_ID" class="java.math.BigDecimal"/>
+	<parameter name="FTA_RecordWeight_ID" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Ext_Guide" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="AnalysisType" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="FTA_QualityAnalysis_ID" class="java.math.BigDecimal"/>
+	<parameter name="M_Product_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
 	<parameter name="PlantingCycle_ID" class="java.math.BigDecimal"/>
 	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal"/>
-	<parameter name="AnalysisType" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="FTA_Driver_ID" class="java.math.BigDecimal"/>
-	<parameter name="FTA_Vehicle_ID" class="java.math.BigDecimal"/>
-	<parameter name="FTA_MobilizationGuide_ID" class="java.math.BigDecimal"/>
-	<parameter name="Ext_Guide" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="FTA_QualityAnalysis_ID" class="java.math.BigDecimal"/>
-	<parameter name="M_Product_ID" class="java.math.BigDecimal"/>
-	<parameter name="OperationType" class="java.lang.String"/>
 	<parameter name="DateDoc1" class="java.sql.Timestamp">
 		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -49,7 +49,7 @@
 	<parameter name="StdPrecision" class="java.math.BigDecimal" isForPrompting="false">
 		<defaultValueExpression><![CDATA[new BigDecimal(0)]]></defaultValueExpression>
 	</parameter>
-	<parameter name="FTA_RecordWeight_ID" class="java.math.BigDecimal">
+	<parameter name="DocStatus" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -81,13 +81,15 @@
 	rwio.DateGuide,
 	rwio.QtyToDeliver,
 	rwio.Client,
+	cd.DocumentNo CreditDefinition,
 ROUND(sr.Summary_TareWeight, $P{StdPrecision}) Summary_TareWeight,
 	ROUND(sr.Summary_GrossWeight, $P{StdPrecision}) Summary_GrossWeight,
 	ROUND(sr.Summary_NetWeight, $P{StdPrecision}) Summary_NetWeight,
 	ROUND(sr.Summary_Discount, $P{StdPrecision}) Summary_Discount,
 	ROUND(sr.Summary_PayWeight, $P{StdPrecision}) Summary_PayWeight,
 	rwio.recordweight
-FROM FTA_RV_RecordWeight_InOut rwio,
+FROM FTA_RV_RecordWeight_InOut rwio
+LEFT JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = rwio.FTA_CreditDefinition_ID),
 (SELECT SUM(rw.TareWeight) Summary_TareWeight,
 	SUM(rw.GrossWeight) Summary_GrossWeight,
 	SUM(rw.NetWeight) Summary_NetWeight,
@@ -121,27 +123,27 @@ FROM FTA_RV_RecordWeight_InOut rwio,
 WHERE rwio.OperationType = $P{OperationType}
 AND (rwio.Att IN('Humedad', 'Impureza') OR rwio.IsWeight = 'Y')
 AND (rwio.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
-AND (rwio.FTA_EntryTicket_ID=$P{FTA_EntryTicket_ID} OR $P{FTA_EntryTicket_ID} IS NULL)
-AND (rwio.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
 AND (rwio.M_Warehouse_ID=$P{M_Warehouse_ID} OR $P{M_Warehouse_ID} IS NULL)
-AND (rwio.M_Lot_ID=$P{PlantingCycle_ID} OR $P{PlantingCycle_ID} IS NULL)
-AND (rwio.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
-AND (rwio.AnalysisType=$P{AnalysisType} OR $P{AnalysisType} IS NULL)
+AND (rwio.FTA_MobilizationGuide_ID=$P{FTA_MobilizationGuide_ID} OR $P{FTA_MobilizationGuide_ID} IS NULL)
 AND (rwio.FTA_Driver_ID=$P{FTA_Driver_ID} OR $P{FTA_Driver_ID} IS NULL)
 AND (rwio.FTA_Vehicle_ID=$P{FTA_Vehicle_ID} OR $P{FTA_Vehicle_ID} IS NULL)
-AND (rwio.FTA_MobilizationGuide_ID=$P{FTA_MobilizationGuide_ID} OR $P{FTA_MobilizationGuide_ID} IS NULL)
+AND (rwio.FTA_EntryTicket_ID=$P{FTA_EntryTicket_ID} OR $P{FTA_EntryTicket_ID} IS NULL)
+AND (rwio.FTA_RecordWeight_ID = $P{FTA_RecordWeight_ID} OR $P{FTA_RecordWeight_ID} IS NULL)
 AND (rwio.Ext_Guide=$P{Ext_Guide} OR $P{Ext_Guide} IS NULL)
+AND (rwio.AnalysisType=$P{AnalysisType} OR $P{AnalysisType} IS NULL)
 AND (rwio.FTA_QualityAnalysis_ID=$P{FTA_QualityAnalysis_ID} OR $P{FTA_QualityAnalysis_ID} IS NULL)
 AND (rwio.M_Product_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
+AND (rwio.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
+AND (rwio.M_Lot_ID=$P{PlantingCycle_ID} OR $P{PlantingCycle_ID} IS NULL)
+AND (rwio.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
 AND (rwio.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
-AND (rwio.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
 AND (DATE(rwio.OutDate) >= $P{OutDate1} OR COALESCE($P{OutDate1}, Current_Timestamp) = Current_Timestamp)
 AND (DATE(rwio.OutDate) <= $P{OutDate2} OR COALESCE($P{OutDate2}, Current_Timestamp) = Current_Timestamp)
 AND (DATE(rwio.InDate) >= $P{InDate1} OR COALESCE($P{InDate1}, Current_Timestamp) = Current_Timestamp)
 AND (DATE(rwio.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
 AND (rwio.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
 AND (rwio.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
-AND (rwio.FTA_RecordWeight_ID = $P{FTA_RecordWeight_ID} OR $P{FTA_RecordWeight_ID} IS NULL)
+AND (rwio.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
 ORDER BY rwio.OutDate]]>
 	</queryString>
 	<field name="mobilizationguide" class="java.lang.String"/>
@@ -172,6 +174,7 @@ ORDER BY rwio.OutDate]]>
 	<field name="dateguide" class="java.sql.Timestamp"/>
 	<field name="qtytodeliver" class="java.math.BigDecimal"/>
 	<field name="client" class="java.lang.String"/>
+	<field name="creditdefinition" class="java.lang.String"/>
 	<field name="summary_tareweight" class="java.math.BigDecimal"/>
 	<field name="summary_grossweight" class="java.math.BigDecimal"/>
 	<field name="summary_netweight" class="java.math.BigDecimal"/>
@@ -250,11 +253,6 @@ ORDER BY rwio.OutDate]]>
 				</textElement>
 				<textFieldExpression><![CDATA[($P{AD_Org_ID} == null? "": "Organización = " + $F{org}) +
 ($P{M_Warehouse_ID} == null? "": "\nAlmacén = " + $F{warehouse}) +
-($P{M_Product_ID} == null? "": "\nRubro = " + $F{valueproduct} + " " + $F{nameproduct}) +
-($P{C_BPartner_ID} == null? "": "\nSocio de Negocio = " + $F{bplongname}) +
-($P{FTA_FarmerCredit_ID} == null? "": "\nCrédito = " + $F{credit}) +
-($P{FTA_FarmerCredit_ID} == null? "": "\nCiclo = " + $F{plantingcycle}) +
-($P{FTA_RecordWeight_ID} == null? "": "\nRegistro de Peso = " + $F{recordweight}) +
 ($P{OperationType} == null? "": "\nTipo de Operación = " +
     ($P{OperationType}.equals("DBM")? "Despacho de Producto a Granel":
         ($P{OperationType}.equals("DFP")? "Despacho de Producto Terminado":
@@ -264,6 +262,18 @@ ORDER BY rwio.OutDate]]>
                         ($P{OperationType}.equals("RMR")? "Recepción de Materia Prima":
                             ($P{OperationType}.equals("PBR")? "Recepción de Producto a Granel":
                                 ($P{OperationType}.equals("RMP")? "Recepción de Varios Productos": ""))))))))) +
+($P{FTA_EntryTicket_ID} == null? "": "\nTicket de Entrada = " + $F{entryticket}) +
+($P{FTA_RecordWeight_ID} == null? "": "\nRegistro de Peso = " + $F{recordweight}) +
+($P{Ext_Guide} == null? "": "\nGuía Externa = " + $F{ext_guide}) +
+($P{AnalysisType} == null? "": "\nTipo de Análisis = " +
+    ($P{AnalysisType}.equals("QA")? "Análisis de Calidad":
+        ($P{AnalysisType}.equals("CA")? "Análisis de Tolva":""))) +
+($P{FTA_QualityAnalysis_ID} == null? "": "\nAnálisis de Calidad = " + $F{qualityanalysis}) +
+($P{M_Product_ID} == null? "": "\nRubro = " + $F{valueproduct} + " " + $F{nameproduct}) +
+($P{FTA_CreditDefinition_ID} == null? "": "\nDefinición de Crédito = " + $F{creditdefinition}) +
+($P{PlantingCycle_ID} == null? "": "\nCiclo = " + $F{plantingcycle}) +
+($P{C_BPartner_ID} == null? "": "\nSocio de Negocio = " + $F{bplongname}) +
+($P{FTA_FarmerCredit_ID} == null? "": "\nCrédito = " + $F{credit}) +
 ($P{DateDoc1} != null || $P{DateDoc2} != null? "\nFecha de Documento: ": "") +
 ($P{DateDoc1} != null? new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc1}): "") +
 ($P{DateDoc2} != null? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc2}): "") +
@@ -372,19 +382,22 @@ ORDER BY rwio.OutDate]]>
 				</textElement>
 				<text><![CDATA[Total Peso Bruto]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="96" width="750" height="14" uuid="fa5ed0c2-8829-4f52-b0a0-e8dfe604a059"/>
+			<textField>
+				<reportElement x="0" y="96" width="750" height="14" uuid="0be11c12-b3df-4317-bef9-b7164d789260"/>
 				<box>
+					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Resumen (Recepciones/Despachos) a la Fecha]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA["Resumen " + ($P{OperationType} == null? "": ($P{OperationType}.equals("DBM") || $P{OperationType}.equals("DFP") || $P{OperationType}.equals("MOM")? "de Despachos ":
+        ($P{OperationType}.equals("MIM") || $P{OperationType}.equals("RMR") || $P{OperationType}.equals("PBR") || $P{OperationType}.equals("RMP")? "de Recepciones ":
+            ""))) + "a la Fecha"]]></textFieldExpression>
+			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="150" y="124" width="150" height="14" uuid="2d4cf233-1401-46a3-b5e5-38e10086afaf"/>
 				<box>
