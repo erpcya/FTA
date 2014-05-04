@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contract" pageWidth="612" pageHeight="812" whenNoDataType="AllSectionsNoDetail" columnWidth="532" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="20" uuid="6916fbed-f662-4f35-bcd1-96251027305f">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Special Contract" pageWidth="612" pageHeight="812" whenNoDataType="AllSectionsNoDetail" columnWidth="532" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="20" uuid="6916fbed-f662-4f35-bcd1-96251027305f">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -11,95 +11,38 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-	fc.AD_Org_ID,
-	fc.AD_Client_ID,
-	fc.CreatedBy,
-	fc.Created,
-	fc.Updated,
-	fc.UpdatedBy,
-	fc.IsActive,
-	oi.TaxID,
 	COALESCE(bp.TaxID,bp.Value) BPTaxID,
 	bp.Name||' '||COALESCE(bp.Name2,'') BPName,
-	COALESCE(f.Name,MAX(df.Name), '') FarmName,
-	ROUND(COALESCE(f.Area, MAX(df.Area)),2) Area,
-	COALESCE(f.FrontierNorth,MAX(df.FrontierNorth),'') FrontierNorth,
-	COALESCE(f.FrontierSouth, MAX(df.FrontierSouth),'') FrontierSouth,
-	COALESCE(f.FrontierEast, MAX(df.FrontierEast), '') FrontierEast,
-	COALESCE(f.FrontierWest, MAX(df.FrontierWest),'') FrontierWest,
-	COALESCE(p.Name, '') as Name,
 	ROUND(fc.ApprovedAmt,2) ApprovedAmt,
 	ROUND(fc.ApprovedQty,2) ApprovedQty,
-	l.Name PlantingCycle_ID,
 	ROUND(fc.Amt,2) Amt,
 	c.Name ClientName,
-	bp.taxid ,
-	bp.nationality,
-	COALESCE(MAX(adP.Address1),'') ||' '|| COALESCE(MAX(adP.Address2),'') ||' '|| COALESCE(MAX(adP.Address3), '') ||' '|| COALESCE(MAX(adP.Address4),'') address,
 	ROUND(cd.amt,2) DefinedAmt,
-	COALESCE(lo.Address1, MAX(df.Address1),'') ||' '|| COALESCE(lo.Address2, MAX(df.Address2),'') ||' '|| COALESCE(lo.Address3, MAX(df.Address3), '') ||' '|| COALESCE(lo.Address4, MAX(df.Address4),'') C_BPartner_Location_ID,
-dta.DocumentNote
+	fc.ApprovedAmt,
+	LVE_PayScheduleDueDate(fc.FTA_FarmerCredit_ID) AS DueDate,
+	COUNT(fcp.FTA_FC_PaySchedule_ID) Quantity
 FROM FTA_FarmerCredit fc
 INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID = fc.C_BPartner_ID)
 INNER JOIN AD_Client c ON (fc.AD_Client_ID = c.AD_Client_ID)
 INNER JOIN FTA_CreditDefinition cd ON (cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID)
 INNER JOIN FTA_CreditAct act ON(act.FTA_CreditAct_ID = fc.FTA_CreditAct_ID)
-INNER JOIN C_DocType dta ON(dta.C_DocType_ID = act.C_DocType_ID)
-LEFT JOIN FTA_Farming fa ON (fa.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
-LEFT JOIN FTA_FarmDivision fd ON (fd.FTA_FarmDivision_ID = fa.FTA_FarmDivision_ID)
-LEFT JOIN FTA_Farm f ON (f.FTA_Farm_ID = fd.FTA_Farm_ID)
-LEFT JOIN M_Product p ON (p.M_Product_ID = fa.Category_ID)
-LEFT JOIN M_Lot l ON (l.M_Lot_ID = cd.PlantingCycle_ID)
-LEFT JOIN C_BPartner_Location bpl ON (bpl.C_BPartner_Location_ID = f.C_BPartner_Location_ID)
-LEFT JOIN (SELECT lo.Address1, lo.Address2, lo.Address3, lo.Address4, loc.C_BPartner_ID FROM C_BPartner_Location loc INNER JOIN C_Location lo ON (loc.C_location_ID = lo.C_Location_ID) WHERE loc.IsBillTo='Y') adP ON ( adP.C_BPartner_ID =fc.C_BPartner_ID)
+LEFT JOIN FTA_FC_PaySchedule fcp ON (fc.FTA_FarmerCredit_ID = fcp.FTA_FarmerCredit_ID)
 
-LEFT JOIN C_Location lo ON (lo.C_Location_ID = bpl.C_Location_ID)
-LEFT JOIN AD_OrgInfo oi ON (oi.AD_Org_ID = fc.AD_Org_ID)
-LEFT JOIN (SELECT df.C_BPartner_ID, df.FrontierNorth, df.FrontierSouth, df.FrontierEast, df.FrontierWest,
-		lo.Address1, lo.Address2, lo.Address3, lo.Address4, df.Name, df.Area
-		FROM FTA_Farm df
-		INNER JOIN C_BPartner_Location bpl ON (bpl.C_BPartner_Location_ID = df.C_BPartner_Location_ID)
-		INNER JOIN C_Location lo ON (lo.C_Location_ID = bpl.C_Location_ID)
-		WHERE df.IsActive = 'Y'
-		ORDER BY df.IsDefault DESC
-	) df ON(df.C_BPartner_ID = fc.C_BPartner_ID)
 WHERE  (fc.FTA_CreditAct_ID = $P{FTA_CreditAct_ID} OR $P{FTA_CreditAct_ID} IS NULL)
 AND (fc.FTA_FarmerCredit_ID = $P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
-
-GROUP BY fc.AD_Org_ID, fc.AD_Client_ID, fc.CreatedBy, fc.Created, fc.Updated, fc.UpdatedBy, fc.IsActive, oi.TaxID, bp.TaxID, bp.Value, bp.Name, bp.Name2, f.Name, f.Area, f.FrontierNorth, f.FrontierSouth, f.FrontierEast, f.FrontierWest,
-p.Name, fc.ApprovedAmt, fc.ApprovedQty, l.Name, fc.Amt, c.Name, lo.Address1, lo.Address2, lo.Address3, lo.Address4,
-DefinedAmt, nationality, dta.DocumentNote
-
-ORDER BY BPName
-LIMIT 1]]>
+GROUP BY
+	bp.TaxID,bp.Value,bp.Name,bp.Name2,fc.ApprovedAmt,fc.ApprovedQty,fc.Amt,c.Name,cd.amt,fc.FTA_FarmerCredit_ID
+ORDER BY BPName]]>
 	</queryString>
-	<field name="ad_org_id" class="java.math.BigDecimal"/>
-	<field name="ad_client_id" class="java.math.BigDecimal"/>
-	<field name="createdby" class="java.math.BigDecimal"/>
-	<field name="created" class="java.sql.Timestamp"/>
-	<field name="updated" class="java.sql.Timestamp"/>
-	<field name="updatedby" class="java.math.BigDecimal"/>
-	<field name="isactive" class="java.lang.String"/>
-	<field name="taxid" class="java.lang.String"/>
 	<field name="bptaxid" class="java.lang.String"/>
 	<field name="bpname" class="java.lang.String"/>
-	<field name="farmname" class="java.lang.String"/>
-	<field name="area" class="java.math.BigDecimal"/>
-	<field name="frontiernorth" class="java.lang.String"/>
-	<field name="frontiersouth" class="java.lang.String"/>
-	<field name="frontiereast" class="java.lang.String"/>
-	<field name="frontierwest" class="java.lang.String"/>
-	<field name="name" class="java.lang.String"/>
 	<field name="approvedamt" class="java.math.BigDecimal"/>
 	<field name="approvedqty" class="java.math.BigDecimal"/>
-	<field name="plantingcycle_id" class="java.lang.String"/>
 	<field name="amt" class="java.math.BigDecimal"/>
 	<field name="clientname" class="java.lang.String"/>
-	<field name="nationality" class="java.lang.String"/>
-	<field name="address" class="java.lang.String"/>
 	<field name="definedamt" class="java.math.BigDecimal"/>
-	<field name="c_bpartner_location_id" class="java.lang.String"/>
-	<field name="documentnote" class="java.lang.String"/>
+	<field name="duedate" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -154,8 +97,10 @@ LIMIT 1]]>
 + " CINCUENTA MIL CON 00 CTS. (Bs.  50,000.00),  por  parte  de  A.N.C.A.,  como   parte  de  incentivos"
 + " que serán  destinados  a  la ejecución  de actividades propias de la labor"
 + " agrícola que realiza, para lo  cual \"EL  AGRICULTOR\"  se  compromete  a su"
-+ " cancelación  mediante  2 cuotas   causada  con  fecha  de  vencimiento"
-+ " Bs. 25.000,00 fecha 15-11-2013   Bs. 25.000,00 fecha 15-04-2014."
++ " cancelación  mediante "
++ $F{quantity}
++ " cuotas   causada  con  fecha  de  vencimiento "
++ " "+$F{duedate}+ "."
 + " \n\nCLAUSULA SEGUNDA: Como parte   de  este  acuerdo  realizar   un  aporte del "
 + " Cinco(5%) por ciento  sobre  el  valor  del  beneficio recibido,  que  ser  "
 + " destinado por A.N.C.A., para el desarrollo de actividades de investigación, "
@@ -186,7 +131,7 @@ LIMIT 1]]>
 + " a la Ciudad de Acarigua, Estado Portuguesa, sometiéndose a la  Jurisdicción "
 + " de sus  Tribunales."
 
-+ " \n\nEn la Ciudad de Acarigua, Estado Portuguesa a los   TRECE ( 13 ) días del mes de MARZO del 2014."
++ " \n\nEn Araure, Estado Portuguesa a la fecha de su presentación."
 + " "
 
 +"\r\n\r\n\r\n\r\n\r\n\r\n"
