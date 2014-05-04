@@ -16,8 +16,6 @@
  *****************************************************************************/
 package org.spin.process;
 
-import org.compiere.model.MInvoice;
-import org.compiere.model.MOrder;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;

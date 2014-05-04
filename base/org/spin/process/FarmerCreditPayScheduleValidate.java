@@ -17,13 +17,10 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
-import java.util.Properties;
 
-import org.compiere.process.InvoicePayScheduleValidate;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.spin.model.CalloutFarmerCredit;
 import org.spin.model.MFTAFCPaySchedule;
 import org.spin.model.MFTAFarmerCredit;
 
