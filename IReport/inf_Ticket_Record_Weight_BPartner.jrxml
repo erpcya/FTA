@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
 	<property name="ireport.zoom" value="1.9487171000000014"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="263"/>
+	<property name="ireport.y" value="51"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="AD_Org_ID" class="java.math.BigDecimal"/>
 	<parameter name="M_Warehouse_ID" class="java.math.BigDecimal"/>
@@ -326,6 +326,13 @@ ORDER BY rwio.OutDate]]>
 			</textField>
 			<textField>
 				<reportElement x="0" y="101" width="750" height="14" uuid="beedbe75-49e0-4b7c-b4c7-051fd0577d6a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true" isItalic="true"/>
 				</textElement>
@@ -669,7 +676,7 @@ ORDER BY rwio.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{GrossWeight}.divide($V{AttCount})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{GrossWeight}.divide($V{AttCount}, MathContext.DECIMAL128)]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="444" y="0" width="35" height="12" uuid="af332603-d408-492a-abee-1bddf0e4dace"/>
@@ -680,7 +687,7 @@ ORDER BY rwio.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{TareWeight}.divide($V{AttCount})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{TareWeight}.divide($V{AttCount}, MathContext.DECIMAL128)]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="479" y="0" width="40" height="12" uuid="d72614df-8f62-4241-9ee8-18a89a3316cb"/>
@@ -691,7 +698,7 @@ ORDER BY rwio.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{NetWeight}.divide($V{AttCount})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{NetWeight}.divide($V{AttCount}, MathContext.DECIMAL128)]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="519" y="0" width="35" height="12" uuid="ad2802eb-4e7d-4b0a-ac8c-c668d51a31c0"/>
@@ -702,7 +709,7 @@ ORDER BY rwio.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{Discount}.divide($V{AttCount})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{Discount}.divide($V{AttCount}, MathContext.DECIMAL128)]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="554" y="0" width="40" height="12" uuid="b61dc5e9-456d-4032-833d-e848da1483fe"/>
@@ -713,7 +720,7 @@ ORDER BY rwio.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{PayWeight}.divide($V{AttCount})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{PayWeight}.divide($V{AttCount}, MathContext.DECIMAL128)]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabTotalRowHeader>
@@ -744,7 +751,7 @@ ORDER BY rwio.OutDate]]>
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
-							<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="359" y="0" width="40" height="12" uuid="263665ca-4bd9-4260-8880-4b68780469e2"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
@@ -753,9 +760,9 @@ ORDER BY rwio.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{GrossWeight}.divide(new BigDecimal($V{AttCount}))]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{GrossWeight}.divide($V{AttCount}, MathContext.DECIMAL128)]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="399" y="0" width="35" height="12" uuid="af332603-d408-492a-abee-1bddf0e4dace"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
@@ -764,9 +771,9 @@ ORDER BY rwio.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{TareWeight}.divide($V{AttCount})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{TareWeight}.divide($V{AttCount}, MathContext.DECIMAL128)]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="434" y="0" width="40" height="12" uuid="d72614df-8f62-4241-9ee8-18a89a3316cb"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
@@ -775,9 +782,9 @@ ORDER BY rwio.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{NetWeight}.divide($V{AttCount})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{NetWeight}.divide($V{AttCount}, MathContext.DECIMAL128)]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="474" y="0" width="35" height="12" uuid="ad2802eb-4e7d-4b0a-ac8c-c668d51a31c0"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
@@ -788,7 +795,7 @@ ORDER BY rwio.OutDate]]>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{Discount}.divide($V{AttCount})]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="509" y="0" width="40" height="12" uuid="b61dc5e9-456d-4032-833d-e848da1483fe"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
@@ -797,7 +804,7 @@ ORDER BY rwio.OutDate]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{PayWeight}.divide($V{AttCount})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{PayWeight}.divide($V{AttCount}, MathContext.DECIMAL128)]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabTotalRowHeader>
