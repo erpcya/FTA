@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
 	<property name="ireport.zoom" value="1.8181818181818195"/>
-	<property name="ireport.x" value="54"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
-	<parameter name="DocStatus" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="AD_Org_ID" class="java.math.BigDecimal"/>
 	<parameter name="M_Warehouse_ID" class="java.math.BigDecimal"/>
+	<parameter name="OperationType" class="java.lang.String"/>
+	<parameter name="FTA_MobilizationGuide_ID" class="java.math.BigDecimal"/>
+	<parameter name="FTA_Driver_ID" class="java.math.BigDecimal"/>
+	<parameter name="FTA_Vehicle_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_EntryTicket_ID" class="java.math.BigDecimal"/>
+	<parameter name="FTA_RecordWeight_ID" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Ext_Guide" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="AnalysisType" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="FTA_QualityAnalysis_ID" class="java.math.BigDecimal"/>
+	<parameter name="M_Product_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
 	<parameter name="PlantingCycle_ID" class="java.math.BigDecimal"/>
 	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal"/>
-	<parameter name="AnalysisType" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="FTA_Driver_ID" class="java.math.BigDecimal"/>
-	<parameter name="FTA_Vehicle_ID" class="java.math.BigDecimal"/>
-	<parameter name="FTA_MobilizationGuide_ID" class="java.math.BigDecimal"/>
-	<parameter name="Ext_Guide" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="FTA_QualityAnalysis_ID" class="java.math.BigDecimal"/>
-	<parameter name="M_Product_ID" class="java.math.BigDecimal"/>
-	<parameter name="OperationType" class="java.lang.String"/>
 	<parameter name="DateDoc1" class="java.sql.Timestamp">
 		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -46,26 +46,30 @@
 		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="StdPrecision" class="java.math.BigDecimal" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new BigDecimal(0)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DocStatus" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[SELECT 	rwio.MobilizationGuide,
+		<![CDATA[SELECT rwio.MobilizationGuide,
 	rwio.Ext_Guide,
 	rwio.EntryTicket,
 	rwio.QualityAnalysis,
 	rwio.RecordWeight,
 	rwio.OutDate DateDoc,
-	rwio.TareWeight,
-	rwio.GrossWeight,
-	rwio.NetWeight,
-	rwio.Discount,
-	rwio.PayWeight,
+	ROUND(rwio.TareWeight, $P{StdPrecision}) TareWeight,
+	ROUND(rwio.GrossWeight, $P{StdPrecision}) GrossWeight,
+	ROUND(rwio.NetWeight, $P{StdPrecision}) NetWeight,
+	ROUND(rwio.Discount, $P{StdPrecision}) Discount,
+	ROUND(rwio.PayWeight, $P{StdPrecision}) PayWeight,
 	rwio.Att,
 	rwio.AttValue,
-	rwio.AttValueNumber,
+	ROUND(rwio.AttValueNumber, $P{StdPrecision}) AttValueNumber,
 	rwio.AttributeValueType,
-	rwio.Weight,
+	ROUND(rwio.Weight, $P{StdPrecision}) Weight,
 	rwio.BPLongName,
-	TO_Char($P{DateDoc1}::timestamp,'DD/MM/YYYY') DateDoc1,
-	TO_Char($P{DateDoc2}::timestamp,'DD/MM/YYYY') DateDoc2,
 	rwio.ValueProduct,
 	rwio.NameProduct,
 	rwio.Credit,
@@ -77,12 +81,15 @@
 	rwio.DateGuide,
 	rwio.QtyToDeliver,
 	rwio.Client,
-	sr.Summary_TareWeight,
-	sr.Summary_GrossWeight,
-	sr.Summary_NetWeight,
-	sr.Summary_Discount,
-	sr.Summary_PayWeight
-FROM FTA_RV_RecordWeight_InOut rwio,
+	cd.DocumentNo CreditDefinition,
+ROUND(sr.Summary_TareWeight, $P{StdPrecision}) Summary_TareWeight,
+	ROUND(sr.Summary_GrossWeight, $P{StdPrecision}) Summary_GrossWeight,
+	ROUND(sr.Summary_NetWeight, $P{StdPrecision}) Summary_NetWeight,
+	ROUND(sr.Summary_Discount, $P{StdPrecision}) Summary_Discount,
+	ROUND(sr.Summary_PayWeight, $P{StdPrecision}) Summary_PayWeight,
+	rwio.recordweight
+FROM FTA_RV_RecordWeight_InOut rwio
+LEFT JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = rwio.FTA_CreditDefinition_ID),
 (SELECT SUM(rw.TareWeight) Summary_TareWeight,
 	SUM(rw.GrossWeight) Summary_GrossWeight,
 	SUM(rw.NetWeight) Summary_NetWeight,
@@ -90,52 +97,53 @@ FROM FTA_RV_RecordWeight_InOut rwio,
 	SUM(rw.PayWeight) Summary_PayWeight
 	FROM FTA_EntryTicket et
 	INNER JOIN FTA_RecordWeight rw ON(rw.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID)
-	LEFT JOIN FTA_MobilizationGuide mg ON(mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
-	LEFT JOIN C_BPartner bp ON (bp.C_BPartner_ID=et.C_BPartner_ID)
-	LEFT JOIN FTA_Farming fm ON(fm.FTA_Farming_ID = mg.FTA_Farming_ID)
-	LEFT JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = fm.FTA_FarmerCredit_ID)
-	LEFT JOIN M_Lot lot ON(lot.M_Lot_ID = fm.PlantingCycle_ID)
 	LEFT JOIN M_InOut io ON(io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND io.DocStatus = rw.DocStatus)
 	WHERE rw.OperationType = $P{OperationType}
 	AND (rw.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
 	AND (et.FTA_EntryTicket_ID=$P{FTA_EntryTicket_ID} OR $P{FTA_EntryTicket_ID} IS NULL)
-	AND (fc.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
 	AND (io.M_Warehouse_ID=$P{M_Warehouse_ID} OR $P{M_Warehouse_ID} IS NULL)
-	AND (lot.M_Lot_ID=$P{PlantingCycle_ID} OR $P{PlantingCycle_ID} IS NULL)
 	AND (et.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
 	AND (et.FTA_Driver_ID=$P{FTA_Driver_ID} OR $P{FTA_Driver_ID} IS NULL)
 	AND (et.FTA_Vehicle_ID=$P{FTA_Vehicle_ID} OR $P{FTA_Vehicle_ID} IS NULL)
 	AND (et.FTA_MobilizationGuide_ID=$P{FTA_MobilizationGuide_ID} OR $P{FTA_MobilizationGuide_ID} IS NULL)
 	AND (et.Ext_Guide=$P{Ext_Guide} OR $P{Ext_Guide} IS NULL)
-	AND (fm.Category_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
-	AND (fc.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 	AND (rw.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
-	AND (DATE(rw.OutDate) <= $P{OutDate2} OR COALESCE($P{OutDate2}, Current_Timestamp) = Current_Timestamp)
-	AND (DATE(rw.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
-	AND (rw.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)) sr
+	AND ($P{M_Product_ID} IS NULL OR (
+			EXISTS(SELECT 1 FROM FTA_QualityAnalysis qa
+				WHERE qa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID
+				AND qa.AnalysisType = 'QA'
+				AND qa.M_Product_ID = $P{M_Product_ID})
+			OR
+			EXISTS(SELECT 1 FROM FTA_QualityAnalysis qa
+				WHERE qa.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID
+				AND qa.AnalysisType = 'QA'
+				AND qa.M_Product_ID = $P{M_Product_ID}))
+	)
+	AND DATE(rw.OutDate) <= DATE(Current_Timestamp)) sr
 WHERE rwio.OperationType = $P{OperationType}
 AND (rwio.Att IN('Humedad', 'Impureza') OR rwio.IsWeight = 'Y')
 AND (rwio.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
-AND (rwio.FTA_EntryTicket_ID=$P{FTA_EntryTicket_ID} OR $P{FTA_EntryTicket_ID} IS NULL)
-AND (rwio.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
 AND (rwio.M_Warehouse_ID=$P{M_Warehouse_ID} OR $P{M_Warehouse_ID} IS NULL)
-AND (rwio.M_Lot_ID=$P{PlantingCycle_ID} OR $P{PlantingCycle_ID} IS NULL)
-AND (rwio.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
-AND (rwio.AnalysisType=$P{AnalysisType} OR $P{AnalysisType} IS NULL)
+AND (rwio.FTA_MobilizationGuide_ID=$P{FTA_MobilizationGuide_ID} OR $P{FTA_MobilizationGuide_ID} IS NULL)
 AND (rwio.FTA_Driver_ID=$P{FTA_Driver_ID} OR $P{FTA_Driver_ID} IS NULL)
 AND (rwio.FTA_Vehicle_ID=$P{FTA_Vehicle_ID} OR $P{FTA_Vehicle_ID} IS NULL)
-AND (rwio.FTA_MobilizationGuide_ID=$P{FTA_MobilizationGuide_ID} OR $P{FTA_MobilizationGuide_ID} IS NULL)
+AND (rwio.FTA_EntryTicket_ID=$P{FTA_EntryTicket_ID} OR $P{FTA_EntryTicket_ID} IS NULL)
+AND (rwio.FTA_RecordWeight_ID = $P{FTA_RecordWeight_ID} OR $P{FTA_RecordWeight_ID} IS NULL)
 AND (rwio.Ext_Guide=$P{Ext_Guide} OR $P{Ext_Guide} IS NULL)
+AND (rwio.AnalysisType=$P{AnalysisType} OR $P{AnalysisType} IS NULL)
 AND (rwio.FTA_QualityAnalysis_ID=$P{FTA_QualityAnalysis_ID} OR $P{FTA_QualityAnalysis_ID} IS NULL)
 AND (rwio.M_Product_ID=$P{M_Product_ID} OR $P{M_Product_ID} IS NULL)
+AND (rwio.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
+AND (rwio.M_Lot_ID=$P{PlantingCycle_ID} OR $P{PlantingCycle_ID} IS NULL)
+AND (rwio.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
 AND (rwio.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
-AND (rwio.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
 AND (DATE(rwio.OutDate) >= $P{OutDate1} OR COALESCE($P{OutDate1}, Current_Timestamp) = Current_Timestamp)
 AND (DATE(rwio.OutDate) <= $P{OutDate2} OR COALESCE($P{OutDate2}, Current_Timestamp) = Current_Timestamp)
 AND (DATE(rwio.InDate) >= $P{InDate1} OR COALESCE($P{InDate1}, Current_Timestamp) = Current_Timestamp)
 AND (DATE(rwio.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp) = Current_Timestamp)
 AND (rwio.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
 AND (rwio.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
+AND (rwio.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
 ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 	</queryString>
 	<field name="mobilizationguide" class="java.lang.String"/>
@@ -155,8 +163,6 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 	<field name="attributevaluetype" class="java.lang.String"/>
 	<field name="weight" class="java.math.BigDecimal"/>
 	<field name="bplongname" class="java.lang.String"/>
-	<field name="datedoc1" class="java.lang.String"/>
-	<field name="datedoc2" class="java.lang.String"/>
 	<field name="valueproduct" class="java.lang.String"/>
 	<field name="nameproduct" class="java.lang.String"/>
 	<field name="credit" class="java.lang.String"/>
@@ -168,6 +174,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 	<field name="dateguide" class="java.sql.Timestamp"/>
 	<field name="qtytodeliver" class="java.math.BigDecimal"/>
 	<field name="client" class="java.lang.String"/>
+	<field name="creditdefinition" class="java.lang.String"/>
 	<field name="summary_tareweight" class="java.math.BigDecimal"/>
 	<field name="summary_grossweight" class="java.math.BigDecimal"/>
 	<field name="summary_netweight" class="java.math.BigDecimal"/>
@@ -197,12 +204,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 	</background>
 	<title>
 		<band height="107">
-			<textField>
-				<reportElement x="279" y="0" width="195" height="86" uuid="2c5cb4b3-244b-4f25-a4bc-1b931e89f9d9"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="279" y="0" width="195" height="86" uuid="2c5cb4b3-244b-4f25-a4bc-1b931e89f9d9"/>
 				<textElement textAlignment="Center" markup="none">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Listado de Recepción (Productor) \n\"" + $F{client} + "\""]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Listado de Registro de Peso (Productor) \n\"" + $F{client} + "\""]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="691" y="0" width="61" height="12" uuid="5bac3e0e-8b1c-4f99-8772-bd51ae9aefab"/>
@@ -240,24 +247,56 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="h.mm.ss a">
-				<reportElement x="691" y="15" width="61" height="12" uuid="b02cd099-16dd-4287-a018-d4b4db049234"/>
+				<reportElement x="679" y="5" width="61" height="12" uuid="b02cd099-16dd-4287-a018-d4b4db049234"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="2" y="0" width="266" height="86" uuid="63011de2-e6e1-4337-af62-b0e250b0e679"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="266" height="12" uuid="3a5a6963-ba98-489d-93e9-a1a33214b9f1"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($P{C_BPartner_ID} == null ? "" :"Socio de Negocio = " + $F{bplongname} + "\n") +
-($P{FTA_FarmerCredit_ID} == null ? "" :"Crédito = " + $F{credit} + "\n") +
-($P{M_Product_ID} == null ? "" :"Rubro = " + $F{valueproduct} + " " + $F{nameproduct} + "\n") +
-($P{FTA_FarmerCredit_ID} == null ? "" :"Ciclo = " + $F{plantingcycle} + "\n") +
-($P{M_Warehouse_ID} == null ? "" :"Almacén = " + $F{warehouse} + "\n") +
-($P{DateDoc1} ==null ? "" :"F. Documento. >=" + $F{datedoc1} + "\n") +
-($P{DateDoc2} ==null ? "" :"F. Documento. <=" + $F{datedoc2} + "\n")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($P{AD_Org_ID} == null? "": "Organización = " + $F{org}) +
+($P{M_Warehouse_ID} == null? "": "\nAlmacén = " + $F{warehouse}) +
+($P{OperationType} == null? "": "\nTipo de Operación = " +
+    ($P{OperationType}.equals("DBM")? "Despacho de Producto a Granel":
+        ($P{OperationType}.equals("DFP")? "Despacho de Producto Terminado":
+            ($P{OperationType}.equals("MIM")? "Movimiento de Entrada":
+                ($P{OperationType}.equals("MOM")? "Movimiento de Salida":
+                    ($P{OperationType}.equals("ORW")? "Otras Pesadas":
+                        ($P{OperationType}.equals("RMR")? "Recepción de Materia Prima":
+                            ($P{OperationType}.equals("PBR")? "Recepción de Producto a Granel":
+                                ($P{OperationType}.equals("RMP")? "Recepción de Varios Productos": ""))))))))) +
+($P{FTA_EntryTicket_ID} == null? "": "\nTicket de Entrada = " + $F{entryticket}) +
+($P{FTA_RecordWeight_ID} == null? "": "\nRegistro de Peso = " + $F{recordweight}) +
+($P{Ext_Guide} == null? "": "\nGuía Externa = " + $F{ext_guide}) +
+($P{AnalysisType} == null? "": "\nTipo de Análisis = " +
+    ($P{AnalysisType}.equals("QA")? "Análisis de Calidad":
+        ($P{AnalysisType}.equals("CA")? "Análisis de Tolva":""))) +
+($P{FTA_QualityAnalysis_ID} == null? "": "\nAnálisis de Calidad = " + $F{qualityanalysis}) +
+($P{M_Product_ID} == null? "": "\nRubro = " + $F{valueproduct} + " " + $F{nameproduct}) +
+($P{FTA_CreditDefinition_ID} == null? "": "\nDefinición de Crédito = " + $F{creditdefinition}) +
+($P{PlantingCycle_ID} == null? "": "\nCiclo = " + $F{plantingcycle}) +
+($P{C_BPartner_ID} == null? "": "\nSocio de Negocio = " + $F{bplongname}) +
+($P{FTA_FarmerCredit_ID} == null? "": "\nCrédito = " + $F{credit}) +
+($P{DateDoc1} != null || $P{DateDoc2} != null? "\nFecha de Documento: ": "") +
+($P{DateDoc1} != null? new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc1}): "") +
+($P{DateDoc2} != null? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc2}): "") +
+($P{InDate1} != null || $P{InDate2} != null? "\nFecha de Entrada: ": "") +
+($P{InDate1} != null? new SimpleDateFormat("dd/MM/yyyy").format($P{InDate1}): "") +
+($P{InDate2} != null? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{InDate2}): "") +
+($P{OutDate1} != null || $P{OutDate2} != null? "\nFecha de Salida: ": "") +
+($P{OutDate1} != null? new SimpleDateFormat("dd/MM/yyyy").format($P{OutDate1}): "") +
+($P{OutDate2} != null? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{OutDate2}): "") +
+($P{DocStatus} == null? "": "\nEstado de Documento = " +
+    ($P{DocStatus}.equals("DR")? "Borrador":
+        ($P{DocStatus}.equals("IP")? "En Proceso":
+            ($P{DocStatus}.equals("CO")? "Completo":
+                ($P{DocStatus}.equals("VO")? "Anulado":
+                    ($P{DocStatus}.equals("RE")? "Reversado":
+                        ($P{DocStatus}.equals("CL")? "Cerrado": "")))))))]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -462,7 +501,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
-							<textField isStretchWithOverflow="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="1a43680f-f153-4253-bf57-4251535cd586"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -492,7 +531,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								</textElement>
 								<text><![CDATA[Resumen]]></text>
 							</staticText>
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="366" y="0" width="45" height="12" uuid="263665ca-4bd9-4260-8880-4b68780469e2"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
@@ -503,7 +542,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{GrossWeiht}]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="411" y="0" width="45" height="12" uuid="af332603-d408-492a-abee-1bddf0e4dace"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
@@ -514,7 +553,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{TareWeiht}]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="456" y="0" width="45" height="12" uuid="d72614df-8f62-4241-9ee8-18a89a3316cb"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
@@ -525,7 +564,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{NetWeiht}]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="501" y="0" width="45" height="12" uuid="ad2802eb-4e7d-4b0a-ac8c-c668d51a31c0"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
@@ -536,7 +575,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{Discount}]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="546" y="0" width="45" height="12" uuid="b61dc5e9-456d-4032-833d-e848da1483fe"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
@@ -556,7 +595,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField isStretchWithOverflow="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="35" height="12" uuid="df296626-fd71-4f5e-ae03-c22eff629b8f"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -581,7 +620,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField isStretchWithOverflow="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="47" height="12" uuid="5363db5a-d693-4273-8e75-3baebdb634b7"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -606,7 +645,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField isStretchWithOverflow="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="12" uuid="8bc06070-64d8-4d21-baac-b384d20a126e"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -631,7 +670,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField isStretchWithOverflow="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="34" height="12" uuid="20aa1aa3-e564-4d1a-b1e5-ffca09c073ef"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -656,7 +695,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField isStretchWithOverflow="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="50" height="12" uuid="ac483086-f94f-4320-abd8-d6632454fcd7"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -681,7 +720,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField isStretchWithOverflow="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="50" height="12" uuid="4500d88a-558d-4a33-bdeb-5c4915f79737"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -731,7 +770,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="9b666df0-07c1-4dc5-86e1-e083442ea671"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -756,7 +795,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="76f8fa5b-a3c9-4b3e-bf27-20365aab0c2c"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -781,7 +820,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="a5ad5890-0570-491e-8e36-c5d6d509512d"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -806,7 +845,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="b5ea157a-f43d-402e-888c-7c7a9fddbb7a"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -831,7 +870,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="1de263c1-6c31-42fc-8ab5-53e8ecc0fd07"/>
 								<box>
 									<topPen lineWidth="0.5"/>
@@ -859,7 +898,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
-							<textField isStretchWithOverflow="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="37" height="10" uuid="cd378f39-316b-4786-b62d-301057331584"/>
 								<textElement verticalAlignment="Middle">
 									<font size="7" isBold="true"/>
@@ -883,7 +922,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00">
+						<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
 							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="37" height="12" uuid="61c47a19-bfee-4d14-93c2-2cdd244caa6e"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font size="7"/>
@@ -900,7 +939,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00">
+						<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="37" height="12" uuid="202f239e-ceee-4b32-8df1-f405ba54a817"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font size="7" isBold="true" isItalic="true"/>
