@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Special Contract" pageWidth="612" pageHeight="812" whenNoDataType="AllSectionsNoDetail" columnWidth="532" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="20" uuid="6916fbed-f662-4f35-bcd1-96251027305f">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Special Contract" pageWidth="612" pageHeight="812" whenNoDataType="AllSectionsNoDetail" columnWidth="532" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="20" scriptletClass="org.spin.scriptlet.AmtInWordsScriptlet" uuid="6916fbed-f662-4f35-bcd1-96251027305f">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<import value="org.spin.scriptlet.*"/>
 	<parameter name="FTA_CreditAct_ID" class="java.math.BigDecimal">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="AD_Language" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
 	COALESCE(bp.TaxID,bp.Value) BPTaxID,
@@ -19,8 +21,16 @@
 	c.Name ClientName,
 	ROUND(cd.amt,2) DefinedAmt,
 	fc.ApprovedAmt,
-	LVE_PayScheduleDueDate(fc.FTA_FarmerCredit_ID) AS DueDate,
-	COUNT(fcp.FTA_FC_PaySchedule_ID) Quantity
+	CASE WHEN LVE_PayScheduleDueDate(fc.FTA_FarmerCredit_ID) IS NULL THEN
+		TO_CHAR(fc.DateDoc,'dd-MM-yyyy')
+	ELSE
+		 LVE_PayScheduleDueDate(fc.FTA_FarmerCredit_ID)
+	END AS DueDate,
+	CASE WHEN COUNT(fcp.FTA_FC_PaySchedule_ID) > 0 THEN
+		COUNT(fcp.FTA_FC_PaySchedule_ID)
+	ELSE
+		1
+	END Quantity
 FROM FTA_FarmerCredit fc
 INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID = fc.C_BPartner_ID)
 INNER JOIN AD_Client c ON (fc.AD_Client_ID = c.AD_Client_ID)
@@ -94,7 +104,8 @@ ORDER BY BPName]]>
 + " quien   en   lo adelante se denominará \"EL PRODUCTOR\", se ha convenido en celebrar"
 + "  el siguiente acuerdo:    "
 + " \n\nCLAUSULA   PRIMERA: \"EL AGRICULTOR\"    recibe    la    cantidad    de: "
-+ " CINCUENTA MIL CON 00 CTS. (Bs.  50,000.00),  por  parte  de  A.N.C.A.,  como   parte  de  incentivos"
++ $P{REPORT_SCRIPTLET}.amtInWords($F{approvedamt}.toString(),$P{AD_Language})
++ "  (BsF. "+ $F{approvedamt} +"),  por  parte  de  A.N.C.A.,  como   parte  de  incentivos"
 + " que serán  destinados  a  la ejecución  de actividades propias de la labor"
 + " agrícola que realiza, para lo  cual \"EL  AGRICULTOR\"  se  compromete  a su"
 + " cancelación  mediante "
