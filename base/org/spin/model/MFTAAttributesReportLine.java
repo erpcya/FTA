@@ -19,15 +19,24 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+
 /**
- * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
+ * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
  *
  */
 public class MFTAAttributesReportLine extends X_FTA_AttributesReportLine {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5986963582987351529L;
+
+	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/05/2014, 08:18:12
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 05/05/2014, 08:18:12
 	 * @param ctx
 	 * @param FTA_AttributesReportLine_ID
 	 * @param trxName
@@ -35,19 +44,25 @@ public class MFTAAttributesReportLine extends X_FTA_AttributesReportLine {
 	public MFTAAttributesReportLine(Properties ctx,
 			int FTA_AttributesReportLine_ID, String trxName) {
 		super(ctx, FTA_AttributesReportLine_ID, trxName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/05/2014, 08:18:12
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 05/05/2014, 08:18:12
 	 * @param ctx
 	 * @param rs
 	 * @param trxName
 	 */
 	public MFTAAttributesReportLine(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-		// TODO Auto-generated constructor stub
+	}
+	
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		super.beforeSave(newRecord);
+		
+		return true;
 	}
 
 }

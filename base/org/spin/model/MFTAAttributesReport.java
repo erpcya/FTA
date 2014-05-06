@@ -20,7 +20,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 /**
- * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
+ * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
  *
  */
 public class MFTAAttributesReport extends X_FTA_AttributesReport {
@@ -32,7 +32,7 @@ public class MFTAAttributesReport extends X_FTA_AttributesReport {
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/05/2014, 08:17:36
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 05/05/2014, 08:17:36
 	 * @param ctx
 	 * @param FTA_AttributesReport_ID
 	 * @param trxName
@@ -44,7 +44,7 @@ public class MFTAAttributesReport extends X_FTA_AttributesReport {
 
 	/**
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/05/2014, 08:17:36
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 05/05/2014, 08:17:36
 	 * @param ctx
 	 * @param rs
 	 * @param trxName
