@@ -21,20 +21,62 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
+import org.compiere.model.MAttribute;
+import org.compiere.model.MAttributeSet;
 
 /**
- * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
+ * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
  *
  */
 public class CalloutFTAAttributesReport extends CalloutEngine {
-	public String attributeSet (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
-		String p_AttributeSet_ID = (String) value;
+	
+	public String attributeSet (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){		
+		Integer p_M_AttributeSet_ID = (Integer) value;
+		String printName = null;
 		
-		if(p_AttributeSet_ID == null)
-			Env.setContext(ctx, "M_AttributeSet_ID", 0);
+		if (p_M_AttributeSet_ID == null 
+				|| p_M_AttributeSet_ID.intValue() == 0)
+			return "";
+		
+		MAttributeSet m_MAttributeSet = 
+				new MAttributeSet(ctx, p_M_AttributeSet_ID, null);
+		
+		//	Get PrintName 
+		printName = mTab.get_ValueAsString("PrintName").trim();
+		
+		if(printName.length() > 0)
+			printName += "_";
+			
+		printName += m_MAttributeSet.getName();
+		
+		//	
+		mTab.setValue("PrintName", printName);
 		
 		return "";
-	}//	End cdlCategory
+	}
+	
+	public String attribute (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){		
+		Integer p_M_Attribute_ID = (Integer) value;
+		String printName = null;
+		MAttribute m_MAttribute = null;
+		
+		if (p_M_Attribute_ID == null 
+				|| p_M_Attribute_ID.intValue() == 0)
+			return "";
+		
+		m_MAttribute = 
+				new MAttribute(ctx, p_M_Attribute_ID, null);
+		
+		//	Get PrintName 
+		printName = mTab.get_ValueAsString("PrintName").trim();
+		
+		if(printName.length() > 0)
+			printName += "_";
+		
+		printName += m_MAttribute.getName();
+		//	
+		mTab.setValue("PrintName", printName);
+		
+		return "";
+	}
 }
