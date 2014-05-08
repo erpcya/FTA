@@ -824,6 +824,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	}
 	
 	@Override
+	
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
 		if(newRecord)
@@ -839,8 +840,14 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if(getOperationType() == null)
 			msg = "@FTA_EntryTicket_ID@ @NotFound@";
 		//	End Yamel Senih
-			
 		
+		//	Waditza Rivas 2014-05-08 17:07:02
+		//	Valid Entry ticket 
+		if(getFTA_EntryTicket() != null)
+			msg = validETReference();
+		if(msg != null)
+			throw new AdempiereException(msg);
+		//	End Waditza Rivas	
 		if(getOperationType()
 				.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryBulkMaterial)
 				||	getOperationType()
@@ -858,7 +865,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					.equals(X_FTA_EntryTicket.OPERATIONTYPE_ProductBulkReceipt)
 					|| */getOperationType()
 							.equals(X_FTA_EntryTicket.OPERATIONTYPE_RawMaterialReceipt)){//	Id Operation Type In Product Bulk Receipt and Raw Material
-																						 // Receipt and Load Order equals 0 view msg Quality Analysis not found.
+			// Receipt and Load Order equals 0 view msg Quality Analysis not found.
 			if(getFTA_QualityAnalysis_ID() == 0)
 				msg = "@FTA_QualityAnalysis_ID@ @NotFound@";
 		}
@@ -889,6 +896,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return
 	 * @return String
 	 */
+	
 	private String createInOut() {
 		//	this yet generated
 		if(validInOutReference() != null)
@@ -1217,6 +1225,21 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		}
 		return l_DocumentNo;
 	}	//	createMaterialReceipt
+	
+	/**
+	 * Reference entry ticket in another sing of weight
+	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 08/05/2014, 17:02:58
+	 * @return
+	 * @return String
+	 */
+	private String validETReference(){
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_RecordWeight_ID " +
+				"FROM FTA_RecordWeight rw " +
+				"WHERE  rw.FTA_EntryTicket_ID= ?", getFTA_EntryTicket_ID());
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;
+		return null;		
+	}
 	
 	/**
 	 * Get Valid Weight For Shipment or Receipt
