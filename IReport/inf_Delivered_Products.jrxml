@@ -16,27 +16,27 @@
 	</parameter>
 	<parameter name="DocStatus" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
-		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, lot.Name PlantingCycle, ft.DateDoc, SUM(il.QtyInvoiced) QtyInvoiced,
+		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, lot.Name PlantingCycle, i.DateInvoiced DateDoc, SUM(il.QtyInvoiced) QtyInvoiced,
 pr.Name ||  '(' || ROUND(pa.ApprovedQty*fc.ApprovedQty, 2) || ' ' || uom.UomSymbol || ')' Description, fc.Qty, fc.ApprovedQty, SUM(fm.EffectiveArea) EffectiveArea
 FROM FTA_CreditDefinition cd
 INNER JOIN AD_Client cl ON(cl.AD_Client_ID = cd.AD_Client_ID)
 INNER JOIN M_Lot lot ON(lot.M_Lot_ID = cd.PlantingCycle_ID)
 INNER JOIN FTA_ProductListApproved pa ON(pa.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID)
-INNER JOIN M_Product pr ON(pa.M_Product_ID = pr.M_Product_ID)
-INNER JOIN FTA_RV_DocumentFact ft ON(ft.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID)
-INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = ft.Record_ID AND (il.M_Product_ID = pa.M_Product_ID OR il.M_Product_ID = pa.Substitute_ID))
+INNER JOIN M_Product pr ON(COALESCE(pa.Substitute_ID, pa.M_Product_ID) = pr.M_Product_ID)
+INNER JOIN C_InvoiceLine il ON(il.M_Product_ID = pa.M_Product_ID OR il.M_Product_ID = pa.Substitute_ID)
+INNER JOIN C_Invoice i ON(i.C_Invoice_ID = il.C_Invoice_ID)
 INNER JOIN C_UOM uom ON(uom.C_UOM_ID = pr.C_UOM_ID)
-INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = ft.C_BPartner_ID)
-INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = ft.FTA_FarmerCredit_ID)
+INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = i.C_BPartner_ID)
+INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = i.FTA_FarmerCredit_ID AND fc.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID)
 LEFT JOIN FTA_Farming fm ON(fm.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
-WHERE (ft.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
-AND (ft.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
-AND (ft.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
-AND (ft.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
-AND (ft.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
-GROUP BY cl.AD_Client_ID, cp.TaxID, cp.Name, fc.DocumentNo, cd.DocumentNo, lot.Name, ft.DateDoc, il.M_Product_ID, il.C_Charge_ID, il.Description, pr.Name, pa.ApprovedQty, uom.UomSymbol, fc.ApprovedQty, fc.Qty
+WHERE (i.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
+AND (cd.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
+AND (i.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
+AND (i.DateInvoiced >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
+AND (i.DateInvoiced <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
+GROUP BY cl.AD_Client_ID, cp.TaxID, cp.Name, fc.DocumentNo, cd.DocumentNo, lot.Name, i.DateInvoiced, il.M_Product_ID, il.C_Charge_ID, il.Description, pr.Name, pa.ApprovedQty, uom.UomSymbol, fc.ApprovedQty, fc.Qty
 HAVING(SUM(il.QtyInvoiced) > 0)
-ORDER BY ft.DateDoc]]>
+ORDER BY i.DateInvoiced]]>
 	</queryString>
 	<field name="client" class="java.lang.String"/>
 	<field name="taxid" class="java.lang.String"/>
