@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for FTA_AllocationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_AllocationLine extends PO implements I_FTA_AllocationLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_AllocationLine (Properties ctx, int FTA_AllocationLine_ID, String trxName)
@@ -115,9 +115,9 @@ public class X_FTA_AllocationLine extends PO implements I_FTA_AllocationLine, I_
 		return bd;
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -143,9 +143,9 @@ public class X_FTA_AllocationLine extends PO implements I_FTA_AllocationLine, I_
 		return ii.intValue();
 	}
 
-	public I_C_CashLine getC_CashLine() throws RuntimeException
+	public org.compiere.model.I_C_CashLine getC_CashLine() throws RuntimeException
     {
-		return (I_C_CashLine)MTable.get(getCtx(), I_C_CashLine.Table_Name)
+		return (org.compiere.model.I_C_CashLine)MTable.get(getCtx(), org.compiere.model.I_C_CashLine.Table_Name)
 			.getPO(getC_CashLine_ID(), get_TrxName());	}
 
 	/** Set Cash Journal Line.
@@ -171,9 +171,9 @@ public class X_FTA_AllocationLine extends PO implements I_FTA_AllocationLine, I_
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
-		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
 			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
@@ -199,9 +199,9 @@ public class X_FTA_AllocationLine extends PO implements I_FTA_AllocationLine, I_
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws RuntimeException
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
 			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
@@ -227,9 +227,9 @@ public class X_FTA_AllocationLine extends PO implements I_FTA_AllocationLine, I_
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws RuntimeException
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException
     {
-		return (I_C_Payment)MTable.get(getCtx(), I_C_Payment.Table_Name)
+		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
 			.getPO(getC_Payment_ID(), get_TrxName());	}
 
 	/** Set Payment.

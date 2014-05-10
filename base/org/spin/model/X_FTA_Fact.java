@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for FTA_Fact
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_Fact extends PO implements I_FTA_Fact, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_Fact (Properties ctx, int FTA_Fact_ID, String trxName)
@@ -81,9 +81,9 @@ public class X_FTA_Fact extends PO implements I_FTA_Fact, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Table getAD_Table() throws RuntimeException
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
     {
-		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
@@ -129,9 +129,9 @@ public class X_FTA_Fact extends PO implements I_FTA_Fact, I_Persistent
 		return bd;
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .

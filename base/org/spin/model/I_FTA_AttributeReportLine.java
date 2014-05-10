@@ -21,15 +21,15 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for FTA_AttributesReportLine
+/** Generated Interface for FTA_AttributeReportLine
  *  @author Adempiere (generated) 
  *  @version Release 3.7.0LTS
  */
-public interface I_FTA_AttributesReportLine 
+public interface I_FTA_AttributeReportLine 
 {
 
-    /** TableName=FTA_AttributesReportLine */
-    public static final String Table_Name = "FTA_AttributesReportLine";
+    /** TableName=FTA_AttributeReportLine */
+    public static final String Table_Name = "FTA_AttributeReportLine";
 
     /** AD_Table_ID=53801 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
@@ -79,25 +79,47 @@ public interface I_FTA_AttributesReportLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name FTA_AttributesReport_ID */
-    public static final String COLUMNNAME_FTA_AttributesReport_ID = "FTA_AttributesReport_ID";
+    /** Column name FTA_AttributeReport_ID */
+    public static final String COLUMNNAME_FTA_AttributeReport_ID = "FTA_AttributeReport_ID";
 
-	/** Set Attributes Report	  */
-	public void setFTA_AttributesReport_ID (int FTA_AttributesReport_ID);
+	/** Set Attribute Report	  */
+	public void setFTA_AttributeReport_ID (int FTA_AttributeReport_ID);
 
-	/** Get Attributes Report	  */
-	public int getFTA_AttributesReport_ID();
+	/** Get Attribute Report	  */
+	public int getFTA_AttributeReport_ID();
 
-	public org.spin.model.I_FTA_AttributesReport getFTA_AttributesReport() throws RuntimeException;
+	public org.spin.model.I_FTA_AttributeReport getFTA_AttributeReport() throws RuntimeException;
 
-    /** Column name FTA_AttributesReportLine_ID */
-    public static final String COLUMNNAME_FTA_AttributesReportLine_ID = "FTA_AttributesReportLine_ID";
+    /** Column name FTA_AttributeReportLine_ID */
+    public static final String COLUMNNAME_FTA_AttributeReportLine_ID = "FTA_AttributeReportLine_ID";
 
 	/** Set Attributes	  */
-	public void setFTA_AttributesReportLine_ID (int FTA_AttributesReportLine_ID);
+	public void setFTA_AttributeReportLine_ID (int FTA_AttributeReportLine_ID);
 
 	/** Get Attributes	  */
-	public int getFTA_AttributesReportLine_ID();
+	public int getFTA_AttributeReportLine_ID();
+
+    /** Column name FTA_CategoryCalcGroup_ID */
+    public static final String COLUMNNAME_FTA_CategoryCalcGroup_ID = "FTA_CategoryCalcGroup_ID";
+
+	/** Set Category Calc Group	  */
+	public void setFTA_CategoryCalcGroup_ID (int FTA_CategoryCalcGroup_ID);
+
+	/** Get Category Calc Group	  */
+	public int getFTA_CategoryCalcGroup_ID();
+
+	public org.spin.model.I_FTA_CategoryCalcGroup getFTA_CategoryCalcGroup() throws RuntimeException;
+
+    /** Column name FTA_CategoryCalc_ID */
+    public static final String COLUMNNAME_FTA_CategoryCalc_ID = "FTA_CategoryCalc_ID";
+
+	/** Set Category Calc	  */
+	public void setFTA_CategoryCalc_ID (int FTA_CategoryCalc_ID);
+
+	/** Get Category Calc	  */
+	public int getFTA_CategoryCalc_ID();
+
+	public org.spin.model.I_FTA_CategoryCalc getFTA_CategoryCalc() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -126,6 +148,21 @@ public interface I_FTA_AttributesReportLine
 	public int getM_Attribute_ID();
 
 	public org.compiere.model.I_M_Attribute getM_Attribute() throws RuntimeException;
+
+    /** Column name M_AttributeSet_ID */
+    public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
+
+	/** Set Attribute Set.
+	  * Product Attribute Set
+	  */
+	public void setM_AttributeSet_ID (int M_AttributeSet_ID);
+
+	/** Get Attribute Set.
+	  * Product Attribute Set
+	  */
+	public int getM_AttributeSet_ID();
+
+	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
 
     /** Column name PrintName */
     public static final String COLUMNNAME_PrintName = "PrintName";

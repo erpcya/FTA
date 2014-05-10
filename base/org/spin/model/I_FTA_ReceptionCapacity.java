@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_ReceptionCapacity
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_ReceptionCapacity 
 {
@@ -127,7 +127,7 @@ public interface I_FTA_ReceptionCapacity
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

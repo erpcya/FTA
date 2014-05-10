@@ -23,7 +23,7 @@ import java.util.Properties;
  * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
  *
  */
-public class MFTAAttributesReport extends X_FTA_AttributesReport {
+public class MFTAAttributeReport extends X_FTA_AttributeReport {
 
 	/**
 	 * 
@@ -37,7 +37,7 @@ public class MFTAAttributesReport extends X_FTA_AttributesReport {
 	 * @param FTA_AttributesReport_ID
 	 * @param trxName
 	 */
-	public MFTAAttributesReport(Properties ctx, int FTA_AttributesReport_ID,
+	public MFTAAttributeReport(Properties ctx, int FTA_AttributesReport_ID,
 			String trxName) {
 		super(ctx, FTA_AttributesReport_ID, trxName);
 	}
@@ -49,7 +49,7 @@ public class MFTAAttributesReport extends X_FTA_AttributesReport {
 	 * @param rs
 	 * @param trxName
 	 */
-	public MFTAAttributesReport(Properties ctx, ResultSet rs, String trxName) {
+	public MFTAAttributeReport(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
 

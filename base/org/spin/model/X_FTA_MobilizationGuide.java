@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_MobilizationGuide
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGuide, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_MobilizationGuide (Properties ctx, int FTA_MobilizationGuide_ID, String trxName)
@@ -106,9 +106,9 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -134,9 +134,9 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -317,7 +317,7 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 		@param Ext_Guide Ext. Guide	  */
 	public void setExt_Guide (String Ext_Guide)
 	{
-		set_ValueNoCheck (COLUMNNAME_Ext_Guide, Ext_Guide);
+		set_Value (COLUMNNAME_Ext_Guide, Ext_Guide);
 	}
 
 	/** Get Ext. Guide.
@@ -471,9 +471,9 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 		return false;
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
 			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.
@@ -499,9 +499,9 @@ public class X_FTA_MobilizationGuide extends PO implements I_FTA_MobilizationGui
 		return ii.intValue();
 	}
 
-	public I_M_AttributeValue getOwner() throws RuntimeException
+	public org.compiere.model.I_M_AttributeValue getOwner() throws RuntimeException
     {
-		return (I_M_AttributeValue)MTable.get(getCtx(), I_M_AttributeValue.Table_Name)
+		return (org.compiere.model.I_M_AttributeValue)MTable.get(getCtx(), org.compiere.model.I_M_AttributeValue.Table_Name)
 			.getPO(getOwner_ID(), get_TrxName());	}
 
 	/** Set Owner.

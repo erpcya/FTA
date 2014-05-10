@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_ProductsToApply
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_ProductsToApply 
 {
@@ -92,7 +92,7 @@ public interface I_FTA_ProductsToApply
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateFrom */
     public static final String COLUMNNAME_DateFrom = "DateFrom";
@@ -129,7 +129,7 @@ public interface I_FTA_ProductsToApply
 	/** Get Dosage Uom	  */
 	public int getDosage_Uom_ID();
 
-	public I_C_UOM getDosage_Uom() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getDosage_Uom() throws RuntimeException;
 
     /** Column name FTA_ProductsToApply_ID */
     public static final String COLUMNNAME_FTA_ProductsToApply_ID = "FTA_ProductsToApply_ID";
@@ -188,7 +188,7 @@ public interface I_FTA_ProductsToApply
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -203,7 +203,7 @@ public interface I_FTA_ProductsToApply
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -258,7 +258,7 @@ public interface I_FTA_ProductsToApply
 	/** Get Suggested Uom	  */
 	public int getSuggested_Uom_ID();
 
-	public I_C_UOM getSuggested_Uom() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getSuggested_Uom() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

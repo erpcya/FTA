@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_ProductListApproved
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_ProductListApproved 
 {
@@ -125,7 +125,7 @@ public interface I_FTA_ProductListApproved
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -153,7 +153,7 @@ public interface I_FTA_ProductListApproved
 	  */
 	public int getSubstitute_ID();
 
-	public I_M_Product getSubstitute() throws RuntimeException;
+	public org.compiere.model.I_M_Product getSubstitute() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

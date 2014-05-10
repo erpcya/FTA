@@ -22,30 +22,31 @@ import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_AttributesReport
+/** Generated Model for FTA_AttributeReport
  *  @author Adempiere (generated) 
  *  @version Release 3.7.0LTS - $Id$ */
-public class X_FTA_AttributesReport extends PO implements I_FTA_AttributesReport, I_Persistent 
+public class X_FTA_AttributeReport extends PO implements I_FTA_AttributeReport, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140505L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
-    public X_FTA_AttributesReport (Properties ctx, int FTA_AttributesReport_ID, String trxName)
+    public X_FTA_AttributeReport (Properties ctx, int FTA_AttributeReport_ID, String trxName)
     {
-      super (ctx, FTA_AttributesReport_ID, trxName);
-      /** if (FTA_AttributesReport_ID == 0)
+      super (ctx, FTA_AttributeReport_ID, trxName);
+      /** if (FTA_AttributeReport_ID == 0)
         {
-			setFTA_AttributesReport_ID (0);
+			setFTA_AttributeReport_ID (0);
+			setM_Product_ID (0);
 			setName (null);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_AttributesReport (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_AttributeReport (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -67,7 +68,7 @@ public class X_FTA_AttributesReport extends PO implements I_FTA_AttributesReport
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_AttributesReport[")
+      StringBuffer sb = new StringBuffer ("X_FTA_AttributeReport[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -89,49 +90,49 @@ public class X_FTA_AttributesReport extends PO implements I_FTA_AttributesReport
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Attributes Report.
-		@param FTA_AttributesReport_ID Attributes Report	  */
-	public void setFTA_AttributesReport_ID (int FTA_AttributesReport_ID)
+	/** Set Attribute Report.
+		@param FTA_AttributeReport_ID Attribute Report	  */
+	public void setFTA_AttributeReport_ID (int FTA_AttributeReport_ID)
 	{
-		if (FTA_AttributesReport_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_AttributesReport_ID, null);
+		if (FTA_AttributeReport_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_AttributeReport_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_AttributesReport_ID, Integer.valueOf(FTA_AttributesReport_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_AttributeReport_ID, Integer.valueOf(FTA_AttributeReport_ID));
 	}
 
-	/** Get Attributes Report.
-		@return Attributes Report	  */
-	public int getFTA_AttributesReport_ID () 
+	/** Get Attribute Report.
+		@return Attribute Report	  */
+	public int getFTA_AttributeReport_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_AttributesReport_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_AttributeReport_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (org.compiere.model.I_M_AttributeSet)MTable.get(getCtx(), org.compiere.model.I_M_AttributeSet.Table_Name)
-			.getPO(getM_AttributeSet_ID(), get_TrxName());	}
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
-	/** Set Attribute Set.
-		@param M_AttributeSet_ID 
-		Product Attribute Set
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
 	  */
-	public void setM_AttributeSet_ID (int M_AttributeSet_ID)
+	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_AttributeSet_ID < 0) 
-			set_Value (COLUMNNAME_M_AttributeSet_ID, null);
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
-	/** Get Attribute Set.
-		@return Product Attribute Set
+	/** Get Product.
+		@return Product, Service, Item
 	  */
-	public int getM_AttributeSet_ID () 
+	public int getM_Product_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSet_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

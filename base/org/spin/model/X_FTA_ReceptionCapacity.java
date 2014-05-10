@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_ReceptionCapacity
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_ReceptionCapacity extends PO implements I_FTA_ReceptionCapacity, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_ReceptionCapacity (Properties ctx, int FTA_ReceptionCapacity_ID, String trxName)
@@ -114,9 +114,9 @@ public class X_FTA_ReceptionCapacity extends PO implements I_FTA_ReceptionCapaci
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
 			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.

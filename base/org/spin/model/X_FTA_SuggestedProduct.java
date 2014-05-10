@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for FTA_SuggestedProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_SuggestedProduct extends PO implements I_FTA_SuggestedProduct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_SuggestedProduct (Properties ctx, int FTA_SuggestedProduct_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_FTA_SuggestedProduct extends PO implements I_FTA_SuggestedProduct
       return sb.toString();
     }
 
-	public I_M_Product getCategory() throws RuntimeException
+	public org.compiere.model.I_M_Product getCategory() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getCategory_ID(), get_TrxName());	}
 
 	/** Set Category.
@@ -149,9 +149,9 @@ public class X_FTA_SuggestedProduct extends PO implements I_FTA_SuggestedProduct
 		return bd;
 	}
 
-	public I_C_UOM getDosage_Uom() throws RuntimeException
+	public org.compiere.model.I_C_UOM getDosage_Uom() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getDosage_Uom_ID(), get_TrxName());	}
 
 	/** Set Dosage Uom.
@@ -244,9 +244,9 @@ public class X_FTA_SuggestedProduct extends PO implements I_FTA_SuggestedProduct
 		return ii.intValue();
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException
     {
-		return (I_M_Product_Category)MTable.get(getCtx(), I_M_Product_Category.Table_Name)
+		return (org.compiere.model.I_M_Product_Category)MTable.get(getCtx(), org.compiere.model.I_M_Product_Category.Table_Name)
 			.getPO(getM_Product_Category_ID(), get_TrxName());	}
 
 	/** Set Product Category.
@@ -272,9 +272,9 @@ public class X_FTA_SuggestedProduct extends PO implements I_FTA_SuggestedProduct
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

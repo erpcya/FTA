@@ -1,6 +1,7 @@
 ﻿--DROP VIEW FTA_RV_RecordWeight_InOut
-CREATE OR REPLACE VIEW FTA_RV_RecordWeight_InOut AS 
+--CREATE OR REPLACE VIEW FTA_RV_RecordWeight_InOut AS 
 --  OperationType RMR
+SELECT * FROM (
 SELECT mg.DocumentNo MobilizationGuide,
 	et.Ext_Guide,
 	et.DocumentNo EntryTicket,
@@ -50,7 +51,9 @@ SELECT mg.DocumentNo MobilizationGuide,
 	fc.FTA_FarmerCredit_ID,
 	rw.DocStatus,
 	1 seqNo,
-	rw.FTA_RecordWeight_ID
+	rw.FTA_RecordWeight_ID,
+	ar.FTA_AttributesReport_ID,
+	rw.OperationType
 FROM FTA_EntryTicket et
 INNER JOIN FTA_Vehicle vh ON(vh.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
 INNER JOIN AD_Client cli ON(cli.AD_Client_ID = et.AD_Client_ID)
@@ -65,13 +68,26 @@ INNER JOIN M_Lot lot ON(lot.M_Lot_ID = fm.PlantingCycle_ID)
 INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=et.C_BPartner_ID)
 INNER JOIN M_InOut io ON(io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND io.DocStatus = rw.DocStatus)
 INNER JOIN M_Warehouse wh ON(wh.M_Warehouse_ID = io.M_Warehouse_ID)
+INNER JOIN (
+SELECT 'N' isWeight, av.Name Att, av.Value, av.ValueNumber, av.AttributeValueType, 0 Weight,av.QualityAnalysis_ID, 0 FTA_RecordWeight_ID, arl.M_Product_ID,arl.FTA_AttributesReport_ID 
+FROM FTA_RV_AttributeValue av 
+INNER JOIN M_AttributeSetInstance asi ON (av.M_AttributeSetInstance_ID = asi.M_AttributeSetInstance_ID)
+INNER JOIN FTA_AttributesReportLine arl ON (arl.M_AttributeSet_ID = asi.M_AttributeSet_ID)
+UNION ALL
+SELECT 'Y' isWeight, cc.Name Att, '' "Value", 0 ValueNumber, 'N' AttributeValueType, rwd.Weight, 0 QualityAnalysis_ID, rwd.FTA_RecordWeight_ID, arl.M_Product_ID, arl.FTA_AttributesReport_ID 
+FROM FTA_RecordWeightDetail rwd
+INNER JOIN FTA_CategoryCalc cc ON(cc.FTA_CategoryCalc_ID = rwd.FTA_CategoryCalc_ID)
+INNER JOIN FTA_AttributesReportLine arl ON (cc.FTA_CategoryCalc_ID = arl.FTA_CategoryCalc_ID)
+) av ON (mp.M_Product_ID = av.M_Product_ID)
+INNER JOIN FTA_AttributesReport ar ON (av.FTA_AttributesReport_ID = ar.FTA_AttributesReport_ID)/*
+
 LEFT JOIN (SELECT 'N' isWeight, av.Name Att, av.Value, av.ValueNumber, av.AttributeValueType, 0 Weight,av.QualityAnalysis_ID, 0 FTA_RecordWeight_ID
 		FROM FTA_RV_AttributeValue av
 		UNION ALL
 		SELECT 'Y' isWeight, cc.Name Att, '' "Value", 0 ValueNumber, 'N' AttributeValueType, rwd.Weight, 0 QualityAnalysis_ID, rwd.FTA_RecordWeight_ID
 		FROM FTA_RecordWeightDetail rwd
 		INNER JOIN FTA_CategoryCalc cc ON(cc.FTA_CategoryCalc_ID = rwd.FTA_CategoryCalc_ID)
-		) av ON(av.QualityAnalysis_ID = qa.QualityAnalysis_ID OR av.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID)
+		) av ON(av.QualityAnalysis_ID = qa.QualityAnalysis_ID OR av.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID)*/
 WHERE et.OperationType = 'RMR'
 UNION ALL
 -- OperationType DBM
@@ -124,7 +140,9 @@ SELECT mg.DocumentNo MobilizationGuide,
 	0 FTA_FarmerCredit_ID,
 	rw.DocStatus,
 	1 seqNo,
-	rw.FTA_RecordWeight_ID
+	rw.FTA_RecordWeight_ID,
+	ar.FTA_AttributesReport_ID,
+	rw.OperationType
 FROM FTA_EntryTicket et
 INNER JOIN FTA_Vehicle vh ON(vh.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
 INNER JOIN AD_Client cli ON(cli.AD_Client_ID = et.AD_Client_ID)
@@ -136,17 +154,29 @@ INNER JOIN M_Product mp ON (mp.M_Product_ID=qa.M_Product_ID)
 INNER JOIN M_InOut io ON(io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND io.DocStatus = rw.DocStatus)
 INNER JOIN M_Warehouse wh ON(wh.M_Warehouse_ID = io.M_Warehouse_ID)
 LEFT JOIN C_BPartner bp ON (bp.C_BPartner_ID=et.C_BPartner_ID)
-LEFT JOIN (SELECT 'N' isWeight, av.Name Att, av.Value, av.ValueNumber, av.AttributeValueType, 0 Weight,av.QualityAnalysis_ID, 0 FTA_RecordWeight_ID
+INNER JOIN (
+SELECT 'N' isWeight, av.Name Att, av.Value, av.ValueNumber, av.AttributeValueType, 0 Weight,av.QualityAnalysis_ID, 0 FTA_RecordWeight_ID, arl.M_Product_ID,arl.FTA_AttributesReport_ID 
+FROM FTA_RV_AttributeValue av 
+INNER JOIN M_AttributeSetInstance asi ON (av.M_AttributeSetInstance_ID = asi.M_AttributeSetInstance_ID)
+INNER JOIN FTA_AttributesReportLine arl ON (arl.M_AttributeSet_ID = asi.M_AttributeSet_ID)
+UNION ALL
+SELECT 'Y' isWeight, cc.Name Att, '' "Value", 0 ValueNumber, 'N' AttributeValueType, rwd.Weight, 0 QualityAnalysis_ID, rwd.FTA_RecordWeight_ID, arl.M_Product_ID, arl.FTA_AttributesReport_ID 
+FROM FTA_RecordWeightDetail rwd
+INNER JOIN FTA_CategoryCalc cc ON(cc.FTA_CategoryCalc_ID = rwd.FTA_CategoryCalc_ID)
+INNER JOIN FTA_AttributesReportLine arl ON (cc.FTA_CategoryCalc_ID = arl.FTA_CategoryCalc_ID)
+) av ON (mp.M_Product_ID = av.M_Product_ID)
+INNER JOIN FTA_AttributesReport ar ON (av.FTA_AttributesReport_ID = ar.FTA_AttributesReport_ID)
+/*LEFT JOIN (SELECT 'N' isWeight, av.Name Att, av.Value, av.ValueNumber, av.AttributeValueType, 0 Weight,av.QualityAnalysis_ID, 0 FTA_RecordWeight_ID
 		FROM FTA_RV_AttributeValue av
 		UNION ALL
 		SELECT 'Y' isWeight, cc.Name Att, '' "Value", 0 ValueNumber, 'N' AttributeValueType, rwd.Weight, 0 QualityAnalysis_ID, rwd.FTA_RecordWeight_ID
 		FROM FTA_RecordWeightDetail rwd
 		INNER JOIN FTA_CategoryCalc cc ON(cc.FTA_CategoryCalc_ID = rwd.FTA_CategoryCalc_ID)
-		) av ON(av.QualityAnalysis_ID = qa.QualityAnalysis_ID OR av.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID)
+		) av ON(av.QualityAnalysis_ID = qa.QualityAnalysis_ID OR av.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID)*/
 WHERE et.OperationType = 'DBM'
 UNION ALL
 -- OperationType ORW
-SELECT 	'' MobilizationGuide,
+SELECT '' MobilizationGuide,
 	et.Ext_Guide,
 	et.DocumentNo EntryTicket,
 	'' QualityAnalysis,
@@ -195,7 +225,9 @@ SELECT 	'' MobilizationGuide,
 	0 FTA_FarmerCredit_ID,
 	rw.DocStatus,
 	1 seqNo,
-	rw.FTA_RecordWeight_ID
+	rw.FTA_RecordWeight_ID,
+	CAST(0 AS NUMERIC) FTA_AttributesReport_ID,
+	rw.OperationType
 FROM FTA_EntryTicket et
 INNER JOIN FTA_Vehicle vh ON(vh.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
 INNER JOIN AD_Client cli ON(cli.AD_Client_ID = et.AD_Client_ID)
@@ -254,7 +286,9 @@ SELECT mg.DocumentNo MobilizationGuide,
 	fc.FTA_FarmerCredit_ID,
 	rw.DocStatus,
 	1 seqNo,
-	rw.FTA_RecordWeight_ID
+	rw.FTA_RecordWeight_ID,
+	ar.FTA_AttributesReport_ID,
+	rw.OperationType
 FROM FTA_EntryTicket et
 INNER JOIN FTA_Vehicle vh ON(vh.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
 INNER JOIN AD_Client cli ON(cli.AD_Client_ID = et.AD_Client_ID)
@@ -269,11 +303,27 @@ INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=et.C_BPartner_ID)
 INNER JOIN M_InOut io ON(io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND io.DocStatus = rw.DocStatus)
 INNER JOIN M_Warehouse wh ON(wh.M_Warehouse_ID = io.M_Warehouse_ID)
 LEFT JOIN FTA_QualityAnalysis qa ON(qa.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND qa.AnalysisType = 'QA')
-LEFT JOIN (SELECT 'N' isWeight, av.Name Att, av.Value, av.ValueNumber, av.AttributeValueType, 0 Weight,av.QualityAnalysis_ID, 0 FTA_RecordWeight_ID
+INNER JOIN (
+SELECT 'N' isWeight, av.Name Att, av.Value, av.ValueNumber, av.AttributeValueType, 0 Weight,av.QualityAnalysis_ID, 0 FTA_RecordWeight_ID, arl.M_Product_ID,arl.FTA_AttributesReport_ID 
+FROM FTA_RV_AttributeValue av 
+INNER JOIN M_AttributeSetInstance asi ON (av.M_AttributeSetInstance_ID = asi.M_AttributeSetInstance_ID)
+INNER JOIN FTA_AttributesReportLine arl ON (arl.M_AttributeSet_ID = asi.M_AttributeSet_ID)
+UNION ALL
+SELECT 'Y' isWeight, cc.Name Att, '' "Value", 0 ValueNumber, 'N' AttributeValueType, rwd.Weight, 0 QualityAnalysis_ID, rwd.FTA_RecordWeight_ID, arl.M_Product_ID, arl.FTA_AttributesReport_ID 
+FROM FTA_RecordWeightDetail rwd
+INNER JOIN FTA_CategoryCalc cc ON(cc.FTA_CategoryCalc_ID = rwd.FTA_CategoryCalc_ID)
+INNER JOIN FTA_AttributesReportLine arl ON (cc.FTA_CategoryCalc_ID = arl.FTA_CategoryCalc_ID)
+) av ON (mp.M_Product_ID = av.M_Product_ID)
+INNER JOIN FTA_AttributesReport ar ON (av.FTA_AttributesReport_ID = ar.FTA_AttributesReport_ID)
+/*LEFT JOIN (SELECT 'N' isWeight, av.Name Att, av.Value, av.ValueNumber, av.AttributeValueType, 0 Weight,av.QualityAnalysis_ID, 0 FTA_RecordWeight_ID
 		FROM FTA_RV_AttributeValue av
 		UNION ALL
 		SELECT 'Y' isWeight, cc.Name Att, '' "Value", 0 ValueNumber, 'N' AttributeValueType, rwd.Weight, 0 QualityAnalysis_ID, rwd.FTA_RecordWeight_ID
 		FROM FTA_RecordWeightDetail rwd
 		INNER JOIN FTA_CategoryCalc cc ON(cc.FTA_CategoryCalc_ID = rwd.FTA_CategoryCalc_ID)
-		) av ON(av.QualityAnalysis_ID = qa.QualityAnalysis_ID OR av.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID)
+		) av ON(av.QualityAnalysis_ID = qa.QualityAnalysis_ID OR av.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID)*/
 WHERE et.OperationType = 'BMR'
+)temporal 
+WHERE 
+	temporal.M_Product_ID = 1009134 
+	AND FTA_AttributesReport_ID = 3 --AND temporal.OperationType='RMR'

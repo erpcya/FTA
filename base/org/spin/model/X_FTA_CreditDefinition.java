@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_CreditDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinition (Properties ctx, int FTA_CreditDefinition_ID, String trxName)
@@ -107,9 +107,9 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		return bd;
 	}
 
-	public I_M_Product getCategory() throws RuntimeException
+	public org.compiere.model.I_M_Product getCategory() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getCategory_ID(), get_TrxName());	}
 
 	/** Set Category.
@@ -132,9 +132,9 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -400,9 +400,9 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		return false;
 	}
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException
+	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException
     {
-		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+		return (org.compiere.model.I_M_PriceList)MTable.get(getCtx(), org.compiere.model.I_M_PriceList.Table_Name)
 			.getPO(getM_PriceList_ID(), get_TrxName());	}
 
 	/** Set Price List.
@@ -428,9 +428,9 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		return ii.intValue();
 	}
 
-	public I_M_Lot getPlantingCycle() throws RuntimeException
+	public org.compiere.model.I_M_Lot getPlantingCycle() throws RuntimeException
     {
-		return (I_M_Lot)MTable.get(getCtx(), I_M_Lot.Table_Name)
+		return (org.compiere.model.I_M_Lot)MTable.get(getCtx(), org.compiere.model.I_M_Lot.Table_Name)
 			.getPO(getPlantingCycle_ID(), get_TrxName());	}
 
 	/** Set Planting Cycle.

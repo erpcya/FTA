@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for FTA_FarmerLiquidation
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidation, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_FarmerLiquidation (Properties ctx, int FTA_FarmerLiquidation_ID, String trxName)
@@ -108,9 +108,9 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		return bd;
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -136,9 +136,9 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException
+	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException
     {
-		return (I_C_ConversionType)MTable.get(getCtx(), I_C_ConversionType.Table_Name)
+		return (org.compiere.model.I_C_ConversionType)MTable.get(getCtx(), org.compiere.model.I_C_ConversionType.Table_Name)
 			.getPO(getC_ConversionType_ID(), get_TrxName());	}
 
 	/** Set Currency Type.
@@ -164,9 +164,9 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -192,9 +192,9 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -460,9 +460,9 @@ public class X_FTA_FarmerLiquidation extends PO implements I_FTA_FarmerLiquidati
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

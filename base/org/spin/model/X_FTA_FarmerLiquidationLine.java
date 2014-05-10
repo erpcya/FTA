@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for FTA_FarmerLiquidationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_FarmerLiquidationLine extends PO implements I_FTA_FarmerLiquidationLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_FarmerLiquidationLine (Properties ctx, int FTA_FarmerLiquidationLine_ID, String trxName)

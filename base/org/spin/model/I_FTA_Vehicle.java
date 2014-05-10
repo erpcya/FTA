@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_Vehicle
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_Vehicle 
 {
@@ -187,7 +187,7 @@ public interface I_FTA_Vehicle
 	  */
 	public int getM_Shipper_ID();
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException;
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

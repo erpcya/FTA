@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_Vehicle
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_Vehicle extends PO implements I_FTA_Vehicle, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_Vehicle (Properties ctx, int FTA_Vehicle_ID, String trxName)
@@ -241,9 +241,9 @@ public class X_FTA_Vehicle extends PO implements I_FTA_Vehicle, I_Persistent
 		return bd;
 	}
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException
     {
-		return (I_M_Shipper)MTable.get(getCtx(), I_M_Shipper.Table_Name)
+		return (org.compiere.model.I_M_Shipper)MTable.get(getCtx(), org.compiere.model.I_M_Shipper.Table_Name)
 			.getPO(getM_Shipper_ID(), get_TrxName());	}
 
 	/** Set Shipper.

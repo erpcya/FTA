@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for FTA_AttributesReport
+/** Generated Interface for FTA_CDL_ReportGroup
  *  @author Adempiere (generated) 
  *  @version Release 3.7.0LTS
  */
-public interface I_FTA_AttributesReport 
+public interface I_FTA_CDL_ReportGroup 
 {
 
-    /** TableName=FTA_AttributesReport */
-    public static final String Table_Name = "FTA_AttributesReport";
+    /** TableName=FTA_CDL_ReportGroup */
+    public static final String Table_Name = "FTA_CDL_ReportGroup";
 
-    /** AD_Table_ID=53800 */
+    /** AD_Table_ID=53789 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -92,14 +92,14 @@ public interface I_FTA_AttributesReport
 	  */
 	public String getDescription();
 
-    /** Column name FTA_AttributesReport_ID */
-    public static final String COLUMNNAME_FTA_AttributesReport_ID = "FTA_AttributesReport_ID";
+    /** Column name FTA_CDL_ReportGroup_ID */
+    public static final String COLUMNNAME_FTA_CDL_ReportGroup_ID = "FTA_CDL_ReportGroup_ID";
 
-	/** Set Attributes Report	  */
-	public void setFTA_AttributesReport_ID (int FTA_AttributesReport_ID);
+	/** Set CDL Report Group ID	  */
+	public void setFTA_CDL_ReportGroup_ID (int FTA_CDL_ReportGroup_ID);
 
-	/** Get Attributes Report	  */
-	public int getFTA_AttributesReport_ID();
+	/** Get CDL Report Group ID	  */
+	public int getFTA_CDL_ReportGroup_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -114,21 +114,6 @@ public interface I_FTA_AttributesReport
 	  */
 	public boolean isActive();
 
-    /** Column name M_AttributeSet_ID */
-    public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
-
-	/** Set Attribute Set.
-	  * Product Attribute Set
-	  */
-	public void setM_AttributeSet_ID (int M_AttributeSet_ID);
-
-	/** Get Attribute Set.
-	  * Product Attribute Set
-	  */
-	public int getM_AttributeSet_ID();
-
-	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
-
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -141,6 +126,19 @@ public interface I_FTA_AttributesReport
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name PrintName */
+    public static final String COLUMNNAME_PrintName = "PrintName";
+
+	/** Set Print Text.
+	  * The label text to be printed on a document or correspondence.
+	  */
+	public void setPrintName (String PrintName);
+
+	/** Get Print Text.
+	  * The label text to be printed on a document or correspondence.
+	  */
+	public String getPrintName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

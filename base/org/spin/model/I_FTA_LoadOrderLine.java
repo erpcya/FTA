@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_LoadOrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_LoadOrderLine 
 {
@@ -76,7 +76,7 @@ public interface I_FTA_LoadOrderLine
 	  */
 	public int getC_InvoiceLine_ID();
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
     /** Column name ConfirmedQty */
     public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
@@ -113,7 +113,7 @@ public interface I_FTA_LoadOrderLine
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -201,7 +201,7 @@ public interface I_FTA_LoadOrderLine
 	  */
 	public int getM_InOutLine_ID();
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException;
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
     /** Column name M_MovementLine_ID */
     public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
@@ -216,7 +216,7 @@ public interface I_FTA_LoadOrderLine
 	  */
 	public int getM_MovementLine_ID();
 
-	public I_M_MovementLine getM_MovementLine() throws RuntimeException;
+	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -231,7 +231,7 @@ public interface I_FTA_LoadOrderLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for FTA_FarmerCredit
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -156,9 +156,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return bd;
 	}
 
-	public I_C_BPartner getBeneficiary() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getBeneficiary() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getBeneficiary_ID(), get_TrxName());	}
 
 	/** Set Beneficiary.
@@ -184,9 +184,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -212,9 +212,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws RuntimeException
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
     {
-		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
+		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
 			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
@@ -240,9 +240,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -268,9 +268,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
     {
-		return (I_C_PaymentTerm)MTable.get(getCtx(), I_C_PaymentTerm.Table_Name)
+		return (org.compiere.model.I_C_PaymentTerm)MTable.get(getCtx(), org.compiere.model.I_C_PaymentTerm.Table_Name)
 			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
 
 	/** Set Payment Term.
@@ -324,9 +324,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return (String)get_Value(COLUMNNAME_CreditType);
 	}
 
-	public I_C_UOM getC_UOM() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
@@ -709,9 +709,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

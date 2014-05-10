@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_FarmerCredit
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_FarmerCredit 
 {
@@ -116,7 +116,7 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getBeneficiary_ID();
 
-	public I_C_BPartner getBeneficiary() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getBeneficiary() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -131,7 +131,7 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -146,7 +146,7 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -161,7 +161,7 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
@@ -176,7 +176,7 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getC_PaymentTerm_ID();
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -220,7 +220,7 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateDoc */
     public static final String COLUMNNAME_DateDoc = "DateDoc";
@@ -431,7 +431,7 @@ public interface I_FTA_FarmerCredit
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Parent_FarmerCredit_ID */
     public static final String COLUMNNAME_Parent_FarmerCredit_ID = "Parent_FarmerCredit_ID";

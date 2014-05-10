@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_CategoryCalc
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_CategoryCalc 
 {
@@ -72,7 +72,7 @@ public interface I_FTA_CategoryCalc
 	/** Get Rule	  */
 	public int getAD_Rule_ID();
 
-	public I_AD_Rule getAD_Rule() throws RuntimeException;
+	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException;
 
     /** Column name CopyFrom */
     public static final String COLUMNNAME_CopyFrom = "CopyFrom";
@@ -199,7 +199,7 @@ public interface I_FTA_CategoryCalc
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

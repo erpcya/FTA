@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_MobilizationGuide
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_MobilizationGuide 
 {
@@ -89,7 +89,7 @@ public interface I_FTA_MobilizationGuide
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -104,7 +104,7 @@ public interface I_FTA_MobilizationGuide
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -288,7 +288,7 @@ public interface I_FTA_MobilizationGuide
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Owner_ID */
     public static final String COLUMNNAME_Owner_ID = "Owner_ID";
@@ -299,7 +299,7 @@ public interface I_FTA_MobilizationGuide
 	/** Get Owner	  */
 	public int getOwner_ID();
 
-	public I_M_AttributeValue getOwner() throws RuntimeException;
+	public org.compiere.model.I_M_AttributeValue getOwner() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

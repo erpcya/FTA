@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for FTA_InterestRate
+/** Generated Interface for FTA_AttributeReport
  *  @author Adempiere (generated) 
  *  @version Release 3.7.0LTS
  */
-public interface I_FTA_InterestRate 
+public interface I_FTA_AttributeReport 
 {
 
-    /** TableName=FTA_InterestRate */
-    public static final String Table_Name = "FTA_InterestRate";
+    /** TableName=FTA_AttributeReport */
+    public static final String Table_Name = "FTA_AttributeReport";
 
-    /** AD_Table_ID=53648 */
+    /** AD_Table_ID=53800 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -79,25 +79,27 @@ public interface I_FTA_InterestRate
 	  */
 	public int getCreatedBy();
 
-    /** Column name FTA_InterestRate_ID */
-    public static final String COLUMNNAME_FTA_InterestRate_ID = "FTA_InterestRate_ID";
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
 
-	/** Set Interest Rate	  */
-	public void setFTA_InterestRate_ID (int FTA_InterestRate_ID);
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
 
-	/** Get Interest Rate	  */
-	public int getFTA_InterestRate_ID();
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
 
-    /** Column name FTA_InterestType_ID */
-    public static final String COLUMNNAME_FTA_InterestType_ID = "FTA_InterestType_ID";
+    /** Column name FTA_AttributeReport_ID */
+    public static final String COLUMNNAME_FTA_AttributeReport_ID = "FTA_AttributeReport_ID";
 
-	/** Set Interest Type	  */
-	public void setFTA_InterestType_ID (int FTA_InterestType_ID);
+	/** Set Attribute Report	  */
+	public void setFTA_AttributeReport_ID (int FTA_AttributeReport_ID);
 
-	/** Get Interest Type	  */
-	public int getFTA_InterestType_ID();
-
-	public org.spin.model.I_FTA_InterestType getFTA_InterestType() throws RuntimeException;
+	/** Get Attribute Report	  */
+	public int getFTA_AttributeReport_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -112,18 +114,33 @@ public interface I_FTA_InterestRate
 	  */
 	public boolean isActive();
 
-    /** Column name Rate */
-    public static final String COLUMNNAME_Rate = "Rate";
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
-	/** Set Rate.
-	  * Rate or Tax or Exchange
+	/** Set Product.
+	  * Product, Service, Item
 	  */
-	public void setRate (BigDecimal Rate);
+	public void setM_Product_ID (int M_Product_ID);
 
-	/** Get Rate.
-	  * Rate or Tax or Exchange
+	/** Get Product.
+	  * Product, Service, Item
 	  */
-	public BigDecimal getRate();
+	public int getM_Product_ID();
+
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
+
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name);
+
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public String getName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -140,17 +157,4 @@ public interface I_FTA_InterestRate
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name ValidFrom */
-    public static final String COLUMNNAME_ValidFrom = "ValidFrom";
-
-	/** Set Valid from.
-	  * Valid from including this date (first day)
-	  */
-	public void setValidFrom (Timestamp ValidFrom);
-
-	/** Get Valid from.
-	  * Valid from including this date (first day)
-	  */
-	public Timestamp getValidFrom();
 }

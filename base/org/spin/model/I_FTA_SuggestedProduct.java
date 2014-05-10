@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_SuggestedProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_SuggestedProduct 
 {
@@ -72,7 +72,7 @@ public interface I_FTA_SuggestedProduct
 	/** Get Category	  */
 	public int getCategory_ID();
 
-	public I_M_Product getCategory() throws RuntimeException;
+	public org.compiere.model.I_M_Product getCategory() throws RuntimeException;
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
@@ -130,7 +130,7 @@ public interface I_FTA_SuggestedProduct
 	/** Get Dosage Uom	  */
 	public int getDosage_Uom_ID();
 
-	public I_C_UOM getDosage_Uom() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getDosage_Uom() throws RuntimeException;
 
     /** Column name FTA_FarmingStage_ID */
     public static final String COLUMNNAME_FTA_FarmingStage_ID = "FTA_FarmingStage_ID";
@@ -189,7 +189,7 @@ public interface I_FTA_SuggestedProduct
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException;
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -204,7 +204,7 @@ public interface I_FTA_SuggestedProduct
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

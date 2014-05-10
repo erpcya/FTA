@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_FC_PaySchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_FC_PaySchedule 
 {
@@ -76,7 +76,7 @@ public interface I_FTA_FC_PaySchedule
 	  */
 	public int getC_PaySchedule_ID();
 
-	public I_C_PaySchedule getC_PaySchedule() throws RuntimeException;
+	public org.compiere.model.I_C_PaySchedule getC_PaySchedule() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

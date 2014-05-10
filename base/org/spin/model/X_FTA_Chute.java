@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_Chute
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_Chute extends PO implements I_FTA_Chute, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_Chute (Properties ctx, int FTA_Chute_ID, String trxName)
@@ -117,9 +117,9 @@ public class X_FTA_Chute extends PO implements I_FTA_Chute, I_Persistent
 		return false;
 	}
 
-	public I_M_Locator getM_Locator() throws RuntimeException
+	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException
     {
-		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+		return (org.compiere.model.I_M_Locator)MTable.get(getCtx(), org.compiere.model.I_M_Locator.Table_Name)
 			.getPO(getM_Locator_ID(), get_TrxName());	}
 
 	/** Set Locator.
@@ -145,9 +145,9 @@ public class X_FTA_Chute extends PO implements I_FTA_Chute, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
 			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.

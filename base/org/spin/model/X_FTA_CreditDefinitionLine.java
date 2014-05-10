@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for FTA_CreditDefinitionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefinitionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinitionLine (Properties ctx, int FTA_CreditDefinitionLine_ID, String trxName)
@@ -101,9 +101,9 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 		return bd;
 	}
 
-	public I_C_Charge getC_Charge() throws RuntimeException
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
     {
-		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
+		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
 			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
@@ -129,9 +129,9 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 		return ii.intValue();
 	}
 
-	public I_C_ChargeType getC_ChargeType() throws RuntimeException
+	public org.compiere.model.I_C_ChargeType getC_ChargeType() throws RuntimeException
     {
-		return (I_C_ChargeType)MTable.get(getCtx(), I_C_ChargeType.Table_Name)
+		return (org.compiere.model.I_C_ChargeType)MTable.get(getCtx(), org.compiere.model.I_C_ChargeType.Table_Name)
 			.getPO(getC_ChargeType_ID(), get_TrxName());	}
 
 	/** Set Charge Type.
@@ -154,9 +154,9 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
@@ -331,9 +331,9 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 		return ii.intValue();
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException
     {
-		return (I_M_Product_Category)MTable.get(getCtx(), I_M_Product_Category.Table_Name)
+		return (org.compiere.model.I_M_Product_Category)MTable.get(getCtx(), org.compiere.model.I_M_Product_Category.Table_Name)
 			.getPO(getM_Product_Category_ID(), get_TrxName());	}
 
 	/** Set Product Category.
@@ -359,9 +359,9 @@ public class X_FTA_CreditDefinitionLine extends PO implements I_FTA_CreditDefini
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_RecordWeight
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_RecordWeight 
 {
@@ -76,7 +76,7 @@ public interface I_FTA_RecordWeight
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -120,7 +120,7 @@ public interface I_FTA_RecordWeight
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateDoc */
     public static final String COLUMNNAME_DateDoc = "DateDoc";
@@ -376,7 +376,7 @@ public interface I_FTA_RecordWeight
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_ProductionLine_ID */
     public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
@@ -391,7 +391,7 @@ public interface I_FTA_RecordWeight
 	  */
 	public int getM_ProductionLine_ID();
 
-	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
+	public org.compiere.model.I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
@@ -406,7 +406,7 @@ public interface I_FTA_RecordWeight
 	  */
 	public int getM_Shipper_ID();
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException;
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
 
     /** Column name NetWeight */
     public static final String COLUMNNAME_NetWeight = "NetWeight";

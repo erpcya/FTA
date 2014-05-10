@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_TechnicalForm
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_TechnicalForm 
 {
@@ -76,7 +76,7 @@ public interface I_FTA_TechnicalForm
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -91,7 +91,7 @@ public interface I_FTA_TechnicalForm
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
@@ -272,7 +272,7 @@ public interface I_FTA_TechnicalForm
 	  */
 	public int getSalesRep_ID();
 
-	public I_AD_User getSalesRep() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

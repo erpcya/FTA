@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_CategoryCalcFilter
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFilter, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_CategoryCalcFilter (Properties ctx, int FTA_CategoryCalcFilter_ID, String trxName)
@@ -169,9 +169,9 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 		return false;
 	}
 
-	public I_M_Attribute getM_Attribute() throws RuntimeException
+	public org.compiere.model.I_M_Attribute getM_Attribute() throws RuntimeException
     {
-		return (I_M_Attribute)MTable.get(getCtx(), I_M_Attribute.Table_Name)
+		return (org.compiere.model.I_M_Attribute)MTable.get(getCtx(), org.compiere.model.I_M_Attribute.Table_Name)
 			.getPO(getM_Attribute_ID(), get_TrxName());	}
 
 	/** Set Attribute.
@@ -197,9 +197,9 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 		return ii.intValue();
 	}
 
-	public I_M_AttributeValue getM_AttributeValue2() throws RuntimeException
+	public org.compiere.model.I_M_AttributeValue getM_AttributeValue2() throws RuntimeException
     {
-		return (I_M_AttributeValue)MTable.get(getCtx(), I_M_AttributeValue.Table_Name)
+		return (org.compiere.model.I_M_AttributeValue)MTable.get(getCtx(), org.compiere.model.I_M_AttributeValue.Table_Name)
 			.getPO(getM_AttributeValue2_ID(), get_TrxName());	}
 
 	/** Set Attribute Value To.
@@ -222,9 +222,9 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 		return ii.intValue();
 	}
 
-	public I_M_AttributeValue getM_AttributeValue() throws RuntimeException
+	public org.compiere.model.I_M_AttributeValue getM_AttributeValue() throws RuntimeException
     {
-		return (I_M_AttributeValue)MTable.get(getCtx(), I_M_AttributeValue.Table_Name)
+		return (org.compiere.model.I_M_AttributeValue)MTable.get(getCtx(), org.compiere.model.I_M_AttributeValue.Table_Name)
 			.getPO(getM_AttributeValue_ID(), get_TrxName());	}
 
 	/** Set Attribute Value.
@@ -250,9 +250,9 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 		return ii.intValue();
 	}
 
-	public I_M_Lot getPlantingCycle() throws RuntimeException
+	public org.compiere.model.I_M_Lot getPlantingCycle() throws RuntimeException
     {
-		return (I_M_Lot)MTable.get(getCtx(), I_M_Lot.Table_Name)
+		return (org.compiere.model.I_M_Lot)MTable.get(getCtx(), org.compiere.model.I_M_Lot.Table_Name)
 			.getPO(getPlantingCycle_ID(), get_TrxName());	}
 
 	/** Set Planting Cycle.

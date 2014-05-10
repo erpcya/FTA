@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for FTA_Allocation
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_Allocation (Properties ctx, int FTA_Allocation_ID, String trxName)
@@ -106,9 +106,9 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 		return bd;
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.

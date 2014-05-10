@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_LoadOrder
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrder (Properties ctx, int FTA_LoadOrder_ID, String trxName)
@@ -92,9 +92,9 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
       return sb.toString();
     }
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -137,9 +137,9 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		return bd;
 	}
 
-	public I_C_UOM getC_UOM_Volume() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM_Volume() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_Volume_ID(), get_TrxName());	}
 
 	/** Set UOM for Volume.
@@ -165,9 +165,9 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM_Weight() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM_Weight() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_Weight_ID(), get_TrxName());	}
 
 	/** Set UOM for Weight.
@@ -673,9 +673,9 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		return bd;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -701,9 +701,9 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException
     {
-		return (I_M_Shipper)MTable.get(getCtx(), I_M_Shipper.Table_Name)
+		return (org.compiere.model.I_M_Shipper)MTable.get(getCtx(), org.compiere.model.I_M_Shipper.Table_Name)
 			.getPO(getM_Shipper_ID(), get_TrxName());	}
 
 	/** Set Shipper.
@@ -729,9 +729,9 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
 			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.

@@ -24,14 +24,14 @@ import org.compiere.model.*;
 
 /** Generated Model for FTA_EntryTicket
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_EntryTicket (Properties ctx, int FTA_EntryTicket_ID, String trxName)
@@ -78,9 +78,9 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -106,9 +106,9 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -134,9 +134,9 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws RuntimeException
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
 			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
@@ -162,9 +162,9 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
-		return (I_C_OrderLine)MTable.get(getCtx(), I_C_OrderLine.Table_Name)
+		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
 			.getPO(getC_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Sales Order Line.
@@ -574,9 +574,9 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -602,9 +602,9 @@ public class X_FTA_EntryTicket extends PO implements I_FTA_EntryTicket, I_Persis
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException
     {
-		return (I_M_Shipper)MTable.get(getCtx(), I_M_Shipper.Table_Name)
+		return (org.compiere.model.I_M_Shipper)MTable.get(getCtx(), org.compiere.model.I_M_Shipper.Table_Name)
 			.getPO(getM_Shipper_ID(), get_TrxName());	}
 
 	/** Set Shipper.

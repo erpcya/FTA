@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_FC_PaySchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_FC_PaySchedule extends PO implements I_FTA_FC_PaySchedule, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_FC_PaySchedule (Properties ctx, int FTA_FC_PaySchedule_ID, String trxName)
@@ -42,6 +42,7 @@ public class X_FTA_FC_PaySchedule extends PO implements I_FTA_FC_PaySchedule, I_
       super (ctx, FTA_FC_PaySchedule_ID, trxName);
       /** if (FTA_FC_PaySchedule_ID == 0)
         {
+			setDiscountAmt (Env.ZERO);
 			setDiscountDate (new Timestamp( System.currentTimeMillis() ));
 			setDueAmt (Env.ZERO);
 			setDueDate (new Timestamp( System.currentTimeMillis() ));
@@ -78,9 +79,9 @@ public class X_FTA_FC_PaySchedule extends PO implements I_FTA_FC_PaySchedule, I_
       return sb.toString();
     }
 
-	public I_C_PaySchedule getC_PaySchedule() throws RuntimeException
+	public org.compiere.model.I_C_PaySchedule getC_PaySchedule() throws RuntimeException
     {
-		return (I_C_PaySchedule)MTable.get(getCtx(), I_C_PaySchedule.Table_Name)
+		return (org.compiere.model.I_C_PaySchedule)MTable.get(getCtx(), org.compiere.model.I_C_PaySchedule.Table_Name)
 			.getPO(getC_PaySchedule_ID(), get_TrxName());	}
 
 	/** Set Payment Schedule.
@@ -90,9 +91,9 @@ public class X_FTA_FC_PaySchedule extends PO implements I_FTA_FC_PaySchedule, I_
 	public void setC_PaySchedule_ID (int C_PaySchedule_ID)
 	{
 		if (C_PaySchedule_ID < 1) 
-			set_Value (COLUMNNAME_C_PaySchedule_ID, null);
+			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_PaySchedule_ID, Integer.valueOf(C_PaySchedule_ID));
+			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, Integer.valueOf(C_PaySchedule_ID));
 	}
 
 	/** Get Payment Schedule.

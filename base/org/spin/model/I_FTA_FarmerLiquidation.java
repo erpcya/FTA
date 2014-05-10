@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_FarmerLiquidation
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_FarmerLiquidation 
 {
@@ -89,7 +89,7 @@ public interface I_FTA_FarmerLiquidation
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
@@ -104,7 +104,7 @@ public interface I_FTA_FarmerLiquidation
 	  */
 	public int getC_ConversionType_ID();
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException;
+	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -119,7 +119,7 @@ public interface I_FTA_FarmerLiquidation
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -134,7 +134,7 @@ public interface I_FTA_FarmerLiquidation
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -291,7 +291,7 @@ public interface I_FTA_FarmerLiquidation
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name NetWeight */
     public static final String COLUMNNAME_NetWeight = "NetWeight";

@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for FTA_EntryTicketGuide
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_EntryTicketGuide extends PO implements I_FTA_EntryTicketGuide, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_EntryTicketGuide (Properties ctx, int FTA_EntryTicketGuide_ID, String trxName)
@@ -103,8 +103,8 @@ public class X_FTA_EntryTicketGuide extends PO implements I_FTA_EntryTicketGuide
 		return (String)get_Value(COLUMNNAME_Ext_Guide);
 	}
 
-	/** Set Guide Detail ID.
-		@param FTA_EntryTicketGuide_ID Guide Detail ID	  */
+	/** Set Guide Detail.
+		@param FTA_EntryTicketGuide_ID Guide Detail	  */
 	public void setFTA_EntryTicketGuide_ID (int FTA_EntryTicketGuide_ID)
 	{
 		if (FTA_EntryTicketGuide_ID < 1) 
@@ -113,8 +113,8 @@ public class X_FTA_EntryTicketGuide extends PO implements I_FTA_EntryTicketGuide
 			set_ValueNoCheck (COLUMNNAME_FTA_EntryTicketGuide_ID, Integer.valueOf(FTA_EntryTicketGuide_ID));
 	}
 
-	/** Get Guide Detail ID.
-		@return Guide Detail ID	  */
+	/** Get Guide Detail.
+		@return Guide Detail	  */
 	public int getFTA_EntryTicketGuide_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_EntryTicketGuide_ID);

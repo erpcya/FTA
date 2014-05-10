@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_Farming
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_Farming 
 {
@@ -81,7 +81,7 @@ public interface I_FTA_Farming
 	/** Get Category	  */
 	public int getCategory_ID();
 
-	public I_M_Product getCategory() throws RuntimeException;
+	public org.compiere.model.I_M_Product getCategory() throws RuntimeException;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -96,7 +96,7 @@ public interface I_FTA_Farming
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -287,7 +287,7 @@ public interface I_FTA_Farming
 	/** Get Planting Cycle	  */
 	public int getPlantingCycle_ID();
 
-	public I_M_Lot getPlantingCycle() throws RuntimeException;
+	public org.compiere.model.I_M_Lot getPlantingCycle() throws RuntimeException;
 
     /** Column name PlantingEndDate */
     public static final String COLUMNNAME_PlantingEndDate = "PlantingEndDate";

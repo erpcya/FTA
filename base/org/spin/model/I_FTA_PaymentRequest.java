@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_PaymentRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_PaymentRequest 
 {
@@ -76,7 +76,7 @@ public interface I_FTA_PaymentRequest
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BP_BankAccount_ID */
     public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
@@ -91,7 +91,7 @@ public interface I_FTA_PaymentRequest
 	  */
 	public int getC_BP_BankAccount_ID();
 
-	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -106,7 +106,7 @@ public interface I_FTA_PaymentRequest
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -121,7 +121,7 @@ public interface I_FTA_PaymentRequest
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -136,7 +136,7 @@ public interface I_FTA_PaymentRequest
 	  */
 	public int getC_Invoice_ID();
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_PaySelectionCheck_ID */
     public static final String COLUMNNAME_C_PaySelectionCheck_ID = "C_PaySelectionCheck_ID";
@@ -151,7 +151,7 @@ public interface I_FTA_PaymentRequest
 	  */
 	public int getC_PaySelectionCheck_ID();
 
-	public I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException;
+	public org.compiere.model.I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -308,7 +308,7 @@ public interface I_FTA_PaymentRequest
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

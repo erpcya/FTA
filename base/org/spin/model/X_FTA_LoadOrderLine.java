@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_LoadOrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrderLine (Properties ctx, int FTA_LoadOrderLine_ID, String trxName)
@@ -78,9 +78,9 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
       return sb.toString();
     }
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {
-		return (I_C_InvoiceLine)MTable.get(getCtx(), I_C_InvoiceLine.Table_Name)
+		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
 			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
 
 	/** Set Invoice Line.
@@ -143,9 +143,9 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 		return bd;
 	}
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
-		return (I_C_OrderLine)MTable.get(getCtx(), I_C_OrderLine.Table_Name)
+		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
 			.getPO(getC_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Sales Order Line.
@@ -258,9 +258,9 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
+		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
 			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
@@ -286,9 +286,9 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_MovementLine getM_MovementLine() throws RuntimeException
+	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException
     {
-		return (I_M_MovementLine)MTable.get(getCtx(), I_M_MovementLine.Table_Name)
+		return (org.compiere.model.I_M_MovementLine)MTable.get(getCtx(), org.compiere.model.I_M_MovementLine.Table_Name)
 			.getPO(getM_MovementLine_ID(), get_TrxName());	}
 
 	/** Set Move Line.
@@ -314,9 +314,9 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

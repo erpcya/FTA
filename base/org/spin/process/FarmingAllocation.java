@@ -92,11 +92,11 @@ public class FarmingAllocation extends SvrProcess {
 		}
 		
 		
-		credit.setQty(getNField("Sum(Area)", "FTA_Farming WHERE FTA_FarmerCredit_ID=?",new Object[]{credit.getFTA_FarmerCredit_ID()}));
+		credit.setQty(getNField("Sum(Area)", "FTA_Farming WHERE FTA_FarmerCredit_ID=? AND Status = 'A' ",new Object[]{credit.getFTA_FarmerCredit_ID()}));
 		credit.setAmt(getNField("Sum(fming.Area * cd.Amt)", "FTA_Farming fming " +
 											"INNER JOIN FTA_FarmerCredit fc ON fming.FTA_FarmerCredit_ID=fc.FTA_FarmerCredit_ID " +
 											"INNER JOIN FTA_CreditDefinition cd ON cd.FTA_CreditDefinition_ID=fc.FTA_CreditDefinition_ID " +
-											"WHERE fc.FTA_FarmerCredit_ID=?",new Object[]{credit.getFTA_FarmerCredit_ID()}));
+											"WHERE fc.FTA_FarmerCredit_ID=? AND Status = 'A' ",new Object[]{credit.getFTA_FarmerCredit_ID()}));
 		credit.save(get_TrxName());
 		return "@Updated@="+m_Updted;
 	}

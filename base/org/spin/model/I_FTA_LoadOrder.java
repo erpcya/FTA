@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_LoadOrder
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_LoadOrder 
 {
@@ -76,7 +76,7 @@ public interface I_FTA_LoadOrder
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name ConfirmedWeight */
     public static final String COLUMNNAME_ConfirmedWeight = "ConfirmedWeight";
@@ -116,7 +116,7 @@ public interface I_FTA_LoadOrder
 	  */
 	public int getC_UOM_Volume_ID();
 
-	public I_C_UOM getC_UOM_Volume() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM_Volume() throws RuntimeException;
 
     /** Column name C_UOM_Weight_ID */
     public static final String COLUMNNAME_C_UOM_Weight_ID = "C_UOM_Weight_ID";
@@ -131,7 +131,7 @@ public interface I_FTA_LoadOrder
 	  */
 	public int getC_UOM_Weight_ID();
 
-	public I_C_UOM getC_UOM_Weight() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM_Weight() throws RuntimeException;
 
     /** Column name DateDoc */
     public static final String COLUMNNAME_DateDoc = "DateDoc";
@@ -374,7 +374,7 @@ public interface I_FTA_LoadOrder
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
@@ -389,7 +389,7 @@ public interface I_FTA_LoadOrder
 	  */
 	public int getM_Shipper_ID();
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException;
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -404,7 +404,7 @@ public interface I_FTA_LoadOrder
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name OperationType */
     public static final String COLUMNNAME_OperationType = "OperationType";

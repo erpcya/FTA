@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_Driver
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_Driver extends PO implements I_FTA_Driver, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_Driver (Properties ctx, int FTA_Driver_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_FTA_Driver extends PO implements I_FTA_Driver, I_Persistent
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -138,9 +138,9 @@ public class X_FTA_Driver extends PO implements I_FTA_Driver, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException
     {
-		return (I_M_Shipper)MTable.get(getCtx(), I_M_Shipper.Table_Name)
+		return (org.compiere.model.I_M_Shipper)MTable.get(getCtx(), org.compiere.model.I_M_Shipper.Table_Name)
 			.getPO(getM_Shipper_ID(), get_TrxName());	}
 
 	/** Set Shipper.

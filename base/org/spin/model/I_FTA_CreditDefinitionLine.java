@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_CreditDefinitionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_CreditDefinitionLine 
 {
@@ -89,7 +89,7 @@ public interface I_FTA_CreditDefinitionLine
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_ChargeType_ID */
     public static final String COLUMNNAME_C_ChargeType_ID = "C_ChargeType_ID";
@@ -100,7 +100,7 @@ public interface I_FTA_CreditDefinitionLine
 	/** Get Charge Type	  */
 	public int getC_ChargeType_ID();
 
-	public I_C_ChargeType getC_ChargeType() throws RuntimeException;
+	public org.compiere.model.I_C_ChargeType getC_ChargeType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -131,7 +131,7 @@ public interface I_FTA_CreditDefinitionLine
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -234,7 +234,7 @@ public interface I_FTA_CreditDefinitionLine
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException;
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -249,7 +249,7 @@ public interface I_FTA_CreditDefinitionLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Price */
     public static final String COLUMNNAME_Price = "Price";

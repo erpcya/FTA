@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_CategoryCalcFilter
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_CategoryCalcFilter 
 {
@@ -151,7 +151,7 @@ public interface I_FTA_CategoryCalcFilter
 	  */
 	public int getM_Attribute_ID();
 
-	public I_M_Attribute getM_Attribute() throws RuntimeException;
+	public org.compiere.model.I_M_Attribute getM_Attribute() throws RuntimeException;
 
     /** Column name M_AttributeValue2_ID */
     public static final String COLUMNNAME_M_AttributeValue2_ID = "M_AttributeValue2_ID";
@@ -162,7 +162,7 @@ public interface I_FTA_CategoryCalcFilter
 	/** Get Attribute Value To	  */
 	public int getM_AttributeValue2_ID();
 
-	public I_M_AttributeValue getM_AttributeValue2() throws RuntimeException;
+	public org.compiere.model.I_M_AttributeValue getM_AttributeValue2() throws RuntimeException;
 
     /** Column name M_AttributeValue_ID */
     public static final String COLUMNNAME_M_AttributeValue_ID = "M_AttributeValue_ID";
@@ -177,7 +177,7 @@ public interface I_FTA_CategoryCalcFilter
 	  */
 	public int getM_AttributeValue_ID();
 
-	public I_M_AttributeValue getM_AttributeValue() throws RuntimeException;
+	public org.compiere.model.I_M_AttributeValue getM_AttributeValue() throws RuntimeException;
 
     /** Column name PlantingCycle_ID */
     public static final String COLUMNNAME_PlantingCycle_ID = "PlantingCycle_ID";
@@ -188,7 +188,7 @@ public interface I_FTA_CategoryCalcFilter
 	/** Get Planting Cycle	  */
 	public int getPlantingCycle_ID();
 
-	public I_M_Lot getPlantingCycle() throws RuntimeException;
+	public org.compiere.model.I_M_Lot getPlantingCycle() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

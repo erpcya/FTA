@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_FarmingStage
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_FarmingStage extends PO implements I_FTA_FarmingStage, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_FarmingStage (Properties ctx, int FTA_FarmingStage_ID, String trxName)
@@ -77,9 +77,9 @@ public class X_FTA_FarmingStage extends PO implements I_FTA_FarmingStage, I_Pers
       return sb.toString();
     }
 
-	public I_M_Product getCategory() throws RuntimeException
+	public org.compiere.model.I_M_Product getCategory() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getCategory_ID(), get_TrxName());	}
 
 	/** Set Category.

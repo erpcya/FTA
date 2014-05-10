@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_InterestType
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_InterestType 
 {
@@ -85,7 +85,7 @@ public interface I_FTA_InterestType
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_DocTypeTarget_ID */
     public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
@@ -100,7 +100,7 @@ public interface I_FTA_InterestType
 	  */
 	public int getC_DocTypeTarget_ID();
 
-	public I_C_DocType getC_DocTypeTarget() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -175,7 +175,7 @@ public interface I_FTA_InterestType
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

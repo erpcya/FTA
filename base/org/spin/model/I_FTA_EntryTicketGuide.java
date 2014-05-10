@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_EntryTicketGuide
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_EntryTicketGuide 
 {
@@ -104,10 +104,10 @@ public interface I_FTA_EntryTicketGuide
     /** Column name FTA_EntryTicketGuide_ID */
     public static final String COLUMNNAME_FTA_EntryTicketGuide_ID = "FTA_EntryTicketGuide_ID";
 
-	/** Set Guide Detail ID	  */
+	/** Set Guide Detail	  */
 	public void setFTA_EntryTicketGuide_ID (int FTA_EntryTicketGuide_ID);
 
-	/** Get Guide Detail ID	  */
+	/** Get Guide Detail	  */
 	public int getFTA_EntryTicketGuide_ID();
 
     /** Column name FTA_EntryTicket_ID */

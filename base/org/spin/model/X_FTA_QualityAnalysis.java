@@ -24,14 +24,14 @@ import org.compiere.model.*;
 
 /** Generated Model for FTA_QualityAnalysis
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_QualityAnalysis (Properties ctx, int FTA_QualityAnalysis_ID, String trxName)
@@ -103,9 +103,9 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 		return (String)get_Value(COLUMNNAME_AnalysisType);
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -455,9 +455,9 @@ public class X_FTA_QualityAnalysis extends PO implements I_FTA_QualityAnalysis, 
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

@@ -20,11 +20,12 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.KeyNamePair;
 
-/** Generated Model for FTA_CDL_Category
+/** Generated Model for FTA_CDL_ReportGroup
  *  @author Adempiere (generated) 
  *  @version Release 3.7.0LTS - $Id$ */
-public class X_FTA_CDL_Category extends PO implements I_FTA_CDL_Category, I_Persistent 
+public class X_FTA_CDL_ReportGroup extends PO implements I_FTA_CDL_ReportGroup, I_Persistent 
 {
 
 	/**
@@ -33,19 +34,18 @@ public class X_FTA_CDL_Category extends PO implements I_FTA_CDL_Category, I_Pers
 	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
-    public X_FTA_CDL_Category (Properties ctx, int FTA_CDL_Category_ID, String trxName)
+    public X_FTA_CDL_ReportGroup (Properties ctx, int FTA_CDL_ReportGroup_ID, String trxName)
     {
-      super (ctx, FTA_CDL_Category_ID, trxName);
-      /** if (FTA_CDL_Category_ID == 0)
+      super (ctx, FTA_CDL_ReportGroup_ID, trxName);
+      /** if (FTA_CDL_ReportGroup_ID == 0)
         {
-			setFTA_CDL_Category_ID (0);
+			setFTA_CDL_ReportGroup_ID (0);
 			setName (null);
-			setValue (null);
         } */
     }
 
     /** Load Constructor */
-    public X_FTA_CDL_Category (Properties ctx, ResultSet rs, String trxName)
+    public X_FTA_CDL_ReportGroup (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -67,7 +67,7 @@ public class X_FTA_CDL_Category extends PO implements I_FTA_CDL_Category, I_Pers
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_FTA_CDL_Category[")
+      StringBuffer sb = new StringBuffer ("X_FTA_CDL_ReportGroup[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -89,21 +89,21 @@ public class X_FTA_CDL_Category extends PO implements I_FTA_CDL_Category, I_Pers
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Credit Definition Line Category.
-		@param FTA_CDL_Category_ID Credit Definition Line Category	  */
-	public void setFTA_CDL_Category_ID (int FTA_CDL_Category_ID)
+	/** Set CDL Report Group ID.
+		@param FTA_CDL_ReportGroup_ID CDL Report Group ID	  */
+	public void setFTA_CDL_ReportGroup_ID (int FTA_CDL_ReportGroup_ID)
 	{
-		if (FTA_CDL_Category_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_CDL_Category_ID, null);
+		if (FTA_CDL_ReportGroup_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FTA_CDL_ReportGroup_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_CDL_Category_ID, Integer.valueOf(FTA_CDL_Category_ID));
+			set_ValueNoCheck (COLUMNNAME_FTA_CDL_ReportGroup_ID, Integer.valueOf(FTA_CDL_ReportGroup_ID));
 	}
 
-	/** Get Credit Definition Line Category.
-		@return Credit Definition Line Category	  */
-	public int getFTA_CDL_Category_ID () 
+	/** Get CDL Report Group ID.
+		@return CDL Report Group ID	  */
+	public int getFTA_CDL_ReportGroup_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CDL_Category_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CDL_ReportGroup_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -126,20 +126,28 @@ public class X_FTA_CDL_Category extends PO implements I_FTA_CDL_Category, I_Pers
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Set Search Key.
-		@param Value 
-		Search key for the record in the format required - must be unique
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getName());
+    }
+
+	/** Set Print Text.
+		@param PrintName 
+		The label text to be printed on a document or correspondence.
 	  */
-	public void setValue (String Value)
+	public void setPrintName (String PrintName)
 	{
-		set_Value (COLUMNNAME_Value, Value);
+		set_Value (COLUMNNAME_PrintName, PrintName);
 	}
 
-	/** Get Search Key.
-		@return Search key for the record in the format required - must be unique
+	/** Get Print Text.
+		@return The label text to be printed on a document or correspondence.
 	  */
-	public String getValue () 
+	public String getPrintName () 
 	{
-		return (String)get_Value(COLUMNNAME_Value);
+		return (String)get_Value(COLUMNNAME_PrintName);
 	}
 }

@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_PaymentRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_PaymentRequest (Properties ctx, int FTA_PaymentRequest_ID, String trxName)
@@ -87,9 +87,9 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -115,9 +115,9 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 		return ii.intValue();
 	}
 
-	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException
+	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException
     {
-		return (I_C_BP_BankAccount)MTable.get(getCtx(), I_C_BP_BankAccount.Table_Name)
+		return (org.compiere.model.I_C_BP_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BP_BankAccount.Table_Name)
 			.getPO(getC_BP_BankAccount_ID(), get_TrxName());	}
 
 	/** Set Partner Bank Account.
@@ -143,9 +143,9 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws RuntimeException
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
     {
-		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
+		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
 			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
@@ -171,9 +171,9 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -199,9 +199,9 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
-		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
 			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
@@ -227,9 +227,9 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 		return ii.intValue();
 	}
 
-	public I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException
+	public org.compiere.model.I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException
     {
-		return (I_C_PaySelectionCheck)MTable.get(getCtx(), I_C_PaySelectionCheck.Table_Name)
+		return (org.compiere.model.I_C_PaySelectionCheck)MTable.get(getCtx(), org.compiere.model.I_C_PaySelectionCheck.Table_Name)
 			.getPO(getC_PaySelectionCheck_ID(), get_TrxName());	}
 
 	/** Set Pay Selection Check.
@@ -503,9 +503,9 @@ public class X_FTA_PaymentRequest extends PO implements I_FTA_PaymentRequest, I_
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FTA_TechnicalForm
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_TechnicalForm (Properties ctx, int FTA_TechnicalForm_ID, String trxName)
@@ -80,9 +80,9 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -108,9 +108,9 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -414,9 +414,9 @@ public class X_FTA_TechnicalForm extends PO implements I_FTA_TechnicalForm, I_Pe
 		return false;
 	}
 
-	public I_AD_User getSalesRep() throws RuntimeException
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getSalesRep_ID(), get_TrxName());	}
 
 	/** Set Sales Representative.

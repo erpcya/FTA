@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for FTA_InterestType
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_InterestType (Properties ctx, int FTA_InterestType_ID, String trxName)
@@ -97,9 +97,9 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 		return (String)get_Value(COLUMNNAME_CalculationType);
 	}
 
-	public I_C_Charge getC_Charge() throws RuntimeException
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
     {
-		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
+		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
 			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
@@ -125,9 +125,9 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocTypeTarget() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocTypeTarget_ID(), get_TrxName());	}
 
 	/** Set Target Document Type.
@@ -214,9 +214,9 @@ public class X_FTA_InterestType extends PO implements I_FTA_InterestType, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

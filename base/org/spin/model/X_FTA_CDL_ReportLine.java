@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for FTA_CDL_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version Release 3.7.0LTS - $Id$ */
 public class X_FTA_CDL_ReportLine extends PO implements I_FTA_CDL_ReportLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20140510L;
 
     /** Standard Constructor */
     public X_FTA_CDL_ReportLine (Properties ctx, int FTA_CDL_ReportLine_ID, String trxName)
@@ -95,6 +95,31 @@ public class X_FTA_CDL_ReportLine extends PO implements I_FTA_CDL_ReportLine, I_
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_FTA_CDL_ReportGroup getFTA_CDL_ReportGroup() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_CDL_ReportGroup)MTable.get(getCtx(), org.spin.model.I_FTA_CDL_ReportGroup.Table_Name)
+			.getPO(getFTA_CDL_ReportGroup_ID(), get_TrxName());	}
+
+	/** Set CDL Report Group ID.
+		@param FTA_CDL_ReportGroup_ID CDL Report Group ID	  */
+	public void setFTA_CDL_ReportGroup_ID (int FTA_CDL_ReportGroup_ID)
+	{
+		if (FTA_CDL_ReportGroup_ID < 1) 
+			set_Value (COLUMNNAME_FTA_CDL_ReportGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_CDL_ReportGroup_ID, Integer.valueOf(FTA_CDL_ReportGroup_ID));
+	}
+
+	/** Get CDL Report Group ID.
+		@return CDL Report Group ID	  */
+	public int getFTA_CDL_ReportGroup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_CDL_ReportGroup_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_FTA_CDL_Report getFTA_CDL_Report() throws RuntimeException
     {
 		return (org.spin.model.I_FTA_CDL_Report)MTable.get(getCtx(), org.spin.model.I_FTA_CDL_Report.Table_Name)
@@ -135,5 +160,25 @@ public class X_FTA_CDL_ReportLine extends PO implements I_FTA_CDL_ReportLine, I_
 	public String getPrintName () 
 	{
 		return (String)get_Value(COLUMNNAME_PrintName);
+	}
+
+	/** Set Sequence.
+		@param SeqNo 
+		Method of ordering records; lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo)
+	{
+		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
+	}
+
+	/** Get Sequence.
+		@return Method of ordering records; lowest number comes first
+	  */
+	public int getSeqNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

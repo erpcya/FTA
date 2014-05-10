@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_CDL_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_CDL_ReportLine 
 {
@@ -90,6 +90,17 @@ public interface I_FTA_CDL_ReportLine
 
 	public org.spin.model.I_FTA_CDL_Category getFTA_CDL_Category() throws RuntimeException;
 
+    /** Column name FTA_CDL_ReportGroup_ID */
+    public static final String COLUMNNAME_FTA_CDL_ReportGroup_ID = "FTA_CDL_ReportGroup_ID";
+
+	/** Set CDL Report Group ID	  */
+	public void setFTA_CDL_ReportGroup_ID (int FTA_CDL_ReportGroup_ID);
+
+	/** Get CDL Report Group ID	  */
+	public int getFTA_CDL_ReportGroup_ID();
+
+	public org.spin.model.I_FTA_CDL_ReportGroup getFTA_CDL_ReportGroup() throws RuntimeException;
+
     /** Column name FTA_CDL_Report_ID */
     public static final String COLUMNNAME_FTA_CDL_Report_ID = "FTA_CDL_Report_ID";
 
@@ -126,6 +137,21 @@ public interface I_FTA_CDL_ReportLine
 	  * The label text to be printed on a document or correspondence.
 	  */
 	public String getPrintName();
+
+    /** Column name SeqNo */
+    public static final String COLUMNNAME_SeqNo = "SeqNo";
+
+	/** Set Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo);
+
+	/** Get Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public int getSeqNo();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_EntryTicket
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_EntryTicket 
 {
@@ -76,7 +76,7 @@ public interface I_FTA_EntryTicket
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -91,7 +91,7 @@ public interface I_FTA_EntryTicket
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -106,7 +106,7 @@ public interface I_FTA_EntryTicket
 	  */
 	public int getC_Order_ID();
 
-	public I_C_Order getC_Order() throws RuntimeException;
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -121,7 +121,7 @@ public interface I_FTA_EntryTicket
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -349,7 +349,7 @@ public interface I_FTA_EntryTicket
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
@@ -364,7 +364,7 @@ public interface I_FTA_EntryTicket
 	  */
 	public int getM_Shipper_ID();
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException;
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
 
     /** Column name OperationType */
     public static final String COLUMNNAME_OperationType = "OperationType";

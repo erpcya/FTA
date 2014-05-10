@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FTA_CreditDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version Release 3.7.0LTS
  */
 public interface I_FTA_CreditDefinition 
 {
@@ -85,7 +85,7 @@ public interface I_FTA_CreditDefinition
 	/** Get Category	  */
 	public int getCategory_ID();
 
-	public I_M_Product getCategory() throws RuntimeException;
+	public org.compiere.model.I_M_Product getCategory() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -100,7 +100,7 @@ public interface I_FTA_CreditDefinition
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name CopyFrom */
     public static final String COLUMNNAME_CopyFrom = "CopyFrom";
@@ -257,7 +257,7 @@ public interface I_FTA_CreditDefinition
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
     /** Column name PlantingCycle_ID */
     public static final String COLUMNNAME_PlantingCycle_ID = "PlantingCycle_ID";
@@ -268,7 +268,7 @@ public interface I_FTA_CreditDefinition
 	/** Get Planting Cycle	  */
 	public int getPlantingCycle_ID();
 
-	public I_M_Lot getPlantingCycle() throws RuntimeException;
+	public org.compiere.model.I_M_Lot getPlantingCycle() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
