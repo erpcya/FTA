@@ -8,7 +8,7 @@ CASE
 	WHEN att.AttributeValueType = 'L' THEN attv.Name
 END AS AttributeValue, 
 atti.Value, atti.ValueNumber, attv.Name AttributeName,
-attsi.M_AttributeSetInstance_ID QualityAnalysis_ID, attu.SeqNo, att.M_Attribute_ID, attv.M_AttributeValue_ID, attsi.M_Lot_ID
+attsi.M_AttributeSetInstance_ID QualityAnalysis_ID, attu.SeqNo, att.M_Attribute_ID, attv.M_AttributeValue_ID, attsi.M_Lot_ID, attsi.M_AttributeSet_ID
 FROM M_AttributeSetInstance attsi
 INNER JOIN M_AttributeInstance atti ON(atti.M_AttributeSetInstance_ID = attsi.M_AttributeSetInstance_ID)
 INNER JOIN M_Attribute att ON(att.M_Attribute_ID = atti.M_Attribute_ID)
