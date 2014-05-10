@@ -52,6 +52,7 @@
 	<parameter name="DocStatus" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="FTA_AttributeReport_ID" class="java.math.BigDecimal"/>
 	<queryString>
 		<![CDATA[SELECT	TO_CHAR(rwio.OutDate, 'DD/MM/YYYY') DateDoc,
 	ROUND(SUM(rwio.TareWeight),$P{StdPrecision}) TareWeight,
@@ -115,7 +116,6 @@ LEFT JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = rwio.FTA_Credi
 	)
 	AND DATE(rw.OutDate) <= DATE(Current_Timestamp)) sr
 WHERE rwio.OperationType = $P{OperationType}
-AND (rwio.Att IN('Humedad', 'Impureza') OR rwio.IsWeight = 'Y')
 AND (rwio.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
 AND (rwio.M_Warehouse_ID=$P{M_Warehouse_ID} OR $P{M_Warehouse_ID} IS NULL)
 AND (rwio.FTA_MobilizationGuide_ID=$P{FTA_MobilizationGuide_ID} OR $P{FTA_MobilizationGuide_ID} IS NULL)
@@ -138,6 +138,7 @@ AND (DATE(rwio.InDate) <= $P{InDate2} OR COALESCE($P{InDate2}, Current_Timestamp
 AND (rwio.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
 AND (rwio.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
 AND (rwio.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
+AND (rwio.FTA_AttributeReport_ID=$P{FTA_AttributeReport_ID} OR $P{FTA_AttributeReport_ID} IS NULL)
 GROUP BY 1, rwio.ValueProduct, rwio.NameProduct, rwio.Att, rwio.PlantingCycle, rwio.Org, rwio.OperationType, sr.Summary_TareWeight, sr.Summary_GrossWeight, sr.Summary_NetWeight, sr.Summary_Discount, sr.Summary_PayWeight
 ORDER BY 1]]>
 	</queryString>
