@@ -399,6 +399,7 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		return null;
 	}
 	
+	
 	/**
 	 * 	Close Document.
 	 * 	Cancel not delivered Qunatities
@@ -601,6 +602,21 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	}	//	getLines
 	
 	/**
+	 * 
+	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 09/05/2014, 12:00:53
+	 * @return
+	 * @return String
+	 */
+	private String validETReference(){
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_LoadOrder_ID " +
+				"FROM FTA_LoadOrder lo " +
+				"WHERE  lo.FTA_EntryTicket_ID= ?", getFTA_EntryTicket_ID());
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @FTA_LoadOrder_ID@: " + m_ReferenceNo;
+		return null;		
+	}
+	
+	/**
 	 * Get Lines
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 05/10/2013, 12:30:09
 	 * @param requery
@@ -658,6 +674,14 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		if(getOperationType() == null)
 			msg = "@FTA_VehicleType_ID@ @NotFound@";
 		//	End Yamel Senih
+		
+		//	Waditza Rivas 2014-05-08 17:07:02
+		//	Valid Entry ticket 
+		if(getFTA_EntryTicket() != null)
+			msg = validETReference();
+		if(msg != null)
+			throw new AdempiereException(msg);
+		//	End Waditza Rivas
 		
 		if(getVolumeCapacity().compareTo(getVolume()) < 0)
 			msg = "@VolumeCapacity@ < @0@";

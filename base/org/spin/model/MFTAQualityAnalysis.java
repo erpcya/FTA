@@ -314,7 +314,13 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		if(getOperationType() == null)
 			msg = "@FTA_EntryTicket_ID@ @NotFound@";
 		//	End Yamel Senih
-		
+		//	Waditza Rivas 2014-05-08 17:07:02
+		//	Valid Entry ticket 
+		if(getFTA_EntryTicket() != null)
+			msg = validETReference();
+		if(msg != null)
+			throw new AdempiereException(msg);
+		//	End Waditza Rivas
 		if(getOperationType()
 				.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryBulkMaterial)
 				|| getOperationType()
@@ -411,7 +417,20 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;
 		return null;		
 	}
-	
+	/**
+	 * 
+	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 09/05/2014, 12:00:53
+	 * @return
+	 * @return String
+	 */
+	private String validETReference(){
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_QualityAnalysis_ID " +
+				"FROM FTA_QualityAnalysis qa " +
+				"WHERE  qa.FTA_EntryTicket_ID= ?", getFTA_EntryTicket_ID());
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo;
+		return null;		
+	}
 	/**
 	 * 	Close Document.
 	 * 	Cancel not delivered Qunatities
