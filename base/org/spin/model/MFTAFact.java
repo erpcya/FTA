@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MCharge;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductCategory;
 import org.compiere.model.PO;
@@ -129,6 +130,9 @@ public class MFTAFact extends X_FTA_Fact {
 		//	
 		if(p_Multiplier == null)
 			return null;
+		//	Get Precision
+		int precision = MCurrency.getStdPrecision(ctx, Env.getContextAsInt(ctx, "$C_Currency_ID"));
+		//	
 		int record_ID = document.get_ID();
 		int table_ID = document.get_Table_ID();
 		
@@ -207,6 +211,9 @@ public class MFTAFact extends X_FTA_Fact {
 								break;
 							//	
 							m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_Amt));
+							//	Set Scale
+							if(m_Balance.scale() > precision)
+								m_Balance = m_Balance.setScale(precision, BigDecimal.ROUND_HALF_UP);
 							//	
 							if(m_Balance.compareTo(Env.ZERO) < 0){
 								//	Balance exceed credit limit
@@ -214,7 +221,6 @@ public class MFTAFact extends X_FTA_Fact {
 									m_Balance = m_Amt.negate();
 									m_RemainingAmt = m_Balance.abs();
 									continue;
-									//m_Amt = m_Amt.add(m_Balance);
 								} else {
 									m_RemainingAmt = m_Balance.abs();
 									m_Amt = m_Amt.add(m_Balance);
@@ -225,6 +231,10 @@ public class MFTAFact extends X_FTA_Fact {
 						} else {
 							//	
 							m_Balance = m_SO_CreditLimit.subtract(m_SO_CreditUsed.add(m_RemainingAmt));
+							//	Set Scale
+							if(m_Balance.scale() > precision)
+								m_Balance = m_Balance.setScale(precision, BigDecimal.ROUND_HALF_UP);
+							//	
 							if(m_Balance.compareTo(Env.ZERO) < 0){
 								m_Amt = m_RemainingAmt.add(m_Balance);
 								m_RemainingAmt = m_Balance.abs();
@@ -244,7 +254,12 @@ public class MFTAFact extends X_FTA_Fact {
 					//	
 					if(m_Amt.equals(Env.ZERO))
 						continue;
-					
+					//	Set Scale
+					if(m_RemainingAmt.scale() > precision)
+						m_RemainingAmt = m_RemainingAmt.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					//	Set Scale
+					if(m_Amt.scale() > precision)
+						m_Amt = m_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP);
 					//	Set Line
 					m_Current_Line_ID = m_Line_ID;
 					//	Create Fact
@@ -256,10 +271,10 @@ public class MFTAFact extends X_FTA_Fact {
 					if(m_Description == null)
 						m_Description = "";
 					//	Set Description
-					m_Description = m_DocumentNo + " - " + format.format(m_DateDoc) + 
-							(m_Description != null && m_Description.length() != 0
-								? " - " + m_Description
-									: "");
+					//m_Description = m_DocumentNo + " - " + format.format(m_DateDoc) + 
+							//(m_Description != null && m_Description.length() != 0
+								//? " - " + m_Description
+									//: "");
 					
 					m_fta_Fact.setDescription(m_Description);
 					m_fta_Fact.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition_ID);
@@ -277,6 +292,10 @@ public class MFTAFact extends X_FTA_Fact {
 					m_fta_Fact.saveEx();
 					//	Add Amount
 					m_Distributed_Amt = m_Distributed_Amt.add(m_Amt);
+					//	Set Scale
+					if(m_Distributed_Amt.scale() > precision)
+						m_Distributed_Amt = m_Distributed_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					//	
 					if(byPass)
 						byPass = false;
 				}
@@ -331,10 +350,10 @@ public class MFTAFact extends X_FTA_Fact {
 						if(m_Description == null)
 							m_Description = "";
 						//	Set Description
-						m_Description = m_DocumentNo + " - " + format.format(p_DateDoc) + 
-								(m_Description != null && m_Description.length() != 0
-									? " - " + m_Description
-										: "");
+						//m_Description = m_DocumentNo + " - " + format.format(p_DateDoc) + 
+								//(m_Description != null && m_Description.length() != 0
+									//? " - " + m_Description
+										//: "");
 						
 						m_fta_Fact.setDescription(m_Description);
 						m_fta_Fact.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition_ID);
