@@ -36,3 +36,4 @@ CREATE UNIQUE INDEX UK_FTA_CDL_Category_ChargeCategory ON FTA_CreditDefinitionLi
 CREATE UNIQUE INDEX UK_FTA_AttributesReportLine_Attribute ON FTA_AttributesReportLine (M_Attribute_ID,M_AttributeSet_ID,FTA_AttributesReport_ID,AD_Client_ID);
 CREATE UNIQUE INDEX UK_FTA_AttributesReportLine_Category ON FTA_AttributesReportLine (FTA_CategoryCalc_ID,FTA_CategoryCalcGroup_ID,FTA_AttributesReport_ID,AD_Client_ID);
 
+CREATE UNIQUE INDEX UK_FTA_ProductListApproved ON FTA_ProductListApproved (FTA_CreditDefinition_ID,M_Product_ID,Substitute_ID);
