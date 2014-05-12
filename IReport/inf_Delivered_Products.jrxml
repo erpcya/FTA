@@ -24,10 +24,10 @@ INNER JOIN M_Lot lot ON(lot.M_Lot_ID = cd.PlantingCycle_ID)
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID)
 INNER JOIN C_Invoice i ON(i.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
 INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = i.C_Invoice_ID)
-INNER JOIN M_Product pr ON(il.M_Product_ID = pr.M_Product_ID)
-INNER JOIN (SELECT pa.ApprovedQty ApprovedQty, COALESCE(pa.Substitute_ID, pa.M_Product_ID) M_Product_ID, pa.FTA_CreditDefinition_ID
+INNER JOIN (SELECT MAX(pa.ApprovedQty) ApprovedQty, COALESCE(pa.Substitute_ID, pa.M_Product_ID) M_Product_ID, pa.M_Product_ID p1, pa.FTA_CreditDefinition_ID
 		FROM FTA_ProductListApproved pa
 	GROUP BY pa.FTA_CreditDefinition_ID, pa.Substitute_ID, pa.M_Product_ID) pa ON(pa.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID AND pa.M_Product_ID = il.M_Product_ID)
+INNER JOIN M_Product pr ON(pa.p1 = pr.M_Product_ID)
 INNER JOIN C_UOM uom ON(uom.C_UOM_ID = pr.C_UOM_ID)
 INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = i.C_BPartner_ID)
 LEFT JOIN FTA_Farming fm ON(fm.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
