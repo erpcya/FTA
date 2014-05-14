@@ -271,10 +271,10 @@ public class MFTAFact extends X_FTA_Fact {
 					if(m_Description == null)
 						m_Description = "";
 					//	Set Description
-					m_Description = m_DocumentNo + " - " + format.format(m_DateDoc) + 
-							(m_Description != null && m_Description.length() != 0
-								? " - " + m_Description
-									: "");
+					//m_Description = m_DocumentNo + " - " + format.format(m_DateDoc) + 
+							//(m_Description != null && m_Description.length() != 0
+								//? " - " + m_Description
+									//: "");
 					
 					m_fta_Fact.setDescription(m_Description);
 					m_fta_Fact.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition_ID);
@@ -350,10 +350,10 @@ public class MFTAFact extends X_FTA_Fact {
 						if(m_Description == null)
 							m_Description = "";
 						//	Set Description
-						m_Description = m_DocumentNo + " - " + format.format(p_DateDoc) + 
-								(m_Description != null && m_Description.length() != 0
-									? " - " + m_Description
-										: "");
+						//m_Description = m_DocumentNo + " - " + format.format(p_DateDoc) + 
+								//(m_Description != null && m_Description.length() != 0
+									//? " - " + m_Description
+										//: "");
 						
 						m_fta_Fact.setDescription(m_Description);
 						m_fta_Fact.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition_ID);
