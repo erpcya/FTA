@@ -128,7 +128,7 @@ CREATE OR REPLACE VIEW fta_rv_creditsoallocation AS
                 END::text || COALESCE(cdl.description, ''::character varying)::text AS linedescription, 
             ci.grandtotal, cdl.fta_cdl_category_id
            FROM c_invoice ci
-      RIGHT JOIN fta_farmercredit fc ON fc.fta_farmercredit_id = ci.fta_farmercredit_id OR fc.fta_farmercredit_id<>ci.fta_farmercredit_id
+      RIGHT JOIN fta_farmercredit fc ON fc.fta_farmercredit_id = ci.fta_farmercredit_id OR fc.fta_farmercredit_id<>ci.fta_farmercredit_id OR ci.FTA_FarmerCredit_ID IS NULL
    JOIN fta_creditdefinition cd ON cd.fta_creditdefinition_id = fc.fta_creditdefinition_id
    RIGHT JOIN fta_creditdefinitionline cdl ON cdl.fta_creditdefinition_id = cd.fta_creditdefinition_id OR cdl.fta_creditdefinition_id IS NULL
    LEFT JOIN m_product mp ON cdl.m_product_id = mp.m_product_id
@@ -164,7 +164,7 @@ UNION
                 END::text || COALESCE(cdl.description, ''::character varying)::text AS linedescription, 
             co.grandtotal, cdl.fta_cdl_category_id
            FROM c_order co
-      RIGHT JOIN fta_farmercredit fc ON fc.fta_farmercredit_id = co.fta_farmercredit_id OR fc.fta_farmercredit_id <> co.fta_farmercredit_id
+      RIGHT JOIN fta_farmercredit fc ON fc.fta_farmercredit_id = co.fta_farmercredit_id OR fc.fta_farmercredit_id <> co.fta_farmercredit_id OR co.FTA_FarmerCredit_ID IS NULL
    JOIN fta_creditdefinition cd ON cd.fta_creditdefinition_id = fc.fta_creditdefinition_id
    RIGHT JOIN fta_creditdefinitionline cdl ON cdl.fta_creditdefinition_id = cd.fta_creditdefinition_id OR cdl.fta_creditdefinition_id IS NULL
    LEFT JOIN m_product mp ON cdl.m_product_id = mp.m_product_id
