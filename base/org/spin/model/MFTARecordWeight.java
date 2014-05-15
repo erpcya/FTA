@@ -840,14 +840,13 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if(getOperationType() == null)
 			msg = "@FTA_EntryTicket_ID@ @NotFound@";
 		//	End Yamel Senih
-		
 		//	Waditza Rivas 2014-05-08 17:07:02
-		//	Valid Entry ticket 
+		/*//	Valid Entry ticket 
 		if(getFTA_EntryTicket() != null)
 			msg = validETReference();
 		if(msg != null)
 			throw new AdempiereException(msg);
-		//	End Waditza Rivas	
+		//	End Waditza Rivas*/	
 		if(getOperationType()
 				.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryBulkMaterial)
 				||	getOperationType()
@@ -1233,11 +1232,14 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return String
 	 */
 	private String validETReference(){
-		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_RecordWeight_ID " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT DocumentNo " +
 				"FROM FTA_RecordWeight rw " +
-				"WHERE  rw.DocStatus IN('CO', 'CL') AND rw.FTA_EntryTicket_ID= ? AND rw.FTA_RecordWeight_ID != ? ", getFTA_EntryTicket_ID(),getFTA_RecordWeight_ID());
+				"WHERE rw.FTA_EntryTicket_ID= ? AND rw.FTA_RecordWeight_ID != ? ", getFTA_EntryTicket_ID(),getFTA_RecordWeight_ID());
+		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
+				+ "FROM FTA_EntryTicket et "
+				+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
 		if(m_ReferenceNo != null) 
-			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@";
+			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@: " +m_ReferenceNoET;
 		return null;		
 	}
 	
