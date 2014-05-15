@@ -448,8 +448,9 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT DocumentNo "
 				+ "FROM FTA_QualityAnalysis qa "
 				+ "WHERE  qa.DocStatus IN('CO', 'CL') "
+				+ "AND qa.AnalysisType= ? "
 				+ "AND qa.FTA_EntryTicket_ID= ? "
-				+ "AND qa.FTA_QualityAnalysis_ID != ?", getFTA_EntryTicket_ID(),getFTA_QualityAnalysis_ID());
+				+ "AND qa.FTA_QualityAnalysis_ID != ?",getAnalysisType(), getFTA_EntryTicket_ID(),getFTA_QualityAnalysis_ID());
 		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
 				+ "FROM FTA_EntryTicket et "
 				+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
