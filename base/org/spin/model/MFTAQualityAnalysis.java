@@ -222,7 +222,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 				return status;
 		} 
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-		//m_processMsg = validETReference();
+	    m_processMsg = validETReference();
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
@@ -427,7 +427,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 				+ "FROM FTA_EntryTicket et "
 				+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
 		if(m_ReferenceNo != null) 
-			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@" +m_ReferenceNoET;
+			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@: " +m_ReferenceNoET;
 		return null;		
 	}
 	/**

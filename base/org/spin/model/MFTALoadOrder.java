@@ -617,8 +617,11 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_LoadOrder_ID " +
 				"FROM FTA_LoadOrder lo " +
 				"WHERE  lo.DocStatus IN('CO', 'CL') AND lo.FTA_EntryTicket_ID= ? AND lo.FTA_LoadOrder_ID != ? ", getFTA_EntryTicket_ID(),getFTA_LoadOrder_ID());
+		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
+				+ "FROM FTA_EntryTicket et "
+				+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
 		if(m_ReferenceNo != null) 
-			return "@SQLErrorReferenced@ @FTA_LoadOrder_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@:" +getFTA_EntryTicket_ID();
+			return "@SQLErrorReferenced@ @FTA_LoadOrder_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@:" +m_ReferenceNoET;
 		return null;		
 	}
 	
