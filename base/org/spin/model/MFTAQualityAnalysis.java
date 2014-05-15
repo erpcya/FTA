@@ -418,11 +418,14 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 	 * @return String
 	 */
 	private String validETReference(){
-		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_QualityAnalysis_ID " +
-				"FROM FTA_QualityAnalysis qa " +
-				"WHERE  qa.DocStatus IN('CO', 'CL') AND qa.FTA_EntryTicket_ID= ? AND qa.FTA_QualityAnalysis_ID != ? ", getFTA_EntryTicket_ID(),getFTA_QualityAnalysis_ID());
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT qa.documentno,qa.FTA_EntryTicket_ID,et.documentno "
+				+ "FROM FTA_QualityAnalysis qa "
+				+ "join FTA_EntryTicket as et on et.FTA_EntryTicket_ID=qa.FTA_EntryTicket_ID "
+				+ "WHERE  qa.DocStatus IN('CO', 'CL') "
+				+ "AND qa.FTA_EntryTicket_ID= ? "
+				+ "AND qa.FTA_QualityAnalysis_ID != ?", getFTA_EntryTicket_ID(),getFTA_QualityAnalysis_ID());
 		if(m_ReferenceNo != null) 
-			return "@SQLErrorReferenced@ @TA_QualityAnalysis_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@" +getFTA_EntryTicket_ID();
+			return "@SQLErrorReferenced@ @qa.documentno@: " + m_ReferenceNo + " @Generate@ @from@ @et.documentno@" +getFTA_EntryTicket_ID();
 		return null;		
 	}
 	/**
