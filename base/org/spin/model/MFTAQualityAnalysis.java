@@ -224,7 +224,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		/*//Waditza Rivas 15/05/2014
+		//Waditza Rivas 15/05/2014
 		if(getAnalysisType().equals(X_FTA_QualityAnalysis.ANALYSISTYPE_QualityAnalysis))
 		 {
 			m_processMsg = validETReference();
@@ -237,7 +237,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 					return DocAction.STATUS_Invalid;	
 		 }
 		 		
-		 }*/
+		 }
 		//End Waditza Rivas
 
 		//	Implicit Approval
@@ -423,6 +423,38 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 				"AND rw.FTA_QualityAnalysis_ID = ?", getFTA_QualityAnalysis_ID());
 		if(m_ReferenceNo != null) 
 			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;
+		return null;		
+	}
+	/**
+	 * 
+	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 09/05/2014, 12:00:53
+	 * @return
+	 * @return String
+	 */
+	private String validrwReference(){
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT DocumentNo "
+				+ "FROM FTA_QualityAnalysis qa "
+				+ "WHERE  qa.DocStatus IN('CO', 'CL') "
+				+ "AND qa.FTA_RecordWeight_ID= ? "
+				+ "AND qa.FTA_QualityAnalysis_ID != ?", getFTA_RecordWeight_ID(),getFTA_QualityAnalysis_ID());
+		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT rw.documentno "
+				+ "FROM FTA_RecordWeight rw "
+				+ "WHERE rw.FTA_RecordWeight_ID= ? ", getFTA_EntryTicket_ID());
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_RecordWeight_ID@: " +m_ReferenceNoET;
+		return null;		
+	}
+	private String validETReference(){
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT DocumentNo "
+				+ "FROM FTA_QualityAnalysis qa "
+				+ "WHERE  qa.DocStatus IN('CO', 'CL') "
+				+ "AND qa.FTA_EntryTicket_ID= ? "
+				+ "AND qa.FTA_QualityAnalysis_ID != ?", getFTA_EntryTicket_ID(),getFTA_QualityAnalysis_ID());
+		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
+				+ "FROM FTA_EntryTicket et "
+				+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@: " +m_ReferenceNoET;
 		return null;		
 	}
 	/**
