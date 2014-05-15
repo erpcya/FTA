@@ -46,6 +46,8 @@ public class RecordWeightBatchProcess extends SvrProcess {
 	private int 			p_FTA_RecordWeight_ID = 0;
 	/**	Product					*/
 	private int 			p_M_Product_ID = 0;
+	/**	Warehouse				*/
+	private int 			p_M_Warehouse_ID = 0;	
 	/**	Document Status			*/
 	private String 			p_DocStatus = null;
 	/**	Document Action			*/
@@ -65,6 +67,8 @@ public class RecordWeightBatchProcess extends SvrProcess {
 				p_FTA_RecordWeight_ID = para.getParameterAsInt();
 			else if(name.equals("M_Product_ID"))
 				p_M_Product_ID = para.getParameterAsInt();
+			else if(name.equals("M_Warehouse_ID"))
+				p_M_Warehouse_ID = para.getParameterAsInt();
 			else if (name.equals("DocStatus"))
 				p_DocStatus = (String) para.getParameter();
 			else if (name.equals("DocAction"))
@@ -98,6 +102,7 @@ public class RecordWeightBatchProcess extends SvrProcess {
 		//	ID
 		if(p_FTA_RecordWeight_ID != 0)
 			sql.append("AND rw.FTA_RecordWeight_ID = ? ");
+		//	Valid Product
 		if(p_M_Product_ID != 0) {
 			if(p_OperationType.equals(X_FTA_RecordWeight.OPERATIONTYPE_RawMaterialReceipt))
 				sql.append("AND EXISTS(SELECT 1 FROM FTA_QualityAnalysis qa " +
@@ -113,8 +118,15 @@ public class RecordWeightBatchProcess extends SvrProcess {
 						"WHERE qa.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND qa.M_Product_ID = ")
 							.append(p_M_Product_ID).append(") ");
 		}
-		
-		
+		//	Valid Warehouse
+		if(p_M_Warehouse_ID != 0){
+			if(p_OperationType.equals(X_FTA_RecordWeight.OPERATIONTYPE_RawMaterialReceipt)
+					|| p_OperationType.equals(X_FTA_RecordWeight.OPERATIONTYPE_ProductBulkReceipt)
+					|| p_OperationType.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryBulkMaterial))
+			sql.append(" AND EXISTS(SELECT 1 FROM FTA_Chute c " +
+					"WHERE c.FTA_Chute_ID = rw.FTA_Chute_ID AND c.M_Warehouse_ID = ")
+						.append(p_M_Warehouse_ID).append(") ");
+		}
 		//	Document Date
 		if (p_DateDoc != null)
 			sql.append(" AND TRUNC(rw.DateDoc, 'DD') >= ").append(DB.TO_DATE(p_DateDoc, true));
@@ -172,6 +184,7 @@ public class RecordWeightBatchProcess extends SvrProcess {
 	private boolean process (MFTARecordWeight recordWeight)
 	{
 		log.info(recordWeight.toString());
+		System.out.println(recordWeight.getDocumentNo());
 		//
 		recordWeight.setDocAction(p_DocAction);
 		if (recordWeight.processIt(p_DocAction))
