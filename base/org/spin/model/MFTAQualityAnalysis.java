@@ -222,7 +222,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 				return status;
 		} 
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-		m_processMsg = validETReference();
+		//m_processMsg = validETReference();
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
@@ -418,14 +418,16 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 	 * @return String
 	 */
 	private String validETReference(){
-		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT qa.documentno,qa.FTA_EntryTicket_ID,et.documentno "
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT DocumentNo "
 				+ "FROM FTA_QualityAnalysis qa "
-				+ "join FTA_EntryTicket as et on et.FTA_EntryTicket_ID=qa.FTA_EntryTicket_ID "
 				+ "WHERE  qa.DocStatus IN('CO', 'CL') "
 				+ "AND qa.FTA_EntryTicket_ID= ? "
 				+ "AND qa.FTA_QualityAnalysis_ID != ?", getFTA_EntryTicket_ID(),getFTA_QualityAnalysis_ID());
+		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
+				+ "FROM FTA_EntryTicket et "
+				+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
 		if(m_ReferenceNo != null) 
-			return "@SQLErrorReferenced@ @qa.documentno@: " + m_ReferenceNo + " @Generate@ @from@ @et.documentno@" +getFTA_EntryTicket_ID();
+			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@" +m_ReferenceNoET;
 		return null;		
 	}
 	/**
