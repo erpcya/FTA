@@ -25,7 +25,6 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
-import org.spin.model.I_FTA_RecordWeight;
 import org.spin.model.MFTARecordWeight;
 import org.spin.model.X_FTA_RecordWeight;
 
