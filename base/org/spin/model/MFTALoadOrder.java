@@ -217,10 +217,11 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 				return status;
 		}
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-		m_processMsg = validETReference();
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		
+		 m_processMsg = validETReference();
+		 	if (m_processMsg != null)
+				return DocAction.STATUS_Invalid;
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
