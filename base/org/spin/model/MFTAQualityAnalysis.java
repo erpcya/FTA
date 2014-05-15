@@ -222,10 +222,11 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 				return status;
 		} 
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-	    m_processMsg = validETReference();
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		
+		 m_processMsg = validETReference();
+		 	if (m_processMsg != null)
+				return DocAction.STATUS_Invalid;
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -422,6 +423,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 				+ "FROM FTA_QualityAnalysis qa "
 				+ "WHERE  qa.DocStatus IN('CO', 'CL') "
 				+ "AND qa.FTA_EntryTicket_ID= ? "
+				+ "AND qa.AnalysisType='QA'"
 				+ "AND qa.FTA_QualityAnalysis_ID != ?", getFTA_EntryTicket_ID(),getFTA_QualityAnalysis_ID());
 		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
 				+ "FROM FTA_EntryTicket et "
