@@ -220,12 +220,26 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 			String status = prepareIt();
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
-		} 
+		}
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-		m_processMsg = validETReference();
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		
+		/*//Waditza Rivas 15/05/2014
+		if(getAnalysisType().equals(X_FTA_QualityAnalysis.ANALYSISTYPE_QualityAnalysis))
+		 {
+			m_processMsg = validETReference();
+		 	if (m_processMsg != null)
+				return DocAction.STATUS_Invalid;
+		 	else
+		 	{
+		 		m_processMsg = validrwReference();
+			 	if (m_processMsg != null)
+					return DocAction.STATUS_Invalid;	
+		 }
+		 		
+		 }*/
+		//End Waditza Rivas
+
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -409,20 +423,6 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 				"AND rw.FTA_QualityAnalysis_ID = ?", getFTA_QualityAnalysis_ID());
 		if(m_ReferenceNo != null) 
 			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;
-		return null;		
-	}
-	/**
-	 * 
-	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 09/05/2014, 12:00:53
-	 * @return
-	 * @return String
-	 */
-	private String validETReference(){
-		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_QualityAnalysis_ID " +
-				"FROM FTA_QualityAnalysis qa " +
-				"WHERE  qa.DocStatus IN('CO', 'CL') AND qa.FTA_EntryTicket_ID= ? AND qa.FTA_QualityAnalysis_ID != ? ", getFTA_EntryTicket_ID(),getFTA_QualityAnalysis_ID());
-		if(m_ReferenceNo != null) 
-			return "@SQLErrorReferenced@ @TA_QualityAnalysis_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@" +getFTA_EntryTicket_ID();
 		return null;		
 	}
 	/**
