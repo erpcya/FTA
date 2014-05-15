@@ -220,9 +220,9 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 			String status = prepareIt();
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
-		}
-
+		} 
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		m_processMsg = validETReference();
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
@@ -314,13 +314,7 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 		if(getOperationType() == null)
 			msg = "@FTA_EntryTicket_ID@ @NotFound@";
 		//	End Yamel Senih
-		//	Waditza Rivas 2014-05-08 17:07:02
-		//	Valid Entry ticket 
-		if(getFTA_EntryTicket() != null)
-			msg = validETReference();
-		if(msg != null)
-			throw new AdempiereException(msg);
-		//	End Waditza Rivas
+		
 		if(getOperationType()
 				.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryBulkMaterial)
 				|| getOperationType()
@@ -426,9 +420,9 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 	private String validETReference(){
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_QualityAnalysis_ID " +
 				"FROM FTA_QualityAnalysis qa " +
-				"WHERE  qa.FTA_EntryTicket_ID= ?", getFTA_EntryTicket_ID());
+				"WHERE  qa.DocStatus IN('CO', 'CL') AND qa.FTA_EntryTicket_ID= ? AND qa.FTA_QualityAnalysis_ID != ? ", getFTA_EntryTicket_ID(),getFTA_QualityAnalysis_ID());
 		if(m_ReferenceNo != null) 
-			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo;
+			return "@SQLErrorReferenced@ @TA_QualityAnalysis_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@" +getFTA_EntryTicket_ID();
 		return null;		
 	}
 	/**

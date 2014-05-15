@@ -216,8 +216,8 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
-
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		m_processMsg = validETReference();
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
@@ -607,12 +607,18 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	 * @return
 	 * @return String
 	 */
+	/**
+	 * 
+	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 09/05/2014, 12:00:53
+	 * @return
+	 * @return String
+	 */
 	private String validETReference(){
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_LoadOrder_ID " +
 				"FROM FTA_LoadOrder lo " +
-				"WHERE  lo.FTA_EntryTicket_ID= ?", getFTA_EntryTicket_ID());
+				"WHERE  lo.DocStatus IN('CO', 'CL') AND lo.FTA_EntryTicket_ID= ? AND lo.FTA_LoadOrder_ID != ? ", getFTA_EntryTicket_ID(),getFTA_LoadOrder_ID());
 		if(m_ReferenceNo != null) 
-			return "@SQLErrorReferenced@ @FTA_LoadOrder_ID@: " + m_ReferenceNo;
+			return "@SQLErrorReferenced@ @FTA_LoadOrder_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@:" +getFTA_EntryTicket_ID();
 		return null;		
 	}
 	
@@ -674,15 +680,7 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		if(getOperationType() == null)
 			msg = "@FTA_VehicleType_ID@ @NotFound@";
 		//	End Yamel Senih
-		
-		//	Waditza Rivas 2014-05-08 17:07:02
-		//	Valid Entry ticket 
-		if(getFTA_EntryTicket() != null)
-			msg = validETReference();
-		if(msg != null)
-			throw new AdempiereException(msg);
-		//	End Waditza Rivas
-		
+	
 		if(getVolumeCapacity().compareTo(getVolume()) < 0)
 			msg = "@VolumeCapacity@ < @0@";
 		
