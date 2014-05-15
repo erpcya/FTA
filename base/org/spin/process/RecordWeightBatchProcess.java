@@ -26,6 +26,7 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.spin.model.MFTARecordWeight;
+import org.spin.model.X_FTA_RecordWeight;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -43,6 +44,8 @@ public class RecordWeightBatchProcess extends SvrProcess {
 	private int 			p_C_DocType_ID = 0;
 	/**	Record Weight Identifier*/
 	private int 			p_FTA_RecordWeight_ID = 0;
+	/**	Product					*/
+	private int 			p_M_Product_ID = 0;
 	/**	Document Status			*/
 	private String 			p_DocStatus = null;
 	/**	Document Action			*/
@@ -60,6 +63,8 @@ public class RecordWeightBatchProcess extends SvrProcess {
 				p_C_DocType_ID = para.getParameterAsInt();
 			else if (name.equals("FTA_RecordWeight_ID"))
 				p_FTA_RecordWeight_ID = para.getParameterAsInt();
+			else if(name.equals("M_Product_ID"))
+				p_M_Product_ID = para.getParameterAsInt();
 			else if (name.equals("DocStatus"))
 				p_DocStatus = (String) para.getParameter();
 			else if (name.equals("DocAction"))
@@ -93,6 +98,23 @@ public class RecordWeightBatchProcess extends SvrProcess {
 		//	ID
 		if(p_FTA_RecordWeight_ID != 0)
 			sql.append("AND rw.FTA_RecordWeight_ID = ? ");
+		if(p_M_Product_ID != 0) {
+			if(p_OperationType.equals(X_FTA_RecordWeight.OPERATIONTYPE_RawMaterialReceipt))
+				sql.append("AND EXISTS(SELECT 1 FROM FTA_QualityAnalysis qa " +
+						"WHERE qa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID AND qa.M_Product_ID = ")
+							.append(p_M_Product_ID).append(") ");
+			else if(p_OperationType.equals(X_FTA_RecordWeight.OPERATIONTYPE_ProductBulkReceipt))
+				sql.append("AND ((rw.M_Product_ID IS NOT NULL AND rw.M_Product_ID = ").append(p_M_Product_ID)
+						.append(") OR EXISTS(SELECT 1 FROM FTA_QualityAnalysis qa " +
+								"WHERE qa.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND qa.M_Product_ID = ")
+								.append(p_M_Product_ID).append("))");
+			else if(p_OperationType.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryBulkMaterial))
+				sql.append("AND EXISTS(SELECT 1 FROM FTA_QualityAnalysis qa " +
+						"WHERE qa.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND qa.M_Product_ID = ")
+							.append(p_M_Product_ID).append(") ");
+		}
+		
+		
 		//	Document Date
 		if (p_DateDoc != null)
 			sql.append(" AND TRUNC(rw.DateDoc, 'DD') >= ").append(DB.TO_DATE(p_DateDoc, true));
