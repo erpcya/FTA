@@ -840,6 +840,14 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if(getOperationType() == null)
 			msg = "@FTA_EntryTicket_ID@ @NotFound@";
 		//	End Yamel Senih
+		
+		//	Waditza Rivas 2014-05-08 17:07:02
+		//	Valid Entry ticket 
+		if(getFTA_EntryTicket() != null)
+			msg = validETReference();
+		if(msg != null)
+			throw new AdempiereException(msg);
+		//	End Waditza Rivas	
 		if(getOperationType()
 				.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryBulkMaterial)
 				||	getOperationType()
