@@ -11,7 +11,6 @@ import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
-import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAFarmerLiquidation;
 
 public class CloseDocuments extends SvrProcess{
@@ -108,9 +107,6 @@ public class CloseDocuments extends SvrProcess{
 				m_InvoiceLineGen.setC_Charge_ID(p_C_Charge_ID);
 			}
 			m_InvoiceLineGen.setPriceActual(m_InvoiceLineGen.getPriceActual().add(rs.getBigDecimal("OpenAmt")));
-	
-			
-			
 		}
 		
 		

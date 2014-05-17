@@ -103,7 +103,7 @@ cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_
 'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, a.FTA_Allocation_ID Record_ID, 53566 AD_Table_ID, 0 SeqNo
 FROM FTA_Allocation a 
 INNER JOIN FTA_AllocationLine al ON(al.FTA_Allocation_ID = a.FTA_Allocation_ID)
-INNER JOIN FTA_FarmerLiquidation l ON(l.FTA_FarmerLiquidation_ID = al.FTA_FarmerLiquidation_ID) 
+LEFT JOIN FTA_FarmerLiquidation l ON(l.FTA_FarmerLiquidation_ID = al.FTA_FarmerLiquidation_ID) 
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = a.FTA_FarmerCredit_ID) 
 INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID) 
 INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) 
@@ -122,7 +122,7 @@ al.FTA_AllocationLine_ID Line_ID, al.Amount * -1 Amt, 0 SO_CreditLimit,
 FROM FTA_Allocation a 
 INNER JOIN FTA_AllocationLine al ON(al.FTA_Allocation_ID = a.FTA_Allocation_ID)
 INNER JOIN C_Invoice i ON(i.C_Invoice_ID = al.C_Invoice_ID)
-INNER JOIN FTA_FarmerLiquidation l ON(l.FTA_FarmerLiquidation_ID = al.FTA_FarmerLiquidation_ID) 
+LEFT JOIN FTA_FarmerLiquidation l ON(l.FTA_FarmerLiquidation_ID = al.FTA_FarmerLiquidation_ID) 
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = a.FTA_FarmerCredit_ID) 
 INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID) 
 INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) 
@@ -140,7 +140,7 @@ cd.FTA_CreditDefinition_ID, cdl.FTA_CreditDefinitionLine_ID, a.FTA_FarmerCredit_
 'N' IsCreditFactManual, 'N' IsSOTrx, cdl.Line, a.FTA_Allocation_ID Record_ID, 53566 AD_Table_ID, 2 SeqNo
 FROM FTA_Allocation a 
 INNER JOIN FTA_AllocationLine al ON(al.FTA_Allocation_ID = a.FTA_Allocation_ID)
-INNER JOIN FTA_FarmerLiquidation l ON(l.FTA_FarmerLiquidation_ID = al.FTA_FarmerLiquidation_ID) 
+LEFT JOIN FTA_FarmerLiquidation l ON(l.FTA_FarmerLiquidation_ID = al.FTA_FarmerLiquidation_ID) 
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = a.FTA_FarmerCredit_ID) 
 INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID) 
 INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinition_ID = cd.FTA_CreditDefinition_ID) 

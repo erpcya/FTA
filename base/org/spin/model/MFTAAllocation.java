@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_C_Invoice;
 import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MAllocationLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
@@ -38,6 +39,7 @@ import org.compiere.model.MPeriodControl;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Invoice;
 import org.compiere.process.DocAction;
@@ -556,6 +558,32 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 			return DocAction.STATUS_Invalid;
 		}
 
+		//Create Allocation Document After Complete Farmer Credit Allocation When Allocation Documents are only invoices 
+		MAllocationHdr alloc = null;
+		List<MFTAAllocationLine> falloclines  = new Query(getCtx(), MFTAAllocationLine.Table_Name, 
+											"FTA_Allocation_ID = ? AND " +
+											"NOT EXISTS (SELECT 1 FROM FTA_AllocationLine fal WHERE fal.FTA_FarmerLiquidation_ID IS NOT NULL AND fal.FTA_Allocation_ID = FTA_AllocationLine.FTA_Allocation_ID)", get_TrxName())
+											.setParameters(getFTA_Allocation_ID())
+											.list();
+		
+		for (MFTAAllocationLine fallocline : falloclines){
+			if (alloc == null){
+				alloc = new MAllocationHdr(getCtx(), 0, get_TrxName());
+				MFTAAllocation falloc = new MFTAAllocation(getCtx(), fallocline.getFTA_Allocation_ID(), get_TrxName());
+				PO.copyValues(falloc, alloc);
+				alloc.save(get_TrxName());
+			}
+			MAllocationLine allocline= new MAllocationLine(alloc);
+			PO.copyValues(fallocline, allocline);
+			allocline.save(get_TrxName());
+		}
+		
+		if (falloclines.size()>0){
+			alloc.processIt(getDocAction());
+			set_ValueOfColumn("C_AllocationHdr_ID", alloc.getC_AllocationHdr_ID());
+		}
+		//
+		
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
@@ -590,6 +618,12 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		if (m_processMsg != null)
 			return false;
 		
+		if (get_ValueAsInt("C_AllocationHdr_ID")!=0){
+			MAllocationHdr alloc = new MAllocationHdr(getCtx(), get_ValueAsInt("C_AllocationHdr_ID"), get_TrxName());
+			alloc.processIt(getDocAction());
+		}
+			
+			
 		setDocAction(DOCACTION_None);
 
 		return retValue;
@@ -633,6 +667,11 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		if (m_processMsg != null)
 			return false;
 
+		if (get_ValueAsInt("C_AllocationHdr_ID")!=0){
+			MAllocationHdr alloc = new MAllocationHdr(getCtx(), get_ValueAsInt("C_AllocationHdr_ID"), get_TrxName());
+			alloc.processIt(getDocAction());
+		}
+		
 		return true;
 	}	//	closeIt
 	
@@ -654,6 +693,11 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
 		if (m_processMsg != null)
 			return false;
+		
+		if (get_ValueAsInt("C_AllocationHdr_ID")!=0){
+			MAllocationHdr alloc = new MAllocationHdr(getCtx(), get_ValueAsInt("C_AllocationHdr_ID"), get_TrxName());
+			alloc.processIt(getDocAction());
+		}
 		
 		setDocAction(DOCACTION_None);
 		return retValue;
@@ -678,6 +722,11 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		if (m_processMsg != null)
 			return false;
 		
+		if (get_ValueAsInt("C_AllocationHdr_ID")!=0){
+			MAllocationHdr alloc = new MAllocationHdr(getCtx(), get_ValueAsInt("C_AllocationHdr_ID"), get_TrxName());
+			alloc.processIt(getDocAction());
+		}
+		
 		setDocAction(DOCACTION_None);
 		return retValue;
 	}	//	reverseAccrualIt
@@ -698,6 +747,11 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
+		
+		if (get_ValueAsInt("C_AllocationHdr_ID")!=0){
+			MAllocationHdr alloc = new MAllocationHdr(getCtx(), get_ValueAsInt("C_AllocationHdr_ID"), get_TrxName());
+			alloc.processIt(getDocAction());
+		}
 		
 		return false;
 	}	//	reActivateIt
