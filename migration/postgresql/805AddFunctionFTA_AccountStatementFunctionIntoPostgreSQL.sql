@@ -1,5 +1,5 @@
-﻿--DROP FUNCTION LVE_AccountStatement(p_C_BPartner_ID numeric,p_FTA_FarmerCredit_ID NUMERIC)
-CREATE OR REPLACE FUNCTION FTA_AccountStatementFunction(p_C_BPartner_ID numeric,p_FTA_FarmerCredit_ID NUMERIC)
+﻿--DROP FUNCTION FTA_AllocationsFunction(p_C_BPartner_ID numeric,p_FTA_FarmerCredit_ID NUMERIC)
+CREATE OR REPLACE FUNCTION FTA_AllocationsFunction(p_C_BPartner_ID numeric,p_FTA_FarmerCredit_ID NUMERIC)
   RETURNS character varying AS
 $BODY$
 Declare
@@ -8,12 +8,13 @@ v_DocumentNo Varchar;
 Begin
 v_DocumentNo:=null;
 FOR documentn IN 
-		SELECT DISTINCT DocumentNo
-		FROM FTA_RV_AccountStatement
+		SELECT DISTINCT FTA_Allocation.DocumentNo
+		FROM FTA_Allocation
+		INNER JOIN FTA_FarmerCredit ON (FTA_Allocation.FTA_FarmerCredit_ID = FTA_FarmerCredit.FTA_FarmerCredit_ID )
 		WHERE 
-			FTA_RV_AccountStatement.C_BPartner_ID = p_C_BPartner_ID
-			AND FTA_RV_AccountStatement.FTA_FarmerCredit_ID=p_FTA_FarmerCredit_ID
-			AND FTA_RV_AccountStatement.DocStatus IN ('CO','CL')
+			FTA_FarmerCredit.C_BPartner_ID = p_C_BPartner_ID
+			AND FTA_Allocation.FTA_FarmerCredit_ID=p_FTA_FarmerCredit_ID
+			AND FTA_Allocation.DocStatus IN ('CO','CL')
 LOOP
 
 	IF(v_DocumentNo IS NOT NULL) THEN
@@ -29,3 +30,6 @@ END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+
+  
+SELECT FTA_AllocationsFunction(1000183, 1003997 )
