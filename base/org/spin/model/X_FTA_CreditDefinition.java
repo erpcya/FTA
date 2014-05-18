@@ -34,7 +34,7 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140510L;
+	private static final long serialVersionUID = 20140517L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinition (Properties ctx, int FTA_CreditDefinition_ID, String trxName)
@@ -43,7 +43,6 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
       /** if (FTA_CreditDefinition_ID == 0)
         {
 			setAmt (Env.ZERO);
-			setCategory_ID (0);
 			setC_DocType_ID (0);
 			setCreditType (null);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
@@ -55,7 +54,6 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 			setFTA_CreditDefinition_ID (0);
 			setIsApproved (false);
 			setM_PriceList_ID (0);
-			setPlantingCycle_ID (0);
         } */
     }
 
@@ -127,6 +125,31 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	public int getCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Category_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocTypeClosed() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeClosed_ID(), get_TrxName());	}
+
+	/** Set Document Type for Closed.
+		@param C_DocTypeClosed_ID Document Type for Closed	  */
+	public void setC_DocTypeClosed_ID (int C_DocTypeClosed_ID)
+	{
+		if (C_DocTypeClosed_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeClosed_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeClosed_ID, Integer.valueOf(C_DocTypeClosed_ID));
+	}
+
+	/** Get Document Type for Closed.
+		@return Document Type for Closed	  */
+	public int getC_DocTypeClosed_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeClosed_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

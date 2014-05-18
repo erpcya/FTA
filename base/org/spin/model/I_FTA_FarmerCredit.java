@@ -383,6 +383,15 @@ public interface I_FTA_FarmerCredit
 	  */
 	public boolean isApproved();
 
+    /** Column name IsBillOfExchangeDocBased */
+    public static final String COLUMNNAME_IsBillOfExchangeDocBased = "IsBillOfExchangeDocBased";
+
+	/** Set Bill Of Exchange Document Based	  */
+	public void setIsBillOfExchangeDocBased (boolean IsBillOfExchangeDocBased);
+
+	/** Get Bill Of Exchange Document Based	  */
+	public boolean isBillOfExchangeDocBased();
+
     /** Column name IsManagesPaymentProgram */
     public static final String COLUMNNAME_IsManagesPaymentProgram = "IsManagesPaymentProgram";
 
@@ -447,6 +456,24 @@ public interface I_FTA_FarmerCredit
 	public int getParent_FarmerCredit_ID();
 
 	public org.spin.model.I_FTA_FarmerCredit getParent_FarmerCredit() throws RuntimeException;
+
+    /** Column name PreviousAmt */
+    public static final String COLUMNNAME_PreviousAmt = "PreviousAmt";
+
+	/** Set Previous Amt	  */
+	public void setPreviousAmt (BigDecimal PreviousAmt);
+
+	/** Get Previous Amt	  */
+	public BigDecimal getPreviousAmt();
+
+    /** Column name PreviousQty */
+    public static final String COLUMNNAME_PreviousQty = "PreviousQty";
+
+	/** Set Previous Qty	  */
+	public void setPreviousQty (BigDecimal PreviousQty);
+
+	/** Get Previous Qty	  */
+	public BigDecimal getPreviousQty();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

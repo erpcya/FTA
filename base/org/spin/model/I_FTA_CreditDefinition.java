@@ -87,6 +87,17 @@ public interface I_FTA_CreditDefinition
 
 	public org.compiere.model.I_M_Product getCategory() throws RuntimeException;
 
+    /** Column name C_DocTypeClosed_ID */
+    public static final String COLUMNNAME_C_DocTypeClosed_ID = "C_DocTypeClosed_ID";
+
+	/** Set Document Type for Closed	  */
+	public void setC_DocTypeClosed_ID (int C_DocTypeClosed_ID);
+
+	/** Get Document Type for Closed	  */
+	public int getC_DocTypeClosed_ID();
+
+	public org.compiere.model.I_C_DocType getC_DocTypeClosed() throws RuntimeException;
+
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
