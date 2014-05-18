@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inf_FarmerAccountStatement" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91c80499-e68d-49ef-947f-a0080fa9d852">
-	<property name="ireport.zoom" value="1.4641000000000066"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
@@ -14,7 +14,8 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, lot.Name PlantingCycle, st.DateDoc, fc.Qty, fc.ApprovedQty, SUM(fm.EffectiveArea) EffectiveArea, st.DocumentNo, st.Description, st.AmtAcctCR, st.AmtAcctDR, COALESCE(p.DocumentNo,lve_descriptionpayment(st.C_Invoice_ID)) PayReference, st.AD_Table_ID
+		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, lot.Name PlantingCycle, st.DateDoc, ROUND(fc.Qty, 2)Qty, ROUND(fc.ApprovedQty, 2) ApprovedQty, ROUND(SUM(fm.EffectiveArea), 2) EffectiveArea, st.DocumentNo, st.Description, st.AmtAcctCR, st.AmtAcctDR, COALESCE(p.DocumentNo,lve_descriptionpayment(st.C_Invoice_ID)) PayReference, st.AD_Table_ID,
+FTA_AllocationsFunction(st.C_BPartner_ID, st.FTA_FarmerCredit_ID) NoLiquidations
 FROM FTA_RV_AccountStatement st
 INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = st.FTA_CreditDefinition_ID)
 INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = st.C_BPartner_ID)
@@ -29,7 +30,8 @@ AND (st.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefi
 AND (COALESCE(st.Parent_FarmerCredit_ID, st.FTA_FarmerCredit_ID)=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 AND (st.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
 AND (st.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
-GROUP BY cl.Name, cp.TaxID, cp.Name, st.DocumentNo, cd.DocumentNo, lot.Name, st.DateDoc, fc.Qty, fc.ApprovedQty, st.Description, st.AmtAcctCR, st.AmtAcctDR, p.DocumentNo, st.FTA_Fact_ID, st.AD_Table_ID, fc.DocumentNo,st.C_Invoice_ID
+GROUP BY cl.Name, cp.TaxID, cp.Name, st.DocumentNo, cd.DocumentNo, lot.Name, st.DateDoc, fc.Qty, fc.ApprovedQty, st.Description, st.AmtAcctCR, st.AmtAcctDR, p.DocumentNo, st.FTA_Fact_ID, st.AD_Table_ID, fc.DocumentNo,st.C_Invoice_ID,
+st.C_BPartner_ID,st.FTA_FarmerCredit_ID
 ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 	</queryString>
 	<field name="client" class="java.lang.String"/>
@@ -48,6 +50,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 	<field name="amtacctdr" class="java.math.BigDecimal"/>
 	<field name="payreference" class="java.lang.String"/>
 	<field name="ad_table_id" class="java.math.BigDecimal"/>
+	<field name="noliquidations" class="java.lang.String"/>
 	<variable name="balance" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{amtacctdr}.subtract($F{amtacctcr})]]></variableExpression>
 	</variable>
@@ -61,43 +64,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="107" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="52" width="67" height="13" uuid="109ad8bb-e5a9-4d44-b492-c297323eeac3">
-					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle" markup="none">
-					<font size="7"/>
-				</textElement>
-				<text><![CDATA[Area (Aprobada) =]]></text>
-			</staticText>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="67" y="52" width="65" height="13" uuid="e58a9f4f-42cf-49f0-97b8-dacdd1413698">
-					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{approvedqty}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="91" width="65" height="13" uuid="f4a39097-e447-4b98-8d18-957da529a935">
-					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<text><![CDATA[F. Documento <=]]></text>
-			</staticText>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="67" y="65" width="65" height="13" uuid="6df83c09-fa70-482f-9f98-c5037e520fec">
-					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null && $F{effectivearea} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{effectivearea}]]></textFieldExpression>
-			</textField>
+		<band height="77" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="206" height="13" uuid="88336536-26f6-4a58-93b2-b2a113360632">
 					<printWhenExpression><![CDATA[($P{C_BPartner_ID} != null && $F{taxid} != null)]]></printWhenExpression>
@@ -105,79 +72,25 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Socio de Negocio = " + $F{taxid} + " - " + $F{name}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="67" y="39" width="65" height="13" uuid="1040976d-26a4-4f53-b8d0-c5700f5596f7">
-					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="78" width="65" height="13" uuid="8432ee52-68fe-4925-8b71-96178627b34d">
-					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<text><![CDATA[F. Documento >=]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="65" width="67" height="13" uuid="b5aa17b6-a349-4ef3-b1a7-1c7ba3b3a290">
-					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null && $F{effectivearea} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle" markup="none">
-					<font size="7"/>
-				</textElement>
-				<text><![CDATA[Area (Efectiva) =]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="65" y="91" width="42" height="13" uuid="7dac0229-d5a2-471e-941d-26caf3113239">
-					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{DateDoc2}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="26" width="206" height="13" uuid="bc943a5f-9b89-4dfa-a7e1-fed8714c5ed2">
-					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null && $F{credit} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Crédito = " + $F{credit}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="39" width="67" height="13" uuid="84a7582a-da5f-45e5-ac50-cf7106e35c6f">
-					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle" markup="none">
-					<font size="7"/>
-				</textElement>
-				<text><![CDATA[Area (Solicitada) =]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="0" y="13" width="206" height="13" uuid="e12fa7cb-b7a3-4798-88f1-87c3ae61b72d">
-					<printWhenExpression><![CDATA[(($P{FTA_CreditDefinition_ID} != null || $P{FTA_FarmerCredit_ID} != null) && $F{creditdefiniton} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Definición de Crédito = " + $F{creditdefiniton} + " - " + $F{plantingcycle}]]></textFieldExpression>
-			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="65" y="78" width="42" height="13" uuid="d29084e5-c59f-45fd-9412-adb6e383a79d">
-					<printWhenExpression><![CDATA[($P{DateDoc1} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{DateDoc1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($P{C_BPartner_ID} == null? "": "\nSocio de Negocio = " + $F{taxid} + " - " + $F{name}) +
+
+"\nDefinición de Crédito = " + $F{creditdefiniton} + " - " + $F{plantingcycle}+
+($P{FTA_FarmerCredit_ID} == null? "": "\nCrédito = " + $F{credit}) +
+
+($F{qty}.equals(null) ? "" : "\nArea (Solicitada) = " + $F{qty} )+
+
+($F{approvedqty}.equals(null) ? "" : "\nArea (Aprobada) = " + $F{approvedqty} )+
+
+($F{effectivearea}.equals(null) ? "" : "\nArea (Efectiva) = " + $F{effectivearea} )+
+($P{DateDoc1} != null || $P{DateDoc2} != null? "\nFecha de Documento: ": "") +
+($P{DateDoc1} != null? new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc1}): "") +
+($P{DateDoc2} != null? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc2}): "") +
+"\nCruce de Cuenta Nro(s). " + $F{noliquidations}
+
+
+
+
+]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="209" y="0" width="154" height="77" uuid="bbf016e2-37c2-4098-91a7-588766b3d991"/>
