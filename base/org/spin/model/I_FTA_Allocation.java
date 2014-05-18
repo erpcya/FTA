@@ -76,6 +76,21 @@ public interface I_FTA_Allocation
 	  */
 	public BigDecimal getApprovalAmt();
 
+    /** Column name C_AllocationHdr_ID */
+    public static final String COLUMNNAME_C_AllocationHdr_ID = "C_AllocationHdr_ID";
+
+	/** Set Allocation.
+	  * Payment allocation
+	  */
+	public void setC_AllocationHdr_ID (int C_AllocationHdr_ID);
+
+	/** Get Allocation.
+	  * Payment allocation
+	  */
+	public int getC_AllocationHdr_ID();
+
+	public org.compiere.model.I_C_AllocationHdr getC_AllocationHdr() throws RuntimeException;
+
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 

@@ -276,8 +276,6 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if(getAmt() == null
 				|| getAmt().equals(Env.ZERO)){
 			m_processMsg = "@Amt@ = @0@";
-			
-		
 			return DocAction.STATUS_Invalid;
 		}
 		
@@ -295,6 +293,20 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				return DocAction.STATUS_Invalid;
 		//	End Dixon Martinez
 		
+		
+		//	Dixon Martinez 20-05-2014 
+		//	Add support for Parent Farmer Credit
+		
+		/*if(getParent_FarmerCredit_ID() > 0){
+			if(validStatusParentFarmerCredit(getParent_FarmerCredit_ID())){
+				m_processMsg = "@Parent_FarmerCredit_ID@ @NotCompleted@ ";
+				return DocAction.STATUS_Invalid;
+			}
+			recalculateFarmerCredit(getParent_FarmerCredit_ID(),true);
+		}	*/
+		
+		//	End Dixon Martinez
+		
 		setDefiniteDocumentNo();
 
 		setProcessed(true);
@@ -302,6 +314,29 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	/**
+	 * Valid status Parent Farmer Credit 
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 18/05/2014, 00:28:34
+	 * @param parent_FarmerCredit
+	 * @return
+	 * @return boolean
+	 */
+	private boolean validStatusParentFarmerCredit(
+			int parent_FarmerCredit) {
+		String sql = "SELECT FTA_FarmerCredit_ID "
+				+ " FROM FTA_FarmerCredit "
+				+ " WHERE "
+				+ "		FTA_FarmerCredit_ID = ? "
+				+ "		AND DocStatus IN ('CO') ";
+		
+		int p_FTA_FarmerCredit_ID = DB.getSQLValue(get_TrxName(), sql, parent_FarmerCredit);
+		
+		if(p_FTA_FarmerCredit_ID > 0)
+			return false;
+		
+		return true;
+	}
+
 	/**
 	 * 	Set the definite document number after completed
 	 */
@@ -364,6 +399,16 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		updateCreditAct();
 		//setAmt(Env.ZERO);
 
+
+		
+		//	Dixon Martinez 20-05-2014 
+		//	Add support for Parent Farmer Credit
+		/*if(getParent_FarmerCredit_ID() > 0)
+			recalculateFarmerCredit(getParent_FarmerCredit_ID(),false);	
+		*/
+		//	End Dixon Martinez
+		
+		
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
@@ -820,5 +865,53 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		m_paySchedule = new MFTAFCPaySchedule[payScheduleList.size()];
 		payScheduleList.toArray(m_paySchedule);
 		return m_paySchedule;
+	}
+
+
+	/**
+	 * Recalculate Farmer Credit
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 18/05/2014, 01:55:24
+	 * @param p_FTA_ParentFarmerCredit_ID
+	 * @return void
+	 */
+	private void recalculateFarmerCredit(int p_FTA_ParentFarmerCredit_ID, boolean add){
+		
+		MFTAFarmerCredit m_FTAParentFarmerCredit = 
+				new MFTAFarmerCredit(getCtx(), p_FTA_ParentFarmerCredit_ID, get_TrxName());
+		
+	
+		if((m_FTAParentFarmerCredit.getPreviousQty() == null
+				|| m_FTAParentFarmerCredit.getPreviousQty().intValue() == 0)
+					&&	(m_FTAParentFarmerCredit.getPreviousAmt() == null
+							|| m_FTAParentFarmerCredit.getPreviousAmt().intValue() == 0)){
+			m_FTAParentFarmerCredit.setPreviousQty(m_FTAParentFarmerCredit.getQty());
+			m_FTAParentFarmerCredit.setPreviousAmt(m_FTAParentFarmerCredit.getAmt());
+			
+			m_FTAParentFarmerCredit.saveEx();
+		}
+		
+		String sql = null;
+		
+		sql = "SELECT SUM(fc.Qty) "
+				+ " FROM FTA_FarmerCredit fc"
+				+ " WHERE fc.Parent_FarmerCredit_ID = ?";
+		if(add)
+			sql += " AND fc.DocStatus NOT IN ('VO','RE')";
+		else
+			sql += " AND fc.DocStatus IN ('CO','CL')";
+		
+		BigDecimal childrenQty = DB.getSQLValueBD(get_TrxName(), sql, m_FTAParentFarmerCredit.get_ID());
+		
+		if(childrenQty == null)
+			childrenQty = Env.ZERO;
+		
+		if(add)
+			m_FTAParentFarmerCredit.setQty(childrenQty.add(m_FTAParentFarmerCredit.getPreviousQty()));
+		else
+			m_FTAParentFarmerCredit.setQty(childrenQty.subtract(m_FTAParentFarmerCredit.getPreviousQty()));
+		
+		
+		m_FTAParentFarmerCredit.saveEx();
+		
 	}
 }

@@ -33,7 +33,7 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140510L;
+	private static final long serialVersionUID = 20140517L;
 
     /** Standard Constructor */
     public X_FTA_Allocation (Properties ctx, int FTA_Allocation_ID, String trxName)
@@ -104,6 +104,34 @@ public class X_FTA_Allocation extends PO implements I_FTA_Allocation, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public org.compiere.model.I_C_AllocationHdr getC_AllocationHdr() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_AllocationHdr)MTable.get(getCtx(), org.compiere.model.I_C_AllocationHdr.Table_Name)
+			.getPO(getC_AllocationHdr_ID(), get_TrxName());	}
+
+	/** Set Allocation.
+		@param C_AllocationHdr_ID 
+		Payment allocation
+	  */
+	public void setC_AllocationHdr_ID (int C_AllocationHdr_ID)
+	{
+		if (C_AllocationHdr_ID < 1) 
+			set_Value (COLUMNNAME_C_AllocationHdr_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AllocationHdr_ID, Integer.valueOf(C_AllocationHdr_ID));
+	}
+
+	/** Get Allocation.
+		@return Payment allocation
+	  */
+	public int getC_AllocationHdr_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_AllocationHdr_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException

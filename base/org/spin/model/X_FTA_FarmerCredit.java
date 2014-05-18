@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140510L;
+	private static final long serialVersionUID = 20140517L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -640,6 +640,27 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		return false;
 	}
 
+	/** Set Bill Of Exchange Document Based.
+		@param IsBillOfExchangeDocBased Bill Of Exchange Document Based	  */
+	public void setIsBillOfExchangeDocBased (boolean IsBillOfExchangeDocBased)
+	{
+		set_Value (COLUMNNAME_IsBillOfExchangeDocBased, Boolean.valueOf(IsBillOfExchangeDocBased));
+	}
+
+	/** Get Bill Of Exchange Document Based.
+		@return Bill Of Exchange Document Based	  */
+	public boolean isBillOfExchangeDocBased () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsBillOfExchangeDocBased);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Manages Payment Program.
 		@param IsManagesPaymentProgram Manages Payment Program	  */
 	public void setIsManagesPaymentProgram (boolean IsManagesPaymentProgram)
@@ -763,6 +784,40 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Previous Amt.
+		@param PreviousAmt Previous Amt	  */
+	public void setPreviousAmt (BigDecimal PreviousAmt)
+	{
+		set_Value (COLUMNNAME_PreviousAmt, PreviousAmt);
+	}
+
+	/** Get Previous Amt.
+		@return Previous Amt	  */
+	public BigDecimal getPreviousAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PreviousAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Previous Qty.
+		@param PreviousQty Previous Qty	  */
+	public void setPreviousQty (BigDecimal PreviousQty)
+	{
+		set_Value (COLUMNNAME_PreviousQty, PreviousQty);
+	}
+
+	/** Get Previous Qty.
+		@return Previous Qty	  */
+	public BigDecimal getPreviousQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PreviousQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Processed.
