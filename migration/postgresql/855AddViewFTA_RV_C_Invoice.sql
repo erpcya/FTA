@@ -1,4 +1,5 @@
-﻿CREATE OR REPLACE VIEW FTA_RV_C_Invoice AS 
+﻿--DROP VIEW FTA_RV_C_Invoice ;
+CREATE OR REPLACE VIEW FTA_RV_C_Invoice AS 
          SELECT i.c_invoice_id, i.ad_client_id, i.ad_org_id, i.isactive, 
             i.created, i.createdby, i.updated, i.updatedby, i.issotrx, 
             i.documentno, i.docstatus, i.docaction, i.processing, i.processed, 
@@ -34,7 +35,7 @@
                 END AS multiplierap, 
             d.docbasetype, 
             paymenttermduedate(i.c_paymentterm_id, i.dateinvoiced) AS duedate, 
-            fc.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID
+            fc.FTA_FarmerCredit_ID
            FROM c_invoice i
            INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = i.FTA_FarmerCredit_ID)
       JOIN c_doctype d ON i.c_doctype_id = d.c_doctype_id
@@ -67,7 +68,7 @@ UNION
                     ELSE 1
                 END AS multiplierap, 
             d.docbasetype, ips.duedate, 
-            fc.FTA_FarmerCredit_ID, fc.Parent_FarmerCredit_ID
+            fc.FTA_FarmerCredit_ID
            FROM c_invoice i
       JOIN c_doctype d ON i.c_doctype_id = d.c_doctype_id
    JOIN c_invoicepayschedule ips ON i.c_invoice_id = ips.c_invoice_id
