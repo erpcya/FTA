@@ -160,7 +160,8 @@ public class FTAModelValidator implements ModelValidator {
 			if(po.get_TableName().equals(I_C_Order.Table_Name)){
 				MOrder ord = (MOrder) po;
 				if(ord.isSOTrx()
-						&& ord.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
+						&& ord.get_ValueAsInt("FTA_FarmerCredit_ID") != 0
+							&& !ord.get_ValueAsBoolean("IsCreditFactManual")){
 					return MFTAFact.createFact(Env.getCtx(), ord, ord.getDateOrdered(), ord.getGrandTotal(), Env.ONE, ord.get_TrxName());
 				}
 			} else if(po.get_TableName().equals(I_C_Invoice.Table_Name)){
