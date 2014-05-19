@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
-	<property name="ireport.zoom" value="1.8181818181818195"/>
+	<property name="ireport.zoom" value="1.5421731577181266"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="125"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="AD_Org_ID" class="java.math.BigDecimal"/>
 	<parameter name="M_Warehouse_ID" class="java.math.BigDecimal"/>
@@ -145,7 +145,7 @@ AND (rwio.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) =
 AND (rwio.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
 AND (rwio.DocStatus = $P{DocStatus} OR $P{DocStatus} IS NULL)
 AND (rwio.FTA_AttributeReport_ID=$P{FTA_AttributeReport_ID} OR $P{FTA_AttributeReport_ID} IS NULL)
-ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
+ORDER BY rwio.OutDate]]>
 	</queryString>
 	<field name="mobilizationguide" class="java.lang.String"/>
 	<field name="ext_guide" class="java.lang.String"/>
@@ -204,14 +204,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 		<band/>
 	</background>
 	<title>
-		<band height="107">
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="279" y="0" width="195" height="86" uuid="2c5cb4b3-244b-4f25-a4bc-1b931e89f9d9"/>
-				<textElement textAlignment="Center" markup="none">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Listado de Registro de Peso (Productor) \n\"" + $F{client} + "\""]]></textFieldExpression>
-			</textField>
+		<band height="155">
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="691" y="0" width="61" height="12" uuid="5bac3e0e-8b1c-4f99-8772-bd51ae9aefab"/>
 				<textElement verticalAlignment="Middle">
@@ -248,14 +241,14 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="h.mm.ss a">
-				<reportElement x="679" y="5" width="61" height="12" uuid="b02cd099-16dd-4287-a018-d4b4db049234"/>
+				<reportElement x="691" y="15" width="61" height="12" uuid="b02cd099-16dd-4287-a018-d4b4db049234"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="266" height="12" uuid="3a5a6963-ba98-489d-93e9-a1a33214b9f1"/>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="266" height="12" uuid="63011de2-e6e1-4337-af62-b0e250b0e679"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
@@ -299,6 +292,13 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
                     ($P{DocStatus}.equals("RE")? "Reversado":
                         ($P{DocStatus}.equals("CL")? "Cerrado": "")))))))]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="279" y="0" width="195" height="86" uuid="aecb85e8-7d16-4d03-a7e8-06af47d7084a"/>
+				<textElement textAlignment="Center" markup="none">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Listado de Registro de Peso(Guiado) \n\"" + $F{client} + "\""]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<summary>
@@ -323,7 +323,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 				<crosstabHeaderCell>
 					<cellContents>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="10" uuid="0d04aa04-d882-41ba-bae6-420ec6d1111d"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="8" uuid="0d04aa04-d882-41ba-bae6-420ec6d1111d"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -331,12 +331,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[Guía Mov.]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="45" y="0" width="35" height="10" uuid="b2c75085-2883-4221-83c2-d8f3c962ccc5"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="45" y="0" width="45" height="8" uuid="b2c75085-2883-4221-83c2-d8f3c962ccc5"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -344,12 +344,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
-							<text><![CDATA[INSAI]]></text>
+							<text><![CDATA[Guía INSAI]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="127" y="0" width="60" height="10" uuid="b3c9050e-5210-4a2b-b28b-f8999886d693"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="150" y="0" width="60" height="8" uuid="b3c9050e-5210-4a2b-b28b-f8999886d693"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -357,12 +357,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[Ticket Ent.]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="80" y="0" width="47" height="10" uuid="b3c9050e-5210-4a2b-b28b-f8966886d693"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="90" y="0" width="60" height="8" uuid="b3c9050e-5210-4a2b-b28b-f8966886d693"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -370,12 +370,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[Planta R.]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="221" y="0" width="50" height="10" uuid="89a48075-50cb-488d-a59f-685957e5c564"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="244" y="0" width="60" height="8" uuid="89a48075-50cb-488d-a59f-685957e5c564"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -383,12 +383,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[Análisis]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="187" y="0" width="34" height="10" uuid="89a48075-50cb-488d-a59f-685957e5c584"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="210" y="0" width="34" height="8" uuid="89a48075-50cb-488d-a59f-685957e5c584"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -396,12 +396,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[Placa]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="271" y="0" width="50" height="10" uuid="d076f41b-31a4-4b48-ab01-6eaac2da2f4e"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="304" y="0" width="60" height="8" uuid="d076f41b-31a4-4b48-ab01-6eaac2da2f4e"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -409,12 +409,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[Boleta]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="321" y="0" width="45" height="10" uuid="763e50f9-5035-4842-bc4c-9ce72f397c80"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="364" y="0" width="40" height="8" uuid="763e50f9-5035-4842-bc4c-9ce72f397c80"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -422,12 +422,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[Fecha]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="366" y="0" width="45" height="10" uuid="a3c1e5ce-98dc-4bf0-8216-7708a44fe4a8"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="404" y="0" width="40" height="8" uuid="a3c1e5ce-98dc-4bf0-8216-7708a44fe4a8"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -435,12 +435,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[P. Bruto]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="411" y="0" width="45" height="10" uuid="c8eebd09-e062-4758-906d-3bca2c90e1ac"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="444" y="0" width="35" height="8" uuid="c8eebd09-e062-4758-906d-3bca2c90e1ac"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -448,12 +448,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[P. Tara]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="456" y="0" width="45" height="10" uuid="2c1abc4a-b17b-4906-a6c5-5ce4883bb40b"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="479" y="0" width="40" height="8" uuid="2c1abc4a-b17b-4906-a6c5-5ce4883bb40b"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -461,12 +461,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[P. Neto]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="501" y="0" width="45" height="10" uuid="f3d6d19b-71b7-4a36-9010-c76bbc69b3f9"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="519" y="0" width="35" height="8" uuid="f3d6d19b-71b7-4a36-9010-c76bbc69b3f9"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -474,12 +474,12 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[Descuento]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="546" y="0" width="45" height="10" uuid="e22f5dbb-e30a-4a09-99a3-f15795f91c40"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="554" y="0" width="40" height="8" uuid="e22f5dbb-e30a-4a09-99a3-f15795f91c40"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<leftPen lineWidth="0.5"/>
@@ -487,7 +487,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 								<rightPen lineWidth="0.5"/>
 							</box>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
-								<font size="7" isBold="true"/>
+								<font size="5" isBold="true"/>
 							</textElement>
 							<text><![CDATA[P. Acond.]]></text>
 						</staticText>
@@ -511,7 +511,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{mobilizationguide}]]></textFieldExpression>
 							</textField>
@@ -528,76 +528,76 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="7" isBold="true" isItalic="true"/>
+									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
 								<text><![CDATA[Resumen]]></text>
 							</staticText>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="366" y="0" width="45" height="12" uuid="263665ca-4bd9-4260-8880-4b68780469e2"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="404" y="0" width="40" height="12" uuid="263665ca-4bd9-4260-8880-4b68780469e2"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="7" isBold="true" isItalic="true"/>
+									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{GrossWeiht}]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="411" y="0" width="45" height="12" uuid="af332603-d408-492a-abee-1bddf0e4dace"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="444" y="0" width="35" height="12" uuid="af332603-d408-492a-abee-1bddf0e4dace"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="7" isBold="true" isItalic="true"/>
+									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{TareWeiht}]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="456" y="0" width="45" height="12" uuid="d72614df-8f62-4241-9ee8-18a89a3316cb"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="479" y="0" width="40" height="12" uuid="d72614df-8f62-4241-9ee8-18a89a3316cb"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="7" isBold="true" isItalic="true"/>
+									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{NetWeiht}]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="501" y="0" width="45" height="12" uuid="ad2802eb-4e7d-4b0a-ac8c-c668d51a31c0"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="519" y="0" width="35" height="12" uuid="ad2802eb-4e7d-4b0a-ac8c-c668d51a31c0"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="7" isBold="true" isItalic="true"/>
+									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{Discount}]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="546" y="0" width="45" height="12" uuid="b61dc5e9-456d-4032-833d-e848da1483fe"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="554" y="0" width="40" height="12" uuid="b61dc5e9-456d-4032-833d-e848da1483fe"/>
 								<box>
 									<leftPen lineWidth="0.5"/>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="7" isBold="true" isItalic="true"/>
+									<font size="5" isBold="true" isItalic="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{PayWeiht}]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="ext_guide" width="35">
+				<rowGroup name="ext_guide" width="45">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{ext_guide}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="35" height="12" uuid="df296626-fd71-4f5e-ae03-c22eff629b8f"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="df296626-fd71-4f5e-ae03-c22eff629b8f"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -605,7 +605,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{ext_guide}]]></textFieldExpression>
 							</textField>
@@ -615,14 +615,14 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="warehouse" width="47">
+				<rowGroup name="warehouse" width="60">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{warehouse}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="47" height="12" uuid="5363db5a-d693-4273-8e75-3baebdb634b7"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="12" uuid="5363db5a-d693-4273-8e75-3baebdb634b7"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -630,7 +630,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{warehouse}]]></textFieldExpression>
 							</textField>
@@ -655,7 +655,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{entryticket}]]></textFieldExpression>
 							</textField>
@@ -680,7 +680,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{vehicleplate}]]></textFieldExpression>
 							</textField>
@@ -690,14 +690,14 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="qualityanalysis" width="50">
+				<rowGroup name="qualityanalysis" width="60">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{qualityanalysis}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="50" height="12" uuid="ac483086-f94f-4320-abd8-d6632454fcd7"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="12" uuid="ac483086-f94f-4320-abd8-d6632454fcd7"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -705,7 +705,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{qualityanalysis}]]></textFieldExpression>
 							</textField>
@@ -715,14 +715,14 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="documentno" width="50">
+				<rowGroup name="documentno" width="60">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{recordweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="50" height="12" uuid="4500d88a-558d-4a33-bdeb-5c4915f79737"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="12" uuid="4500d88a-558d-4a33-bdeb-5c4915f79737"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -730,7 +730,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{documentno}]]></textFieldExpression>
 							</textField>
@@ -740,14 +740,14 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="datedoc" width="45">
+				<rowGroup name="datedoc" width="40">
 					<bucket class="java.sql.Timestamp">
 						<bucketExpression><![CDATA[$F{datedoc}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="a60ac16e-da71-4fb8-86ef-9d26242aa37a"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="40" height="12" uuid="a60ac16e-da71-4fb8-86ef-9d26242aa37a"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -755,7 +755,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{datedoc}]]></textFieldExpression>
 							</textField>
@@ -765,14 +765,14 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="grossweight" width="45">
+				<rowGroup name="grossweight" width="40">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{grossweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="9b666df0-07c1-4dc5-86e1-e083442ea671"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="40" height="12" uuid="9b666df0-07c1-4dc5-86e1-e083442ea671"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -780,7 +780,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{grossweight}]]></textFieldExpression>
 							</textField>
@@ -790,14 +790,14 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="tareweight" width="45">
+				<rowGroup name="tareweight" width="35">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{tareweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="76f8fa5b-a3c9-4b3e-bf27-20365aab0c2c"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="35" height="12" uuid="76f8fa5b-a3c9-4b3e-bf27-20365aab0c2c"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -805,7 +805,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{tareweight}]]></textFieldExpression>
 							</textField>
@@ -815,14 +815,14 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="netweight" width="45">
+				<rowGroup name="netweight" width="40">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{netweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="a5ad5890-0570-491e-8e36-c5d6d509512d"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="40" height="12" uuid="a5ad5890-0570-491e-8e36-c5d6d509512d"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -830,7 +830,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{netweight}]]></textFieldExpression>
 							</textField>
@@ -840,14 +840,14 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="discount" width="45">
+				<rowGroup name="discount" width="35">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{discount}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="b5ea157a-f43d-402e-888c-7c7a9fddbb7a"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="35" height="12" uuid="b5ea157a-f43d-402e-888c-7c7a9fddbb7a"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -855,7 +855,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{discount}]]></textFieldExpression>
 							</textField>
@@ -865,14 +865,14 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<rowGroup name="payweight" width="45">
+				<rowGroup name="payweight" width="40">
 					<bucket class="java.math.BigDecimal">
 						<bucketExpression><![CDATA[$F{payweight}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents>
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="12" uuid="1de263c1-6c31-42fc-8ab5-53e8ecc0fd07"/>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="40" height="12" uuid="1de263c1-6c31-42fc-8ab5-53e8ecc0fd07"/>
 								<box>
 									<topPen lineWidth="0.5"/>
 									<leftPen lineWidth="0.5"/>
@@ -880,7 +880,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font size="7"/>
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{payweight}]]></textFieldExpression>
 							</textField>
@@ -890,7 +890,7 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<columnGroup name="att" height="10">
+				<columnGroup name="att" height="8">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{att}]]></bucketExpression>
 					</bucket>
@@ -899,10 +899,10 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="37" height="10" uuid="cd378f39-316b-4786-b62d-301057331584"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="35" height="8" uuid="cd378f39-316b-4786-b62d-301057331584"/>
 								<textElement verticalAlignment="Middle">
-									<font size="7" isBold="true"/>
+									<font size="5" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{att}]]></textFieldExpression>
 							</textField>
@@ -918,15 +918,15 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 				<measure name="weightMeasure" class="java.math.BigDecimal" calculation="Sum">
 					<measureExpression><![CDATA[$F{weight}]]></measureExpression>
 				</measure>
-				<crosstabCell width="37" height="12">
+				<crosstabCell width="35" height="12">
 					<cellContents>
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="37" height="12" uuid="61c47a19-bfee-4d14-93c2-2cdd244caa6e"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="35" height="12" uuid="61c47a19-bfee-4d14-93c2-2cdd244caa6e"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
-								<font size="7"/>
+								<font size="5"/>
 							</textElement>
 							<textFieldExpression><![CDATA[($V{weightMeasure} != null
     && $V{weightMeasure}.doubleValue() != 0
@@ -935,15 +935,15 @@ ORDER BY rwio.BPLongName, rwio.OutDate, rwio.ValueProduct, rwio.Att]]>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="37" height="12" rowTotalGroup="mobilizationguide">
+				<crosstabCell width="35" height="12" rowTotalGroup="mobilizationguide">
 					<cellContents backcolor="#BFE1FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="37" height="12" uuid="202f239e-ceee-4b32-8df1-f405ba54a817"/>
+							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="35" height="12" uuid="202f239e-ceee-4b32-8df1-f405ba54a817"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
-								<font size="7" isBold="true" isItalic="true"/>
+								<font size="5" isBold="true" isItalic="true"/>
 							</textElement>
 							<textFieldExpression><![CDATA[($V{weightMeasure} != null
     && $V{weightMeasure}.doubleValue() > 0
