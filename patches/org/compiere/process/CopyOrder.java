@@ -187,6 +187,8 @@ public class CopyOrder extends SvrProcess
 		
 		Iterator<?> it =  m_dist.entrySet().iterator();
 		MOrder order = new MOrder(getCtx(), p_C_Order_ID, get_TrxName());
+		order.set_ValueOfColumn("IsCreditFactManual", true);
+		order.save(get_TrxName());
 		MFTAFact.deleteFact(MOrder.Table_ID, order.getC_Order_ID(), true, get_TrxName());
 		while (it.hasNext()){
 			Entry<?, ?> selection = (Entry<?, ?>) it.next();
