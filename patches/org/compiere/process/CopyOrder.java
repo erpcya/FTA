@@ -169,8 +169,11 @@ public class CopyOrder extends SvrProcess
 			original.save();
 		}
 		
-		if (processFromBrowse)
+		if (processFromBrowse){
+			newOrder.set_ValueOfColumn("IsCreditFactManual", true);
+			newOrder.save();
 			allocateOrder(newOrder.getC_Order_ID());
+		}
 		//
 	//	Env.setSOTrx(getCtx(), newOrder.isSOTrx());
 	//	return "@C_Order_ID@ " + newOrder.getDocumentNo();
@@ -186,9 +189,7 @@ public class CopyOrder extends SvrProcess
 	private void allocateOrder(int p_C_Order_ID){
 		
 		Iterator<?> it =  m_dist.entrySet().iterator();
-		MOrder order = new MOrder(getCtx(), p_C_Order_ID, get_TrxName());
-		order.set_ValueOfColumn("IsCreditFactManual", true);
-		order.save(get_TrxName());
+		MOrder order = new MOrder(getCtx(), p_C_Order_ID, null);
 		MFTAFact.deleteFact(MOrder.Table_ID, order.getC_Order_ID(), true, get_TrxName());
 		while (it.hasNext()){
 			Entry<?, ?> selection = (Entry<?, ?>) it.next();
