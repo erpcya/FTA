@@ -30,6 +30,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MOrder;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.spin.model.MFTAFact;
 
 /**
@@ -169,11 +170,8 @@ public class CopyOrder extends SvrProcess
 			original.save();
 		}
 		
-		if (processFromBrowse){
-			newOrder.set_ValueOfColumn("IsCreditFactManual", true);
-			newOrder.save();
+		if (processFromBrowse)
 			allocateOrder(newOrder.getC_Order_ID());
-		}
 		//
 	//	Env.setSOTrx(getCtx(), newOrder.isSOTrx());
 	//	return "@C_Order_ID@ " + newOrder.getDocumentNo();
@@ -189,7 +187,11 @@ public class CopyOrder extends SvrProcess
 	private void allocateOrder(int p_C_Order_ID){
 		
 		Iterator<?> it =  m_dist.entrySet().iterator();
-		MOrder order = new MOrder(getCtx(), p_C_Order_ID, null);
+		MOrder order = new MOrder(getCtx(), p_C_Order_ID, get_TrxName());
+		order.set_ValueOfColumn("IsCreditFactManual", true);
+		order.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit_ID);
+		
+		order.save(get_TrxName());
 		MFTAFact.deleteFact(MOrder.Table_ID, order.getC_Order_ID(), true, get_TrxName());
 		while (it.hasNext()){
 			Entry<?, ?> selection = (Entry<?, ?>) it.next();
@@ -206,6 +208,7 @@ public class CopyOrder extends SvrProcess
 			fact.setRecord_ID(order.getC_Order_ID());
 			fact.setDateDoc(order.getDateOrdered());
 			fact.setDescription(order.getDescription());
+			fact.setMultiplier(Env.ONE);
 			fact.saveEx(get_TrxName());
 		}
 	}
