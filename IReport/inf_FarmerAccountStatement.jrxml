@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inf_FarmerAccountStatement" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91c80499-e68d-49ef-947f-a0080fa9d852">
-	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
@@ -22,7 +22,7 @@ INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = st.C_BPartner_ID)
 INNER JOIN AD_Client cl ON(cl.AD_Client_ID = cd.AD_Client_ID)
 INNER JOIN M_Lot lot ON(lot.M_Lot_ID = cd.PlantingCycle_ID)
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = st.FTA_FarmerCredit_ID)
-INNER JOIN FTA_Farming fm ON(fm.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
+LEFT JOIN FTA_Farming fm ON(fm.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
 LEFT JOIN C_Payment p ON(p.C_Payment_ID = st.C_Payment_ID)
 WHERE st.AD_Table_ID <> 259 AND st.AD_Table_ID <> 53566
 AND (st.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
@@ -85,12 +85,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 ($P{DateDoc1} != null || $P{DateDoc2} != null? "\nFecha de Documento: ": "") +
 ($P{DateDoc1} != null? new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc1}): "") +
 ($P{DateDoc2} != null? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc2}): "") +
-"\nCruce de Cuenta Nro(s). " + $F{noliquidations}
-
-
-
-
-]]></textFieldExpression>
+"\nCruce de Cuenta Nro(s). " + $F{noliquidations}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="209" y="0" width="154" height="77" uuid="bbf016e2-37c2-4098-91a7-588766b3d991"/>
