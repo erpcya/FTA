@@ -90,6 +90,7 @@ public class CreditSOAllocation extends SvrProcess {
 		int updates=0;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		MInvoice in = null;
 		
 		try {
 			ps = DB.prepareStatement(sql.toString(),get_TrxName());
@@ -139,7 +140,7 @@ public class CreditSOAllocation extends SvrProcess {
 					//Set Document
 					if (C_Invoice_ID!=0){
 						//Invoice
-						MInvoice in = new MInvoice(getCtx(), C_Invoice_ID, get_TrxName());
+						in = new MInvoice(getCtx(), C_Invoice_ID, get_TrxName());
 						if (in.getC_Invoice_ID()!=0){
 							fact.setRecord_ID(in.getC_Invoice_ID());
 							fact.setDateDoc(in.getDateInvoiced());
@@ -179,7 +180,12 @@ public class CreditSOAllocation extends SvrProcess {
 			}
 			
 			if (AD_Table_ID!=0){
-				BigDecimal Difference = inValidDocument(Record_ID,AD_Table_ID);
+				BigDecimal Difference  =Env.ZERO;
+				
+				if (in!=null)
+					if(in.getC_DocType().getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo)) 
+						Difference = inValidDocument(Record_ID,AD_Table_ID);
+				
 				if (!Difference.equals(Env.ZERO)){
 					rollback();
 					m_processMsg= "@Error@ : " + Msg.translate(getCtx(), "amount.difference") +" " + Difference;

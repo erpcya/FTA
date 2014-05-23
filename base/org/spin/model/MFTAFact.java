@@ -141,7 +141,13 @@ public class MFTAFact extends X_FTA_Fact {
 		String m_DocumentNo = document.get_ValueAsString("DocumentNo");
 		String m_Description = document.get_ValueAsString("Description");
 		int m_FTA_FarmerCredit_ID = document.get_ValueAsInt("FTA_FarmerCredit_ID");
-		int m_Parent_FarmerCredit_ID = 0;
+		
+		//	Dixon Martinez 20-05-2014 
+		//	Add support for Parent Farmer Credit
+		//	int m_Parent_FarmerCredit_ID = 0;
+		//	End Dixon Martinez
+		
+		
 		int m_FTA_CreditDefinition_ID = 0;
 		int m_FTA_CreditDefinitionLine_ID = 0;
 		
@@ -154,8 +160,11 @@ public class MFTAFact extends X_FTA_Fact {
 				"i.FTA_FarmerCredit_ID, " +
 				"i.Record_ID, i.Line_ID, " +
 				"i.Amt, i.SO_CreditLimit, " +
-				"i.SO_CreditUsed, i.IsExceedCreditLimit, " +
-				" i.Parent_FarmerCredit_ID " +
+				"i.SO_CreditUsed, i.IsExceedCreditLimit " +
+				//	Dixon Martinez 20-05-2014 
+				//	Add support for Parent Farmer Credit
+				//" i.Parent_FarmerCredit_ID " +
+				//	End Dixon Martinez
 				"FROM FTA_RV_DocumentFact i " +
 				"WHERE i.Record_ID = ? " +
 				"AND i.AD_Table_ID = ? " +
@@ -192,7 +201,10 @@ public class MFTAFact extends X_FTA_Fact {
 					m_FTA_CreditDefinition_ID 		= rs.getInt("FTA_CreditDefinition_ID");
 					m_FTA_CreditDefinitionLine_ID 	= rs.getInt("FTA_CreditDefinitionLine_ID");
 					m_FTA_FarmerCredit_ID 			= rs.getInt("FTA_FarmerCredit_ID");
-					m_Parent_FarmerCredit_ID		= rs.getInt("Parent_FarmerCredit_ID");
+					//	Dixon Martinez 21-05-2014 
+					//	Add support for Parent Farmer Credit
+					//	m_Parent_FarmerCredit_ID		= rs.getInt("Parent_FarmerCredit_ID");
+					//	End Dixon Martinez
 					int m_Record_ID 				= rs.getInt("Record_ID");
 					int m_Line_ID 					= rs.getInt("Line_ID");
 					BigDecimal m_Amt				= rs.getBigDecimal("Amt");
@@ -280,8 +292,11 @@ public class MFTAFact extends X_FTA_Fact {
 					m_fta_Fact.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition_ID);
 					m_fta_Fact.setFTA_CreditDefinitionLine_ID(m_FTA_CreditDefinitionLine_ID);
 					m_fta_Fact.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit_ID);
+					//	Dixon Martinez 20-05-2014 
+					//	Add support for Parent Farmer Credit
 					//	Set Parent
-					m_fta_Fact.setParent_FarmerCredit_ID(m_Parent_FarmerCredit_ID);
+					//	m_fta_Fact.setParent_FarmerCredit_ID(m_Parent_FarmerCredit_ID);
+					//	End Dixon Martinez
 					m_fta_Fact.setRecord_ID(m_Record_ID);
 					m_fta_Fact.setLine_ID(m_Line_ID);
 					m_fta_Fact.setAD_Table_ID(table_ID);
@@ -359,8 +374,11 @@ public class MFTAFact extends X_FTA_Fact {
 						m_fta_Fact.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition_ID);
 						m_fta_Fact.setFTA_CreditDefinitionLine_ID(m_FTA_CreditDefinitionLine_ID);
 						m_fta_Fact.setFTA_FarmerCredit_ID(m_FTA_FarmerCredit_ID);
+						//	Dixon Martinez 20-05-2014 
+						//	Add support for Parent Farmer Credit
 						//	Set Parent
-						m_fta_Fact.setParent_FarmerCredit_ID(m_Parent_FarmerCredit_ID);
+						//	m_fta_Fact.setParent_FarmerCredit_ID(m_Parent_FarmerCredit_ID);
+						//	End Dixon Martinez
 						m_fta_Fact.setRecord_ID(record_ID);
 						m_fta_Fact.setAD_Table_ID(table_ID);
 						//	Set Distributed Amount

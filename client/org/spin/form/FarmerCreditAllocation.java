@@ -265,7 +265,12 @@ public class FarmerCreditAllocation
 			//	Add Trx
 			+ "AND i.IsSOTrx = 'Y' " 
 			+ "AND (i.FTA_FarmerCredit_ID = " + m_FTA_FarmerCredit_ID 
-			+ " 		OR i.Parent_FarmerCredit_ID = " + m_FTA_FarmerCredit_ID + ") "
+			//	Dixon Martinez 20-05-2014 
+			//	Add support for Parent Farmer Credit
+			
+			//	+ " 		OR i.Parent_FarmerCredit_ID = " + m_FTA_FarmerCredit_ID + ") "
+			+ ") "
+			//	End Dixon Martinez
 			+ "AND i.C_BPartner_ID=? ");                                            //  #7
 		if (!isMultiCurrency)
 			sql.append("AND i.C_Currency_ID=?");                                   //  #8
@@ -395,7 +400,10 @@ public class FarmerCreditAllocation
 					"INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = cr.FTA_CreditDefinition_ID) " +
 					"INNER JOIN M_Lot l ON(l.M_Lot_ID = cd.PlantingCycle_ID) " +
 					"WHERE cr.C_BPartner_ID = ? " +
-					"AND cr.Parent_FarmerCredit_ID IS NULL " +
+					//	Dixon Martinez 20-05-2014 
+					//	Add support for Parent Farmer Credit
+					//	"AND cr.Parent_FarmerCredit_ID IS NULL " +					
+					//	End Dixon Martinez
 					"AND cr.DocStatus = 'CO'", null);
 			pstmt.setInt(1, p_C_BPartner_ID);
 			ResultSet rs = pstmt.executeQuery();

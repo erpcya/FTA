@@ -297,14 +297,13 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		//	Dixon Martinez 20-05-2014 
 		//	Add support for Parent Farmer Credit
 		
-		/*if(getParent_FarmerCredit_ID() > 0){
+		if(getParent_FarmerCredit_ID() > 0){
 			if(validStatusParentFarmerCredit(getParent_FarmerCredit_ID())){
 				m_processMsg = "@Parent_FarmerCredit_ID@ @NotCompleted@ ";
 				return DocAction.STATUS_Invalid;
 			}
 			recalculateFarmerCredit(getParent_FarmerCredit_ID(),true);
-		}	*/
-		
+		}	
 		//	End Dixon Martinez
 		
 		setDefiniteDocumentNo();
@@ -403,9 +402,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		
 		//	Dixon Martinez 20-05-2014 
 		//	Add support for Parent Farmer Credit
-		/*if(getParent_FarmerCredit_ID() > 0)
+		if(getParent_FarmerCredit_ID() > 0)
 			recalculateFarmerCredit(getParent_FarmerCredit_ID(),false);	
-		*/
 		//	End Dixon Martinez
 		
 		
