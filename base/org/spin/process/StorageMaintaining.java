@@ -45,6 +45,9 @@ public class StorageMaintaining extends SvrProcess {
 	/**	Warehouse			*/
 	private int 		p_M_Warehouse_ID = 0;
 	
+	/** Product				*/
+	private int			p_M_Product_ID = 0;
+	
 	@Override
 	protected void prepare() {
 		for (ProcessInfoParameter para:getParameter()){
@@ -56,6 +59,8 @@ public class StorageMaintaining extends SvrProcess {
 				p_AD_Org_ID = para.getParameterAsInt();
 			else if(name.equals("M_Warehouse_ID"))
 				p_M_Warehouse_ID = para.getParameterAsInt();
+			else if(name.equals("M_Product_ID"))
+				p_M_Product_ID = para.getParameterAsInt();
 		}
 	}
 
@@ -76,45 +81,17 @@ public class StorageMaintaining extends SvrProcess {
 					"FROM M_Locator l " +
 					"WHERE l.M_Locator_ID = M_Storage.M_Locator_ID " +
 					"AND l.M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(") ");
+		//Product
+		if(p_M_Product_ID != 0)
+			deleteSQL.append("AND M_Product_ID = ").append(p_M_Product_ID).append(" ");
+		
 		//	Log
 		log.fine("deleteSQL=" + deleteSQL.toString());
-		//	Process Orders
-		StringBuffer orderSQL = new StringBuffer("SELECT o.C_Order_ID " +
-				"FROM C_Order o " +
-				"INNER JOIN C_OrderLine ol ON(ol.C_Order_ID = o.C_Order_ID) " +
-				"INNER JOIN C_DocType dt ON(dt.C_DocType_ID = o.C_DocType_ID) " +
-				"WHERE o.DocStatus IN('IP', 'CO') " +
-				"AND (ol.QtyOrdered - ol.QtyDelivered) > 0 " +
-				//"AND o.IsSOTrx = 'Y' " +
-				"AND o.AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
-		//	Org
-		if(p_AD_Org_ID != 0)
-			orderSQL.append("AND o.AD_Org_ID = ").append(p_AD_Org_ID).append(" ");
-		//	Warehouse
-		if(p_M_Warehouse_ID != 0)
-			orderSQL.append("AND ol.M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(" ");
-		//	Group By
-		orderSQL.append("GROUP BY o.C_Order_ID ");
-		//	Order By
-		orderSQL.append("ORDER BY o.IsSOTrx, o.DateOrdered");
-		//	Log
-		log.fine("orderSQL=" + orderSQL.toString());
-		//	Update
+		
 		int storageUpdated = DB.executeUpdate(deleteSQL.toString(), get_TrxName());
+
 		//	Log
 		log.fine("Storage Updated=" + storageUpdated);
-		
-		PreparedStatement ps=null;
-		ResultSet rs =null;
-		ps = DB.prepareStatement(orderSQL.toString(), get_TrxName());
-		rs = ps.executeQuery();
-		//	Loop
-		while(rs.next()){
-			MOrder order = new MOrder(getCtx(), rs.getInt(1), get_TrxName());
-			reserveStock(order);
-			addLog("@C_Order_ID@ " + order.getDocumentNo() + " @Processed@");
-		}
-		DB.close(rs, ps);
 		
 		//	Delete Bad transactions
 		StringBuffer deleteTSQL = new StringBuffer("DELETE " +
@@ -130,18 +107,141 @@ public class StorageMaintaining extends SvrProcess {
 			deleteTSQL.append("AND AD_Org_ID = ").append(p_AD_Org_ID).append(" ");
 		//	Warehouse
 		if(p_M_Warehouse_ID != 0)
-			deleteSQL.append("AND EXISTS(SELECT 1 " +
+			deleteTSQL.append("AND EXISTS(SELECT 1 " +
 					"FROM M_Locator l " +
 					"WHERE l.M_Locator_ID = M_Transaction.M_Locator_ID " +
 					"AND l.M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(") ");
-
+		//Product
+			if(p_M_Product_ID != 0)
+				deleteTSQL.append("AND M_Product_ID = ").append(p_M_Product_ID).append(" ");
 		//	Execute
 		int transactionDeleted = DB.executeUpdate(deleteTSQL.toString(), get_TrxName());
 		//	Log
 		log.fine("Transaction Deleted=" + transactionDeleted);
+			
+		recreateQtyOnHand();
+		log.fine("Recreate QtyOnHand" );
+		
+		
+		//	Process Orders
+		StringBuffer orderSQL = new StringBuffer("SELECT o.C_Order_ID " +
+				"FROM C_Order o " +
+				"INNER JOIN C_OrderLine ol ON(ol.C_Order_ID = o.C_Order_ID) " +
+				"INNER JOIN C_DocType dt ON(dt.C_DocType_ID = o.C_DocType_ID) " +
+				"WHERE o.DocStatus IN('IP', 'CO') " +
+				"AND (ol.QtyOrdered - ol.QtyDelivered) > 0 " +
+				//"AND o.IsSOTrx = 'Y' " +
+				"AND o.AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
+		//	Org
+		if(p_AD_Org_ID != 0)
+			orderSQL.append("AND o.AD_Org_ID = ").append(p_AD_Org_ID).append(" ");
+		//	Warehouse
+		if(p_M_Warehouse_ID != 0)
+			orderSQL.append("AND ol.M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(" ");
+		
+		//Product
+		if(p_M_Product_ID != 0)
+			orderSQL.append("AND ol.M_Product_ID = ").append(p_M_Product_ID).append(" ");
+		
+		//	Group By
+		orderSQL.append("GROUP BY o.C_Order_ID ");
+		//	Order By
+		orderSQL.append("ORDER BY o.IsSOTrx, o.DateOrdered");
+		//	Log
+		log.fine("orderSQL=" + orderSQL.toString());
+		//	Update
+		
+		
+		PreparedStatement ps=null;
+		ResultSet rs =null;
+		ps = DB.prepareStatement(orderSQL.toString(), get_TrxName());
+		rs = ps.executeQuery();
+		//	Loop
+		while(rs.next()){
+			MOrder order = new MOrder(getCtx(), rs.getInt(1), get_TrxName());
+			reserveStock(order);
+			addLog("@C_Order_ID@ " + order.getDocumentNo() + " @Processed@");
+		}
+		DB.close(rs, ps);
+		
 		return "@Updated@=" + storageUpdated + " @M_Transaction_ID@ @Deleted@=" + transactionDeleted;
 	}
 	
+	/**
+	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 24/05/2014, 14:12:07
+	 * @return void
+	 */
+	private void recreateQtyOnHand() throws SQLException{
+		
+		
+		StringBuffer deleteSQL = new StringBuffer("DELETE FROM M_Storage " +
+				"WHERE (QtyOnHand <> 0 OR (QtyOnHand=0 AND QtyReserved = 0)) " +
+				"AND AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
+		//	Org
+		if(p_AD_Org_ID != 0)
+			deleteSQL.append("AND AD_Org_ID = ").append(p_AD_Org_ID).append(" ");
+		//	Warehouse
+		if(p_M_Warehouse_ID != 0)
+			deleteSQL.append("AND EXISTS(SELECT 1 " +
+					"FROM M_Locator l " +
+					"WHERE l.M_Locator_ID = M_Storage.M_Locator_ID " +
+					"AND l.M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(") ");
+		//Product
+		if(p_M_Product_ID != 0)
+			deleteSQL.append("AND M_Product_ID = ").append(p_M_Product_ID).append(" ");
+		//	Log
+		log.fine("deleteSQL=" + deleteSQL.toString());
+		
+		int storageUpdated = DB.executeUpdate(deleteSQL.toString(), get_TrxName());
+		//	Log
+		log.fine("Storage Updated=" + storageUpdated);
+		
+		StringBuffer transactionSQL = new StringBuffer("SELECT mt.AD_Client_ID," +
+														"mw.AD_Org_ID," +
+														"mt.M_Product_ID," +
+														"mt.M_Locator_ID," +
+														"mt.M_AttributeSetInstance_ID," +
+														"Sum(mt.MovementQty) MovementQty "+
+														"FROM " + 
+														"M_Transaction mt "+
+														"INNER JOIN M_Locator ml ON mt.M_Locator_ID = ml.M_Locator_ID "+
+														"INNER JOIN M_Warehouse mw ON mw.M_Warehouse_ID = ml.M_Warehouse_ID "+
+														"WHERE mt.AD_Client_ID = ").append(getAD_Client_ID()).append(" ");
+		
+		//	Org
+		if(p_AD_Org_ID != 0)
+			transactionSQL.append("AND mw.AD_Org_ID = ").append(p_AD_Org_ID).append(" ");
+		//	Warehouse
+		if(p_M_Warehouse_ID != 0)
+			transactionSQL.append("AND mw.M_Warehouse_ID = ").append(p_M_Warehouse_ID).append(" ");
+		//Product
+		if(p_M_Product_ID != 0)
+			transactionSQL.append("AND mt.M_Product_ID = ").append(p_M_Product_ID).append(" ");
+		//Group By
+		transactionSQL.append("GROUP BY "+
+		"mt.AD_Client_ID,mw.AD_Org_ID,mt.M_Product_ID,mt.M_Locator_ID,mt.M_AttributeSetInstance_ID ");
+		
+		transactionSQL.append("HAVING SUM(mt.MovementQty) <> 0 ");
+		
+		
+		PreparedStatement ps=null;
+		ResultSet rs =null;
+		ps = DB.prepareStatement(transactionSQL.toString(), get_TrxName());
+		rs = ps.executeQuery();
+		//	Loop
+		while(rs.next()){
+			MStorage stg = new MStorage(getCtx(), 0, get_TrxName());
+			stg.setAD_Org_ID(rs.getInt("AD_Org_ID"));
+			stg.setM_Product_ID(rs.getInt("M_Product_ID"));
+			stg.setM_Locator_ID(rs.getInt("M_Locator_ID"));
+			stg.setM_AttributeSetInstance_ID(rs.getInt("M_AttributeSetInstance_ID"));
+			stg.setQtyOnHand(rs.getBigDecimal("MovementQty"));
+			stg.save(get_TrxName());
+			addLog("@QtyOnHand@ " + stg.getQtyOnHand() + "@Processed@");
+		}
+		
+		DB.close(rs, ps);
+	}
 	
 	/**
 	 * 	Reserve Inventory. (Copy from MOrder)
