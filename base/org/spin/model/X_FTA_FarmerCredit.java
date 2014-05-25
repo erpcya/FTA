@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140517L;
+	private static final long serialVersionUID = 20140525L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -798,6 +798,40 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public BigDecimal getPreviousAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PreviousAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Previous Approved Amt.
+		@param PreviousApprovedAmt Previous Approved Amt	  */
+	public void setPreviousApprovedAmt (BigDecimal PreviousApprovedAmt)
+	{
+		set_Value (COLUMNNAME_PreviousApprovedAmt, PreviousApprovedAmt);
+	}
+
+	/** Get Previous Approved Amt.
+		@return Previous Approved Amt	  */
+	public BigDecimal getPreviousApprovedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PreviousApprovedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Previous Approved Quantity.
+		@param PreviousApprovedQty Previous Approved Quantity	  */
+	public void setPreviousApprovedQty (BigDecimal PreviousApprovedQty)
+	{
+		set_Value (COLUMNNAME_PreviousApprovedQty, PreviousApprovedQty);
+	}
+
+	/** Get Previous Approved Quantity.
+		@return Previous Approved Quantity	  */
+	public BigDecimal getPreviousApprovedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PreviousApprovedQty);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
