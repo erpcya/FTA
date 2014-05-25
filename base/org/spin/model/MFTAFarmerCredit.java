@@ -888,6 +888,16 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			m_FTAParentFarmerCredit.saveEx();
 		}
 		
+		if((m_FTAParentFarmerCredit.getPreviousApprovedQty() == null
+				|| m_FTAParentFarmerCredit.getPreviousApprovedQty().intValue() == 0)
+					&&	(m_FTAParentFarmerCredit.getPreviousApprovedAmt() == null
+							|| m_FTAParentFarmerCredit.getPreviousApprovedAmt().intValue() == 0)){
+			m_FTAParentFarmerCredit.setPreviousApprovedQty(m_FTAParentFarmerCredit.getApprovedQty());
+			m_FTAParentFarmerCredit.setPreviousApprovedAmt(m_FTAParentFarmerCredit.getApprovedAmt());
+			
+			m_FTAParentFarmerCredit.saveEx();
+		}
+		
 		String sql = null;
 		
 		sql = "SELECT SUM(fc.Qty) "
@@ -908,6 +918,46 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		else
 			m_FTAParentFarmerCredit.setQty(childrenQty.subtract(m_FTAParentFarmerCredit.getPreviousQty()));
 		
+		sql = null;
+		
+		sql = "SELECT SUM(fc.ApprovedQty) "
+				+ " FROM FTA_FarmerCredit fc"
+				+ " WHERE fc.Parent_FarmerCredit_ID = ?";
+		if(add)
+			sql += " AND fc.DocStatus NOT IN ('VO','RE')";
+		else
+			sql += " AND fc.DocStatus IN ('CO','CL')";
+		
+		BigDecimal childrenQtyApproved = DB.getSQLValueBD(get_TrxName(), sql, m_FTAParentFarmerCredit.get_ID());
+		
+		if(childrenQtyApproved == null)
+			childrenQtyApproved = Env.ZERO;
+		
+		if(add)
+			m_FTAParentFarmerCredit.setApprovedQty(childrenQtyApproved.add(m_FTAParentFarmerCredit.getPreviousApprovedQty()));
+		else
+			m_FTAParentFarmerCredit.setApprovedQty(childrenQtyApproved.subtract(m_FTAParentFarmerCredit.getPreviousApprovedQty()));
+		/*
+		sql = null;
+		
+		sql = "SELECT SUM(fc.ApprovedAmt) "
+				+ " FROM FTA_FarmerCredit fc"
+				+ " WHERE fc.Parent_FarmerCredit_ID = ?";
+		if(add)
+			sql += " AND fc.DocStatus NOT IN ('VO','RE')";
+		else
+			sql += " AND fc.DocStatus IN ('CO','CL')";
+		
+		BigDecimal childrenAmtApproved = DB.getSQLValueBD(get_TrxName(), sql, m_FTAParentFarmerCredit.get_ID());
+		
+		if(childrenAmtApproved == null)
+			childrenAmtApproved = Env.ZERO;
+		
+		if(add)
+			m_FTAParentFarmerCredit.setApprovedAmt(childrenAmtApproved.add(m_FTAParentFarmerCredit.getPreviousApprovedAmt()));
+		else
+			m_FTAParentFarmerCredit.setApprovedAmt(childrenAmtApproved.subtract(m_FTAParentFarmerCredit.getPreviousApprovedAmt()));
+		*/
 		
 		m_FTAParentFarmerCredit.saveEx();
 		

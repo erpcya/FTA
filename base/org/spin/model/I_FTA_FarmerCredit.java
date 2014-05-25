@@ -466,6 +466,24 @@ public interface I_FTA_FarmerCredit
 	/** Get Previous Amt	  */
 	public BigDecimal getPreviousAmt();
 
+    /** Column name PreviousApprovedAmt */
+    public static final String COLUMNNAME_PreviousApprovedAmt = "PreviousApprovedAmt";
+
+	/** Set Previous Approved Amt	  */
+	public void setPreviousApprovedAmt (BigDecimal PreviousApprovedAmt);
+
+	/** Get Previous Approved Amt	  */
+	public BigDecimal getPreviousApprovedAmt();
+
+    /** Column name PreviousApprovedQty */
+    public static final String COLUMNNAME_PreviousApprovedQty = "PreviousApprovedQty";
+
+	/** Set Previous Approved Quantity	  */
+	public void setPreviousApprovedQty (BigDecimal PreviousApprovedQty);
+
+	/** Get Previous Approved Quantity	  */
+	public BigDecimal getPreviousApprovedQty();
+
     /** Column name PreviousQty */
     public static final String COLUMNNAME_PreviousQty = "PreviousQty";
 
