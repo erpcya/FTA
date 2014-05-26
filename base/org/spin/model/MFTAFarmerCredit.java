@@ -916,7 +916,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if(add)
 			m_FTAParentFarmerCredit.setQty(childrenQty.add(m_FTAParentFarmerCredit.getPreviousQty()));
 		else
-			m_FTAParentFarmerCredit.setQty(childrenQty.subtract(m_FTAParentFarmerCredit.getPreviousQty()));
+			m_FTAParentFarmerCredit.setQty(m_FTAParentFarmerCredit.getQty().subtract(getQty()));
+		
 		/*
 		sql = null;
 		
