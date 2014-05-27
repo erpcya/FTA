@@ -183,7 +183,7 @@ public class CreditSOAllocation extends SvrProcess {
 				BigDecimal Difference  =Env.ZERO;
 				
 				if (in!=null)
-					if(in.getC_DocType().getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo)) 
+					if(!in.getC_DocType().getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo)) 
 						Difference = inValidDocument(Record_ID,AD_Table_ID);
 				
 				if (!Difference.equals(Env.ZERO)){
