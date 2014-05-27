@@ -31,7 +31,7 @@ public class X_FTA_AttributeReport extends PO implements I_FTA_AttributeReport, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140517L;
+	private static final long serialVersionUID = 20140525L;
 
     /** Standard Constructor */
     public X_FTA_AttributeReport (Properties ctx, int FTA_AttributeReport_ID, String trxName)
