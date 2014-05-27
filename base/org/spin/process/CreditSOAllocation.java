@@ -182,17 +182,19 @@ public class CreditSOAllocation extends SvrProcess {
 			if (AD_Table_ID!=0){
 				BigDecimal Difference  =Env.ZERO;
 				
-				if (in!=null)
-					if(!in.getC_DocType().getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo)) 
-						Difference = inValidDocument(Record_ID,AD_Table_ID);
+				Difference = inValidDocument(Record_ID,AD_Table_ID);
 				
 				if (!Difference.equals(Env.ZERO)){
 					rollback();
 					m_processMsg= "@Error@ : " + Msg.translate(getCtx(), "amount.difference") +" " + Difference;
 					return -1;
 				}
+				String Category =null;
 				
-				String Category =getInvalidCategory(FTA_FarmerCredit_ID, FTA_CreditDefinitionLine_ID);
+				if (in!=null)
+					if(!in.getC_DocTypeTarget().getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo))
+						Category =getInvalidCategory(FTA_FarmerCredit_ID, FTA_CreditDefinitionLine_ID);
+				
 				if (Category!=null){
 					rollback();
 					m_processMsg= "@Error@ : " + Msg.translate(getCtx(), "FTA_FarmerCredit_ID")+ " "+ Msg.translate(getCtx(), "CreditLimitOver") +" " + Category;
@@ -221,7 +223,7 @@ public class CreditSOAllocation extends SvrProcess {
 									+",fact.FTA_FarmerCredit_ID "
 									+",fact.FTA_CreditDefinition_ID "
 									+",fact.FTA_CreditDefinitionLine_ID "
-									+",Sum(fact.Amt)  As Amt "
+									+",Sum(fact.Amt*fact.Multiplier)  As Amt "
 									+"From FTA_Fact fact "
 									+"Where fact.AD_Table_ID=? "
 									+"Group By "

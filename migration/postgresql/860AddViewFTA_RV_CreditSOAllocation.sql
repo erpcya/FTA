@@ -136,7 +136,7 @@ CREATE OR REPLACE VIEW fta_rv_creditsoallocation AS
    LEFT JOIN c_charge cch ON cch.c_charge_id = cdl.c_charge_id
    LEFT JOIN ( SELECT fta_fact.fta_creditdefinitionline_id, 
     fta_fact.c_bpartner_id, fta_fact.fta_farmercredit_id, 
-    sum(fta_fact.amt) AS amt
+    sum(fta_fact.amt * fta_fact.multiplier) AS amt
    FROM fta_fact
   WHERE fta_fact.ad_table_id = 318::numeric
   GROUP BY fta_fact.fta_creditdefinitionline_id, fta_fact.c_bpartner_id, fta_fact.fta_farmercredit_id) fa ON fa.fta_creditdefinitionline_id = cdl.fta_creditdefinitionline_id AND fa.c_bpartner_id = fc.c_bpartner_id AND fa.fta_farmercredit_id = fc.fta_farmercredit_id
@@ -172,7 +172,7 @@ UNION
    LEFT JOIN c_charge cch ON cch.c_charge_id = cdl.c_charge_id
    LEFT JOIN ( SELECT fta_fact.fta_creditdefinitionline_id, 
     fta_fact.c_bpartner_id, fta_fact.fta_farmercredit_id, 
-    sum(fta_fact.amt) AS amt
+    sum(fta_fact.amt * fta_fact.multiplier) AS amt
    FROM fta_fact
   WHERE fta_fact.ad_table_id = 318::numeric
   GROUP BY fta_fact.fta_creditdefinitionline_id, fta_fact.c_bpartner_id, fta_fact.fta_farmercredit_id) fa ON fa.fta_creditdefinitionline_id = cdl.fta_creditdefinitionline_id AND fa.c_bpartner_id = fc.c_bpartner_id AND fa.fta_farmercredit_id = fc.fta_farmercredit_id
