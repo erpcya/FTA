@@ -582,6 +582,15 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if (m_processMsg != null)
 			return false;
 		m_processMsg = validReferenceET();
+		
+		
+		//	Dixon Martinez 20-05-2014 
+		//	Add support for Parent Farmer Credit
+		if(getParent_FarmerCredit_ID() > 0)
+			recalculateFarmerCredit(getParent_FarmerCredit_ID(),false);	
+		//	End Dixon Martinez
+		
+		
 		if(m_processMsg != null)
 			return false;
 		// After reActivate
