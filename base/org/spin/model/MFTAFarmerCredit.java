@@ -918,7 +918,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		else
 			m_FTAParentFarmerCredit.setQty(m_FTAParentFarmerCredit.getQty().subtract(getQty()));
 		
-		/*
+		
 		sql = null;
 		
 		sql = "SELECT SUM(fc.ApprovedQty) "
@@ -937,8 +937,10 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if(add)
 			m_FTAParentFarmerCredit.setApprovedQty(childrenQtyApproved.add(m_FTAParentFarmerCredit.getPreviousApprovedQty()));
 		else
-			m_FTAParentFarmerCredit.setApprovedQty(childrenQtyApproved.subtract(m_FTAParentFarmerCredit.getPreviousApprovedQty()));
+			//m_FTAParentFarmerCredit.setApprovedQty(childrenQtyApproved.subtract(m_FTAParentFarmerCredit.getPreviousApprovedQty()));
+			m_FTAParentFarmerCredit.setApprovedQty(m_FTAParentFarmerCredit.getApprovedQty().subtract(getApprovedQty()));
 		
+		/*
 		sql = null;
 		
 		sql = "SELECT SUM(fc.ApprovedAmt) "
