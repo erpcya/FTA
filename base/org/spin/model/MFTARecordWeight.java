@@ -282,6 +282,21 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				m_processMsg = msg;
 		}
 		
+		
+		//	Dixon Martinez 30/05/2014
+		//	Add Support complete record weight with Dispatch Guide
+		if(getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
+				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)){
+			m_processMsg = validateDispatchGuide();
+			if(m_processMsg != null) 
+				return DocAction.STATUS_Invalid;
+		}
+		
+		
+		
+		//	End Dixon Martinez
+		
+		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -296,6 +311,22 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	private String validateDispatchGuide() {
+		String sql = "SELECT mg.FTA_MobilizationGuide_ID"
+				+ "	FROM FTA_RecordWeight rw"
+				+ "	INNER JOIN FTA_MobilizationGuide mg ON (rw.FTA_RecordWeight_ID = mg.FTA_RecordWeight_ID)"
+				+ "	WHERE"
+				+ "		mg.DocStatus IN ('CO','CL')"
+				+ "		AND mg.IsSotrx = 'Y'"
+				+ "		AND rw.FTA_RecordWeight_ID=?;";
+		
+		int dispatchGuide_ID = DB.getSQLValue(get_TrxName(), sql, get_ID());
+		if(dispatchGuide_ID > 0)
+			return null;
+		else
+			return "@FTA_MobilizationGuide_ID@ @NotFound@";
+	}
+
 	/**
 	 * Return Quality Analysis
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 09/01/2014, 18:33:07
