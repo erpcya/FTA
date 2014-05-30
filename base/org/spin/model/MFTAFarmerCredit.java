@@ -303,6 +303,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				return DocAction.STATUS_Invalid;
 			}
 			recalculateFarmerCredit(getParent_FarmerCredit_ID(),true);
+			recalculateApprovedAmt(getParent_FarmerCredit_ID());
 		}	
 		//	End Dixon Martinez
 		
@@ -313,6 +314,25 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	private void recalculateApprovedAmt(int parent_FarmerCredit_ID) {
+		String sql = null;
+		
+		MFTAFarmerCredit m_FTAParentFarmerCredit = 
+				new MFTAFarmerCredit(getCtx(), parent_FarmerCredit_ID, get_TrxName());
+		
+		
+		sql = "SELECT Amt FROM FTA_CreditDefinition WHERE FTA_CreditDefinition_ID = ?"; 
+		
+		BigDecimal amount = DB.getSQLValueBD(null, sql, getFTA_CreditDefinition_ID() );
+		
+		
+		if(amount == null)
+			amount = Env.ZERO;
+		m_FTAParentFarmerCredit.setApprovedAmt(m_FTAParentFarmerCredit.getQty().multiply(amount));
+		m_FTAParentFarmerCredit.saveEx();
+		
+	}
+
 	/**
 	 * Valid status Parent Farmer Credit 
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 18/05/2014, 00:28:34
@@ -402,8 +422,19 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		
 		//	Dixon Martinez 20-05-2014 
 		//	Add support for Parent Farmer Credit
-		if(getParent_FarmerCredit_ID() > 0)
-			recalculateFarmerCredit(getParent_FarmerCredit_ID(),false);	
+
+	/*	m_processMsg = validateAmtApproved();
+		if(m_processMsg != null) 
+			return false;
+
+		*/
+		if(getParent_FarmerCredit_ID() > 0){
+			recalculateFarmerCredit(getParent_FarmerCredit_ID(),false);
+			recalculateApprovedAmt(getParent_FarmerCredit_ID());
+		}
+		
+		
+		
 		//	End Dixon Martinez
 		
 		
@@ -416,7 +447,22 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
         setDocAction(DOCACTION_None);
 		return true;
 	}	//	voidIt
-	
+	/*
+	private String validateAmtApproved() {
+		String sql = "SELECT SUM(f.Amt)"
+				+ "	FROM FTA_Fact f"
+				+ "	INNER JOIN FTA_FarmerCredit fc ON (f.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID )"
+				+ "	WHERE	"
+				+ "		fc.FTA_FarmerCredit_ID=?"
+				+ "		AND fc.Parent_FarmerCredit_ID IS NULL";
+		BigDecimal amtApproved = DB.getSQLValueBD(get_TrxName(), sql, getFTA_FarmerCredit_ID());
+		
+		if(amtApproved.compareTo(getApprovedAmt()) > 0)
+			return null;
+		else
+			return "";
+	}
+*/
 	/**
 	 * Update Credit Act
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/11/2013, 10:24:39
@@ -586,8 +632,10 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		
 		//	Dixon Martinez 20-05-2014 
 		//	Add support for Parent Farmer Credit
-		if(getParent_FarmerCredit_ID() > 0)
-			recalculateFarmerCredit(getParent_FarmerCredit_ID(),false);	
+		if(getParent_FarmerCredit_ID() > 0){
+			recalculateFarmerCredit(getParent_FarmerCredit_ID(),false);
+			recalculateApprovedAmt(getParent_FarmerCredit_ID());
+		}	
 		//	End Dixon Martinez
 		
 		
@@ -971,7 +1019,10 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			m_FTAParentFarmerCredit.setApprovedAmt(childrenAmtApproved.subtract(m_FTAParentFarmerCredit.getPreviousApprovedAmt()));
 		*/
 		
+		
 		m_FTAParentFarmerCredit.saveEx();
 		
 	}
+	
+	
 }

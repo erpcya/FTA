@@ -311,6 +311,12 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	/**
+	 * Add Support complete record weight with Dispatch Guide
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 30/05/2014, 15:21:38
+	 * @return
+	 * @return String
+	 */
 	private String validateDispatchGuide() {
 		String sql = "SELECT mg.FTA_MobilizationGuide_ID"
 				+ "	FROM FTA_RecordWeight rw"
@@ -541,6 +547,13 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			if (m_processMsg != null)
 				return false;
 		}
+		
+		//	Dixon Martinez 30/05/2014
+		//	Add Support Parent Farmer Credit
+		
+		//	Dixon Martinez
+		
+		
 		//	
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 		// After Void
