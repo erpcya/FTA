@@ -328,7 +328,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		
 		if(amount == null)
 			amount = Env.ZERO;
-		m_FTAParentFarmerCredit.setApprovedAmt(m_FTAParentFarmerCredit.getQty().multiply(amount));
+		m_FTAParentFarmerCredit.setApprovedAmt(m_FTAParentFarmerCredit.getApprovedQty().multiply(amount));
 		m_FTAParentFarmerCredit.saveEx();
 		
 	}
