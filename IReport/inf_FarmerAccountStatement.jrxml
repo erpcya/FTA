@@ -27,10 +27,11 @@ LEFT JOIN C_Payment p ON(p.C_Payment_ID = st.C_Payment_ID)
 WHERE st.AD_Table_ID <> 259 AND st.AD_Table_ID <> 53566
 AND (st.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
 AND (st.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
+AND (COALESCE(st.Parent_FarmerCredit_ID, st.FTA_FarmerCredit_ID)=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 AND (st.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
 AND (st.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
-GROUP BY cl.Name, cp.TaxID, cp.Name, st.DocumentNo, cd.DocumentNo, lot.Name, st.DateDoc, fc.Qty, fc.ApprovedQty, st.Description, st.AmtAcctCR, st.AmtAcctDR, p.DocumentNo, st.FTA_Fact_ID, st.AD_Table_ID, fc.DocumentNo,st.C_Invoice_ID,
-st.C_BPartner_ID,st.FTA_FarmerCredit_ID
+GROUP BY cl.Name, cp.TaxID, cp.Name, st.DocumentNo, cd.DocumentNo, lot.Name, st.DateDoc, fc.Qty, fc.ApprovedQty, st.Description, st.AmtAcctCR, st.AmtAcctDR, p.DocumentNo, st.FTA_Fact_ID, st.AD_Table_ID, fc.DocumentNo,st.C_Invoice_ID
+,st.C_BPartner_ID,st.FTA_FarmerCredit_ID
 ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 	</queryString>
 	<field name="client" class="java.lang.String"/>
@@ -84,7 +85,7 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 ($P{DateDoc1} != null || $P{DateDoc2} != null? "\nFecha de Documento: ": "") +
 ($P{DateDoc1} != null? new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc1}): "") +
 ($P{DateDoc2} != null? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc2}): "") +
-"\nCruce de Cuenta Nro(s). " + $F{noliquidations}]]></textFieldExpression>
+($F{noliquidations}.equals(null) ? "" : "\nCruce de Cuenta Nro(s)." + $F{noliquidations} )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="209" y="0" width="154" height="77" uuid="bbf016e2-37c2-4098-91a7-588766b3d991"/>
