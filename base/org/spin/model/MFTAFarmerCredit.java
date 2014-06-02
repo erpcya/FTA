@@ -479,13 +479,11 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				+ "		AND fc.Parent_FarmerCredit_ID IS NULL";
 		BigDecimal amtApproved = DB.getSQLValueBD(get_TrxName(), sql, getParent_FarmerCredit_ID());
 		
-		System.out.println(amtApproved.subtract(getApprovedAmt()).compareTo(current_ParentFarmerCredit.getApprovedAmt()));
-		
 		if(amtApproved == null)
 			amtApproved = Env.ZERO;
 
 		if(current_ParentFarmerCredit.getApprovedAmt().subtract(getApprovedAmt()).compareTo(amtApproved) < 0)
-			return "Monto ya ha sido usado";
+			return "@UsedApprovedCreditamountisgreaterthan@";
 		else
 			return null;
 	}
@@ -663,6 +661,10 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			if(current_ParentFarmerCredit == null)
 				current_ParentFarmerCredit = 
 					new MFTAFarmerCredit(Env.getCtx(), getParent_FarmerCredit_ID(), get_TrxName());
+			
+			m_processMsg = validateAmtApproved();
+			if(m_processMsg != null) 
+				return false;
 			
 			recalculateFarmerCredit(false);
 			recalculateApprovedAmt();
