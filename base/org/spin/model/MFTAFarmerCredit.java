@@ -49,7 +49,10 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	 * 
 	 */
 	private static final long serialVersionUID = -1598715547742531997L;
-
+	
+	/**	Parent Farmer Credit 						*/
+	private MFTAFarmerCredit current_ParentFarmerCredit		= null;
+	
 	/**
 	 * *** Constructor ***
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 13/08/2013, 16:09:01
@@ -302,8 +305,13 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				m_processMsg = "@Parent_FarmerCredit_ID@ @NotCompleted@ ";
 				return DocAction.STATUS_Invalid;
 			}
-			recalculateFarmerCredit(getParent_FarmerCredit_ID(),true);
-			recalculateApprovedAmt(getParent_FarmerCredit_ID());
+			if(current_ParentFarmerCredit == null)
+				current_ParentFarmerCredit = 
+					new MFTAFarmerCredit(Env.getCtx(), getParent_FarmerCredit_ID(), get_TrxName());
+			
+			
+			recalculateFarmerCredit(true);
+			recalculateApprovedAmt();
 		}	
 		//	End Dixon Martinez
 		
@@ -314,22 +322,28 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
-	private void recalculateApprovedAmt(int parent_FarmerCredit_ID) {
+	/**
+	 * Add support for Parent Farmer Credit
+	 * Recalculate Amount Parent
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 02/06/2014, 08:52:37
+	 * @param parent_FarmerCredit_ID
+	 * @return void
+	 */
+	private void recalculateApprovedAmt() {
 		String sql = null;
-		
-		MFTAFarmerCredit m_FTAParentFarmerCredit = 
-				new MFTAFarmerCredit(getCtx(), parent_FarmerCredit_ID, get_TrxName());
-		
 		
 		sql = "SELECT Amt FROM FTA_CreditDefinition WHERE FTA_CreditDefinition_ID = ?"; 
 		
+		//	Execute SQL
 		BigDecimal amount = DB.getSQLValueBD(null, sql, getFTA_CreditDefinition_ID() );
 		
-		
+		//	Validate amount not null
 		if(amount == null)
 			amount = Env.ZERO;
-		m_FTAParentFarmerCredit.setApprovedAmt(m_FTAParentFarmerCredit.getApprovedQty().multiply(amount));
-		m_FTAParentFarmerCredit.saveEx();
+		//	Set amount approved of parent
+		current_ParentFarmerCredit.setApprovedAmt(current_ParentFarmerCredit.getApprovedQty().multiply(amount));
+		//	Save 
+		current_ParentFarmerCredit.saveEx();
 		
 	}
 
@@ -422,18 +436,19 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		
 		//	Dixon Martinez 20-05-2014 
 		//	Add support for Parent Farmer Credit
-
-	/*	m_processMsg = validateAmtApproved();
-		if(m_processMsg != null) 
-			return false;
-
-		*/
 		if(getParent_FarmerCredit_ID() > 0){
-			recalculateFarmerCredit(getParent_FarmerCredit_ID(),false);
-			recalculateApprovedAmt(getParent_FarmerCredit_ID());
+			if(current_ParentFarmerCredit == null)
+				current_ParentFarmerCredit = 
+					new MFTAFarmerCredit(Env.getCtx(), getParent_FarmerCredit_ID(), get_TrxName());
+				
+			m_processMsg = validateAmtApproved();
+			if(m_processMsg != null) 
+				return false;
+
+		
+			recalculateFarmerCredit(false);
+			recalculateApprovedAmt();
 		}
-		
-		
 		
 		//	End Dixon Martinez
 		
@@ -447,22 +462,34 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
         setDocAction(DOCACTION_None);
 		return true;
 	}	//	voidIt
-	/*
+	
+	/**
+	 * Validate Amount Approved of Fact
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 02/06/2014, 08:52:37
+	 * @return
+	 * @return String
+	 */
 	private String validateAmtApproved() {
+		
 		String sql = "SELECT SUM(f.Amt)"
 				+ "	FROM FTA_Fact f"
 				+ "	INNER JOIN FTA_FarmerCredit fc ON (f.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID )"
 				+ "	WHERE	"
 				+ "		fc.FTA_FarmerCredit_ID=?"
 				+ "		AND fc.Parent_FarmerCredit_ID IS NULL";
-		BigDecimal amtApproved = DB.getSQLValueBD(get_TrxName(), sql, getFTA_FarmerCredit_ID());
+		BigDecimal amtApproved = DB.getSQLValueBD(get_TrxName(), sql, getParent_FarmerCredit_ID());
 		
-		if(amtApproved.compareTo(getApprovedAmt()) > 0)
-			return null;
+		System.out.println(amtApproved.subtract(getApprovedAmt()).compareTo(current_ParentFarmerCredit.getApprovedAmt()));
+		
+		if(amtApproved == null)
+			amtApproved = Env.ZERO;
+
+		if(current_ParentFarmerCredit.getApprovedAmt().subtract(getApprovedAmt()).compareTo(amtApproved) < 0)
+			return "Monto ya ha sido usado";
 		else
-			return "";
+			return null;
 	}
-*/
+
 	/**
 	 * Update Credit Act
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/11/2013, 10:24:39
@@ -633,8 +660,12 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		//	Dixon Martinez 20-05-2014 
 		//	Add support for Parent Farmer Credit
 		if(getParent_FarmerCredit_ID() > 0){
-			recalculateFarmerCredit(getParent_FarmerCredit_ID(),false);
-			recalculateApprovedAmt(getParent_FarmerCredit_ID());
+			if(current_ParentFarmerCredit == null)
+				current_ParentFarmerCredit = 
+					new MFTAFarmerCredit(Env.getCtx(), getParent_FarmerCredit_ID(), get_TrxName());
+			
+			recalculateFarmerCredit(false);
+			recalculateApprovedAmt();
 		}	
 		//	End Dixon Martinez
 		
@@ -929,30 +960,26 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	 * @param p_FTA_ParentFarmerCredit_ID
 	 * @return void
 	 */
-	private void recalculateFarmerCredit(int p_FTA_ParentFarmerCredit_ID, boolean add){
+	private void recalculateFarmerCredit(boolean add){
 		
-		MFTAFarmerCredit m_FTAParentFarmerCredit = 
-				new MFTAFarmerCredit(getCtx(), p_FTA_ParentFarmerCredit_ID, get_TrxName());
-		
-	
-		if((m_FTAParentFarmerCredit.getPreviousQty() == null
-				|| m_FTAParentFarmerCredit.getPreviousQty().intValue() == 0)
-					&&	(m_FTAParentFarmerCredit.getPreviousAmt() == null
-							|| m_FTAParentFarmerCredit.getPreviousAmt().intValue() == 0)){
-			m_FTAParentFarmerCredit.setPreviousQty(m_FTAParentFarmerCredit.getQty());
-			m_FTAParentFarmerCredit.setPreviousAmt(m_FTAParentFarmerCredit.getAmt());
+		if((current_ParentFarmerCredit.getPreviousQty() == null
+				|| current_ParentFarmerCredit.getPreviousQty().intValue() == 0)
+					&&	(current_ParentFarmerCredit.getPreviousAmt() == null
+							|| current_ParentFarmerCredit.getPreviousAmt().intValue() == 0)){
+			current_ParentFarmerCredit.setPreviousQty(current_ParentFarmerCredit.getQty());
+			current_ParentFarmerCredit.setPreviousAmt(current_ParentFarmerCredit.getAmt());
 			
-			m_FTAParentFarmerCredit.saveEx();
+			current_ParentFarmerCredit.saveEx();
 		}
 		
-		if((m_FTAParentFarmerCredit.getPreviousApprovedQty() == null
-				|| m_FTAParentFarmerCredit.getPreviousApprovedQty().intValue() == 0)
-					&&	(m_FTAParentFarmerCredit.getPreviousApprovedAmt() == null
-							|| m_FTAParentFarmerCredit.getPreviousApprovedAmt().intValue() == 0)){
-			m_FTAParentFarmerCredit.setPreviousApprovedQty(m_FTAParentFarmerCredit.getApprovedQty());
-			m_FTAParentFarmerCredit.setPreviousApprovedAmt(m_FTAParentFarmerCredit.getApprovedAmt());
+		if((current_ParentFarmerCredit.getPreviousApprovedQty() == null
+				|| current_ParentFarmerCredit.getPreviousApprovedQty().intValue() == 0)
+					&&	(current_ParentFarmerCredit.getPreviousApprovedAmt() == null
+							|| current_ParentFarmerCredit.getPreviousApprovedAmt().intValue() == 0)){
+			current_ParentFarmerCredit.setPreviousApprovedQty(current_ParentFarmerCredit.getApprovedQty());
+			current_ParentFarmerCredit.setPreviousApprovedAmt(current_ParentFarmerCredit.getApprovedAmt());
 			
-			m_FTAParentFarmerCredit.saveEx();
+			current_ParentFarmerCredit.saveEx();
 		}
 		
 		String sql = null;
@@ -965,15 +992,15 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		else
 			sql += " AND fc.DocStatus IN ('CO','CL')";
 		
-		BigDecimal childrenQty = DB.getSQLValueBD(get_TrxName(), sql, m_FTAParentFarmerCredit.get_ID());
+		BigDecimal childrenQty = DB.getSQLValueBD(get_TrxName(), sql, current_ParentFarmerCredit.get_ID());
 		
 		if(childrenQty == null)
 			childrenQty = Env.ZERO;
 		
 		if(add)
-			m_FTAParentFarmerCredit.setQty(childrenQty.add(m_FTAParentFarmerCredit.getPreviousQty()));
+			current_ParentFarmerCredit.setQty(childrenQty.add(current_ParentFarmerCredit.getPreviousQty()));
 		else
-			m_FTAParentFarmerCredit.setQty(m_FTAParentFarmerCredit.getQty().subtract(getQty()));
+			current_ParentFarmerCredit.setQty(current_ParentFarmerCredit.getQty().subtract(getQty()));
 		
 		
 		sql = null;
@@ -986,41 +1013,19 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		else
 			sql += " AND fc.DocStatus IN ('CO','CL')";
 		
-		BigDecimal childrenQtyApproved = DB.getSQLValueBD(get_TrxName(), sql, m_FTAParentFarmerCredit.get_ID());
+		BigDecimal childrenQtyApproved = DB.getSQLValueBD(get_TrxName(), sql, current_ParentFarmerCredit.get_ID());
 		
 		if(childrenQtyApproved == null)
 			childrenQtyApproved = Env.ZERO;
 		
 		if(add)
-			m_FTAParentFarmerCredit.setApprovedQty(childrenQtyApproved.add(m_FTAParentFarmerCredit.getPreviousApprovedQty()));
+			current_ParentFarmerCredit.setApprovedQty(childrenQtyApproved.add(current_ParentFarmerCredit.getPreviousApprovedQty()));
 		else
 			//m_FTAParentFarmerCredit.setApprovedQty(childrenQtyApproved.subtract(m_FTAParentFarmerCredit.getPreviousApprovedQty()));
-			m_FTAParentFarmerCredit.setApprovedQty(m_FTAParentFarmerCredit.getApprovedQty().subtract(getApprovedQty()));
+			current_ParentFarmerCredit.setApprovedQty(current_ParentFarmerCredit.getApprovedQty().subtract(getApprovedQty()));
 		
-		/*
-		sql = null;
-		
-		sql = "SELECT SUM(fc.ApprovedAmt) "
-				+ " FROM FTA_FarmerCredit fc"
-				+ " WHERE fc.Parent_FarmerCredit_ID = ?";
-		if(add)
-			sql += " AND fc.DocStatus NOT IN ('VO','RE')";
-		else
-			sql += " AND fc.DocStatus IN ('CO','CL')";
-		
-		BigDecimal childrenAmtApproved = DB.getSQLValueBD(get_TrxName(), sql, m_FTAParentFarmerCredit.get_ID());
-		
-		if(childrenAmtApproved == null)
-			childrenAmtApproved = Env.ZERO;
-		
-		if(add)
-			m_FTAParentFarmerCredit.setApprovedAmt(childrenAmtApproved.add(m_FTAParentFarmerCredit.getPreviousApprovedAmt()));
-		else
-			m_FTAParentFarmerCredit.setApprovedAmt(childrenAmtApproved.subtract(m_FTAParentFarmerCredit.getPreviousApprovedAmt()));
-		*/
-		
-		
-		m_FTAParentFarmerCredit.saveEx();
+	
+		current_ParentFarmerCredit.saveEx();
 		
 	}
 	
