@@ -195,7 +195,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 		if(m_InterestType.getCalculationType() == null)
 			return "@CalculationType@ @NotFound@";
 		//	
-		String sql = new String("SELECT SUM(ft.Amt * ft.Multiplier) Amt " +
+		String sql = new String("SELECT ABS(SUM(ft.Amt * ft.Multiplier)) Amt " +
 				"FROM FTA_Fact ft " +
 				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinitionLine_ID = ft.FTA_CreditDefinitionLine_ID) " +
 				"INNER JOIN FTA_CDL_Category cdlc ON(cdlc.FTA_CDL_Category_ID = cdl.FTA_CDL_Category_ID) " +
@@ -249,7 +249,7 @@ public class FarmerCreditInterestGenerate extends SvrProcess {
 			return "@CalculationType@ @NotFound@";
 		
 		StringBuffer sql = new StringBuffer("SELECT ft.Record_ID, ft.AD_Table_ID, ft.DateDoc, " +
-				"(ft.Amt * ft.Multiplier) Amt, abs(daysbetween(ft.DateDoc, ?)) DaysDue " +
+				"ABS(ft.Amt * ft.Multiplier) Amt, ABS(daysbetween(ft.DateDoc, ?)) DaysDue " +
 				"FROM FTA_Fact ft " +
 				"INNER JOIN FTA_CreditDefinitionLine cdl ON(cdl.FTA_CreditDefinitionLine_ID = ft.FTA_CreditDefinitionLine_ID) " +
 				"INNER JOIN FTA_CDL_Category cdlc ON(cdlc.FTA_CDL_Category_ID = cdl.FTA_CDL_Category_ID) " +
