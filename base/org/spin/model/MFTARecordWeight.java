@@ -248,7 +248,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	Valid Weight
 		boolean isValidWeight = true;
 		if(getNetWeight() == null
-				|| getNetWeight().equals(Env.ZERO))
+				|| getNetWeight().doubleValue() == 0)
 				isValidWeight = false;
 		
 		//	Implicit Approval
