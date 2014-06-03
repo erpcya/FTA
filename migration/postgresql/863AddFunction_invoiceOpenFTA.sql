@@ -69,25 +69,6 @@ BEGIN
 	FOR ar IN 
 		SELECT	a.AD_Client_ID, a.AD_Org_ID,
 		al.Amount, al.DiscountAmt, al.WriteOffAmt,
-		a.C_Currency_ID, a.DateTrx
-		FROM	C_AllocationLine al
-		INNER JOIN C_AllocationHdr a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID)
-		WHERE	al.C_Invoice_ID = p_C_Invoice_ID
-          	AND   a.IsActive='Y'
-	LOOP
-        v_Temp := ar.Amount + ar.DisCountAmt + ar.WriteOffAmt;
-		v_PaidAmt := v_PaidAmt
-        -- Allocation
-			+ currencyConvert(v_Temp * v_MultiplierAP,
-				ar.C_Currency_ID, v_Currency_ID, ar.DateTrx, null, ar.AD_Client_ID, ar.AD_Org_ID);
-      	RAISE NOTICE '   PaidAmt=% , Allocation= % * %', v_PaidAmt, v_Temp, v_MultiplierAP;
-	END LOOP;
-
-
-	--	Calculate Allocated Amount
-	FOR ar IN 
-		SELECT	a.AD_Client_ID, a.AD_Org_ID,
-		al.Amount, al.DiscountAmt, al.WriteOffAmt,
 		a.C_Currency_ID, a.DateDoc
 		FROM	FTA_AllocationLine al
 		INNER JOIN FTA_Allocation a ON (al.FTA_Allocation_ID=a.FTA_Allocation_ID)
