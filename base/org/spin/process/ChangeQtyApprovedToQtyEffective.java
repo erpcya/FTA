@@ -41,16 +41,17 @@ import org.spin.model.X_FTA_FarmerCredit;
 
 public class ChangeQtyApprovedToQtyEffective extends SvrProcess {
 
-	/**	Business Partner ID						*/
-	private int p_C_BPartner_ID 			= 	0;
+	/**	Business Partner ID							*/
+	private int p_C_BPartner_ID 				= 	0;
 	
-	/**	Farmer Credit							*/
-	private int p_FTA_FarmerCredit_ID		=	0;
+	/**	Parameter Farmer Credit						*/
+	private int p_FTA_FarmerCredit_ID			=	0;
 	
-	/**	Is Changed 								*/
+	/**	Is Changed 									*/
 	private boolean p_BasedOnEffectiveQuantity	=	false;
 	
-	MFTAFarmerCredit m_FTA_FarmerCredt;
+	/**	Object Farmer Credit						*/
+	MFTAFarmerCredit m_FTA_FarmerCredt			=	null;
 	
 	@Override
 	protected void prepare() {
@@ -94,13 +95,18 @@ public class ChangeQtyApprovedToQtyEffective extends SvrProcess {
 					+ " FROM FTA_FarmerCredit fc "
 					+ " INNER JOIN FTA_Farming f on (fc.FTA_FarmerCredit_ID = f.FTA_FarmerCredit_ID )"
 					+ " WHERE"
-					+ " 	fc.FTA_FarmerCredit_ID = ?";
+					+ " 	fc.FTA_FarmerCredit_ID = ?"
+					+ " 	AND fc.EffectiveArea IS NOT NULL";
 			
 			BigDecimal childrenArea = 
 					DB.getSQLValueBD(get_TrxName(), sql, m_FTA_FarmerCredt.get_ID());
 			
-			if(childrenArea == null)
+			if(childrenArea == null){
 				childrenArea = Env.ZERO;
+				return msg = "@FTA_FarmerCredit_ID@ " + m_FTA_FarmerCredt.getDocumentNo() + " @NotUpdated@ "
+						+ "@EffectiveArea@ @equal@ " + Env.ZERO;
+			}
+				
 
 			m_FTA_FarmerCredt.setEffectiveQty(childrenArea);
 		
