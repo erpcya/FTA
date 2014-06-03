@@ -16,12 +16,15 @@
  *****************************************************************************/
 package org.spin.process;
 
+import java.math.BigDecimal;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.X_C_BPartner;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.X_FTA_FarmerCredit;
 
@@ -46,6 +49,8 @@ public class ChangeQtyApprovedToQtyEffective extends SvrProcess {
 	
 	/**	Is Changed 								*/
 	private boolean p_BasedOnEffectiveQuantity	=	false;
+	
+	MFTAFarmerCredit m_FTA_FarmerCredt;
 	
 	@Override
 	protected void prepare() {
@@ -80,13 +85,46 @@ public class ChangeQtyApprovedToQtyEffective extends SvrProcess {
 		log.fine("@FTA_FarmerCredit_ID@ = " + p_FTA_FarmerCredit_ID);
 		
 		if(p_BasedOnEffectiveQuantity){
-			MFTAFarmerCredit m_FTA_FarmerCredt = 
+			m_FTA_FarmerCredt = 
 					new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
+			m_FTA_FarmerCredt.setBasedOnEffectiveQuantity(true);
+			m_FTA_FarmerCredt.saveEx();
 			
+			recalculateFarmerCredit();
 		}
 			
 		
+		
 		return null;
+	}
+	
+	/**
+	 * Recalculate Farmer Credit
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 18/05/2014, 01:55:24
+	 * @param p_FTA_ParentFarmerCredit_ID
+	 * @return void
+	 */
+	private void recalculateFarmerCredit(){
+		
+		
+		String sql = null;
+		
+		sql = "SELECT SUM(f.EffectiveArea)"
+				+ " FROM FTA_FarmerCredit fc "
+				+ " INNER JOIN FTA_Farming f on (fc.FTA_FarmerCredit_ID = f.FTA_FarmerCredit_ID )"
+				+ " WHERE"
+				+ " 	fc.FTA_FarmerCredit_ID = ?";
+		
+		BigDecimal childrenArea = DB.getSQLValueBD(get_TrxName(), sql, m_FTA_FarmerCredt.get_ID());
+		
+		if(childrenArea == null)
+			childrenArea = Env.ZERO;
+		
+		
+		m_FTA_FarmerCredt.setEffectiveQty(childrenArea);
+	
+		m_FTA_FarmerCredt.saveEx();
+		
 	}
 
 }
