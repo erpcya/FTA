@@ -71,10 +71,10 @@ public class ChangeQtyApprovedToQtyEffective extends SvrProcess {
 		}
 	}
 
-	@Override
+	@Override 
 	protected String doIt() throws Exception {
+		String msg = "";
 		//	Validate not null parameter's
-		
 		log.fine("Validate parameters");
 		if(p_C_BPartner_ID == 0)
 			throw new AdempiereException("@C_BPartner_ID@ @NotFound@");
@@ -87,44 +87,29 @@ public class ChangeQtyApprovedToQtyEffective extends SvrProcess {
 		if(p_BasedOnEffectiveQuantity){
 			m_FTA_FarmerCredt = 
 					new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
-			m_FTA_FarmerCredt.setBasedOnEffectiveQuantity(true);
+			m_FTA_FarmerCredt.setBasedOnEffectiveQuantity(p_BasedOnEffectiveQuantity);
+			String sql = null;
+			
+			sql = "SELECT SUM(f.EffectiveArea)"
+					+ " FROM FTA_FarmerCredit fc "
+					+ " INNER JOIN FTA_Farming f on (fc.FTA_FarmerCredit_ID = f.FTA_FarmerCredit_ID )"
+					+ " WHERE"
+					+ " 	fc.FTA_FarmerCredit_ID = ?";
+			
+			BigDecimal childrenArea = 
+					DB.getSQLValueBD(get_TrxName(), sql, m_FTA_FarmerCredt.get_ID());
+			
+			if(childrenArea == null)
+				childrenArea = Env.ZERO;
+
+			m_FTA_FarmerCredt.setEffectiveQty(childrenArea);
+		
 			m_FTA_FarmerCredt.saveEx();
 			
-			recalculateFarmerCredit();
+			msg = "@FTA_FarmerCredit_ID@ " + m_FTA_FarmerCredt.getDocumentNo() + " @Updated@";
 		}
-			
 		
-		
-		return null;
+		return msg;
 	}
 	
-	/**
-	 * Recalculate Farmer Credit
-	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 18/05/2014, 01:55:24
-	 * @param p_FTA_ParentFarmerCredit_ID
-	 * @return void
-	 */
-	private void recalculateFarmerCredit(){
-		
-		
-		String sql = null;
-		
-		sql = "SELECT SUM(f.EffectiveArea)"
-				+ " FROM FTA_FarmerCredit fc "
-				+ " INNER JOIN FTA_Farming f on (fc.FTA_FarmerCredit_ID = f.FTA_FarmerCredit_ID )"
-				+ " WHERE"
-				+ " 	fc.FTA_FarmerCredit_ID = ?";
-		
-		BigDecimal childrenArea = DB.getSQLValueBD(get_TrxName(), sql, m_FTA_FarmerCredt.get_ID());
-		
-		if(childrenArea == null)
-			childrenArea = Env.ZERO;
-		
-		
-		m_FTA_FarmerCredt.setEffectiveQty(childrenArea);
-	
-		m_FTA_FarmerCredt.saveEx();
-		
-	}
-
 }
