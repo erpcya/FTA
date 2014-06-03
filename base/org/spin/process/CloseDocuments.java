@@ -215,7 +215,13 @@ public class CloseDocuments extends SvrProcess{
 		if (!m_InvoiceGenDB.processIt(MInvoice.DOCACTION_Complete))	{
 			rollback();
 			return "@Error@ @Processing@ @C_Invoice_ID@";
+		}else{
+			if (m_InvoiceLineGenCR.getPriceEntered().signum()!=-1){
+				m_FarmerCredit.set_ValueOfColumn("IsBillOfExchangeDocBased", true);
+				m_FarmerCredit.save(get_TrxName());
+			}
 		}
+		
 		addLog("@Generated@ @C_Invoice_ID@ : " + m_InvoiceGenDB.getDocumentNo());
 		m_Generated ++;
 		//
