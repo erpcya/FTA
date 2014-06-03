@@ -245,6 +245,12 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if(m_processMsg != null)
 			return status;
 		
+		//	Valid Weight
+		boolean isValidWeight = true;
+		if(getNetWeight() == null
+				|| getNetWeight().doubleValue() == 0)
+				isValidWeight = false;
+		
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -253,15 +259,16 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	Adding Validation to not complete if no quality analysis chute
 		//  Carlos Parada 2014-01-19 
 		//  Adding Exlude Validation for Import Records
-		if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt) &&  !isI_IsImported()){
+		if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt) &&  !isI_IsImported() && isValidWeight){
 			m_processMsg = validateChuteQualityAnalysis();
 			if(m_processMsg != null) 
 				return DocAction.STATUS_Invalid;
 		}
 		//	End Dixon Martinez
 		//Carlos Parada 2014-01-16
-		if (getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt)
+		if ((getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt)
 				|| getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial))
+				&& isValidWeight)
 			m_processMsg = calculatePayWeight();
 		//End Carlos Parada
 		
@@ -269,11 +276,12 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			return DocAction.STATUS_Invalid;
 		
 		log.info(toString());
-		if(getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt) 
+		if((getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt) 
 				|| getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
 				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)
 				|| getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)
-				|| getOperationType().equals(OPERATIONTYPE_ProductBulkReceipt)){
+				|| getOperationType().equals(OPERATIONTYPE_ProductBulkReceipt))
+				&& isValidWeight){
 			//	Generate Material Receipt
 			String msg = createInOut();
 			if(m_processMsg != null)
@@ -285,8 +293,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		
 		//	Dixon Martinez 30/05/2014
 		//	Add Support complete record weight with Dispatch Guide
-		if(getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
-				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)){
+		if((getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
+				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct))
+				&& isValidWeight){
 			m_processMsg = validateDispatchGuide();
 			if(m_processMsg != null) 
 				return DocAction.STATUS_Invalid;
@@ -475,10 +484,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				|| getTareWeight().equals(Env.ZERO)) && !isI_IsImported()) {
 			m_processMsg = "@TareWeight@ = @0@";
 			return (!isSOTrx()? DocAction.STATUS_InProgress: DocAction.STATUS_Invalid);
-		} else if(getNetWeight() == null
-				|| getNetWeight().equals(Env.ZERO)) {
-			m_processMsg = "@NetWeight@ = @0@";
-			return DocAction.STATUS_Invalid;
 		} else if(getNetWeight().compareTo(Env.ZERO) < 0) {
 			m_processMsg = "@NetWeight@ < @0@";
 			return DocAction.STATUS_Invalid;

@@ -35,6 +35,7 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.hibernate.util.GetGeneratedKeysHelper;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -249,6 +250,18 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 			//approveIt();
 		log.info(toString());
 		//
+		
+		//	Dixon Martinez 03/06/2014 08:58:00
+		//	Add Support to complete exists guide outside
+		if(isSOTrx()
+				&& getExt_Guide() == null){
+			m_processMsg = "@Ext_Guide@ @NotFound@";
+			return DOCACTION_Invalidate;
+		}
+		
+		//	End Dixon Martinez
+		
+		
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
