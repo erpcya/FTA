@@ -246,7 +246,7 @@ public class FTAModelValidator implements ModelValidator {
 						}
 					} else {
 						MPayment reversal = new MPayment(Env.getCtx(), payment.getReversal_ID(), payment.get_TrxName());
-						msg = MFTAFact.copyFromFact(Env.getCtx(), reversal, payment, Env.ONE.negate(), payment.get_TrxName());
+						MFTAFact.deleteFact(I_C_Payment.Table_ID, reversal.getC_Payment_ID(), true, payment.get_TrxName());
 					}
 					//	Return
 					return msg;
