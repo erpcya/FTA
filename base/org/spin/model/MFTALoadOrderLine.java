@@ -68,7 +68,7 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 				"FROM C_OrderLine ol " +
 				"INNER JOIN FTA_LoadOrderLine lol ON(lol.C_OrderLine_ID = ol.C_OrderLine_ID) " +
 				"INNER JOIN FTA_LoadOrder lo ON(lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID) " +
-				"WHERE lo.DocStatus NOT IN('VO', 'RE') " +
+				"WHERE lo.DocStatus NOT IN('VO', 'RE', 'CL') " +
 				"AND ol.C_OrderLine_ID = ? " +
 				"AND lol.FTA_LoadOrder_ID <> " + getFTA_LoadOrder_ID() + " " +
 				"GROUP BY ol.C_OrderLine_ID", getC_OrderLine_ID());

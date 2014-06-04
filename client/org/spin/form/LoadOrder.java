@@ -181,7 +181,7 @@ public class LoadOrder {
 				"	LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
 				"	LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
 				"	WHERE lord.M_Product_ID IS NOT NULL " +
-				"	AND (c.DocStatus NOT IN('VO', 'RE') OR c.DocStatus IS NULL ) " +
+				"	AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL ) " +
 				"	GROUP BY lord.C_Order_ID, lord.C_OrderLine_ID, lord.QtyOrdered " +
 				"	ORDER BY lord.C_OrderLine_ID ASC) qafl " +
 				"	ON(qafl.C_OrderLine_ID = lord.C_OrderLine_ID) " +
@@ -560,7 +560,7 @@ public class LoadOrder {
 				"																								AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
 				"																								AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
 				.append("WHERE pro.IsStocked = 'Y' ")
-				.append("AND (c.DocStatus NOT IN('VO', 'RE') OR c.DocStatus IS NULL) ")
+				.append("AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) ")
 				.append("AND ")
 				.append(sqlWhere).append(" ");
 		//	Add Where
