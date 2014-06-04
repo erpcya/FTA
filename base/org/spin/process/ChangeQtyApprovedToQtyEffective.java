@@ -96,15 +96,14 @@ public class ChangeQtyApprovedToQtyEffective extends SvrProcess {
 					+ " INNER JOIN FTA_Farming f on (fc.FTA_FarmerCredit_ID = f.FTA_FarmerCredit_ID )"
 					+ " WHERE"
 					+ " 	fc.FTA_FarmerCredit_ID = ?"
-					+ " 	AND fc.EffectiveArea IS NOT NULL";
+					+ " 	AND f.EffectiveArea IS NOT NULL";
 			
 			BigDecimal childrenArea = 
 					DB.getSQLValueBD(get_TrxName(), sql, m_FTA_FarmerCredt.get_ID());
 			
 			if(childrenArea == null){
 				childrenArea = Env.ZERO;
-				return msg = "@FTA_FarmerCredit_ID@ " + m_FTA_FarmerCredt.getDocumentNo() + " @NotUpdated@ "
-						+ "@EffectiveArea@ @equal@ " + Env.ZERO;
+				return msg = "@EffectiveArea@ = " + Env.ZERO;
 			}
 				
 
