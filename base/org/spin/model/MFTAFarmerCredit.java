@@ -309,7 +309,6 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				current_ParentFarmerCredit = 
 					new MFTAFarmerCredit(Env.getCtx(), getParent_FarmerCredit_ID(), get_TrxName());
 			
-			
 			recalculateFarmerCredit(true);
 			recalculateApprovedAmt();
 		}	
@@ -321,54 +320,6 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
-	
-	/**
-	 * Add support for Parent Farmer Credit
-	 * Recalculate Amount Parent
-	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 02/06/2014, 08:52:37
-	 * @param parent_FarmerCredit_ID
-	 * @return void
-	 */
-	private void recalculateApprovedAmt() {
-		String sql = null;
-		
-		sql = "SELECT Amt FROM FTA_CreditDefinition WHERE FTA_CreditDefinition_ID = ?"; 
-		
-		//	Execute SQL
-		BigDecimal amount = DB.getSQLValueBD(null, sql, getFTA_CreditDefinition_ID() );
-		
-		//	Validate amount not null
-		if(amount == null)
-			amount = Env.ZERO;
-		//	Set amount approved of parent
-		current_ParentFarmerCredit.setApprovedAmt(current_ParentFarmerCredit.getApprovedQty().multiply(amount));
-		//	Save 
-		current_ParentFarmerCredit.saveEx();
-		
-	}
-
-	/**
-	 * Valid status Parent Farmer Credit 
-	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 18/05/2014, 00:28:34
-	 * @param parent_FarmerCredit
-	 * @return
-	 * @return boolean
-	 */
-	private boolean validStatusParentFarmerCredit(
-			int parent_FarmerCredit) {
-		String sql = "SELECT FTA_FarmerCredit_ID "
-				+ " FROM FTA_FarmerCredit "
-				+ " WHERE "
-				+ "		FTA_FarmerCredit_ID = ? "
-				+ "		AND DocStatus IN ('CO') ";
-		
-		int p_FTA_FarmerCredit_ID = DB.getSQLValue(get_TrxName(), sql, parent_FarmerCredit);
-		
-		if(p_FTA_FarmerCredit_ID > 0)
-			return false;
-		
-		return true;
-	}
 
 	/**
 	 * 	Set the definite document number after completed
@@ -1031,5 +982,52 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		
 	}
 	
+	/**
+	 * Add support for Parent Farmer Credit
+	 * Recalculate Amount Parent
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 02/06/2014, 08:52:37
+	 * @param parent_FarmerCredit_ID
+	 * @return void
+	 */
+	private void recalculateApprovedAmt() {
+		String sql = null;
+		
+		sql = "SELECT Amt FROM FTA_CreditDefinition WHERE FTA_CreditDefinition_ID = ?"; 
+		
+		//	Execute SQL
+		BigDecimal amount = DB.getSQLValueBD(null, sql, getFTA_CreditDefinition_ID() );
+		
+		//	Validate amount not null
+		if(amount == null)
+			amount = Env.ZERO;
+		//	Set amount approved of parent
+		current_ParentFarmerCredit.setApprovedAmt(current_ParentFarmerCredit.getApprovedQty().multiply(amount));
+		//	Save 
+		current_ParentFarmerCredit.saveEx();
+		
+	}
 	
+
+	/**
+	 * Valid status Parent Farmer Credit 
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 18/05/2014, 00:28:34
+	 * @param parent_FarmerCredit
+	 * @return
+	 * @return boolean
+	 */
+	private boolean validStatusParentFarmerCredit(
+			int parent_FarmerCredit) {
+		String sql = "SELECT FTA_FarmerCredit_ID "
+				+ " FROM FTA_FarmerCredit "
+				+ " WHERE "
+				+ "		FTA_FarmerCredit_ID = ? "
+				+ "		AND DocStatus IN ('CO') ";
+		
+		int p_FTA_FarmerCredit_ID = DB.getSQLValue(get_TrxName(), sql, parent_FarmerCredit);
+		
+		if(p_FTA_FarmerCredit_ID > 0)
+			return false;
+		
+		return true;
+	}
 }

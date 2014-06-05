@@ -28,8 +28,6 @@ import org.compiere.util.Env;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.X_FTA_FarmerCredit;
 
-
-
 /**
  * 	Change quantity Approved to quantity Effective
  *
@@ -85,34 +83,34 @@ public class ChangeQtyApprovedToQtyEffective extends SvrProcess {
 			throw new AdempiereException("@FTA_FarmerCredit_ID@ @NotFound@");
 		log.fine("@FTA_FarmerCredit_ID@ = " + p_FTA_FarmerCredit_ID);
 		
+		m_FTA_FarmerCredt = 
+				new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
+		
 		if(p_BasedOnEffectiveQuantity){
-			m_FTA_FarmerCredt = 
-					new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
-			m_FTA_FarmerCredt.setBasedOnEffectiveQuantity(p_BasedOnEffectiveQuantity);
 			String sql = null;
 			
-			sql = "SELECT SUM(f.EffectiveArea)"
+			sql = "SELECT SUM(COALESCE(f.EffectiveArea,0))"
 					+ " FROM FTA_FarmerCredit fc "
 					+ " INNER JOIN FTA_Farming f on (fc.FTA_FarmerCredit_ID = f.FTA_FarmerCredit_ID )"
 					+ " WHERE"
-					+ " 	fc.FTA_FarmerCredit_ID = ?"
-					+ " 	AND f.EffectiveArea IS NOT NULL";
+					+ " 	fc.FTA_FarmerCredit_ID = ?";
 			
 			BigDecimal childrenArea = 
 					DB.getSQLValueBD(get_TrxName(), sql, m_FTA_FarmerCredt.get_ID());
 			
-			if(childrenArea == null){
+			if(childrenArea == null
+					|| childrenArea.equals(Env.ZERO)){
 				childrenArea = Env.ZERO;
 				return msg = "@EffectiveArea@ = " + Env.ZERO;
-			}
-				
-
-			m_FTA_FarmerCredt.setEffectiveQty(childrenArea);
-		
-			m_FTA_FarmerCredt.saveEx();
-			
-			msg = "@FTA_FarmerCredit_ID@ " + m_FTA_FarmerCredt.getDocumentNo() + " @Updated@";
+			}else
+				m_FTA_FarmerCredt.setEffectiveQty(childrenArea);
 		}
+		
+		m_FTA_FarmerCredt.setBasedOnEffectiveQuantity(p_BasedOnEffectiveQuantity);
+		
+		m_FTA_FarmerCredt.saveEx();
+		
+		msg = "@FTA_FarmerCredit_ID@ " + m_FTA_FarmerCredt.getDocumentNo() + " @Updated@";
 		
 		return msg;
 	}
