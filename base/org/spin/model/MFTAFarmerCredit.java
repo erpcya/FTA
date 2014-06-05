@@ -849,6 +849,21 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if(getQty() == null
 				|| getQty().equals(Env.ZERO))
 			throw new AdempiereException("@Qty@ = @0@");
+		
+		//	Dixon Martinez 06/05/2014 14:52:00
+		String sql = "SELECT SUM(f.Area) " +
+				" FROM FTA_Farming f" +
+				" INNER JOIN FTA_FarmerCredit fc ON (fc.FTA_FarmerCredit_ID = f.FTA_FarmerCredit_ID)" +
+				" WHERE" +
+				"	fc.FTA_FarmerCredit_ID = ?";
+		BigDecimal area = DB.getSQLValueBD(get_TrxName(), sql, getFTA_FarmerCredit_ID());
+		
+		
+		if(area.compareTo(getEffectiveQty()) == 1)
+			throw new AdempiereException("@Area@ > @EffectiveQty@");
+		
+		//	End Dixon Martinez
+		
 		//	
 		return true;
 	}
