@@ -1,4 +1,4 @@
-﻿--DROP VIEW FTA_RV_DocumentFact
+DROP VIEW FTA_RV_DocumentFact;
 CREATE OR REPLACE VIEW FTA_RV_DocumentFact AS
 SELECT i.AD_Client_ID, i.AD_Org_ID, i.Updated, i.UpdatedBy, i.Created, i.CreatedBy, i.IsActive, 
 i.C_BPartner_ID, i.DateInvoiced DateDoc, i.DocumentNo, i.Description::VARCHAR, 
