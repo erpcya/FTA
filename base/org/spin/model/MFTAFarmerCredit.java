@@ -849,7 +849,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		if(getQty() == null
 				|| getQty().equals(Env.ZERO))
 			throw new AdempiereException("@Qty@ = @0@");
-		
+		/*
 		//	Dixon Martinez 06/05/2014 14:52:00
 		String sql = "SELECT SUM(f.Area) " +
 				" FROM FTA_Farming f" +
@@ -863,7 +863,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 			throw new AdempiereException("@Area@ > @EffectiveQty@");
 		
 		//	End Dixon Martinez
-		
+		*/
 		//	
 		return true;
 	}
