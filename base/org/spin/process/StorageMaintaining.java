@@ -328,9 +328,6 @@ public class StorageMaintaining extends SvrProcess {
 						M_Locator_ID = MStorage.getM_Locator_ID (line.getM_Warehouse_ID(), 
 							line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(), 
 							ordered, get_TrxName());
-					else
-						M_Locator_ID = MStorage.getM_Locator_ID (line.getM_Warehouse_ID(),
-								line.getM_Product_ID(), ordered, get_TrxName());
 					//	Get default Location
 					if (M_Locator_ID == 0)
 					{
