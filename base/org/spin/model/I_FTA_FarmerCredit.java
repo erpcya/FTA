@@ -103,6 +103,15 @@ public interface I_FTA_FarmerCredit
 	/** Get Approved Quantity	  */
 	public BigDecimal getApprovedQty();
 
+    /** Column name BasedOnEffectiveQuantity */
+    public static final String COLUMNNAME_BasedOnEffectiveQuantity = "BasedOnEffectiveQuantity";
+
+	/** Set Based On Effective Quantity	  */
+	public void setBasedOnEffectiveQuantity (boolean BasedOnEffectiveQuantity);
+
+	/** Get Based On Effective Quantity	  */
+	public boolean isBasedOnEffectiveQuantity();
+
     /** Column name Beneficiary_ID */
     public static final String COLUMNNAME_Beneficiary_ID = "Beneficiary_ID";
 
@@ -286,6 +295,15 @@ public interface I_FTA_FarmerCredit
 	  * Document sequence number of the document
 	  */
 	public String getDocumentNo();
+
+    /** Column name EffectiveQty */
+    public static final String COLUMNNAME_EffectiveQty = "EffectiveQty";
+
+	/** Set Effective Quantity	  */
+	public void setEffectiveQty (BigDecimal EffectiveQty);
+
+	/** Get Effective Quantity	  */
+	public BigDecimal getEffectiveQty();
 
     /** Column name FarmingAlloc */
     public static final String COLUMNNAME_FarmingAlloc = "FarmingAlloc";

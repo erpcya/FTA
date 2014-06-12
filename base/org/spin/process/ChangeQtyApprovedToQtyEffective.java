@@ -16,16 +16,17 @@
  *****************************************************************************/
 package org.spin.process;
 
+import java.math.BigDecimal;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.X_C_BPartner;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.X_FTA_FarmerCredit;
-
-
 
 /**
  * 	Change quantity Approved to quantity Effective
@@ -38,14 +39,17 @@ import org.spin.model.X_FTA_FarmerCredit;
 
 public class ChangeQtyApprovedToQtyEffective extends SvrProcess {
 
-	/**	Business Partner ID						*/
-	private int p_C_BPartner_ID 			= 	0;
+	/**	Business Partner ID							*/
+	private int p_C_BPartner_ID 				= 	0;
 	
-	/**	Farmer Credit							*/
-	private int p_FTA_FarmerCredit_ID		=	0;
+	/**	Parameter Farmer Credit						*/
+	private int p_FTA_FarmerCredit_ID			=	0;
 	
-	/**	Is Changed 								*/
+	/**	Is Changed 									*/
 	private boolean p_BasedOnEffectiveQuantity	=	false;
+	
+	/**	Object Farmer Credit						*/
+	MFTAFarmerCredit m_FTA_FarmerCredt			=	null;
 	
 	@Override
 	protected void prepare() {
@@ -66,10 +70,10 @@ public class ChangeQtyApprovedToQtyEffective extends SvrProcess {
 		}
 	}
 
-	@Override
+	@Override 
 	protected String doIt() throws Exception {
+		String msg = "";
 		//	Validate not null parameter's
-		
 		log.fine("Validate parameters");
 		if(p_C_BPartner_ID == 0)
 			throw new AdempiereException("@C_BPartner_ID@ @NotFound@");
@@ -79,14 +83,36 @@ public class ChangeQtyApprovedToQtyEffective extends SvrProcess {
 			throw new AdempiereException("@FTA_FarmerCredit_ID@ @NotFound@");
 		log.fine("@FTA_FarmerCredit_ID@ = " + p_FTA_FarmerCredit_ID);
 		
-		if(p_BasedOnEffectiveQuantity){
-			MFTAFarmerCredit m_FTA_FarmerCredt = 
-					new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
-			
-		}
-			
+		m_FTA_FarmerCredt = 
+				new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
 		
-		return null;
+		if(p_BasedOnEffectiveQuantity){
+			String sql = null;
+			
+			sql = "SELECT SUM(COALESCE(f.EffectiveArea,0))"
+					+ " FROM FTA_FarmerCredit fc "
+					+ " INNER JOIN FTA_Farming f on (fc.FTA_FarmerCredit_ID = f.FTA_FarmerCredit_ID )"
+					+ " WHERE"
+					+ " 	fc.FTA_FarmerCredit_ID = ?";
+			
+			BigDecimal childrenArea = 
+					DB.getSQLValueBD(get_TrxName(), sql, m_FTA_FarmerCredt.get_ID());
+			
+			if(childrenArea == null
+					|| childrenArea.equals(Env.ZERO)){
+				childrenArea = Env.ZERO;
+				return msg = "@EffectiveArea@ = " + Env.ZERO;
+			}else
+				m_FTA_FarmerCredt.setEffectiveQty(childrenArea);
+		}
+		
+		m_FTA_FarmerCredt.setBasedOnEffectiveQuantity(p_BasedOnEffectiveQuantity);
+		
+		m_FTA_FarmerCredt.saveEx();
+		
+		msg = "@FTA_FarmerCredit_ID@ " + m_FTA_FarmerCredt.getDocumentNo() + " @Updated@";
+		
+		return msg;
 	}
-
+	
 }

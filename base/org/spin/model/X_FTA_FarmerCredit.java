@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140525L;
+	private static final long serialVersionUID = 20140603L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -154,6 +154,27 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Based On Effective Quantity.
+		@param BasedOnEffectiveQuantity Based On Effective Quantity	  */
+	public void setBasedOnEffectiveQuantity (boolean BasedOnEffectiveQuantity)
+	{
+		set_Value (COLUMNNAME_BasedOnEffectiveQuantity, Boolean.valueOf(BasedOnEffectiveQuantity));
+	}
+
+	/** Get Based On Effective Quantity.
+		@return Based On Effective Quantity	  */
+	public boolean isBasedOnEffectiveQuantity () 
+	{
+		Object oo = get_Value(COLUMNNAME_BasedOnEffectiveQuantity);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public org.compiere.model.I_C_BPartner getBeneficiary() throws RuntimeException
@@ -493,6 +514,23 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public String getDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
+	/** Set Effective Quantity.
+		@param EffectiveQty Effective Quantity	  */
+	public void setEffectiveQty (BigDecimal EffectiveQty)
+	{
+		set_Value (COLUMNNAME_EffectiveQty, EffectiveQty);
+	}
+
+	/** Get Effective Quantity.
+		@return Effective Quantity	  */
+	public BigDecimal getEffectiveQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_EffectiveQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Farming Allocation.
