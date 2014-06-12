@@ -16,11 +16,13 @@
  *****************************************************************************/
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.Query;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -81,6 +83,41 @@ public class MFTAFarming extends X_FTA_Farming {
 			throw new AdempiereException("@Area@ = @0@");
 		} else if(getArea().compareTo(getFTA_FarmDivision().getArea()) > 0){
 			throw new AdempiereException("@Area@ > @Area@ @of@ @FTA_FarmDivision_ID@");
+		}
+		//	Valid Effective Area
+		if(!newRecord
+				&& is_ValueChanged("EffectiveArea")){
+			//	Get Farmer Credit
+			MFTAFarmerCredit fc = new MFTAFarmerCredit(getCtx(), getFTA_FarmerCredit_ID(), get_TrxName());
+			BigDecimal newEffectiveArea = getEffectiveArea();
+			BigDecimal approvedQty = fc.getApprovedQty();
+			BigDecimal sumEffectiveArea = null; 
+			//	Valid Approved
+			if(approvedQty == null
+					|| approvedQty.doubleValue() == 0)
+				return true;
+			//	Set to Zero
+			if(newEffectiveArea == null)
+				newEffectiveArea = Env.ZERO;
+			//	Valid negative
+			if(newEffectiveArea.signum() < 0)
+				throw new AdempiereException("@EffectiveArea@ < @0@");
+			//	Get Sum Effective Area
+			sumEffectiveArea = DB.getSQLValueBD(get_TrxName(), "SELECT SUM(COALESCE(fm.EffectiveArea, 0)) " +
+					"FROM FTA_Farming fm " +
+					"WHERE fm.FTA_FarmerCredit_ID = ? " +
+					"AND fm.FTA_Farming_ID <> ?", getFTA_FarmerCredit_ID(), getFTA_Farming_ID());
+			//	Valid Null
+			if(sumEffectiveArea == null)
+				sumEffectiveArea = Env.ZERO;
+			//	Add New Effective Area
+			sumEffectiveArea = sumEffectiveArea.add(newEffectiveArea);
+			//	Valid with Approved
+			if(approvedQty.doubleValue() < sumEffectiveArea.doubleValue())
+				throw new AdempiereException("@EffectiveArea@ > @ApprovedQty@" +
+						" (@EffectiveArea@ = " + sumEffectiveArea.doubleValue() + 
+						" @ApprovedQty@ = " + approvedQty.doubleValue() + 
+						" @Difference@ = " + (approvedQty.doubleValue() - sumEffectiveArea.doubleValue()) + ")");
 		}
 		return true;
 	}
