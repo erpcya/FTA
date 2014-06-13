@@ -1,37 +1,34 @@
 package org.spin.process;
 
-import java.sql.Timestamp;
-
-import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 
 public class FarmerCreditBEDocGenerate extends SvrProcess{
 	
 	/**	Organization			*/
-	private int 		p_AD_Org_ID = 0;
+	//private int 		p_AD_Org_ID = 0;
 	/**	Warehouse				*/
-	private int 		p_C_BPartner_Location_ID = 0;
+	//private int 		p_C_BPartner_Location_ID = 0;
 	/**	Credit Act				*/
-	private int 		p_FTA_CreditAct_ID = 0;
+	//private int 		p_FTA_CreditAct_ID = 0;
 	/**	Document Type Target	*/
-	private int 		p_C_DocTypeTarget_ID = 0;
+	//private int 		p_C_DocTypeTarget_ID = 0;
 	/**	Document Date			*/
-	private Timestamp	p_DateDoc = null;
+	//private Timestamp	p_DateDoc = null;
 	/**	Valid To				*/
-	private Timestamp	p_ValidTo = null;
+	//private Timestamp	p_ValidTo = null;
 	/**	Farmer Credit			*/
-	private int 		p_FTA_FarmerCredit_ID = 0;
+	//private int 		p_FTA_FarmerCredit_ID = 0;
 	/**	Quantity				*/
-	private int 		p_Qty = 0;
+	//private int 		p_Qty = 0;
 	/**	Created					*/
-	private int 		m_Created = 0;
-	/**	Precision							*/
-	private int 		precision = 0;
+	//private int 		m_Created = 0;
+	/**	Precision				*/
+	//private int 		precision = 0;
 	
 	@Override
 	protected void prepare() {
 		// TODO Auto-generated method stub
-		
+		/*
 		for (ProcessInfoParameter para:getParameter()){
 			String name = para.getParameterName();
 
@@ -51,7 +48,7 @@ public class FarmerCreditBEDocGenerate extends SvrProcess{
 				p_ValidTo = (Timestamp)para.getParameter();
 			else if(name.equals("Qty"))
 				p_Qty = para.getParameterAsInt();
-		}
+		}*/
 		
 	}
 

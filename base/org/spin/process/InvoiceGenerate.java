@@ -64,6 +64,8 @@ public class InvoiceGenerate extends SvrProcess{
 				m_ControlNo =  para.getParameter().toString();
 			else if (name.equals("DateInvoiced"))
 				m_DateInvoiced =  (Timestamp) para.getParameter();
+			else if (name.equals("DateAcct"))
+				m_DateAcct =  (Timestamp) para.getParameter();
 			
 		}
 		
@@ -111,6 +113,9 @@ public class InvoiceGenerate extends SvrProcess{
 		if (m_DateInvoiced == null)
 			throw new AdempiereUserError("@DateInvoiced@ @NotFound@");
 		
+		if (m_DateAcct == null)
+			throw new AdempiereUserError("@DateAcct@ @NotFound@");
+		
 		return createInvoices();
 	}
 
@@ -143,6 +148,7 @@ public class InvoiceGenerate extends SvrProcess{
 					invoice = new MInvoice(order, m_C_DocType_ID, m_DateInvoiced);
 					invoice.setDocumentNo(m_DocumentNo);
 					invoice.set_ValueOfColumn("ControlNo", m_ControlNo);
+					invoice.setDateAcct(m_DateAcct);
 					invoice.save(get_TrxName());
 					m_Created++;
 				}
@@ -301,5 +307,7 @@ public class InvoiceGenerate extends SvrProcess{
 	
 	/** Amt Invoices Allocation*/
 	private BigDecimal m_InvoiceAmt= Env.ZERO;
-	
+
+	/** Date Acct for Documents*/
+	private Timestamp m_DateAcct;
 }
