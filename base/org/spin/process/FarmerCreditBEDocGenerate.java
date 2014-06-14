@@ -25,6 +25,8 @@ public class FarmerCreditBEDocGenerate extends SvrProcess{
 	/**	Precision				*/
 	//private int 		precision = 0;
 	
+	private StringBuffer sql = new StringBuffer();
+	
 	@Override
 	protected void prepare() {
 		// TODO Auto-generated method stub
@@ -50,11 +52,15 @@ public class FarmerCreditBEDocGenerate extends SvrProcess{
 				p_Qty = para.getParameterAsInt();
 		}*/
 		
+		
+		
 	}
 
 	@Override
 	protected String doIt() throws Exception {
 		// TODO Auto-generated method stub
+		
+		sql.append("");
 		return null;
 	}
 
