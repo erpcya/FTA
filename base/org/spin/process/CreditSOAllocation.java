@@ -191,11 +191,13 @@ public class CreditSOAllocation extends SvrProcess {
 				}
 				String Category =null;
 				
-				if (in!=null)
-					if(!in.getC_DocTypeTarget().getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo))
+				if (in!=null){
+					if(!in.getC_DocTypeTarget().getDocBaseType().equals(X_C_DocType.DOCBASETYPE_ARCreditMemo) && !in.get_ValueAsBoolean("IsExceedCreditLimit"))
 						Category =getInvalidCategory(FTA_FarmerCredit_ID, FTA_CreditDefinitionLine_ID);
-				
-				if (Category!=null){
+				}
+				else
+					Category =getInvalidCategory(FTA_FarmerCredit_ID, FTA_CreditDefinitionLine_ID);		
+				if (Category!=null ){
 					rollback();
 					m_processMsg= "@Error@ : " + Msg.translate(getCtx(), "FTA_FarmerCredit_ID")+ " "+ Msg.translate(getCtx(), "CreditLimitOver") +" " + Category;
 					return -1;
