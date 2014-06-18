@@ -432,11 +432,12 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		
 		if(amtApproved == null)
 			amtApproved = Env.ZERO;
-
-		if(current_ParentFarmerCredit.getApprovedAmt().subtract(getApprovedAmt()).compareTo(amtApproved) < 0)
-			return "@UsedApprovedCreditamountisgreaterthan@";
-		else
+		
+		//System.out.println(getApprovedAmt().subtract(current_ParentFarmerCredit.getApprovedAmt()).compareTo(amtApproved));
+		if(getApprovedAmt().subtract(current_ParentFarmerCredit.getApprovedAmt()).compareTo(amtApproved) < 0)
 			return null;
+		else
+			return "@UsedApprovedCreditamountisgreaterthan@";
 	}
 
 	/**
