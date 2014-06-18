@@ -392,10 +392,10 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				current_ParentFarmerCredit = 
 					new MFTAFarmerCredit(Env.getCtx(), getParent_FarmerCredit_ID(), get_TrxName());
 				
-			m_processMsg = validateAmtApproved();
+			/*m_processMsg = validateAmtApproved();
 			if(m_processMsg != null) 
 				return false;
-
+			 */
 		
 			recalculateFarmerCredit(false);
 			recalculateApprovedAmt();
@@ -614,9 +614,9 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 				current_ParentFarmerCredit = 
 					new MFTAFarmerCredit(Env.getCtx(), getParent_FarmerCredit_ID(), get_TrxName());
 			
-			m_processMsg = validateAmtApproved();
+			/*m_processMsg = validateAmtApproved();
 			if(m_processMsg != null) 
-				return false;
+				return false;*/
 			
 			recalculateFarmerCredit(false);
 			recalculateApprovedAmt();
