@@ -1,6 +1,7 @@
 ﻿--DROP VIEW FTA_RV_AccountStatement
 CREATE OR REPLACE VIEW FTA_RV_AccountStatement AS
-SELECT ft.AD_Client_ID, ft.AD_Org_ID, ft.C_BPartner_ID, ft.DateDoc, ft.Description, 
+SELECT ft.AD_Client_ID, ft.AD_Org_ID, ft.C_BPartner_ID, ft.DateDoc, 
+COALESCE(ft.Description, i.Description, o.Description, l.Description, py.Description, '') Description, 
 ft.FTA_CreditDefinition_ID, ft.FTA_FarmerCredit_ID, 
 SUM(ft.Amt * ft.Multiplier) Amt,  ft.AD_Table_ID, 
 CASE WHEN SUM(ft.Amt * ft.Multiplier) > 0 THEN SUM(ft.Amt) ELSE 0 END AmtAcctDR,
@@ -11,7 +12,6 @@ i.C_Invoice_ID, p.C_Payment_ID, psc.C_PaySelectionCheck_ID, ftapr.FTA_PaymentReq
 CASE WHEN SUM(ft.Amt * ft.Multiplier) < 0 THEN ABS(SUM(ft.Amt)) ELSE 0 END) Balance, 
 MAX(ft.FTA_Fact_ID) FTA_Fact_ID,
 COALESCE(i.DocStatus, o.DocStatus, l.DocStatus, py.DocStatus, '') DocStatus
-
 FROM FTA_Fact ft
 LEFT JOIN C_Invoice i ON(i.C_Invoice_ID = ft.Record_ID AND ft.AD_Table_ID = 318)
 LEFT JOIN C_Order o ON(o.C_Order_ID = ft.Record_ID AND ft.AD_Table_ID = 259)
@@ -24,7 +24,6 @@ LEFT JOIN C_Payment p ON (psc.C_Payment_ID = p.C_Payment_ID)
 GROUP BY ft.AD_Client_ID, ft.AD_Org_ID, ft.C_BPartner_ID, ft.DateDoc, ft.Description, 
 ft.FTA_CreditDefinition_ID, ft.FTA_FarmerCredit_ID, ft.AD_Table_ID, 
 i.DocumentNo, o.DocumentNo, l.DocumentNo, py.DocumentNo,
-i.C_Invoice_ID, p.C_Payment_ID, psc.C_PaySelectionCheck_ID, ftapr.FTA_PaymentRequest_ID,o.DocStatus,l.DocStatus,py.DocStatus
-
-
---SELECT LVE_AccountStatement(1000153, 1004496)
+i.C_Invoice_ID, p.C_Payment_ID, psc.C_PaySelectionCheck_ID, 
+ftapr.FTA_PaymentRequest_ID, o.DocStatus, l.DocStatus, py.DocStatus,
+o.Description, l.Description, py.Description
