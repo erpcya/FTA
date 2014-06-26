@@ -374,8 +374,8 @@ public class LoadOrder {
 			int column = 1;
 			//BigDecimal rate = Env.ZERO;
 			BigDecimal qty = Env.ZERO;
-			while (rs.next())
-			{
+			BigDecimal qtyOnHand = Env.ZERO;
+			while (rs.next()) {
 				column = 1;
 				Vector<Object> line = new Vector<Object>();
 				line.add(new Boolean(false));       	//  0-Selection
@@ -387,7 +387,11 @@ public class LoadOrder {
 				line.add(pr);				      		//  3-Product
 				KeyNamePair uop = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
 				line.add(uop);				      		//  4-Unit Product
-				line.add(rs.getBigDecimal(column++));  	//  5-QtyOnHand
+				qtyOnHand = rs.getBigDecimal(column++);
+				//	Valid Null
+				if(qtyOnHand == null)
+					qtyOnHand = Env.ZERO;
+				line.add(qtyOnHand);  					//  5-QtyOnHand
 				line.add(rs.getBigDecimal(column++));  	//  6-QtyOrdered
 				KeyNamePair uo = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
 				line.add(uo);				      		//  7-Unit Conversion
@@ -1033,7 +1037,7 @@ public class LoadOrder {
 		KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
 		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
 		BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
-		
+		//	
 		int pos = existProductStock(product.getKey());
 		
 		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), product.getKey(), m_C_UOM_Weight_ID);
