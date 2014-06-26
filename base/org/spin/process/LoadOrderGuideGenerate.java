@@ -43,7 +43,7 @@ import org.spin.model.X_FTA_RecordWeight;
 public class LoadOrderGuideGenerate extends SvrProcess {
 
 	/**	Organization 				*/
-	private int 		p_AD_Org_ID			= 0;
+	private int 		p_AD_Org_ID				= 0;
 
 	/**	Organization Transaction	*/
 	private int 		p_AD_OrgTrx_ID			= 0;
