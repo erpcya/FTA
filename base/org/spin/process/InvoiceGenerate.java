@@ -56,16 +56,18 @@ public class InvoiceGenerate extends SvrProcess{
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
+			else if (name.equals("AD_Org_ID"))
+				p_AD_Org_ID = para.getParameterAsInt();
 			else if (name.equals("C_DocType_ID"))
-				m_C_DocType_ID = para.getParameterAsInt();
+				p_C_DocType_ID = para.getParameterAsInt();
 			else if (name.equals("DocumentNo"))
-				m_DocumentNo = para.getParameter().toString();
+				p_DocumentNo = para.getParameter().toString();
 			else if (name.equals("ControlNo"))
-				m_ControlNo =  para.getParameter().toString();
+				p_ControlNo =  para.getParameter().toString();
 			else if (name.equals("DateInvoiced"))
-				m_DateInvoiced =  (Timestamp) para.getParameter();
+				p_DateInvoiced =  (Timestamp) para.getParameter();
 			else if (name.equals("DateAcct"))
-				m_DateAcct =  (Timestamp) para.getParameter();
+				p_DateAcct =  (Timestamp) para.getParameter();
 			
 		}
 		
@@ -107,13 +109,16 @@ public class InvoiceGenerate extends SvrProcess{
 	@Override
 	protected String doIt() throws Exception {
 		// TODO Auto-generated method stub
-		if(m_C_DocType_ID == 0)
+		if(p_AD_Org_ID == 0)
 			throw new AdempiereUserError("@C_DocType_ID@ @NotFound@");
 		
-		if (m_DateInvoiced == null)
+		if(p_C_DocType_ID == 0)
+			throw new AdempiereUserError("@C_DocType_ID@ @NotFound@");
+		
+		if (p_DateInvoiced == null)
 			throw new AdempiereUserError("@DateInvoiced@ @NotFound@");
 		
-		if (m_DateAcct == null)
+		if (p_DateAcct == null)
 			throw new AdempiereUserError("@DateAcct@ @NotFound@");
 		
 		return createInvoices();
@@ -145,10 +150,11 @@ public class InvoiceGenerate extends SvrProcess{
 					MOrder order = new MOrder(getCtx(), m_C_Order_ID, get_TrxName());
 					
 					//Create Invoice From Order
-					invoice = new MInvoice(order, m_C_DocType_ID, m_DateInvoiced);
-					invoice.setDocumentNo(m_DocumentNo);
-					invoice.set_ValueOfColumn("ControlNo", m_ControlNo);
-					invoice.setDateAcct(m_DateAcct);
+					invoice = new MInvoice(order, p_C_DocType_ID, p_DateInvoiced);
+					invoice.setDocumentNo(p_DocumentNo);
+					invoice.set_ValueOfColumn("ControlNo", p_ControlNo);
+					invoice.setDateAcct(p_DateAcct);
+					invoice.setAD_Org_ID(p_AD_Org_ID);
 					invoice.save(get_TrxName());
 					m_Created++;
 				}
@@ -170,6 +176,7 @@ public class InvoiceGenerate extends SvrProcess{
 						invoiceline.setC_UOM_ID(product.getC_UOM_ID());
 						invoiceline.setQty(1);
 						invoiceline.setPrice(rs.getBigDecimal("Amt"));
+						invoiceline.setAD_Org_ID(p_AD_Org_ID);
 						invoiceline.save(get_TrxName());
 						
 					}//End invoice From Order
@@ -223,6 +230,7 @@ public class InvoiceGenerate extends SvrProcess{
 						allochdr.setDateTrx(invoice.getDateInvoiced());
 						allochdr.setDateAcct(invoice.getDateAcct());
 						allochdr.setC_Currency_ID(invoice.getC_Currency_ID());
+						allochdr.setAD_Org_ID(p_AD_Org_ID);
 						allochdr.save(get_TrxName());
 						
 						for(MFTAAllocationLine alloc:allocs){
@@ -242,6 +250,7 @@ public class InvoiceGenerate extends SvrProcess{
 							if (!l_TotalAlloc.equals(Env.ZERO) && alloc.getC_Invoice_ID()==0)
 								allocline.setOverUnderAmt(invoice.getGrandTotal().subtract(l_TotalAlloc).negate());
 							
+							allocline.setAD_Org_ID(p_AD_Org_ID);
 							allocline.save(get_TrxName());
 						}
 						
@@ -251,6 +260,7 @@ public class InvoiceGenerate extends SvrProcess{
 							allocline.setC_BPartner_ID(invoice.getC_BPartner_ID());
 							allocline.setC_Invoice_ID(invoice.getC_Invoice_ID());
 							allocline.setOverUnderAmt(invoice.getGrandTotal().subtract(l_TotalAlloc).negate());
+							allocline.setAD_Org_ID(p_AD_Org_ID);
 							allocline.save(get_TrxName());
 						}
 						
@@ -279,13 +289,13 @@ public class InvoiceGenerate extends SvrProcess{
 	
 	
 	/** Document Type*/
-	private int m_C_DocType_ID = 0;
+	private int p_C_DocType_ID = 0;
 	
 	/** Document No*/
-	private String m_DocumentNo = null;
+	private String p_DocumentNo = null;
 	
 	/** Control No*/
-	private String m_ControlNo = null;
+	private String p_ControlNo = null;
 	
 	/** Sql*/
 	private StringBuffer sql = new StringBuffer();
@@ -297,7 +307,7 @@ public class InvoiceGenerate extends SvrProcess{
 	private int m_Created =0;
 
 	/** DateInvoiced */
-	private Timestamp m_DateInvoiced;
+	private Timestamp p_DateInvoiced;
 	
 	/** Liquidations*/
 	private int m_FTA_FarmerLiquidation_ID=0 ;
@@ -309,5 +319,8 @@ public class InvoiceGenerate extends SvrProcess{
 	private BigDecimal m_InvoiceAmt= Env.ZERO;
 
 	/** Date Acct for Documents*/
-	private Timestamp m_DateAcct;
+	private Timestamp p_DateAcct;
+	
+	/** Organization */
+	private int p_AD_Org_ID = 0;
 }
