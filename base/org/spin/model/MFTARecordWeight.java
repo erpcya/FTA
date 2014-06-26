@@ -289,8 +289,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			else
 				m_processMsg = msg;
 		}
-		
-		
 		//	Dixon Martinez 30/05/2014
 		//	Add Support complete record weight with Dispatch Guide
 		if((getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
@@ -298,11 +296,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				&& isValidWeight){
 			m_processMsg = validateDispatchGuide();
 			if(m_processMsg != null) 
-				return DocAction.STATUS_Invalid;
+				return DocAction.STATUS_InProgress;
 		}
-		
-		
-		
 		//	End Dixon Martinez
 		
 		
