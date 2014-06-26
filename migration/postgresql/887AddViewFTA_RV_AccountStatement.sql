@@ -15,7 +15,7 @@ COALESCE(i.DocStatus, o.DocStatus, l.DocStatus, py.DocStatus, '') DocStatus
 FROM FTA_Fact ft
 LEFT JOIN C_Invoice i ON(i.C_Invoice_ID = ft.Record_ID AND ft.AD_Table_ID = 318)
 LEFT JOIN C_Order o ON(o.C_Order_ID = ft.Record_ID AND ft.AD_Table_ID = 259)
-LEFT JOIN C_Payment py ON (ft.Record_ID = py.C_Payment_ID)
+LEFT JOIN C_Payment py ON (ft.Record_ID = py.C_Payment_ID AND ft.AD_Table_ID = 335)
 LEFT JOIN FTA_FarmerLiquidation l ON(l.FTA_FarmerLiquidation_ID = ft.Record_ID AND ft.AD_Table_ID = 53564)
 LEFT JOIN FTA_CreditDefinitionLine cdl ON (cdl.FTA_CreditDefinitionLine_ID = ft.FTA_CreditDefinitionLine_ID)
 LEFT JOIN FTA_PaymentRequest ftapr ON (i.C_Invoice_ID = ftapr.C_Invoice_ID) 
