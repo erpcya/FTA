@@ -133,7 +133,13 @@ public class CategoryProductionGenerate extends SvrProcess {
 				&& p_FTA_CategoryCalc_ID == 0)
 			throw new AdempiereException("@FTA_CategoryCalcGroup_ID@ @AND@ @FTA_CategoryCalc_ID@ @NotFound@");
 		//	Get From Group
-		if(p_FTA_CategoryCalcGroup_ID != 0){
+		if(p_FTA_CategoryCalc_ID != 0){
+			MFTACategoryCalc m_cCalc = new MFTACategoryCalc(getCtx(), p_FTA_CategoryCalc_ID, get_TrxName());
+			String msg = productionGenerate(m_cCalc);
+			//	Get Message
+			if(msg != null)
+				addLog(msg);
+		} else if(p_FTA_CategoryCalcGroup_ID != 0){
 			MFTACategoryCalcGroup m_ccGroup = new MFTACategoryCalcGroup(getCtx(), p_FTA_CategoryCalcGroup_ID, get_TrxName());
 			MFTACategoryCalc [] m_categoryCalc = m_ccGroup.getLines(false);
 			//	generate all from group
@@ -143,12 +149,6 @@ public class CategoryProductionGenerate extends SvrProcess {
 				if(msg != null)
 					addLog(msg);
 			}
-		} else if(p_FTA_CategoryCalc_ID != 0){
-			MFTACategoryCalc m_cCalc = new MFTACategoryCalc(getCtx(), p_FTA_CategoryCalc_ID, get_TrxName());
-			String msg = productionGenerate(m_cCalc);
-			//	Get Message
-			if(msg != null)
-				addLog(msg);
 		}
 		//	
 		return "";
