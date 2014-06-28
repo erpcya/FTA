@@ -12,7 +12,7 @@ qa.QualityAnalysis_ID,/*Quality Analisis*/
 et.FTA_EntryTicket_ID,/*Identifier Entry Ticket*/
 mg.FTA_MobilizationGuide_ID,/*Identifier Mobilization Guide*/
 fm.FTA_Farming_ID,/*Identifier Farming*/
-fm.FTA_FarmerCredit_ID,/*Identifier Farmer Credit*/
+coalesce(fc.Parent_FarmerCredit_ID,fm.FTA_FarmerCredit_ID) AS FTA_FarmerCredit_ID,/*Identifier Farmer Credit*/
 fm.Category_ID,/*Identifier Product*/
 fd.FTA_FarmDivision_ID,/*Identifier Farm Division*/
 f.FTA_Farm_ID,/*Identifier Farm*/
