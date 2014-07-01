@@ -65,7 +65,7 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 		
 		sql.append("Select \n "
 				+"f.C_BPartner_ID, /*Identifier Business Partner*/ \n "
-				+"fm.FTA_FarmerCredit_ID,/*Identifier Farmer Credit*/ \n "
+				+"Coalesce(fc.Parent_FarmerCredit_ID,fc.FTA_FarmerCredit_ID) AS FTA_FarmerCredit_ID,/*Identifier Farmer Credit*/ \n "
 				+"fm.Category_ID,/*Identifier Product*/ \n "
 				+"rw.FTA_RecordWeight_ID, /*Identifier Record Weight*/ \n "
 				+"rw.NetWeight,/*Net Weight*/ \n "
@@ -99,6 +99,10 @@ public class FarmerLiquidationGenerate extends SvrProcess {
 				+"Inner Join FTA_MobilizationGuide mg On et.FTA_MobilizationGuide_ID=mg.FTA_MobilizationGuide_ID \n "
 				+"/*Farming*/ \n "
 				+"Inner Join FTA_Farming fm On mg.FTA_Farming_ID=fm.FTA_Farming_ID \n "
+				
+				+"/*Farmer Credit*/ \n "
+				+"Inner Join FTA_FarmerCredit fc On fm.FTA_FarmerCredit_ID=fc.FTA_FarmerCredit_ID \n "
+				
 				+"/*Farm Division*/ \n "
 				+"Inner Join FTA_FarmDivision fd On fm.FTA_FarmDivision_ID=fd.FTA_FarmDivision_ID \n "
 				+"/*Farm*/ \n "
