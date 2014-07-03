@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MInOutLine;
@@ -145,6 +146,9 @@ public class InvoiceGenerate extends SvrProcess{
 				if (m_C_Order_ID!=rs.getInt("C_Order_ID")){
 					
 					m_C_Order_ID=rs.getInt("C_Order_ID");
+					//	Valid Purchase Order
+					if(m_C_Order_ID == 0)
+						throw new AdempiereException("@C_Order_ID@ @NotFound@");
 					
 					//Load Order From Farming
 					MOrder order = new MOrder(getCtx(), m_C_Order_ID, get_TrxName());

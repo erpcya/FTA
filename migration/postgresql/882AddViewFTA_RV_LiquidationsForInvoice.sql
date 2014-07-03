@@ -26,5 +26,8 @@ LiquidationAvailable(fl.FTA_FarmerLiquidation_ID) AvailableAmt,
 fming.C_Order_ID
 From 
 FTA_FarmerLiquidation fl
-Left Join (Select Distinct col.C_Order_ID,fming.FTA_FarmerCredit_ID From  FTA_Farming fming Inner Join C_OrderLine col On fming.C_OrderLine_ID = col.C_OrderLine_ID) fming On fl.FTA_FarmerCredit_ID = fming.FTA_FarmerCredit_ID
+Left Join (Select Distinct col.C_Order_ID, COALESCE(fc.Parent_FarmerCredit_ID, fming.FTA_FarmerCredit_ID) FTA_FarmerCredit_ID 
+		From  FTA_Farming fming 
+		INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = fming.FTA_FarmerCredit_ID)
+		Inner Join C_OrderLine col On fming.C_OrderLine_ID = col.C_OrderLine_ID) fming On fl.FTA_FarmerCredit_ID = fming.FTA_FarmerCredit_ID
 ;
