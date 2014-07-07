@@ -114,26 +114,38 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 				<text><![CDATA[Página:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="2" y="2" width="206" height="13" uuid="b27437b2-aa60-43cb-9971-bb8f8d9dff16">
-					<printWhenExpression><![CDATA[($P{C_BPartner_ID} != null && $F{taxid} != null)]]></printWhenExpression>
-				</reportElement>
+				<reportElement x="2" y="2" width="206" height="13" uuid="b27437b2-aa60-43cb-9971-bb8f8d9dff16"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($P{C_BPartner_ID} == null? "": "\nSocio de Negocio = " + $F{taxid} + " - " + $F{name}) +
-
-"\nDefinición de Crédito = " + $F{creditdefiniton} + " - " + $F{plantingcycle}+
-($P{FTA_FarmerCredit_ID} == null? "": "\nCrédito = " + $F{credit}) +
-
-($F{qty}.equals(null) ? "" : "\nArea (Solicitada) = " + $F{qty} )+
-
-($F{approvedqty}.equals(null) ? "" : "\nArea (Aprobada) = " + $F{approvedqty} )+
-
-($F{effectivearea}.equals(null) ? "" : "\nArea (Efectiva) = " + $F{effectivearea} )+
-($P{DateDoc1} != null || $P{DateDoc2} != null? "\nFecha de Documento: ": "") +
-($P{DateDoc1} != null? new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc1}): "") +
-($P{DateDoc2} != null? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc2}): "") +
-($F{noliquidations}.equals(null) ? "" : "\nCruce de Cuenta Nro(s)." + $F{noliquidations} )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($P{C_BPartner_ID} == null
+    ? ""
+    : "Socio de Negocio = " + ($F{taxid} == null? "": $F{taxid} + " - ") + $F{name}) +
+"\nDefinición de Crédito = " + $F{creditdefiniton} + " - " + $F{plantingcycle} +
+($P{FTA_FarmerCredit_ID} == null
+    ? ""
+    : "\nCrédito = " + $F{credit}) +
+($F{qty} == null
+    ? ""
+    : "\nArea (Solicitada) = " + $F{qty}.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()) +
+($F{approvedqty} == null
+    ? ""
+    : "\nArea (Aprobada) = " + $F{approvedqty}.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()) +
+($F{effectivearea} == null
+    ? ""
+    : "\nArea (Efectiva) = " + $F{effectivearea}.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()) +
+($P{DateDoc1} != null || $P{DateDoc2} != null
+    ? "\nFecha de Documento: "
+    : "") +
+($P{DateDoc1} != null
+    ? new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc1})
+    : "") +
+($P{DateDoc2} != null
+    ? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc2})
+    : "") +
+($F{noliquidations} == null
+    ? ""
+    : "\nCruce de Cuenta Nro(s)." + $F{noliquidations})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
