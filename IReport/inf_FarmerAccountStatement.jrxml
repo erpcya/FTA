@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inf_FarmerAccountStatement" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91c80499-e68d-49ef-947f-a0080fa9d852">
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="2.5937424601000023"/>
+	<property name="ireport.x" value="53"/>
+	<property name="ireport.y" value="75"/>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
 	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal"/>
@@ -66,26 +66,38 @@ ORDER BY st.DateDoc, st.FTA_Fact_ID]]>
 	<title>
 		<band height="77" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="206" height="13" uuid="88336536-26f6-4a58-93b2-b2a113360632">
-					<printWhenExpression><![CDATA[($P{C_BPartner_ID} != null && $F{taxid} != null)]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="206" height="13" uuid="88336536-26f6-4a58-93b2-b2a113360632"/>
+				<textElement verticalAlignment="Top">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($P{C_BPartner_ID} == null? "": "\nSocio de Negocio = " + $F{taxid} + " - " + $F{name}) +
-
-"\nDefinición de Crédito = " + $F{creditdefiniton} + " - " + $F{plantingcycle}+
-($P{FTA_FarmerCredit_ID} == null? "": "\nCrédito = " + $F{credit}) +
-
-($F{qty}.equals(null) ? "" : "\nArea (Solicitada) = " + $F{qty} )+
-
-($F{approvedqty}.equals(null) ? "" : "\nArea (Aprobada) = " + $F{approvedqty} )+
-
-($F{effectivearea}.equals(null) ? "" : "\nArea (Efectiva) = " + $F{effectivearea} )+
-($P{DateDoc1} != null || $P{DateDoc2} != null? "\nFecha de Documento: ": "") +
-($P{DateDoc1} != null? new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc1}): "") +
-($P{DateDoc2} != null? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc2}): "") +
-($F{noliquidations}.equals(null) ? "" : "\nCruce de Cuenta Nro(s)." + $F{noliquidations} )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($P{C_BPartner_ID} == null
+    ? ""
+    : "Socio de Negocio = " + ($F{taxid} == null? "": $F{taxid} + " - ") + $F{name}) +
+"\nDefinición de Crédito = " + $F{creditdefiniton} + " - " + $F{plantingcycle} +
+($P{FTA_FarmerCredit_ID} == null
+    ? ""
+    : "\nCrédito = " + $F{credit}) +
+($F{qty} == null
+    ? ""
+    : "\nArea (Solicitada) = " + $F{qty}.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()) +
+($F{approvedqty} == null
+    ? ""
+    : "\nArea (Aprobada) = " + $F{approvedqty}.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()) +
+($F{effectivearea} == null
+    ? ""
+    : "\nArea (Efectiva) = " + $F{effectivearea}.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()) +
+($P{DateDoc1} != null || $P{DateDoc2} != null
+    ? "\nFecha de Documento: "
+    : "") +
+($P{DateDoc1} != null
+    ? new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc1})
+    : "") +
+($P{DateDoc2} != null
+    ? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc2})
+    : "") +
+($F{noliquidations} == null
+    ? ""
+    : "\nCruce de Cuenta Nro(s)." + $F{noliquidations})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="209" y="0" width="154" height="77" uuid="bbf016e2-37c2-4098-91a7-588766b3d991"/>
