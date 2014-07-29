@@ -116,7 +116,7 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 		if(p_FTA_FarmerCredit_ID != 0){
 			MFTAFarmerCredit m_FTA_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
 			if(!m_FTA_FarmerCredit.getCreditType()
-					.equals(X_FTA_FarmerCredit.CREDITTYPE_ReceptionAgreement)){//	Acuerdo de Recepcion
+					.equals(X_FTA_FarmerCredit.CREDITTYPE_ReceptionAgreement)){
 				validateBillOfExchange(m_FTA_FarmerCredit);
 			}
 		} else if(p_FTA_CreditAct_ID != 0) {
