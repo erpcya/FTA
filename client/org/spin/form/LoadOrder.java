@@ -557,12 +557,15 @@ public class LoadOrder {
 				"LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
 				"LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
 				"LEFT JOIN (" +
-				"				SELECT l.M_Warehouse_ID, st.M_Product_ID, COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
+				"				SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
+				"					COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, " +
+				"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
 				"				FROM M_Storage st " +
 				"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
-				"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s ON(s.M_Product_ID = lord.M_Product_ID " +
-				"																								AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
-				"																								AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
+				"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s " +
+				"														ON(s.M_Product_ID = lord.M_Product_ID " +
+				"																AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
+				"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
 				.append("WHERE pro.IsStocked = 'Y' ")
 				.append("AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) ")
 				.append("AND ")
