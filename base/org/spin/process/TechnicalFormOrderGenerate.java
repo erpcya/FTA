@@ -20,12 +20,17 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOMConversion;
+import org.compiere.model.X_C_Invoice;
 import org.compiere.model.X_C_Order;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -66,6 +71,13 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 	private int 		m_CurrentWarehouse_ID = 0;
 	/**	Generated					*/
 	private int 		m_Created = 0;
+	//	Dixon Martinez 08-05-2014
+	//	Add Support Generate Invoiced of Technical Form
+	/**	Generate Invoice 			*/
+	private boolean 	p_GenerateInvoiced		= 	false;
+	/**	Invoice						*/
+	private MInvoice m_Invoice 					=	null;
+	
 	
 	@Override
 	protected void prepare() {
@@ -86,6 +98,13 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 				p_M_Warehouse_ID = para.getParameterAsInt();
 			else if(name.equals("DistinctOrderByWarehouse"))
 				p_DistinctOrderByWarehouse = para.getParameterAsBoolean();
+			//	Dixon Martinez 08-05-2014
+			//	Add Support Generate Invoiced of Technical Form
+			else if(name.equals("GenerateInvoice"))
+				p_GenerateInvoiced = para.getParameterAsBoolean();
+			else
+				log.log(Level.SEVERE, "Unknown Parameter: " + name);
+			//	End Dixon Martinez
 		}
 		//	Get Technical From Identifier
 		p_FTA_TechnicalForm_ID = getRecord_ID();
@@ -284,6 +303,114 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 			m_Order.saveEx();
 			addLog("@DocumentNo@: " + m_Order.getDocumentNo() + " - @GrandTotal@=" + m_Order.getGrandTotal());
 			m_Created ++;
+			//	Dixon Martinez 08-05-2014
+			//	Add Support Generate Invoiced of Technical Form
+			if(p_GenerateInvoiced)
+				generateInvoiced(m_Order);
+			//	End Dixon Martinez
+		}
+	}
+
+	/**
+	 * Add Support Generate Invoiced of Technical Form
+	 * Generate Invoiced
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 05/08/2014, 21:27:21
+	 * @param m_Order
+	 * @return void
+	 */
+	private void generateInvoiced(MOrder m_Order) {
+		if(m_Invoice == null) {
+			//	Complete Previous Invoice
+			completeInvoice();
+			//	Check Warehouse
+			if(!p_DistinctOrderByWarehouse){
+				if(p_M_Warehouse_ID != 0)
+					m_CurrentWarehouse_ID = p_M_Warehouse_ID;
+				else
+					m_CurrentWarehouse_ID = Env.getContextAsInt(getCtx(), "#M_Warehouse_ID");
+			}	
+		}
+		//	Create a New Invoice
+		newInvoice(m_Order);
+		//	Complete Invoice
+		completeInvoice();
+	}
+	
+	/**
+	 * Add Support Generate Invoiced of Technical Form
+	 * New Invoice
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 05/08/2014, 21:27:48
+	 * @param m_Order
+	 * @return
+	 * @return String
+	 */
+	private String newInvoice(MOrder m_Order) {
+		//	Prepare Sql
+		String sql = "SELECT C_DocTypeInvoice_ID FROM C_DocType WHERE C_DocType_ID = ?";
+		//	Return id Document Type Invoice
+		int p_C_DocTypeTarget_Invoice_ID = DB.getSQLValue(get_TrxName(), sql, m_Order.getC_DocType_ID());
+		//
+		if(p_C_DocTypeTarget_Invoice_ID == 0)
+			throw new AdempiereException("@C_DocTypeInvoice_ID@ @NotFound@");
+		//	Create Invoice 
+		m_Invoice = new MInvoice(m_Order, p_C_DocTypeTarget_Invoice_ID, p_DateDoc );
+		//	Set Client and Organization
+		m_Invoice.setClientOrg(getAD_Client_ID(), m_Order.getAD_Org_ID());
+		//	Set Document Type Target
+		m_Invoice.setC_DocTypeTarget_ID(p_C_DocTypeTarget_Invoice_ID);
+		//	Set Is Sales Order transaction
+		m_Invoice.setIsSOTrx(m_Order.isSOTrx());
+		//	Set Date Invoice
+		m_Invoice.setDateAcct(p_DateDoc);
+		m_Invoice.setDateInvoiced(p_DateDoc);
+		//
+		m_Invoice.setSalesRep_ID(m_Order.getSalesRep_ID());
+		//	Set Vendor
+		MBPartner customer = MBPartner.get(getCtx(), m_Order.getC_BPartner_ID());
+		m_Invoice.setBPartner(customer);
+		//	Set Price List
+		m_Invoice.setM_PriceList_ID(p_M_PriceList_ID);
+		//	Set Technical Form
+		Integer p_FTA_FarmerCredit_ID = (Integer) m_Order.get_Value("FTA_FarmerCredit_ID");
+		//	Set Farmer credit
+		if(p_FTA_FarmerCredit_ID > 0)
+			m_Invoice.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit_ID);
+		else
+			m_Invoice.set_ValueOfColumn("FTA_FarmerCredit_ID", null);
+		//	Save Invoice
+		m_Invoice.saveEx();
+		//	Get lines of Order
+		MOrderLine [] o_Lines = m_Order.getLines();
+		//	tour lines of the order and create invoice lines
+		for (MOrderLine m_Order_Line : o_Lines) {
+			//	Add Lines
+			MInvoiceLine m_InvoiceLine = new MInvoiceLine(getCtx(), 0, get_TrxName());
+			m_InvoiceLine.setC_Invoice_ID(m_Invoice.get_ID());
+			m_InvoiceLine.setM_Product_ID(m_Order_Line.getM_Product_ID());
+			m_InvoiceLine.setQty(m_Order_Line.getQtyOrdered());
+			m_InvoiceLine.set_ValueOfColumn("C_UOM_ID", m_Order_Line.get_Value("C_UOM_ID"));
+			m_InvoiceLine.setPriceEntered(m_Order_Line.getPriceEntered());
+			m_InvoiceLine.setPriceActual(m_Order_Line.getPriceActual());
+			m_InvoiceLine.setPriceList(m_Order_Line.getPriceList());
+			m_InvoiceLine.set_ValueOfColumn("C_Tax_ID", m_Order_Line.get_Value("C_Tax_ID"));
+			m_InvoiceLine.saveEx();
+		}
+		return null;
+	}
+
+	/**
+	 * Add Support Generate Invoiced of Technical Form
+	 * Complete Invoice
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 05/08/2014, 21:28:58
+	 * @return void
+	 */
+	private void completeInvoice() {
+		if(m_Invoice != null
+				&& !m_Invoice.getDocStatus().equals(X_C_Invoice.DOCSTATUS_Completed)) {
+			m_Invoice.setDocAction(p_DocAction);
+			m_Invoice.processIt(p_DocAction);
+			m_Invoice.saveEx();
+			addLog("@DocumentNo@: " + m_Invoice.getDocumentNo() + " - @GrandTotal@= " + m_Invoice.getGrandTotal());
 		}
 	}
 }
