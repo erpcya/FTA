@@ -137,7 +137,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 			MFTACategoryCalc m_cCalc = new MFTACategoryCalc(getCtx(), p_FTA_CategoryCalc_ID, get_TrxName());
 			String msg = productionGenerate(m_cCalc);
 			//	Get Message
-			if(msg != null)
+			if(msg != null
+					&& msg.length() != 0)
 				addLog(msg);
 		} else if(p_FTA_CategoryCalcGroup_ID != 0){
 			MFTACategoryCalcGroup m_ccGroup = new MFTACategoryCalcGroup(getCtx(), p_FTA_CategoryCalcGroup_ID, get_TrxName());
@@ -146,7 +147,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 			for(MFTACategoryCalc m_cCalc : m_categoryCalc){
 				String msg = productionGenerate(m_cCalc);
 				//	Get Message
-				if(msg != null)
+				if(msg != null
+						&& msg.length() != 0)
 					addLog(msg);
 			}
 		}
@@ -285,13 +287,16 @@ public class CategoryProductionGenerate extends SvrProcess {
 		sql.append(" GROUP BY qa.M_Product_ID, rw.FTA_RecordWeight_ID, qa.QualityAnalysis_ID, iol.M_Locator_ID ");
 		//	Order By
 		sql.append("ORDER BY qa.M_Product_ID, rw.FTA_RecordWeight_ID");
+		//	
+		int m_FTA_CategoryCalc_ID = m_cCalc.getFTA_CategoryCalc_ID();
 		//	Log
 		log.fine("SQL=" + sql);
+		log.fine("FTA_CategoryCalc_ID=" + m_FTA_CategoryCalc_ID);
 		//	Prepare
 		ps = DB.prepareStatement(sql.toString(), get_TrxName());
 		//	Parameters
 		int i = 1;
-		ps.setInt(i++, m_cCalc.getFTA_CategoryCalc_ID());
+		ps.setInt(i++, m_FTA_CategoryCalc_ID);
 		//	Values
 		if(p_AD_Org_ID != 0)
 			ps.setInt(i++, p_AD_Org_ID);
