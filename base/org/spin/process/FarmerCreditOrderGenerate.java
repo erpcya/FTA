@@ -133,7 +133,11 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 		if(p_M_PriceList_ID != 0)
 			po.setM_PriceList_ID(p_M_PriceList_ID);
 		//
-		po.setDescription(m_FTA_FarmerCredit.getDescription());
+		//	Dixon Martinez 8/6/2014
+		//	Comment for not generated description of farmer credit
+		//po.setDescription(m_FTA_FarmerCredit.getDescription());
+		//	End Dixon Martinez
+		
 		//	Set Vendor
 		MBPartner vendor = (MBPartner) m_FTA_FarmerCredit.getC_BPartner();
 		po.setBPartner(vendor);
