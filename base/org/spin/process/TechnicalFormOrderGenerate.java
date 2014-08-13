@@ -407,8 +407,8 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 	private void completeInvoice() {
 		if(m_Invoice != null
 				&& !m_Invoice.getDocStatus().equals(X_C_Invoice.DOCSTATUS_Completed)) {
-			m_Invoice.setDocAction(X_C_Invoice.DOCSTATUS_Completed);
-			m_Invoice.processIt(X_C_Invoice.DOCSTATUS_Drafted);
+			m_Invoice.setDocAction(X_C_Invoice.DOCACTION_Prepare);
+			m_Invoice.processIt(X_C_Invoice.DOCACTION_Prepare);
 			m_Invoice.saveEx();
 			addLog("@DocumentNo@: " + m_Invoice.getDocumentNo() + " - @GrandTotal@= " + m_Invoice.getGrandTotal());
 		}
