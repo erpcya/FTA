@@ -305,7 +305,8 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 			m_Created ++;
 			//	Dixon Martinez 08-05-2014
 			//	Add Support Generate Invoiced of Technical Form
-			if(p_GenerateInvoiced)
+			if(p_GenerateInvoiced
+					&& m_Order.getDocStatus().equals(X_C_Order.DOCSTATUS_Completed))
 				generateInvoiced(m_Order);
 			//	End Dixon Martinez
 		}
