@@ -48,35 +48,35 @@ import org.spin.model.MFTATechnicalFormLine;
  */
 public class TechnicalFormOrderGenerate extends SvrProcess {
 	/**	Document Date				*/
-	private Timestamp 	p_DateDoc = null;
+	private Timestamp 	p_DateDoc 					= null;
 	/**	Document Type Target		*/
-	private int 		p_C_DocTypeTarget_ID = 0;
+	private int 		p_C_DocTypeTarget_ID 		= 0;
 	/**	Document Action				*/
-	private String 		p_DocAction = null;
+	private String 		p_DocAction 				= null;
 	/**	Technical Form				*/
-	private int 		p_FTA_TechnicalForm_ID = 0;
+	private int 		p_FTA_TechnicalForm_ID 		= 0;
 	/**	Price List					*/
-	private int 		p_M_PriceList_ID = 0;
+	private int 		p_M_PriceList_ID 			= 0;
 	/**	Warehouse					*/
-	private int 		p_M_Warehouse_ID = 0;
+	private int 		p_M_Warehouse_ID 			= 0;
 	/**	Distinct Order By Warehouse	*/
-	private boolean 	p_DistinctOrderByWarehouse = false;
+	private boolean 	p_DistinctOrderByWarehouse 	= false;
 	/**	Order						*/
-	private MOrder		m_Order = null;
+	private MOrder		m_Order 					= null;
 	/**	Default Credit				*/
-	private int 		m_DefaultFarmerCredit_ID = 0;
+	private int 		m_DefaultFarmerCredit_ID 	= 0;
 	/**	Current Credit				*/
-	private int 		m_CurrentFarmerCredit_ID = 0;
+	private int 		m_CurrentFarmerCredit_ID 	= 0;
 	/**	Current Warehouse			*/
-	private int 		m_CurrentWarehouse_ID = 0;
+	private int 		m_CurrentWarehouse_ID 		= 0;
 	/**	Generated					*/
-	private int 		m_Created = 0;
+	private int 		m_Created 					= 0;
 	//	Dixon Martinez 08-05-2014
 	//	Add Support Generate Invoiced of Technical Form
 	/**	Generate Invoice 			*/
-	private boolean 	p_GenerateInvoiced		= 	false;
+	private boolean 	p_GenerateInvoiced			= 	false;
 	/**	Invoice						*/
-	private MInvoice m_Invoice 					=	null;
+	private MInvoice m_Invoice 						=	null;
 	
 	
 	@Override
@@ -108,7 +108,6 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 		}
 		//	Get Technical From Identifier
 		p_FTA_TechnicalForm_ID = getRecord_ID();
-		
 	}
 
 	@Override
@@ -301,7 +300,12 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 			m_Order.setDocAction(p_DocAction);
 			m_Order.processIt(p_DocAction);
 			m_Order.saveEx();
-			addLog("@DocumentNo@: " + m_Order.getDocumentNo() + " - @GrandTotal@=" + m_Order.getGrandTotal());
+			addLog("@C_Order_ID@: " + m_Order.getDocumentNo() + 
+					" - @GrandTotal@=" + m_Order.getGrandTotal() + 
+					(m_Order.getProcessMsg() != null 
+						&& m_Order.getProcessMsg().length() > 0 
+							? " @AD_Message_ID@: " + m_Order.getProcessMsg() 
+							: ""));
 			m_Created ++;
 			//	Dixon Martinez 08-05-2014
 			//	Add Support Generate Invoiced of Technical Form
@@ -410,7 +414,7 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 			m_Invoice.setDocAction(p_DocAction);
 			m_Invoice.processIt(p_DocAction);
 			m_Invoice.saveEx();
-			addLog("@DocumentNo@: " + m_Invoice.getDocumentNo() + " - @GrandTotal@= " + m_Invoice.getGrandTotal());
+			addLog("@C_Invoice_ID@: " + m_Invoice.getDocumentNo() + " - @GrandTotal@= " + m_Invoice.getGrandTotal());
 		}
 	}
 }
