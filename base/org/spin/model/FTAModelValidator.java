@@ -353,7 +353,7 @@ public class FTAModelValidator implements ModelValidator {
 							"AND bfe.Status='S' " +
 							"AND bfe.DocStatus IN ('CO','CL')", m_FTA_FarmerCredit_ID);
 					if(m_FTA_BillOfExchange_ID == 0)
-						return "@FTA_BillOfExchange_ID@ @UnSigned@";
+						return "@FTA_BillOfExchange_ID@ @Unsigned@";
 				}
 			}
 		} else if(timing == TIMING_BEFORE_REVERSECORRECT){
