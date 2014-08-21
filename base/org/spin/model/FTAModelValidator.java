@@ -36,6 +36,7 @@ import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_DocType;
+import org.compiere.model.X_C_Order;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -75,6 +76,7 @@ public class FTAModelValidator implements ModelValidator {
 		engine.addModelChange(MPaySelectionCheck.Table_Name, this);
 		engine.addDocValidate(MPayment.Table_Name, this);
 		engine.addDocValidate(MFTAFarmerCredit.Table_Name, this);
+		engine.addModelChange(X_C_Order.Table_Name, this);
 	}
 
 	@Override
@@ -149,7 +151,25 @@ public class FTAModelValidator implements ModelValidator {
 					
 				}
 			}
+		} 
+		//	Dixon Martinez
+		// 	Add support parent farmer credit
+		else if (po.get_TableName().equals(X_C_Order.Table_Name)
+				&&	(type == TYPE_BEFORE_NEW 
+						|| type == TYPE_BEFORE_CHANGE)) {
+			MOrder m_Order  = (MOrder) po;
+			int p_FTA_FarmerCredit_ID = m_Order.get_ValueAsInt("FTA_FarmerCredit_ID");
+			if( p_FTA_FarmerCredit_ID > 0) {
+				String sql = "SELECT Parent_FarmerCredit_ID FROM FTA_FarmerCredit fc WHERE fc.FTA_FarmerCredit_ID = ?";
+				//
+				int p_Parent_FarmerCredit_ID = DB.getSQLValue(m_Order.get_TrxName(), sql, p_FTA_FarmerCredit_ID);
+				if (p_Parent_FarmerCredit_ID > 0 ) {
+					m_Order.set_ValueOfColumn("FTA_FarmerCredit_ID", p_Parent_FarmerCredit_ID);
+					m_Order.saveEx();
+				}
+			}
 		}
+		//	End Dixon Martinez
 		return null;
 	}
 	
