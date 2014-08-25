@@ -92,5 +92,3 @@ UPDATE AD_Field SET IsReadOnly='N',Updated=TO_TIMESTAMP('2014-06-03 15:02:11','Y
 -- Farming Technical Assistance
 UPDATE AD_Field SET IsReadOnly='Y',Updated=TO_TIMESTAMP('2014-06-03 15:07:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=73634
 ;
-
-ALTER TABLE FTA_FarmerCredit ADD BasedOnEffectiveQuantity CHAR(1) DEFAULT NULL CHECK (BasedOnEffectiveQuantity IN ('Y','N'));

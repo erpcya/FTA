@@ -145,7 +145,7 @@ UPDATE AD_Process_Para SET IsMandatory='Y', SeqNo=10,Updated=TO_DATE('2014-06-03
 
 -- Jun 3, 2014 10:08:31 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Para SET AD_Val_Rule_ID=52207, IsMandatory='Y', SeqNo=20,Updated=TO_DATE('2014-06-03 10:08:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=54803
+UPDATE AD_Process_Para SET AD_Val_Rule_ID=52207, IsMandatory='Y', SeqNo=21,Updated=TO_DATE('2014-06-03 10:08:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=54803
 ;
 
 -- Jun 3, 2014 10:08:44 AM VET
@@ -241,11 +241,6 @@ UPDATE AD_Field SET IsDisplayed='Y', SeqNo=390,Updated=TO_DATE('2014-06-03 10:15
 -- Jun 3, 2014 10:15:12 AM VET
 -- Farming Technical Assistance
 UPDATE AD_Field SET IsDisplayed='Y', SeqNo=400,Updated=TO_DATE('2014-06-03 10:15:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=68340
-;
-
--- Jun 3, 2014 10:19:34 AM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_FarmerCredit ADD EffectiveQty NUMBER DEFAULT NULL 
 ;
 
 -- Jun 3, 2014 10:40:09 AM VET

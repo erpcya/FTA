@@ -35,6 +35,8 @@ Inner Join FTA_EntryTicket et On qa.FTA_EntryTicket_ID=et.FTA_EntryTicket_ID
 Inner Join FTA_MobilizationGuide mg On et.FTA_MobilizationGuide_ID=mg.FTA_MobilizationGuide_ID
 /*Farming*/
 Inner Join FTA_Farming fm On mg.FTA_Farming_ID=fm.FTA_Farming_ID
+/*Farmer Credit*/
+INNER JOIN FTA_FarmerCredit fc ON (fc.FTA_FarmerCredit_ID = fm.FTA_FarmerCredit_ID)
 /*Order Line*/
 Left Join C_OrderLine col On col.C_OrderLine_ID=fm.C_OrderLine_ID
 /*Farm Division*/

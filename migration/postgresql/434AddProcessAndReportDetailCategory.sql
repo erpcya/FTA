@@ -115,7 +115,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Mar 23, 2014 11:38:53 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Para SET AD_Reference_ID=19, AD_Val_Rule_ID=52302,Updated=TO_TIMESTAMP('2014-03-23 11:38:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=54695
+UPDATE AD_Process_Para SET AD_Reference_ID=19,Updated=TO_TIMESTAMP('2014-03-23 11:38:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=54695
 ;
 
 -- Mar 23, 2014 11:39:54 AM VET
