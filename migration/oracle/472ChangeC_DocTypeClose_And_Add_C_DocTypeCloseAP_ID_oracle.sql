@@ -43,11 +43,6 @@ UPDATE AD_Element_Trl SET Name='Tipo de Documento Para el Cierre (Documentos CXC
 UPDATE AD_Element_Trl SET Name='Tipo de Documento Para el Cierre (Documentos CXC)',PrintName='Tipo de Documento Para el Cierre (Documentos CXC)',Updated=TO_DATE('2014-05-19 16:46:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57158 AND AD_Language='es_VE'
 ;
 
--- 19/05/2014 04:46:45 PM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_CreditDefinition ADD C_DocTypeClosedAR_ID NUMBER(10) DEFAULT NULL 
-;
-
 -- 19/05/2014 05:49:17 PM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,57159,0,'C_DocTypeClosedAP_ID',TO_DATE('2014-05-19 17:49:11','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',0,'Y','Document Type for Closed (AP Invoice)','Document Type for Closed (AP Invoice)',TO_DATE('2014-05-19 17:49:11','YYYY-MM-DD HH24:MI:SS'),100)
@@ -76,11 +71,6 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 -- 19/05/2014 05:52:06 PM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=72915 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- 19/05/2014 05:52:09 PM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_CreditDefinition ADD C_DocTypeClosedAP_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- 19/05/2014 05:55:31 PM VET
