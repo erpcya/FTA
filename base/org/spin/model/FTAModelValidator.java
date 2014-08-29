@@ -31,6 +31,7 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPayment;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
@@ -69,14 +70,22 @@ public class FTAModelValidator implements ModelValidator {
 		} else {
 			log.info("Initializing global validator: " + this.toString());
 		}
-		//	Add Timing change in C_Order and C_Invoice
-		engine.addDocValidate(MOrder.Table_Name, this);
-		engine.addModelChange(MInvoice.Table_Name, this);
-		engine.addDocValidate(MInvoice.Table_Name, this);
-		engine.addModelChange(MPaySelectionCheck.Table_Name, this);
-		engine.addDocValidate(MPayment.Table_Name, this);
-		engine.addDocValidate(MFTAFarmerCredit.Table_Name, this);
-		engine.addModelChange(X_C_Order.Table_Name, this);
+		
+		//	Dixon Martinez 
+		//	Add support to see if the company manages credit module
+		boolean creditControlModule = MSysConfig.getBooleanValue("CREDIT_CONTROL_MODULE",false);
+		//	Initialize methods depending on whether the credit module is used or not by the company
+		if(creditControlModule) {
+			//	Add Timing change in C_Order and C_Invoice
+			engine.addDocValidate(MOrder.Table_Name, this);
+			engine.addModelChange(MInvoice.Table_Name, this);
+			engine.addDocValidate(MInvoice.Table_Name, this);
+			engine.addModelChange(MPaySelectionCheck.Table_Name, this);
+			engine.addDocValidate(MPayment.Table_Name, this);
+			engine.addDocValidate(MFTAFarmerCredit.Table_Name, this);
+			engine.addModelChange(X_C_Order.Table_Name, this);
+		}
+		//	End Dixon Martinez
 	}
 
 	@Override
