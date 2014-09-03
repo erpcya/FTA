@@ -198,16 +198,6 @@ UPDATE AD_Field SET DisplayLogic='@PreviousApprovedAmt@!0',Updated=TO_DATE('2014
 UPDATE AD_Field SET DisplayLogic='@PreviousApprovedQty@!0',Updated=TO_DATE('2014-05-25 01:31:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=73499
 ;
 
--- May 25, 2014 1:32:13 AM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_FarmerCredit ADD PreviousApprovedAmt NUMBER DEFAULT NULL 
-;
-
--- May 25, 2014 1:32:20 AM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_FarmerCredit ADD PreviousApprovedQty NUMBER DEFAULT NULL 
-;
-
 -- May 25, 2014 1:33:38 AM VET
 -- Farming Technical Assistance
 UPDATE AD_Column SET DefaultValue='0',Updated=TO_DATE('2014-05-25 01:33:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=72998
@@ -216,16 +206,6 @@ UPDATE AD_Column SET DefaultValue='0',Updated=TO_DATE('2014-05-25 01:33:38','YYY
 -- May 25, 2014 1:33:43 AM VET
 -- Farming Technical Assistance
 UPDATE AD_Column SET DefaultValue='0',Updated=TO_DATE('2014-05-25 01:33:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=72997
-;
-
--- May 25, 2014 1:33:44 AM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_FarmerCredit MODIFY PreviousApprovedAmt NUMBER DEFAULT 0
-;
-
--- May 25, 2014 1:33:50 AM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_FarmerCredit MODIFY PreviousApprovedQty NUMBER DEFAULT 0
 ;
 
 -- May 25, 2014 1:35:23 AM VET

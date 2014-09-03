@@ -3,16 +3,6 @@
 UPDATE AD_Column SET IsMandatory='N',Updated=TO_DATE('2014-05-17 13:26:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=68925
 ;
 
--- 17/05/2014 01:26:10 PM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_AllocationLine MODIFY FTA_FarmerLiquidation_ID NUMBER(10) DEFAULT NULL 
-;
-
--- 17/05/2014 01:26:10 PM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_AllocationLine MODIFY FTA_FarmerLiquidation_ID NULL
-;
-
 -- 17/05/2014 01:41:51 PM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,57157,0,'IsDocumentBased',TO_DATE('2014-05-17 13:41:49','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',0,'Y','Is Document Based','Is Document Based',TO_DATE('2014-05-17 13:41:49','YYYY-MM-DD HH24:MI:SS'),100)
@@ -96,11 +86,6 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 -- 17/05/2014 01:55:41 PM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=72911 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
-;
-
--- 17/05/2014 01:55:45 PM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_CreditDefinition ADD C_DocTypeClosed_ID NUMBER(10) DEFAULT NULL 
 ;
 
 -- 17/05/2014 01:56:33 PM VET
@@ -188,11 +173,6 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=72912 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
 ;
 
--- 17/05/2014 01:59:28 PM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_FarmerCredit ADD IsBillOfExchangeDocBased CHAR(1) DEFAULT NULL  CHECK (IsBillOfExchangeDocBased IN ('Y','N'))
-;
-
 -- 17/05/2014 01:59:48 PM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,72912,73432,0,53721,TO_DATE('2014-05-17 13:59:47','YYYY-MM-DD HH24:MI:SS'),100,1,'ECA02','Y','Y','Y','N','N','N','N','N','Bill Of Exchange Document Based',TO_DATE('2014-05-17 13:59:47','YYYY-MM-DD HH24:MI:SS'),100)
@@ -226,10 +206,5 @@ UPDATE AD_Field SET IsDisplayed='Y', SeqNo=370,Updated=TO_DATE('2014-05-17 14:00
 -- 17/05/2014 02:19:24 PM VET
 -- Farming Technical Assistance
 UPDATE AD_Column SET DefaultValue='N',Updated=TO_DATE('2014-05-17 14:19:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=72912
-;
-
--- 17/05/2014 02:19:25 PM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_FarmerCredit MODIFY IsBillOfExchangeDocBased CHAR(1) DEFAULT 'N'
 ;
 

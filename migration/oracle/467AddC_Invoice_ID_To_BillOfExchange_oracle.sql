@@ -8,11 +8,6 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=72914 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
 ;
 
--- 19/05/2014 10:33:29 AM VET
--- Farming Technical Assistance
-ALTER TABLE FTA_BillOfExchange ADD C_Invoice_ID NUMBER(10) DEFAULT NULL 
-;
-
 -- 19/05/2014 10:34:09 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,72914,73434,0,53783,TO_DATE('2014-05-19 10:34:01','YYYY-MM-DD HH24:MI:SS'),100,'Invoice Identifier',22,'ECA02','The Invoice Document.','Y','Y','Y','N','N','N','N','N','Invoice',TO_DATE('2014-05-19 10:34:01','YYYY-MM-DD HH24:MI:SS'),100)
