@@ -33,11 +33,6 @@ UPDATE AD_Column SET AD_Reference_ID=29,Updated=TO_TIMESTAMP('2000-12-31 23:15:4
 UPDATE AD_Column SET FieldLength=10,Updated=TO_TIMESTAMP('2000-12-31 23:15:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=72998
 ;
 
--- Dec 31, 2000 11:16:12 PM VET
--- Farming Technical Assistance
-INSERT INTO t_alter_column values('fta_farmercredit','PreviousApprovedQty','NUMERIC',null,'0')
-;
-
 -- Jun 2, 2014 4:59:57 PM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Message (AD_Client_ID,AD_Message_ID,AD_Org_ID,Created,CreatedBy,EntityType,IsActive,MsgText,MsgType,Updated,UpdatedBy,Value) VALUES (0,53274,0,TO_TIMESTAMP('2014-06-02 16:59:53','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Used Approved Credit amount is greater than','I',TO_TIMESTAMP('2014-06-02 16:59:53','YYYY-MM-DD HH24:MI:SS'),100,'UsedApprovedCreditamountisgreaterthan')

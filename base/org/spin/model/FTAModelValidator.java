@@ -31,11 +31,13 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPayment;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_DocType;
+import org.compiere.model.X_C_Order;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -68,13 +70,22 @@ public class FTAModelValidator implements ModelValidator {
 		} else {
 			log.info("Initializing global validator: " + this.toString());
 		}
-		//	Add Timing change in C_Order and C_Invoice
-		engine.addDocValidate(MOrder.Table_Name, this);
-		engine.addModelChange(MInvoice.Table_Name, this);
-		engine.addDocValidate(MInvoice.Table_Name, this);
-		engine.addModelChange(MPaySelectionCheck.Table_Name, this);
-		engine.addDocValidate(MPayment.Table_Name, this);
-		engine.addDocValidate(MFTAFarmerCredit.Table_Name, this);
+		
+		//	Dixon Martinez 
+		//	Add support to see if the company manages credit module
+		boolean creditControlModule = MSysConfig.getBooleanValue("CREDIT_CONTROL_MODULE",false);
+		//	Initialize methods depending on whether the credit module is used or not by the company
+		if(creditControlModule) {
+			//	Add Timing change in C_Order and C_Invoice
+			engine.addDocValidate(MOrder.Table_Name, this);
+			engine.addModelChange(MInvoice.Table_Name, this);
+			engine.addDocValidate(MInvoice.Table_Name, this);
+			engine.addModelChange(MPaySelectionCheck.Table_Name, this);
+			engine.addDocValidate(MPayment.Table_Name, this);
+			engine.addDocValidate(MFTAFarmerCredit.Table_Name, this);
+			engine.addModelChange(X_C_Order.Table_Name, this);
+		}
+		//	End Dixon Martinez
 	}
 
 	@Override
@@ -149,7 +160,25 @@ public class FTAModelValidator implements ModelValidator {
 					
 				}
 			}
+		} 
+		//	Dixon Martinez
+		// 	Add support parent farmer credit
+		else if (po.get_TableName().equals(X_C_Order.Table_Name)
+				&&	(type == TYPE_BEFORE_NEW 
+						|| type == TYPE_BEFORE_CHANGE)) {
+			MOrder m_Order  = (MOrder) po;
+			int p_FTA_FarmerCredit_ID = m_Order.get_ValueAsInt("FTA_FarmerCredit_ID");
+			if( p_FTA_FarmerCredit_ID > 0) {
+				String sql = "SELECT Parent_FarmerCredit_ID FROM FTA_FarmerCredit fc WHERE fc.FTA_FarmerCredit_ID = ?";
+				//
+				int p_Parent_FarmerCredit_ID = DB.getSQLValue(m_Order.get_TrxName(), sql, p_FTA_FarmerCredit_ID);
+				if (p_Parent_FarmerCredit_ID > 0 ) {
+					m_Order.set_ValueOfColumn("FTA_FarmerCredit_ID", p_Parent_FarmerCredit_ID);
+					m_Order.saveEx();
+				}
+			}
 		}
+		//	End Dixon Martinez
 		return null;
 	}
 	
@@ -353,7 +382,7 @@ public class FTAModelValidator implements ModelValidator {
 							"AND bfe.Status='S' " +
 							"AND bfe.DocStatus IN ('CO','CL')", m_FTA_FarmerCredit_ID);
 					if(m_FTA_BillOfExchange_ID == 0)
-						return "@FTA_BillOfExchange_ID@ @UnSigned@";
+						return "@FTA_BillOfExchange_ID@ @Unsigned@";
 				}
 			}
 		} else if(timing == TIMING_BEFORE_REVERSECORRECT){
