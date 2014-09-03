@@ -54,7 +54,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 	/**	Organization				*/
 	private int 		p_AD_Org_ID				= 0;
 	/**	Organization				*/
-	private int 		p_AD_OrgTrx_ID				= 0;	
+	private int 		p_AD_OrgTrx_ID			= 0;	
 	/**	Warehouse					*/
 	private int 		p_M_Warehouse_ID		= 0;
 	
@@ -76,7 +76,7 @@ public class FarmingGuideGenerate extends SvrProcess {
 	/**	Quantity To Deliver			*/
 	private BigDecimal	p_QtyToDeliver			= null;
 	
-	private int 		p_Owner_ID					= 0;
+	private int 		p_Owner_ID				= 0;
 	/**	Is Printed					*/
 	private boolean		p_IsPrinted				= false;
 	

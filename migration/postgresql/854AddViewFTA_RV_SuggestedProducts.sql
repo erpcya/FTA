@@ -25,7 +25,7 @@ From
 FTA_TechnicalFormLine tfl 
 Inner Join FTA_Farming fming On tfl.FTA_Farming_ID=fming.FTA_Farming_ID
 Inner Join M_Product pc On pc.M_Product_ID=fming.Category_ID
-Right Join FTA_SuggestedProduct fsp On fsp.Category_ID=fming.Category_ID Or fsp.Category_ID IS Null
+Inner Join FTA_SuggestedProduct fsp On (fsp.Category_ID=fming.Category_ID Or fsp.Category_ID IS Null)
 Left Join FTA_FarmingStage fs On fs.FTA_FarmingStage_ID=fsp.FTA_FarmingStage_ID
 Left Join M_Product sp On sp.M_Product_Category_ID=fsp.M_Product_Category_ID Or sp.M_Product_ID=fsp.M_Product_ID
 Where 
