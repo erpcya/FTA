@@ -30,6 +30,3 @@ END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-
-  
-SELECT FTA_AllocationsFunction(1000183, 1003997 )
