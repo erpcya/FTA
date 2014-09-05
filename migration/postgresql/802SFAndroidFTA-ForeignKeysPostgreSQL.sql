@@ -686,15 +686,12 @@ ALTER TABLE FTA_CDL_ReportLine ADD CONSTRAINT FK_FTA_CDL_ReportLine_FTA_CDL_Repo
 	ON UPDATE CASCADE 
 	ON DELETE RESTRICT;
 	
-	ALTER TABLE FTA_AttributeReport ADD CONSTRAINT FK_FTA_AttributesReport_M_AttributeSet FOREIGN KEY (M_AttributeSet_ID)
-	REFERENCES M_AttributeSet(M_AttributeSet_ID) 
+	ALTER TABLE FTA_AttributeReportLine ADD CONSTRAINT FK_FTA_AttributeReportLine_FTA_AttributeReport FOREIGN KEY (FTA_AttributeReport_ID)
+	REFERENCES FTA_AttributeReport(FTA_AttributeReport_ID) 
 	ON UPDATE CASCADE 
 	ON DELETE RESTRICT;
-	ALTER TABLE FTA_AttributeReportLine ADD CONSTRAINT FK_FTA_AttributesReportLine_FTA_AttributesReport FOREIGN KEY (FTA_AttributesReport_ID)
-	REFERENCES FTA_AttributesReport(FTA_AttributesReport_ID) 
-	ON UPDATE CASCADE 
-	ON DELETE RESTRICT;
-ALTER TABLE FTA_AttributeReportLine ADD CONSTRAINT FK_FTA_AttributesReportLine_M_Attribute FOREIGN KEY (M_Attribute_ID)
+	
+	ALTER TABLE FTA_AttributeReportLine ADD CONSTRAINT FK_FTA_AttributeReportLine_M_Attribute FOREIGN KEY (M_Attribute_ID)
 	REFERENCES M_Attribute(M_Attribute_ID) 
 	ON UPDATE CASCADE 
 	ON DELETE RESTRICT;
