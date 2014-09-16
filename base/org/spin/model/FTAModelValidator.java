@@ -96,6 +96,11 @@ public class FTAModelValidator implements ModelValidator {
 	@Override
 	public String login(int AD_Org_ID, int AD_Role_ID, int AD_User_ID) {
 		log.info("AD_User_ID=" + AD_User_ID);
+		//	Dixon Martinez 
+		//	Add support to see if the company manages credit module
+		boolean sysConfig = MSysConfig.getBooleanValue("CREDIT_CONTROL_MODULE",false);
+		Env.setContext(Env.getCtx(), "#CREDIT_CONTROL_MODULE", sysConfig);
+		//	End Dixon Martinez
 		return null;
 	}
 
