@@ -176,12 +176,19 @@ public class LoadOrder {
 				"INNER JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
 				"LEFT JOIN C_City cit ON(cit.C_City_ID = loc.C_City_ID) " +
 				"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
-				"	(COALESCE(lord.QtyOrdered, 0) - SUM(COALESCE(lc.ConfirmedQty, lc.Qty, 0))) QtyAvailable " +
+				"	(COALESCE(lord.QtyOrdered, 0) - " +
+				"		SUM(" +
+				"				CASE WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+				"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
+				"						ELSE 0 " +
+				"				END" +
+				"			)" +
+				"	) QtyAvailable " +
 				"	FROM C_OrderLine lord " +
 				"	LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
 				"	LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
 				"	WHERE lord.M_Product_ID IS NOT NULL " +
-				"	AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL ) " +
+				//"	AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL ) " +
 				"	GROUP BY lord.C_Order_ID, lord.C_OrderLine_ID, lord.QtyOrdered " +
 				"	ORDER BY lord.C_OrderLine_ID ASC) qafl " +
 				"	ON(qafl.C_OrderLine_ID = lord.C_OrderLine_ID) " +
