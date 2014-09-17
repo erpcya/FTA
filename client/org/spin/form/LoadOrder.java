@@ -552,8 +552,22 @@ public class LoadOrder {
 		StringBuffer sql = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
 				"pro.C_UOM_ID, uomp.UOMSymbol, SUM(s.QtyOnHand) QtyOnHand, " +
 				"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
-				"SUM(CASE WHEN c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END) QtyLoc, " +
-				"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - SUM(CASE WHEN c.IsDelivered = 'N' THEN lc.Qty ELSE 0 END)) Qty, " +
+				"SUM(" +
+				"		CASE " +
+				"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+				"			THEN lc.Qty " +
+				"			ELSE 0 " +
+				"		END" +
+				") QtyLoc, " +
+				"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
+				"	SUM(" +
+				"			CASE " +
+				"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+				"				THEN lc.Qty " +
+				"				ELSE 0 " +
+				"			END" +
+				"		)" +
+				") Qty, " +
 				"pro.Weight, pro.Volume " +
 				"FROM C_Order ord " +
 				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
