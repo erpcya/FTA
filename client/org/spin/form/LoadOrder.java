@@ -574,7 +574,7 @@ public class LoadOrder {
 				"																AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
 				"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
 				.append("WHERE pro.IsStocked = 'Y' ")
-				.append("AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) ")
+				//.append("AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) ")
 				.append("AND ")
 				.append(sqlWhere).append(" ");
 		//	Add Where
@@ -585,7 +585,13 @@ public class LoadOrder {
 				"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 				"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume").append(" ");
 		//	Having
-		sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(COALESCE(lc.ConfirmedQty, lc.Qty, 0))) > 0").append(" ");
+		sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
+				"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+				"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
+				"													ELSE 0 " +
+				"												END" +
+				"											)" +
+				"			) > 0").append(" ");
 		//	Order By
 		sql.append("ORDER BY lord.C_Order_ID ASC");
 		
