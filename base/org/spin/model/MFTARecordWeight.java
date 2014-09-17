@@ -1281,7 +1281,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	private String validETReference(){
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT DocumentNo " +
 				"FROM FTA_RecordWeight rw " +
-				"WHERE  rw.FTA_EntryTicket_ID= ? AND rw.FTA_RecordWeight_ID != ? ", getFTA_EntryTicket_ID(),getFTA_RecordWeight_ID());
+				"WHERE  rw.FTA_EntryTicket_ID= ? AND rw.FTA_RecordWeight_ID != ? AND rw.DocStatus IN ('CO','CL')", getFTA_EntryTicket_ID(),getFTA_RecordWeight_ID());
 		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
 				+ "FROM FTA_EntryTicket et "
 				+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
