@@ -64,6 +64,13 @@ public class ChangePrintedStatus extends SvrProcess {
 						//	Direct Print
 						re.print();
 						PO model = modelTable.getPO(p_Record_ID, get_TrxName());
+						//	Dixon Martinez
+						//	Check model is not null
+						//	If it returns null check if the table exists
+						if(model == null)
+							return "";
+						//	End Dixon Martinez
+						
 						model.set_ValueOfColumn("IsPrinted", true);
 						model.saveEx();
 					}	

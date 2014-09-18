@@ -118,7 +118,7 @@ public class MFTAAttributeReportLine extends X_FTA_AttributeReportLine {
 				}
 		}
 			*/
-		return false;
+		return true;
 	}
 
 }
