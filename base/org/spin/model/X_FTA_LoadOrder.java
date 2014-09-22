@@ -34,7 +34,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140603L;
+	private static final long serialVersionUID = 20140922L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrder (Properties ctx, int FTA_LoadOrder_ID, String trxName)
@@ -53,6 +53,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 // CO
 			setDocStatus (null);
 // DR
+			setFTA_EntryTicket_ID (0);
 			setFTA_LoadOrder_ID (0);
 			setFTA_VehicleType_ID (0);
 			setIsApproved (false);

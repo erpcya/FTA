@@ -87,16 +87,27 @@ public interface I_FTA_CreditDefinition
 
 	public org.compiere.model.I_M_Product getCategory() throws RuntimeException;
 
-    /** Column name C_DocTypeClosed_ID */
-    public static final String COLUMNNAME_C_DocTypeClosed_ID = "C_DocTypeClosed_ID";
+    /** Column name C_DocTypeClosedAP_ID */
+    public static final String COLUMNNAME_C_DocTypeClosedAP_ID = "C_DocTypeClosedAP_ID";
 
-	/** Set Document Type for Closed	  */
-	public void setC_DocTypeClosed_ID (int C_DocTypeClosed_ID);
+	/** Set Document Type for Closed (AP Invoice)	  */
+	public void setC_DocTypeClosedAP_ID (int C_DocTypeClosedAP_ID);
 
-	/** Get Document Type for Closed	  */
-	public int getC_DocTypeClosed_ID();
+	/** Get Document Type for Closed (AP Invoice)	  */
+	public int getC_DocTypeClosedAP_ID();
 
-	public org.compiere.model.I_C_DocType getC_DocTypeClosed() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocTypeClosedAP() throws RuntimeException;
+
+    /** Column name C_DocTypeClosedAR_ID */
+    public static final String COLUMNNAME_C_DocTypeClosedAR_ID = "C_DocTypeClosedAR_ID";
+
+	/** Set Document Type for Closed (AR Invoice)	  */
+	public void setC_DocTypeClosedAR_ID (int C_DocTypeClosedAR_ID);
+
+	/** Get Document Type for Closed (AR Invoice)	  */
+	public int getC_DocTypeClosedAR_ID();
+
+	public org.compiere.model.I_C_DocType getC_DocTypeClosedAR() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
