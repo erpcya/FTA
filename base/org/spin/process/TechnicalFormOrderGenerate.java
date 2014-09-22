@@ -177,7 +177,8 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 				if(m_TechnicalFormLine != null
 						&& m_TechnicalFormLine.getFTA_Farming() != null){
 					MFTAFarming farming = MFTAFarming.get(getCtx(), m_TechnicalFormLine.getFTA_Farming_ID());
-					m_FTA_FarmerCredit_ID = farming.getFTA_FarmerCredit_ID();					
+					m_FTA_FarmerCredit_ID = farming.getFTA_FarmerCredit_ID();
+					
 				}
 				
 				//	Valid Credit
