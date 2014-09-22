@@ -139,14 +139,27 @@ public class TechnicalFormOrderGenerate extends SvrProcess {
 				"WHERE tfl.FTA_TechnicalForm_ID = ?", m_TechnicalForm.getFTA_TechnicalForm_ID());
 		
 		
+		//	Dixon Martinez 2014-09-22
+		//	Not select lines aplied
+		/*String sql = new String("SELECT pa.* "
+				+ "FROM FTA_ProductsToApply pa "
+				+ "LEFT JOIN FTA_TechnicalFormLine tfl ON(tfl.FTA_TechnicalFormLine_ID = pa.FTA_TechnicalFormLine_ID) "
+				+ "LEFT JOIN FTA_Farming fa ON(fa.FTA_Farming_ID = tfl.FTA_Farming_ID) "
+				+ "LEFT JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = fa.FTA_FarmerCredit_ID) "
+				+ "WHERE pa.FTA_TechnicalForm_ID = ?"
+				+ "ORDER BY fc.FTA_FarmerCredit_ID, pa.M_Warehouse_ID");*/
+		
+
 		String sql = new String("SELECT pa.* "
 				+ "FROM FTA_ProductsToApply pa "
 				+ "LEFT JOIN FTA_TechnicalFormLine tfl ON(tfl.FTA_TechnicalFormLine_ID = pa.FTA_TechnicalFormLine_ID) "
 				+ "LEFT JOIN FTA_Farming fa ON(fa.FTA_Farming_ID = tfl.FTA_Farming_ID) "
 				+ "LEFT JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = fa.FTA_FarmerCredit_ID) "
-				+ "WHERE pa.FTA_TechnicalForm_ID = ? "
+				+ "WHERE pa.FTA_TechnicalForm_ID = ? AND pa.IsApplied = 'N'"
 				+ "ORDER BY fc.FTA_FarmerCredit_ID, pa.M_Warehouse_ID");
+		//	End Dixon Martinez		
 		
+		 
 		log.fine("SQL=" + sql);
 		
 		PreparedStatement pstmt = null;

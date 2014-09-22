@@ -33,7 +33,7 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140603L;
+	private static final long serialVersionUID = 20140922L;
 
     /** Standard Constructor */
     public X_FTA_FarmerCredit (Properties ctx, int FTA_FarmerCredit_ID, String trxName)
@@ -585,9 +585,9 @@ public class X_FTA_FarmerCredit extends PO implements I_FTA_FarmerCredit, I_Pers
 	public void setFTA_CreditDefinition_ID (int FTA_CreditDefinition_ID)
 	{
 		if (FTA_CreditDefinition_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FTA_CreditDefinition_ID, null);
+			set_Value (COLUMNNAME_FTA_CreditDefinition_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_FTA_CreditDefinition_ID, Integer.valueOf(FTA_CreditDefinition_ID));
+			set_Value (COLUMNNAME_FTA_CreditDefinition_ID, Integer.valueOf(FTA_CreditDefinition_ID));
 	}
 
 	/** Get Credit Definition.

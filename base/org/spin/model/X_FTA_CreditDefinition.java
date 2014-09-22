@@ -34,7 +34,7 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140603L;
+	private static final long serialVersionUID = 20140922L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinition (Properties ctx, int FTA_CreditDefinition_ID, String trxName)
@@ -130,26 +130,51 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocTypeClosed() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocTypeClosedAP() throws RuntimeException
     {
 		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
-			.getPO(getC_DocTypeClosed_ID(), get_TrxName());	}
+			.getPO(getC_DocTypeClosedAP_ID(), get_TrxName());	}
 
-	/** Set Document Type for Closed.
-		@param C_DocTypeClosed_ID Document Type for Closed	  */
-	public void setC_DocTypeClosed_ID (int C_DocTypeClosed_ID)
+	/** Set Document Type for Closed (AP Invoice).
+		@param C_DocTypeClosedAP_ID Document Type for Closed (AP Invoice)	  */
+	public void setC_DocTypeClosedAP_ID (int C_DocTypeClosedAP_ID)
 	{
-		if (C_DocTypeClosed_ID < 1) 
-			set_Value (COLUMNNAME_C_DocTypeClosed_ID, null);
+		if (C_DocTypeClosedAP_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeClosedAP_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_DocTypeClosed_ID, Integer.valueOf(C_DocTypeClosed_ID));
+			set_Value (COLUMNNAME_C_DocTypeClosedAP_ID, Integer.valueOf(C_DocTypeClosedAP_ID));
 	}
 
-	/** Get Document Type for Closed.
-		@return Document Type for Closed	  */
-	public int getC_DocTypeClosed_ID () 
+	/** Get Document Type for Closed (AP Invoice).
+		@return Document Type for Closed (AP Invoice)	  */
+	public int getC_DocTypeClosedAP_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeClosed_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeClosedAP_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocTypeClosedAR() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeClosedAR_ID(), get_TrxName());	}
+
+	/** Set Document Type for Closed (AR Invoice).
+		@param C_DocTypeClosedAR_ID Document Type for Closed (AR Invoice)	  */
+	public void setC_DocTypeClosedAR_ID (int C_DocTypeClosedAR_ID)
+	{
+		if (C_DocTypeClosedAR_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeClosedAR_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeClosedAR_ID, Integer.valueOf(C_DocTypeClosedAR_ID));
+	}
+
+	/** Get Document Type for Closed (AR Invoice).
+		@return Document Type for Closed (AR Invoice)	  */
+	public int getC_DocTypeClosedAR_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeClosedAR_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

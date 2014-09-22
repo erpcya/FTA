@@ -33,7 +33,7 @@ public class X_FTA_ProductsToApply extends PO implements I_FTA_ProductsToApply, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140603L;
+	private static final long serialVersionUID = 20140922L;
 
     /** Standard Constructor */
     public X_FTA_ProductsToApply (Properties ctx, int FTA_ProductsToApply_ID, String trxName)
@@ -41,12 +41,10 @@ public class X_FTA_ProductsToApply extends PO implements I_FTA_ProductsToApply, 
       super (ctx, FTA_ProductsToApply_ID, trxName);
       /** if (FTA_ProductsToApply_ID == 0)
         {
-			setC_UOM_ID (0);
 			setDosage_Uom_ID (0);
 			setFTA_ProductsToApply_ID (0);
 			setFTA_TechnicalForm_ID (0);
 			setM_Product_ID (0);
-			setQty (Env.ZERO);
 			setQtyDosage (Env.ZERO);
         } */
     }
@@ -234,6 +232,27 @@ public class X_FTA_ProductsToApply extends PO implements I_FTA_ProductsToApply, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Applied.
+		@param IsApplied Applied	  */
+	public void setIsApplied (boolean IsApplied)
+	{
+		set_Value (COLUMNNAME_IsApplied, Boolean.valueOf(IsApplied));
+	}
+
+	/** Get Applied.
+		@return Applied	  */
+	public boolean isApplied () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsApplied);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
