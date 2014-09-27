@@ -19,6 +19,7 @@ package org.spin.process;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
@@ -27,7 +28,6 @@ import org.compiere.model.MProduct;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAFarming;
@@ -108,60 +108,8 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 			throw new AdempiereUserError("@DocAction@ @NotFount@");
 		
 		MFTAFarmerCredit m_FTA_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
-		//	If is Generated
-		int order_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(o.C_Order_ID) " +
-				"FROM C_Order o " +
-				"WHERE o.DocStatus NOT IN('VO', 'RE') " +
-				"AND o.IsSOTrx = 'N' " +
-				"AND o.FTA_FarmerCredit_ID = ?", m_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
-		
-		if(m_FTA_FarmerCredit.getGenerateOrder() != null
-				&& m_FTA_FarmerCredit.getGenerateOrder().equals("Y")
-				&& order_ID > 0)
-			return "";
-		
-		MOrder po = new MOrder (getCtx(), 0, get_TrxName());
-		//	Organization
-		if(p_AD_Org_ID == 0)
-			p_AD_Org_ID = m_FTA_FarmerCredit.getAD_Org_ID();
-		po.setClientOrg(getAD_Client_ID(), p_AD_Org_ID);
-		po.setIsSOTrx(false);
-		po.setC_DocTypeTarget_ID(p_C_DocTypeTarget_ID);
-		po.setDateAcct(p_DateDoc);
-		po.setDateOrdered(p_DateDoc);
-		//	Valid Price List
-		if(p_M_PriceList_ID != 0)
-			po.setM_PriceList_ID(p_M_PriceList_ID);
-		//
-		//	Dixon Martinez 8/6/2014
-		//	Comment for not generated description of farmer credit
-		//po.setDescription(m_FTA_FarmerCredit.getDescription());
-		//	End Dixon Martinez
-		
-		//	Set Vendor
-		MBPartner vendor = (MBPartner) m_FTA_FarmerCredit.getC_BPartner();
-		po.setBPartner(vendor);
-		
-		// get default drop ship warehouse
-		if(p_M_Warehouse_ID == 0) {
-			MOrgInfo orginfo = MOrgInfo.get(getCtx(), po.getAD_Org_ID(), get_TrxName());
-			if (orginfo.getM_Warehouse_ID() != 0)
-				p_M_Warehouse_ID = orginfo.getM_Warehouse_ID();
-			else
-				return "@M_Warehouse_ID@ = @NotFound@";
-		}
-		
-		//	Set Warehouse
-		po.setM_Warehouse_ID(p_M_Warehouse_ID);
-		
-		//	Set Farmer Credit
-		po.set_ValueOfColumn("FTA_FarmerCredit_ID", m_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
-		
-		po.saveEx();
-		
 		//	Create Line
-		MFTAFarming[] lines = m_FTA_FarmerCredit.getLines(true, "Status = 'A'");
-		boolean createdLines = false;
+		MFTAFarming[] lines = m_FTA_FarmerCredit.getLines(true, "Status = 'A' AND C_OrderLine_ID IS NULL");
 		//	
 		for(MFTAFarming farmingLine : lines){
 			//	Get Quantity
@@ -169,8 +117,12 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 			if(m_Qty == null
 					|| m_Qty.compareTo(Env.ZERO) <= 0)
 				continue;
-			//	
-			MOrderLine poLine = new MOrderLine (po);
+			
+			if(m_Order == null)
+				createPO(m_FTA_FarmerCredit);
+			
+			//
+			MOrderLine poLine = new MOrderLine (m_Order);
 			
 			MProduct product = (MProduct) farmingLine.getCategory();
 			
@@ -181,22 +133,53 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 			//	Set Line on Farming
 			farmingLine.setC_OrderLine_ID(poLine.getC_OrderLine_ID());
 			farmingLine.saveEx();
-			//	Set Create Lines
-			createdLines = true;
 		}
-		//	If Not Lines
-		if(!createdLines)
-			throw new AdempiereUserError("@NoLines@");
 		
-		//	Process Order
-		po.setDocAction(p_DocAction);
-		po.processIt(p_DocAction);
-		po.saveEx();
 		//	Set to Generated
 		m_FTA_FarmerCredit.setGenerateOrder("Y");
 		m_FTA_FarmerCredit.saveEx();
 		
-		return "@C_Order_ID@: " + po.getDocumentNo() + 
-				" - @GrandTotal@ = " + po.getGrandTotal();
+		if(m_Order == null)
+			return "";
+		
+		return "@C_Order_ID@: " + m_Order.getDocumentNo() + 
+				" - @GrandTotal@ = " + m_Order.getGrandTotal();
+	}
+
+	MOrder m_Order = null;
+	
+	private void createPO(MFTAFarmerCredit p_FTA_FarmerCredit) {
+		m_Order = new MOrder (getCtx(), 0, get_TrxName());
+		//	Organization
+		if(p_AD_Org_ID == 0)
+			p_AD_Org_ID = p_FTA_FarmerCredit.getAD_Org_ID();
+		m_Order.setClientOrg(getAD_Client_ID(), p_AD_Org_ID);
+		m_Order.setIsSOTrx(false);
+		m_Order.setC_DocTypeTarget_ID(p_C_DocTypeTarget_ID);
+		m_Order.setDateAcct(p_DateDoc);
+		m_Order.setDateOrdered(p_DateDoc);
+		//	Valid Price List
+		if(p_M_PriceList_ID != 0)
+			m_Order.setM_PriceList_ID(p_M_PriceList_ID);
+		// get default drop ship warehouse
+		if(p_M_Warehouse_ID == 0) {
+			MOrgInfo orginfo = MOrgInfo.get(getCtx(), m_Order.getAD_Org_ID(), get_TrxName());
+			if (orginfo.getM_Warehouse_ID() != 0)
+				p_M_Warehouse_ID = orginfo.getM_Warehouse_ID();
+			else
+				throw new AdempiereException("@M_Warehouse_ID@ = @NotFound@");
+		}
+		//	Set Vendor
+		MBPartner vendor = (MBPartner) p_FTA_FarmerCredit.getC_BPartner();
+		m_Order.setBPartner(vendor);
+		
+		//	Set Warehouse
+		m_Order.setM_Warehouse_ID(p_M_Warehouse_ID);
+		
+		//	Set Farmer Credit
+		m_Order.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit.getFTA_FarmerCredit_ID());
+		
+		m_Order.saveEx();
+		
 	}
 }
