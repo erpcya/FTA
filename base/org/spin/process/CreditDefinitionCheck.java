@@ -22,7 +22,9 @@ import org.compiere.model.MProduct;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.spin.model.MFTACDCategory;
 import org.spin.model.MFTACDLCategory;
 import org.spin.model.MFTACreditDefinition;
 import org.spin.model.MFTACreditDefinitionLine;
@@ -74,41 +76,22 @@ public class CreditDefinitionCheck extends SvrProcess {
 		//	Loop
 		for (MFTACreditDefinition m_FTA_CreditDefinition : list) {
 			log.fine("Credit Definition: " + m_FTA_CreditDefinition.toString());
-			
+			//	Get Max Line
+			int lineNo = DB.getSQLValue(get_TrxName(), "SELECT MAX(cdl.Line) Line "
+					+ "FROM FTA_CreditDefinitioLine cdl "
+					+ "WHERE cdl.FTA_CreditDefinition_ID = ?", m_FTA_CreditDefinition.getFTA_CreditDefinition_ID());
+			//	Add first
+			lineNo += 10;
+			//	
 			MFTACreditDefinitionLine [] lines = m_FTA_CreditDefinition.getLines(false);
-			//	For Category
-			MFTACDLCategory category = MFTACDLCategory
-					.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_CATEGORY, get_TrxName());
-			if(category == null)
-				return "@FTA_CDL_Category_ID@ @NotFound@";
-			
-			if(!existsCategory(lines, category.getFTA_CDL_Category_ID())){
-				MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
-				line.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition.getFTA_CreditDefinition_ID());
-				line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
-				MProduct product = MProduct.get(getCtx(), m_FTA_CreditDefinition.getCategory_ID());
-				line.setM_Product_ID(product.getM_Product_ID());
-				line.setC_UOM_ID(product.getC_UOM_ID());
-				line.setQty(Env.ZERO);
-				line.setPrice(Env.ZERO);
-				line.setAmt(Env.ZERO);
-				line.setIsDistributionLine(false);
-				line.setIsExceedCreditLimit(true);
-				line.setProcessed(m_FTA_CreditDefinition.isProcessed());
-				line.setLine(10);
-				line.saveEx();	
-				//	Log
-				addLog(m_FTA_CreditDefinition.getDocumentNo() + " @FTA_CreditDefinitionLine_ID@: " + line.getLine() + " - " + category.getName());
-				m_Created ++;
-			}
 			//	For Distribution
-			category = MFTACDLCategory
+			MFTACDLCategory category = MFTACDLCategory
 					.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_DISTRIBUTION, get_TrxName());
 			
 			if(category == null)
 				return "@FTA_CDL_Category_ID@ @NotFound@";
-			
-			if(!existsCategory(lines, category.getFTA_CDL_Category_ID())){
+			//	For Distribution
+			if(!existsCategory(lines, category.getFTA_CDL_Category_ID(), 0)){
 				MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
 				line.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition.getFTA_CreditDefinition_ID());
 				line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
@@ -119,10 +102,46 @@ public class CreditDefinitionCheck extends SvrProcess {
 				line.setIsDistributionLine(true);
 				line.setIsExceedCreditLimit(true);
 				line.setProcessed(m_FTA_CreditDefinition.isProcessed());
-				line.setLine(20);
+				line.setLine(lineNo += 10);
 				line.saveEx();
 				//	Log
-				addLog(m_FTA_CreditDefinition.getDocumentNo() + " @FTA_CreditDefinitionLine_ID@: " + line.getLine() + " - " + category.getName());
+				addLog(m_FTA_CreditDefinition.getDocumentNo() + 
+						" @FTA_CreditDefinitionLine_ID@: " + line.getLine() + " - " + category.getName());
+				m_Created ++;
+			}
+			//	For Category
+			category = MFTACDLCategory
+					.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_CATEGORY, get_TrxName());
+			if(category == null)
+				return "@FTA_CDL_Category_ID@ @NotFound@";
+			//	Valid Lineas
+			MFTACDCategory [] m_CategoryLine = m_FTA_CreditDefinition.getCategoryLines(false);
+			//	Create Lines
+			if(m_CategoryLine == null)
+				continue;
+			//	Add Lines
+			for (MFTACDCategory m_CD_Category : m_CategoryLine) {
+				if(existsCategory(lines, category.getFTA_CDL_Category_ID(), 
+						m_CD_Category.getCategory_ID()))
+					continue;
+				//	
+				MFTACreditDefinitionLine line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
+				line.setFTA_CreditDefinition_ID(m_FTA_CreditDefinition.getFTA_CreditDefinition_ID());
+				line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
+				MProduct product = MProduct.get(getCtx(), m_CD_Category.getCategory_ID());
+				line.setM_Product_ID(product.getM_Product_ID());
+				line.setC_UOM_ID(product.getC_UOM_ID());
+				line.setQty(Env.ZERO);
+				line.setPrice(Env.ZERO);
+				line.setAmt(Env.ZERO);
+				line.setIsDistributionLine(false);
+				line.setIsExceedCreditLimit(true);
+				line.setProcessed(m_FTA_CreditDefinition.isProcessed());
+				line.setLine(lineNo += 10);
+				line.saveEx();	
+				//	Log
+				addLog(m_FTA_CreditDefinition.getDocumentNo() + 
+						" @FTA_CreditDefinitionLine_ID@: " + line.getLine() + " - " + category.getName());
 				m_Created ++;
 			}
 		}		
@@ -137,9 +156,11 @@ public class CreditDefinitionCheck extends SvrProcess {
 	 * @return
 	 * @return boolean
 	 */
-	private boolean existsCategory(MFTACreditDefinitionLine [] lines, int p_FTA_CDL_Category_ID){
+	private boolean existsCategory(MFTACreditDefinitionLine [] lines, int p_FTA_CDL_Category_ID, int p_Category_ID){
 		for(MFTACreditDefinitionLine line : lines){
-			if(line.getFTA_CDL_Category_ID() == p_FTA_CDL_Category_ID)
+			if(line.getFTA_CDL_Category_ID() == p_FTA_CDL_Category_ID
+					&& (line.getM_Product_ID() == p_Category_ID 
+							|| p_Category_ID == 0))
 				return true;
 		}
 		//	False

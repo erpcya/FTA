@@ -38,6 +38,11 @@ public class ChangeCategory extends SvrProcess{
 				p_FTA_FarmerCredit_ID = para.getParameterAsInt();
 			else if(name.equals("FTA_CreditDefinition_To_ID"))
 				p_FTA_CreditDefinition_To_ID = para.getParameterAsInt();
+			else if(name.equals("M_Product_ID"))
+				p_M_Product_ID = para.getParameterAsInt();
+			else if(name.equals("M_Product_To_ID"))
+				p_M_Product_To_ID = para.getParameterAsInt();
+			
 		}
 	}
 
@@ -47,10 +52,16 @@ public class ChangeCategory extends SvrProcess{
 		//	Valid Credit Definition
 		if(p_FTA_CreditDefinition_ID == 0
 				&& p_FTA_FarmerCredit_ID == 0)
-			throw new AdempiereUserError("@p_FTA_CreditDefinition_ID@ @NotFound@");
+			throw new AdempiereUserError("@FTA_CreditDefinition_ID@ @NotFound@");
 		//	Valid Credit Definition To
 		if(p_FTA_CreditDefinition_To_ID == 0)
-			throw new AdempiereUserError("@p_FTA_CreditDefinition_To_ID@ @NotFound@");
+			throw new AdempiereUserError("@FTA_CreditDefinition_To_ID@ @NotFound@");
+		//	Valid Category
+		if(p_M_Product_ID == 0)
+			throw new AdempiereUserError("@M_Product_ID@ @NotFound@");
+		//	Valid Category To
+		if(p_M_Product_To_ID == 0)
+			throw new AdempiereUserError("@M_Product_To_ID@ @NotFound@");
 		//	Instance Credit To
 		m_creditDefinitionTo = new MFTACreditDefinition(getCtx(), p_FTA_CreditDefinition_To_ID, get_TrxName());
 		//	Get Farmer Credit
@@ -95,8 +106,9 @@ public class ChangeCategory extends SvrProcess{
 	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 11/01/2014, 10:40:43
 	 * @param farmerCredit
 	 * @return void
+	 * @throws AdempiereUserError 
 	 */
-	private void changeCredit(MFTAFarmerCredit farmerCredit)
+	private void changeCredit(MFTAFarmerCredit farmerCredit) throws AdempiereUserError
 	{
 		//	Validate Reference
 		//	Valid Purchase Order
@@ -111,8 +123,8 @@ public class ChangeCategory extends SvrProcess{
 		//	Get Credit Definition from farmer credit
 		MFTACreditDefinition m_creditDefinition = new MFTACreditDefinition(getCtx(), farmerCredit.getFTA_CreditDefinition_ID(), get_TrxName());
 		
-		MProduct categoryFrom = MProduct.get(getCtx(), m_creditDefinition.getCategory_ID());
-		MProduct categoryTo = MProduct.get(getCtx(), m_creditDefinition.getCategory_ID());
+		MProduct categoryFrom = MProduct.get(getCtx(), p_M_Product_ID);
+		MProduct categoryTo = MProduct.get(getCtx(), p_M_Product_To_ID);
 		
 		String description = Msg.parseTranslation(getCtx(), "#(@from@ @Category_ID@ " + categoryFrom.getName() 
 															+ " @to@ " + categoryTo.getName() + ")#");
@@ -133,10 +145,19 @@ public class ChangeCategory extends SvrProcess{
 		log.info("Credit Definition To=" + m_creditDefinitionTo.toString());
 		//	Update Category and Planting Cycle in farming
 		int updatedFarming = 0;
+		int plantingCycle_ID = DB.getSQLValue(get_TrxName(), "SELECT cdc.PlantingCycle_ID "
+				+ "FROM FTA_CD_Category cdc "
+				+ "WHERE cdc.FTA_CreditDefinition_ID = ? "
+				+ "AND cdc.Category_ID = ?", 
+				new int[] {p_FTA_CreditDefinition_To_ID, p_M_Product_To_ID});
+		if(plantingCycle_ID <= 0)
+			throw new AdempiereUserError("@PlantingCycle_ID@ @NotFound@");
+		//	Iterate
 		for(MFTAFarming farming : farmerCredit.getLines(false)){
 			log.info("Farming=" + farming.toString());
-			farming.setCategory_ID(m_creditDefinitionTo.getCategory_ID());
-			farming.setPlantingCycle_ID(m_creditDefinitionTo.getPlantingCycle_ID());
+			farming.setCategory_ID(p_M_Product_To_ID);
+			
+			farming.setPlantingCycle_ID(plantingCycle_ID);
 			//	Set Description
 			if(farming.getDescription() != null)
 				farming.setDescription(farming.getDescription() + " " + description);
@@ -212,18 +233,22 @@ public class ChangeCategory extends SvrProcess{
 	}
 	
 	
-	/** Credit Definition */
-	private int p_FTA_CreditDefinition_ID = 0;
+	/** Credit Definition 		*/
+	private int p_FTA_CreditDefinition_ID 		= 0;
 	
-	/** Credit Definition To */ 
-	private int p_FTA_CreditDefinition_To_ID = 0;
+	/** Credit Definition To 	*/ 
+	private int p_FTA_CreditDefinition_To_ID 	= 0;
 	
-	/** Farmer Credit*/
-	private int p_FTA_FarmerCredit_ID;
+	/** Farmer Credit			*/
+	private int p_FTA_FarmerCredit_ID			= 0;
+	/**	Category From			*/
+	private int p_M_Product_ID					= 0;
+	/**	Category To				*/
+	private int p_M_Product_To_ID				= 0;
 	
 	private MFTACreditDefinition m_creditDefinitionTo = null;
 	
-	/** Logger	 */
+	/** Logger	 				*/
 	private CLogger log = CLogger.getCLogger(ChangeCategory.class);
 	
 }
