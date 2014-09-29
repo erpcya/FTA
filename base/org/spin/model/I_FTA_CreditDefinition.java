@@ -76,17 +76,6 @@ public interface I_FTA_CreditDefinition
 	  */
 	public BigDecimal getAmt();
 
-    /** Column name Category_ID */
-    public static final String COLUMNNAME_Category_ID = "Category_ID";
-
-	/** Set Category	  */
-	public void setCategory_ID (int Category_ID);
-
-	/** Get Category	  */
-	public int getCategory_ID();
-
-	public org.compiere.model.I_M_Product getCategory() throws RuntimeException;
-
     /** Column name C_DocTypeClosedAP_ID */
     public static final String COLUMNNAME_C_DocTypeClosedAP_ID = "C_DocTypeClosedAP_ID";
 
@@ -280,17 +269,6 @@ public interface I_FTA_CreditDefinition
 	public int getM_PriceList_ID();
 
 	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
-
-    /** Column name PlantingCycle_ID */
-    public static final String COLUMNNAME_PlantingCycle_ID = "PlantingCycle_ID";
-
-	/** Set Planting Cycle	  */
-	public void setPlantingCycle_ID (int PlantingCycle_ID);
-
-	/** Get Planting Cycle	  */
-	public int getPlantingCycle_ID();
-
-	public org.compiere.model.I_M_Lot getPlantingCycle() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

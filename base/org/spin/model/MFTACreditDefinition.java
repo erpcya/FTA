@@ -76,6 +76,10 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 
 	/** Lines					*/
 	private MFTACreditDefinitionLine[]		m_lines 	 = null;
+	/** Lines					*/
+	private MFTACDCategory[]		m_linesCDCategory 	 = null;
+	
+	
 	/**	Product List Approved	*/
 	private MFTAProductListApproved[]		m_PLA_Lines  = null;
 	/** Credit Lines			*/
@@ -314,54 +318,6 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		if(m_ReferenceNo != null)
 			return "@SQLErrorReferenced@ @FTA_FarmerCredit_ID@: " + m_ReferenceNo + " @completed@";
 		return null;
-	}
-	
-	@Override
-	protected boolean afterSave(boolean newRecord, boolean success) {
-		super.afterSave(newRecord, success);
-		//	Create Default Lines
-		if(newRecord
-				&& success){
-			MFTACDLCategory category = null;
-			MFTACreditDefinitionLine line = null;
-			int nLine = 0;
-			if(!getCreditType().equals(X_FTA_CreditDefinition.CREDITTYPE_Loan)){
-
-				//	For Category
-				category = MFTACDLCategory
-						.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_CATEGORY, get_TrxName());
-				if(category == null)
-					return false;
-				nLine = 10;
-				line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
-				line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
-				line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
-				MProduct product = MProduct.get(getCtx(), getCategory_ID());
-				line.setM_Product_ID(product.getM_Product_ID());
-				line.setC_UOM_ID(product.getC_UOM_ID());
-				line.setQty(Env.ZERO);
-				line.setPrice(Env.ZERO);
-				line.setAmt(Env.ZERO);
-				line.setIsDistributionLine(false);
-				line.setIsExceedCreditLimit(true);
-				line.setLine(nLine);
-				line.saveEx();
-			}
-			//	For Distribution
-			category = MFTACDLCategory.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_DISTRIBUTION, get_TrxName());
-			line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
-			line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
-			line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
-			line.setC_UOM_ID(100);
-			line.setQty(Env.ZERO);
-			line.setPrice(Env.ZERO);
-			line.setAmt(Env.ZERO);
-			line.setIsDistributionLine(true);
-			line.setIsExceedCreditLimit(true);
-			line.setLine(nLine + 10);
-			line.saveEx();
-		}
-		return true;
 	}
 
 	/**
@@ -634,7 +590,7 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 					&& line.isDistributionLine())
 				return line;
 			//	Production Line
-			else if(line.getM_Product_ID() == getCategory_ID())
+			else if(isProductionLine(line.getM_Product_ID()))
 				return line;
 			//	Any
 			if(line.getM_Product_ID() == fromLine.getM_Product_ID()
@@ -645,6 +601,52 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		}
 		return null;
 	}
+	
+	/**
+	 * Verify if Production Line
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 29/09/2014, 18:07:32
+	 * @param p_M_Product_ID
+	 * @return
+	 * @return boolean
+	 */
+	private boolean isProductionLine(int p_M_Product_ID) {
+		//	Get Lines
+		getCategoryLines(false);
+		//	Valid null
+		if(m_linesCDCategory == null)
+			return false;
+		//
+		for (MFTACDCategory line : m_linesCDCategory) {
+			if(line.getCategory_ID() == p_M_Product_ID)
+				return true;
+		}
+		//	Default
+		return false;
+	}
+	
+	/**
+	 * Get Category Lines 
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 29/09/2014, 18:02:11
+	 * @param requery
+	 * @return
+	 * @return MFTACDCategory[]
+	 */
+	public MFTACDCategory[] getCategoryLines (boolean requery)
+	{
+		if (m_linesCDCategory != null && !requery)
+		{
+			set_TrxName(m_linesCDCategory, get_TrxName());
+			return m_linesCDCategory;
+		}
+		List<MFTACDCategory> list = new Query(getCtx(), I_FTA_CD_Category.Table_Name, 
+				"FTA_CreditDefinition_ID=?", get_TrxName())
+				.setParameters(getFTA_CreditDefinition_ID())
+		.list();
+
+		m_linesCDCategory = new MFTACDCategory[list.size ()];
+		list.toArray (m_linesCDCategory);
+		return m_linesCDCategory;
+	}	//	getLines
 
 	/**
 	 * Get Lines, Farmer Credits

@@ -420,6 +420,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	 * @return
 	 * @return String
 	 */
+	/*
 	private String validateAmtApproved() {
 		
 		String sql = "SELECT SUM(f.Amt)"
@@ -439,7 +440,7 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 		else
 			return "@UsedApprovedCreditamountisgreaterthan@";
 	}
-
+*/
 	/**
 	 * Update Credit Act
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 29/11/2013, 10:24:39
