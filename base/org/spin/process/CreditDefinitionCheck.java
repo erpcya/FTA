@@ -63,10 +63,15 @@ public class CreditDefinitionCheck extends SvrProcess {
 	@Override
 	protected String doIt() throws Exception {
 		StringBuffer whereClause = new StringBuffer();
-		if(p_AD_Org_ID != 0)
-			whereClause.append("AND AD_Org_ID = ").append(p_AD_Org_ID);
-		if(p_FTA_CreditDefinition_ID != 0)
-			whereClause.append("AND FTA_CreditDefinition_ID = ").append(p_FTA_CreditDefinition_ID);
+		if(p_AD_Org_ID != 0) {
+			whereClause.append("AD_Org_ID = ").append(p_AD_Org_ID);
+		if(p_FTA_CreditDefinition_ID != 0) {
+			//	Add And
+			if(whereClause.length() > 0)
+				whereClause.append(" AND ");
+			//	
+			whereClause.append("FTA_CreditDefinition_ID = ").append(p_FTA_CreditDefinition_ID);
+		}
 		
 		//	Get Credit Definition
 		List<MFTACreditDefinition> list = new Query(getCtx(), X_FTA_CreditDefinition.Table_Name, 
