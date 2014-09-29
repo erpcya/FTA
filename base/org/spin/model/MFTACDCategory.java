@@ -80,6 +80,9 @@ public class MFTACDCategory extends X_FTA_CD_Category {
 						.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_CATEGORY, get_TrxName());
 				if(category == null)
 					return false;
+				//	Valid if exists category
+				if(existsCategory(cd.getLines(false), category.getFTA_CDL_Category_ID(), getCategory_ID()))
+					return true;
 				line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
 				line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
 				line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
@@ -96,5 +99,24 @@ public class MFTACDCategory extends X_FTA_CD_Category {
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Get Exists Category
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 21/11/2013, 11:13:31
+	 * @param lines
+	 * @param p_FTA_CDL_Category_ID
+	 * @return
+	 * @return boolean
+	 */
+	private boolean existsCategory(MFTACreditDefinitionLine [] lines, int p_FTA_CDL_Category_ID, int p_Category_ID){
+		for(MFTACreditDefinitionLine line : lines){
+			if(line.getFTA_CDL_Category_ID() == p_FTA_CDL_Category_ID
+					&& (line.getM_Product_ID() == p_Category_ID 
+							|| p_Category_ID == 0))
+				return true;
+		}
+		//	False
+		return false;
 	}
 }
