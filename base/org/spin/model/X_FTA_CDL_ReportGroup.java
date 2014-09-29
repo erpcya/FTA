@@ -31,7 +31,7 @@ public class X_FTA_CDL_ReportGroup extends PO implements I_FTA_CDL_ReportGroup, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140922L;
+	private static final long serialVersionUID = 20140929L;
 
     /** Standard Constructor */
     public X_FTA_CDL_ReportGroup (Properties ctx, int FTA_CDL_ReportGroup_ID, String trxName)

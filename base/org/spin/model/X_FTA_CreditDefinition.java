@@ -34,7 +34,7 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140922L;
+	private static final long serialVersionUID = 20140929L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinition (Properties ctx, int FTA_CreditDefinition_ID, String trxName)
@@ -103,31 +103,6 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	public org.compiere.model.I_M_Product getCategory() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
-			.getPO(getCategory_ID(), get_TrxName());	}
-
-	/** Set Category.
-		@param Category_ID Category	  */
-	public void setCategory_ID (int Category_ID)
-	{
-		if (Category_ID < 1) 
-			set_Value (COLUMNNAME_Category_ID, null);
-		else 
-			set_Value (COLUMNNAME_Category_ID, Integer.valueOf(Category_ID));
-	}
-
-	/** Get Category.
-		@return Category	  */
-	public int getCategory_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Category_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_DocType getC_DocTypeClosedAP() throws RuntimeException
@@ -471,31 +446,6 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	public int getM_PriceList_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_M_Lot getPlantingCycle() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_Lot)MTable.get(getCtx(), org.compiere.model.I_M_Lot.Table_Name)
-			.getPO(getPlantingCycle_ID(), get_TrxName());	}
-
-	/** Set Planting Cycle.
-		@param PlantingCycle_ID Planting Cycle	  */
-	public void setPlantingCycle_ID (int PlantingCycle_ID)
-	{
-		if (PlantingCycle_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PlantingCycle_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PlantingCycle_ID, Integer.valueOf(PlantingCycle_ID));
-	}
-
-	/** Get Planting Cycle.
-		@return Planting Cycle	  */
-	public int getPlantingCycle_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PlantingCycle_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
