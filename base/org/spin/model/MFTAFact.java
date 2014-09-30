@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -31,7 +30,6 @@ import org.compiere.model.MProductCategory;
 import org.compiere.model.PO;
 import org.compiere.model.X_C_ChargeType;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 
 /**
@@ -138,7 +136,6 @@ public class MFTAFact extends X_FTA_Fact {
 		
 		int m_AD_Org_ID = document.getAD_Org_ID();
 		int m_C_BPartner_ID = document.get_ValueAsInt("C_BPartner_ID");
-		String m_DocumentNo = document.get_ValueAsString("DocumentNo");
 		String m_Description = document.get_ValueAsString("Description");
 		int m_FTA_FarmerCredit_ID = document.get_ValueAsInt("FTA_FarmerCredit_ID");
 		
@@ -191,12 +188,10 @@ public class MFTAFact extends X_FTA_Fact {
 				int m_Current_Line_ID = 0;
 				BigDecimal m_RemainingAmt = Env.ZERO;
 				BigDecimal m_SO_CreditLimit = Env.ZERO;
-				SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
 				while(rs.next()){
 					m_AD_Org_ID 					= rs.getInt("AD_Org_ID");
 					m_C_BPartner_ID 				= rs.getInt("C_BPartner_ID");
 					Timestamp m_DateDoc 			= rs.getTimestamp("DateDoc");
-					m_DocumentNo					= rs.getString("DocumentNo");
 					m_Description 					= rs.getString("Description");
 					m_FTA_CreditDefinition_ID 		= rs.getInt("FTA_CreditDefinition_ID");
 					m_FTA_CreditDefinitionLine_ID 	= rs.getInt("FTA_CreditDefinitionLine_ID");
