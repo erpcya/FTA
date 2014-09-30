@@ -94,8 +94,8 @@ LEFT JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = rwio.FTA_Credi
 (SELECT SUM(rw.TareWeight) Summary_TareWeight,
 	SUM(rw.GrossWeight) Summary_GrossWeight,
 	SUM(rw.NetWeight) Summary_NetWeight,
-	SUM(rw.NetWeight - rw.PayWeight) Summary_Discount,
-	SUM(rw.PayWeight) Summary_PayWeight
+	SUM(rw.NetWeight - CASE WHEN rw.SelectionWeight = 'I' THEN rw.ImportWeight ELSE rw.PayWeight END) Summary_Discount,
+	SUM(CASE WHEN rw.SelectionWeight = 'I' THEN rw.ImportWeight ELSE rw.PayWeight END) Summary_PayWeight
 	FROM FTA_EntryTicket et
 	INNER JOIN FTA_RecordWeight rw ON(rw.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID)
 	LEFT JOIN M_InOut io ON(io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND io.DocStatus = rw.DocStatus)
