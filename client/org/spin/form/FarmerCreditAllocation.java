@@ -395,10 +395,12 @@ public class FarmerCreditAllocation
 		log.config("getData");
 		
 		try	{
-			PreparedStatement pstmt = DB.prepareStatement("SELECT cr.FTA_FarmerCredit_ID, l.Name || ' - ' || cr.DocumentNo " +
+			PreparedStatement pstmt = DB.prepareStatement("SELECT cr.FTA_FarmerCredit_ID, "
+					//+ "l.Name || ' - ' || "
+					+ "cr.DocumentNo " +
 					"FROM FTA_FarmerCredit cr " +
 					"INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = cr.FTA_CreditDefinition_ID) " +
-					"INNER JOIN M_Lot l ON(l.M_Lot_ID = cd.PlantingCycle_ID) " +
+					//"INNER JOIN M_Lot l ON(l.M_Lot_ID = cd.PlantingCycle_ID) " +
 					"WHERE cr.C_BPartner_ID = ? " +
 					//	Dixon Martinez 20-05-2014 
 					//	Add support for Parent Farmer Credit
