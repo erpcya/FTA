@@ -3,17 +3,17 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="AD_Org_ID" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
 	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
 	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal"/>
-	<parameter name="DateDoc1" class="java.sql.Timestamp">
+	<parameter name="DateDoc1" class="java.sql.Timestamp" isForPrompting="false">
 		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="DateDoc2" class="java.sql.Timestamp">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="AD_Org_ID" class="java.math.BigDecimal">
+	<parameter name="DateDoc2" class="java.sql.Timestamp" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -23,7 +23,6 @@ INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = st.FTA_Credit
 INNER JOIN AD_Org ao ON(ao.AD_Org_ID = st.AD_Org_ID)
 INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = st.C_BPartner_ID)
 INNER JOIN AD_Client cl ON(cl.AD_Client_ID = cd.AD_Client_ID)
-INNER JOIN M_Lot lot ON(lot.M_Lot_ID = cd.PlantingCycle_ID)
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = st.FTA_FarmerCredit_ID)
 INNER JOIN FTA_Farming fm ON(fm.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
 WHERE st.AD_Table_ID <> 259 AND st.AD_Table_ID <> 53566
@@ -243,20 +242,18 @@ ORDER BY org,cp.Name]]>
 				</textElement>
 				<text><![CDATA[Página:]]></text>
 			</staticText>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="26" width="160" height="13" uuid="4b266b82-0a5e-4a87-9cf7-116ee8004d3a"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="39" width="266" height="12" uuid="fa8961c2-e3a0-4fe6-8a4a-be23cb19c516"/>
 				<textElement>
-					<font size="8"/>
+					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($P{AD_Org_ID} == null ? "" :"Organización = " + $F{org} + "\n")]]></textFieldExpression>
-			</textField>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="39" width="266" height="23" uuid="6c74346d-cb5c-4864-8f94-7203fe9a9ea8"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[($P{DateDoc1} == null ? "" :"Fecha= "+$P{DateDoc1})+
-($P{DateDoc2} == null ? "" :" Al "+$P{DateDoc2})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($P{AD_Org_ID} == null? "": "Organización = " + $F{org}) +
+($P{DateDoc1} != null || $P{DateDoc2} != null? "\nFecha de Documento: ": "") +
+($P{DateDoc1} != null? new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc1}): "") +
+($P{DateDoc2} != null? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc2}): "") +
+($P{C_BPartner_ID} == null
+    ? ""
+    : "Socio de Negocio = " + ($F{taxid} == null? "": $F{taxid} + " - ") + $F{name})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
