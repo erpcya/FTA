@@ -63,7 +63,7 @@ public class CreditDefinitionCheck extends SvrProcess {
 	@Override
 	protected String doIt() throws Exception {
 		StringBuffer whereClause = new StringBuffer();
-		if(p_AD_Org_ID != 0) {
+		if(p_AD_Org_ID != 0)
 			whereClause.append("AD_Org_ID = ").append(p_AD_Org_ID);
 		if(p_FTA_CreditDefinition_ID != 0) {
 			//	Add And
@@ -83,10 +83,10 @@ public class CreditDefinitionCheck extends SvrProcess {
 			log.fine("Credit Definition: " + m_FTA_CreditDefinition.toString());
 			//	Get Max Line
 			int lineNo = DB.getSQLValue(get_TrxName(), "SELECT MAX(cdl.Line) Line "
-					+ "FROM FTA_CreditDefinitioLine cdl "
+					+ "FROM FTA_CreditDefinitionLine cdl "
 					+ "WHERE cdl.FTA_CreditDefinition_ID = ?", m_FTA_CreditDefinition.getFTA_CreditDefinition_ID());
 			//	Add first
-			lineNo += 10;
+			//lineNo += 10;
 			//	
 			MFTACreditDefinitionLine [] lines = m_FTA_CreditDefinition.getLines(false);
 			//	For Distribution
