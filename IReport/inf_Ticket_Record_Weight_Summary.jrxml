@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket Record Weight" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0aa9e4bd-efa4-404a-8801-ea28d7e78589">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="60"/>
-	<property name="ireport.y" value="30"/>
+	<property name="ireport.y" value="90"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="AD_Org_ID" class="java.math.BigDecimal"/>
 	<parameter name="M_Warehouse_ID" class="java.math.BigDecimal"/>
@@ -54,7 +54,7 @@
 	</parameter>
 	<parameter name="FTA_AttributeReport_ID" class="java.math.BigDecimal"/>
 	<queryString>
-		<![CDATA[SELECT	TO_CHAR(rwio.OutDate, 'DD/MM/YYYY') DateDoc,
+		<![CDATA[SELECT	date_trunc('day', rwio.OutDate) DateDoc,
 	ROUND(SUM(rwio.TareWeight),$P{StdPrecision}) TareWeight,
 	ROUND(SUM(rwio.GrossWeight) , $P{StdPrecision}) GrossWeight,
 	ROUND(SUM(rwio.NetWeight), $P{StdPrecision}) NetWeight,
@@ -142,7 +142,7 @@ AND (rwio.FTA_AttributeReport_ID=$P{FTA_AttributeReport_ID} OR $P{FTA_AttributeR
 GROUP BY 1, rwio.ValueProduct, rwio.NameProduct, rwio.Att, rwio.PlantingCycle, rwio.Org, rwio.OperationType, sr.Summary_TareWeight, sr.Summary_GrossWeight, sr.Summary_NetWeight, sr.Summary_Discount, sr.Summary_PayWeight
 ORDER BY 1]]>
 	</queryString>
-	<field name="datedoc" class="java.lang.String"/>
+	<field name="datedoc" class="java.sql.Timestamp"/>
 	<field name="tareweight" class="java.math.BigDecimal"/>
 	<field name="grossweight" class="java.math.BigDecimal"/>
 	<field name="netweight" class="java.math.BigDecimal"/>
@@ -558,7 +558,7 @@ ORDER BY 1]]>
 					</cellContents>
 				</crosstabHeaderCell>
 				<rowGroup name="datedoc" width="60" totalPosition="End">
-					<bucket class="java.lang.String">
+					<bucket class="java.sql.Timestamp">
 						<bucketExpression><![CDATA[$F{datedoc}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
