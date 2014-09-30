@@ -25,7 +25,7 @@ SELECT
 	be.Status, 
 	re.Name RegionName,
 	be.C_BPartner_Location_ID, 
-	lo.Name, 
+	cd.Description AS Name, 
 	fc.FTA_CreditAct_ID, 
 	loc.C_City_ID,
 	loc.City, 
@@ -38,7 +38,7 @@ LEFT JOIN C_Location loc ON(loc.C_Location_ID = oinf.C_Location_ID)
 LEFT JOIN C_Region re ON(re.C_Region_ID = loc.C_Region_ID)
 LEFT JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = be.FTA_FarmerCredit_ID)
 LEFT JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID)
-LEFT JOIN M_Lot lo ON(lo.M_Lot_ID = cd.PlantingCycle_ID)
+--LEFT JOIN M_Lot lo ON(lo.M_Lot_ID = cd.PlantingCycle_ID)
 LEFT JOIN C_BPartner bp ON (be.C_BPartner_ID = bp.C_BPartner_ID )
 
 --WHERE FTA_BillOfExchange_ID=1001695
