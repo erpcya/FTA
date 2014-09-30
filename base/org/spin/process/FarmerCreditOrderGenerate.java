@@ -140,7 +140,7 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 		m_FTA_FarmerCredit.saveEx();
 		
 		if(m_Order == null)
-			return "";
+			return "Ok";
 		
 		return "@C_Order_ID@: " + m_Order.getDocumentNo() + 
 				" - @GrandTotal@ = " + m_Order.getGrandTotal();

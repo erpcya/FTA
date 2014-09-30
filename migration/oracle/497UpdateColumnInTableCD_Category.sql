@@ -1,0 +1,5 @@
+-- Sep 29, 2014 7:38:43 PM VET
+-- FTA
+UPDATE AD_Column SET IsParent='N',Updated=TO_DATE('2014-09-29 19:38:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=74490
+;
+

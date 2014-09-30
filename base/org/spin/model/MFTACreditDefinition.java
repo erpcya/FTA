@@ -27,7 +27,6 @@ import java.util.logging.Level;
 
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
-import org.compiere.model.MProduct;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
@@ -566,7 +565,37 @@ public class MFTACreditDefinition extends X_FTA_CreditDefinition implements DocA
 		return m_lines;
 	}	//	getLines
 	
-	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		super.afterSave(newRecord, success);
+		//	Create Default Lines
+		if(newRecord
+				&& success){
+			//	Get Max Line
+			int lineNo = DB.getSQLValue(get_TrxName(), "SELECT MAX(cdl.Line) Line "
+					+ "FROM FTA_CreditDefinitionLine cdl "
+					+ "WHERE cdl.FTA_CreditDefinition_ID = ?", getFTA_CreditDefinition_ID());
+			//	Add first
+			lineNo += 10;
+			
+			MFTACDLCategory category = null;
+			MFTACreditDefinitionLine line = null;
+			//	For Distribution
+			category = MFTACDLCategory.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_DISTRIBUTION, get_TrxName());
+			line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
+			line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
+			line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
+			line.setC_UOM_ID(100);
+			line.setQty(Env.ZERO);
+			line.setPrice(Env.ZERO);
+			line.setAmt(Env.ZERO);
+			line.setIsDistributionLine(true);
+			line.setIsExceedCreditLimit(true);
+			line.setLine(lineNo);
+			line.saveEx();
+		}
+		return true;
+	}
 	/**
 	 * Get Line Equivalent from other line
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 12/02/2014, 14:07:31

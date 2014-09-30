@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.compiere.model.MProduct;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -66,15 +67,19 @@ public class MFTACDCategory extends X_FTA_CD_Category {
 			MFTACreditDefinition cd = 
 					new MFTACreditDefinition(getCtx(), getFTA_CreditDefinition_ID(), get_TrxName());
 			
-			int nLine = 0;
 			if(!cd.getCreditType().equals(X_FTA_CreditDefinition.CREDITTYPE_Loan)){
 
+				int lineNo = DB.getSQLValue(get_TrxName(), "SELECT MAX(cdl.Line) Line "
+						+ "FROM FTA_CreditDefinitionLine cdl "
+						+ "WHERE cdl.FTA_CreditDefinition_ID = ?", getFTA_CreditDefinition_ID());
+				//	Add first
+				lineNo += 10;
+				
 				//	For Category
 				category = MFTACDLCategory
 						.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_CATEGORY, get_TrxName());
 				if(category == null)
 					return false;
-				nLine = 10;
 				line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
 				line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
 				line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
@@ -86,22 +91,9 @@ public class MFTACDCategory extends X_FTA_CD_Category {
 				line.setAmt(Env.ZERO);
 				line.setIsDistributionLine(false);
 				line.setIsExceedCreditLimit(true);
-				line.setLine(nLine);
+				line.setLine(lineNo);
 				line.saveEx();
 			}
-			//	For Distribution
-			category = MFTACDLCategory.getDefDistibutionCategory(getCtx(), MFTACDLCategory.T_DISTRIBUTION, get_TrxName());
-			line = new MFTACreditDefinitionLine(getCtx(), 0, get_TrxName());
-			line.setFTA_CreditDefinition_ID(getFTA_CreditDefinition_ID());
-			line.setFTA_CDL_Category_ID(category.getFTA_CDL_Category_ID());
-			line.setC_UOM_ID(100);
-			line.setQty(Env.ZERO);
-			line.setPrice(Env.ZERO);
-			line.setAmt(Env.ZERO);
-			line.setIsDistributionLine(true);
-			line.setIsExceedCreditLimit(true);
-			line.setLine(nLine + 10);
-			line.saveEx();
 		}
 		return true;
 	}
