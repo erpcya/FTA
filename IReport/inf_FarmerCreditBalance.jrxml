@@ -3,21 +3,21 @@
 	<property name="ireport.zoom" value="1.948717100000011"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
-	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
-	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal"/>
-	<parameter name="DateDoc1" class="java.sql.Timestamp">
-		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="DateDoc2" class="java.sql.Timestamp">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="AD_Org_ID" class="java.math.BigDecimal">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
+	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
+	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal"/>
+	<parameter name="DateDoc1" class="java.sql.Timestamp" isForPrompting="false">
+		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DateDoc2" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, cd.Description,
+		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, fc.DocumentNo Credit, cd.DocumentNo CreditDefiniton, COALESCE(cd.Description, '') Description,
 MAX(fc.Qty) Qty, MAX(fc.ApprovedQty) ApprovedQty, SUM(fm.EffectiveArea) EffectiveArea, cb.LineDescription, cdlc.Name CDLCategory, cb.SO_CreditLimit, cb.SO_CreditUsed, cb.Balance, o.Name orgname
 FROM FTA_RV_CreditDefinitionBalance cb
 INNER JOIN FTA_CDL_Category cdlc ON(cdlc.FTA_CDL_Category_ID = cb.FTA_CDL_Category_ID)
@@ -136,7 +136,7 @@ ORDER BY cb.FTA_CreditDefinition_ID, cb.C_BPartner_ID, cb.FTA_FarmerCredit_ID, c
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="103" splitType="Stretch">
+		<band height="94" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="48" width="67" height="12" uuid="109ad8bb-e5a9-4d44-b492-c297323eeac3">
 					<printWhenExpression><![CDATA[($P{FTA_FarmerCredit_ID} != null)]]></printWhenExpression>
