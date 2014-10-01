@@ -1,0 +1,114 @@
+-- Aug 22, 2014 11:38:30 AM VET
+-- FTA
+ALTER TABLE AD_ClientInfo ADD C_UOM_Area_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:38:35 AM VET
+-- FTA
+ALTER TABLE AD_ClientInfo ADD C_UOM_Conversion_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:39:17 AM VET
+-- FTA
+ALTER TABLE C_BPartner ADD IsFarmer CHAR(1) DEFAULT 'N' CHECK (IsFarmer IN ('Y','N'))
+;
+
+-- Aug 22, 2014 11:39:43 AM VET
+-- FTA
+ALTER TABLE C_DocType ADD OperationType NVARCHAR2(3) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:40:03 AM VET
+-- FTA
+ALTER TABLE C_Invoice ADD FTA_FarmerCredit_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:40:08 AM VET
+-- FTA
+ALTER TABLE C_Invoice ADD FTA_FarmerLiquidation_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:40:13 AM VET
+-- FTA
+ALTER TABLE C_Invoice ADD IsCreditFactManual CHAR(1) DEFAULT 'N' CHECK (IsCreditFactManual IN ('Y','N'))
+;
+
+-- Aug 22, 2014 11:40:18 AM VET
+-- FTA
+ALTER TABLE C_Invoice ADD IsCreditFactPosted CHAR(1) DEFAULT 'N' CHECK (IsCreditFactPosted IN ('Y','N'))
+;
+
+-- Aug 22, 2014 11:40:23 AM VET
+-- FTA
+ALTER TABLE C_Invoice ADD IsExceedCreditLimit CHAR(1) DEFAULT NULL  CHECK (IsExceedCreditLimit IN ('Y','N'))
+;
+
+-- Aug 22, 2014 11:40:58 AM VET
+-- FTA
+ALTER TABLE C_InvoiceLine ADD DocAffected VARCHAR2(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:41:20 AM VET
+-- FTA
+ALTER TABLE C_Order ADD FTA_FarmerCredit_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:41:24 AM VET
+-- FTA
+ALTER TABLE C_Order ADD FTA_TechnicalForm_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:41:28 AM VET
+-- FTA
+ALTER TABLE C_Order ADD IsCreditFactManual CHAR(1) DEFAULT 'N' CHECK (IsCreditFactManual IN ('Y','N'))
+;
+
+-- Aug 22, 2014 11:41:32 AM VET
+-- FTA
+ALTER TABLE C_Order ADD IsExceedCreditLimit CHAR(1) DEFAULT 'N' CHECK (IsExceedCreditLimit IN ('Y','N'))
+;
+
+-- Aug 22, 2014 11:41:56 AM VET
+-- FTA
+ALTER TABLE C_Payment ADD FTA_FarmerCredit_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:42:00 AM VET
+-- FTA
+ALTER TABLE C_Payment ADD IsCreditFactPosted CHAR(1) DEFAULT 'N' CHECK (IsCreditFactPosted IN ('Y','N'))
+;
+
+-- Aug 22, 2014 11:42:21 AM VET
+-- FTA
+ALTER TABLE M_InOut ADD FTA_FarmerCredit_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:42:25 AM VET
+-- FTA
+ALTER TABLE M_InOut ADD FTA_RecordWeight_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:42:48 AM VET
+-- FTA
+ALTER TABLE M_Movement ADD FTA_Driver_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:42:52 AM VET
+-- FTA
+ALTER TABLE M_Movement ADD FTA_Vehicle_ID NUMBER(10) DEFAULT NULL 
+;
+
+-- Aug 22, 2014 11:43:13 AM VET
+-- FTA
+ALTER TABLE M_Product ADD IsBulk CHAR(1) DEFAULT 'N' CHECK (IsBulk IN ('Y','N'))
+;
+
+-- Aug 22, 2014 11:43:17 AM VET
+-- FTA
+ALTER TABLE M_Product ADD IsCategory CHAR(1) DEFAULT 'N' CHECK (IsCategory IN ('Y','N'))
+;
+
+-- Aug 22, 2014 11:43:39 AM VET
+-- FTA
+ALTER TABLE M_RMA ADD FTA_FarmerCredit_ID NUMBER(10) DEFAULT NULL 
+;
