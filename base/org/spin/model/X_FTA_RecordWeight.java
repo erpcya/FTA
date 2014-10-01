@@ -33,7 +33,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140929L;
+	private static final long serialVersionUID = 20141001L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeight (Properties ctx, int FTA_RecordWeight_ID, String trxName)
@@ -899,7 +899,8 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 		@param TrailerPlate Trailer Plate	  */
 	public void setTrailerPlate (String TrailerPlate)
 	{
-		throw new IllegalArgumentException ("TrailerPlate is virtual column");	}
+		set_ValueNoCheck (COLUMNNAME_TrailerPlate, TrailerPlate);
+	}
 
 	/** Get Trailer Plate.
 		@return Trailer Plate	  */
