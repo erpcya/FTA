@@ -33,7 +33,7 @@ public class X_FTA_CategoryCalcFilter extends PO implements I_FTA_CategoryCalcFi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140929L;
+	private static final long serialVersionUID = 20141001L;
 
     /** Standard Constructor */
     public X_FTA_CategoryCalcFilter (Properties ctx, int FTA_CategoryCalcFilter_ID, String trxName)

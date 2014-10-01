@@ -30,7 +30,7 @@ public class X_FTA_CD_Category extends PO implements I_FTA_CD_Category, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140929L;
+	private static final long serialVersionUID = 20141001L;
 
     /** Standard Constructor */
     public X_FTA_CD_Category (Properties ctx, int FTA_CD_Category_ID, String trxName)
@@ -40,7 +40,7 @@ public class X_FTA_CD_Category extends PO implements I_FTA_CD_Category, I_Persis
         {
 			setCategory_ID (0);
 			setFTA_CreditDefinition_ID (0);
-			setM_Lot_ID (0);
+			setPlantingCycle_ID (0);
         } */
     }
 
@@ -122,29 +122,26 @@ public class X_FTA_CD_Category extends PO implements I_FTA_CD_Category, I_Persis
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Lot getM_Lot() throws RuntimeException
+	public org.compiere.model.I_M_Lot getPlantingCycle() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Lot)MTable.get(getCtx(), org.compiere.model.I_M_Lot.Table_Name)
-			.getPO(getM_Lot_ID(), get_TrxName());	}
+			.getPO(getPlantingCycle_ID(), get_TrxName());	}
 
-	/** Set Lot.
-		@param M_Lot_ID 
-		Product Lot Definition
-	  */
-	public void setM_Lot_ID (int M_Lot_ID)
+	/** Set Planting Cycle.
+		@param PlantingCycle_ID Planting Cycle	  */
+	public void setPlantingCycle_ID (int PlantingCycle_ID)
 	{
-		if (M_Lot_ID < 1) 
-			set_Value (COLUMNNAME_M_Lot_ID, null);
+		if (PlantingCycle_ID < 1) 
+			set_Value (COLUMNNAME_PlantingCycle_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_Lot_ID, Integer.valueOf(M_Lot_ID));
+			set_Value (COLUMNNAME_PlantingCycle_ID, Integer.valueOf(PlantingCycle_ID));
 	}
 
-	/** Get Lot.
-		@return Product Lot Definition
-	  */
-	public int getM_Lot_ID () 
+	/** Get Planting Cycle.
+		@return Planting Cycle	  */
+	public int getPlantingCycle_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Lot_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_PlantingCycle_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
