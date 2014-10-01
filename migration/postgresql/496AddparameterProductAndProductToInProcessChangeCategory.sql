@@ -50,7 +50,7 @@ UPDATE AD_Process_Para SET AD_Reference_ID=18, AD_Reference_Value_ID=162, AD_Val
 
 -- Sep 29, 2014 6:31:36 PM VET
 -- FTA
-INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52395,'M_Product.IsCategory = ''Y'' AND EXISTS ( SELECT 1 FROM FTA_CD_Category  WHERE FTA_CD_Category.FTA_CreditDefintion_ID = @FTA_CreditDefintion_ID@ AND M_Product.M_Product_ID = FTA_CD_Category.M_Product_ID)	',TO_TIMESTAMP('2014-09-29 18:31:35','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','M_Product just Category Exists in CD Category','S',TO_TIMESTAMP('2014-09-29 18:31:35','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52395,'M_Product.IsCategory = ''Y'' AND EXISTS ( SELECT 1 FROM FTA_CD_Category  WHERE FTA_CD_Category.FTA_CreditDefinition_ID = @FTA_CreditDefinition_ID@ AND M_Product.M_Product_ID = FTA_CD_Category.Category_ID)	',TO_TIMESTAMP('2014-09-29 18:31:35','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','M_Product just Category Exists in CD Category','S',TO_TIMESTAMP('2014-09-29 18:31:35','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Sep 29, 2014 6:31:50 PM VET
@@ -60,7 +60,7 @@ UPDATE AD_Process_Para SET AD_Val_Rule_ID=52395,Updated=TO_TIMESTAMP('2014-09-29
 
 -- Sep 29, 2014 6:32:44 PM VET
 -- FTA
-INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52396,'M_Product.IsCategory = ''Y'' AND EXISTS ( SELECT 1 FROM FTA_CD_Category  WHERE FTA_CD_Category.FTA_CreditDefintion_ID = @FTA_CreditDefinition_To_ID@ AND M_Product.M_Product_ID = FTA_CD_Category.M_Product_ID)	',TO_TIMESTAMP('2014-09-29 18:32:43','YYYY-MM-DD HH24:MI:SS'),100,'U','Y','M_Product_To just Category Exists in CD Category_To','S',TO_TIMESTAMP('2014-09-29 18:32:43','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52396,'M_Product.IsCategory = ''Y'' AND EXISTS ( SELECT 1 FROM FTA_CD_Category  WHERE FTA_CD_Category.FTA_CreditDefinition_ID = @FTA_CreditDefinition_To_ID@ AND M_Product.M_Product_ID = FTA_CD_Category.Category_ID)	',TO_TIMESTAMP('2014-09-29 18:32:43','YYYY-MM-DD HH24:MI:SS'),100,'U','Y','M_Product_To just Category Exists in CD Category_To','S',TO_TIMESTAMP('2014-09-29 18:32:43','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Sep 29, 2014 6:32:53 PM VET
