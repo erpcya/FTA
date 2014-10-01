@@ -114,20 +114,16 @@ public interface I_FTA_CD_Category
 	  */
 	public boolean isActive();
 
-    /** Column name M_Lot_ID */
-    public static final String COLUMNNAME_M_Lot_ID = "M_Lot_ID";
+    /** Column name PlantingCycle_ID */
+    public static final String COLUMNNAME_PlantingCycle_ID = "PlantingCycle_ID";
 
-	/** Set Lot.
-	  * Product Lot Definition
-	  */
-	public void setM_Lot_ID (int M_Lot_ID);
+	/** Set Planting Cycle	  */
+	public void setPlantingCycle_ID (int PlantingCycle_ID);
 
-	/** Get Lot.
-	  * Product Lot Definition
-	  */
-	public int getM_Lot_ID();
+	/** Get Planting Cycle	  */
+	public int getPlantingCycle_ID();
 
-	public org.compiere.model.I_M_Lot getM_Lot() throws RuntimeException;
+	public org.compiere.model.I_M_Lot getPlantingCycle() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

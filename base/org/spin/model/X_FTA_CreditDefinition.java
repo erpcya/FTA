@@ -34,7 +34,7 @@ public class X_FTA_CreditDefinition extends PO implements I_FTA_CreditDefinition
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140929L;
+	private static final long serialVersionUID = 20141001L;
 
     /** Standard Constructor */
     public X_FTA_CreditDefinition (Properties ctx, int FTA_CreditDefinition_ID, String trxName)
