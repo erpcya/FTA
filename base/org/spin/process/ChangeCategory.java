@@ -17,6 +17,7 @@ import org.spin.model.MFTACreditDefinitionLine;
 import org.spin.model.MFTAFact;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAFarming;
+import org.spin.model.X_FTA_Farming;
 
 /**
  * 
@@ -87,10 +88,12 @@ public class ChangeCategory extends SvrProcess{
 		String m_filter = new String();
 		//	Verify if is farmer credit
 		if(p_FTA_FarmerCredit_ID != 0)
-			m_filter += I_FTA_FarmerCredit.Table_Name + ".FTA_FarmerCredit_ID=" + p_FTA_FarmerCredit_ID;
+			m_filter += I_FTA_FarmerCredit.Table_Name + "." 
+						+ I_FTA_FarmerCredit.COLUMNNAME_FTA_FarmerCredit_ID + "=" + p_FTA_FarmerCredit_ID;
 		//	Credit Definition
 		else if(p_FTA_CreditDefinition_ID != 0)
-			m_filter += I_FTA_FarmerCredit.Table_Name + ".FTA_CreditDefinition_ID=" + p_FTA_CreditDefinition_ID;
+			m_filter += I_FTA_FarmerCredit.Table_Name + "." 
+						+ I_FTA_FarmerCredit.COLUMNNAME_FTA_CreditDefinition_ID + "=" + p_FTA_CreditDefinition_ID;
 		else
 			return null;
 		//	get Credits
@@ -153,7 +156,8 @@ public class ChangeCategory extends SvrProcess{
 		if(plantingCycle_ID <= 0)
 			throw new AdempiereUserError("@PlantingCycle_ID@ @NotFound@");
 		//	Iterate
-		for(MFTAFarming farming : farmerCredit.getLines(false)){
+		for(MFTAFarming farming : farmerCredit.getLines(
+				X_FTA_Farming.COLUMNNAME_Category_ID + "=" + p_M_Product_ID)){
 			log.info("Farming=" + farming.toString());
 			farming.setCategory_ID(p_M_Product_To_ID);
 			

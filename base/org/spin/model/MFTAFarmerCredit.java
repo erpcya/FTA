@@ -728,8 +728,8 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	 */
 	public MFTAFarming[] getLines (boolean requery, String whereClause)
 	{
-		if (m_lines != null && !requery)
-		{
+		if (m_lines != null && !requery 
+				&& (whereClause == null || whereClause.length() == 0)) {
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
@@ -772,6 +772,17 @@ public class MFTAFarmerCredit extends X_FTA_FarmerCredit implements DocAction, D
 	public MFTAFarming[] getLines (boolean requery)
 	{
 		return getLines(requery, null);
+	}	//	getLines
+	
+	/**
+	 * Get Lines with Where Clause
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 1/10/2014, 10:43:46
+	 * @param whereClause
+	 * @return
+	 * @return MFTAFarming[]
+	 */
+	public MFTAFarming[] getLines (String whereClause) {
+		return getLines(false, whereClause);
 	}	//	getLines
 	
 	/**

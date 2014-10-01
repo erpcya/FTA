@@ -73,7 +73,7 @@ public class FTAModelValidator implements ModelValidator {
 		
 		//	Dixon Martinez 
 		//	Add support to see if the company manages credit module
-		boolean creditControlModule = MSysConfig.getBooleanValue("CREDIT_CONTROL_MODULE",false);
+		boolean creditControlModule = MSysConfig.getBooleanValue("CREDIT_CONTROL_MODULE", false);
 		//	Initialize methods depending on whether the credit module is used or not by the company
 		if(creditControlModule) {
 			//	Add Timing change in C_Order and C_Invoice
