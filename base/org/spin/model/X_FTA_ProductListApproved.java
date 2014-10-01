@@ -32,7 +32,7 @@ public class X_FTA_ProductListApproved extends PO implements I_FTA_ProductListAp
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140929L;
+	private static final long serialVersionUID = 20141001L;
 
     /** Standard Constructor */
     public X_FTA_ProductListApproved (Properties ctx, int FTA_ProductListApproved_ID, String trxName)

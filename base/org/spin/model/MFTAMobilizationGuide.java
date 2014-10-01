@@ -35,7 +35,6 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.hibernate.util.GetGeneratedKeysHelper;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
