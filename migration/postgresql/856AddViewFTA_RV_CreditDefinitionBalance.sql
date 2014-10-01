@@ -15,9 +15,7 @@ SELECT
 	cd.Description, 
 	cd.DocStatus, 
 	cd.Amt , 
-	--cd.Category_ID,
 	cd.M_PriceList_ID, 
-	--cd.PlantingCycle_ID, 
 	cdl.FTA_CreditDefinitionLine_ID, 
 	cdl.Line, 
 	cdl.M_Product_Category_ID, 
@@ -29,13 +27,12 @@ SELECT
 	WHEN cdl.C_Charge_ID IS NOT NULL THEN cr.Name
 	WHEN cdl.C_ChargeType_ID IS NOT NULL THEN ct.Name
 	END, '') || COALESCE(' - ' || cdl.Description, '') LineDescription, 
-	COALESCE(fc.Parent_FarmerCredit_ID, fc.FTA_FarmerCredit_ID) FTA_FarmerCredit_ID, 
+	fc.FTA_FarmerCredit_ID, 
 	fc.C_BPartner_ID, 
-	ft.AD_Table_ID,
-	--(cdl.Amt * fc.ApprovedQty) SO_CreditLimit, 
+	ft.AD_Table_ID, 
 	(cdl.Amt * CASE 
 			WHEN fc.BasedOnEffectiveQuantity = 'Y' 
-				THEN f.EffectiveArea 
+				THEN fc.EffectiveQty 
 				ELSE fc.ApprovedQty 
 			END
 	) SO_CreditLimit,  
@@ -53,7 +50,7 @@ LEFT JOIN M_Product_Category pc ON(pc.M_Product_Category_ID = cdl.M_Product_Cate
 LEFT JOIN M_Product pr ON(pr.M_Product_ID = cdl.M_Product_ID)
 LEFT JOIN C_Charge cr ON(cr.C_Charge_ID = cdl.C_Charge_ID)
 LEFT JOIN C_ChargeType ct ON(ct.C_ChargeType_ID = cdl.C_ChargeType_ID)
-LEFT JOIN FTA_Farming f ON  (f.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
+WHERE fc.Parent_FarmerCredit_ID IS NULL
 GROUP BY 
 	cd.FTA_CreditDefinition_ID, 
 	cd.AD_Client_ID, 
@@ -63,16 +60,13 @@ GROUP BY
 	cd.Updated, 
 	cd.UpdatedBy, 
 	cd.IsActive,
-	f.EffectiveArea ,
 	cd.C_DocType_ID, 
 	cd.DateDoc, 
 	cd.DocumentNo, 
 	cd.Description, 
 	cd.DocStatus, 
 	cd.Amt, 
-	--cd.Category_ID,
 	cd.M_PriceList_ID, 
-	--cd.PlantingCycle_ID, 
 	cdl.FTA_CreditDefinitionLine_ID, 
 	cdl.Line, 
 	cdl.M_Product_Category_ID, 
@@ -89,4 +83,3 @@ GROUP BY
 	fc.ApprovedQty, 
 	cdlc.Name, 
 	cp.C_BP_Group_ID;
-
