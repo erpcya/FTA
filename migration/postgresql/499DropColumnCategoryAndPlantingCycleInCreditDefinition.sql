@@ -147,14 +147,3 @@ DELETE FROM AD_Column_Trl WHERE AD_Column_ID=66695
 -- FTA
 DELETE FROM AD_Column WHERE AD_Column_ID=66695
 ;
-
-
-DROP VIEW FTA_RV_CreditDefinitionBalance;
-
-DROP VIEW FTA_RV_CreditDefinition;
-
-ALTER TABLE FTA_CreditDefinition DROP COLUMN Category_ID;
-
-DROP VIEW FTA_RV_BillOfExchange;
-
-ALTER TABLE FTA_CreditDefinition DROP COLUMN PlantingCycle_ID;
