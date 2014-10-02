@@ -1,6 +1,6 @@
 -- Oct 24, 2013 8:13:12 PM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType,WinHeight,WinWidth) VALUES (0,0,53294,TO_DATE('2013-10-24 20:13:09','YYYY-MM-DD HH24:MI:SS'),100,'Payment Request','ECA02','Y','N','N','Y','Payment Request','N',TO_DATE('2013-10-24 20:13:09','YYYY-MM-DD HH24:MI:SS'),100,'M',0,0)
+INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType,WinHeight,WinWidth) VALUES (0,0,53294,TO_DATE('2013-10-24 20:13:09','YYYY-MM-DD HH24:MI:SS'),100,'Payment Request Credit','ECA02','Y','N','N','Y','Payment Request','N',TO_DATE('2013-10-24 20:13:09','YYYY-MM-DD HH24:MI:SS'),100,'M',0,0)
 ;
 
 -- Oct 24, 2013 8:13:12 PM VET
@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Oct 24, 2013 8:13:22 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Orden de Pago',Description='Orden de Pago',Updated=TO_DATE('2013-10-24 20:13:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53294 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Orden de Pago Crédito',Description='Orden de Pago de crédito',Updated=TO_DATE('2013-10-24 20:13:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53294 AND AD_Language='es_MX'
 ;
 
 -- Oct 24, 2013 8:13:56 PM VET
