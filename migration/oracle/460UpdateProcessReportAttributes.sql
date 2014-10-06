@@ -188,11 +188,6 @@ UPDATE AD_Column SET AD_Val_Rule_ID=52353,Updated=TO_DATE('2014-05-06 02:00:00',
 UPDATE AD_Column SET IsMandatory='N',Updated=TO_DATE('2014-05-06 04:28:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=72822
 ;
 
--- May 6, 2014 4:28:57 AM VET
--- Farming Technical Assistance
-CREATE TABLE FTA_AttributesReportLine (AD_Client_ID NUMBER(10) NOT NULL, AD_Org_ID NUMBER(10) NOT NULL, Created DATE NOT NULL, CreatedBy NUMBER(10) NOT NULL, FTA_AttributesReport_ID NUMBER(10) NOT NULL, FTA_AttributesReportLine_ID NUMBER(10) NOT NULL, FTA_CategoryCalcGroup_ID NUMBER(10) DEFAULT NULL , FTA_CategoryCalc_ID NUMBER(10) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, M_Attribute_ID NUMBER(10) DEFAULT NULL , M_AttributeSet_ID NUMBER(10) DEFAULT NULL , PrintName NVARCHAR2(60) DEFAULT NULL , SeqNo NUMBER(10) DEFAULT NULL , Updated DATE NOT NULL, UpdatedBy NUMBER(10) NOT NULL, CONSTRAINT FTA_AttributesReportLine_Key PRIMARY KEY (FTA_AttributesReportLine_ID))
-;
-
 -- May 6, 2014 4:36:23 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52354,'FTA_CategoryCalc.FTA_CategoryCalcGroup_ID=@FTA_CategoryCalcGroup_ID@',TO_DATE('2014-05-06 04:36:20','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','FTA_CategoryCalc of FTA_CategoryCalcGroup','S',TO_DATE('2014-05-06 04:36:20','YYYY-MM-DD HH24:MI:SS'),100)
