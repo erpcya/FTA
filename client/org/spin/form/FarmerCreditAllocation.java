@@ -393,20 +393,22 @@ public class FarmerCreditAllocation
 		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
 		
 		log.config("getData");
+		String sql = "SELECT cr.FTA_FarmerCredit_ID, "
+				//+ "l.Name || ' - ' || "
+				+ "cr.DocumentNo  || CASE WHEN cd.Description IS NOT NULL THEN  '_' || COALESCE(cd.Description,'') ELSE '' END " +
+				"FROM FTA_FarmerCredit cr " +
+				"INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = cr.FTA_CreditDefinition_ID) " +
+				//"INNER JOIN M_Lot l ON(l.M_Lot_ID = cd.PlantingCycle_ID) " +
+				"WHERE cr.C_BPartner_ID = ? " +
+				//	Dixon Martinez 20-05-2014 
+				//	Add support for Parent Farmer Credit
+				//	"AND cr.Parent_FarmerCredit_ID IS NULL " +					
+				//	End Dixon Martinez
+				"AND cr.DocStatus = 'CO'";
 		
 		try	{
-			PreparedStatement pstmt = DB.prepareStatement("SELECT cr.FTA_FarmerCredit_ID, "
-					//+ "l.Name || ' - ' || "
-					+ "cr.DocumentNo " +
-					"FROM FTA_FarmerCredit cr " +
-					"INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = cr.FTA_CreditDefinition_ID) " +
-					//"INNER JOIN M_Lot l ON(l.M_Lot_ID = cd.PlantingCycle_ID) " +
-					"WHERE cr.C_BPartner_ID = ? " +
-					//	Dixon Martinez 20-05-2014 
-					//	Add support for Parent Farmer Credit
-					//	"AND cr.Parent_FarmerCredit_ID IS NULL " +					
-					//	End Dixon Martinez
-					"AND cr.DocStatus = 'CO'", null);
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			System.out.println(sql + p_C_BPartner_ID);
 			pstmt.setInt(1, p_C_BPartner_ID);
 			ResultSet rs = pstmt.executeQuery();
 			//
