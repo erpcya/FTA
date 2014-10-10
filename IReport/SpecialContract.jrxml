@@ -104,8 +104,8 @@ ORDER BY BPName]]>
 + " quien   en   lo adelante se denominará \"EL PRODUCTOR\", se ha convenido en celebrar"
 + "  el siguiente acuerdo:    "
 + " \n\nCLAUSULA   PRIMERA: \"EL AGRICULTOR\"    recibe    la    cantidad    de: "
-+ $P{REPORT_SCRIPTLET}.amtInWords($F{approvedamt}.toString(),$P{AD_Language})
-+ "  (BsF. "+ $F{approvedamt} +"),  por  parte  de  A.N.C.A.,  como   parte  de  incentivos"
++ $P{REPORT_SCRIPTLET}.amtInWords(new DecimalFormat("#,###.00").format($F{approvedamt}).toString(),$P{AD_Language})
++ "  (BsF. "+ new DecimalFormat("#,###.00").format($F{approvedamt}) +"),  por  parte  de  A.N.C.A.,  como   parte  de  incentivos"
 + " que serán  destinados  a  la ejecución  de actividades propias de la labor"
 + " agrícola que realiza, para lo  cual \"EL  AGRICULTOR\"  se  compromete  a su"
 + " cancelación  mediante "

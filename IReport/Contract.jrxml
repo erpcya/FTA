@@ -30,7 +30,7 @@
 	COALESCE(p.Name, '') as Name,
 	ROUND(fc.ApprovedAmt,2) ApprovedAmt,
 	ROUND(fc.ApprovedQty,2) ApprovedQty,
-	l.Name PlantingCycle_ID,
+	cd.Description PlantingCycle_ID,
 	ROUND(fc.Amt,2) Amt,
 	c.Name ClientName,
 	bp.taxid ,
@@ -49,7 +49,6 @@ LEFT JOIN FTA_Farming fa ON (fa.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
 LEFT JOIN FTA_FarmDivision fd ON (fd.FTA_FarmDivision_ID = fa.FTA_FarmDivision_ID)
 LEFT JOIN FTA_Farm f ON (f.FTA_Farm_ID = fd.FTA_Farm_ID)
 LEFT JOIN M_Product p ON (p.M_Product_ID = fa.Category_ID)
-LEFT JOIN M_Lot l ON (l.M_Lot_ID = cd.PlantingCycle_ID)
 LEFT JOIN C_BPartner_Location bpl ON (bpl.C_BPartner_Location_ID = f.C_BPartner_Location_ID)
 LEFT JOIN (SELECT lo.Address1, lo.Address2, lo.Address3, lo.Address4, loc.C_BPartner_ID FROM C_BPartner_Location loc INNER JOIN C_Location lo ON (loc.C_location_ID = lo.C_Location_ID) WHERE loc.IsBillTo='Y') adP ON ( adP.C_BPartner_ID =fc.C_BPartner_ID)
 
@@ -66,7 +65,7 @@ LEFT JOIN (SELECT df.C_BPartner_ID, df.FrontierNorth, df.FrontierSouth, df.Front
 WHERE  (fc.FTA_CreditAct_ID = $P{FTA_CreditAct_ID} OR $P{FTA_CreditAct_ID} IS NULL)
 AND (fc.FTA_FarmerCredit_ID = $P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
 GROUP BY fc.AD_Org_ID, fc.AD_Client_ID, fc.CreatedBy, fc.Created, fc.Updated, fc.UpdatedBy, fc.IsActive, oi.TaxID, bp.TaxID, bp.Value, bp.Name, bp.Name2, f.Name, f.Area, f.FrontierNorth, f.FrontierSouth, f.FrontierEast, f.FrontierWest,
-p.Name, fc.ApprovedAmt, fc.ApprovedQty, l.Name, fc.Amt, c.Name, lo.Address1, lo.Address2, lo.Address3, lo.Address4,
+p.Name, fc.ApprovedAmt, fc.ApprovedQty, 	cd.Description, fc.Amt, c.Name, lo.Address1, lo.Address2, lo.Address3, lo.Address4,
 DefinedAmt, nationality, dta.DocumentNote
 ORDER BY BPName]]>
 	</queryString>
