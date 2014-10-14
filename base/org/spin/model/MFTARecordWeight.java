@@ -324,7 +324,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	private String validateDispatchGuide() {
 		String sql = "SELECT mg.FTA_MobilizationGuide_ID"
 				+ "	FROM FTA_RecordWeight rw"
-				+ "	INNER JOIN FTA_MobilizationGuide mg ON (rw.FTA_RecordWeight_ID = mg.FTA_RecordWeight_ID)"
+				+ "	INNER JOIN FTA_MobilizationGuide mg ON (rw.FTA_LoadOrder_ID = mg.FTA_LoadOrder_ID)"
 				+ "	WHERE"
 				+ "		mg.DocStatus IN ('CO','CL')"
 				+ "		AND mg.IsSotrx = 'Y'"
@@ -1268,6 +1268,123 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			lo.save(get_TrxName());
 			// End Carlos Parada
 				
+		}
+		
+		else if (getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct))
+		{
+
+			// Get Orders From Load Order
+			MFTALoadOrder lo = null;
+			lo = (MFTALoadOrder) getFTA_LoadOrder();
+			
+			if (lo == null){
+				m_processMsg = "@FTA_LoadOrder_ID@ @NotFound@";
+				return null;
+			}
+			// Get Lines from Load Order
+			MFTALoadOrderLine[] lol = lo.getLines(true);
+			
+			BigDecimal m_AcumWeight = Env.ZERO;
+			BigDecimal m_TotalWeight = Env.ZERO;
+			// Create Shipments
+			for (int i=0; i <lol.length;i++){
+				
+				if (m_AcumWeight.compareTo(m_TotalWeight) == 1)
+					break;
+				//Get Order and Line
+				MOrder order = null;
+				MProduct product = null;
+				if (lol[i].getC_OrderLine_ID()!=0){
+					order =(MOrder) lol[i].getC_OrderLine().getC_Order();
+					product = (MProduct)lol[i].getC_OrderLine().getM_Product();
+				}
+				if(order == null){
+					m_processMsg = "@C_Order_ID@ @NotFound@";
+					return null;
+				}
+				
+				if (product==null){
+					m_processMsg = "@M_Product_ID@ @NotFound@";
+					return null;
+				}
+				
+				MDocType m_DocType = MDocType.get(getCtx(), order.getC_DocType_ID());
+				
+				if(m_DocType.getC_DocTypeShipment_ID() == 0){
+					m_processMsg = "@C_DocTypeShipment_ID@ @NotFound@";
+					return null;
+				}
+				
+				//	Create Receipt
+				MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
+				m_Receipt.setDateAcct(getDateDoc());
+				//	Set New Organization and warehouse
+				m_Receipt.setAD_Org_ID(getAD_Org_ID());
+				m_Receipt.setAD_OrgTrx_ID(getAD_Org_ID());
+				//	Set Warehouse
+				m_Receipt.setM_Warehouse_ID(order.getM_Warehouse_ID());
+				//	Set Farmer Credit and Record Weight
+				m_Receipt.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
+				//	Save
+				m_Receipt.saveEx(get_TrxName());
+				//
+				MInOutLine ioLine = new MInOutLine(m_Receipt);
+				
+				//	Rate Convert
+				BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+						product.getM_Product_ID(), getC_UOM_ID());
+				
+				if(rate == null){
+					m_processMsg = "@NoUOMConversion@";
+					return null;
+				}
+
+				if (m_TotalWeight == Env.ZERO)
+					m_TotalWeight = getValidWeight(false).multiply(rate);
+					
+				//BigDecimal m_MovementQty = (!getPayWeight().equals(Env.ZERO)?getPayWeight().multiply(rate):getNetWeight().multiply(rate));
+				BigDecimal m_MovementQty =lol[i].getQty().multiply(rate);
+				
+				if (lol.length == 1)
+					m_MovementQty = getValidWeight(false).multiply(rate);
+				else{
+					m_AcumWeight = m_AcumWeight.add(m_MovementQty);
+					if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == 1)
+						m_MovementQty = m_MovementQty.subtract(m_AcumWeight.subtract(getValidWeight(false).multiply(rate)));
+					else if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == -1)
+						m_MovementQty = m_MovementQty.add(getValidWeight(false).multiply(rate).subtract(m_AcumWeight));
+				}
+				
+				
+				//	Set Product
+				ioLine.setProduct(product);
+				ioLine.setM_Locator_ID(m_MovementQty);
+				ioLine.setC_OrderLine_ID(lol[i].getC_OrderLine_ID());
+				
+				//	Set Quantity
+				ioLine.setQty(lol[i].getQty());
+				ioLine.saveEx(get_TrxName());
+				//	Manually Process Shipment
+				m_Receipt.processIt(DocAction.ACTION_Complete);
+				m_Receipt.saveEx(get_TrxName());
+				
+				lol[i].setConfirmedQty(m_MovementQty);
+				lol[i].setConfirmedWeight(getValidWeight(false));
+				lol[i].setM_InOutLine_ID(ioLine.getM_InOutLine_ID());
+				lol[i].saveEx(get_TrxName());
+				
+				l_DocumentNo = " - " + l_DocumentNo + "@M_InOut_ID@: " + m_Receipt.getDocumentNo();
+
+			}// Create Shipments
+			
+			//Carlos Parada Set Delivered And Weight Registered
+			
+			lo.setIsDelivered(true);
+			lo.setIsWeightRegister(true);
+			lo.save(get_TrxName());
+			// End Carlos Parada
+				
+			
 		}
 		return l_DocumentNo;
 	}	//	createMaterialReceipt
