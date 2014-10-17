@@ -1,11 +1,18 @@
--- DROP VIEW FTA_RV_RecordWeight
+﻿-- DROP VIEW FTA_RV_RecordWeight
 CREATE OR REPLACE VIEW FTA_RV_RecordWeight AS
 SELECT 
-	rw.AD_Client_ID, rw.Created, rw.CreatedBy, rw.IsActive, rw.Updated, rw.UpdatedBy, 
-	rw.C_DocType_ID, rw.C_UOM_ID, 
+	rw.AD_Client_ID, 
+	rw.AD_Org_ID, 
+	rw.Created, 
+	rw.CreatedBy, 
+	rw.IsActive, 
+	rw.Updated, 
+	rw.UpdatedBy, 
+	rw.C_DocType_ID, 
+	rw.C_UOM_ID, 
 	mg.DateDoc, 
 	rw.Description, 
-	rw.DocStatus, rw.DocumentNo, rw.FTA_EntryTicket_ID, COALESCE(rw.FTA_QualityAnalysis_ID,qa.FTA_QualityAnalysis_ID)FTA_QualityAnalysis_ID, 
+	rw.DocStatus, rw.DocumentNo, rw.FTA_EntryTicket_ID, COALESCE(rw.FTA_QualityAnalysis_ID,qa.FTA_QualityAnalysis_ID) FTA_QualityAnalysis_ID, 
 	rw.FTA_RecordWeight_ID, rw.GrossWeight, rw.InDate, rw.IsSOTrx, rw.NetWeight, rw.OutDate, 
 	rw.TareWeight, rw.WeightStatus, 
 	dr.FTA_Driver_ID, dr.Value, vh.FTA_Vehicle_ID, vh.VehiclePlate, 
@@ -35,8 +42,12 @@ SELECT
 	vh.VolumeCapacity,
 	mg.QtyToDeliver,
 	mg.C_DocType_ID C_DocTypeMobilizationGuide_ID,
-	mg.Ext_Guide Guide_SADA
+	mg.Ext_Guide Guide_SADA,
+	COALESCE(ol.PriceEntered, lve_productpricelist(qa.M_Product_ID)) AS PriceList, 
+	dt.PrintName, 
+	mg.Type
 FROM FTA_RecordWeight rw
+INNER JOIN C_DocType dt ON(dt.C_DocType_ID = rw.C_DocType_ID)
 LEFT JOIN M_InOut io ON(io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND io.DocStatus IN('CO', 'CL'))
 LEFT JOIN FTA_EntryTicket et ON(et.FTA_EntryTicket_ID = rw.FTA_EntryTicket_ID)
 LEFT JOIN FTA_Driver dr ON(dr.FTA_Driver_ID = et.FTA_Driver_ID)
