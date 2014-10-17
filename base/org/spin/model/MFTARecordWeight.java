@@ -1287,10 +1287,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			BigDecimal m_AcumWeight = Env.ZERO;
 			BigDecimal m_TotalWeight = Env.ZERO;
 			// Create Shipments
-			for (int i=0; i <lol.length;i++){
+			for (int i=0; i <lol.length;i++)
+			{
 				
-				if (m_AcumWeight.compareTo(m_TotalWeight) == 1)
-					break;
+				//if (m_AcumWeight.compareTo(m_TotalWeight) == 1)
+					//break;
 				//Get Order and Line
 				MOrder order = null;
 				MProduct product = null;
@@ -1354,8 +1355,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					else if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == -1)
 						m_MovementQty = m_MovementQty.add(getValidWeight(false).multiply(rate).subtract(m_AcumWeight));
 				}
-				
-				
+
 				//	Set Product
 				ioLine.setProduct(product);
 				ioLine.setM_Locator_ID(m_MovementQty);
