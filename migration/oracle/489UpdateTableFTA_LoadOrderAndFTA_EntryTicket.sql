@@ -1,0 +1,35 @@
+-- Sep 17, 2014 11:07:52 AM VET
+-- FTA
+UPDATE AD_Column SET FieldLength=3,Updated=TO_DATE('2014-09-17 11:07:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=70627
+;
+
+-- Sep 17, 2014 11:31:53 AM VET
+-- FTA
+UPDATE AD_Ref_List SET Name='Record Weight',Updated=TO_DATE('2014-09-17 11:31:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54029
+;
+
+-- Sep 17, 2014 11:31:53 AM VET
+-- FTA
+UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=54029
+;
+
+-- Sep 17, 2014 11:32:02 AM VET
+-- FTA
+UPDATE AD_Ref_List_Trl SET Name='Registro de Peso',Description='Registro de Peso',Updated=TO_DATE('2014-09-17 11:32:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54029 AND AD_Language='es_MX'
+;
+
+-- Sep 17, 2014 12:46:04 PM VET
+-- FTA
+UPDATE AD_TreeNodeMM SET Parent_ID=53684, SeqNo=0,Updated=TO_DATE('2014-09-17 12:46:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tree_ID=10 AND Node_ID=53745
+;
+
+-- Sep 17, 2014 12:46:04 PM VET
+-- FTA
+UPDATE AD_TreeNodeMM SET Parent_ID=53684, SeqNo=1,Updated=TO_DATE('2014-09-17 12:46:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tree_ID=10 AND Node_ID=53785
+;
+
+-- Sep 17, 2014 12:46:04 PM VET
+-- FTA
+UPDATE AD_TreeNodeMM SET Parent_ID=53684, SeqNo=2,Updated=TO_DATE('2014-09-17 12:46:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tree_ID=10 AND Node_ID=53745
+;
+
