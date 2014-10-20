@@ -32,7 +32,7 @@ public class X_FTA_RecordWeightDetail extends PO implements I_FTA_RecordWeightDe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20141001L;
+	private static final long serialVersionUID = 20141020L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeightDetail (Properties ctx, int FTA_RecordWeightDetail_ID, String trxName)
