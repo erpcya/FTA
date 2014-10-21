@@ -1423,5 +1423,18 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		else
 			return getNetWeight();
 	}
+	
+	@Override
+	public BigDecimal getPayWeight() {
+		String selectionWeight = getSelectionWeight();
+		//	If null
+		if(selectionWeight == null)
+			selectionWeight = SELECTIONWEIGHT_PaymentWeight;
+		//	choice weight
+		if(selectionWeight.equals(SELECTIONWEIGHT_ImportWeight))
+			return super.getImportWeight();
+		//	Payment Weight
+		return super.getPayWeight();
+	}
 
 }
