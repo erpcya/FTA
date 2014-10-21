@@ -43,7 +43,7 @@ SELECT
 	mg.QtyToDeliver,
 	mg.C_DocType_ID C_DocTypeMobilizationGuide_ID,
 	mg.Ext_Guide Guide_SADA,
-	COALESCE(ol.PriceEntered, lve_productpricelist(qa.M_Product_ID)) AS PriceList, 
+	COALESCE(fol.PriceEntered, ol.PriceEntered, lve_productpricelist(qa.M_Product_ID)) AS PriceList, 
 	dt.PrintName, 
 	mg.Type
 FROM FTA_RecordWeight rw
@@ -54,6 +54,8 @@ LEFT JOIN FTA_Driver dr ON(dr.FTA_Driver_ID = et.FTA_Driver_ID)
 LEFT JOIN FTA_Vehicle vh ON(vh.FTA_Vehicle_ID = et.FTA_Vehicle_ID)
 LEFT JOIN AD_OrgInfo oi ON(oi.AD_Org_ID = rw.AD_Org_ID)
 LEFT JOIN FTA_RV_MobilizationGuide mg ON (mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
+LEFT JOIN FTA_Farming fm ON(fm.FTA_Farming_ID = mg.FTA_Farming_ID)
+LEFT JOIN C_OrderLine fol ON (fol.C_OrderLine_ID = fm.C_OrderLine_ID)
 LEFT JOIN C_BPartner cp ON(cp.C_BPartner_ID = mg.C_BPartner_ID)
 LEFT JOIN FTA_LoadOrder lo ON (rw.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID)
 LEFT JOIN FTA_LoadOrderLine lol ON (lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID)
