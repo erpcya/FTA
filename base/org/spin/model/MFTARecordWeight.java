@@ -1010,6 +1010,12 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			//	Set Warehouse
 			m_Receipt.setM_Warehouse_ID(m_M_Warehouse_ID);
 			//	Set Farmer Credit and Record Weight
+			int m_FTA_FarmerCredit_ID = m_Farming.getFTA_FarmerCredit_ID();
+			if(m_FTA_FarmerCredit_ID == 0) {
+				m_processMsg = "@FTA_FarmerCredit_ID@ @NotFound@";
+				return null;
+			}
+				
 			m_Receipt.set_ValueOfColumn("FTA_FarmerCredit_ID", m_Farming.getFTA_FarmerCredit_ID());
 			m_Receipt.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
 			//	Save

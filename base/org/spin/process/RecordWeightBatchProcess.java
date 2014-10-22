@@ -184,17 +184,22 @@ public class RecordWeightBatchProcess extends SvrProcess {
 	private boolean process (MFTARecordWeight recordWeight)
 	{
 		log.info(recordWeight.toString());
-		System.out.println(recordWeight.getDocumentNo());
 		//
-		recordWeight.setDocAction(p_DocAction);
-		if (recordWeight.processIt(p_DocAction))
-		{
-			recordWeight.save();
-			addLog(0, null, null, recordWeight.getDocumentNo() + ": OK");
-			return true;
+		try {
+			recordWeight.setDocAction(p_DocAction);
+			if (recordWeight.processIt(p_DocAction))
+			{
+				recordWeight.save();
+				addLog(0, null, null, recordWeight.getDocumentNo() + ": OK");
+				return true;
+			}
+			//	Process Error
+			addLog (0, null, null, recordWeight.getDocumentNo() + ": Error " + recordWeight.getProcessMsg());
+		} catch(Exception e) {
+			//	Log
+			addLog (0, null, null, recordWeight.getDocumentNo() + ": Error " + e.getLocalizedMessage());
 		}
-		//	Log
-		addLog (0, null, null, recordWeight.getDocumentNo() + ": Error " + recordWeight.getProcessMsg());
+		//	False
 		return false;
 	}	//	process
 }
