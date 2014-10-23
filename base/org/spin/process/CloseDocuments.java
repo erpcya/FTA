@@ -107,8 +107,9 @@ public class CloseDocuments extends SvrProcess{
 			rollback();
 			return "@Error@ @Invalid@ @C_DocTypeClosedAR_ID@ @OR@ @C_DocTypeClosedAP_ID@" ;
 		}
-		
-		m_Sql = "SELECT C_Invoice_ID, invoiceOpenFTA(fact.Record_ID,null) OpenAmt " +
+		//Fix Query 
+		m_Sql = "SELECT C_Invoice_ID,OpenAmt FROM (" +
+				"SELECT C_Invoice_ID, invoiceOpenFTA(fact.Record_ID,null) OpenAmt " +
 				"FROM " + 
 				"C_invoice ci " +
 				"INNER JOIN " + 
@@ -116,8 +117,10 @@ public class CloseDocuments extends SvrProcess{
 				"FROM FTA_Fact " + 
 				"WHERE AD_Table_ID = ? " +
 				") fact ON ci.C_invoice_ID = fact.Record_ID " + 
-				"WHERE invoiceOpenFTA(fact.Record_ID,null) <>0 AND " +
-				"ci.FTA_FarmerCredit_ID = ? ";
+				"WHERE " + //invoiceOpenFTA(fact.Record_ID,null) <>0 AND " +
+				"ci.FTA_FarmerCredit_ID = ? " +
+				") fact " + 
+				"WHERE OpenAmt <> 0 ";
 		
 		ps = DB.prepareStatement(m_Sql, get_TrxName());
 		ps.setInt(1, MInvoice.Table_ID);

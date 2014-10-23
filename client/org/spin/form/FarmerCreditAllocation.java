@@ -485,7 +485,9 @@ public class FarmerCreditAllocation
 					;//Carlos Parada Comment to Allow Amount negative 
 					//applied = applied.negate();
 				if ( open.abs().compareTo( applied.abs() ) < 0 )
-							applied = open;
+					;//2014-08-01 Carlos Parada Comment to Allow Amount negative
+					//applied = open;
+					//End Calos Parada
 			}
 			
 			liquidation.setValueAt(applied, row, i_liquidation);
