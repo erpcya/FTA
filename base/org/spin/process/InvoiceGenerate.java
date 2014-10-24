@@ -111,7 +111,7 @@ public class InvoiceGenerate extends SvrProcess{
 	protected String doIt() throws Exception {
 		// TODO Auto-generated method stub
 		if(p_AD_Org_ID == 0)
-			throw new AdempiereUserError("@C_DocType_ID@ @NotFound@");
+			throw new AdempiereUserError("@AD_Org_ID@ @NotFound@");
 		
 		if(p_C_DocType_ID == 0)
 			throw new AdempiereUserError("@C_DocType_ID@ @NotFound@");
