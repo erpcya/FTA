@@ -61,12 +61,18 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	private int 				p_C_DocTypeInvoice_ARI_ID = 0;
 	/**	Document Type Target AP Invoice		*/
 	private int 				p_C_DocTypeInvoice_API_ID = 0;
+	/**	Counter Document Type  AP Invoice		*/
+	private int 				p_C_DocTypeCounter_API_ID = 0;
 	/**	Document Date						*/
 	private Timestamp 			p_DateDoc = null;
+	/**	Document No						*/
+	private String 			p_DocumentNo = null;
 	/**	Farmer Credit						*/
 	private int 				p_FTA_FarmerCredit_ID = 0;
 	/**	Payment Request						*/
 	private String 				p_GeneratePayRequest = null;
+	/**	Generate Invoice						*/
+	private String 				p_GenerateInvoice = null;
 	/**	Document for Payment Request		*/
 	private int 				p_C_DocTypePayRequest_ID = 0;
 	/**	Charge								*/
@@ -125,6 +131,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				p_C_DocTypeInvoice_ARI_ID = para.getParameterAsInt();
 			else if(name.equals("C_DocTypeInvoice_ID"))
 				p_C_DocTypeInvoice_API_ID = para.getParameterAsInt();
+			else if(name.equals("C_DocTypeCounter_API_ID"))
+				p_C_DocTypeCounter_API_ID = para.getParameterAsInt();
 			else if(name.equals("C_Charge_ID"))
 				p_C_Charge_ID = para.getParameterAsInt();
 			else if(name.equals("M_Product_ID"))
@@ -133,8 +141,12 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				p_Amt = (BigDecimal)para.getParameter();
 			else if (name.equals("DateDoc"))
 				p_DateDoc = (Timestamp)para.getParameter();
+			else if (name.equals("DocumentNo"))
+				p_DocumentNo = (String)para.getParameter();
 			else if(name.equals("GeneratePayRequest"))
 				p_GeneratePayRequest = (String) para.getParameter();
+			else if(name.equals("GenerateInvoice"))
+				p_GenerateInvoice = (String) para.getParameter();
 			else if(name.equals("C_DocTypePayRequest_ID"))
 				p_C_DocTypePayRequest_ID = para.getParameterAsInt();
 			else if(name.equals("IsInDispute"))
@@ -238,6 +250,12 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				if(p_GeneratePayRequest != null
 						&& p_GeneratePayRequest.equals("Y"))
 					generatePayRequest();
+				if(p_GenerateInvoice != null
+						&& p_GenerateInvoice.equals("Y"))
+				{
+					addDocumentAPI();
+					addDocumentAPIC();
+				}
 			}
 			//	
 			if(m_FTA_FarmerCredit.getBeneficiary_ID() != 0){
@@ -283,6 +301,88 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_ARInvoice.setDateInvoiced(p_DateDoc);
 		m_ARInvoice.setIsSOTrx(true);
 		m_ARInvoice.setC_DocTypeTarget_ID(p_C_DocTypeInvoice_ARI_ID);
+		
+		//Set in Dispute
+		m_ARInvoice.setIsInDispute(p_IsIndispute);
+		
+		//	Set Business Partner
+		
+		m_ARInvoice.setBPartner(bpartner);
+		//	Set Farmer Credit
+		m_ARInvoice.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit_ID);
+		//	Description
+		if(p_Description != null)
+			m_ARInvoice.setDescription(p_Description);
+		m_ARInvoice.saveEx();
+		//	Create Line
+		MInvoiceLine m_ARinvoiceLine = new MInvoiceLine(m_ARInvoice);
+		//	Set Charge and Product
+		setChargeProduct(m_ARinvoiceLine);
+		//	
+		m_ARinvoiceLine.setQty(Env.ONE);
+		//	Set Amount
+		if(p_Amt == null)
+			p_Amt = m_FTA_FarmerCredit.getAmt();
+		m_ARinvoiceLine.setPrice(p_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
+		//	Description
+		if(p_Description != null)
+			m_ARinvoiceLine.setDescription(p_Description);
+		//	
+		m_ARinvoiceLine.setTaxAmt();
+		m_ARinvoiceLine.saveEx();
+		//	Add Invoice
+		m_Current_C_Invoice_ID = m_ARInvoice.getC_Invoice_ID();
+		//	Complete
+		completeDoument(m_ARInvoice);
+	}
+	
+	private void addDocumentAPI(){
+		MInvoice m_ARInvoice = new MInvoice(getCtx(), 0, trxName);
+		m_ARInvoice.setAD_Org_ID(p_AD_Org_ID);
+		m_ARInvoice.setDateInvoiced(p_DateDoc);
+		m_ARInvoice.setDocumentNo(p_DocumentNo);
+		m_ARInvoice.setIsSOTrx(false);
+		m_ARInvoice.setC_DocTypeTarget_ID(p_C_DocTypeInvoice_API_ID);
+		
+		//Set in Dispute
+		m_ARInvoice.setIsInDispute(p_IsIndispute);
+		
+		//	Set Business Partner
+		
+		m_ARInvoice.setBPartner(bpartner);
+		//	Set Farmer Credit
+		m_ARInvoice.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit_ID);
+		//	Description
+		if(p_Description != null)
+			m_ARInvoice.setDescription(p_Description);
+		m_ARInvoice.saveEx();
+		//	Create Line
+		MInvoiceLine m_ARinvoiceLine = new MInvoiceLine(m_ARInvoice);
+		//	Set Charge and Product
+		setChargeProduct(m_ARinvoiceLine);
+		//	
+		m_ARinvoiceLine.setQty(Env.ONE);
+		//	Set Amount
+		if(p_Amt == null)
+			p_Amt = m_FTA_FarmerCredit.getAmt();
+		m_ARinvoiceLine.setPrice(p_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
+		//	Description
+		if(p_Description != null)
+			m_ARinvoiceLine.setDescription(p_Description);
+		//	
+		m_ARinvoiceLine.setTaxAmt();
+		m_ARinvoiceLine.saveEx();
+		//	Add Invoice
+		m_Current_C_Invoice_ID = m_ARInvoice.getC_Invoice_ID();
+		//	Complete
+		completeDoument(m_ARInvoice);
+	}
+	private void addDocumentAPIC(){
+		MInvoice m_ARInvoice = new MInvoice(getCtx(), 0, trxName);
+		m_ARInvoice.setAD_Org_ID(p_AD_Org_ID);
+		m_ARInvoice.setDateInvoiced(p_DateDoc);
+		m_ARInvoice.setIsSOTrx(false);
+		m_ARInvoice.setC_DocTypeTarget_ID(p_C_DocTypeCounter_API_ID);
 		
 		//Set in Dispute
 		m_ARInvoice.setIsInDispute(p_IsIndispute);
