@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inf_FarmerAccountStatement" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91c80499-e68d-49ef-947f-a0080fa9d852">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="AD_Org_ID" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FTA_CreditDefinition_ID" class="java.math.BigDecimal"/>
+	<parameter name="C_BPartner_ID" class="java.math.BigDecimal"/>
+	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal"/>
+	<parameter name="DateDoc1" class="java.sql.Timestamp" isForPrompting="false">
+		<parameterDescription><![CDATA[java.sql.Timestamp()]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DateDoc2" class="java.sql.Timestamp" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT cl.Name Client, cp.TaxID, cp.Name, ROUND(SUM(st.AmtAcctCR),2) as credito, ROUND(SUM(st.AmtAcctDR),2) AS debito,ROUND(((SUM(st.AmtAcctDR))-(SUM(st.AmtAcctCR))),2) AS balance, ao.name as org
+FROM FTA_RV_AccountStatement st
+INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = st.FTA_CreditDefinition_ID)
+INNER JOIN AD_Org ao ON(ao.AD_Org_ID = st.AD_Org_ID)
+INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = st.C_BPartner_ID)
+INNER JOIN AD_Client cl ON(cl.AD_Client_ID = cd.AD_Client_ID)
+INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = st.FTA_FarmerCredit_ID)
+INNER JOIN FTA_Farming fm ON(fm.FTA_FarmerCredit_ID = fc.FTA_FarmerCredit_ID)
+WHERE st.AD_Table_ID <> 259 AND st.AD_Table_ID <> 53566
+AND (st.C_BPartner_ID=$P{C_BPartner_ID} OR $P{C_BPartner_ID} IS NULL)
+AND (st.AD_Org_ID=$P{AD_Org_ID} OR $P{AD_Org_ID} IS NULL)
+AND (st.FTA_CreditDefinition_ID=$P{FTA_CreditDefinition_ID} OR $P{FTA_CreditDefinition_ID} IS NULL)
+AND (st.FTA_FarmerCredit_ID=$P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
+AND (st.DateDoc >= $P{DateDoc1} OR COALESCE($P{DateDoc1}, Current_Timestamp) = Current_Timestamp)
+AND (st.DateDoc <= $P{DateDoc2} OR COALESCE($P{DateDoc2}, Current_Timestamp) = Current_Timestamp)
+GROUP BY cl.Name,org, cp.TaxID, cp.Name
+ORDER BY org,cp.Name]]>
+	</queryString>
+	<field name="client" class="java.lang.String"/>
+	<field name="taxid" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="credito" class="java.math.BigDecimal"/>
+	<field name="debito" class="java.math.BigDecimal"/>
+	<field name="balance" class="java.math.BigDecimal"/>
+	<field name="org" class="java.lang.String"/>
+	<variable name="balance" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{debito}.subtract($F{credito})]]></variableExpression>
+	</variable>
+	<variable name="balance_t" class="java.lang.String" calculation="Sum">
+		<variableExpression><![CDATA[$F{balance}]]></variableExpression>
+	</variable>
+	<variable name="credito_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Group CBP" calculation="Sum">
+		<variableExpression><![CDATA[$F{credito}]]></variableExpression>
+	</variable>
+	<variable name="debito_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Group ORg" calculation="Sum">
+		<variableExpression><![CDATA[$F{debito}]]></variableExpression>
+	</variable>
+	<group name="Group ORg">
+		<groupExpression><![CDATA[$F{org}]]></groupExpression>
+		<groupFooter>
+			<band height="50">
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="386" height="13" uuid="85c2c001-b70c-4d90-9e68-a59b6984d3bc"/>
+					<box>
+						<pen lineStyle="Dashed"/>
+						<topPen lineWidth="0.5" lineStyle="Solid"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total "+$F{org}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="510" y="0" width="62" height="13" uuid="4ec1b34a-d804-4d94-8821-6db21be96bb8"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{balance}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="448" y="0" width="62" height="13" uuid="f1f651f3-c7ba-4046-bf5d-f9f74ffb9276"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{credito_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="386" y="0" width="62" height="13" uuid="23541cfe-e254-4ca4-9c52-132ae9fac941"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{debito_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Group CBP">
+		<groupExpression><![CDATA[$F{name}]]></groupExpression>
+		<groupFooter>
+			<band height="13">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="13" uuid="3bb8fea9-925b-4dde-95ca-25974ce596ab"/>
+					<box>
+						<pen lineStyle="Dashed"/>
+						<topPen lineWidth="0.5" lineStyle="Solid"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{taxid}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" x="60" y="0" width="326" height="13" uuid="1ee71d8e-efcb-4da7-8a63-b7140bc6ac76"/>
+					<box>
+						<pen lineStyle="Dashed"/>
+						<topPen lineWidth="0.5" lineStyle="Solid"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="448" y="0" width="62" height="13" uuid="a91ae25d-e926-4f50-a0a3-578db8d5d774"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="false" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{credito}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="510" y="0" width="62" height="13" uuid="433be3d9-dcef-4aca-9c09-7a8fa8911f5e"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="false" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{balance}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="386" y="0" width="62" height="13" uuid="ede5745a-2585-492a-b2e3-2d7e4d5593ef"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="false" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{debito}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="77" splitType="Stretch">
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="83" y="0" width="365" height="26" isPrintInFirstWholeBand="true" uuid="bbf016e2-37c2-4098-91a7-588766b3d991"/>
+				<textElement textAlignment="Center" markup="none">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Estado de Cuenta de Productores Resumido \n\"" + $F{client} + "\""]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="511" y="26" width="61" height="13" uuid="15c8b75c-987e-4afa-94ac-fb72e3a26c71"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="466" y="13" width="41" height="13" uuid="5cca0034-3d52-4c39-b373-ae014801629e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="511" y="0" width="61" height="13" uuid="c77d5ce9-7232-4ace-aa4d-28db8d10d012"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="466" y="0" width="41" height="13" uuid="61de88dd-329a-4622-80f6-860a1bdd9b7e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField pattern="h.mm.ss a">
+				<reportElement x="511" y="13" width="61" height="13" uuid="2f20c151-2cca-4542-9996-adc8f9333e94"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="466" y="26" width="41" height="13" uuid="e0dc9f43-7af0-40a0-8ebf-7989f17b5ed1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Página:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="39" width="266" height="12" uuid="fa8961c2-e3a0-4fe6-8a4a-be23cb19c516"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{AD_Org_ID} == null? "": "Organización = " + $F{org}) +
+($P{DateDoc1} != null || $P{DateDoc2} != null? "\nFecha de Documento: ": "") +
+($P{DateDoc1} != null? new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc1}): "") +
+($P{DateDoc2} != null? " Al " + new SimpleDateFormat("dd/MM/yyyy").format($P{DateDoc2}): "") +
+($P{C_BPartner_ID} == null
+    ? ""
+    : "Socio de Negocio = " + ($F{taxid} == null? "": $F{taxid} + " - ") + $F{name})]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="13" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="60" height="13" uuid="55523ecd-90c1-493f-b708-18ddfe34c636"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cedula]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="0" width="326" height="13" uuid="7395561d-3c07-4716-8f46-27fb1c2de2a9"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre y Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="0" width="62" height="13" uuid="b4aef4c1-042f-4901-9e9a-b536a3667461"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Débito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="448" y="0" width="62" height="13" uuid="42ffbedd-2ce8-4df4-bd09-05abac097365"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Crédito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="510" y="0" width="62" height="13" uuid="fa411b1b-f694-42fe-8daa-3a40bbf5194d"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<summary>
+		<band height="50"/>
+	</summary>
+</jasperReport>

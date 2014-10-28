@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Special Contract" pageWidth="612" pageHeight="812" whenNoDataType="AllSectionsNoDetail" columnWidth="532" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="20" scriptletClass="org.spin.scriptlet.AmtInWordsScriptlet" uuid="6916fbed-f662-4f35-bcd1-96251027305f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="org.spin.scriptlet.*"/>
+	<parameter name="FTA_CreditAct_ID" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FTA_FarmerCredit_ID" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="AD_Language" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	COALESCE(bp.TaxID,bp.Value) BPTaxID,
+	bp.Name||' '||COALESCE(bp.Name2,'') BPName,
+	ROUND(fc.ApprovedAmt,2) ApprovedAmt,
+	ROUND(fc.ApprovedQty,2) ApprovedQty,
+	ROUND(fc.Amt,2) Amt,
+	c.Name ClientName,
+	ROUND(cd.amt,2) DefinedAmt,
+	fc.ApprovedAmt,
+	CASE WHEN LVE_PayScheduleDueDate(fc.FTA_FarmerCredit_ID) IS NULL THEN
+		TO_CHAR(fc.DateDoc,'dd-MM-yyyy')
+	ELSE
+		 LVE_PayScheduleDueDate(fc.FTA_FarmerCredit_ID)
+	END AS DueDate,
+	CASE WHEN COUNT(fcp.FTA_FC_PaySchedule_ID) > 0 THEN
+		COUNT(fcp.FTA_FC_PaySchedule_ID)
+	ELSE
+		1
+	END Quantity
+FROM FTA_FarmerCredit fc
+INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID = fc.C_BPartner_ID)
+INNER JOIN AD_Client c ON (fc.AD_Client_ID = c.AD_Client_ID)
+INNER JOIN FTA_CreditDefinition cd ON (cd.FTA_CreditDefinition_ID = fc.FTA_CreditDefinition_ID)
+INNER JOIN FTA_CreditAct act ON(act.FTA_CreditAct_ID = fc.FTA_CreditAct_ID)
+LEFT JOIN FTA_FC_PaySchedule fcp ON (fc.FTA_FarmerCredit_ID = fcp.FTA_FarmerCredit_ID)
+
+WHERE  (fc.FTA_CreditAct_ID = $P{FTA_CreditAct_ID} OR $P{FTA_CreditAct_ID} IS NULL)
+AND (fc.FTA_FarmerCredit_ID = $P{FTA_FarmerCredit_ID} OR $P{FTA_FarmerCredit_ID} IS NULL)
+GROUP BY
+	bp.TaxID,bp.Value,bp.Name,bp.Name2,fc.ApprovedAmt,fc.ApprovedQty,fc.Amt,c.Name,cd.amt,fc.FTA_FarmerCredit_ID
+ORDER BY BPName]]>
+	</queryString>
+	<field name="bptaxid" class="java.lang.String"/>
+	<field name="bpname" class="java.lang.String"/>
+	<field name="approvedamt" class="java.math.BigDecimal"/>
+	<field name="approvedqty" class="java.math.BigDecimal"/>
+	<field name="amt" class="java.math.BigDecimal"/>
+	<field name="clientname" class="java.lang.String"/>
+	<field name="definedamt" class="java.math.BigDecimal"/>
+	<field name="duedate" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="752">
+			<textField>
+				<reportElement positionType="Float" x="0" y="0" width="532" height="752" uuid="4741b2c6-8364-4a27-8f55-30f1efa68f8f">
+					<property name="net.sf.jasperreports.export.pdf.tag.td" value="start"/>
+					<property name="net.sf.jasperreports.export.pdf.tag.h1" value="full"/>
+				</reportElement>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["  Entre: LA "+ $F{clientname} + " (A.N.C.A), Domiciliada en ARAURE,  inscrita  "
++ " originalmente  por  ante  el  Juzgado  de Primera  Instancia  en lo  Civil  de  la  Cuarta  Circunscripción Judicial "
++ " de  Maracay  Edo.  Aragua, bajo  el No. 3332, en  fecha 30 de  Noviembre de "
++ " 1945, bajo  el  No .37, folios  111  Vto.,  Protocolo   Primero,  Tomo  II, "
++ " Adicional,  2do.   Trimestre,  reformado   su  documento  constitutivo  por "
++ " Cambio de  domicilio  a  la  ciudad  de  Acarigua,  Edo.  Portuguesa,  con  "
++ " fecha   16   de   Mayo   de  1969,  bajo   el  No  09,  folios  26  al  40, "
++ " Protocolo  Primero,  Tomo   I,  2do.  Trimestre  de   1969   posteriormente "
++ " Modificado  bajo  el  No.  85,  Folios  7  al 8, Protocolo Primero,  Tomo 1 "
++ " Adicional, 2do. Trimestre de  1.973,  registrado  con  fecha  25  de  Junio "
++ " de  1973  vuelto  a  modificar  sus  Estatutos  con fecha 11 de febrero del "
++ " 2000,  bajo el No. 18, folios  1  al  15,  Protocolo  Primero,  Tomo  3,  y "
++ " Modificada  según   Acta   de   Asamblea   General   Ordinaria,   de  fecha "
++ " 24  de  Junio   de   2007,  protocolizada  bajo  el   No. 8,  folios  1  al "
++ " 6,   Protocolo   Primero,   Tomo   5to,  Tercer  Trimestre  del  año  2007, "
++ " registrada por ante  la  Oficina  Inmobiliaria   de  Registro  Publico  del "
++ " Municipio Páez  del  Estado  Portuguesa, de fecha 20 de  julio  de  2007  y "
++ " modificación   estatutaria    protocolizada    por    ante    la    Oficina "
++ " Inmobiliaria de Registro Público  de  los  Municipios Araure,  Agua  Blanca "
++ " y  San  Rafael de  Onoto del  Estado Portuguesa, bajo el No. 41, folio 181, "
++ " del  Tomo  No  15.  Protocolo  de  Transcripción  de  fecha  09  de  agosto "
++ " del 2010 y  Acta  de Asamblea  General  Ordinaria  de  Asociados  de  fecha "
++ " 20   de   Mayo  del   Año  2012,   protocolizada   por   ante   la  Oficina "
++ " Inmobiliaria   de   Registro   Público  de  los  Municipios   Araure,  Agua "
++ " Blanca y San Rafael de Onoto  del  Estado  Portuguesa,  anotado   bajo   el "
++ " No.20,  Folio 128, Tomo 17, Protocolo  de  Transcripción  de  fecha  15  de "
++ " Agosto del Año 2012. RIF.  No.  J-30221838-1;  representada  en  este  acto "
++ " por  el ciudadano GIUSEPPE INTRALIGGI, Director de la Junta Directiva "
++ " de la "+ $F{clientname} + " (A.N.C.A.),"
++ " Venezolano,   mayor   de  edad,  agricultor  titular   de  la   cedula   de "
++ " Identidad  No. 11549224,   de este domicilio  quien  actúa   en   ejecución"
++ " de  lo  resuelto  por  la  Junta  Directiva  de  dicha   Asociación  en  la "
++ " sesión  celebrada  el  18  de  Abril  del  año  2012  quien en lo adelante "
++ " se  denominara  A.N.C.A. y   por   la   otra   parte   el   ciudadano : " + $F{bpname}
++ " mayor      de      edad, Titular   de    la   Cédula   de   Identidad: "+$F{bptaxid}
++ " quien   en   lo adelante se denominará \"EL PRODUCTOR\", se ha convenido en celebrar"
++ "  el siguiente acuerdo:    "
++ " \n\nCLAUSULA   PRIMERA: \"EL AGRICULTOR\"    recibe    la    cantidad    de: "
++ $P{REPORT_SCRIPTLET}.amtInWords(new DecimalFormat("#,###.00").format($F{approvedamt}).toString(),$P{AD_Language})
++ "  (BsF. "+ new DecimalFormat("#,###.00").format($F{approvedamt}) +"),  por  parte  de  A.N.C.A.,  como   parte  de  incentivos"
++ " que serán  destinados  a  la ejecución  de actividades propias de la labor"
++ " agrícola que realiza, para lo  cual \"EL  AGRICULTOR\"  se  compromete  a su"
++ " cancelación  mediante "
++ $F{quantity}
++ " cuotas   causada  con  fecha  de  vencimiento "
++ " "+$F{duedate}+ "."
++ " \n\nCLAUSULA SEGUNDA: Como parte   de  este  acuerdo  realizar   un  aporte del "
++ " Cinco(5%) por ciento  sobre  el  valor  del  beneficio recibido,  que  ser  "
++ " destinado por A.N.C.A., para el desarrollo de actividades de investigación, "
++ " función social y  transferencia en los cultivos de maíz, girasol  y  sorgo. "
++ " \n\nCLAUSULA TERCERA: Él aporte del Cinco ( 5% ) por ciento realizado  por  \"EL "
++ " AGRICULTOR\"  será   pagado  con  la  PRIMERA  CUOTA  de  pago,  y  que  será  "
++ " destinada  al  desarrollo  de  las  actividades  señalada  en  la  clausula "
++ " Primera de este contrato. "
++ " \n\nCLAUSULA CUARTA:   \"EL  AGRICULTOR\" conviene  en  aceptar  la  emisión  de "
++ " un (1) GIRO el cual  deberá   ser   pagado  en   un  lapso   prorrogable  de "
++ " TRESCIENTOS SESENTA (360) DIAS CONTINUOS, por el monto total de  la  deuda, "
++ " en caso de que el \"EL AGRICULTOR \" no cancele  la totalidad de  la deuda al "
++ " termino del vencimiento del giro, este  será sustituido por otro giro, con "
++ " vencimiento a  TRESCIENTOS  SESENTA (360) DIAS CONTINUOS, por  el saldo que "
++ " presente a la  fecha  manteniéndose  las  mismas  condiciones  establecidas "
++ " en este contrato. "]]></textFieldExpression>
+			</textField>
+			<break>
+				<reportElement x="0" y="3" width="572" height="1" uuid="dab67937-150d-4661-aef3-4bf376bfef8c"/>
+			</break>
+			<textField>
+				<reportElement x="0" y="7" width="532" height="694" uuid="8f07461d-45ad-4737-b64a-bb3599d484d0"/>
+				<textElement textAlignment="Justified" markup="none"/>
+				<textFieldExpression><![CDATA["CLAUSULA QUINTA: \"EL AGRICULTOR\"  conviene en realizar los  pagos  de  las"
++ " cantidades recibidas  como  parte de  incentivo,  en  la  sede  de  A.N.CA, "
++ " ubicada en la ciudad de Acarigua, Estado Portuguesa."
++ " \n\nCLAUSULA SEXTA: Las  partes  contratantes  eligen  como  domicilio especial "
++ " a la Ciudad de Acarigua, Estado Portuguesa, sometiéndose a la  Jurisdicción "
++ " de sus  Tribunales."
+
++ " \n\nEn Araure, Estado Portuguesa a la fecha de su presentación."
++ " "
+
++"\r\n\r\n\r\n\r\n\r\n\r\n"
+
++"\n\n\t______________________\t\t\t\t\t\t________________________"
++"\n\n\t\tANCA\t\t\t\t.                   \t\t    PRODUCTOR"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
