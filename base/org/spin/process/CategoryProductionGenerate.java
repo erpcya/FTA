@@ -192,78 +192,79 @@ public class CategoryProductionGenerate extends SvrProcess {
 				.append("EXISTS(")
 				.append("SELECT 1 ")
 				.append("FROM FTA_RV_AttributeValue av ")
-				.append("WHERE av.M_AttributeSetInstance_ID = qa.QualityAnalysis_ID ")
-				.append("AND av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID())
-				.append(" ");
+				.append("WHERE av.M_AttributeSetInstance_ID = qa.QualityAnalysis_ID ");
 			//	Just Lot
 			if(m_filter.isLot()){
 				sql.append("AND av.M_Lot_ID = ").append(m_filter.getPlantingCycle_ID());
-			}
-			//	Just Number
-			else if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_Number)){
-				//	Operator
-				BigDecimal valueNumber = m_filter.getValueNumber();
-				BigDecimal valueNumber2 = m_filter.getValueNumber2();
-				//	Equal both
-				if(valueNumber != null
-						&& valueNumber2 != null
-						&& valueNumber.equals(valueNumber2)){
-					sql.append("AND av.ValueNumber = ").append(valueNumber);
-				} else if(valueNumber != null
-						&& valueNumber2 == null){
-					sql.append("AND av.ValueNumber >= ").append(valueNumber);
-				} else if(valueNumber == null
-						&& valueNumber2 != null){
-					sql.append("AND av.ValueNumber <= ").append(valueNumber2);
-				} else if(valueNumber != null
-						&& valueNumber2 != null
-						& !valueNumber.equals(valueNumber2)){
-					sql.append("AND (av.ValueNumber >= ").append(valueNumber)
-							.append(" AND av.ValueNumber <= ").append(valueNumber2).append(")");
-				}	
-			}
-			//	Just String Value
-			else if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_StringMax40)){
-				//	Operator
-				String value = m_filter.getValue();
-				String value2 = m_filter.getValue2();
-				if(value != null
-						&& value2 != null
-						&& value.equals(value2)){
-					sql.append("AND av.Value = ").append("'").append(value).append("'");
-				} else if(value != null
-						&& value2 == null){
-					sql.append("AND av.Value >= ").append("'").append(value).append("'");
-				} else if(value == null
-						&& value2 != null){
-					sql.append("AND av.Value <= ").append("'").append(value2).append("'");
-				} else if(value != null
-						&& value2 != null
-						& !value.equals(value2)){
-					sql.append("AND (av.Value >= ").append("'").append(value).append("'")
-					.append(" AND av.Value <= ").append("'").append(value2).append("')");
+			} else {
+				//	No Lot
+				sql.append("AND av.M_Attribute_ID = ").append(m_filter.getM_Attribute_ID()).append(" ");
+				//	Just Number
+				if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_Number)){
+					//	Operator
+					BigDecimal valueNumber = m_filter.getValueNumber();
+					BigDecimal valueNumber2 = m_filter.getValueNumber2();
+					//	Equal both
+					if(valueNumber != null
+							&& valueNumber2 != null
+							&& valueNumber.equals(valueNumber2)){
+						sql.append("AND av.ValueNumber = ").append(valueNumber);
+					} else if(valueNumber != null
+							&& valueNumber2 == null){
+						sql.append("AND av.ValueNumber >= ").append(valueNumber);
+					} else if(valueNumber == null
+							&& valueNumber2 != null){
+						sql.append("AND av.ValueNumber <= ").append(valueNumber2);
+					} else if(valueNumber != null
+							&& valueNumber2 != null
+							& !valueNumber.equals(valueNumber2)){
+						sql.append("AND (av.ValueNumber >= ").append(valueNumber)
+								.append(" AND av.ValueNumber <= ").append(valueNumber2).append(")");
+					}	
 				}
-			}
-			else if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_List)){
-				//	Operator
-				int m_M_AttributeValue_ID = m_filter.getM_AttributeValue_ID();
-				int m_M_AttributeValue2_ID = m_filter.getM_AttributeValue2_ID();
-				//	Equal both
-				if(m_M_AttributeValue_ID != 0
-						&& m_M_AttributeValue_ID != 0
-						&& m_M_AttributeValue_ID == m_M_AttributeValue2_ID){
-					sql.append("AND av.M_AttributeValue_ID = ").append(m_M_AttributeValue_ID);
-				} else if(m_M_AttributeValue_ID != 0
-						&& m_M_AttributeValue2_ID == 0){
-					sql.append("AND av.M_AttributeValue_ID >= ").append(m_M_AttributeValue_ID);
-				} else if(m_M_AttributeValue_ID == 0
-						&& m_M_AttributeValue2_ID != 0){
-					sql.append("AND av.M_AttributeValue_ID <= ").append(m_M_AttributeValue2_ID);
-				} else if(m_M_AttributeValue_ID != 0
-						&& m_M_AttributeValue2_ID != 0
-						& m_M_AttributeValue_ID != m_M_AttributeValue2_ID){
-					sql.append("AND (av.M_AttributeValue_ID >= ").append(m_M_AttributeValue_ID)
-						.append(" AND av.M_AttributeValue_ID <= ").append(m_M_AttributeValue2_ID).append(")");
+				//	Just String Value
+				else if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_StringMax40)){
+					//	Operator
+					String value = m_filter.getValue();
+					String value2 = m_filter.getValue2();
+					if(value != null
+							&& value2 != null
+							&& value.equals(value2)){
+						sql.append("AND av.Value = ").append("'").append(value).append("'");
+					} else if(value != null
+							&& value2 == null){
+						sql.append("AND av.Value >= ").append("'").append(value).append("'");
+					} else if(value == null
+							&& value2 != null){
+						sql.append("AND av.Value <= ").append("'").append(value2).append("'");
+					} else if(value != null
+							&& value2 != null
+							& !value.equals(value2)){
+						sql.append("AND (av.Value >= ").append("'").append(value).append("'")
+						.append(" AND av.Value <= ").append("'").append(value2).append("')");
+					}
+				}
+				else if(m_filter.getAttributeValueType().equals(X_M_Attribute.ATTRIBUTEVALUETYPE_List)){
+					//	Operator
+					int m_M_AttributeValue_ID = m_filter.getM_AttributeValue_ID();
+					int m_M_AttributeValue2_ID = m_filter.getM_AttributeValue2_ID();
+					//	Equal both
+					if(m_M_AttributeValue_ID != 0
+							&& m_M_AttributeValue_ID != 0
+							&& m_M_AttributeValue_ID == m_M_AttributeValue2_ID){
+						sql.append("AND av.M_AttributeValue_ID = ").append(m_M_AttributeValue_ID);
+					} else if(m_M_AttributeValue_ID != 0
+							&& m_M_AttributeValue2_ID == 0){
+						sql.append("AND av.M_AttributeValue_ID >= ").append(m_M_AttributeValue_ID);
+					} else if(m_M_AttributeValue_ID == 0
+							&& m_M_AttributeValue2_ID != 0){
+						sql.append("AND av.M_AttributeValue_ID <= ").append(m_M_AttributeValue2_ID);
+					} else if(m_M_AttributeValue_ID != 0
+							&& m_M_AttributeValue2_ID != 0
+							& m_M_AttributeValue_ID != m_M_AttributeValue2_ID){
+						sql.append("AND (av.M_AttributeValue_ID >= ").append(m_M_AttributeValue_ID)
+							.append(" AND av.M_AttributeValue_ID <= ").append(m_M_AttributeValue2_ID).append(")");
+					}
 				}
 			}
 			//	Add
