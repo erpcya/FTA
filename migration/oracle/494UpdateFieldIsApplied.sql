@@ -1,0 +1,5 @@
+-- Sep 22, 2014 10:49:35 AM VET
+-- FTA
+UPDATE AD_Field SET IsReadOnly='N',Updated=TO_DATE('2014-09-22 10:49:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=74561
+;
+
