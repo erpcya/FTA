@@ -60,7 +60,7 @@ INNER JOIN AD_Org org ON(org.AD_Org_ID = et.AD_Org_ID)
 INNER JOIN FTA_MobilizationGuide mg ON(mg.FTA_MobilizationGuide_ID = et.FTA_MobilizationGuide_ID)
 INNER JOIN FTA_QualityAnalysis qa ON(qa.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID)
 INNER JOIN FTA_RecordWeight rw ON(rw.FTA_QualityAnalysis_ID = qa.FTA_QualityAnalysis_ID)
-INNER JOIN M_Product mp ON (mp.M_Product_ID=qa.M_Product_ID)
+INNER JOIN M_Product mp ON (mp.M_Product_ID = qa.M_Product_ID)
 INNER JOIN FTA_Farming fm ON(fm.FTA_Farming_ID = mg.FTA_Farming_ID)
 INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = fm.FTA_FarmerCredit_ID)
 INNER JOIN M_Lot lot ON(lot.M_Lot_ID = fm.PlantingCycle_ID)
@@ -77,7 +77,8 @@ INNER JOIN (SELECT 'N' isWeight, av.Name Att, av.Value, av.ValueNumber, av.Attri
 		INNER JOIN FTA_CategoryCalc cc ON(cc.FTA_CategoryCalc_ID = rwd.FTA_CategoryCalc_ID)
 		) av ON(av.QualityAnalysis_ID = qa.QualityAnalysis_ID OR av.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID)
 INNER JOIN FTA_AttributeReportLine atl ON(atl.M_Attribute_ID = av.M_Attribute_ID OR atl.FTA_CategoryCalc_ID = av.FTA_CategoryCalc_ID)
-WHERE et.OperationType = 'RMR'
+WHERE et.OperationType = 'RMR' 
+AND rw.DocStatus = qa.DocStatus
 UNION ALL
 -- OperationType DBM
 SELECT mg.DocumentNo MobilizationGuide,
