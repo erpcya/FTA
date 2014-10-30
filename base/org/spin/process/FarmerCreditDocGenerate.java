@@ -17,16 +17,20 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MAllocationLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
@@ -34,8 +38,11 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MRefList;
+import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.model.X_C_DocType;
 import org.compiere.model.X_C_Invoice;
+import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
@@ -43,6 +50,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.spin.model.MFTAAllocation;
+import org.spin.model.MFTAAllocationLine;
 import org.spin.model.MFTAFact;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAPaymentRequest;
@@ -58,6 +67,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	/**	Organization						*/
 	private int 				p_AD_Org_ID = 0;
 	/**	Document Type Target AP Credit Memo	*/
+	/**	Current Business Partner			*/
+	private int 				m_Current_C_BPartner_ID 	= 0;
 	private int 				p_C_DocTypeInvoice_ARI_ID = 0;
 	/**	Document Type Target AP Invoice		*/
 	private int 				p_C_DocTypeInvoice_API_ID = 0;
@@ -79,14 +90,22 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	private int 				p_C_Charge_ID = 0;
 	/**	Product								*/
 	private int 				p_M_Product_ID = 0;	
+	/**	Current Allocation					*/
+	private MAllocationHdr 		m_Current_Alloc			= null;
 	/**	Amount								*/
 	private BigDecimal			p_Amt = null;
 	/**	Description							*/
 	private String				p_Description = null;
 	/**	Current Invoice						*/
 	private int					m_Current_C_Invoice_ID = 0;
+	/**	ID Invoice API						*/
+	private int					m_C_Invoice_ID_API = 0;
+	/**	Counter Document Invoice API						*/
+	private int					m_C_Invoice_ID_CAPI = 0;
 	/**	Farmer Credit						*/
 	private MFTAFarmerCredit 	m_FTA_FarmerCredit = null;
+	/**	Current Multiplier Invoice Doc		*/
+	private BigDecimal			invoice_Mlp		= Env.ZERO;
 	/**	Business Partner					*/
 	private MBPartner 			bpartner = null;
 	/**	Generated							*/
@@ -255,9 +274,11 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				{
 					addDocumentAPI();
 					addDocumentAPIC();
+					addAllocationDoc();
 				}
 			}
 			//	
+			
 			if(m_FTA_FarmerCredit.getBeneficiary_ID() != 0){
 				reference_ID = 0;
 				if(m_FTA_FarmerCredit.getCreditType()
@@ -295,6 +316,19 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/10/2013, 10:41:25
 	 * @return void
 	 */
+	
+	private void addAllocationDoc(){
+		//Create Allocation Document After Complete Farmer Credit Allocation When Allocation Documents are only invoices 
+				m_Current_Alloc = new MAllocationHdr(Env.getCtx(), true,	//	manual
+						p_DateDoc, m_C_Invoice_ID_API, Env.getContext(Env.getCtx(), "#AD_User_Name"), get_TrxName());
+				m_Current_Alloc.setAD_Org_ID(p_AD_Org_ID);
+				m_Current_Alloc.saveEx();
+				MAllocationLine aLine = new MAllocationLine (m_Current_Alloc, p_Amt, 
+						Env.ZERO, Env.ZERO, p_Amt);
+				aLine.setDocInfo(m_C_Invoice_ID_CAPI,0,m_Current_C_BPartner_ID);
+				aLine.saveEx();
+				
+	}
 	private void addDocument(){
 		MInvoice m_ARInvoice = new MInvoice(getCtx(), 0, trxName);
 		m_ARInvoice.setAD_Org_ID(p_AD_Org_ID);
@@ -373,7 +407,8 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_ARinvoiceLine.setTaxAmt();
 		m_ARinvoiceLine.saveEx();
 		//	Add Invoice
-		m_Current_C_Invoice_ID = m_ARInvoice.getC_Invoice_ID();
+		m_Current_C_BPartner_ID=m_ARInvoice.getC_BPartner_ID();
+		m_C_Invoice_ID_API = m_ARInvoice.getC_Invoice_ID();
 		//	Complete
 		completeDoument(m_ARInvoice);
 	}
@@ -413,9 +448,11 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_ARinvoiceLine.setTaxAmt();
 		m_ARinvoiceLine.saveEx();
 		//	Add Invoice
-		m_Current_C_Invoice_ID = m_ARInvoice.getC_Invoice_ID();
+		m_Current_C_BPartner_ID=m_ARInvoice.getC_BPartner_ID();
+		m_C_Invoice_ID_CAPI = m_ARInvoice.getC_Invoice_ID();
 		//	Complete
 		completeDoument(m_ARInvoice);
+		System.out.println(m_C_Invoice_ID_CAPI);
 	}
 	
 	/**

@@ -28,6 +28,7 @@ import org.compiere.model.MAllocationLine;
 import org.compiere.model.MClient;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPayment;
@@ -73,21 +74,19 @@ public class FTAModelValidator implements ModelValidator {
 		
 		//	Dixon Martinez 
 		//	Add support to see if the company manages credit module
-		boolean creditControlModule = MSysConfig.getBooleanValue("CREDIT_CONTROL_MODULE", false);
+		creditControlModule = MSysConfig.getBooleanValue("CREDIT_CONTROL_MODULE", false);
 		//	Initialize methods depending on whether the credit module is used or not by the company
-		if(creditControlModule) {
-			//	Add Timing change in C_Order and C_Invoice
-			engine.addDocValidate(MOrder.Table_Name, this);
-			engine.addModelChange(MInvoice.Table_Name, this);
-			engine.addDocValidate(MInvoice.Table_Name, this);
-			engine.addModelChange(MPaySelectionCheck.Table_Name, this);
-			engine.addDocValidate(MPayment.Table_Name, this);
-			engine.addDocValidate(MFTAFarmerCredit.Table_Name, this);
-			engine.addModelChange(X_C_Order.Table_Name, this);
-		}
+		//	Add Timing change in C_Order and C_Invoice
+		engine.addDocValidate(MOrder.Table_Name, this);
+		engine.addModelChange(MInvoice.Table_Name, this);
+		engine.addDocValidate(MInvoice.Table_Name, this);
+		engine.addModelChange(MPaySelectionCheck.Table_Name, this);
+		engine.addDocValidate(MPayment.Table_Name, this);
+		engine.addDocValidate(MFTAFarmerCredit.Table_Name, this);
+		engine.addModelChange(X_C_Order.Table_Name, this);
 		//	End Dixon Martinez
 	}
-
+	boolean creditControlModule ;
 	@Override
 	public int getAD_Client_ID() {
 		return m_AD_Client_ID;
@@ -107,7 +106,8 @@ public class FTAModelValidator implements ModelValidator {
 	@Override
 	public String modelChange(PO po, int type) throws Exception {
 		if (po.get_TableName().equals(I_C_Invoice.Table_Name) 
-				&& type == TYPE_BEFORE_NEW) {
+				&& type == TYPE_BEFORE_NEW
+					&& creditControlModule) {
 			MInvoice invoice = (MInvoice) po;
 			int m_C_Order_ID = invoice.getC_Order_ID();
 			if(m_C_Order_ID != 0){
@@ -126,7 +126,8 @@ public class FTAModelValidator implements ModelValidator {
 		}
 		//Carlos Parada
 		else if(po.get_TableName().equals(MPaySelectionCheck.Table_Name)&& 
-				(type == TYPE_BEFORE_CHANGE)){
+				(type == TYPE_BEFORE_CHANGE)
+					&& creditControlModule){
 			MPaySelectionCheck pschk = (MPaySelectionCheck) po;
 			//When Payment != Null  
 			if (pschk.getC_Payment_ID()!=0){
@@ -170,7 +171,8 @@ public class FTAModelValidator implements ModelValidator {
 		// 	Add support parent farmer credit
 		else if (po.get_TableName().equals(X_C_Order.Table_Name)
 				&&	(type == TYPE_BEFORE_NEW 
-						|| type == TYPE_BEFORE_CHANGE)) {
+						|| type == TYPE_BEFORE_CHANGE)
+						&& creditControlModule) {
 			MOrder m_Order  = (MOrder) po;
 			int p_FTA_FarmerCredit_ID = m_Order.get_ValueAsInt("FTA_FarmerCredit_ID");
 			if( p_FTA_FarmerCredit_ID > 0) {
@@ -191,14 +193,16 @@ public class FTAModelValidator implements ModelValidator {
 	public String docValidate(PO po, int timing) {
 		if(timing == TIMING_AFTER_COMPLETE){
 			//	Order
-			if(po.get_TableName().equals(I_C_Order.Table_Name)){
+			if(po.get_TableName().equals(I_C_Order.Table_Name)
+					&& creditControlModule){
 				MOrder ord = (MOrder) po;
 				if(ord.isSOTrx()
 						&& ord.get_ValueAsInt("FTA_FarmerCredit_ID") != 0
 							&& !ord.get_ValueAsBoolean("IsCreditFactManual")){
 					return MFTAFact.createFact(Env.getCtx(), ord, ord.getDateOrdered(), ord.getGrandTotal(), Env.ONE, ord.get_TrxName());
 				}
-			} else if(po.get_TableName().equals(I_C_Invoice.Table_Name)){
+			} else if(po.get_TableName().equals(I_C_Invoice.Table_Name)
+						&& creditControlModule){
 				MInvoice inv = (MInvoice) po;
 				if(inv.get_ValueAsInt("FTA_FarmerCredit_ID") != 0
 						&& inv.isSOTrx()){
@@ -243,7 +247,8 @@ public class FTAModelValidator implements ModelValidator {
 					//	Return
 					return msg;
 				}
-			} else if(po.get_TableName().equals(I_C_Payment.Table_Name)){
+			} else if(po.get_TableName().equals(I_C_Payment.Table_Name)
+						&& creditControlModule){
 				MPayment payment = (MPayment) po;
 				//2014-03-11 Carlos Parada Set Farmer Credit From Invoice When is From Liquidation
 				if (payment.get_ValueAsInt("FTA_FarmerCredit_ID")==0){
@@ -288,7 +293,8 @@ public class FTAModelValidator implements ModelValidator {
 			}
 		} else if(timing == TIMING_AFTER_REACTIVATE
 				|| timing == TIMING_AFTER_VOID){
-			if(po.get_TableName().equals(MOrder.Table_Name)){
+			if(po.get_TableName().equals(MOrder.Table_Name)
+					&& creditControlModule){
 				MOrder ord = (MOrder) po;
 				if(ord.isSOTrx()
 						&& ord.get_ValueAsInt("FTA_FarmerCredit_ID") != 0){
@@ -298,7 +304,8 @@ public class FTAModelValidator implements ModelValidator {
 			
 		}else if(timing == TIMING_AFTER_VOID 
 				|| timing == TIMING_AFTER_REVERSECORRECT){
-			if(po.get_TableName().equals(MPayment.Table_Name)){
+			if(po.get_TableName().equals(MPayment.Table_Name)
+					&& creditControlModule){
 				MPayment pay = (MPayment) po;
 				
 				List<MFTAPaymentRequest>  prs = new Query(Env.getCtx(),MFTAPaymentRequest.Table_Name,"Exists(Select 1 From C_PaySelectionCheck pschk Where pschk.C_Payment_ID =? And pschk.C_PaySelectionCheck_ID=FTA_PaymentRequest.C_PaySelectionCheck_ID)",pay.get_TrxName())
@@ -328,7 +335,8 @@ public class FTAModelValidator implements ModelValidator {
 				//End Carlos Parada
 			}
 			// Carlos Parada Set 
-			else if (po.get_TableName().equals(MInvoice.Table_Name)){
+			else if (po.get_TableName().equals(MInvoice.Table_Name)
+						&& creditControlModule){
 				MInvoice invoice = (MInvoice) po;
 				
 				if (invoice.get_ValueAsInt("FTA_FarmerLiquidation_ID")!=0){
@@ -342,7 +350,8 @@ public class FTAModelValidator implements ModelValidator {
 			}
 				
 		}else if(timing ==TIMING_BEFORE_COMPLETE){
-			if(po.get_TableName().equals(MPayment.Table_Name)){
+			if(po.get_TableName().equals(MPayment.Table_Name)
+					&& creditControlModule){
 				MPayment pay = (MPayment) po;
 				List<MFTAPaymentRequest>  prs = new Query(Env.getCtx(),MFTAPaymentRequest.Table_Name,"Exists(Select 1 From C_PaySelectionCheck pschk Where pschk.C_Payment_ID =? And pschk.C_PaySelectionCheck_ID=FTA_PaymentRequest.C_PaySelectionCheck_ID) AND FTA_FarmerLiquidation_ID IS NOT NULL ",null)
 				.setOnlyActiveRecords(true)
@@ -375,7 +384,8 @@ public class FTAModelValidator implements ModelValidator {
 					alloc.processIt(X_FTA_Allocation.DOCACTION_Complete);
 					alloc.save(pay.get_TrxName());
 				}
-			} else if(po.get_TableName().equals(I_C_Order.Table_Name)){
+			} else if(po.get_TableName().equals(I_C_Order.Table_Name)
+					&& creditControlModule){
 				MOrder ord = (MOrder) po;
 				int m_FTA_FarmerCredit_ID = ord.get_ValueAsInt("FTA_FarmerCredit_ID");
 				//	Valid Sales Transaction
@@ -391,7 +401,8 @@ public class FTAModelValidator implements ModelValidator {
 				}
 			}
 		} else if(timing == TIMING_BEFORE_REVERSECORRECT){
-			if (po.get_TableName().equals(I_C_Invoice.Table_Name)){
+			if (po.get_TableName().equals(I_C_Invoice.Table_Name)
+					&& creditControlModule){
 				MInvoice invoice = (MInvoice) po;
 				String referenceNo = DB.getSQLValueString(invoice.get_TrxName(), "SELECT pr.DocumentNo " +
 						"FROM FTA_PaymentRequest pr " +
@@ -400,8 +411,23 @@ public class FTAModelValidator implements ModelValidator {
 				if(referenceNo != null)
 					return "@SQLErrorReferenced@ @FTA_PaymentRequest_ID@: " + referenceNo + " @completed@";
 			}
+			if(po.get_TableName().equals(MInvoice.Table_Name)) {
+				MInvoice inv = (MInvoice) po;
+				if(inv.isSOTrx()) {
+					MInvoiceLine inv_Line [] =  inv.getLines(true);
+					for (MInvoiceLine mInvoiceLine : inv_Line) {
+						String sql = "SELECT FTA_LoadOrderLine_ID FROM FTA_LoadOrderLine WHERE C_InvoiceLine_ID = ?";
+						int p_FTA_LoadOrderLine_ID = DB.getSQLValue(mInvoiceLine.get_TrxName(), sql, mInvoiceLine.get_ID());
+						MFTALoadOrderLine lin = 
+								new MFTALoadOrderLine(mInvoiceLine.getCtx(), p_FTA_LoadOrderLine_ID, mInvoiceLine.get_TrxName());
+						lin.setC_InvoiceLine_ID(0);
+						lin.saveEx();
+					}
+				}
+			}
 		}else if (timing == TIMING_BEFORE_PREPARE) {
-			if (po.get_TableName().equals(MFTAFarmerCredit.Table_Name))
+			if (po.get_TableName().equals(MFTAFarmerCredit.Table_Name)
+					&& creditControlModule)
 			{
 				MFTAFarmerCredit m_FTAFarmerCredit = (MFTAFarmerCredit) po;
 				

@@ -34,7 +34,7 @@ import org.compiere.util.DB;
 import org.spin.model.MFTALoadOrderLine;
 
 /**
- * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
+ * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
  *
  */
 public class GenerateInvoiceLoadOrder extends SvrProcess {
@@ -111,11 +111,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						+ " Group By tsb.AD_PInstance_ID, tsb.T_Selection_ID"
 						+ ") tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID "
 						+ " Where ts.AD_PInstance_ID=? Order By tsb.C_Order_ID");
-		
-		System.out.println(sql.toString());
 		log.fine(sql.toString());
-
-
 	}
 
 	/* (non-Javadoc)
