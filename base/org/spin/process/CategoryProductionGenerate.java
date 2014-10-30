@@ -28,6 +28,7 @@ import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MClient;
 import org.compiere.model.MLocator;
 import org.compiere.model.MStorage;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTransaction;
 import org.compiere.model.Query;
 import org.compiere.model.X_M_Attribute;
@@ -45,6 +46,7 @@ import org.spin.model.MFTACategoryCalc;
 import org.spin.model.MFTACategoryCalcFilter;
 import org.spin.model.MFTACategoryCalcGroup;
 import org.spin.model.MFTARecordWeight;
+import org.spin.model.X_FTA_RecordWeight;
 
 /**
  * Generate Category Production
@@ -173,7 +175,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		//	SQL
-		StringBuffer sql = new StringBuffer("SELECT qa.M_Product_ID, qa.QualityAnalysis_ID, rw.FTA_RecordWeight_ID, rw.DocumentNo, rw.NetWeight, rw.PayWeight, iol.M_Locator_ID " +
+		StringBuffer sql = new StringBuffer("SELECT qa.M_Product_ID, qa.QualityAnalysis_ID, rw.FTA_RecordWeight_ID, rw.DocumentNo, "
+				+ "rw.NetWeight, rw.PayWeight, rw.ImportWeight, rw.SelectionWeight, iol.M_Locator_ID " +
 				"FROM FTA_RecordWeight rw " +
 				"INNER JOIN FTA_QualityAnalysis qa ON(qa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID) " +
 				"INNER JOIN FTA_CategoryCalc cc ON(cc.M_Product_ID = qa.M_Product_ID) " +
@@ -317,23 +320,37 @@ public class CategoryProductionGenerate extends SvrProcess {
 		int m_Current_M_Product_ID = 0;
 		X_M_Production m_Current_Production = null;
 		X_M_ProductionPlan m_Current_ProductionPlan = null;
+		//	Total Production Quantity
 		BigDecimal m_ProductionQty = Env.ZERO;
+		//	
 		int m_level = 1;
 		int m_line = 10;
 		while(rs.next()){
-			int m_M_Product_ID = rs.getInt("M_Product_ID");
-			int m_QualityAnalysis_ID = rs.getInt("QualityAnalysis_ID");
-			int m_FTA_RecordWeight_ID = rs.getInt("FTA_RecordWeight_ID");
-			String m_DocumentNo = rs.getString("DocumentNo");
-			BigDecimal m_NetWeight = rs.getBigDecimal("NetWeight");
-			BigDecimal m_PayWeight = rs.getBigDecimal("PayWeight");
-			int m_M_Locator_ID = rs.getInt("M_Locator_ID");
+			int m_M_Product_ID 			= rs.getInt("M_Product_ID");
+			int m_QualityAnalysis_ID 	= rs.getInt("QualityAnalysis_ID");
+			int m_FTA_RecordWeight_ID 	= rs.getInt("FTA_RecordWeight_ID");
+			String m_DocumentNo 		= rs.getString("DocumentNo");
+			BigDecimal m_NetWeight 		= rs.getBigDecimal("NetWeight");
+			BigDecimal m_PayWeight 		= rs.getBigDecimal("PayWeight");
+			BigDecimal m_ImportWeight 	= rs.getBigDecimal("ImportWeight");
+			String m_SelectionWeight	= rs.getString("SelectionWeight");
+			int m_M_Locator_ID 			= rs.getInt("M_Locator_ID");
+			//	Weight to Pay
+			BigDecimal m_WeightToProduce = Env.ZERO;
+			//	Is based in payment weight
+			boolean isPayWeightQty = MSysConfig.getBooleanValue("FTA_IS_PAY_WEIGHT_RECEIPT_QTY", false);
 			//	Calculate Payment Weight
-			MAttributeSetInstance att = new MAttributeSetInstance(getCtx(), m_QualityAnalysis_ID, get_TrxName());
-			BigDecimal m_PayWeight2 = m_cCalc.getPaidWeight(m_NetWeight, att, get_TrxName());
-			
-			log.info("Difference=" + m_PayWeight.subtract(m_PayWeight2));
-			
+			if(m_SelectionWeight == null
+					|| m_SelectionWeight.equals(X_FTA_RecordWeight.SELECTIONWEIGHT_PaymentWeight)) {
+				MAttributeSetInstance att = new MAttributeSetInstance(getCtx(), m_QualityAnalysis_ID, get_TrxName());
+				BigDecimal m_CalculatedPayWeight = m_cCalc.getPaidWeight(m_NetWeight, att, get_TrxName());
+				//	
+				log.info("Difference=" + m_PayWeight.subtract(m_CalculatedPayWeight));
+				//	Set Payment Weight to Calculated Payment Weight
+				m_WeightToProduce = m_CalculatedPayWeight;
+			} else {
+				m_WeightToProduce = m_ImportWeight;
+			}
 			//	Create new
 			if(m_Current_Production == null){
 				m_Current_Production = new X_M_Production(getCtx(), 0, get_TrxName());
@@ -390,7 +407,8 @@ public class CategoryProductionGenerate extends SvrProcess {
 			pl.setM_Locator_ID(m_M_Locator_ID);
 			pl.setM_ProductionPlan_ID(m_Current_ProductionPlan.getM_ProductionPlan_ID());
 			pl.setM_AttributeSetInstance_ID(m_QualityAnalysis_ID);
-			pl.setMovementQty(m_NetWeight.negate());
+			//	Based in payment weight
+			pl.setMovementQty(isPayWeightQty? m_WeightToProduce.negate(): m_NetWeight.negate());
 			pl.saveEx();
 			//	Update Record Weight
 			MFTARecordWeight recordWeight = new MFTARecordWeight(getCtx(), m_FTA_RecordWeight_ID, get_TrxName());
@@ -398,7 +416,7 @@ public class CategoryProductionGenerate extends SvrProcess {
 			recordWeight.saveEx();
 			//	Set Values
 			m_line += 10;
-			m_ProductionQty = m_ProductionQty.add(m_PayWeight2);
+			m_ProductionQty = m_ProductionQty.add(m_WeightToProduce);
 		}
 		//	Create last
 		if(m_Current_M_Product_ID != 0){
