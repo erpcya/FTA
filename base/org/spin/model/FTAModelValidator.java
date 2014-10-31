@@ -418,7 +418,7 @@ public class FTAModelValidator implements ModelValidator {
 					for (MInvoiceLine mInvoiceLine : inv_Line) {
 						String sql = "SELECT FTA_LoadOrderLine_ID FROM FTA_LoadOrderLine WHERE C_InvoiceLine_ID = ?";
 						int p_FTA_LoadOrderLine_ID = DB.getSQLValue(mInvoiceLine.get_TrxName(), sql, mInvoiceLine.get_ID());
-						if(p_FTA_LoadOrderLine_ID == 0)
+						if(p_FTA_LoadOrderLine_ID <= 0)
 							continue;
 						
 						MFTALoadOrderLine lin = 
