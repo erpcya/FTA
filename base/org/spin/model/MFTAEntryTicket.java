@@ -355,7 +355,7 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	private String validQAReference(){
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(qa.DocumentNo) " +
 				"FROM FTA_QualityAnalysis qa " +
-				"WHERE qa.DocStatus NOT IN('VO', 'RE') " +
+				"WHERE qa.DocStatus IN('CO', 'CL') " +
 				"AND qa.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
 		if(m_ReferenceNo != null) 
 			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo;
@@ -371,7 +371,7 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	private String validRWReference(){
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(rw.DocumentNo) " +
 				"FROM FTA_RecordWeight rw " +
-				"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
+				"WHERE rw.DocStatus IN('CO', 'CL') " +
 				"AND rw.FTA_EntryTicket_ID = ?", getFTA_EntryTicket_ID());
 		if(m_ReferenceNo != null) 
 			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;

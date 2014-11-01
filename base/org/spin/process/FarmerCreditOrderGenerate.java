@@ -40,19 +40,22 @@ import org.spin.model.MFTAFarming;
 public class FarmerCreditOrderGenerate extends SvrProcess {
 
 	/**	Organization			*/
-	private int 		p_AD_Org_ID = 0;
+	private int 		p_AD_Org_ID 			= 0;
 	/**	Warehouse				*/
-	private int 		p_M_Warehouse_ID = 0;
+	private int 		p_M_Warehouse_ID 		= 0;
 	/**	Farmer Credit			*/
-	private int 		p_FTA_FarmerCredit_ID = 0;
+	private int 		p_FTA_FarmerCredit_ID 	= 0;
 	/**	Document Date			*/
-	private Timestamp 	p_DateDoc = null;
+	private Timestamp 	p_DateDoc 				= null;
 	/**	Document Type Target	*/
-	private int 		p_C_DocTypeTarget_ID = 0;
+	private int 		p_C_DocTypeTarget_ID 	= 0;
 	/**	Price List				*/
-	private int 		p_M_PriceList_ID = 0;
+	private int 		p_M_PriceList_ID 		= 0;
 	/**	Document Action			*/
-	private String 		p_DocAction = null;
+	private String 		p_DocAction 			= null;
+	/**	Purchase Order			*/
+	private MOrder 		m_Order 				= null;
+	
 	
 	@Override
 	protected void prepare() {
@@ -109,7 +112,13 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 		
 		MFTAFarmerCredit m_FTA_FarmerCredit = new MFTAFarmerCredit(getCtx(), p_FTA_FarmerCredit_ID, get_TrxName());
 		//	Create Line
-		MFTAFarming[] lines = m_FTA_FarmerCredit.getLines(true, "Status = 'A' AND C_OrderLine_ID IS NULL");
+		MFTAFarming[] lines = m_FTA_FarmerCredit.getLines(true, "Status = 'A' "
+				+ "AND (C_OrderLine_ID IS NULL "
+				+ "				OR EXISTS(SELECT 1 "
+				+ "							FROM C_Order o "
+				+ "							INNER JOIN C_OrderLine ol ON(ol.C_Order_ID = o.C_Order_ID) "
+				+ "							WHERE ol.C_OrderLine_ID = FTA_Farming.C_OrderLine_ID "
+				+ "							AND o.DocStatus IN('VO', 'RE')))");
 		//	
 		for(MFTAFarming farmingLine : lines){
 			//	Get Quantity
@@ -138,16 +147,24 @@ public class FarmerCreditOrderGenerate extends SvrProcess {
 		//	Set to Generated
 		m_FTA_FarmerCredit.setGenerateOrder("Y");
 		m_FTA_FarmerCredit.saveEx();
-		
+		//	Valid Null
 		if(m_Order == null)
 			return "Ok";
 		
-		return "@C_Order_ID@: " + m_Order.getDocumentNo() + 
-				" - @GrandTotal@ = " + m_Order.getGrandTotal();
+		//	Process Order
+		m_Order.setDocAction(p_DocAction);
+		m_Order.processIt(p_DocAction);
+		m_Order.saveEx();
+		
+		return "@C_Order_ID@: " + m_Order.getDocumentNo();
 	}
-
-	MOrder m_Order = null;
 	
+	/**
+	 * Create Purchase Order
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 1/11/2014, 10:27:05
+	 * @param p_FTA_FarmerCredit
+	 * @return void
+	 */
 	private void createPO(MFTAFarmerCredit p_FTA_FarmerCredit) {
 		m_Order = new MOrder (getCtx(), 0, get_TrxName());
 		//	Organization

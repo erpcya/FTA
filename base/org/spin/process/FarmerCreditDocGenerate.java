@@ -17,14 +17,12 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
-import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
@@ -38,11 +36,8 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MRefList;
-import org.compiere.model.PO;
-import org.compiere.model.Query;
 import org.compiere.model.X_C_DocType;
 import org.compiere.model.X_C_Invoice;
-import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
@@ -50,8 +45,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.spin.model.MFTAAllocation;
-import org.spin.model.MFTAAllocationLine;
 import org.spin.model.MFTAFact;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAPaymentRequest;
