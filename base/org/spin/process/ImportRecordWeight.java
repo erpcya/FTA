@@ -966,7 +966,8 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			
 			if(FTA_EntryTicket_ID==0){
 				rollback();
-				imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_EntryTickect_ID"));
+				if (imp.getI_ErrorMsg().equals(""))
+					imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_EntryTickect_ID"));
 				imp.saveEx(trxImp);
 				trx.commit();
 				new AdempiereException(imp.getI_ErrorMsg());
@@ -981,7 +982,8 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 					if (FTA_QualityAnalysis_ID==0)
 					{
 						rollback();
-						imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_QualityAnalysis_ID"));
+						if (imp.getI_ErrorMsg().equals(""))
+							imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_QualityAnalysis_ID"));
 						imp.saveEx(trxImp);
 						trx.commit();
 						new AdempiereException(imp.getI_ErrorMsg());
@@ -994,7 +996,8 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 						if (FTA_RecordWeight_ID==0)
 						{
 							rollback();
-							imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_RecordWeight_ID"));
+							if (imp.getI_ErrorMsg().equals(""))
+								imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_RecordWeight_ID"));
 							imp.saveEx(trxImp);
 							trx.commit();
 							new AdempiereException(imp.getI_ErrorMsg());
@@ -1015,7 +1018,8 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 					
 					if (FTA_LoadOrder_ID==0){
 						rollback();
-						imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_LoadOrder_ID"));
+						if (imp.getI_ErrorMsg().equals(""))
+							imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_LoadOrder_ID"));
 						imp.saveEx(trxImp);
 						trx.commit();
 						new AdempiereException(imp.getI_ErrorMsg());
@@ -1125,6 +1129,12 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			{
 				et.setDocAction(m_docAction);
 				et.processIt (m_docAction);
+				//2014-10-31 Carlos Parada Return When Process Error
+				if (!et.getProcessMsg().equals("")){
+					imp.setI_ErrorMsg(et.getProcessMsg());
+					return 0;
+				}
+				//End Carlos Parada
 			}
 			et.saveEx(get_TrxName());
 			
@@ -1266,6 +1276,13 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			{
 				qa.setDocAction(m_docAction);
 				qa.processIt (m_docAction);
+				
+				//2014-10-31 Carlos Parada Return When Process Error
+				if (!qa.getProcessMsg().equals("")){
+					imp.setI_ErrorMsg(qa.getProcessMsg());
+					return 0;
+				}
+				//End Carlos Parada
 			}
 			qa.saveEx(get_TrxName());
 			
@@ -1399,6 +1416,13 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			{
 				rw.setDocAction(m_docAction);
 				rw.processIt (m_docAction);
+				
+				//2014-10-31 Carlos Parada Return When Process Error
+				if (!rw.getProcessMsg().equals("")){
+					imp.setI_ErrorMsg(rw.getProcessMsg());
+					return 0;
+				}
+				//End Carlos Parada
 			}
 			rw.saveEx(get_TrxName());
 			
@@ -1514,6 +1538,13 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			{
 				lo.setDocAction(m_docAction);
 				lo.processIt (m_docAction);
+				
+				//2014-10-31 Carlos Parada Return When Process Error
+				if (!lo.getProcessMsg().equals("")){
+					imp.setI_ErrorMsg(lo.getProcessMsg());
+					return 0;
+				}
+				//End Carlos Parada
 			}
 			lo.saveEx(get_TrxName());
 			
@@ -1599,6 +1630,13 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 		{
 			m_MobilizationGuide.setDocAction(m_docAction);
 			m_MobilizationGuide.processIt (m_docAction);
+			
+			//2014-10-31 Carlos Parada Return When Process Error
+			if (!m_MobilizationGuide.getProcessMsg().equals("")){
+				imp.setI_ErrorMsg(m_MobilizationGuide.getProcessMsg());
+				return 0;
+			}
+			//End Carlos Parada
 		}		
 		m_MobilizationGuide.saveEx();
 		noInsertMG ++;
