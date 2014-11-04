@@ -173,7 +173,7 @@ public class LoadOrder {
 				"INNER JOIN M_Warehouse wr ON(wr.M_Warehouse_ID = ord.M_Warehouse_ID) " +
 				"INNER JOIN C_BPartner_Location bploc ON(bploc.C_BPartner_Location_ID = ord.C_BPartner_Location_ID) " +
 				"INNER JOIN C_Location loc ON(loc.C_Location_ID = bploc.C_Location_ID) " +
-				"INNER JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
+				"LEFT JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
 				"LEFT JOIN C_City cit ON(cit.C_City_ID = loc.C_City_ID) " +
 				"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
 				"	(COALESCE(lord.QtyOrdered, 0) - " +
