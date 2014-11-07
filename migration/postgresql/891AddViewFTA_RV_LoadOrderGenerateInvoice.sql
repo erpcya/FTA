@@ -1,4 +1,4 @@
---DROP VIEW FTA_RV_LoadOrderGenerateInvoice;
+﻿--DROP VIEW FTA_RV_LoadOrderGenerateInvoice;
 CREATE OR REPLACE VIEW FTA_RV_LoadOrderGenerateInvoice AS 
 SELECT 
     lo.AD_Org_ID,
@@ -35,7 +35,8 @@ SELECT
     lo.FTA_LoadOrder_ID,
     lol.FTA_LoadOrderLine_ID,
     lo.DocStatus,
-    lol.C_InvoiceLine_ID 
+    lol.C_InvoiceLine_ID,
+    lol.M_InOutLine_ID
 FROM FTA_LoadOrderLine lol 
 INNER JOIN FTA_LoadOrder lo ON (lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID)
 INNER JOIN C_OrderLine ol ON (lol.C_OrderLine_ID = ol.C_OrderLine_ID)
@@ -43,6 +44,7 @@ INNER JOIN C_Order o ON (ol.C_Order_ID = o.C_Order_ID)
 LEFT JOIN AD_User u ON (u.AD_User_ID = o.SalesRep_ID )
 LEFT JOIN C_SalesRegion sr ON (sr.SalesRep_ID = u.AD_User_ID)
 LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID = lol.C_InvoiceLine_ID )
+LEFT JOIN M_InOutLine iol ON (iol.M_InOutLine_ID = lol.M_InOutLine_ID)
 /*
 WHERE 
 

@@ -27,6 +27,8 @@ import org.compiere.model.I_C_Payment;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MClient;
 import org.compiere.model.MDocType;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
@@ -79,6 +81,7 @@ public class FTAModelValidator implements ModelValidator {
 		//	Add Timing change in C_Order and C_Invoice
 		engine.addDocValidate(MOrder.Table_Name, this);
 		engine.addModelChange(MInvoice.Table_Name, this);
+		engine.addDocValidate(MInOut.Table_Name, this);
 		engine.addDocValidate(MInvoice.Table_Name, this);
 		engine.addModelChange(MPaySelectionCheck.Table_Name, this);
 		engine.addDocValidate(MPayment.Table_Name, this);
@@ -428,6 +431,23 @@ public class FTAModelValidator implements ModelValidator {
 					}
 				}
 			}
+			if(po.get_TableName().equals(MInOut.Table_Name)) {
+				MInOut inout = (MInOut) po;
+				if(inout.isSOTrx()) {
+					MInOutLine inout_Line [] =  inout.getLines(true);
+					for (MInOutLine mInOutLine : inout_Line) {
+						String sql = "SELECT FTA_LoadOrderLine_ID FROM FTA_LoadOrderLine WHERE M_InOutLine_ID = ?";
+						int p_FTA_LoadOrderLine_ID = DB.getSQLValue(mInOutLine.get_TrxName(), sql, mInOutLine.get_ID());
+						if(p_FTA_LoadOrderLine_ID <= 0)
+							continue;
+						
+						MFTALoadOrderLine lin = 
+								new MFTALoadOrderLine(mInOutLine.getCtx(), p_FTA_LoadOrderLine_ID, mInOutLine.get_TrxName());
+						lin.setM_InOutLine_ID(0);
+						lin.saveEx();
+					}
+				}
+			}
 		}else if (timing == TIMING_BEFORE_PREPARE) {
 			if (po.get_TableName().equals(MFTAFarmerCredit.Table_Name)
 					&& creditControlModule)
@@ -452,8 +472,6 @@ public class FTAModelValidator implements ModelValidator {
 			}
 			
 		}
-
-		
 		return null;
 	}
 	
