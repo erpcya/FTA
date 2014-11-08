@@ -34,7 +34,7 @@ public class X_I_RecordWeight extends PO implements I_I_RecordWeight, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20141020L;
+	private static final long serialVersionUID = 20140320L;
 
     /** Standard Constructor */
     public X_I_RecordWeight (Properties ctx, int I_RecordWeight_ID, String trxName)
@@ -1471,15 +1471,15 @@ public class X_I_RecordWeight extends PO implements I_I_RecordWeight, I_Persiste
 		return (String)get_Value(COLUMNNAME_RW_DocumentNo);
 	}
 
-	/** Set Shipper Name.
-		@param ShipperName Shipper Name	  */
+	/** Set ShipperName.
+		@param ShipperName ShipperName	  */
 	public void setShipperName (String ShipperName)
 	{
 		set_Value (COLUMNNAME_ShipperName, ShipperName);
 	}
 
-	/** Get Shipper Name.
-		@return Shipper Name	  */
+	/** Get ShipperName.
+		@return ShipperName	  */
 	public String getShipperName () 
 	{
 		return (String)get_Value(COLUMNNAME_ShipperName);

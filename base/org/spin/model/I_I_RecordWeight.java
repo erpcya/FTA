@@ -863,10 +863,10 @@ public interface I_I_RecordWeight
     /** Column name ShipperName */
     public static final String COLUMNNAME_ShipperName = "ShipperName";
 
-	/** Set Shipper Name	  */
+	/** Set ShipperName	  */
 	public void setShipperName (String ShipperName);
 
-	/** Get Shipper Name	  */
+	/** Get ShipperName	  */
 	public String getShipperName();
 
     /** Column name TareWeight */

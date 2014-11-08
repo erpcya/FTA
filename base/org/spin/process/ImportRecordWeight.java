@@ -453,8 +453,8 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 		//		-------------------------------------------------------------------
 		//Locate Existing Movements
 
-		//		****	Find Entry Tickects 
-		//	Entry Tickects 
+		//		****	Find Entry Tickets 
+		//	Entry Tickets 
 		sql = new StringBuffer ("UPDATE I_RecordWeight i "
 			+ "SET FTA_EntryTicket_ID=(SELECT FTA_EntryTicket_ID FROM FTA_EntryTicket et"
 			+ " WHERE i.AD_Org_ID=et.AD_Org_ID AND i.C_BPartner_ID=et.C_BPartner_ID AND i.ReferenceNo=et.ReferenceNo AND i.Ext_Guide=et.Ext_Guide AND i.FTA_MobilizationGuide_ID=et.FTA_MobilizationGuide_ID) "
@@ -475,13 +475,15 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 		
 		//		****	Find Record Weight 
 		//	Record Weight
+		//	Yamel Senih 2014-10-22, Get Max Value in Record Weight
 		sql = new StringBuffer ("UPDATE I_RecordWeight i "
-			+ "SET FTA_RecordWeight_ID=(SELECT FTA_RecordWeight_ID FROM FTA_RecordWeight rw"
+			+ "SET FTA_RecordWeight_ID=(SELECT MAX(FTA_RecordWeight_ID) FROM FTA_RecordWeight rw"
 			+ " WHERE i.FTA_EntryTicket_ID=rw.FTA_EntryTicket_ID AND i.FTA_QualityAnalysis_ID=rw.FTA_QualityAnalysis_ID) "
 			+ "WHERE FTA_RecordWeight_ID IS NULL"
 			+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.info("Record Weight Found=" + no);
+		//	End Yamel Senih
 		
 		//		-------------------------------------------------------------------
 		//Validating Data
@@ -879,7 +881,10 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 		sql = new StringBuffer ("UPDATE I_RecordWeight i "
 			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||',ERR=' || ?"   
 			+ " WHERE I_IsImported<>'Y'"
-			+ " AND FTA_MobilizationGuide_ID IS NOT NULL AND Exists (Select 1 From I_RecordWeight irw Where irw.FTA_MobilizationGuide_ID=i.FTA_MobilizationGuide_ID Having Count(FTA_MobilizationGuide_ID)>1 )").append(clientCheck);
+			+ " AND FTA_MobilizationGuide_ID IS NOT NULL AND Exists (Select 1 From I_RecordWeight irw " 
+			+ " INNER JOIN FTA_EntryTicket et on (et.FTA_EntryTicket_id=irw.FTA_EntryTicket_id and et.docstatus='CO')" 
+			+ "Where irw.FTA_MobilizationGuide_ID=i.FTA_MobilizationGuide_ID " +
+			"Having Count(FTA_MobilizationGuide_ID)>1 )").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(),new Object[]{errMsg},true, get_TrxName());
 		
 		// 2014-01-20 Carlos Parada Validation Chute 
@@ -966,8 +971,7 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			
 			if(FTA_EntryTicket_ID==0){
 				rollback();
-				if (imp.getI_ErrorMsg().equals(""))
-					imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_EntryTickect_ID"));
+				imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_EntryTickect_ID"));
 				imp.saveEx(trxImp);
 				trx.commit();
 				new AdempiereException(imp.getI_ErrorMsg());
@@ -982,8 +986,7 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 					if (FTA_QualityAnalysis_ID==0)
 					{
 						rollback();
-						if (imp.getI_ErrorMsg().equals(""))
-							imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_QualityAnalysis_ID"));
+						imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_QualityAnalysis_ID"));
 						imp.saveEx(trxImp);
 						trx.commit();
 						new AdempiereException(imp.getI_ErrorMsg());
@@ -996,8 +999,7 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 						if (FTA_RecordWeight_ID==0)
 						{
 							rollback();
-							if (imp.getI_ErrorMsg().equals(""))
-								imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_RecordWeight_ID"));
+							imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_RecordWeight_ID"));
 							imp.saveEx(trxImp);
 							trx.commit();
 							new AdempiereException(imp.getI_ErrorMsg());
@@ -1018,8 +1020,7 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 					
 					if (FTA_LoadOrder_ID==0){
 						rollback();
-						if (imp.getI_ErrorMsg().equals(""))
-							imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_LoadOrder_ID"));
+						imp.setI_ErrorMsg(Msg.translate(ctx, "SaveError") + " " +Msg.translate(ctx, "FTA_LoadOrder_ID"));
 						imp.saveEx(trxImp);
 						trx.commit();
 						new AdempiereException(imp.getI_ErrorMsg());
@@ -1129,12 +1130,6 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			{
 				et.setDocAction(m_docAction);
 				et.processIt (m_docAction);
-				//2014-10-31 Carlos Parada Return When Process Error
-				if (!et.getProcessMsg().equals("")){
-					imp.setI_ErrorMsg(et.getProcessMsg());
-					return 0;
-				}
-				//End Carlos Parada
 			}
 			et.saveEx(get_TrxName());
 			
@@ -1276,13 +1271,6 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			{
 				qa.setDocAction(m_docAction);
 				qa.processIt (m_docAction);
-				
-				//2014-10-31 Carlos Parada Return When Process Error
-				if (!qa.getProcessMsg().equals("")){
-					imp.setI_ErrorMsg(qa.getProcessMsg());
-					return 0;
-				}
-				//End Carlos Parada
 			}
 			qa.saveEx(get_TrxName());
 			
@@ -1416,13 +1404,6 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			{
 				rw.setDocAction(m_docAction);
 				rw.processIt (m_docAction);
-				
-				//2014-10-31 Carlos Parada Return When Process Error
-				if (!rw.getProcessMsg().equals("")){
-					imp.setI_ErrorMsg(rw.getProcessMsg());
-					return 0;
-				}
-				//End Carlos Parada
 			}
 			rw.saveEx(get_TrxName());
 			
@@ -1538,13 +1519,6 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			{
 				lo.setDocAction(m_docAction);
 				lo.processIt (m_docAction);
-				
-				//2014-10-31 Carlos Parada Return When Process Error
-				if (!lo.getProcessMsg().equals("")){
-					imp.setI_ErrorMsg(lo.getProcessMsg());
-					return 0;
-				}
-				//End Carlos Parada
 			}
 			lo.saveEx(get_TrxName());
 			
@@ -1630,13 +1604,6 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 		{
 			m_MobilizationGuide.setDocAction(m_docAction);
 			m_MobilizationGuide.processIt (m_docAction);
-			
-			//2014-10-31 Carlos Parada Return When Process Error
-			if (!m_MobilizationGuide.getProcessMsg().equals("")){
-				imp.setI_ErrorMsg(m_MobilizationGuide.getProcessMsg());
-				return 0;
-			}
-			//End Carlos Parada
 		}		
 		m_MobilizationGuide.saveEx();
 		noInsertMG ++;
