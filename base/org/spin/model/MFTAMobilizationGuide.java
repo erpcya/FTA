@@ -336,7 +336,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 	private String validReference(){
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(et.DocumentNo) " +
 				"FROM FTA_EntryTicket et " +
-				"WHERE et.DocStatus NOT IN('VO', 'RE') " +
+				"WHERE et.DocStatus NOT IN('VO', 'IP') " +
 				"AND et.FTA_MobilizationGuide_ID = ?", getFTA_MobilizationGuide_ID());
 		if(m_ReferenceNo != null)
 			return "@SQLErrorReferenced@ @FTA_EntryTicket_ID@: " + m_ReferenceNo;
