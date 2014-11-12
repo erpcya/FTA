@@ -31,6 +31,7 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTALoadOrderLine;
 
 /**
@@ -193,6 +194,10 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						invoiceLine.save(get_TrxName());
 						mftaLoadOrderLine.setC_InvoiceLine_ID(invoiceLine.get_ID());
 						mftaLoadOrderLine.saveEx();
+						
+						MFTALoadOrder lo = new MFTALoadOrder(getCtx(),mftaLoadOrderLine.getFTA_LoadOrder_ID(), get_TrxName());
+						lo.setIsInvoiced(true);
+						lo.saveEx();
 					}
 					
 				}//End Invoice Line Created

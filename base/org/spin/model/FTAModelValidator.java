@@ -428,6 +428,11 @@ public class FTAModelValidator implements ModelValidator {
 								new MFTALoadOrderLine(mInvoiceLine.getCtx(), p_FTA_LoadOrderLine_ID, mInvoiceLine.get_TrxName());
 						lin.setC_InvoiceLine_ID(0);
 						lin.saveEx();
+						
+
+						MFTALoadOrder lo = new MFTALoadOrder(lin.getCtx(),lin.getFTA_LoadOrder_ID(), lin.get_TrxName());
+						lo.setIsInvoiced(false);
+						lo.saveEx();
 					}
 				}
 			}
@@ -445,6 +450,11 @@ public class FTAModelValidator implements ModelValidator {
 								new MFTALoadOrderLine(mInOutLine.getCtx(), p_FTA_LoadOrderLine_ID, mInOutLine.get_TrxName());
 						lin.setM_InOutLine_ID(0);
 						lin.saveEx();
+						
+						MFTALoadOrder lo = new MFTALoadOrder(lin.getCtx(),lin.getFTA_LoadOrder_ID(), lin.get_TrxName());
+						lo.setIsDelivered(false);
+						lo.setIsWeightRegister(false);
+						lo.saveEx();
 					}
 				}
 			}

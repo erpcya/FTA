@@ -371,6 +371,20 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			return false;
 		//	Set Status
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
+		
+		//	Valid Invoice and Delivered Reference
+		if(getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)){
+			//	Valid Invoice Reference
+			m_processMsg = validInvoiceReference();
+			if (m_processMsg != null)
+				return false;
+			
+			//	Valid Delivered Reference
+			m_processMsg = validDeliveredReference();
+			if (m_processMsg != null)
+				return false;
+			
+		} 
 
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
@@ -381,6 +395,39 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
         setDocAction(DOCACTION_None);
 		return true;
 	}	//	voidIt
+
+	/**
+	 * Valid Invoice reference
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 12/11/2014, 16:56:20
+	 * @return
+	 * @return String
+	 */
+	private String validInvoiceReference(){
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT i.DocumentNO FROM FTA_LoadOrderLine lol "
+				+ " INNER JOIN C_InvoiceLine il ON (lol.C_InvoiceLine_ID = il.C_InvoiceLine_ID )"
+				+ " INNER JOIN C_Invoice i ON (il.C_Invoice_ID = i.C_Invoice_ID) "
+				+ " WHERE i.DocStatus NOT IN ('VO','RE') AND lol.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @C_Invoice_ID@: " + m_ReferenceNo;
+		return null;
+	}
+	
+	
+	/**
+	 * Valid Delivered reference
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 12/11/2014, 16:56:20
+	 * @return
+	 * @return String
+	 */
+	private String validDeliveredReference(){
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT io.DocumentNO FROM FTA_LoadOrderLine lol "
+				+ " INNER JOIN M_InOutLine iol ON (lol.M_InOutLine_ID = iol.M_InOutLine_ID )"
+				+ " INNER JOIN M_InOut io ON (iol.M_InOut_ID = io.M_InOut_ID)"
+				+ " WHERE io.DocStatus NOT IN ('VO','RE') AND lol.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+		if(m_ReferenceNo != null) 
+			return "@SQLErrorReferenced@ @M_InOut_ID@: " + m_ReferenceNo;
+		return null;
+	}
 	
 	/**
 	 * Valid Reference in another record
