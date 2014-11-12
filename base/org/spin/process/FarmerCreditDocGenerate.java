@@ -58,62 +58,59 @@ import org.spin.model.X_FTA_PaymentRequest;
 public class FarmerCreditDocGenerate extends SvrProcess {
 
 	/**	Organization						*/
-	private int 				p_AD_Org_ID = 0;
+	private int 				p_AD_Org_ID 				= 0;
 	/**	Document Type Target AP Credit Memo	*/
 	/**	Current Business Partner			*/
 	private int 				m_Current_C_BPartner_ID 	= 0;
-	private int 				p_C_DocTypeInvoice_ARI_ID = 0;
+	private int 				p_C_DocTypeInvoice_ARI_ID 	= 0;
 	/**	Document Type Target AP Invoice		*/
-	private int 				p_C_DocTypeInvoice_API_ID = 0;
-	/**	Counter Document Type  AP Invoice		*/
-	private int 				p_C_DocTypeCounter_API_ID = 0;
+	private int 				p_C_DocTypeInvoice_API_ID 	= 0;
+	/**	Counter Document Type  AP Invoice	*/
+	private int 				p_C_DocTypeCounter_API_ID 	= 0;
 	/**	Document Date						*/
-	private Timestamp 			p_DateDoc = null;
-	/**	Document No						*/
-	private String 			p_DocumentNo = null;
+	private Timestamp 			p_DateDoc 					= null;
+	/**	Document No							*/
+	private String 				p_DocumentNo 				= null;
 	/**	Farmer Credit						*/
-	private int 				p_FTA_FarmerCredit_ID = 0;
+	private int 				p_FTA_FarmerCredit_ID 		= 0;
 	/**	Payment Request						*/
-	private String 				p_GeneratePayRequest = null;
-	/**	Generate Invoice						*/
-	private String 				p_GenerateInvoice = null;
+	private String 				p_GeneratePayRequest 		= null;
+	/**	Generate Invoice					*/
+	private String 				p_GenerateInvoice 			= null;
 	/**	Document for Payment Request		*/
-	private int 				p_C_DocTypePayRequest_ID = 0;
+	private int 				p_C_DocTypePayRequest_ID 	= 0;
 	/**	Charge								*/
-	private int 				p_C_Charge_ID = 0;
+	private int 				p_C_Charge_ID 				= 0;
 	/**	Product								*/
-	private int 				p_M_Product_ID = 0;	
+	private int 				p_M_Product_ID 				= 0;	
 	/**	Current Allocation					*/
-	private MAllocationHdr 		m_Current_Alloc			= null;
+	private MAllocationHdr 		m_Current_Alloc				= null;
 	/**	Amount								*/
-	private BigDecimal			p_Amt = null;
+	private BigDecimal			p_Amt 						= null;
 	/**	Description							*/
-	private String				p_Description = null;
+	private String				p_Description 				= null;
 	/**	Current Invoice						*/
-	private int					m_Current_C_Invoice_ID = 0;
+	private int					m_Current_C_Invoice_ID 		= 0;
 	/**	ID Invoice API						*/
-	private int					m_C_Invoice_ID_API = 0;
-	/**	Counter Document Invoice API						*/
-	private int					m_C_Invoice_ID_CAPI = 0;
+	private int					m_C_Invoice_ID_API 			= 0;
+	/**	Counter Document Invoice API		*/
+	private int					m_C_Invoice_ID_CAPI 		= 0;
 	/**	Farmer Credit						*/
-	private MFTAFarmerCredit 	m_FTA_FarmerCredit = null;
-	/**	Current Multiplier Invoice Doc		*/
-	private BigDecimal			invoice_Mlp		= Env.ZERO;
+	private MFTAFarmerCredit 	m_FTA_FarmerCredit 			= null;
 	/**	Business Partner					*/
-	private MBPartner 			bpartner = null;
+	private MBPartner 			bpartner 					= null;
 	/**	Generated							*/
-	private int 				generated = 0;
+	private int 				generated 					= 0;
 	/**	Precision							*/
-	private int 				precision = 0;
-	
-	private String 				trxName = null;
-	private Trx 				trx = null;
+	private int 				precision 					= 0;
+	private String 				trxName 					= null;
+	private Trx 				trx 						= null;
 	
 	/** Document is In Dispute*/
-	private boolean				p_IsIndispute =false;
+	private boolean				p_IsIndispute 				= false;
 	
 	/** Business Partner Bank Account		*/
-	private int 				p_C_BP_BankAccount_ID = 0;
+	private int 				p_C_BP_BankAccount_ID 		= 0;
 	
 	/** Sql*/
 	private StringBuffer sql = new StringBuffer();
