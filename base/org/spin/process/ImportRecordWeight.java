@@ -455,16 +455,28 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 
 		//		****	Find Entry Tickets 
 		//	Entry Tickets 
+		/** 2014-11-13 Carlos Parada Don't Locate Reversed or Void Movements*/
+		/** 
 		sql = new StringBuffer ("UPDATE I_RecordWeight i "
 			+ "SET FTA_EntryTicket_ID=(SELECT FTA_EntryTicket_ID FROM FTA_EntryTicket et"
-			+ " WHERE i.AD_Org_ID=et.AD_Org_ID AND i.C_BPartner_ID=et.C_BPartner_ID AND i.ReferenceNo=et.ReferenceNo AND i.Ext_Guide=et.Ext_Guide AND i.FTA_MobilizationGuide_ID=et.FTA_MobilizationGuide_ID) "
+			+ " WHERE i.AD_Org_ID=et.AD_Org_ID AND i.C_BPartner_ID=et.C_BPartner_ID AND i.ReferenceNo=et.ReferenceNo AND i.Ext_Guide=et.Ext_Guide AND i.FTA_MobilizationGuide_ID=et.FTA_MobilizationGuide_ID ) "
 			+ "WHERE FTA_EntryTicket_ID IS NULL"
 			+ " AND I_IsImported='N'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.info("Entry Tickects Found=" + no);
+		*/
+		sql = new StringBuffer ("UPDATE I_RecordWeight i "
+				+ "SET FTA_EntryTicket_ID=(SELECT FTA_EntryTicket_ID FROM FTA_EntryTicket et"
+				+ " WHERE i.AD_Org_ID=et.AD_Org_ID AND i.C_BPartner_ID=et.C_BPartner_ID AND i.ReferenceNo=et.ReferenceNo AND i.Ext_Guide=et.Ext_Guide AND i.FTA_MobilizationGuide_ID=et.FTA_MobilizationGuide_ID " +
+				"	AND et.DocStatus NOT IN ('VO','RE')) "
+				+ "WHERE FTA_EntryTicket_ID IS NULL"
+				+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.info("Entry Tickects Found=" + no);
 		
 		//		****	Find Quality Analysis 
 		//	Quality Analysis
+		/**
 		sql = new StringBuffer ("UPDATE I_RecordWeight i "
 			+ "SET FTA_QualityAnalysis_ID=(SELECT FTA_QualityAnalysis_ID FROM FTA_QualityAnalysis qa"
 			+ " WHERE i.FTA_EntryTicket_ID=qa.FTA_EntryTicket_ID) "
@@ -472,19 +484,35 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.info("Quality Analysis Found=" + no);
+		*/
+		sql = new StringBuffer ("UPDATE I_RecordWeight i "
+				+ "SET FTA_QualityAnalysis_ID=(SELECT FTA_QualityAnalysis_ID FROM FTA_QualityAnalysis qa"
+				+ " WHERE i.FTA_EntryTicket_ID=qa.FTA_EntryTicket_ID AND qa.DocStatus NOT IN ('VO','RE')) "
+				+ "WHERE FTA_QualityAnalysis_ID IS NULL"
+				+ " AND I_IsImported='N'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.info("Quality Analysis Found=" + no);
 		
 		//		****	Find Record Weight 
 		//	Record Weight
 		//	Yamel Senih 2014-10-22, Get Max Value in Record Weight
-		sql = new StringBuffer ("UPDATE I_RecordWeight i "
+		/**sql = new StringBuffer ("UPDATE I_RecordWeight i "
 			+ "SET FTA_RecordWeight_ID=(SELECT MAX(FTA_RecordWeight_ID) FROM FTA_RecordWeight rw"
 			+ " WHERE i.FTA_EntryTicket_ID=rw.FTA_EntryTicket_ID AND i.FTA_QualityAnalysis_ID=rw.FTA_QualityAnalysis_ID) "
 			+ "WHERE FTA_RecordWeight_ID IS NULL"
 			+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.info("Record Weight Found=" + no);
+		*/
+		sql = new StringBuffer ("UPDATE I_RecordWeight i "
+			+ "SET FTA_RecordWeight_ID=(SELECT MAX(FTA_RecordWeight_ID) FROM FTA_RecordWeight rw"
+			+ " WHERE i.FTA_EntryTicket_ID=rw.FTA_EntryTicket_ID AND i.FTA_QualityAnalysis_ID=rw.FTA_QualityAnalysis_ID AND rw.DocStatus NOT IN ('VO','RE')) "
+			+ "WHERE FTA_RecordWeight_ID IS NULL"
+			+ " AND I_IsImported='N'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.info("Record Weight Found=" + no);
 		//	End Yamel Senih
-		
+		/** End Carlos Parada*/
 		//		-------------------------------------------------------------------
 		//Validating Data
 		
@@ -894,7 +922,7 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			+ " WHERE I_IsImported<>'Y'"
 			+ " AND FTA_MobilizationGuide_ID IS NOT NULL AND Exists (Select 1 From I_RecordWeight irw " 
 			// " INNER JOIN FTA_EntryTicket et on (et.FTA_EntryTicket_id=irw.FTA_EntryTicket_id and et.docstatus='CO')" 
-			+ "Where irw.FTA_MobilizationGuide_ID=i.FTA_MobilizationGuide_ID " +
+			+ "Where irw.FTA_MobilizationGuide_ID=i.FTA_MobilizationGuide_ID AND irw.I_IsImported<>'Y'" +
 			"Having Count(FTA_MobilizationGuide_ID)>1 )").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(),new Object[]{errMsg},true, get_TrxName());
 		
