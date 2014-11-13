@@ -876,8 +876,9 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			+ " AND OutDate IS NULL ").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(),new Object[]{errMsg},true, get_TrxName());
 		
+		/** 2014-11-12 Fix Error Referenced Mobilization Guide in Another Entry Ticket 
 		// Duplicate Guide
-		errMsg =  Msg.translate(ctx, "Duplicate") + " " + Msg.translate(ctx, "FTA_MobilizationGuide_ID");
+		/*errMsg =  Msg.translate(ctx, "Duplicate") + " " + Msg.translate(ctx, "FTA_MobilizationGuide_ID");
 		sql = new StringBuffer ("UPDATE I_RecordWeight i "
 			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||',ERR=' || ?"   
 			+ " WHERE I_IsImported<>'Y'"
@@ -886,6 +887,26 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			+ "Where irw.FTA_MobilizationGuide_ID=i.FTA_MobilizationGuide_ID " +
 			"Having Count(FTA_MobilizationGuide_ID)>1 )").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(),new Object[]{errMsg},true, get_TrxName());
+		*/
+		errMsg =  Msg.translate(ctx, "Duplicate") + " " + Msg.translate(ctx, "FTA_MobilizationGuide_ID");
+		sql = new StringBuffer ("UPDATE I_RecordWeight i "
+			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||',ERR=' || ?"   
+			+ " WHERE I_IsImported<>'Y'"
+			+ " AND FTA_MobilizationGuide_ID IS NOT NULL AND Exists (Select 1 From I_RecordWeight irw " 
+			// " INNER JOIN FTA_EntryTicket et on (et.FTA_EntryTicket_id=irw.FTA_EntryTicket_id and et.docstatus='CO')" 
+			+ "Where irw.FTA_MobilizationGuide_ID=i.FTA_MobilizationGuide_ID " +
+			"Having Count(FTA_MobilizationGuide_ID)>1 )").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(),new Object[]{errMsg},true, get_TrxName());
+		
+		errMsg =   Msg.translate(ctx, "FTA_MobilizationGuide_ID") + Msg.translate(ctx, "SQLErrorReferenced") + Msg.translate(ctx, "FTA_EntryTicket_ID");
+		sql = new StringBuffer ("UPDATE I_RecordWeight i "
+			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||',ERR=' || ?"   
+			+ " WHERE I_IsImported<>'Y'"
+			+ " AND FTA_MobilizationGuide_ID IS NOT NULL AND Exists (Select 1 From FTA_EntryTicket_ID et " 
+			+ "Where et.FTA_MobilizationGuide_ID=i.FTA_MobilizationGuide_ID AND et.OperationType=i.OperationType AND et.DocStatus NOT IN ('VO','RE')) " +
+			" AND OperationType = 'RMR' ").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(),new Object[]{errMsg},true, get_TrxName());
+		/** End Carlos Parada*/
 		
 		// 2014-01-20 Carlos Parada Validation Chute 
 		// Invalid Chute

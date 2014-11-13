@@ -166,6 +166,14 @@ public class CloseDocuments extends SvrProcess{
 			m_FTAAllocLine.save(get_TrxName());
 		}
 
+		/** 2014-11-12 Carlos Parada Validation Not Found Data in Farmer Credit Fact for Farmer Credit */  
+		if (m_InvoiceGenCR == null){
+			rollback();
+			addLog("@Error@ @NotFound@ @FTA_Fact_ID@ " + m_FarmerCredit.getDocumentNo());
+			return "@Error@ @NotFound@ @FTA_Fact_ID@ " + m_FarmerCredit.getDocumentNo();
+		}
+		/** End Carlos Parada*/
+		
 		//Process Invoiced Credit Memo
 		if (!m_InvoiceGenCR.processIt(MInvoice.DOCACTION_Complete)){
 			rollback();
