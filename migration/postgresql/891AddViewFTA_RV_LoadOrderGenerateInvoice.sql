@@ -1,6 +1,7 @@
 ﻿--DROP VIEW FTA_RV_LoadOrderGenerateInvoice;
 CREATE OR REPLACE VIEW FTA_RV_LoadOrderGenerateInvoice AS 
 SELECT 
+	DISTINCT 
     lo.AD_Org_ID,
     lo.AD_Client_ID,
     lo.IsActive,
@@ -19,7 +20,7 @@ SELECT
     ol.C_Tax_ID, 
     ol.LineNetAmt,
     o.SalesRep_ID,
-    sr.C_SalesRegion_ID,
+    --sr.C_SalesRegion_ID,
     lo.FTA_Vehicle_ID,
     COALESCE(ol.M_Warehouse_ID, o.M_Warehouse_ID,lo.M_Warehouse_ID)M_Warehouse_ID,
     lo.OperationType,
@@ -42,13 +43,13 @@ INNER JOIN FTA_LoadOrder lo ON (lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID)
 INNER JOIN C_OrderLine ol ON (lol.C_OrderLine_ID = ol.C_OrderLine_ID)
 INNER JOIN C_Order o ON (ol.C_Order_ID = o.C_Order_ID)
 LEFT JOIN AD_User u ON (u.AD_User_ID = o.SalesRep_ID )
-LEFT JOIN C_SalesRegion sr ON (sr.SalesRep_ID = u.AD_User_ID)
+--LEFT JOIN C_SalesRegion sr ON (sr.SalesRep_ID = u.AD_User_ID)
 LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID = lol.C_InvoiceLine_ID )
 LEFT JOIN M_InOutLine iol ON (iol.M_InOutLine_ID = lol.M_InOutLine_ID)
-/*
-WHERE 
 
-    lo.AD_Org_ID = 50001
+WHERE 
+	ol.C_Order_ID = 1000046
+/*    lo.AD_Org_ID = 50001
     AND lo.M_Warehouse_ID IS NULL
     AND lo.OperationType = 'DBM'
     AND lo.C_DocType_ID = 1000000
