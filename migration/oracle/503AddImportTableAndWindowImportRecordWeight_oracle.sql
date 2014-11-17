@@ -176,11 +176,6 @@ UPDATE AD_Element SET EntityType='ECA02',Updated=TO_DATE('2013-10-17 15:10:04','
 UPDATE AD_Element_Trl SET Name='Documento Guía de Movilización',PrintName='Documento Guía de Movilización',Description='Documento Guía de Movilización',Updated=TO_DATE('2013-10-17 15:15:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56496 AND AD_Language='es_MX'
 ;
 
--- Oct 17, 2013 3:16:48 PM VET
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-INSERT INTO AD_TreeBar (AD_Tree_ID,AD_User_ID,Node_ID, AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Updated,UpdatedBy)VALUES (10,100,383,0,0,'Y',SysDate,100,SysDate,100)
-;
-
 -- Oct 17, 2013 3:17:59 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,68968,56496,0,10,53627,'GuideDocumentNo',TO_DATE('2013-10-17 15:17:57','YYYY-MM-DD HH24:MI:SS'),100,'Mobilization Guide Document No','ECA02',30,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Mobilization Guide Document No',0,TO_DATE('2013-10-17 15:17:57','YYYY-MM-DD HH24:MI:SS'),100,0)
