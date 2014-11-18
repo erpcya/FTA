@@ -46,13 +46,11 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.spin.model.MFTAAllocation;
-import org.spin.model.MFTAAllocationLine;
 import org.spin.model.MFTAFact;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAPaymentRequest;
 import org.spin.model.X_FTA_FarmerCredit;
 import org.spin.model.X_FTA_PaymentRequest;
-import org.supercsv.cellprocessor.ParseInt;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -89,10 +87,10 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	private int 				p_M_Product_ID 				= 0;	
 	/**	Current Allocation					*/
 	private MAllocationHdr 		m_Current_Alloc				= null;
-	/** Sql*/
-	private String m_Sql = "";
 	/**	Amount								*/
 	private BigDecimal			p_Amt 						= null;
+	/**	Amount	Allocation Line							*/
+	private BigDecimal			m_Amt_AllocationLine		= null;
 	/**	Description							*/
 	private String				p_Description 				= null;
 	/**	Current Invoice						*/
@@ -105,8 +103,6 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	private MFTAFarmerCredit 	m_FTA_FarmerCredit 			= null;
 	/**	Business Partner					*/
 	private MBPartner 			bpartner 					= null;
-	/** Allocation */
-	private MFTAAllocation m_FTAAlloc = null;
 	/**	Generated							*/
 	private int 				generated 					= 0;
 	/**	Precision							*/
@@ -235,8 +231,6 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 
 	@Override
 	protected String doIt() throws Exception {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
 		//	Valid Organization
 		if(p_AD_Org_ID == 0)
 			throw new AdempiereUserError("@AD_Org_ID@ @NotFound@");
@@ -268,45 +262,14 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				if(p_GeneratePayRequest != null
 						&& p_GeneratePayRequest.equals("Y"))
 					generatePayRequest();
+				// Generate Invoice API and Counter Document
 				if(p_GenerateInvoice != null
 						&& p_GenerateInvoice.equals("Y"))
 				{
 					addDocumentAPI();
 					addDocumentAPIC();
-					//m_Sql = "SELECT C_Invoice_ID,OpenAmt FROM (" +
-							//"SELECT C_Invoice_ID, invoiceOpenFTA(fact.Record_ID,null) OpenAmt " +
-							//"FROM " + 
-							//"C_invoice ci " +
-							//"INNER JOIN " + 
-							//"(SELECT DISTINCT Record_ID " + 
-							//"FROM FTA_Fact " + 
-							//"WHERE AD_Table_ID = ? " +
-							//") fact ON ci.C_invoice_ID = fact.Record_ID " + 
-							//"WHERE " + //invoiceOpenFTA(fact.Record_ID,null) <>0 AND " +
-							//"ci.FTA_FarmerCredit_ID = ? " +
-							//") fact " + 
-							//"WHERE OpenAmt <> 0 ";
-					//ps = DB.prepareStatement(m_Sql, get_TrxName());
-					//ps.setInt(1, MInvoice.Table_ID);
-					//ps.setInt(2, p_FTA_FarmerCredit_ID);
-					
-					//rs = ps.executeQuery();
-					
-					//while (rs.next()){
-					
-					//__________________
-					//Alloc Credit Document
-					//MInvoice m_InvoiceGenCR = new MInvoice(getCtx(), m_C_Invoice_ID_CAPI, get_TrxName());
-					//MFTAAllocationLine m_FTAAllocLine2 = new MFTAAllocationLine(m_FTAAlloc);
-					//m_FTAAllocLine2.setC_Invoice_ID(m_InvoiceGenCR.getC_Invoice_ID());
-					//m_FTAAllocLine2.setC_BPartner_ID(m_InvoiceGenCR.getC_BPartner_ID());
-					//m_FTAAllocLine2.setAmount(m_InvoiceGenCR.getGrandTotal().negate());
-					//m_FTAAllocLine2.save(get_TrxName());
-					//System.out.println(m_FTAAlloc.getDocumentNo());
 					
 				}}
-			//}
-			//	
 			
 			if(m_FTA_FarmerCredit.getBeneficiary_ID() != 0){
 				reference_ID = 0;
@@ -345,19 +308,6 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/10/2013, 10:41:25
 	 * @return void
 	 */
-	
-	private void addAllocationDoc(){
-		//Create Allocation Document After Complete Farmer Credit Allocation When Allocation Documents are only invoices 
-				m_Current_Alloc = new MAllocationHdr(Env.getCtx(), true,	//	manual
-						p_DateDoc, m_C_Invoice_ID_API, Env.getContext(Env.getCtx(), "#AD_User_Name"), get_TrxName());
-				m_Current_Alloc.setAD_Org_ID(p_AD_Org_ID);
-				m_Current_Alloc.saveEx();
-				MAllocationLine aLine = new MAllocationLine (m_Current_Alloc, p_Amt, 
-						Env.ZERO, Env.ZERO, p_Amt);
-				aLine.setDocInfo(m_C_Invoice_ID_CAPI,0,m_Current_C_BPartner_ID);
-				aLine.saveEx();
-				
-	}
 	private void addDocument(){
 		MInvoice m_ARInvoice = new MInvoice(getCtx(), 0, trxName);
 		m_ARInvoice.setAD_Org_ID(p_AD_Org_ID);
@@ -399,6 +349,11 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		completeDoument(m_ARInvoice);
 	}
 	
+	/**
+	 * Create AP Invoice 
+	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 18/11/2014, 10:41:25
+	 * @return void
+	 */
 	private void addDocumentAPI(){
 		MInvoice m_ARInvoice = new MInvoice(getCtx(), 0, trxName);
 		m_ARInvoice.setAD_Org_ID(p_AD_Org_ID);
@@ -438,27 +393,27 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		//	Add Invoice
 		m_Current_C_BPartner_ID=m_ARInvoice.getC_BPartner_ID();
 		m_C_Invoice_ID_API = m_ARInvoice.getC_Invoice_ID();
-		//Complete
+		// Complete
 		completeDoument(m_ARInvoice);
-		System.out.println("este es el socio del negocio:"+m_ARInvoice.getC_BPartner_ID());
-		System.out.println("Este es el id de la factura:"+m_ARInvoice.getC_Invoice_ID());
-		System.out.println("Este es el id de la factura var:"+m_C_Invoice_ID_API);
-		
+		//	Generate Allocation
+		//_________________________________________________________________________
 		m_Current_Alloc = new MAllocationHdr(Env.getCtx(), true,	//	manual
 				p_DateDoc, m_ARInvoice.getC_Currency_ID(), Env.getContext(Env.getCtx(), "#AD_User_Name"), get_TrxName());
 		m_Current_Alloc.setAD_Org_ID(m_ARInvoice.getAD_Org_ID());
 		m_Current_Alloc.saveEx();
+		//	Generate Allocation Line 
 		MAllocationLine aLine = new MAllocationLine (m_Current_Alloc, p_Amt, 
 				Env.ZERO, Env.ZERO, p_Amt);
 		aLine.setDocInfo(m_ARInvoice.getC_BPartner_ID(), 0, m_ARInvoice.getC_Invoice_ID());
 		aLine.saveEx();
-		//MAllocationLine aLine = new MAllocationLine (m_Current_Alloc, p_Amt, 
-				//Env.ZERO, Env.ZERO, p_Amt);
-		//aLine.setDocInfo(m_C_Invoice_ID_API,0,m_Current_C_BPartner_ID);
-		//aLine.saveEx();
-		System.out.println("ASIGNACION:"+m_Current_Alloc.getDocumentNo());
-		
+		m_Amt_AllocationLine=aLine.getAmount();
 	}
+	
+	/**
+	 * Create Counter Document
+	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 18/11/2014, 10:41:25
+	 * @return void
+	 */
 	private void addDocumentAPIC(){
 		MInvoice m_ARInvoice = new MInvoice(getCtx(), 0, trxName);
 		m_ARInvoice.setAD_Org_ID(p_AD_Org_ID);
@@ -497,16 +452,15 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		//	Add Invoice
 		m_Current_C_BPartner_ID=m_ARInvoice.getC_BPartner_ID();
 		m_C_Invoice_ID_CAPI = m_ARInvoice.getC_Invoice_ID();
+		
+		
+		//____________________________________________________________________________
+		//	Generate Allocation Line 
 		MAllocationLine aLine = new MAllocationLine (m_Current_Alloc, p_Amt.negate(), 
-				Env.ZERO, Env.ZERO, p_Amt);
+				Env.ZERO, Env.ZERO, p_Amt.subtract(m_Amt_AllocationLine));
 		aLine.setDocInfo(m_ARInvoice.getC_BPartner_ID(), 0, m_ARInvoice.getC_Invoice_ID());
 		aLine.saveEx();
 		//	Complete
-		//MFTAAllocationLine m_FTAAllocLine2 = new MFTAAllocationLine(m_FTAAlloc);
-		//m_FTAAllocLine2.setC_Invoice_ID(m_ARInvoice.getC_Invoice_ID());
-		//m_FTAAllocLine2.setC_BPartner_ID(m_ARInvoice.getC_BPartner_ID());
-		//m_FTAAllocLine2.setAmount(m_ARInvoice.getGrandTotal().negate());
-		//m_FTAAllocLine2.save(get_TrxName());
 		completeDoument(m_ARInvoice);
 	}
 	
