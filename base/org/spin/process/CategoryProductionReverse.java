@@ -100,11 +100,11 @@ public class CategoryProductionReverse extends SvrProcess {
 		//	Copy Production Plan and Line
 		for (X_M_ProductionPlan m_ProductionPlan : m_ProductionPlanList) {
 			//	Create New Production Plan
-			X_M_ProductionPlan m_ProductionPlanReversal = new X_M_ProductionPlan(getCtx(), 0, getName());
+			X_M_ProductionPlan m_ProductionPlanReversal = new X_M_ProductionPlan(getCtx(), 0, get_TrxName());
 			//	Copy
 			PO.copyValues(m_ProductionPlan, m_ProductionPlanReversal);
 			//	Set New Values
-			m_ProductionPlanReversal.setM_Production_ID(m_ProductionPlanReversal.getM_Production_ID());
+			m_ProductionPlanReversal.setM_Production_ID(m_Reversal_Production.getM_Production_ID());
 			m_ProductionPlanReversal.setProductionQty(m_ProductionPlan.getProductionQty().negate());
 			m_ProductionPlanReversal.saveEx();
 			//	Copy Production Line
@@ -115,7 +115,7 @@ public class CategoryProductionReverse extends SvrProcess {
 			//	Loop
 			for (X_M_ProductionLine m_ProductionLine : m_ProductionLineList) {
 				//	Create New Production Line
-				X_M_ProductionLine m_ProductionLineReversal = new X_M_ProductionLine(getCtx(), 0, getName());
+				X_M_ProductionLine m_ProductionLineReversal = new X_M_ProductionLine(getCtx(), 0, get_TrxName());
 				//	Copy
 				PO.copyValues(m_ProductionLine, m_ProductionLineReversal);
 				//	Set New Values
