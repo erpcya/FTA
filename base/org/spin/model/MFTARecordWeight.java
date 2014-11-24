@@ -978,8 +978,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				return null;
 			}
 			//	Create Receipt
-			MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
-			m_Receipt.setDateAcct(getDateDoc());
+			MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateForDocument());			
+			m_Receipt.setDateAcct(getDateForDocument());
 			//	Set New Organization and warehouse
 			m_Receipt.setAD_Org_ID(getAD_Org_ID());
 			m_Receipt.setAD_OrgTrx_ID(getAD_Org_ID());
@@ -1099,8 +1099,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				return null;
 			}
 			//	Create Receipt
-			MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
-			m_Receipt.setDateAcct(getDateDoc());
+			MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateForDocument());
+			m_Receipt.setDateAcct(getDateForDocument());
 			//	Set New Organization and warehouse
 			m_Receipt.setAD_Org_ID(getAD_Org_ID());
 			m_Receipt.setAD_OrgTrx_ID(getAD_Org_ID());
@@ -1196,8 +1196,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				}
 				
 				//	Create Receipt
-				MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
-				m_Receipt.setDateAcct(getDateDoc());
+				MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateForDocument());
+				m_Receipt.setDateAcct(getDateForDocument());
 				//	Set New Organization and warehouse
 				m_Receipt.setAD_Org_ID(getAD_Org_ID());
 				m_Receipt.setAD_OrgTrx_ID(getAD_Org_ID());
@@ -1323,8 +1323,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				}
 				
 				//	Create Receipt
-				MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateDoc());
-				m_Receipt.setDateAcct(getDateDoc());
+				MInOut m_Receipt = new MInOut (order, m_DocType.getC_DocTypeShipment_ID(), getDateForDocument());
+				m_Receipt.setDateAcct(getDateForDocument());
 				//	Set New Organization and warehouse
 				m_Receipt.setAD_Org_ID(getAD_Org_ID());
 				m_Receipt.setAD_OrgTrx_ID(getAD_Org_ID());
@@ -1428,6 +1428,34 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			return getPayWeight();
 		else
 			return getNetWeight();
+	}
+	
+	/**
+	 * Get Date for transaction like delivery or receipt from record weight
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 24/11/2014, 18:31:57
+	 * @return
+	 * @return Timestamp
+	 */
+	public Timestamp getDateForDocument() {
+		//	Get Date for Receipt
+		//	I = In Date (InDate)
+		//	O = Out Date (OutDate)
+		String fta_date_for_inout = MSysConfig.getValue("FTA_DATE_FOR_IN_OUT", getAD_Client_ID());
+		//	
+		Timestamp m_InOutDate = getDateDoc();
+		//	
+		if(fta_date_for_inout != null) {
+			if(fta_date_for_inout.equals("I")) {
+				m_InOutDate = getInDate();
+			} else if(fta_date_for_inout.equals("O")) {
+				m_InOutDate = getOutDate();
+			}
+			//	Valid null
+			if(m_InOutDate == null)
+				m_InOutDate = getDateDoc();
+		}
+		//	Return
+		return m_InOutDate;
 	}
 	
 	@Override

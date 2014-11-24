@@ -56,35 +56,43 @@ import org.spin.model.X_FTA_RecordWeight;
 public class CategoryProductionGenerate extends SvrProcess {
 	
 	/**	Organization				*/
-	private int			p_AD_Org_ID = 0;
+	private int			p_AD_Org_ID 				= 0;
 	/**	Warehouse					*/
-	private int			p_M_Warehouse_ID = 0;
+	private int			p_M_Warehouse_ID 			= 0;
 	/**	Locator						*/
-	private int 		p_M_Locator_ID = 0;
+	private int 		p_M_Locator_ID 				= 0;
 	/**	Operation Type				*/
-	private String 		p_OperationType = null;
+	private String 		p_OperationType 			= null;
 	/**	Document Date from			*/
-	private Timestamp 	p_DateDoc = null;
+	private Timestamp 	p_DateDoc 					= null;
 	/**	Document Date to			*/
-	private Timestamp 	p_DateDoc_To = null;
+	private Timestamp 	p_DateDoc_To 				= null;
+	/**	Document Out Date from		*/
+	private Timestamp 	p_OutDate 					= null;
+	/**	Document Out Date to		*/
+	private Timestamp 	p_OutDate_To 				= null;
+	/**	Document In Date from		*/
+	private Timestamp 	p_InDate 					= null;
+	/**	Document In Date to			*/
+	private Timestamp 	p_InDate_To 				= null;
 	/**	Category Calculation Group	*/
-	private int 		p_FTA_CategoryCalcGroup_ID = 0;
+	private int 		p_FTA_CategoryCalcGroup_ID 	= 0;
 	/**	Category Calculation		*/
-	private int 		p_FTA_CategoryCalc_ID = 0;
+	private int 		p_FTA_CategoryCalc_ID 		= 0;
 	/**	Org Trx						*/
-	private int 		p_AD_OrgTrx_ID = 0;
+	private int 		p_AD_OrgTrx_ID 				= 0;
 	/**	Project						*/
-	private int 		p_C_Project_ID = 0;
+	private int 		p_C_Project_ID 				= 0;
 	/**	Activity					*/
-	private int 		p_C_Activity_ID = 0;
+	private int 		p_C_Activity_ID 			= 0;
 	/**	Campaign					*/
-	private int 		p_C_Campaign_ID = 0;
+	private int 		p_C_Campaign_ID 			= 0;
 	/**	Locator To					*/
-	private int 		p_M_LocatorTo_ID = 0;
+	private int 		p_M_LocatorTo_ID 			= 0;
 	/**	Movement Date				*/
-	private Timestamp	p_MovementDate = null;
+	private Timestamp	p_MovementDate 				= null;
 	/**	Must be stocked				*/
-	private boolean		p_MustBeStocked = false;
+	private boolean		p_MustBeStocked 			= false;
 	
 	@Override
 	protected void prepare() {
@@ -104,6 +112,12 @@ public class CategoryProductionGenerate extends SvrProcess {
 			else if(name.equals("DateDoc")){
 				p_DateDoc = (Timestamp) para.getParameter();
 				p_DateDoc_To = (Timestamp) para.getParameter_To();
+			} else if(name.equals("InDate")) {
+				p_InDate = (Timestamp) para.getParameter();
+				p_InDate_To = (Timestamp) para.getParameter_To();
+			} else if(name.equals("OutDate")) {
+				p_OutDate = (Timestamp) para.getParameter();
+				p_OutDate_To = (Timestamp) para.getParameter_To();
 			} else if(name.equals("FTA_CategoryCalcGroup_ID"))
 				p_FTA_CategoryCalcGroup_ID = para.getParameterAsInt();
 			else if(name.equals("FTA_CategoryCalc_ID"))
@@ -181,12 +195,13 @@ public class CategoryProductionGenerate extends SvrProcess {
 				"INNER JOIN FTA_QualityAnalysis qa ON(qa.FTA_QualityAnalysis_ID = rw.FTA_QualityAnalysis_ID) " +
 				"INNER JOIN FTA_CategoryCalc cc ON(cc.M_Product_ID = qa.M_Product_ID) " +
 				"INNER JOIN M_InOut io ON(io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID) " +
-				"INNER JOIN M_InOutLine iol ON(iol.M_InOut_ID = io.M_InOut_ID) ");
+				"INNER JOIN M_InOutLine iol ON(iol.M_InOut_ID = io.M_InOut_ID) " + 
+				"LEFT JOIN M_ProductionLine pl ON(pl.M_ProductionLine_ID = rw.M_ProductionLine_ID) ");
 		//	Where
 		sql.append("WHERE cc.FTA_CategoryCalc_ID = ? " +
 				"AND rw.DocStatus = 'CO' " +
 				"AND io.DocStatus = 'CO' " +
-				"AND rw.M_ProductionLine_ID IS NULL ");
+				"AND (rw.M_ProductionLine_ID IS NULL OR pl.ReversalLine_ID IS NOT NULL) ");
 		
 		//	Add search criteria
 		for(MFTACategoryCalcFilter m_filter : m_filters){
@@ -286,6 +301,14 @@ public class CategoryProductionGenerate extends SvrProcess {
 			sql.append(" AND rw.DateDoc >= ? ");
 		if(p_DateDoc_To != null)
 			sql.append(" AND rw.DateDoc <= ? ");
+		if(p_InDate != null)
+			sql.append(" AND rw.InDate >= ? ");
+		if(p_InDate_To != null)
+			sql.append(" AND rw.InDate <= ? ");
+		if(p_OutDate != null)
+			sql.append(" AND rw.OutDate >= ? ");
+		if(p_OutDate_To != null)
+			sql.append(" AND rw.OutDate <= ? ");
 		
 		//	Group By
 		sql.append(" GROUP BY qa.M_Product_ID, rw.FTA_RecordWeight_ID, qa.QualityAnalysis_ID, iol.M_Locator_ID ");
@@ -314,6 +337,16 @@ public class CategoryProductionGenerate extends SvrProcess {
 			ps.setTimestamp(i++, p_DateDoc);
 		if(p_DateDoc_To != null)
 			ps.setTimestamp(i++, p_DateDoc_To);
+		if(p_InDate != null)
+			ps.setTimestamp(i++, p_InDate);
+		if(p_InDate_To != null)
+			ps.setTimestamp(i++, p_InDate_To);
+		if(p_OutDate != null)
+			ps.setTimestamp(i++, p_OutDate);
+		if(p_OutDate_To != null)
+			ps.setTimestamp(i++, p_OutDate_To);
+		
+		
 		//	
 		rs = ps.executeQuery();
 		//	Loop
