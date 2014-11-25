@@ -86,7 +86,9 @@ public class CategoryProductionReverse extends SvrProcess {
 		m_Reversal_Production.setDescription("--> " + m_Current_Production.getName());
 		m_Reversal_Production.setMovementDate(p_MovementDate);
 		m_Reversal_Production.setIsCreated(true);
+		m_Reversal_Production.set_ValueOfColumn("IsReversal", "Y");
 		m_Reversal_Production.set_ValueOfColumn("Reversal_ID", m_Current_Production.getM_Production_ID());
+		m_Reversal_Production.setAD_Org_ID(m_Current_Production.getAD_Org_ID());
 		m_Reversal_Production.saveEx();
 		//	Set Values for Current Production
 		m_Current_Production.set_ValueOfColumn("Reversal_ID", m_Reversal_Production.getM_Production_ID());
@@ -109,6 +111,7 @@ public class CategoryProductionReverse extends SvrProcess {
 			//	Set New Values
 			m_ProductionPlanReversal.setM_Production_ID(m_Reversal_Production.getM_Production_ID());
 			m_ProductionPlanReversal.setProductionQty(m_ProductionPlan.getProductionQty().negate());
+			m_ProductionPlanReversal.setAD_Org_ID(m_ProductionPlan.getAD_Org_ID());
 			m_ProductionPlanReversal.saveEx();
 			//	Copy Production Line
 			List<X_M_ProductionLine> m_ProductionLineList = new Query(getCtx(), X_M_ProductionLine.Table_Name, 
@@ -125,6 +128,7 @@ public class CategoryProductionReverse extends SvrProcess {
 				m_ProductionLineReversal.setM_ProductionPlan_ID(m_ProductionPlanReversal.getM_ProductionPlan_ID());
 				m_ProductionLineReversal.setMovementQty(m_ProductionLine.getMovementQty().negate());
 				m_ProductionLineReversal.set_ValueOfColumn("ReversalLine_ID", m_ProductionLine.getM_ProductionLine_ID());
+				m_ProductionLineReversal.setAD_Org_ID(m_ProductionLine.getAD_Org_ID());
 				m_ProductionLineReversal.saveEx();
 				//	Set Reversal to Current Line
 				m_ProductionLine.set_ValueOfColumn("ReversalLine_ID", m_ProductionLineReversal.getM_ProductionLine_ID());
