@@ -73,6 +73,9 @@ public class CategoryProductionReverse extends SvrProcess {
 			throw new AdempiereException("@M_Production_ID@ @NotFound@");
 		//	Parameters
 		X_M_Production m_Current_Production = new X_M_Production(getCtx(), p_M_Production_ID, get_TrxName());
+		//	Valid Reverse Document
+		if(m_Current_Production.get_ValueAsInt("Reversal_ID") > 0)
+			return "Ok";
 		//	Create Reverse
 		X_M_Production m_Reversal_Production = new X_M_Production(getCtx(), 0, get_TrxName());
 		//	Get Movement Date
