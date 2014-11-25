@@ -38,6 +38,7 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MRefList;
 import org.compiere.model.X_C_DocType;
 import org.compiere.model.X_C_Invoice;
+import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
@@ -60,11 +61,22 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 
 	/**	Organization						*/
 	private int 				p_AD_Org_ID 				= 0;
+	/**	Organization						*/
+	private int 				m_C_Invoice_ID				= 0;
 	/**	Document Type Target AP Credit Memo	*/
+	private int 				p_C_DocTypeInvoice_ARI_ID 	= 0;
 	/**	Current Business Partner			*/
 	private int 				m_Current_C_BPartner_ID 	= 0;
-	
-	private int 				p_C_DocTypeInvoice_ARI_ID 	= 0;
+	/**	Current Multiplier Invoice Doc		*/
+	private BigDecimal			invoice_Mlp		= Env.ZERO;
+	/**	Current Business Partner API Document			*/
+	private int 				m_Current_C_BPartner_API_ID = 0;
+	/**	Current Business Partner Counter Document			*/
+	private int 				m_Current_C_BPartner_CAPI_ID= 0;
+	/**	Currency Document			*/
+	private int 				m_C_Currency_ID				= 0;
+	/**	Organization Document			*/
+	private int 				m_AD_Org_ID					= 0;
 	/**	Document Type Target AP Invoice		*/
 	private int 				p_C_DocTypeInvoice_API_ID 	= 0;
 	/**	Counter Document Type  AP Invoice	*/
@@ -266,8 +278,15 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				if(p_GenerateInvoice != null
 						&& p_GenerateInvoice.equals("Y"))
 				{
-					addDocumentAPI();
-					addDocumentAPIC();
+					addDocumentAPI(p_C_DocTypeInvoice_API_ID);
+					MInvoice m_ARInvoice = new MInvoice(getCtx(),m_C_Invoice_ID , trxName);
+					m_Current_C_BPartner_API_ID=m_ARInvoice.getC_BPartner_ID();
+					m_C_Invoice_ID_API=m_ARInvoice.getC_Invoice_ID();
+					addDocumentAPI(p_C_DocTypeCounter_API_ID);
+					m_ARInvoice = new MInvoice(getCtx(),m_C_Invoice_ID , trxName);
+					m_Current_C_BPartner_CAPI_ID=m_ARInvoice.getC_BPartner_ID();
+					m_C_Invoice_ID_CAPI=m_ARInvoice.getC_Invoice_ID();
+					generateAllocation();
 					
 				}}
 			
@@ -354,13 +373,13 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 18/11/2014, 10:41:25
 	 * @return void
 	 */
-	private void addDocumentAPI(){
+	private void addDocumentAPI(int C_DocType_ID){
 		MInvoice m_ARInvoice = new MInvoice(getCtx(), 0, trxName);
 		m_ARInvoice.setAD_Org_ID(p_AD_Org_ID);
 		m_ARInvoice.setDateInvoiced(p_DateDoc);
 		m_ARInvoice.setDocumentNo(p_DocumentNo);
 		m_ARInvoice.setIsSOTrx(false);
-		m_ARInvoice.setC_DocTypeTarget_ID(p_C_DocTypeInvoice_API_ID);
+		m_ARInvoice.setC_DocTypeTarget_ID(C_DocType_ID);
 		
 		//Set in Dispute
 		m_ARInvoice.setIsInDispute(p_IsIndispute);
@@ -390,78 +409,41 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		//	
 		m_ARinvoiceLine.setTaxAmt();
 		m_ARinvoiceLine.saveEx();
+		m_C_Currency_ID = m_ARInvoice.getC_Currency_ID();
+		m_AD_Org_ID = m_ARInvoice.getAD_Org_ID();
 		//	Add Invoice
-		m_Current_C_BPartner_ID=m_ARInvoice.getC_BPartner_ID();
-		m_C_Invoice_ID_API = m_ARInvoice.getC_Invoice_ID();
+		m_C_Invoice_ID = m_ARInvoice.getC_Invoice_ID();
 		// Complete
 		completeDoument(m_ARInvoice);
-		//	Generate Allocation
-		//_________________________________________________________________________
-		m_Current_Alloc = new MAllocationHdr(Env.getCtx(), true,	//	manual
-				p_DateDoc, m_ARInvoice.getC_Currency_ID(), Env.getContext(Env.getCtx(), "#AD_User_Name"), get_TrxName());
-		m_Current_Alloc.setAD_Org_ID(m_ARInvoice.getAD_Org_ID());
-		m_Current_Alloc.saveEx();
-		//	Generate Allocation Line 
-		MAllocationLine aLine = new MAllocationLine (m_Current_Alloc, p_Amt, 
-				Env.ZERO, Env.ZERO, p_Amt);
-		aLine.setDocInfo(m_ARInvoice.getC_BPartner_ID(), 0, m_ARInvoice.getC_Invoice_ID());
-		aLine.saveEx();
-		m_Amt_AllocationLine=aLine.getAmount();
+	System.out.println(m_ARInvoice.getC_Invoice_ID());
 	}
 	
 	/**
-	 * Create Counter Document
+	 * Create Allocation Documents 
 	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 18/11/2014, 10:41:25
 	 * @return void
 	 */
-	private void addDocumentAPIC(){
-		MInvoice m_ARInvoice = new MInvoice(getCtx(), 0, trxName);
-		m_ARInvoice.setAD_Org_ID(p_AD_Org_ID);
-		m_ARInvoice.setDateInvoiced(p_DateDoc);
-		m_ARInvoice.setIsSOTrx(false);
-		m_ARInvoice.setC_DocTypeTarget_ID(p_C_DocTypeCounter_API_ID);
-		
-		//Set in Dispute
-		m_ARInvoice.setIsInDispute(p_IsIndispute);
-		
-		//	Set Business Partner
-		
-		m_ARInvoice.setBPartner(bpartner);
-		//	Set Farmer Credit
-		m_ARInvoice.set_ValueOfColumn("FTA_FarmerCredit_ID", p_FTA_FarmerCredit_ID);
-		//	Description
-		if(p_Description != null)
-			m_ARInvoice.setDescription(p_Description);
-		m_ARInvoice.saveEx();
-		//	Create Line
-		MInvoiceLine m_ARinvoiceLine = new MInvoiceLine(m_ARInvoice);
-		//	Set Charge and Product
-		setChargeProduct(m_ARinvoiceLine);
-		//	
-		m_ARinvoiceLine.setQty(Env.ONE);
-		//	Set Amount
-		if(p_Amt == null)
-			p_Amt = m_FTA_FarmerCredit.getAmt();
-		m_ARinvoiceLine.setPrice(p_Amt.setScale(precision, BigDecimal.ROUND_HALF_UP));
-		//	Description
-		if(p_Description != null)
-			m_ARinvoiceLine.setDescription(p_Description);
-		//	
-		m_ARinvoiceLine.setTaxAmt();
-		m_ARinvoiceLine.saveEx();
-		//	Add Invoice
-		m_Current_C_BPartner_ID=m_ARInvoice.getC_BPartner_ID();
-		m_C_Invoice_ID_CAPI = m_ARInvoice.getC_Invoice_ID();
-		
-		
-		//____________________________________________________________________________
-		//	Generate Allocation Line 
+	private void generateAllocation(){
+		//	Generate Allocation
+		m_Current_Alloc = new MAllocationHdr(Env.getCtx(), true,	//	manual
+				p_DateDoc, m_C_Currency_ID, Env.getContext(Env.getCtx(), "#AD_User_Name"), get_TrxName());
+		m_Current_Alloc.setAD_Org_ID(m_AD_Org_ID);
+		m_Current_Alloc.saveEx();
+		//	Generate Allocation Line AP Invoice
 		MAllocationLine aLine = new MAllocationLine (m_Current_Alloc, p_Amt.negate(), 
-				Env.ZERO, Env.ZERO, p_Amt.subtract(m_Amt_AllocationLine));
-		aLine.setDocInfo(m_ARInvoice.getC_BPartner_ID(), 0, m_ARInvoice.getC_Invoice_ID());
+				Env.ZERO, Env.ZERO, Env.ZERO);
+		aLine.setDocInfo(m_Current_C_BPartner_API_ID, 0, m_C_Invoice_ID_API);
 		aLine.saveEx();
-		//	Complete
-		completeDoument(m_ARInvoice);
+		m_Amt_AllocationLine=aLine.getAmount();
+		//	Generate Allocation Line Counter AP Invoice
+		MAllocationLine aLineCounter = new MAllocationLine (m_Current_Alloc, p_Amt, 
+				Env.ZERO, Env.ZERO, Env.ZERO);
+		aLineCounter.setDocInfo(m_Current_C_BPartner_CAPI_ID, 0, m_C_Invoice_ID_CAPI);
+		aLineCounter.saveEx();
+		m_Current_Alloc.processIt(DocumentEngine.ACTION_Complete);
+		m_Current_Alloc.saveEx();
+		
+		
 	}
 	
 	/**
