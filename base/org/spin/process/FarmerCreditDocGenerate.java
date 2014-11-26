@@ -46,7 +46,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.spin.model.MFTAAllocation;
 import org.spin.model.MFTAFact;
 import org.spin.model.MFTAFarmerCredit;
 import org.spin.model.MFTAPaymentRequest;
@@ -65,10 +64,6 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	private int 				m_C_Invoice_ID				= 0;
 	/**	Document Type Target AP Credit Memo	*/
 	private int 				p_C_DocTypeInvoice_ARI_ID 	= 0;
-	/**	Current Business Partner			*/
-	private int 				m_Current_C_BPartner_ID 	= 0;
-	/**	Current Multiplier Invoice Doc		*/
-	private BigDecimal			invoice_Mlp		= Env.ZERO;
 	/**	Current Business Partner API Document			*/
 	private int 				m_Current_C_BPartner_API_ID = 0;
 	/**	Current Business Partner Counter Document			*/
@@ -101,8 +96,6 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 	private MAllocationHdr 		m_Current_Alloc				= null;
 	/**	Amount								*/
 	private BigDecimal			p_Amt 						= null;
-	/**	Amount	Allocation Line							*/
-	private BigDecimal			m_Amt_AllocationLine		= null;
 	/**	Description							*/
 	private String				p_Description 				= null;
 	/**	Current Invoice						*/
@@ -415,7 +408,6 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 		m_C_Invoice_ID = m_ARInvoice.getC_Invoice_ID();
 		// Complete
 		completeDoument(m_ARInvoice);
-	System.out.println(m_ARInvoice.getC_Invoice_ID());
 	}
 	
 	/**
@@ -434,7 +426,6 @@ public class FarmerCreditDocGenerate extends SvrProcess {
 				Env.ZERO, Env.ZERO, Env.ZERO);
 		aLine.setDocInfo(m_Current_C_BPartner_API_ID, 0, m_C_Invoice_ID_API);
 		aLine.saveEx();
-		m_Amt_AllocationLine=aLine.getAmount();
 		//	Generate Allocation Line Counter AP Invoice
 		MAllocationLine aLineCounter = new MAllocationLine (m_Current_Alloc, p_Amt, 
 				Env.ZERO, Env.ZERO, Env.ZERO);
