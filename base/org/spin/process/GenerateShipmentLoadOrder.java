@@ -97,6 +97,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					+ " tsb.PriceActual,"
 					+ " tsb.C_Tax_ID,"
 					+ " tsb.OperationType, "
+					+ " ol.AD_Org_ID, "
 					+ " ol.M_Warehouse_ID "
 					+ " FROM T_Selection ts "
 					+ " INNER JOIN ( "
@@ -153,9 +154,10 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 			//	
 			while(rs.next()){
 				//	Valid Document Order and Business Partner
-				int m_C_BPartner_ID = rs.getInt("C_BPartner_ID");
-				int m_M_Warehouse_ID = rs.getInt("M_Warehouse_ID");
-				int m_C_Order_ID = rs.getInt("C_Order_ID");
+				int m_C_BPartner_ID 	= rs.getInt("C_BPartner_ID");
+				int m_AD_Org_ID 		= rs.getInt("AD_Org_ID");
+				int m_M_Warehouse_ID 	= rs.getInt("M_Warehouse_ID");
+				int m_C_Order_ID 		= rs.getInt("C_Order_ID");
 				//	
 				if (m_Current_BPartner_ID != m_C_BPartner_ID
 						|| m_Current_Warehouse_ID != m_M_Warehouse_ID) {
@@ -174,11 +176,11 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					//Create Shipment From Order
 					m_Current_Shipment = new MInOut(order, p_C_DocTypeTarget_ID, p_MovementDate);
 					m_Current_Shipment.setDateAcct(p_MovementDate);
-					m_Current_Shipment.setAD_Org_ID(order.getAD_Org_ID());
-					m_Current_Shipment.setAD_OrgTrx_ID(order.getAD_Org_ID());
+					m_Current_Shipment.setAD_Org_ID(m_AD_Org_ID);
+					m_Current_Shipment.setAD_OrgTrx_ID(m_AD_Org_ID);
 					m_Current_Shipment.setC_BPartner_ID(m_Current_BPartner_ID);
 					//	Set Warehouse
-					m_Current_Shipment.setM_Warehouse_ID(order.getM_Warehouse_ID());
+					m_Current_Shipment.setM_Warehouse_ID(m_Current_Warehouse_ID);
 					m_Current_Shipment.setDocStatus(X_M_InOut.DOCSTATUS_Drafted);
 					m_Current_Shipment.saveEx(get_TrxName());
 					//	Initialize Message
@@ -212,7 +214,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 						throw new AdempiereException("@NoUOMConversion@");
 					}
 					//	Set Values for Lines
-					shipmentLine.setAD_Org_ID(m_FTA_LoadOrderLine.getAD_Org_ID());
+					shipmentLine.setAD_Org_ID(m_Current_Shipment.getAD_Org_ID());
 					shipmentLine.setM_InOut_ID(m_Current_Shipment.getM_InOut_ID());
 					//	Quantity and Product
 					shipmentLine.setM_Product_ID(product.getM_Product_ID());
