@@ -137,3 +137,26 @@ UPDATE AD_Process_Para SET AD_Val_Rule_ID=52225,Updated=TO_DATE('2014-11-26 07:4
 ;
 
 
+-- Nov 26, 2014 4:45:12 PM VET
+-- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
+UPDATE AD_Process_Para SET DisplayLogic='@GenerateInvoice@=''Y''', ReadOnlyLogic=NULL,Updated=TO_DATE('2014-11-26 16:45:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=55052
+;
+
+-- Nov 26, 2014 5:01:28 PM VET
+-- FTA
+INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52410,'C_DocType.DocBaseType IN (''APC'')',TO_DATE('2014-11-26 17:01:25','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','C_DocType AP Credit Memo','S',TO_DATE('2014-11-26 17:01:25','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+-- Nov 26, 2014 5:01:39 PM VET
+-- FTA
+UPDATE AD_Process_Para SET AD_Val_Rule_ID=52410,Updated=TO_DATE('2014-11-26 17:01:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=55052
+;
+
+-- Nov 26, 2014 5:04:26 PM VET
+-- FTA
+UPDATE AD_Process_Para SET AD_Val_Rule_ID=52410,Updated=TO_DATE('2014-11-26 17:04:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=55056
+;
+
+
+
+
