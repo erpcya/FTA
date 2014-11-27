@@ -153,15 +153,14 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 			//	
 			while(rs.next()){
 				//	Valid Document Order and Business Partner
-				int m_M_Warehouse_ID = rs.getInt("M_Warehouse_ID");
 				int m_C_BPartner_ID = rs.getInt("C_BPartner_ID");
+				int m_M_Warehouse_ID = rs.getInt("M_Warehouse_ID");
 				int m_C_Order_ID = rs.getInt("C_Order_ID");
 				//	
-				if (m_Current_Warehouse_ID != m_M_Warehouse_ID
-						&& m_Current_BPartner_ID != m_C_BPartner_ID) {
+				if (m_Current_BPartner_ID != m_C_BPartner_ID
+						|| m_Current_Warehouse_ID != m_M_Warehouse_ID) {
 					//	Complete Previous Shipment
-					if(m_Current_Shipment != null)
-						completeShipment();
+					completeShipment();
 					//	Initialize Order and 
 					m_Current_Warehouse_ID 	= m_M_Warehouse_ID;
 					m_Current_BPartner_ID 	= m_C_BPartner_ID;
@@ -183,8 +182,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					m_Current_Shipment.setDocStatus(X_M_InOut.DOCSTATUS_Drafted);
 					m_Current_Shipment.saveEx(get_TrxName());
 					//	Initialize Message
-					if(msg != null
-							&& msg.length() > 0)
+					if(msg.length() > 0)
 						msg.append(" - " + m_Current_Shipment.getDocumentNo());
 					else
 						msg.append(m_Current_Shipment.getDocumentNo());					
