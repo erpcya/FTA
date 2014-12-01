@@ -46,6 +46,7 @@ public class CalloutLoadOrder extends CalloutEngine {
 	 */
 	public String product (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 		String name = mField.getColumnName();
+		BigDecimal p_QtyEntered = null;
 		Integer m_OrderLine_ID = (Integer)value;
 		//	Set Product to (null)
 		if(m_OrderLine_ID == null
@@ -60,23 +61,25 @@ public class CalloutLoadOrder extends CalloutEngine {
 		if(name.equals("C_OrderLine_ID")){
 			MOrderLine oLine = new MOrderLine(ctx, m_OrderLine_ID, null);
 			m_M_Product_ID = oLine.getM_Product_ID();
+			p_QtyEntered = oLine.getQtyEntered();
 		} else if(name.equals("DD_OrderLine_ID")){
 			MDDOrderLine oLine = new MDDOrderLine(ctx, m_OrderLine_ID, null);
 			m_M_Product_ID = oLine.getM_Product_ID();
+			p_QtyEntered = oLine.getQtyEntered();
 		}
 		//	Valid Product 
 		if (m_M_Product_ID == 0)
 			return "";
 		
-		mTab.setValue("M_Product_ID", m_M_Product_ID);		
+		mTab.setValue("M_Product_ID", m_M_Product_ID);	
+		if(p_QtyEntered != null)
+			mTab.setValue("Qty", p_QtyEntered);
 		
 		//	Search Business Partner
 		String sql = "SELECT o.C_BPartner_ID FROM C_Order o" +
 				" INNER JOIN  C_OrderLine ol ON (o.C_Order_ID = ol.C_Order_ID)" +
 				" WHERE ol.C_OrderLine_ID = "+m_OrderLine_ID;
-		System.out.println(sql);
 		m_MBPartner_ID = DB.getSQLValue(null, sql);
-		System.out.println(m_MBPartner_ID);
 		//	Valid Business Partner
 		if (m_MBPartner_ID == 0)
 			return "";
