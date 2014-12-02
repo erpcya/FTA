@@ -27,6 +27,7 @@ import org.compiere.model.MInOutLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOMConversion;
+import org.compiere.model.MWarehouse;
 import org.compiere.model.X_M_InOut;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -155,7 +156,6 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 			while(rs.next()){
 				//	Valid Document Order and Business Partner
 				int m_C_BPartner_ID 	= rs.getInt("C_BPartner_ID");
-				int m_AD_Org_ID 		= rs.getInt("AD_Org_ID");
 				int m_M_Warehouse_ID 	= rs.getInt("M_Warehouse_ID");
 				int m_C_Order_ID 		= rs.getInt("C_Order_ID");
 				//	
@@ -166,6 +166,8 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					//	Initialize Order and 
 					m_Current_Warehouse_ID 	= m_M_Warehouse_ID;
 					m_Current_BPartner_ID 	= m_C_BPartner_ID;
+					//	Get Warehouse
+					MWarehouse warehouse = MWarehouse.get(getCtx(), m_Current_Warehouse_ID, get_TrxName());
 					//	Valid Purchase Order and Business Partner
 					if(m_C_Order_ID == 0)
 						throw new AdempiereException("@C_Order_ID@ @NotFound@");
@@ -176,8 +178,8 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					//Create Shipment From Order
 					m_Current_Shipment = new MInOut(order, p_C_DocTypeTarget_ID, p_MovementDate);
 					m_Current_Shipment.setDateAcct(p_MovementDate);
-					m_Current_Shipment.setAD_Org_ID(m_AD_Org_ID);
-					m_Current_Shipment.setAD_OrgTrx_ID(m_AD_Org_ID);
+					m_Current_Shipment.setAD_Org_ID(warehouse.getAD_Org_ID());
+					m_Current_Shipment.setAD_OrgTrx_ID(warehouse.getAD_Org_ID());
 					m_Current_Shipment.setC_BPartner_ID(m_Current_BPartner_ID);
 					//	Set Warehouse
 					m_Current_Shipment.setM_Warehouse_ID(m_Current_Warehouse_ID);
@@ -205,7 +207,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					MInOutLine shipmentLine = 
 							new MInOutLine(getCtx(), 0, get_TrxName());
 					//	Instance MProduct
-					MProduct product = new MProduct(getCtx(), m_M_Product_ID, get_TrxName());
+					MProduct product = MProduct.get(getCtx(), m_M_Product_ID);
 					//	Rate Convert
 					BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
 							product.getM_Product_ID(), product.getC_UOM_ID());

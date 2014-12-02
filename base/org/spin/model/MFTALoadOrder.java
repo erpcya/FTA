@@ -18,8 +18,10 @@ package org.spin.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -652,11 +654,44 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	}	//	getLines
 	
 	/**
-	 * 
-	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 09/05/2014, 12:00:53
+	 * Get Lines for Generate In Out
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 2/12/2014, 19:41:32
 	 * @return
-	 * @return String
+	 * @return MFTALoadOrderLine[]
 	 */
+	public MFTALoadOrderLine[] getLinesForInOut() {
+		//	SQL
+		String sql = new String("SELECT lol.* "
+				+ "FROM FTA_LoadOrderLine lol "
+				+ "INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = lol.C_OrderLine_ID) "
+				+ "WHERE lol.FTA_LoadOrder_ID = ? "
+				+ "ORDER BY ol.C_BPartner_ID, ol.M_Warehouse_ID");
+		//	Get
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		//	List
+		ArrayList<MFTALoadOrderLine> list = new ArrayList<MFTALoadOrderLine>();
+		//	
+		try {
+			ps = DB.prepareStatement(sql.toString(), get_TrxName());
+			ps.setInt(1, getFTA_LoadOrder_ID());
+			rs = ps.executeQuery();
+			//	
+			while(rs.next()){
+				list.add(new MFTALoadOrderLine(getCtx(), rs, get_TrxName()));
+			}
+		} catch(Exception ex) {
+			log.severe("getLinesForInOut() Error: " + ex.getMessage());
+		} finally {
+			  DB.close(rs, ps);
+		      rs = null; ps = null;
+		}
+		//	Convert
+		MFTALoadOrderLine [] lines = new MFTALoadOrderLine[list.size ()];
+		list.toArray(lines);
+		return lines;
+	}
+	
 	/**
 	 * 
 	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 09/05/2014, 12:00:53
