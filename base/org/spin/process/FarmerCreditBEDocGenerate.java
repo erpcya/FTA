@@ -90,6 +90,7 @@ public class FarmerCreditBEDocGenerate extends SvrProcess{
 				boe.save(get_TrxName());
 				boe.processIt(MFTABillOfExchange.DOCACTION_Complete);
 				addLog("@FTA_BillOfExchange_ID@ " + boe.getDocumentNo());
+				boe.save(get_TrxName());
 				m_Generated++;
 			}
 		}
