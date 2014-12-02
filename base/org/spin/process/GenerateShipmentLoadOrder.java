@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInOut;
@@ -28,7 +27,7 @@ import org.compiere.model.MInOutLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOMConversion;
-import org.compiere.process.DocumentEngine;
+import org.compiere.model.X_M_InOut;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
@@ -39,58 +38,52 @@ import org.spin.model.MFTALoadOrderLine;
 
 /**
  * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
+ * @contributor <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 2014-11-26, 22:11:39
+ * <li> Improvements with parameters
  *
  */
 public class GenerateShipmentLoadOrder extends SvrProcess {
 
 
-	/** Document Type*/
-	private int 				p_C_DocTypeTarget_ID 	= 	0;
+	/** Document Type						*/
+	private int 				p_C_DocTypeTarget_ID 	= 0;
 	
-	/** Sql*/
-	private StringBuffer 		sql 					= 	new StringBuffer();
+	/** DateInvoiced 						*/
+	private Timestamp 			p_MovementDate			= null;
 	
-	/** C_Order_ID */
-	private int 				m_C_Order_ID			=	-1;
+	/**	Document Action						*/
+	private String				p_DocAction				= null;
 	
-	/**	Array List Current Shipment						*/
-	private ArrayList<MInOut> 	m_Current_Shipment 		= 	new ArrayList<MInOut>();
+	/** Sql									*/
+	private StringBuffer 		sql 					= new StringBuffer();
 	
-	/** C_BPartner_ID */
-	private int 				m_C_BPartner_ID 		=	-1; 
+	/** C_Order_ID 							*/
+	private int 				m_Current_Warehouse_ID	= 0;
 	
-	/** Created Records*/
-	private int 				m_Created 				=	0;
+	/** C_BPartner_ID 						*/
+	private int 				m_Current_BPartner_ID 	= 0; 
 	
-	/** DateInvoiced */
-	private Timestamp 			p_MovementDate			=	null;
+	/**	Current Shipment					*/
+	MInOut						m_Current_Shipment 		= null;
 	
-	/** Date Acct for Documents*/
-	private Timestamp 			p_DateAcct				=	null;
+	/** Created Records						*/
+	private int 				m_Created 				= 0;
 	
-	/** Organization */
-	private int 				p_AD_Org_ID 			= 	0;
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.SvrProcess#prepare()
-	 */
 	@Override
 	protected void prepare() {
 		for (ProcessInfoParameter para:getParameter()){
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("AD_Org_ID"))
-				p_AD_Org_ID = para.getParameterAsInt();
 			else if (name.equals("C_DocTypeTarget_ID"))
 				p_C_DocTypeTarget_ID = para.getParameterAsInt();
 			else if (name.equals("MovementDate"))
 				p_MovementDate =  (Timestamp) para.getParameter();
-			else if (name.equals("DateAcct"))
-				p_DateAcct =  (Timestamp) para.getParameter();
+			else if (name.equals("DocAction"))
+				p_DocAction =  (String) para.getParameter();
 		}
 		//	Sql
-		sql.append("Select "
+		sql.append("SELECT "
 					+ "	ts.AD_PInstance_ID, "
 					+ " ts.T_Selection_ID As FTA_LoadOrderLine_ID, "
 					+ " tsb.C_BPartner_ID, "
@@ -103,9 +96,11 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					+ " tsb.PriceList,"
 					+ " tsb.PriceActual,"
 					+ " tsb.C_Tax_ID,"
-					+ " tsb.OperationType "
+					+ " tsb.OperationType, "
+					+ " ol.AD_Org_ID, "
+					+ " ol.M_Warehouse_ID "
 					+ " FROM T_Selection ts "
-					+ " Inner Join ( "
+					+ " INNER JOIN ( "
 						+ " Select  tsb.AD_PInstance_ID, tsb.T_Selection_ID,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_BPartner_ID' Then tsb.Value_Number Else Null End) As C_BPartner_ID,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_DateDoc' Then tsb.Value_Date Else Null End) As DateDoc, "
@@ -118,30 +113,24 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Order_ID' Then tsb.Value_Number Else Null End) As C_Order_ID,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Tax_ID' Then tsb.Value_Number Else Null End) As C_Tax_ID,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_OperationType' Then tsb.Value_String Else Null End) As OperationType"
-						+ " From T_Selection_Browse tsb "
-						+ " Group By tsb.AD_PInstance_ID, tsb.T_Selection_ID"
-						+ ") tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID "
-						+ " Where ts.AD_PInstance_ID=? Order By tsb.C_Order_ID");
+						+ " FROM T_Selection_Browse tsb "
+						+ " GROUP BY tsb.AD_PInstance_ID, tsb.T_Selection_ID"
+						+ ") tsb ON(ts.AD_PInstance_ID = tsb.AD_PInstance_ID AND ts.T_Selection_ID = tsb.T_Selection_ID)"
+					+ " INNER JOIN FTA_LoadOrderLine lol ON(lol.FTA_LoadOrderLine_ID = ts.T_Selection_ID)"
+					+ " INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = lol.C_OrderLine_ID)"
+					+ " WHERE ts.AD_PInstance_ID = ?"
+					+ " ORDER BY tsb.C_BPartner_ID, ol.M_Warehouse_ID");
 		log.fine(sql.toString());
 	}
 
-	/* (non-Javadoc)
-	 * @see org.compiere.process.SvrProcess#doIt()
-	 */
 	@Override
 	protected String doIt() throws Exception {
-		//	Valid Parameter Organization
-		if(p_AD_Org_ID == 0)
-			throw new AdempiereUserError("@AD_Org_ID@ @NotFound@");
-		//	Valid Parameter Document Type Target	
-		if(p_C_DocTypeTarget_ID == 0)
-			throw new AdempiereUserError("@C_DocType_ID@ @NotFound@");
 		//	Valid Parameter Movement Date
 		if (p_MovementDate == null)
-			throw new AdempiereUserError("@MovementDate@ @NotFound@");
+			p_MovementDate = Env.getContextAsDate(getCtx(), "#Date");
 		//	Valid Parameter Date Acct
-		if (p_DateAcct == null)
-			throw new AdempiereUserError("@DateAcct@ @NotFound@");
+		if (p_DocAction == null)
+			throw new AdempiereUserError("@DocAction@ @NotFound@");
 		//	Return 
 		return createShipments();
 	}
@@ -149,13 +138,14 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 	/**
 	 * Create Shipments
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 21/11/2014, 11:05:00
+	 * @contributor <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 2014-11-26, 22:18:08
+	 * <li> Improvement in method
 	 * @return
 	 * @return String
 	 */
 	private String createShipments(){
-		PreparedStatement ps =null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
-		MInOut shipment = null;
 		StringBuffer msg = new StringBuffer();
 		try{
 			ps = DB.prepareStatement(sql.toString(), get_TrxName());
@@ -164,47 +154,58 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 			//	
 			while(rs.next()){
 				//	Valid Document Order and Business Partner
-				if (m_C_Order_ID!= rs.getInt("C_Order_ID")
-						&& m_C_BPartner_ID != rs.getInt("C_BPartner_ID")){
+				int m_C_BPartner_ID 	= rs.getInt("C_BPartner_ID");
+				int m_AD_Org_ID 		= rs.getInt("AD_Org_ID");
+				int m_M_Warehouse_ID 	= rs.getInt("M_Warehouse_ID");
+				int m_C_Order_ID 		= rs.getInt("C_Order_ID");
+				//	
+				if (m_Current_BPartner_ID != m_C_BPartner_ID
+						|| m_Current_Warehouse_ID != m_M_Warehouse_ID) {
+					//	Complete Previous Shipment
+					completeShipment();
 					//	Initialize Order and 
-					m_C_Order_ID = rs.getInt("C_Order_ID");
-					m_C_BPartner_ID = rs.getInt("C_BPartner_ID");
+					m_Current_Warehouse_ID 	= m_M_Warehouse_ID;
+					m_Current_BPartner_ID 	= m_C_BPartner_ID;
 					//	Valid Purchase Order and Business Partner
 					if(m_C_Order_ID == 0)
 						throw new AdempiereException("@C_Order_ID@ @NotFound@");
-					if(m_C_BPartner_ID == 0)
+					if(m_Current_BPartner_ID == 0)
 						throw new AdempiereException("@C_BPartner_ID@ @NotFound@");
 					//	Create Order
 					MOrder order = new MOrder(getCtx(), m_C_Order_ID, get_TrxName());
 					//Create Shipment From Order
-					shipment = new MInOut(order, p_C_DocTypeTarget_ID, p_MovementDate);
-					shipment.setDateAcct(p_DateAcct);
-					shipment.setAD_Org_ID(p_AD_Org_ID);
-					shipment.setAD_OrgTrx_ID(p_AD_Org_ID);
-					shipment.setC_BPartner_ID(m_C_BPartner_ID);
+					m_Current_Shipment = new MInOut(order, p_C_DocTypeTarget_ID, p_MovementDate);
+					m_Current_Shipment.setDateAcct(p_MovementDate);
+					m_Current_Shipment.setAD_Org_ID(m_AD_Org_ID);
+					m_Current_Shipment.setAD_OrgTrx_ID(m_AD_Org_ID);
+					m_Current_Shipment.setC_BPartner_ID(m_Current_BPartner_ID);
 					//	Set Warehouse
-					shipment.setM_Warehouse_ID(order.getM_Warehouse_ID());
-					shipment.save(get_TrxName());
+					m_Current_Shipment.setM_Warehouse_ID(m_Current_Warehouse_ID);
+					m_Current_Shipment.setDocStatus(X_M_InOut.DOCSTATUS_Drafted);
+					m_Current_Shipment.saveEx(get_TrxName());
 					//	Initialize Message
-					if(msg != null
-							&& msg.length() > 0)
-						msg.append(" - " + shipment.getDocumentNo());
+					if(msg.length() > 0)
+						msg.append(" - " + m_Current_Shipment.getDocumentNo());
 					else
-						msg.append(shipment.getDocumentNo());
-					//	Add shipment to Array List
-					m_Current_Shipment.add(shipment);
-					
+						msg.append(m_Current_Shipment.getDocumentNo());					
 				}
 				//	Shipment Created?
-				if (shipment!=null){
+				if (m_Current_Shipment != null) {
+					//	Get Values from Result Set
+					int m_FTA_LoadOrderLine_ID 	= rs.getInt("FTA_LoadOrderLine_ID");
+					int m_M_Product_ID 			= rs.getInt("M_Product_ID");
+					BigDecimal m_Qty 			= rs.getBigDecimal("Qty");
+					//	Valid Null
+					if(m_Qty == null)
+						m_Qty = Env.ZERO;
 					//	Instance MLoadOrderLine
 					MFTALoadOrderLine m_FTA_LoadOrderLine = 
-							new MFTALoadOrderLine(getCtx(), rs.getInt("FTA_LoadOrderLine_ID"), get_TrxName());
+							new MFTALoadOrderLine(getCtx(), m_FTA_LoadOrderLine_ID, get_TrxName());
 					//	Create Shipment Line
 					MInOutLine shipmentLine = 
 							new MInOutLine(getCtx(), 0, get_TrxName());
 					//	Instance MProduct
-					MProduct product = new MProduct(getCtx(), rs.getInt("M_Product_ID"), get_TrxName());
+					MProduct product = new MProduct(getCtx(), m_M_Product_ID, get_TrxName());
 					//	Rate Convert
 					BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
 							product.getM_Product_ID(), product.getC_UOM_ID());
@@ -212,70 +213,70 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					if(rate == null){
 						throw new AdempiereException("@NoUOMConversion@");
 					}
+					//	Set Values for Lines
+					shipmentLine.setAD_Org_ID(m_Current_Shipment.getAD_Org_ID());
+					shipmentLine.setM_InOut_ID(m_Current_Shipment.getM_InOut_ID());
+					//	Quantity and Product
 					shipmentLine.setM_Product_ID(product.getM_Product_ID());
-					BigDecimal m_MovementQty =rs.getBigDecimal("Qty").multiply(rate);
-					shipmentLine.setM_Warehouse_ID(shipment.getM_Warehouse_ID());
+					BigDecimal m_MovementQty = m_Qty.multiply(rate);
+					shipmentLine.setM_Warehouse_ID(m_Current_Shipment.getM_Warehouse_ID());
 					shipmentLine.setC_UOM_ID(product.getC_UOM_ID());
 					shipmentLine.setQty(m_FTA_LoadOrderLine.getQty());
-					
+					//	References
 					shipmentLine.setM_Locator_ID(m_MovementQty);
 					shipmentLine.setC_OrderLine_ID(m_FTA_LoadOrderLine.getC_OrderLine_ID());
-					
-					shipmentLine.setAD_Org_ID(p_AD_Org_ID);
-					shipmentLine.setM_InOut_ID(shipment.get_ID());
-					shipmentLine.save(get_TrxName());
+					//	Save Line
+					shipmentLine.saveEx(get_TrxName());
 					
 					//	Manually Process Shipment
 					m_FTA_LoadOrderLine.setConfirmedQty(m_MovementQty);
 					m_FTA_LoadOrderLine.setM_InOutLine_ID(shipmentLine.get_ID());
 					m_FTA_LoadOrderLine.saveEx();
 					//	Instance MFTALoadOrder
-					MFTALoadOrder lo = 
-							new MFTALoadOrder(getCtx(),m_FTA_LoadOrderLine.getFTA_LoadOrder_ID(), get_TrxName());
+					MFTALoadOrder lo = new MFTALoadOrder(getCtx(), 
+							m_FTA_LoadOrderLine.getFTA_LoadOrder_ID(), get_TrxName());
 					//	Set true Is Delivered and Is Weight Register
 					lo.setIsDelivered(true);
 					lo.setIsWeightRegister(true);
-					lo.saveEx();
+					//	Save
+					lo.saveEx(get_TrxName());
 					
-				}//End Invoice Line Created
-			}//End Invoice Generated
+				}	//End Invoice Line Created
+			}	//	End Invoice Generated
 			//	Complete Shipment
 			completeShipment();
 			//	Commit Transaction
 			commitEx();
-		}
-		catch(Exception ex){
+		} catch(Exception ex) {
 			rollback();
 			return ex.getMessage();
-		}
-		finally{
+		} finally {
 			  DB.close(rs, ps);
 		      rs = null; ps = null;
 		}
-		return "@Created@ "+ m_Created + " " + msg.toString();
+		//	Info
+		return "@M_InOut_ID@ @Created@ = "+ m_Created + " [" + msg.toString() + "]";
 	}
 	
 	/**
 	 * Complete Document
-	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martine<</a> 21/11/2014, 11:09:54
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martine</a> 21/11/2014, 11:09:54
+	 * @contributor <a href="yamelsenih@gmail.com">Yamel Senih</a> 2014-11-26 22:44:32
 	 * @return void
 	 */
 	private void completeShipment(){
-		for (MInOut mInOut : m_Current_Shipment) {
-			if(mInOut != null){
-				if(mInOut.getDocStatus().equals(DocumentEngine.STATUS_Drafted)
-						|| mInOut.getDocStatus().equals(DocumentEngine.STATUS_InProgress)){
-					mInOut.setDocAction(DocumentEngine.ACTION_Complete);
-					mInOut.processIt(DocumentEngine.ACTION_Complete);
-					mInOut.saveEx();
-					addLog(mInOut.getM_InOut_ID(), mInOut.getDateAcct(), null,
-							mInOut.getDocumentNo() + 
-							(mInOut.getProcessMsg() != null && mInOut.getProcessMsg().length() !=0
-									? ": Error " + mInOut.getProcessMsg()
-									:" --> @OK@"));
-					m_Created ++;
-				}
-			}
+		if(m_Current_Shipment != null
+				&& m_Current_Shipment.getDocStatus().equals(X_M_InOut.DOCSTATUS_Drafted)) {
+			m_Current_Shipment.setDocAction(p_DocAction);
+			m_Current_Shipment.processIt(X_M_InOut.DOCACTION_Complete);
+			m_Current_Shipment.saveEx();
+			addLog(m_Current_Shipment.getM_InOut_ID(), m_Current_Shipment.getDateAcct(), null,
+					m_Current_Shipment.getDocumentNo() + 
+					(m_Current_Shipment.getProcessMsg() != null && m_Current_Shipment.getProcessMsg().length() !=0
+					? ": Error " + m_Current_Shipment.getProcessMsg()
+							:" --> @OK@"));
+			//	Created
+			m_Created ++;
 		}
 	}
 

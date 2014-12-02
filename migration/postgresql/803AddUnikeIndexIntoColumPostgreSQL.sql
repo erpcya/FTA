@@ -37,3 +37,7 @@ CREATE UNIQUE INDEX UK_FTA_AttributeReportLine_Attribute ON FTA_AttributeReportL
 CREATE UNIQUE INDEX UK_FTA_AttributeReportLine_Category ON FTA_AttributeReportLine (FTA_CategoryCalc_ID,FTA_CategoryCalcGroup_ID,FTA_AttributeReport_ID,AD_Client_ID);
 
 CREATE UNIQUE INDEX UK_FTA_ProductListApproved ON FTA_ProductListApproved (FTA_CreditDefinition_ID,M_Product_ID,Substitute_ID);
+
+CREATE UNIQUE INDEX UK_FTA_Vehicle_Client_Shipper_VehiclePlate ON FTA_Vehicle USING BTREE (AD_Client_ID,M_Shipper_ID,VehiclePlate);
+
+CREATE UNIQUE INDEX UK_FTA_Vehicle_Client_VehiclePlate ON FTA_Vehicle USING BTREE (AD_Client_ID,VehiclePlate);

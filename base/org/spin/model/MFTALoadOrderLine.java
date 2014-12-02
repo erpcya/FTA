@@ -85,4 +85,41 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 		return null;
 	}
 
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		super.afterSave(newRecord, success);
+		if(success)
+			return updateHeader();
+		return false;
+	}//	End After Save
+	
+	@Override
+	protected boolean afterDelete (boolean success) {
+		super.afterDelete(success);
+		if(success)
+			return updateHeader();
+		//	Return
+		return false;
+	} //	End After Delete
+	
+	/**
+	 * Update Header
+	 * @author <a href="mailto:dixon.22ma@gmail.com">Dixon Martinez</a> 1/12/2014, 18:49:49
+	 * @return
+	 * @return boolean
+	 */
+	private boolean updateHeader(){
+		//	Recalculate Header
+		//	Update Load Order Header
+		String sql = "UPDATE FTA_LoadOrder lo SET Weight=("
+				+ "	SELECT COALESCE(SUM(lol.Weight),0) FROM FTA_LoadOrderLine lol WHERE lol.FTA_LoadOrder_ID=lo.FTA_LoadOrder_ID)"
+				+ " ,Volume =( SELECT COALESCE(SUM(lol.Volume),0) FROM FTA_LoadOrderLine lol "
+				+ " WHERE lol.FTA_LoadOrder_ID=lo.FTA_LoadOrder_ID) WHERE lo.FTA_LoadOrder_ID = " + getFTA_LoadOrder_ID();
+		//
+		int no = DB.executeUpdate(sql, get_TrxName());
+		if (no != 1)
+			log.warning("(1) #" + no);
+		return no == 1;
+	}	//	updateHeaderTax
+
 }
