@@ -191,11 +191,22 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 		
 		//	****	Find Guide DocumentNo
 		//	Guide DocumentNo
+		/** 2014-12-01 Carlos Parada Set Only Mobilization Guide Completed And Closed
+		/**
 		sql = new StringBuffer ("UPDATE I_RecordWeight i "
 			+ "SET FTA_MobilizationGuide_ID=(SELECT FTA_MobilizationGuide_ID FROM FTA_MobilizationGuide mg"
 			+ " WHERE i.GuideDocumentNo=mg.DocumentNo AND i.AD_Client_ID=mg.AD_Client_ID) "
 			+ "WHERE FTA_MobilizationGuide_ID IS NULL AND OperationType='RMR' "
 			+ " AND I_IsImported='N'").append(clientCheck);
+		**/
+		
+		sql = new StringBuffer ("UPDATE I_RecordWeight i "
+				+ "SET FTA_MobilizationGuide_ID=(SELECT FTA_MobilizationGuide_ID FROM FTA_MobilizationGuide mg"
+				+ " WHERE i.GuideDocumentNo=mg.DocumentNo AND i.AD_Client_ID=mg.AD_Client_ID AND mg.DocStatus IN ('CO','CL')) "
+				+ "WHERE FTA_MobilizationGuide_ID IS NULL AND OperationType='RMR' "
+				+ " AND I_IsImported='N'").append(clientCheck);
+		
+		/** End Carlos Parada */
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.info("Mobilization Guide Found=" + no);
 
@@ -419,8 +430,12 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 		//		****	Find Purchase or Sales Order 
 		//	Purchase or Sales Order DocType  
 		sql = new StringBuffer ("UPDATE I_RecordWeight i "
-			+ "SET C_Order_ID=(SELECT C_Order_ID FROM C_Order co"
-			+ " WHERE i.OrderDocumentNo=co.DocumentNo AND i.Order_Doc_Type_ID= co.C_DocType_ID AND i.C_BPartner_ID=co.C_BPartner_ID AND i.AD_Client_ID=co.AD_Client_ID ) "
+			+ "SET C_Order_ID=(SELECT C_Order_ID FROM C_Order co "
+			+ " WHERE i.OrderDocumentNo=co.DocumentNo AND i.Order_Doc_Type_ID= co.C_DocType_ID AND i.C_BPartner_ID=co.C_BPartner_ID AND i.AD_Client_ID=co.AD_Client_ID " 
+			/** 2014-12-01 Carlos Parada Filter Complete Order */
+			+" AND co.DocStatus = 'CO'"
+			/** End Carlos Parada*/
+			+") "
 			+ "WHERE C_Order_ID IS NULL"
 			+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
