@@ -572,6 +572,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 				"AND rc.ValidFrom <= ? " +
 				"AND rc.IsActive = 'Y' " +
 				"AND mg.DateDoc >= rc.ValidFrom " +
+				"AND mg.DateDoc<COALESCE((SELECT Min(rcs.ValidFrom) FROM FTA_ReceptionCapacity rcs WHERE rc.M_WareHouse_ID= rcs.M_WareHouse_ID AND rc.AD_Org_ID=rcs.AD_Org_ID AND rcs.ValidFrom > rc.ValidFrom),now()) " +
 				"AND (mg.DocStatus IN('CO', 'CL') OR mg.DocStatus IS NULL) " +
 				"GROUP BY rc.Qty, rc.ValidFrom " +
 				"ORDER BY rc.ValidFrom DESC", getAD_Org_ID(), getM_Warehouse_ID(), getDateDoc());
