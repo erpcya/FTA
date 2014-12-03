@@ -733,7 +733,7 @@ public class VLoadOrder extends LoadOrder
 			}
 			//	Load Lines
 			if(m_C_UOM_Weight_ID != 0){
-				StringBuffer sql = getQueryLine(orderTable);
+				StringBuffer sql = getQueryLine(orderTable,m_OperationType);
 				Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
 				Vector<String> columnNames = getOrderLineColumnNames();
 				
@@ -1080,7 +1080,7 @@ public class VLoadOrder extends LoadOrder
 		log.config(name + "=" + value);
 		
 		//	Load Data
-		Vector<Vector<Object>> data = getOrderData(orderTable);
+		Vector<Vector<Object>> data = getOrderData(orderTable,m_OperationType);
 		Vector<String> columnNames = getOrderColumnNames();
 		
 		//  Remove previous listeners

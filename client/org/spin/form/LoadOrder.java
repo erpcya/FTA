@@ -157,76 +157,150 @@ public class LoadOrder {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:10:10
 	 * @return Vector<Vector<Object>>
 	 */
-	protected Vector<Vector<Object>> getOrderData(IMiniTable orderTable){
+	protected Vector<Vector<Object>> getOrderData(IMiniTable orderTable,String p_OperationType){
 		
+		/**
+		 * 2014-12-02 Carlos Parada Add Support to DD_Order
+		 */
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		StringBuffer sql = new StringBuffer("SELECT " +
-				"wr.Name Warehouse, ord.C_Order_ID, ord.DocumentNo, " +	//	1..3
-				"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..7
-				"cp.Name Partner, bploc.Name, " +	//	8..9
-				"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	10..14
-				"FROM C_Order ord " +
-				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
-				"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
-				"INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = ord.C_BPartner_ID) " +
-				"INNER JOIN AD_User sr ON(sr.AD_User_ID = ord.SalesRep_ID) " +
-				"INNER JOIN M_Warehouse wr ON(wr.M_Warehouse_ID = ord.M_Warehouse_ID) " +
-				"INNER JOIN C_BPartner_Location bploc ON(bploc.C_BPartner_Location_ID = ord.C_BPartner_Location_ID) " +
-				"INNER JOIN C_Location loc ON(loc.C_Location_ID = bploc.C_Location_ID) " +
-				"LEFT JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
-				"LEFT JOIN C_City cit ON(cit.C_City_ID = loc.C_City_ID) " +
-				"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
-				"	(COALESCE(lord.QtyOrdered, 0) - " +
-				"		SUM(" +
-				"				CASE WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-				"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
-				"						ELSE 0 " +
-				"				END" +
-				"			)" +
-				"	) QtyAvailable " +
-				"	FROM C_OrderLine lord " +
-				"	LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
-				"	LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
-				"	WHERE lord.M_Product_ID IS NOT NULL " +
-				//"	AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL ) " +
-				"	GROUP BY lord.C_Order_ID, lord.C_OrderLine_ID, lord.QtyOrdered " +
-				"	ORDER BY lord.C_OrderLine_ID ASC) qafl " +
-				"	ON(qafl.C_OrderLine_ID = lord.C_OrderLine_ID) " +
-				"WHERE ord.IsSOTrx = 'Y' " +
-				"AND wr.IsActive = 'Y' " +
-				"AND ord.DocStatus = 'CO' " +
-				"AND pr.IsStocked = 'Y' " +
-				"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
-				"AND ord.AD_Client_ID=? ");
-		if (m_AD_Org_ID != 0)
-			sql.append("AND ord.AD_Org_ID=? ");
-		if (m_M_Warehouse_ID != 0 )
-			sql.append("AND lord.M_Warehouse_ID=? ");
-		if (m_C_SalesRegion_ID != 0 )
-			sql.append("AND bploc.C_SalesRegion_ID=? ");
-		if (m_SalesRep_ID != 0 )
-			sql.append("AND ord.SalesRep_ID=? ");
-		if (m_C_DocType_ID != 0 )
-			sql.append("AND ord.C_DocType_ID=? ");
-		if(m_IsBulk) {
-			sql.append("AND lord.M_Product_ID=? ");
-			sql.append("AND ord.C_BPartner_ID=? ");
+		StringBuffer sql = null;
+		if (p_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement)){
+			//Query for Material Movement
+			sql = new StringBuffer("SELECT " +
+					"wr.Name Warehouse, ord.DD_Order_ID, ord.DocumentNo, " +	//	1..3
+					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..7
+					"cp.Name Partner, bploc.Name, " +	//	8..9
+					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	10..14
+					"FROM DD_Order ord " +
+					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
+					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
+					"INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = ord.C_BPartner_ID) " +
+					"INNER JOIN AD_User sr ON(sr.AD_User_ID = ord.SalesRep_ID) " +
+					"INNER JOIN M_Warehouse wr ON(wr.M_Warehouse_ID = ord.M_Warehouse_ID) " +
+					"INNER JOIN C_BPartner_Location bploc ON(bploc.C_BPartner_Location_ID = ord.C_BPartner_Location_ID) " +
+					"INNER JOIN C_Location loc ON(loc.C_Location_ID = bploc.C_Location_ID) " +
+					"LEFT JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
+					"LEFT JOIN C_City cit ON(cit.C_City_ID = loc.C_City_ID) " +
+					"LEFT JOIN (SELECT lord.DD_OrderLine_ID, " +
+					"	(COALESCE(lord.QtyOrdered, 0) - " +
+					"		SUM(" +
+					"				CASE WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
+					"						ELSE 0 " +
+					"				END" +
+					"			)" +
+					"	) QtyAvailable " +
+					"	FROM DD_OrderLine lord " +
+					"	LEFT JOIN FTA_LoadOrderLine lc ON(lc.DD_OrderLine_ID = lord.DD_OrderLine_ID) " +
+					"	LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
+					"	WHERE lord.M_Product_ID IS NOT NULL " +
+					//"	AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL ) " +
+					"	GROUP BY lord.DD_Order_ID, lord.DD_OrderLine_ID, lord.QtyOrdered " +
+					"	ORDER BY lord.DD_OrderLine_ID ASC) qafl " +
+					"	ON(qafl.DD_OrderLine_ID = lord.DD_OrderLine_ID) " +
+					"WHERE  wr.IsActive = 'Y' " +
+					"AND ord.DocStatus = 'CO' " +
+					"AND pr.IsStocked = 'Y' " +
+					"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
+					"AND ord.AD_Client_ID=? ");
+			if (m_AD_Org_ID != 0)
+				sql.append("AND ord.AD_Org_ID=? ");
+			if (m_M_Warehouse_ID != 0 )
+				sql.append("AND ord.M_Warehouse_ID=? ");
+			if (m_C_SalesRegion_ID != 0 )
+				sql.append("AND bploc.C_SalesRegion_ID=? ");
+			if (m_SalesRep_ID != 0 )
+				sql.append("AND ord.SalesRep_ID=? ");
+			if (m_C_DocType_ID != 0 )
+				sql.append("AND ord.C_DocType_ID=? ");
+			if(m_IsBulk) {
+				sql.append("AND lord.M_Product_ID=? ");
+				sql.append("AND ord.C_BPartner_ID=? ");
+			}
+			
+			//	Group By
+			sql.append("GROUP BY wr.Name, ord.DD_Order_ID, ord.DocumentNo, ord.DateOrdered, " +
+					"ord.DatePromised, ord.Weight, ord.Volume, sr.Name, cp.Name, bploc.Name, " +
+					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID ");
+		
+			//	Having
+			sql.append("HAVING (SUM(COALESCE(lord.QtyOrdered, 0)) - SUM(COALESCE(lord.QtyDelivered, 0))) > 0 ");
+			
+			
+			//	Order By
+			sql.append("ORDER BY ord.DD_Order_ID ASC");
+			
+			// role security
+		}else{//Query for Sales Order
+			sql = new StringBuffer("SELECT " +
+					"wr.Name Warehouse, ord.C_Order_ID, ord.DocumentNo, " +	//	1..3
+					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..7
+					"cp.Name Partner, bploc.Name, " +	//	8..9
+					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	10..14
+					"FROM C_Order ord " +
+					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
+					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
+					"INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = ord.C_BPartner_ID) " +
+					"INNER JOIN AD_User sr ON(sr.AD_User_ID = ord.SalesRep_ID) " +
+					"INNER JOIN M_Warehouse wr ON(wr.M_Warehouse_ID = ord.M_Warehouse_ID) " +
+					"INNER JOIN C_BPartner_Location bploc ON(bploc.C_BPartner_Location_ID = ord.C_BPartner_Location_ID) " +
+					"INNER JOIN C_Location loc ON(loc.C_Location_ID = bploc.C_Location_ID) " +
+					"LEFT JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
+					"LEFT JOIN C_City cit ON(cit.C_City_ID = loc.C_City_ID) " +
+					"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
+					"	(COALESCE(lord.QtyOrdered, 0) - " +
+					"		SUM(" +
+					"				CASE WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
+					"						ELSE 0 " +
+					"				END" +
+					"			)" +
+					"	) QtyAvailable " +
+					"	FROM C_OrderLine lord " +
+					"	LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
+					"	LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
+					"	WHERE lord.M_Product_ID IS NOT NULL " +
+					//"	AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL ) " +
+					"	GROUP BY lord.C_Order_ID, lord.C_OrderLine_ID, lord.QtyOrdered " +
+					"	ORDER BY lord.C_OrderLine_ID ASC) qafl " +
+					"	ON(qafl.C_OrderLine_ID = lord.C_OrderLine_ID) " +
+					"WHERE ord.IsSOTrx = 'Y' " +
+					"AND wr.IsActive = 'Y' " +
+					"AND ord.DocStatus = 'CO' " +
+					"AND pr.IsStocked = 'Y' " +
+					"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
+					"AND ord.AD_Client_ID=? ");
+			if (m_AD_Org_ID != 0)
+				sql.append("AND ord.AD_Org_ID=? ");
+			if (m_M_Warehouse_ID != 0 )
+				sql.append("AND lord.M_Warehouse_ID=? ");
+			if (m_C_SalesRegion_ID != 0 )
+				sql.append("AND bploc.C_SalesRegion_ID=? ");
+			if (m_SalesRep_ID != 0 )
+				sql.append("AND ord.SalesRep_ID=? ");
+			if (m_C_DocType_ID != 0 )
+				sql.append("AND ord.C_DocType_ID=? ");
+			if(m_IsBulk) {
+				sql.append("AND lord.M_Product_ID=? ");
+				sql.append("AND ord.C_BPartner_ID=? ");
+			}
+			
+			//	Group By
+			sql.append("GROUP BY wr.Name, ord.C_Order_ID, ord.DocumentNo, ord.DateOrdered, " +
+					"ord.DatePromised, ord.Weight, ord.Volume, sr.Name, cp.Name, bploc.Name, " +
+					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID ");
+		
+			//	Having
+			sql.append("HAVING (SUM(COALESCE(lord.QtyOrdered, 0)) - SUM(COALESCE(lord.QtyDelivered, 0))) > 0 ");
+			
+			
+			//	Order By
+			sql.append("ORDER BY ord.C_Order_ID ASC");
+			
+			// role security
 		}
 		
-		//	Group By
-		sql.append("GROUP BY wr.Name, ord.C_Order_ID, ord.DocumentNo, ord.DateOrdered, " +
-				"ord.DatePromised, ord.Weight, ord.Volume, sr.Name, cp.Name, bploc.Name, " +
-				"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID ");
-	
-		//	Having
-		sql.append("HAVING (SUM(COALESCE(lord.QtyOrdered, 0)) - SUM(COALESCE(lord.QtyDelivered, 0))) > 0 ");
-		
-		
-		//	Order By
-		sql.append("ORDER BY ord.C_Order_ID ASC");
-		
-		// role security
-		
+		/** End Carlos Parada **/
 		log.fine("LoadOrderSQL=" + sql.toString());
 		//	
 		try
@@ -532,83 +606,165 @@ public class LoadOrder {
 	 * @return
 	 * @return StringBuffer
 	 */
-	protected StringBuffer getQueryLine(IMiniTable orderTable)
+	protected StringBuffer getQueryLine(IMiniTable orderTable,String p_OperationType)
 	{
+		StringBuffer sql = null;
+				
 		log.config("getQueryLine");
 		
-		int rows = orderTable.getRowCount();
-		m_RowsSelected = 0;
-		StringBuffer sqlWhere = new StringBuffer("ord.C_Order_ID IN(0"); 
-		for (int i = 0; i < rows; i++) {
-			if (((Boolean)orderTable.getValueAt(i, 0)).booleanValue()) {
-				int ID = ((KeyNamePair)orderTable.getValueAt(i, ORDER)).getKey();
-				sqlWhere.append(",");
-				sqlWhere.append(ID);
-				m_RowsSelected ++;
+		/** 2014-12-02 Carlos Parada Add Support to DD_OrderLine */ 
+		if (p_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement))
+		{
+			int rows = orderTable.getRowCount();
+			m_RowsSelected = 0;
+			StringBuffer sqlWhere = new StringBuffer("ord.DD_Order_ID IN(0"); 
+			for (int i = 0; i < rows; i++) {
+				if (((Boolean)orderTable.getValueAt(i, 0)).booleanValue()) {
+					int ID = ((KeyNamePair)orderTable.getValueAt(i, ORDER)).getKey();
+					sqlWhere.append(",");
+					sqlWhere.append(ID);
+					m_RowsSelected ++;
+				}
 			}
+			sqlWhere.append(")");
+			
+			sql = new StringBuffer("SELECT ord.M_Warehouse_ID, alm.Name Warehouse, lord.DD_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
+					"pro.C_UOM_ID, uomp.UOMSymbol, SUM(s.QtyOnHand) QtyOnHand, " +
+					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, 0 QtyInvoiced, lord.QtyDelivered, " +
+					"SUM(" +
+					"		CASE " +
+					"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"			THEN lc.Qty " +
+					"			ELSE 0 " +
+					"		END" +
+					") QtyLoc, " +
+					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
+					"	SUM(" +
+					"			CASE " +
+					"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"				THEN lc.Qty " +
+					"				ELSE 0 " +
+					"			END" +
+					"		)" +
+					") Qty, " +
+					"pro.Weight, pro.Volume " +
+					"FROM DD_Order ord " +
+					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
+					"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = ord.M_Warehouse_ID) " +
+					"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
+					"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
+					"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
+					"LEFT JOIN FTA_LoadOrderLine lc ON(lc.DD_OrderLine_ID = lord.DD_OrderLine_ID) " +
+					"LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
+					"LEFT JOIN (" +
+					"				SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
+					"					COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, " +
+					"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
+					"				FROM M_Storage st " +
+					"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
+					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s " +
+					"														ON(s.M_Product_ID = lord.M_Product_ID " +
+					"																AND s.M_Warehouse_ID = ord.M_Warehouse_ID " +
+					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
+					.append("WHERE pro.IsStocked = 'Y' ")
+					//.append("AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) ")
+					.append("AND ")
+					.append(sqlWhere).append(" ");
+			//	Add Where
+			if(m_IsBulk)
+				sql.append("AND lord.M_Product_ID = ?").append(" ");
+			//	Group By
+			sql.append("GROUP BY ord.M_Warehouse_ID, lord.DD_Order_ID, lord.DD_OrderLine_ID, " +
+					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
+					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, pro.Weight, pro.Volume").append(" ");
+			//	Having
+			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
+					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
+					"													ELSE 0 " +
+					"												END" +
+					"											)" +
+					"			) > 0").append(" ");
+			//	Order By
+			sql.append("ORDER BY lord.DD_Order_ID ASC");
+			
 		}
-		sqlWhere.append(")");
-		
-		StringBuffer sql = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
-				"pro.C_UOM_ID, uomp.UOMSymbol, SUM(s.QtyOnHand) QtyOnHand, " +
-				"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
-				"SUM(" +
-				"		CASE " +
-				"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-				"			THEN lc.Qty " +
-				"			ELSE 0 " +
-				"		END" +
-				") QtyLoc, " +
-				"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
-				"	SUM(" +
-				"			CASE " +
-				"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-				"				THEN lc.Qty " +
-				"				ELSE 0 " +
-				"			END" +
-				"		)" +
-				") Qty, " +
-				"pro.Weight, pro.Volume " +
-				"FROM C_Order ord " +
-				"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
-				"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = lord.M_Warehouse_ID) " +
-				"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
-				"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
-				"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
-				"LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
-				"LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
-				"LEFT JOIN (" +
-				"				SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
-				"					COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, " +
-				"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
-				"				FROM M_Storage st " +
-				"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
-				"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s " +
-				"														ON(s.M_Product_ID = lord.M_Product_ID " +
-				"																AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
-				"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
-				.append("WHERE pro.IsStocked = 'Y' ")
-				//.append("AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) ")
-				.append("AND ")
-				.append(sqlWhere).append(" ");
-		//	Add Where
-		if(m_IsBulk)
-			sql.append("AND lord.M_Product_ID = ?").append(" ");
-		//	Group By
-		sql.append("GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
-				"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-				"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume").append(" ");
-		//	Having
-		sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
-				"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-				"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
-				"													ELSE 0 " +
-				"												END" +
-				"											)" +
-				"			) > 0").append(" ");
-		//	Order By
-		sql.append("ORDER BY lord.C_Order_ID ASC");
-		
+		else{
+
+			int rows = orderTable.getRowCount();
+			m_RowsSelected = 0;
+			StringBuffer sqlWhere = new StringBuffer("ord.C_Order_ID IN(0"); 
+			for (int i = 0; i < rows; i++) {
+				if (((Boolean)orderTable.getValueAt(i, 0)).booleanValue()) {
+					int ID = ((KeyNamePair)orderTable.getValueAt(i, ORDER)).getKey();
+					sqlWhere.append(",");
+					sqlWhere.append(ID);
+					m_RowsSelected ++;
+				}
+			}
+			sqlWhere.append(")");
+			
+			sql = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
+					"pro.C_UOM_ID, uomp.UOMSymbol, SUM(s.QtyOnHand) QtyOnHand, " +
+					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
+					"SUM(" +
+					"		CASE " +
+					"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"			THEN lc.Qty " +
+					"			ELSE 0 " +
+					"		END" +
+					") QtyLoc, " +
+					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
+					"	SUM(" +
+					"			CASE " +
+					"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"				THEN lc.Qty " +
+					"				ELSE 0 " +
+					"			END" +
+					"		)" +
+					") Qty, " +
+					"pro.Weight, pro.Volume " +
+					"FROM C_Order ord " +
+					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
+					"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = lord.M_Warehouse_ID) " +
+					"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
+					"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
+					"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
+					"LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
+					"LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
+					"LEFT JOIN (" +
+					"				SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
+					"					COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, " +
+					"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
+					"				FROM M_Storage st " +
+					"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
+					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s " +
+					"														ON(s.M_Product_ID = lord.M_Product_ID " +
+					"																AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
+					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
+					.append("WHERE pro.IsStocked = 'Y' ")
+					//.append("AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) ")
+					.append("AND ")
+					.append(sqlWhere).append(" ");
+			//	Add Where
+			if(m_IsBulk)
+				sql.append("AND lord.M_Product_ID = ?").append(" ");
+			//	Group By
+			sql.append("GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
+					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
+					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume").append(" ");
+			//	Having
+			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
+					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
+					"													ELSE 0 " +
+					"												END" +
+					"											)" +
+					"			) > 0").append(" ");
+			//	Order By
+			sql.append("ORDER BY lord.C_Order_ID ASC");
+			
+		}
 		log.fine("SQL Line Order=" + sql.toString());
 		return sql;
 	}
@@ -673,7 +829,7 @@ public class LoadOrder {
 		//	Loop for add Lines
 		for (int i = 0; i < rows; i++) {
 			if (((Boolean)orderLineTable.getValueAt(i, 0)).booleanValue()) {
-				int m_C_OrderLine_ID = ((KeyNamePair)orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
+				int m_OrderLine_ID = ((KeyNamePair)orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
 				int m_M_Product_ID = ((KeyNamePair)orderLineTable.getValueAt(i, OL_PRODUCT)).getKey();
 				BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(i, OL_QTY);
 				BigDecimal weight = (BigDecimal) orderLineTable.getValueAt(i, OL_WEIGHT);
@@ -684,7 +840,12 @@ public class LoadOrder {
 				//	Set Values
 				lorder.setAD_Org_ID(m_AD_Org_ID);
 				lorder.setFTA_LoadOrder_ID(loadOrder.getFTA_LoadOrder_ID());
-				lorder.setC_OrderLine_ID(m_C_OrderLine_ID);
+				/** 2014-12-02 Carlos Parada Add Support to Distribution Order*/ 
+				if (m_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement))
+					lorder.setDD_OrderLine_ID(m_OrderLine_ID);
+				else
+					lorder.setC_OrderLine_ID(m_OrderLine_ID);
+				/** End Carlos Parada*/
 				lorder.setM_Product_ID(m_M_Product_ID);
 				lorder.setQty(qty);
 				lorder.setSeqNo(seqNo);
