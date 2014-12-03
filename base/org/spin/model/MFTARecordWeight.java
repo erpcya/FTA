@@ -29,6 +29,8 @@ import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MLot;
+import org.compiere.model.MMovement;
+import org.compiere.model.MMovementLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
@@ -45,6 +47,8 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.model.MDDOrder;
+import org.eevolution.model.MDDOrderLine;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -279,7 +283,10 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if((getOperationType().equals(OPERATIONTYPE_RawMaterialReceipt) 
 				|| getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
 				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)
+				//	Dixon Martinez 2014-12-01
+				//	Reviewed by not having support
 				|| getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)
+				//	End Dixon Martinez
 				|| getOperationType().equals(OPERATIONTYPE_ProductBulkReceipt))
 				&& isValidWeight){
 			//	Generate Material Receipt
@@ -289,6 +296,18 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			else
 				m_processMsg = msg;
 		}
+		
+		//	Dixon Martinez 2014-12-01
+		//	Add support for generating inventory movements
+		if(getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)) {
+			String msg = createMovement();
+			if(m_processMsg != null)
+				return DocAction.STATUS_Invalid;
+			else
+				m_processMsg = msg;
+		}
+		//	End Dixon Martinez
+		
 		//	Dixon Martinez 30/05/2014
 		//	Add Support complete record weight with Dispatch Guide
 		if((getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
@@ -315,6 +334,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	
+
 	/**
 	 * Add Support complete record weight with Dispatch Guide
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 30/05/2014, 15:21:38
@@ -669,7 +690,15 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		}
 
 		//	End Dixon Martinez
-		
+		//	Dixon Martinez 2014-12-02
+		//	Add support for reactivate Movement
+		else if(getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)){
+			//	Reverse Movement
+			m_processMsg = reverseMovement();
+			if (m_processMsg != null)
+				return false;
+		}
+		//	End Dixon Martinez
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
@@ -750,6 +779,30 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			mInOut.processIt(X_M_InOut.DOCACTION_Reverse_Correct);
 			mInOut.saveEx();
 		}
+		//	
+		return null;
+	}
+	
+	/**
+	 * Reverse movement
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 2/12/2014, 20:11:23
+	 * @return
+	 * @return String
+	 */
+	private String reverseMovement(){
+		//	List 
+		/*List<MInOut> list = new Query(getCtx(), MInOut.Table_Name, "FTA_RecordWeight_ID=? AND DocStatus IN('CO', 'CL')", get_TrxName())
+		.setParameters(getFTA_RecordWeight_ID())
+		.setOrderBy("DocStatus")
+		.list();
+		//	
+		for (MInOut mInOut : list) {
+			if(mInOut.getDocStatus().equals(X_M_InOut.DOCSTATUS_Closed))
+				return "@M_InOut_ID@ @Closed@";
+			mInOut.setDocAction(X_M_InOut.DOCACTION_Reverse_Correct);
+			mInOut.processIt(X_M_InOut.DOCACTION_Reverse_Correct);
+			mInOut.saveEx();
+		}*/
 		//	
 		return null;
 	}
@@ -933,6 +986,109 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			setIsSOTrx(true);
 		//	
 		return true;
+	}
+	/**
+	 * Add support for generating inventory movements
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 2/12/2014, 20:01:07
+	 * @return
+	 * @return String
+	 */
+	private String createMovement() {
+
+		//DocumentNo 
+		String l_DocumentNo = ""; 
+		// Get Orders From Load Order
+		MFTALoadOrder lo = null;
+		lo = (MFTALoadOrder) getFTA_LoadOrder();
+		
+		if (lo == null){
+			m_processMsg = "@FTA_LoadOrder_ID@ @NotFound@";
+			return null;
+		}
+		// Get Lines from Load Order
+		MFTALoadOrderLine[] lol = lo.getLines(true);
+		
+		BigDecimal m_AcumWeight = Env.ZERO;
+		BigDecimal m_TotalWeight = Env.ZERO;
+		// Create Shipments
+		for (int i=0; i <lol.length;i++) {
+			//Get Order and Line
+			MDDOrder m_DD_Order = null;
+			MProduct m_Product = null;
+			if (lol[i].getDD_OrderLine_ID()!=0){
+				m_DD_Order =(MDDOrder) lol[i].getDD_OrderLine().getDD_Order();
+				m_Product = (MProduct)lol[i].getDD_OrderLine().getM_Product();
+			}
+			
+			MDDOrderLine m_DD_OrderLine = (MDDOrderLine) lol[i].getDD_OrderLine();
+
+			if(m_DD_Order == null){
+				m_processMsg = "@DD_Order_ID@ @NotFound@";
+				return null;
+			}
+			
+			if (m_Product==null){
+				m_processMsg = "@M_Product_ID@ @NotFound@";
+				return null;
+			}
+			
+			if(m_DD_OrderLine == null) {
+				m_processMsg = "@DD_OrderLine_ID@ @NotFound@";
+				return null;
+			}
+			//	Create Movement
+			MMovement m_Movement = new MMovement(getCtx(), 0, get_TrxName());
+			m_Movement.setDateReceived(getDateDoc());
+			//	Set Organization
+			m_Movement.setAD_Org_ID(getAD_Org_ID());
+			m_Movement.setDD_Order_ID(m_DD_Order.get_ID());
+			if(m_DD_Order.getC_BPartner_ID() > 0){
+				m_Movement.setC_BPartner_ID(m_DD_Order.getC_BPartner_ID());
+				m_Movement.setC_BPartner_Location_ID(m_DD_Order.getC_BPartner_Location_ID());
+			}
+			m_Movement.saveEx();
+			//	Create Line
+			MMovementLine m_MovementLine = new MMovementLine(m_Movement);
+			m_MovementLine.saveEx();
+			//	Rate Convert
+			BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+					m_Product.getM_Product_ID(), getC_UOM_ID());
+			
+			if(rate == null){
+				m_processMsg = "@NoUOMConversion@";
+				return null;
+			}
+			
+			if (m_TotalWeight == Env.ZERO)
+				m_TotalWeight = getValidWeight(false).multiply(rate);
+				
+			//BigDecimal m_MovementQty = (!getPayWeight().equals(Env.ZERO)?getPayWeight().multiply(rate):getNetWeight().multiply(rate));
+			BigDecimal m_MovementQty =lol[i].getQty().multiply(rate);
+			
+			if (lol.length == 1)
+				m_MovementQty = getValidWeight(false).multiply(rate);
+			else{
+				m_AcumWeight = m_AcumWeight.add(m_MovementQty);
+				if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == 1)
+					m_MovementQty = m_MovementQty.subtract(m_AcumWeight.subtract(getValidWeight(false).multiply(rate)));
+				else if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == -1)
+					m_MovementQty = m_MovementQty.add(getValidWeight(false).multiply(rate).subtract(m_AcumWeight));
+			}
+			//	Set Product
+			m_MovementLine.setM_Product_ID(m_Product.getM_Product_ID());
+			m_MovementLine.setM_Locator_ID(m_DD_OrderLine.getM_Locator_ID());
+			m_MovementLine.setM_LocatorTo_ID(m_DD_OrderLine.getM_LocatorTo_ID());
+			m_MovementLine.setMovementQty(m_MovementQty);
+			m_MovementLine.setDD_OrderLine_ID(m_DD_OrderLine.get_ID());
+			m_MovementLine.setM_Movement_ID(m_Movement.get_ID());
+			m_MovementLine.saveEx();
+			m_Movement.processIt(DocAction.ACTION_Complete);
+			m_Movement.saveEx(get_TrxName());
+			l_DocumentNo = " - " + l_DocumentNo + "@M_Movement_ID@: " + m_Movement.getDocumentNo();
+		}// Create 
+		lo.setIsMoved(true);
+		lo.save(get_TrxName());
+		return l_DocumentNo;
 	}
 	
 	/**
