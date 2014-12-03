@@ -42,6 +42,7 @@ import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
 import org.compiere.model.X_M_InOut;
+import org.compiere.model.X_M_Movement;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
@@ -85,6 +86,17 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		super(ctx, rs, trxName);
 	}
 
+	/**	Current Business Partner				*/
+	private int 		m_Current_BPartner_ID 	= 	0;
+	/**	Current Movement						*/
+	private MMovement 	m_Current_Movement 		= 	null;
+	/**	Current Distribution Order				*/
+	private int 		m_Current_DDOrder_ID	= 	0;
+	/**	Distribution Order						*/
+	private MDDOrder 	m_DD_Order 				= null;
+	/** Created Records							*/
+	private int 		m_Created 				= 0;
+	
 	/**
 	 * 	Get Document Info
 	 *	@return document info (untranslated)
@@ -564,13 +576,15 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			m_processMsg = reverseInOut();
 			if (m_processMsg != null)
 				return false;
+		}//	Dixon Martinez 2014-12-02
+		//	Add support for reactivate Movement
+		else if(getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)){
+			//	Reverse Movement
+			m_processMsg = reverseMovement();
+			if (m_processMsg != null)
+				return false;
 		}
-		
-		//	Dixon Martinez 30/05/2014
-		//	Add Support Parent Farmer Credit
-		
-		//	Dixon Martinez
-		
+		//	End Dixon Martinez
 		
 		//	
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
@@ -788,18 +802,18 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 */
 	private String reverseMovement(){
 		//	List 
-		/*List<MInOut> list = new Query(getCtx(), MInOut.Table_Name, "FTA_RecordWeight_ID=? AND DocStatus IN('CO', 'CL')", get_TrxName())
+		List<MMovement> lists = new Query(getCtx(), MMovement.Table_Name, "FTA_RecordWeight_ID = ?" , get_TrxName())
 		.setParameters(getFTA_RecordWeight_ID())
 		.setOrderBy("DocStatus")
 		.list();
-		//	
-		for (MInOut mInOut : list) {
-			if(mInOut.getDocStatus().equals(X_M_InOut.DOCSTATUS_Closed))
-				return "@M_InOut_ID@ @Closed@";
-			mInOut.setDocAction(X_M_InOut.DOCACTION_Reverse_Correct);
-			mInOut.processIt(X_M_InOut.DOCACTION_Reverse_Correct);
-			mInOut.saveEx();
-		}*/
+	
+		for (MMovement mMovement : lists) {
+			if(mMovement.getDocStatus().equals(X_M_Movement.DOCSTATUS_Closed))
+				return "@M_Movement_ID@ " + X_M_Movement.DOCSTATUS_Closed;
+			mMovement.setDocAction(X_M_Movement.DOCACTION_Reverse_Correct);
+			mMovement.processIt(X_M_Movement.DOCACTION_Reverse_Correct);
+			mMovement.saveEx();
+		}
 		//	
 		return null;
 	}
@@ -991,9 +1005,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return String
 	 */
 	private String createMovement() {
-
-		//DocumentNo 
-		String l_DocumentNo = ""; 
+		StringBuffer msg = new StringBuffer();
 		// Get Orders From Load Order
 		MFTALoadOrder lo = null;
 		lo = (MFTALoadOrder) getFTA_LoadOrder();
@@ -1004,88 +1016,94 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		}
 		// Get Lines from Load Order
 		MFTALoadOrderLine[] lol = lo.getLines(true);
-		
-		BigDecimal m_AcumWeight = Env.ZERO;
-		BigDecimal m_TotalWeight = Env.ZERO;
-		// Create Shipments
+		// Create Movements
 		for (int i=0; i <lol.length;i++) {
 			//Get Order and Line
-			MDDOrder m_DD_Order = null;
 			MProduct m_Product = null;
 			if (lol[i].getDD_OrderLine_ID()!=0){
 				m_DD_Order =(MDDOrder) lol[i].getDD_OrderLine().getDD_Order();
 				m_Product = (MProduct)lol[i].getDD_OrderLine().getM_Product();
 			}
-			
 			MDDOrderLine m_DD_OrderLine = (MDDOrderLine) lol[i].getDD_OrderLine();
-
 			if(m_DD_Order == null){
 				m_processMsg = "@DD_Order_ID@ @NotFound@";
 				return null;
 			}
-			
 			if (m_Product==null){
 				m_processMsg = "@M_Product_ID@ @NotFound@";
 				return null;
 			}
-			
 			if(m_DD_OrderLine == null) {
 				m_processMsg = "@DD_OrderLine_ID@ @NotFound@";
 				return null;
 			}
-			//	Create Movement
-			MMovement m_Movement = new MMovement(getCtx(), 0, get_TrxName());
-			m_Movement.setDateReceived(getDateDoc());
-			//	Set Organization
-			m_Movement.setAD_Org_ID(getAD_Org_ID());
-			m_Movement.setDD_Order_ID(m_DD_Order.get_ID());
-			if(m_DD_Order.getC_BPartner_ID() > 0){
-				m_Movement.setC_BPartner_ID(m_DD_Order.getC_BPartner_ID());
-				m_Movement.setC_BPartner_Location_ID(m_DD_Order.getC_BPartner_Location_ID());
+			if(m_Current_BPartner_ID != m_DD_Order.getC_BPartner_ID()
+					|| m_Current_DDOrder_ID != m_DD_Order.get_ID()){
+				//	Complete Previous Movements
+				completeMovement();
+				m_Current_BPartner_ID = m_DD_Order.getC_BPartner_ID();
+				m_Current_DDOrder_ID = m_DD_Order.get_ID();
+				//	Create Movement
+				m_Current_Movement = new MMovement(getCtx(), 0, get_TrxName());
+				m_Current_Movement.setDateReceived(getDateDoc());
+				//	Set Organization
+				m_Current_Movement.setAD_Org_ID(getAD_Org_ID());
+				m_Current_Movement.setDD_Order_ID(m_DD_Order.get_ID());
+				if(m_DD_Order.getC_BPartner_ID() > 0){
+					m_Current_Movement.setC_BPartner_ID(m_DD_Order.getC_BPartner_ID());
+					m_Current_Movement.setC_BPartner_Location_ID(m_DD_Order.getC_BPartner_Location_ID());
+					m_Current_Movement.saveEx();
+				}
+				m_Current_Movement.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
+				m_Current_Movement.saveEx();
+				//	Initialize Message
+				if(msg.length() > 0)
+					msg.append(" - " + m_Current_Movement.getDocumentNo());
+				else
+					msg.append(m_Current_Movement.getDocumentNo());
 			}
-			m_Movement.saveEx();
-			//	Create Line
-			MMovementLine m_MovementLine = new MMovementLine(m_Movement);
-			m_MovementLine.saveEx();
-			//	Rate Convert
-			BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
-					m_Product.getM_Product_ID(), getC_UOM_ID());
 			
-			if(rate == null){
-				m_processMsg = "@NoUOMConversion@";
-				return null;
+			if(m_Current_Movement != null){
+				//	Create Line
+				MMovementLine m_MovementLine = new MMovementLine(m_Current_Movement);
+				//	Rate Convert
+				BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+						m_Product.getM_Product_ID(), getC_UOM_ID());
+				if(rate == null){
+					m_processMsg = "@NoUOMConversion@";
+					return null;
+				}
+				//	Set Product
+				m_MovementLine.setM_Product_ID(m_Product.getM_Product_ID());
+				m_MovementLine.setM_Locator_ID(m_DD_OrderLine.getM_Locator_ID());
+				m_MovementLine.setM_LocatorTo_ID(m_DD_OrderLine.getM_LocatorTo_ID());
+				m_MovementLine.setMovementQty(m_DD_OrderLine.getQtyEntered());
+				m_MovementLine.setDD_OrderLine_ID(m_DD_OrderLine.get_ID());
+				m_MovementLine.setM_Movement_ID(m_Current_Movement.get_ID());
+				m_MovementLine.saveEx();
 			}
-			
-			if (m_TotalWeight == Env.ZERO)
-				m_TotalWeight = getValidWeight(false).multiply(rate);
-				
-			//BigDecimal m_MovementQty = (!getPayWeight().equals(Env.ZERO)?getPayWeight().multiply(rate):getNetWeight().multiply(rate));
-			BigDecimal m_MovementQty =lol[i].getQty().multiply(rate);
-			
-			if (lol.length == 1)
-				m_MovementQty = getValidWeight(false).multiply(rate);
-			else{
-				m_AcumWeight = m_AcumWeight.add(m_MovementQty);
-				if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == 1)
-					m_MovementQty = m_MovementQty.subtract(m_AcumWeight.subtract(getValidWeight(false).multiply(rate)));
-				else if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == -1)
-					m_MovementQty = m_MovementQty.add(getValidWeight(false).multiply(rate).subtract(m_AcumWeight));
-			}
-			//	Set Product
-			m_MovementLine.setM_Product_ID(m_Product.getM_Product_ID());
-			m_MovementLine.setM_Locator_ID(m_DD_OrderLine.getM_Locator_ID());
-			m_MovementLine.setM_LocatorTo_ID(m_DD_OrderLine.getM_LocatorTo_ID());
-			m_MovementLine.setMovementQty(m_MovementQty);
-			m_MovementLine.setDD_OrderLine_ID(m_DD_OrderLine.get_ID());
-			m_MovementLine.setM_Movement_ID(m_Movement.get_ID());
-			m_MovementLine.saveEx();
-			m_Movement.processIt(DocAction.ACTION_Complete);
-			m_Movement.saveEx(get_TrxName());
-			l_DocumentNo = " - " + l_DocumentNo + "@M_Movement_ID@: " + m_Movement.getDocumentNo();
 		}// Create 
+		//	Complete Movement
+		completeMovement();
 		lo.setIsMoved(true);
 		lo.save(get_TrxName());
-		return l_DocumentNo;
+		return "@Created@ " + m_Created + msg.toString();
+	}
+
+	/**
+	 * Complete Document
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martine</a> 21/11/2014, 11:09:54
+	 * @return void
+	 */
+	private void completeMovement(){
+		if(m_Current_Movement != null
+				&& m_Current_Movement.getDocStatus().equals(X_M_Movement.DOCSTATUS_Drafted)) {
+			m_Current_Movement.setDocAction(X_M_Movement.DOCACTION_Close);
+			m_Current_Movement.processIt(X_M_Movement.DOCACTION_Complete);
+			m_Current_Movement.saveEx();
+			//	Created
+			m_Created ++;
+		}
 	}
 	
 	/**

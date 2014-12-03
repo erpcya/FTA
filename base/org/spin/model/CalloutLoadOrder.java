@@ -181,7 +181,8 @@ public class CalloutLoadOrder extends CalloutEngine {
 		MFTAEntryTicket m_EntryTicket = new MFTAEntryTicket(ctx, m_EntriTicket_ID.intValue(), null);
 		
 		//	Set Shipper
-		mTab.setValue("M_Shipper_ID", m_EntryTicket.getM_Shipper_ID());
+		if(m_EntryTicket.getM_Shipper_ID() > 0)
+			mTab.setValue("M_Shipper_ID", m_EntryTicket.getM_Shipper_ID());
 		//	Set Vehicle
 		mTab.setValue("FTA_Vehicle_ID", m_EntryTicket.getFTA_Vehicle_ID());
 		//	Set Driver
