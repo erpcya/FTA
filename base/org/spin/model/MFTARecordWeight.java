@@ -802,7 +802,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 */
 	private String reverseMovement(){
 		//	List 
-		List<MMovement> lists = new Query(getCtx(), MMovement.Table_Name, "FTA_RecordWeight_ID = ? AND DocStatus = 'CO'" , get_TrxName())
+		List<MMovement> lists = new Query(getCtx(), MMovement.Table_Name, "FTA_RecordWeight_ID = ? AND DocStatus IN ('CO','CL')" , get_TrxName())
 		.setParameters(getFTA_RecordWeight_ID())
 		.setOrderBy("DocStatus")
 		.list();
@@ -810,7 +810,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		for (MMovement mMovement : lists) {
 			
 			if(mMovement.getDocStatus().equals(X_M_Movement.DOCSTATUS_Closed))
-				return "@M_Movement_ID@ " + X_M_Movement.DOCSTATUS_Closed;
+				throw new AdempiereException("@FTA_RecordWeight_ID@ @Referenced@ --> @M_Movement_ID@ " + mMovement.getDocumentNo() + 
+						"@DocStatus@ " + X_M_Movement.DOCSTATUS_Closed);
 			mMovement.set_ValueOfColumn("FTA_RecordWeight_ID", null);
 			mMovement.setDocAction(X_M_Movement.DOCACTION_Reverse_Correct);
 			mMovement.processIt(X_M_Movement.DOCACTION_Reverse_Correct);
@@ -1100,11 +1101,14 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	private void completeMovement(){
 		if(m_Current_Movement != null
 				&& m_Current_Movement.getDocStatus().equals(X_M_Movement.DOCSTATUS_Drafted)) {
-			m_Current_Movement.setDocAction(X_M_Movement.DOCACTION_Close);
-			m_Current_Movement.processIt(X_M_Movement.DOCACTION_Complete);
-			m_Current_Movement.saveEx();
-			//	Created
-			m_Created ++;
+			
+				m_Current_Movement.setDocAction(X_M_Movement.DOCACTION_Close);
+				if(!m_Current_Movement.processIt(X_M_Movement.DOCACTION_Complete))
+					throw new AdempiereException(m_Current_Movement.getProcessMsg());
+				m_Current_Movement.saveEx();
+				//	Created
+				m_Created ++;
+			
 		}
 	}
 	
