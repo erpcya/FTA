@@ -440,6 +440,13 @@ public class MFTAQualityAnalysis extends X_FTA_QualityAnalysis implements DocAct
 			return "@SQLErrorReferenced@ @FTA_QualityAnalysis_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_RecordWeight_ID@: " +m_ReferenceNoET;
 		return null;		
 	}
+	
+	/**
+	 * Valid Entry Ticket Reference
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 2/12/2014, 19:28:06
+	 * @return
+	 * @return String
+	 */
 	private String validETReference(){
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT DocumentNo "
 				+ "FROM FTA_QualityAnalysis qa "

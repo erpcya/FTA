@@ -579,8 +579,10 @@ public class MFTAAllocation extends X_FTA_Allocation implements DocAction, DocOp
 		}
 		
 		if (falloclines.size()>0){
-			alloc.processIt(getDocAction());
-			set_ValueOfColumn("C_AllocationHdr_ID", alloc.getC_AllocationHdr_ID());
+			if(alloc != null) {
+				alloc.processIt(getDocAction());
+				set_ValueOfColumn("C_AllocationHdr_ID", alloc.getC_AllocationHdr_ID());
+			}
 		}
 		//
 		

@@ -114,6 +114,8 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 		String sql = "UPDATE FTA_LoadOrder lo SET Weight=("
 				+ "	SELECT COALESCE(SUM(lol.Weight),0) FROM FTA_LoadOrderLine lol WHERE lol.FTA_LoadOrder_ID=lo.FTA_LoadOrder_ID)"
 				+ " ,Volume =( SELECT COALESCE(SUM(lol.Volume),0) FROM FTA_LoadOrderLine lol "
+				+ " WHERE lol.FTA_LoadOrder_ID=lo.FTA_LoadOrder_ID)"
+				+ " ,ConfirmedWeight =( SELECT COALESCE(SUM(lol.ConfirmedWeight),0) FROM FTA_LoadOrderLine lol "
 				+ " WHERE lol.FTA_LoadOrder_ID=lo.FTA_LoadOrder_ID) WHERE lo.FTA_LoadOrder_ID = " + getFTA_LoadOrder_ID();
 		//
 		int no = DB.executeUpdate(sql, get_TrxName());
