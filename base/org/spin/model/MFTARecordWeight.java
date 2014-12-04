@@ -1109,7 +1109,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if(m_Current_Movement != null) {
 				if(m_Current_Movement.getDocStatus().equals(X_M_Movement.DOCSTATUS_Drafted)) {
 					m_Current_Movement.setDocAction(X_M_Movement.DOCACTION_Complete);
-					if(m_Current_Movement.processIt(X_M_Movement.DOCACTION_Complete))
+					if(!m_Current_Movement.processIt(X_M_Movement.DOCACTION_Complete))
 						throw new AdempiereException(m_Current_Movement.getProcessMsg());
 					m_Current_Movement.saveEx();
 					//	Created
