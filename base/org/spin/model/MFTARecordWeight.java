@@ -1070,12 +1070,12 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				//	Create Line
 				MMovementLine m_MovementLine = new MMovementLine(m_Current_Movement);
 				//	Rate Convert
-				BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+				/*BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
 						m_Product.getM_Product_ID(), getC_UOM_ID());
 				if(rate == null){
 					m_processMsg = "@NoUOMConversion@";
 					return null;
-				}
+				}*/
 				//	Set Product
 				m_MovementLine.setM_Product_ID(m_Product.getM_Product_ID());
 				m_MovementLine.setM_Locator_ID(m_DD_OrderLine.getM_Locator_ID());
