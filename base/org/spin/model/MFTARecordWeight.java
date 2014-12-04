@@ -1065,30 +1065,29 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				else
 					msg.append(m_Current_Movement.getDocumentNo());
 			}
-			
+			//	Valid exist Movement
 			if(m_Current_Movement != null){
 				//	Create Line
 				MMovementLine m_MovementLine = new MMovementLine(m_Current_Movement);
-				//	Rate Convert
-				/*BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
-						m_Product.getM_Product_ID(), getC_UOM_ID());
-				if(rate == null){
-					m_processMsg = "@NoUOMConversion@";
-					return null;
-				}*/
 				//	Set Product
 				m_MovementLine.setM_Product_ID(m_Product.getM_Product_ID());
 				m_MovementLine.setM_Locator_ID(m_DD_OrderLine.getM_Locator_ID());
 				m_MovementLine.setM_LocatorTo_ID(m_DD_OrderLine.getM_LocatorTo_ID());
+				if(m_DD_OrderLine.getM_AttributeSetInstance_ID() > 0)
+					m_MovementLine.setM_AttributeSetInstance_ID(m_DD_OrderLine.getM_AttributeSetInstance_ID());
+				if(m_DD_OrderLine.getM_AttributeSetInstanceTo_ID() > 0)
+					m_MovementLine.setM_AttributeSetInstanceTo_ID(m_DD_OrderLine.getM_AttributeSetInstanceTo_ID());
 				m_MovementLine.setMovementQty(m_DD_OrderLine.getQtyEntered());
 				m_MovementLine.setDD_OrderLine_ID(m_DD_OrderLine.get_ID());
 				m_MovementLine.setM_Movement_ID(m_Current_Movement.get_ID());
 				m_MovementLine.saveEx();
+				lol[i].setM_MovementLine_ID(m_MovementLine.get_ID());
+				lol[i].saveEx();
 			}
 		}// Create 
 		//	Complete Movement
 		completeMovement();
-		lo.setIsMoved(true);
+		lo.setIsWeightRegister(true);
 		lo.save(get_TrxName());
 		return "@Created@ " + m_Created + msg.toString();
 	}
