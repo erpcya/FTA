@@ -1059,6 +1059,13 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				}
 				m_Current_Movement.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
 				m_Current_Movement.saveEx();
+				
+				MDocType m_DocType = (MDocType) m_Current_Movement.getC_DocType();
+				if(m_DocType.get_ValueAsBoolean("IsInTransit")) {
+					m_Current_Movement.setIsInTransit(true);
+					m_Current_Movement.saveEx();
+				}
+				
 				//	Initialize Message
 				if(msg.length() > 0)
 					msg.append(" - " + m_Current_Movement.getDocumentNo());
@@ -1084,6 +1091,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				lol[i].setM_MovementLine_ID(m_MovementLine.get_ID());
 				lol[i].saveEx();
 			}
+			
 		}// Create 
 		//	Complete Movement
 		completeMovement();
@@ -1098,16 +1106,15 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return void
 	 */
 	private void completeMovement(){
-		if(m_Current_Movement != null
-				&& m_Current_Movement.getDocStatus().equals(X_M_Movement.DOCSTATUS_Drafted)) {
-			
-				m_Current_Movement.setDocAction(X_M_Movement.DOCACTION_Close);
-				if(!m_Current_Movement.processIt(X_M_Movement.DOCACTION_Complete))
-					throw new AdempiereException(m_Current_Movement.getProcessMsg());
-				m_Current_Movement.saveEx();
-				//	Created
-				m_Created ++;
-			
+		if(m_Current_Movement != null) {
+				if(m_Current_Movement.getDocStatus().equals(X_M_Movement.DOCSTATUS_Drafted)) {
+					m_Current_Movement.setDocAction(X_M_Movement.DOCACTION_Complete);
+					if(!m_Current_Movement.processIt(X_M_Movement.DOCACTION_Complete))
+						throw new AdempiereException(m_Current_Movement.getProcessMsg());
+					m_Current_Movement.saveEx();
+					//	Created
+					m_Created ++;
+				}
 		}
 	}
 	
