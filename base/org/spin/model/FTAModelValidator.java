@@ -31,6 +31,8 @@ import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MMovement;
+import org.compiere.model.MMovementLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPayment;
@@ -456,6 +458,25 @@ public class FTAModelValidator implements ModelValidator {
 						lo.setIsWeightRegister(false);
 						lo.saveEx();
 					}
+				}
+			}else if(po.get_TableName().equals(MMovement.Table_Name)) { //	Reverse Movement
+				MMovement mMovement = (MMovement) po;
+				MMovementLine mMovementLine [] =  mMovement.getLines(true);
+				for (MMovementLine m_MovementLine : mMovementLine) {
+					String sql = "SELECT FTA_LoadOrderLine_ID FROM FTA_LoadOrderLine WHERE M_MovementLine_ID = ?";
+					int p_FTA_LoadOrderLine_ID = DB.getSQLValue(m_MovementLine.get_TrxName(), sql, m_MovementLine.get_ID());
+					if(p_FTA_LoadOrderLine_ID <= 0)
+						continue;
+					
+					MFTALoadOrderLine lin = 
+							new MFTALoadOrderLine(m_MovementLine.getCtx(), p_FTA_LoadOrderLine_ID, m_MovementLine.get_TrxName());
+					lin.setM_InOutLine_ID(0);
+					lin.saveEx();
+					
+					MFTALoadOrder lo = new MFTALoadOrder(lin.getCtx(),lin.getFTA_LoadOrder_ID(), lin.get_TrxName());
+					lo.setIsMoved(false);
+					lo.setIsWeightRegister(false);
+					lo.saveEx();
 				}
 			}
 		}else if (timing == TIMING_BEFORE_PREPARE) {
