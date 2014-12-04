@@ -85,17 +85,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	public MFTARecordWeight(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
-
-	/**	Current Business Partner				*/
-	private int 		m_Current_BPartner_ID 	= 	0;
-	/**	Current Movement						*/
-	private MMovement 	m_Current_Movement 		= 	null;
-	/**	Current Distribution Order				*/
-	private int 		m_Current_DDOrder_ID	= 	0;
-	/**	Distribution Order						*/
-	private MDDOrder 	m_DD_Order 				= null;
-	/** Created Records							*/
-	private int 		m_Created 				= 0;
 	
 	/**
 	 * 	Get Document Info
@@ -1004,48 +993,41 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	/**
 	 * Add support for generating inventory movements
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 2/12/2014, 20:01:07
+	 * @contributhor <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 2014-12-04, 20:01:07
 	 * @return
 	 * @return String
 	 */
 	private String createMovement() {
-		StringBuffer msg = new StringBuffer();
 		// Get Orders From Load Order
-		MFTALoadOrder lo = null;
-		lo = (MFTALoadOrder) getFTA_LoadOrder();
-		
+		MFTALoadOrder lo = (MFTALoadOrder) getFTA_LoadOrder();
+		//	
 		if (lo == null){
 			m_processMsg = "@FTA_LoadOrder_ID@ @NotFound@";
 			return null;
 		}
 		// Get Lines from Load Order
-		MFTALoadOrderLine[] lol = lo.getLines(true);
+		MFTALoadOrderLine[] lines = lo.getLinesForMovement();
+		//	Current Values
+		int m_Current_BPartner_ID = 0;
+		MMovement m_Current_Movement = null;
+		StringBuffer msg = new StringBuffer();
+		int m_Created = 0;
 		// Create Movements
-		for (int i=0; i <lol.length;i++) {
-			//Get Order and Line
-			MProduct m_Product = null;
-			if (lol[i].getDD_OrderLine_ID()!=0){
-				m_DD_Order =(MDDOrder) lol[i].getDD_OrderLine().getDD_Order();
-				m_Product = (MProduct)lol[i].getDD_OrderLine().getM_Product();
-			}
-			MDDOrderLine m_DD_OrderLine = (MDDOrderLine) lol[i].getDD_OrderLine();
-			if(m_DD_Order == null){
-				m_processMsg = "@DD_Order_ID@ @NotFound@";
-				return null;
-			}
-			if (m_Product==null){
-				m_processMsg = "@M_Product_ID@ @NotFound@";
-				return null;
-			}
-			if(m_DD_OrderLine == null) {
+		for (MFTALoadOrderLine line : lines) {
+			//	Valid Line
+			MDDOrderLine m_DD_OrderLine =(MDDOrderLine) line.getDD_OrderLine();
+			//	
+			if (m_DD_OrderLine == null){
 				m_processMsg = "@DD_OrderLine_ID@ @NotFound@";
 				return null;
 			}
-			if(m_Current_BPartner_ID != m_DD_Order.getC_BPartner_ID()
-					|| m_Current_DDOrder_ID != m_DD_Order.get_ID()){
+			//	
+			MDDOrder m_DD_Order = (MDDOrder) m_DD_OrderLine.getDD_Order();
+			//	
+			if(m_Current_BPartner_ID != m_DD_Order.getC_BPartner_ID()){
 				//	Complete Previous Movements
-				completeMovement();
+				completeMovement(m_Current_Movement);
 				m_Current_BPartner_ID = m_DD_Order.getC_BPartner_ID();
-				m_Current_DDOrder_ID = m_DD_Order.get_ID();
 				//	Create Movement
 				m_Current_Movement = new MMovement(getCtx(), 0, get_TrxName());
 				m_Current_Movement.setDateReceived(getDateDoc());
@@ -1059,13 +1041,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				}
 				m_Current_Movement.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
 				m_Current_Movement.saveEx();
-				
-				MDocType m_DocType = (MDocType) m_Current_Movement.getC_DocType();
-				if(m_DocType.get_ValueAsBoolean("IsInTransit")) {
-					m_Current_Movement.setIsInTransit(true);
-					m_Current_Movement.saveEx();
-				}
-				
+				//	
+				m_Created++;
 				//	Initialize Message
 				if(msg.length() > 0)
 					msg.append(" - " + m_Current_Movement.getDocumentNo());
@@ -1077,7 +1054,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				//	Create Line
 				MMovementLine m_MovementLine = new MMovementLine(m_Current_Movement);
 				//	Set Product
-				m_MovementLine.setM_Product_ID(m_Product.getM_Product_ID());
+				m_MovementLine.setM_Product_ID(line.getM_Product_ID());
 				m_MovementLine.setM_Locator_ID(m_DD_OrderLine.getM_Locator_ID());
 				m_MovementLine.setM_LocatorTo_ID(m_DD_OrderLine.getM_LocatorTo_ID());
 				if(m_DD_OrderLine.getM_AttributeSetInstance_ID() > 0)
@@ -1088,32 +1065,33 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				m_MovementLine.setDD_OrderLine_ID(m_DD_OrderLine.get_ID());
 				m_MovementLine.setM_Movement_ID(m_Current_Movement.get_ID());
 				m_MovementLine.saveEx();
-				lol[i].setM_MovementLine_ID(m_MovementLine.get_ID());
-				lol[i].saveEx();
+				line.setM_MovementLine_ID(m_MovementLine.get_ID());
+				line.saveEx();
 			}
 			
 		}// Create 
 		//	Complete Movement
-		completeMovement();
+		completeMovement(m_Current_Movement);
+		//	
 		lo.setIsWeightRegister(true);
 		lo.save(get_TrxName());
-		return "@Created@ " + m_Created + msg.toString();
+		//	
+		return "@M_Movement_ID@ @Created@ = "+ m_Created + " [" + msg.toString() + "]";
 	}
 
 	/**
 	 * Complete Document
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martine</a> 21/11/2014, 11:09:54
+	 * @contributhor <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 2014-12-04, 11:09:54
 	 * @return void
 	 */
-	private void completeMovement(){
+	private void completeMovement(MMovement m_Current_Movement){
 		if(m_Current_Movement != null) {
 				if(m_Current_Movement.getDocStatus().equals(X_M_Movement.DOCSTATUS_Drafted)) {
 					m_Current_Movement.setDocAction(X_M_Movement.DOCACTION_Complete);
 					if(!m_Current_Movement.processIt(X_M_Movement.DOCACTION_Complete))
 						throw new AdempiereException(m_Current_Movement.getProcessMsg());
 					m_Current_Movement.saveEx();
-					//	Created
-					m_Created ++;
 				}
 		}
 	}
@@ -1518,6 +1496,8 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				//	Set Warehouse
 				m_Current_Shipment.setM_Warehouse_ID(m_Current_Warehouse_ID);
 				m_Current_Shipment.setDocStatus(X_M_InOut.DOCSTATUS_Drafted);
+				//	Reference
+				m_Current_Shipment.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
 				m_Current_Shipment.saveEx(get_TrxName());
 				//	Add to Counter
 				m_Created++;
