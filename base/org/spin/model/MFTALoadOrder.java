@@ -692,6 +692,12 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		return lines;
 	}
 	
+	/**
+	 * Get Lines For Movements
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 4/12/2014, 19:55:41
+	 * @return
+	 * @return MFTALoadOrderLine[]
+	 */
 	public MFTALoadOrderLine[] getLinesForMovement() {
 		//	SQL
 		String sql = new String("SELECT lol.* "
