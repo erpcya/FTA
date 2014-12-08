@@ -26,8 +26,7 @@ import org.compiere.model.GridTab;
  * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
  *
  */
-public class CalloutMobilizationGuide extends CalloutEngine
-{
+public class CalloutMobilizationGuide extends CalloutEngine {
 	/**
 	 * 
 	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 25/01/2014, 12:10:35
@@ -54,8 +53,7 @@ public class CalloutMobilizationGuide extends CalloutEngine
 		MFTALoadOrder m_FTA_LoadOrder = new MFTALoadOrder(ctx, p_LoadOrder_ID, null);
 		
 		//	Validate instance of Load Order distinct of null set Vehicle Type
-		if(m_FTA_LoadOrder != null)
-			mTab.setValue("FTA_VehicleType_ID", m_FTA_LoadOrder.getFTA_VehicleType_ID());		
+		mTab.setValue("FTA_VehicleType_ID", m_FTA_LoadOrder.getFTA_VehicleType_ID());		
 
 		return "";
 	}//	End loadOrder			

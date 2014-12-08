@@ -104,22 +104,17 @@ public class CalloutRecordWeight extends CalloutEngine {
 		MFTAEntryTicket et = new MFTAEntryTicket(ctx, m_FTA_EntryTicket_ID, null);
 		//	Dixon Martinez 15/03/2014 11:29:00
 		//	Set Trailer Plate, Vehicle and driver of Entry Ticket
-		if (et != null ){
-			if (et.getM_Product_ID()!= 0 )
-				mTab.setValue("M_Product_ID", et.getM_Product_ID());
-			if(et.getTrailerPlate() != null
-					&& et.getTrailerPlate().length() > 0)
-				mTab.setValue("TrailerPlate", et.getTrailerPlate());
-			if(et.getFTA_Driver_ID() > 0)
-				mTab.setValue("FTA_Driver_ID", et.getFTA_Driver_ID());
-			if(et.getFTA_Vehicle_ID() > 0)
-				mTab.setValue("FTA_Vehicle_ID", et.getFTA_Vehicle_ID());
-			
-		}//	End Dixon Martinez
+		if (et.getM_Product_ID()!= 0 )
+			mTab.setValue("M_Product_ID", et.getM_Product_ID());
+		if(et.getTrailerPlate() != null
+				&& et.getTrailerPlate().length() > 0)
+			mTab.setValue("TrailerPlate", et.getTrailerPlate());
+		if(et.getFTA_Driver_ID() > 0)
+			mTab.setValue("FTA_Driver_ID", et.getFTA_Driver_ID());
+		if(et.getFTA_Vehicle_ID() > 0)
+			mTab.setValue("FTA_Vehicle_ID", et.getFTA_Vehicle_ID());
+		//	End Dixon Martinez
 		//End Carlos Parada
-		
-			
-		
 		return "";
 	}
 	
@@ -197,11 +192,11 @@ public class CalloutRecordWeight extends CalloutEngine {
 	 */
 	public String product(Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
 
-		if (value ==null)
+		if (value == null)
 			return "";
 		
 		if (mField.getColumnName().equals("FTA_QualityAnalysis_ID")){
-			int l_FTA_QualityAnalysis_ID = (value == null ? 0 : (Integer)value);
+			int l_FTA_QualityAnalysis_ID = (Integer)value;
 			
 			if (l_FTA_QualityAnalysis_ID != 0)
 			{
@@ -211,7 +206,7 @@ public class CalloutRecordWeight extends CalloutEngine {
 		}
 		else if (mField.getColumnName().equals("FTA_LoadOrder_ID")){
 			
-			int l_FTA_LoadOrder_ID = (value == null ? 0 : (Integer)value);
+			int l_FTA_LoadOrder_ID = (Integer)value;
 			
 			if (l_FTA_LoadOrder_ID != 0)
 			{

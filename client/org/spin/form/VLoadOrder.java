@@ -1,6 +1,5 @@
 /******************************************************************************
- * Copyright (C) 2009 Low Heng Sin                                            *
- * Copyright (C) 2009 Idalica Corporation                                     *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,6 +9,10 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2013 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpconsultoresyasociados.com               *
  *****************************************************************************/
 package org.spin.form;
 
