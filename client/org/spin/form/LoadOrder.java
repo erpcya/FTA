@@ -57,31 +57,31 @@ public class LoadOrder {
 	/**	Logger			*/
 	public static CLogger log = CLogger.getCLogger(LoadOrder.class);
 	
-	public final int OL_SO_LOC = 6;
-	public final int SELECT = 0;
-	public final int ORDER = 2;
-	public final int ORDER_LINE = 2;
-	public final int OL_PRODUCT = 3;
-	public final int OL_UOM = 4;
-	public final int OL_QTY_ONDHAND = 5;
-	public final int OL_QTY_ORDERED = 6;
-	public final int OL_UOM_CONVERSION = 7;
-	public final int OL_QTY_RESERVERD = 8;
-	public final int OL_QTY_INVOICED = 9;
-	public final int OL_QTY_DELIVERED = 10;
-	public final int OL_QTY_LOAD_ORDER_LINE = 11;
-	public final int OL_QTY = 12;
-	public final int OL_QTY_UOM = 13;
-	public final int OL_WEIGHT = 14;
-	public final int OL_VOLUME = 15;
-	public final int OL_SEQNO = 16;
+	public final int OL_SO_LOC 					= 6;
+	public final int SELECT 					= 0;
+	public final int ORDER 						= 2;
+	public final int ORDER_LINE 				= 2;
+	public final int OL_PRODUCT 				= 3;
+	public final int OL_UOM 					= 4;
+	public final int OL_QTY_ONDHAND 			= 5;
+	public final int OL_QTY_ORDERED 			= 6;
+	public final int OL_UOM_CONVERSION 			= 7;
+	public final int OL_QTY_RESERVERD 			= 8;
+	public final int OL_QTY_INVOICED 			= 9;
+	public final int OL_QTY_DELIVERED 			= 10;
+	public final int OL_QTY_LOAD_ORDER_LINE 	= 11;
+	public final int OL_QTY 					= 12;
+	public final int OL_QTY_UOM 				= 13;
+	public final int OL_WEIGHT 					= 14;
+	public final int OL_VOLUME 					= 15;
+	public final int OL_SEQNO 					= 16;
 	
 	//	
-	public final int SW_PRODUCT = 0;
-	public final int SW_UOM = 1;
-	public final int SW_QTYONHAND = 2;
-	public final int SW_QTYSET = 3;
-	public final int SW_QTYAVAILABLE = 4;
+	public final int SW_PRODUCT 				= 0;
+	public final int SW_UOM 					= 1;
+	public final int SW_QTYONHAND 				= 2;
+	public final int SW_QTYSET 					= 3;
+	public final int SW_QTYAVAILABLE 			= 4;
 	
 	/**	Buffer				*/
 	public Vector<BufferTableSelect> m_BufferSelect = null;
@@ -469,6 +469,9 @@ public class LoadOrder {
 			//BigDecimal rate = Env.ZERO;
 			BigDecimal qty = Env.ZERO;
 			BigDecimal qtyOnHand = Env.ZERO;
+			BigDecimal diff = Env.ZERO;
+			int precision = 0;
+			//	
 			while (rs.next()) {
 				column = 1;
 				Vector<Object> line = new Vector<Object>();
@@ -481,6 +484,9 @@ public class LoadOrder {
 				line.add(pr);				      		//  3-Product
 				KeyNamePair uop = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
 				line.add(uop);				      		//  4-Unit Product
+				//	Get Precision
+				precision = MUOM.getPrecision(Env.getCtx(), uop.getKey());
+				//	
 				qtyOnHand = rs.getBigDecimal(column++);
 				//	Valid Null
 				if(qtyOnHand == null)
@@ -493,9 +499,20 @@ public class LoadOrder {
 				line.add(rs.getBigDecimal(column++));  	//  9-QtyInvoiced
 				line.add(rs.getBigDecimal(column++));	//  10-QtyDelivered
 				line.add(rs.getBigDecimal(column++));	//  11-QtyLoc
-				
+				//	Set Quantity
 				qty = rs.getBigDecimal(column++);
-				
+				//	Valid Quantity On Hand
+				diff = qtyOnHand.subtract(qty).setScale(precision, BigDecimal.ROUND_HALF_UP);
+				//	Set Quantity
+				if(diff.doubleValue() < 0) {
+					qty = qty
+						.subtract(diff.abs())
+						.setScale(precision, BigDecimal.ROUND_HALF_UP);
+				}
+				//	Valid Zero
+				if(qty.doubleValue() <= 0)
+					continue;
+				//					
 				line.add(qty);							//  12-Quantity
 				line.add(uop);				      		//  13-Unit Product
 				BigDecimal weight = rs.getBigDecimal(column++);
