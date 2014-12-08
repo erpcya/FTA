@@ -676,10 +676,10 @@ public class VLoadOrder extends LoadOrder
 		} else if(name.equals("OperationType")){
 			m_OperationType = ((String)(value != null? value: 0));
 			Env.setContext(Env.getCtx(), m_WindowNo, "OperationType", m_OperationType);
-			ArrayList<KeyNamePair> data = getDataDocumentType(trxName);
-			docTypeSearch.removeActionListener(this);
-			m_C_DocType_ID = loadComboBox(docTypeSearch, data);
-			docTypeSearch.addActionListener(this);
+			//ArrayList<KeyNamePair> data = getDataDocumentType(trxName);
+			//docTypeSearch.removeActionListener(this);
+			//m_C_DocType_ID = loadComboBox(docTypeSearch, data);
+			//docTypeSearch.addActionListener(this);
 			//	Set Bulk
 			m_IsBulk = isBulk();
 			//	Set Product
@@ -760,6 +760,7 @@ public class VLoadOrder extends LoadOrder
 				BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
 				BigDecimal weight = (BigDecimal) orderLineTable.getValueAt(row, OL_WEIGHT);
 				BigDecimal volume = (BigDecimal) orderLineTable.getValueAt(row, OL_VOLUME);
+				BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
 				BigDecimal qtyOrdered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ORDERED);
 				BigDecimal qtyOrderLine = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_LOAD_ORDER_LINE);
 				BigDecimal qtyDelivered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_DELIVERED);
@@ -773,28 +774,47 @@ public class VLoadOrder extends LoadOrder
 				int precision = MUOM.getPrecision(Env.getCtx(), p_C_UOM_ID);
 				BigDecimal unitWeight = product.getWeight();
 				BigDecimal unitVolume = product.getVolume();
+				String validError = null;
 				//	
-				if(qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue() 
+				if(qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()
+						>
+						qtyOnHand.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()) {
+					//	
+					validError = "@Qty@ > @QtyOnHand@";
+					//	
+				} if(qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue() 
 						>
 						qtyOrdered
 						.subtract(qtyDelivered)
 						.subtract(qtyOrderLine)
 						.setScale(precision, BigDecimal.ROUND_HALF_UP)
 						.doubleValue()){
-					
-					ADialog.warn(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), "@Qty@ > @QtyOrdered@"));
-					qty = qtyOrdered
-							.subtract(qtyDelivered)
-							.subtract(qtyOrderLine)
-							.setScale(precision, BigDecimal.ROUND_HALF_UP);
-					orderLineTable.setValueAt(qty, row, OL_QTY);
+					//	
+					validError = "@Qty@ > @QtyOrdered@";
+					//	
 				} else if(qty.compareTo(Env.ZERO) <= 0){
-					ADialog.warn(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), "@Qty@ <= 0"));
+					validError = "@Qty@ <= 0";
+				}
+				//	
+				if(validError != null) {
+					ADialog.warn(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), validError));
 					qty = qtyOrdered
 							.subtract(qtyDelivered)
 							.subtract(qtyOrderLine)
 							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					//	
+					BigDecimal diff = qtyOnHand.subtract(qty).setScale(precision, BigDecimal.ROUND_HALF_UP);
+					//	Set Quantity
+					if(diff.doubleValue() < 0)
+						qty = qty
+							.subtract(diff.abs())
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					//	Remove listener
+					orderLineTable.getModel().removeTableModelListener(this);
+					//	Set quantity
 					orderLineTable.setValueAt(qty, row, OL_QTY);
+					//	Add listener
+					orderLineTable.getModel().addTableModelListener(this);
 				}
 				//	Calculate Weight
 				weight = qty.multiply(unitWeight).setScale(m_WeightPrecision, BigDecimal.ROUND_HALF_UP);
@@ -876,8 +896,8 @@ public class VLoadOrder extends LoadOrder
 		salesRepSearch.setValue(null);
 		//warehouseSearch.setValue(null);
 		//operationTypePick.setValue(null);
-		docTypeSearch.setValue(null);
-		docTypeTargetPick.setValue(null);
+		//docTypeSearch.setValue(null);
+		//docTypeTargetPick.setValue(null);
 		invoiceRulePick.setValue(null);
 		deliveryRulePick.setValue(null);
 		dateDocField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
@@ -886,8 +906,8 @@ public class VLoadOrder extends LoadOrder
 		shipperPick.setValue(null);
 		vehicleTypePick.setValue(null);
 		driverSearch.removeAllItems();
-		docTypeSearch.removeAllItems();
-		docTypeSearch.removeAllItems();
+		//docTypeSearch.removeAllItems();
+		//docTypeSearch.removeAllItems();
 		loadCapacityField.setValue(0);
 		volumeCapacityField.setValue(0);
 		productSearch.setValue(null);
