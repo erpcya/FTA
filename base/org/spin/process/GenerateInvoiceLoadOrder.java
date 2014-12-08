@@ -25,12 +25,15 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.Query;
+import org.compiere.model.X_C_Invoice;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTALoadOrderLine;
 
@@ -41,26 +44,20 @@ import org.spin.model.MFTALoadOrderLine;
 public class GenerateInvoiceLoadOrder extends SvrProcess {
 
 
-	/** Document Type*/
-	private int p_C_DocTypeTarget_ID = 0;
-	
-	/** Sql*/
-	private StringBuffer sql = new StringBuffer();
-	
-	/** C_Order_ID */
-	private int m_C_Order_ID =-1; 
-
-	/** Created Records*/
-	private int m_Created =0;
-
-	/** DateInvoiced */
-	private Timestamp p_DateInvoiced;
-	
-	/** Date Acct for Documents*/
-	private Timestamp p_DateAcct;
-	
-	/** Organization */
-	private int p_AD_Org_ID = 0;
+	/** Document Type						*/
+	private int 				p_C_DocTypeTarget_ID 	= 0;
+	/** DateInvoiced 						*/
+	private Timestamp 			p_DateInvoiced			= null;	
+	/**	Document Action						*/
+	private String				p_DocAction				= null;
+	/**	Current Order						*/
+	private int 				m_Current_Order_ID		= 0;
+	/**	Current Invoice						*/
+	private MInvoice 			m_Current_Invoice		= null;
+	/** Sql									*/
+	private StringBuffer 		sql 					= new StringBuffer();
+	/** Created Records						*/
+	private int 				m_Created 				= 0;
 
 	/* (non-Javadoc)
 	 * @see org.compiere.process.SvrProcess#prepare()
@@ -71,17 +68,14 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("AD_Org_ID"))
-				p_AD_Org_ID = para.getParameterAsInt();
 			else if (name.equals("C_DocTypeTarget_ID"))
 				p_C_DocTypeTarget_ID = para.getParameterAsInt();
 			else if (name.equals("DateInvoiced"))
 				p_DateInvoiced =  (Timestamp) para.getParameter();
-			else if (name.equals("DateAcct"))
-				p_DateAcct =  (Timestamp) para.getParameter();
-			
+			else if (name.equals("DocAction"))
+				p_DocAction =  (String) para.getParameter();
 		}
-		
+		//	SQL
 		sql.append("Select "
 					+ "	ts.AD_PInstance_ID, "
 					+ " ts.T_Selection_ID As FTA_LoadOrderLine_ID, "
@@ -111,100 +105,104 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						+ " From T_Selection_Browse tsb "
 						+ " Group By tsb.AD_PInstance_ID, tsb.T_Selection_ID"
 						+ ") tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID "
-						+ " Where ts.AD_PInstance_ID=? Order By tsb.C_Order_ID");
+						+ " Where ts.AD_PInstance_ID=? "
+						+ " Order By tsb.C_Order_ID");
 		log.fine(sql.toString());
 	}
 
-	/* (non-Javadoc)
-	 * @see org.compiere.process.SvrProcess#doIt()
-	 */
 	@Override
 	protected String doIt() throws Exception {
-		if(p_AD_Org_ID == 0)
-			throw new AdempiereUserError("@AD_Org_ID@ @NotFound@");
-		
-		if(p_C_DocTypeTarget_ID == 0)
-			throw new AdempiereUserError("@C_DocType_ID@ @NotFound@");
-		
 		if (p_DateInvoiced == null)
-			throw new AdempiereUserError("@DateInvoiced@ @NotFound@");
-		
-		if (p_DateAcct == null)
-			throw new AdempiereUserError("@DateAcct@ @NotFound@");
-		
+			p_DateInvoiced = Env.getContextAsDate(getCtx(), "#Date");
+		//	Valid Parameter Document Action
+		if (p_DocAction == null)
+			throw new AdempiereUserError("@DocAction@ @NotFound@");
+		//	Return
 		return createInvoices();
 	}
 
 	/**
 	 * Create Invoice From Liquidations
 	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 03/11/2013, 18:59:49
+	 * @contributhor <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 2014-12-08, 22:42:18
 	 * @return
 	 * @return String
 	 */
 	private String createInvoices(){
-		
-		PreparedStatement ps =null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
-		MInvoice invoice =null;
+		StringBuffer msg = new StringBuffer();
 		try{
 			ps = DB.prepareStatement(sql.toString(), get_TrxName());
 			ps.setInt(1, getAD_PInstance_ID());
 			rs = ps.executeQuery();
-			
-			
-			while(rs.next()){
-				if (m_C_Order_ID!=rs.getInt("C_Order_ID")){
-					
-					m_C_Order_ID=rs.getInt("C_Order_ID");
-					//	Valid Purchase Order
+			//	
+			while(rs.next()) {
+				int m_C_Order_ID = rs.getInt("C_Order_ID");
+				//	
+				if (m_Current_Order_ID != m_C_Order_ID) {
+					//	Complete Previous Invoice
+					completeInvoice();
+					m_Current_Order_ID = m_C_Order_ID;
+					//	Valid Purchase Order and Business Partner
 					if(m_C_Order_ID == 0)
 						throw new AdempiereException("@C_Order_ID@ @NotFound@");
-					
 					//Load Order From Farming
-					MOrder order = new MOrder(getCtx(), m_C_Order_ID, get_TrxName());
-					
+					MOrder order = new MOrder(getCtx(), m_Current_Order_ID, get_TrxName());
 					//Create Invoice From Order
-					invoice = new MInvoice(order, p_C_DocTypeTarget_ID, p_DateInvoiced);
-					invoice.setDateAcct(p_DateAcct);
-					invoice.setAD_Org_ID(p_AD_Org_ID);
-					invoice.save(get_TrxName());
-					m_Created++;
+					m_Current_Invoice = new MInvoice(order, p_C_DocTypeTarget_ID, p_DateInvoiced);
+					m_Current_Invoice.setDateAcct(p_DateInvoiced);
+					//	Set DocStatus
+					m_Current_Invoice.setDocStatus(X_C_Invoice.DOCSTATUS_Drafted);
+					m_Current_Invoice.saveEx(get_TrxName());
+					//	Initialize Message
+					if(msg.length() > 0)
+						msg.append(" - " + m_Current_Invoice.getDocumentNo());
+					else
+						msg.append(m_Current_Invoice.getDocumentNo());		
 				}
 				//Invoiced Created?
-				if (invoice!=null){
+				if (m_Current_Invoice != null){
+					//	Get Values from Result Set
+					int m_FTA_LoadOrderLine_ID 	= rs.getInt("FTA_LoadOrderLine_ID");
+					
 					//Get Lines From Load Order
-					List<MFTALoadOrderLine> lol_line = new Query(getCtx(), MFTALoadOrderLine.Table_Name, "FTA_LoadOrderLine_ID = ?",get_TrxName())
+					List<MFTALoadOrderLine> lines = new Query(getCtx(), MFTALoadOrderLine.Table_Name, "FTA_LoadOrderLine_ID = ?",get_TrxName())
 							.setOnlyActiveRecords(true)
-							.setParameters(rs.getInt("FTA_LoadOrderLine_ID"))
+							.setParameters(m_FTA_LoadOrderLine_ID)
 							.list();
 					
 					//Create Invoice Lines From Order
-					for (MFTALoadOrderLine mftaLoadOrderLine : lol_line) {
+					for (MFTALoadOrderLine line : lines) {
 						MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), 0, get_TrxName());
-						MProduct product = new MProduct(getCtx(), rs.getInt("M_Product_ID"), get_TrxName());
+						//	Get Product
+						MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
+						MOrderLine oLine = new MOrderLine(getCtx(), line.getC_OrderLine_ID(), get_TrxName());
+						//	Set Values For Line
+						invoiceLine.setC_OrderLine_ID(line.getC_OrderLine_ID());
 						invoiceLine.setM_Product_ID(product.getM_Product_ID());
 						invoiceLine.setC_UOM_ID(product.getC_UOM_ID());
-						invoiceLine.setQty(rs.getBigDecimal("Qty"));
-						invoiceLine.setAD_Org_ID(p_AD_Org_ID);
-						invoiceLine.setPrice(rs.getBigDecimal("PriceList"));
-						invoiceLine.setPriceEntered(rs.getBigDecimal("PriceEntered"));
-						invoiceLine.setPriceActual(rs.getBigDecimal("PriceActual"));
-						invoiceLine.setC_Tax_ID(rs.getInt("C_Tax_ID"));
-						invoiceLine.setC_Invoice_ID(invoice.get_ID());
+						invoiceLine.setQty(oLine.getQtyEntered());
+						invoiceLine.setAD_Org_ID(m_Current_Invoice.getAD_Org_ID());
+						invoiceLine.setPriceList(oLine.getPriceList());
+						invoiceLine.setPriceEntered(oLine.getPriceEntered());
+						invoiceLine.setPriceActual(oLine.getPriceActual());
+						invoiceLine.setC_Tax_ID(oLine.getC_Tax_ID());
+						invoiceLine.setC_Invoice_ID(m_Current_Invoice.getC_Invoice_ID());
 						invoiceLine.save(get_TrxName());
-						mftaLoadOrderLine.setC_InvoiceLine_ID(invoiceLine.get_ID());
-						mftaLoadOrderLine.saveEx();
-						
-						MFTALoadOrder lo = new MFTALoadOrder(getCtx(),mftaLoadOrderLine.getFTA_LoadOrder_ID(), get_TrxName());
+						//	
+						line.setC_InvoiceLine_ID(invoiceLine.getC_InvoiceLine_ID());
+						line.saveEx();
+						//	Change Load Order
+						MFTALoadOrder lo = new MFTALoadOrder(getCtx(), 
+								line.getFTA_LoadOrder_ID(), get_TrxName());
 						lo.setIsInvoiced(true);
 						lo.saveEx();
 					}
 					
 				}//End Invoice Line Created
 			}//End Invoice Generated
-			invoice.processIt(MInvoice.DOCACTION_Complete);
-			invoice.saveEx(get_TrxName());
-			
+			completeInvoice();
 			commitEx();
 		}
 		catch(Exception ex){
@@ -215,6 +213,28 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 			  DB.close(rs, ps);
 		      rs = null; ps = null;
 		}
-		return "@Created@ "+ m_Created + " " + invoice.getDocumentNo();
+		//	Info
+		return "@C_Invoice_ID@ @Created@ = "+ m_Created + " [" + msg.toString() + "]";
+	}
+	
+	/**
+	 * Complete Invoice
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 8/12/2014, 22:49:19
+	 * @return void
+	 */
+	private void completeInvoice(){
+		if(m_Current_Invoice != null
+				&& m_Current_Invoice.getDocStatus().equals(X_C_Invoice.DOCSTATUS_Drafted)) {
+			m_Current_Invoice.setDocAction(p_DocAction);
+			m_Current_Invoice.processIt(X_C_Invoice.DOCACTION_Complete);
+			m_Current_Invoice.saveEx();
+			addLog(m_Current_Invoice.getC_Invoice_ID(), m_Current_Invoice.getDateAcct(), null,
+					m_Current_Invoice.getDocumentNo() + 
+					(m_Current_Invoice.getProcessMsg() != null && m_Current_Invoice.getProcessMsg().length() !=0
+					? ": Error " + m_Current_Invoice.getProcessMsg()
+							:" --> @OK@"));
+			//	Created
+			m_Created ++;
+		}
 	}
 }

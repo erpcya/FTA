@@ -48,25 +48,18 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 
 	/** Document Type						*/
 	private int 				p_C_DocTypeTarget_ID 	= 0;
-	
 	/** DateInvoiced 						*/
-	private Timestamp 			p_MovementDate			= null;
-	
+	private Timestamp 			p_MovementDate			= null;	
 	/**	Document Action						*/
 	private String				p_DocAction				= null;
-	
 	/** Sql									*/
 	private StringBuffer 		sql 					= new StringBuffer();
-	
-	/** C_Order_ID 							*/
+	/** Current Warehouse 					*/
 	private int 				m_Current_Warehouse_ID	= 0;
-	
-	/** C_BPartner_ID 						*/
+	/** Current Business Partner 			*/
 	private int 				m_Current_BPartner_ID 	= 0; 
-	
 	/**	Current Shipment					*/
-	MInOut						m_Current_Shipment 		= null;
-	
+	private MInOut				m_Current_Shipment 		= null;
 	/** Created Records						*/
 	private int 				m_Created 				= 0;
 	
@@ -129,7 +122,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 		//	Valid Parameter Movement Date
 		if (p_MovementDate == null)
 			p_MovementDate = Env.getContextAsDate(getCtx(), "#Date");
-		//	Valid Parameter Date Acct
+		//	Valid Parameter Document Action
 		if (p_DocAction == null)
 			throw new AdempiereUserError("@DocAction@ @NotFound@");
 		//	Return 
@@ -239,7 +232,6 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 							m_FTA_LoadOrderLine.getFTA_LoadOrder_ID(), get_TrxName());
 					//	Set true Is Delivered and Is Weight Register
 					lo.setIsDelivered(true);
-					lo.setIsWeightRegister(true);
 					//	Save
 					lo.saveEx(get_TrxName());
 					

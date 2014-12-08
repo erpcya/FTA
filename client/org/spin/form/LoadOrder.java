@@ -436,7 +436,6 @@ public class LoadOrder {
 		orderTable.setColumnClass(i++, String.class, true);			//  14-Address 3
 		orderTable.setColumnClass(i++, String.class, true);			//  15-Address 4
 		//	
-
 		//  Table UI
 		orderTable.autoSize();
 	}
@@ -517,8 +516,8 @@ public class LoadOrder {
 				line.add(uop);				      		//  13-Unit Product
 				BigDecimal weight = rs.getBigDecimal(column++);
 				BigDecimal volume = rs.getBigDecimal(column++);
-				line.add(weight.multiply(qty));	//	14-Weight
-				line.add(volume.multiply(qty));	//	15-Volume
+				line.add(weight.multiply(qty));			//	14-Weight
+				line.add(volume.multiply(qty));			//	15-Volume
 				//	Add Data
 				data.add(line);
 			}
