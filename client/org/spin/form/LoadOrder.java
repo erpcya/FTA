@@ -409,7 +409,7 @@ public class LoadOrder {
 			sqlWhere.append(")");
 			
 			sql = new StringBuffer("SELECT ord.M_Warehouse_ID, alm.Name Warehouse, lord.DD_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
-					"pro.C_UOM_ID, uomp.UOMSymbol, SUM(s.QtyOnHand) QtyOnHand, " +
+					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, 0 QtyInvoiced, lord.QtyDelivered, " +
 					"SUM(" +
 					"		CASE " +
@@ -457,7 +457,7 @@ public class LoadOrder {
 			sql.append("GROUP BY ord.M_Warehouse_ID, lord.DD_Order_ID, lord.DD_OrderLine_ID, " +
 					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " +
-					"lord.QtyDelivered, pro.Weight, pro.Volume, ord.DeliveryRule").append(" ");
+					"lord.QtyDelivered, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
 			//	Having
 			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
 					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
@@ -486,7 +486,7 @@ public class LoadOrder {
 			sqlWhere.append(")");
 			
 			sql = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
-					"pro.C_UOM_ID, uomp.UOMSymbol, SUM(s.QtyOnHand) QtyOnHand, " +
+					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
 					"SUM(" +
 					"		CASE " +
@@ -533,7 +533,7 @@ public class LoadOrder {
 			sql.append("GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
 					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " + 
-					"lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume, ord.DeliveryRule").append(" ");
+					"lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
 			//	Having
 			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
 					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
@@ -668,18 +668,12 @@ public class LoadOrder {
 				line.add(rs.getBigDecimal(column++));	//  11-QtyLoc
 				//	Set Quantity
 				qty = rs.getBigDecimal(column++);
-				//					
-				line.add(qty);							//  12-Quantity
-				line.add(uop);				      		//  13-Unit Product
 				BigDecimal weight = rs.getBigDecimal(column++);
 				BigDecimal volume = rs.getBigDecimal(column++);
-				line.add(weight.multiply(qty));			//	14-Weight
-				line.add(volume.multiply(qty));			//	15-Volume
-				line.add(Env.ZERO);						//	SeqNo
 				String m_DeliveryRuleKey = rs.getString(column++);
+				//	Delivery Rule
 				StringNamePair m_DeliveryRule = new StringNamePair(m_DeliveryRuleKey, 
 						MRefList.getListName(Env.getCtx(), X_C_Order.DELIVERYRULE_AD_Reference_ID, m_DeliveryRuleKey));
-				line.add(m_DeliveryRule);				//	17-Delivery Rule
 				if(m_DeliveryRule.getID() == null)
 					m_DeliveryRule.setKey(X_C_Order.DELIVERYRULE_Availability);
 				//	Valid Quantity On Hand
@@ -695,6 +689,13 @@ public class LoadOrder {
 					if(qty.doubleValue() <= 0)
 						continue;
 				}
+				//					
+				line.add(qty);							//  12-Quantity
+				line.add(uop);				      		//  13-Unit Product
+				line.add(weight.multiply(qty));			//	14-Weight
+				line.add(volume.multiply(qty));			//	15-Volume
+				line.add(Env.ZERO);						//	16-SeqNo
+				line.add(m_DeliveryRule);				//	17-Delivery Rule
 				//	Add Data
 				data.add(line);
 			}
