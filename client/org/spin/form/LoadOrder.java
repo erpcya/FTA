@@ -31,9 +31,11 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MOrgInfo;
+import org.compiere.model.MRefList;
 import org.compiere.model.MRole;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
+import org.compiere.model.X_C_Order;
 import org.compiere.swing.CComboBox;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -47,6 +49,7 @@ import org.spin.model.MFTAVehicle;
 import org.spin.model.MFTAVehicleType;
 import org.spin.model.X_FTA_LoadOrder;
 import org.spin.util.BufferTableSelect;
+import org.spin.util.StringNamePair;
 
 /**
  * @author Yamel Senih 24/06/2011, 12:57
@@ -75,6 +78,7 @@ public class LoadOrder {
 	public final int OL_WEIGHT 					= 14;
 	public final int OL_VOLUME 					= 15;
 	public final int OL_SEQNO 					= 16;
+	public final int OL_DELIVERY_RULE 			= 17;
 	
 	//	
 	public final int SW_PRODUCT 				= 0;
@@ -170,20 +174,20 @@ public class LoadOrder {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:10:10
 	 * @return Vector<Vector<Object>>
 	 */
-	protected Vector<Vector<Object>> getOrderData(IMiniTable orderTable,String p_OperationType){
+	protected Vector<Vector<Object>> getOrderData(IMiniTable orderTable, String p_OperationType) {
 		
 		/**
 		 * 2014-12-02 Carlos Parada Add Support to DD_Order
 		 */
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		StringBuffer sql = null;
-		if (p_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement)){
+		if (p_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement)) {
 			//Query for Material Movement
 			sql = new StringBuffer("SELECT " +
 					"wr.Name Warehouse, ord.DD_Order_ID, ord.DocumentNo, " +	//	1..3
-					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..7
-					"cp.Name Partner, bploc.Name, " +	//	8..9
-					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	10..14
+					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..8
+					"cp.Name Partner, bploc.Name, " +	//	9..10
+					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	11..17
 					"FROM DD_Order ord " +
 					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
@@ -207,7 +211,6 @@ public class LoadOrder {
 					"	LEFT JOIN FTA_LoadOrderLine lc ON(lc.DD_OrderLine_ID = lord.DD_OrderLine_ID) " +
 					"	LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
 					"	WHERE lord.M_Product_ID IS NOT NULL " +
-					//"	AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL ) " +
 					"	GROUP BY lord.DD_Order_ID, lord.DD_OrderLine_ID, lord.QtyOrdered " +
 					"	ORDER BY lord.DD_OrderLine_ID ASC) qafl " +
 					"	ON(qafl.DD_OrderLine_ID = lord.DD_OrderLine_ID) " +
@@ -244,12 +247,12 @@ public class LoadOrder {
 			sql.append("ORDER BY ord.DD_Order_ID ASC");
 			
 			// role security
-		}else{//Query for Sales Order
+		} else {//Query for Sales Order
 			sql = new StringBuffer("SELECT " +
 					"wr.Name Warehouse, ord.C_Order_ID, ord.DocumentNo, " +	//	1..3
-					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..7
-					"cp.Name Partner, bploc.Name, " +	//	8..9
-					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	10..14
+					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..8
+					"cp.Name Partner, bploc.Name, " +	//	9..10
+					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	11..17
 					"FROM C_Order ord " +
 					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
@@ -273,7 +276,6 @@ public class LoadOrder {
 					"	LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
 					"	LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
 					"	WHERE lord.M_Product_ID IS NOT NULL " +
-					//"	AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL ) " +
 					"	GROUP BY lord.C_Order_ID, lord.C_OrderLine_ID, lord.QtyOrdered " +
 					"	ORDER BY lord.C_OrderLine_ID ASC) qafl " +
 					"	ON(qafl.C_OrderLine_ID = lord.C_OrderLine_ID) " +
@@ -316,8 +318,8 @@ public class LoadOrder {
 		/** End Carlos Parada **/
 		log.fine("LoadOrderSQL=" + sql.toString());
 		//	
-		try
-		{
+		try {
+			//	
 			int param = 1;
 			int column = 1;
 			
@@ -347,8 +349,7 @@ public class LoadOrder {
 			log.fine("IsBulk=" + m_IsBulk);
 			
 			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
+			while (rs.next()) {
 				column = 1;
 				Vector<Object> line = new Vector<Object>();
 				line.add(new Boolean(false));       		//  0-Selection
@@ -373,9 +374,7 @@ public class LoadOrder {
 			}
 			rs.close();
 			pstmt.close();
-		}
-		catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
 		
@@ -383,267 +382,19 @@ public class LoadOrder {
 	}
 	
 	/**
-	 * Get Order Column Names
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:25:26
-	 * @return
-	 * @return Vector<String>
-	 */
-	protected Vector<String> getOrderColumnNames(){	
-		//  Header Info
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
-		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
-		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
-		columnNames.add(Msg.translate(Env.getCtx(), "DateOrdered"));
-		columnNames.add(Msg.translate(Env.getCtx(), "DatePromised"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Weight"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Volume"));
-		columnNames.add(Msg.translate(Env.getCtx(), "SalesRep_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_Location_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_Region_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_City_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Address1"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Address2"));
-		columnNames.add(Msg.getElement(Env.getCtx(), "Address3"));
-		columnNames.add(Msg.getElement(Env.getCtx(), "Address4"));
-		//	
-		return columnNames;
-	}
-	
-	/**
-	 * Set Order Column Class on Table
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:25:11
-	 * @param orderTable
-	 * @return void
-	 */
-	protected void setOrderColumnClass(IMiniTable orderTable){
-		int i = 0;
-		orderTable.setColumnClass(i++, Boolean.class, false);		//  0-Selection
-		orderTable.setColumnClass(i++, String.class, true);			//  1-Warehouse
-		orderTable.setColumnClass(i++, String.class, true);			//  2-DocumentNo
-		orderTable.setColumnClass(i++, Timestamp.class, true);		//  3-DateOrdered
-		orderTable.setColumnClass(i++, Timestamp.class, true);		//  4-DatePromiset
-		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Weight
-		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  6-Volume
-		orderTable.setColumnClass(i++, String.class, true);			//  7-Sales Representative
-		orderTable.setColumnClass(i++, String.class, true);			//  8-Business Partner
-		orderTable.setColumnClass(i++, String.class, true);			//  9-Location
-		orderTable.setColumnClass(i++, String.class, true);			//  10-Region
-		orderTable.setColumnClass(i++, String.class, true);			//  11-City
-		orderTable.setColumnClass(i++, String.class, true);			//  12-Address 1
-		orderTable.setColumnClass(i++, String.class, true);			//  13-Address 2
-		orderTable.setColumnClass(i++, String.class, true);			//  14-Address 3
-		orderTable.setColumnClass(i++, String.class, true);			//  15-Address 4
-		//	
-		//  Table UI
-		orderTable.autoSize();
-	}
-	
-	/**
-	 * Get Order Line Data
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:24:58
-	 * @param orderLineTable
-	 * @param sqlPrep
-	 * @return
-	 * @return Vector<Vector<Object>>
-	 */
-	protected Vector<Vector<Object>> getOrderLineData(IMiniTable orderLineTable, StringBuffer sqlPrep){
-		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		
-		log.fine("LoadOrderLineSQL=" + sqlPrep.toString());
-		try
-		{
-			
-			PreparedStatement pstmt = DB.prepareStatement(sqlPrep.toString(), null);
-			//	Parameter
-			int param = 1;
-			//	
-			if(m_IsBulk)
-				pstmt.setInt(param++, m_M_Product_ID);
-			//	
-			ResultSet rs = pstmt.executeQuery();
-			//int seqNo = 0;
-			int column = 1;
-			//BigDecimal rate = Env.ZERO;
-			BigDecimal qty = Env.ZERO;
-			BigDecimal qtyOnHand = Env.ZERO;
-			BigDecimal diff = Env.ZERO;
-			int precision = 0;
-			//	
-			while (rs.next()) {
-				column = 1;
-				Vector<Object> line = new Vector<Object>();
-				line.add(new Boolean(false));       	//  0-Selection
-				KeyNamePair wr = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(wr);       					//  1-Warehouse
-				KeyNamePair lo = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(lo);				       		//  2-DocumentNo
-				KeyNamePair pr = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(pr);				      		//  3-Product
-				KeyNamePair uop = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(uop);				      		//  4-Unit Product
-				//	Get Precision
-				precision = MUOM.getPrecision(Env.getCtx(), uop.getKey());
-				//	
-				qtyOnHand = rs.getBigDecimal(column++);
-				//	Valid Null
-				if(qtyOnHand == null)
-					qtyOnHand = Env.ZERO;
-				line.add(qtyOnHand);  					//  5-QtyOnHand
-				line.add(rs.getBigDecimal(column++));  	//  6-QtyOrdered
-				KeyNamePair uo = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(uo);				      		//  7-Unit Conversion
-				line.add(rs.getBigDecimal(column++)); 	//  8-QtyReserved
-				line.add(rs.getBigDecimal(column++));  	//  9-QtyInvoiced
-				line.add(rs.getBigDecimal(column++));	//  10-QtyDelivered
-				line.add(rs.getBigDecimal(column++));	//  11-QtyLoc
-				//	Set Quantity
-				qty = rs.getBigDecimal(column++);
-				//	Valid Quantity On Hand
-				diff = qtyOnHand.subtract(qty).setScale(precision, BigDecimal.ROUND_HALF_UP);
-				//	Set Quantity
-				if(diff.doubleValue() < 0) {
-					qty = qty
-						.subtract(diff.abs())
-						.setScale(precision, BigDecimal.ROUND_HALF_UP);
-				}
-				//	Valid Zero
-				if(qty.doubleValue() <= 0)
-					continue;
-				//					
-				line.add(qty);							//  12-Quantity
-				line.add(uop);				      		//  13-Unit Product
-				BigDecimal weight = rs.getBigDecimal(column++);
-				BigDecimal volume = rs.getBigDecimal(column++);
-				line.add(weight.multiply(qty));			//	14-Weight
-				line.add(volume.multiply(qty));			//	15-Volume
-				//	Add Data
-				data.add(line);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sqlPrep.toString(), e);
-		}
-		
-		return data;
-	}
-	
-	/**
-	 * Get Column Name on Order Line
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:24:10
-	 * @return
-	 * @return Vector<String>
-	 */
-	protected Vector<String> getOrderLineColumnNames(){	
-		//  Header Info
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
-		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
-		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
-		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrdered"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyReserved"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyInvoiced"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyDelivered"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyInTransit"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Weight")
-				+ " (" + m_UOM_Weight_Symbol + ")");
-		columnNames.add(Msg.translate(Env.getCtx(), "Volume")
-				+ " (" + m_UOM_Volume_Symbol + ")");
-		columnNames.add(Msg.translate(Env.getCtx(), "LoadSeq"));
-		
-		return columnNames;
-	}
-	
-	/**
-	 * Get Stock Column Names
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:23:45
-	 * @return
-	 * @return Vector<String>
-	 */
-	protected Vector<String> getstockColumnNames(){	
-		//  Header Info
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyAvailable"));
-		return columnNames;
-	}
-
-	/**
-	 * Establece la clase de las columnas
-	 * @author Yamel Senih 07/06/2012, 16:30:59
-	 * @param stockTable
-	 * @return void
-	 */
-	protected void setStockColumnClass(IMiniTable stockTable){
-		int i = 0;
-		stockTable.setColumnClass(i++, String.class, true);			//  1-Product
-		stockTable.setColumnClass(i++, String.class, true);			//  2-Unit of Measure
-		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  3-Quantity On Hand
-		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  4-Quantity Set
-		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Quantity Available
-		//  Table UI
-		stockTable.autoSize();
-	}
-	
-	
-	/**
-	 * Set Order Line Class on Table
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:23:21
-	 * @param orderLineTable
-	 * @return void
-	 */
-	protected void setOrderLineColumnClass(IMiniTable orderLineTable){
-		int i = 0;
-		orderLineTable.setColumnClass(i++, Boolean.class, false);		//  0-Selection
-		orderLineTable.setColumnClass(i++, String.class, true);			//  1-Warehouse
-		orderLineTable.setColumnClass(i++, String.class, true);			//  2-DocumentNo
-		orderLineTable.setColumnClass(i++, String.class, true);			//  3-Product
-		orderLineTable.setColumnClass(i++, String.class, true);			//  4-Unit Measure Product
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  5-QtyOnHand
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  6-QtyOrdered
-		orderLineTable.setColumnClass(i++, String.class, true);			//  7-Unit Measure Conversion
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  8-QtyReserved
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  9-QtyInvoiced
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  10-QtyDelivered
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//	11-QtyLoc
-		orderLineTable.setColumnClass(i++, BigDecimal.class, false);	//  12-Quantity
-		orderLineTable.setColumnClass(i++, String.class, true);			//  13-Unit Measure Product
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  14-Weight
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  15-Volume
-		orderLineTable.setColumnClass(i++, Integer.class, false);		//  16-Sequence No
-		//  Table UI
-		orderLineTable.autoSize();
-	}
-		
-	/**
 	 * Get Order Line Data
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:11:36
 	 * @param orderTable
 	 * @return
 	 * @return StringBuffer
 	 */
-	protected StringBuffer getQueryLine(IMiniTable orderTable,String p_OperationType)
-	{
+	protected StringBuffer getQueryLine(IMiniTable orderTable,String p_OperationType) {
 		StringBuffer sql = null;
 				
 		log.config("getQueryLine");
 		
 		/** 2014-12-02 Carlos Parada Add Support to DD_OrderLine */ 
-		if (p_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement))
-		{
+		if (p_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement)) {
 			int rows = orderTable.getRowCount();
 			m_RowsSelected = 0;
 			StringBuffer sqlWhere = new StringBuffer("ord.DD_Order_ID IN(0"); 
@@ -676,7 +427,7 @@ public class LoadOrder {
 					"			END" +
 					"		)" +
 					") Qty, " +
-					"pro.Weight, pro.Volume " +
+					"pro.Weight, pro.Volume, ord.DeliveryRule " +
 					"FROM DD_Order ord " +
 					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
 					"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = ord.M_Warehouse_ID) " +
@@ -705,7 +456,8 @@ public class LoadOrder {
 			//	Group By
 			sql.append("GROUP BY ord.M_Warehouse_ID, lord.DD_Order_ID, lord.DD_OrderLine_ID, " +
 					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, pro.Weight, pro.Volume").append(" ");
+					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " +
+					"lord.QtyDelivered, pro.Weight, pro.Volume, ord.DeliveryRule").append(" ");
 			//	Having
 			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
 					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
@@ -752,7 +504,7 @@ public class LoadOrder {
 					"			END" +
 					"		)" +
 					") Qty, " +
-					"pro.Weight, pro.Volume " +
+					"pro.Weight, pro.Volume, ord.DeliveryRule " +
 					"FROM C_Order ord " +
 					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
 					"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = lord.M_Warehouse_ID) " +
@@ -772,7 +524,6 @@ public class LoadOrder {
 					"																AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
 					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
 					.append("WHERE pro.IsStocked = 'Y' ")
-					//.append("AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) ")
 					.append("AND ")
 					.append(sqlWhere).append(" ");
 			//	Add Where
@@ -781,7 +532,8 @@ public class LoadOrder {
 			//	Group By
 			sql.append("GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
 					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume").append(" ");
+					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " + 
+					"lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume, ord.DeliveryRule").append(" ");
 			//	Having
 			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
 					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
@@ -794,8 +546,262 @@ public class LoadOrder {
 			sql.append("ORDER BY lord.C_Order_ID ASC");
 			
 		}
+		//	
 		log.fine("SQL Line Order=" + sql.toString());
+		//	Return
 		return sql;
+	}
+	
+	/**
+	 * Get Order Column Names
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:25:26
+	 * @return
+	 * @return Vector<String>
+	 */
+	protected Vector<String> getOrderColumnNames() {	
+		//  Header Info
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
+		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
+		columnNames.add(Msg.translate(Env.getCtx(), "DateOrdered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DatePromised"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Weight"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Volume"));
+		columnNames.add(Msg.translate(Env.getCtx(), "SalesRep_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_Location_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_Region_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_City_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Address1"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Address2"));
+		columnNames.add(Msg.getElement(Env.getCtx(), "Address3"));
+		columnNames.add(Msg.getElement(Env.getCtx(), "Address4"));
+		//	
+		return columnNames;
+	}
+	
+	/**
+	 * Set Order Column Class on Table
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:25:11
+	 * @param orderTable
+	 * @return void
+	 */
+	protected void setOrderColumnClass(IMiniTable orderTable) {
+		int i = 0;
+		orderTable.setColumnClass(i++, Boolean.class, false);		//  0-Selection
+		orderTable.setColumnClass(i++, String.class, true);			//  1-Warehouse
+		orderTable.setColumnClass(i++, String.class, true);			//  2-DocumentNo
+		orderTable.setColumnClass(i++, Timestamp.class, true);		//  3-DateOrdered
+		orderTable.setColumnClass(i++, Timestamp.class, true);		//  4-DatePromiset
+		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Weight
+		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  6-Volume
+		orderTable.setColumnClass(i++, String.class, true);			//  7-Sales Representative
+		orderTable.setColumnClass(i++, String.class, true);			//  8-Business Partner
+		orderTable.setColumnClass(i++, String.class, true);			//  9-Location
+		orderTable.setColumnClass(i++, String.class, true);			//  10-Region
+		orderTable.setColumnClass(i++, String.class, true);			//  11-City
+		orderTable.setColumnClass(i++, String.class, true);			//  12-Address 1
+		orderTable.setColumnClass(i++, String.class, true);			//  13-Address 2
+		orderTable.setColumnClass(i++, String.class, true);			//  14-Address 3
+		orderTable.setColumnClass(i++, String.class, true);			//  15-Address 4
+		//	
+		//  Table UI
+		orderTable.autoSize();
+	}
+	
+	/**
+	 * Get Order Line Data
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:24:58
+	 * @param orderLineTable
+	 * @param sqlPrep
+	 * @return
+	 * @return Vector<Vector<Object>>
+	 */
+	protected Vector<Vector<Object>> getOrderLineData(IMiniTable orderLineTable, StringBuffer sqlPrep) {
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		
+		log.fine("LoadOrderLineSQL=" + sqlPrep.toString());
+		try {
+			
+			PreparedStatement pstmt = DB.prepareStatement(sqlPrep.toString(), null);
+			//	Parameter
+			int param = 1;
+			//	
+			if(m_IsBulk)
+				pstmt.setInt(param++, m_M_Product_ID);
+			//	
+			ResultSet rs = pstmt.executeQuery();
+			int column = 1;
+			//BigDecimal rate = Env.ZERO;
+			BigDecimal qty = Env.ZERO;
+			BigDecimal qtyOnHand = Env.ZERO;
+			BigDecimal diff = Env.ZERO;
+			int precision = 0;
+			//	
+			while (rs.next()) {
+				column = 1;
+				Vector<Object> line = new Vector<Object>();
+				line.add(new Boolean(false));       	//  0-Selection
+				KeyNamePair wr = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				line.add(wr);       					//  1-Warehouse
+				KeyNamePair lo = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				line.add(lo);				       		//  2-DocumentNo
+				KeyNamePair pr = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				line.add(pr);				      		//  3-Product
+				KeyNamePair uop = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				line.add(uop);				      		//  4-Unit Product
+				//	Get Precision
+				precision = MUOM.getPrecision(Env.getCtx(), uop.getKey());
+				//	
+				qtyOnHand = rs.getBigDecimal(column++);
+				//	Valid Null
+				if(qtyOnHand == null)
+					qtyOnHand = Env.ZERO;
+				line.add(qtyOnHand);  					//  5-QtyOnHand
+				line.add(rs.getBigDecimal(column++));  	//  6-QtyOrdered
+				KeyNamePair uo = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				line.add(uo);				      		//  7-Unit Conversion
+				line.add(rs.getBigDecimal(column++)); 	//  8-QtyReserved
+				line.add(rs.getBigDecimal(column++));  	//  9-QtyInvoiced
+				line.add(rs.getBigDecimal(column++));	//  10-QtyDelivered
+				line.add(rs.getBigDecimal(column++));	//  11-QtyLoc
+				//	Set Quantity
+				qty = rs.getBigDecimal(column++);
+				//					
+				line.add(qty);							//  12-Quantity
+				line.add(uop);				      		//  13-Unit Product
+				BigDecimal weight = rs.getBigDecimal(column++);
+				BigDecimal volume = rs.getBigDecimal(column++);
+				line.add(weight.multiply(qty));			//	14-Weight
+				line.add(volume.multiply(qty));			//	15-Volume
+				line.add(Env.ZERO);						//	SeqNo
+				String m_DeliveryRuleKey = rs.getString(column++);
+				StringNamePair m_DeliveryRule = new StringNamePair(m_DeliveryRuleKey, 
+						MRefList.getListName(Env.getCtx(), X_C_Order.DELIVERYRULE_AD_Reference_ID, m_DeliveryRuleKey));
+				line.add(m_DeliveryRule);				//	17-Delivery Rule
+				if(m_DeliveryRule.getID() == null)
+					m_DeliveryRule.setKey(X_C_Order.DELIVERYRULE_Availability);
+				//	Valid Quantity On Hand
+				if(m_DeliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Availability)) {
+					diff = qtyOnHand.subtract(qty).setScale(precision, BigDecimal.ROUND_HALF_UP);
+					//	Set Quantity
+					if(diff.doubleValue() < 0) {
+						qty = qty
+							.subtract(diff.abs())
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					}
+					//	Valid Zero
+					if(qty.doubleValue() <= 0)
+						continue;
+				}
+				//	Add Data
+				data.add(line);
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, sqlPrep.toString(), e);
+		}
+		//	
+		return data;
+	}
+	
+	/**
+	 * Get Column Name on Order Line
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:24:10
+	 * @return
+	 * @return Vector<String>
+	 */
+	protected Vector<String> getOrderLineColumnNames() {	
+		//  Header Info
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
+		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrdered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyReserved"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyInvoiced"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyDelivered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyInTransit"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Weight")
+				+ " (" + m_UOM_Weight_Symbol + ")");
+		columnNames.add(Msg.translate(Env.getCtx(), "Volume")
+				+ " (" + m_UOM_Volume_Symbol + ")");
+		columnNames.add(Msg.translate(Env.getCtx(), "LoadSeq"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DeliveryRule"));
+		return columnNames;
+	}
+	
+	/**
+	 * Get Stock Column Names
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:23:45
+	 * @return
+	 * @return Vector<String>
+	 */
+	protected Vector<String> getStockColumnNames() {	
+		//  Header Info
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyAvailable"));
+		return columnNames;
+	}
+
+	/**
+	 * Set Stock Column Class
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 11/12/2014, 10:29:04
+	 * @param stockTable
+	 * @return void
+	 */
+	protected void setStockColumnClass(IMiniTable stockTable) {
+		int i = 0;
+		stockTable.setColumnClass(i++, String.class, true);			//  1-Product
+		stockTable.setColumnClass(i++, String.class, true);			//  2-Unit of Measure
+		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  3-Quantity On Hand
+		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  4-Quantity Set
+		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Quantity Available
+		//  Table UI
+		stockTable.autoSize();
+	}
+	
+	
+	/**
+	 * Set Order Line Class on Table
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:23:21
+	 * @param orderLineTable
+	 * @return void
+	 */
+	protected void setOrderLineColumnClass(IMiniTable orderLineTable) {
+		int i = 0;
+		orderLineTable.setColumnClass(i++, Boolean.class, false);		//  0-Selection
+		orderLineTable.setColumnClass(i++, String.class, true);			//  1-Warehouse
+		orderLineTable.setColumnClass(i++, String.class, true);			//  2-DocumentNo
+		orderLineTable.setColumnClass(i++, String.class, true);			//  3-Product
+		orderLineTable.setColumnClass(i++, String.class, true);			//  4-Unit Measure Product
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  5-QtyOnHand
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  6-QtyOrdered
+		orderLineTable.setColumnClass(i++, String.class, true);			//  7-Unit Measure Conversion
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  8-QtyReserved
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  9-QtyInvoiced
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  10-QtyDelivered
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//	11-QtyLoc
+		orderLineTable.setColumnClass(i++, BigDecimal.class, false);	//  12-Quantity
+		orderLineTable.setColumnClass(i++, String.class, true);			//  13-Unit Measure Product
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  14-Weight
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  15-Volume
+		orderLineTable.setColumnClass(i++, Integer.class, false);		//  16-Sequence No
+		orderLineTable.setColumnClass(i++, String.class, true);			//  17-Delivery Rule
+		//  Table UI
+		orderLineTable.autoSize();
 	}
 	
 	/**
@@ -805,7 +811,7 @@ public class LoadOrder {
 	 * @return
 	 * @return String
 	 */
-	protected String generateLoadOrder(String trxName){
+	protected String generateLoadOrder(String trxName) {
 		int m_gen = 0;
 		int rows = orderLineTable.getRowCount();
 		MFTALoadOrder loadOrder = new MFTALoadOrder(Env.getCtx(), 0, trxName);
@@ -916,7 +922,7 @@ public class LoadOrder {
 	 * @param trxName
 	 * @return void
 	 */
-	protected void loadDefaultValues(String trxName){
+	protected void loadDefaultValues(String trxName) {
 		m_C_UOM_Weight_ID = getC_UOM_Weight_ID(trxName);
 		m_C_UOM_Volume_ID = getC_UOM_Volume_ID(trxName);
 		//	Get Weight Precision
@@ -937,7 +943,7 @@ public class LoadOrder {
 	 * @return
 	 * @return int
 	 */
-	protected int getFTA_VehicleType_ID(int p_FTA_EntryTicket_ID, String trxName){
+	protected int getFTA_VehicleType_ID(int p_FTA_EntryTicket_ID, String trxName) {
 		return DB.getSQLValue(trxName, "SELECT v.FTA_VehicleType_ID "
 				+ "FROM FTA_EntryTicket et "
 				+ "INNER JOIN FTA_Vehicle v ON(v.FTA_Vehicle_ID = et.FTA_Vehicle_ID) "
@@ -952,7 +958,7 @@ public class LoadOrder {
 	 * @return
 	 * @return BigDecimal
 	 */
-	protected BigDecimal getLoadCapacity(int p_FTA_VehicleType_ID, String trxName){
+	protected BigDecimal getLoadCapacity(int p_FTA_VehicleType_ID, String trxName) {
 		return DB.getSQLValueBD(trxName, "SELECT vt.LoadCapacity "
 				+ "FROM FTA_VehicleType vt "
 				+ "WHERE FTA_VehicleType_ID = ?", p_FTA_VehicleType_ID);
@@ -963,12 +969,12 @@ public class LoadOrder {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 14:03:37
 	 * @return void
 	 */
-	protected void setCapacity(){
-		if(m_FTA_Vehicle_ID != 0){
+	protected void setCapacity() {
+		if(m_FTA_Vehicle_ID != 0) {
 			MFTAVehicle vehicle = MFTAVehicle.get(Env.getCtx(), m_FTA_Vehicle_ID);
 			m_LoadCapacity = vehicle.getLoadCapacity();
 			m_VolumeCapacity = vehicle.getVolumeCapacity();
-		} else if(m_FTA_VehicleType_ID != 0){
+		} else if(m_FTA_VehicleType_ID != 0) {
 			MFTAVehicleType vehicleType = MFTAVehicleType.get(Env.getCtx(), m_FTA_VehicleType_ID);
 			m_LoadCapacity = vehicleType.getLoadCapacity();
 			m_VolumeCapacity = vehicleType.getVolumeCapacity();
@@ -983,7 +989,7 @@ public class LoadOrder {
 	 * @return
 	 * @return BigDecimal
 	 */
-	protected BigDecimal getVolumeCapacity(int p_FTA_VehicleType_ID, String trxName){
+	protected BigDecimal getVolumeCapacity(int p_FTA_VehicleType_ID, String trxName) {
 		return DB.getSQLValueBD(trxName, "SELECT vt.VolumeCapacity "
 				+ "FROM FTA_VehicleType vt "
 				+ "WHERE FTA_VehicleType_ID = ?", p_FTA_VehicleType_ID);
@@ -996,7 +1002,7 @@ public class LoadOrder {
 	 * @return
 	 * @return int
 	 */
-	protected int getC_UOM_Weight_ID(String trxName){
+	protected int getC_UOM_Weight_ID(String trxName) {
 		return DB.getSQLValue(trxName, "SELECT ci.C_UOM_Weight_ID "
 				+ "FROM AD_ClientInfo ci "
 				+ "WHERE ci.AD_Client_ID = ?", m_AD_Client_ID);
@@ -1009,7 +1015,7 @@ public class LoadOrder {
 	 * @return
 	 * @return int
 	 */
-	protected int getC_UOM_Volume_ID(String trxName){
+	protected int getC_UOM_Volume_ID(String trxName) {
 		return DB.getSQLValue(trxName, "SELECT ci.C_UOM_Volume_ID "
 				+ "FROM AD_ClientInfo ci "
 				+ "WHERE ci.AD_Client_ID = ?", m_AD_Client_ID);
@@ -1022,7 +1028,7 @@ public class LoadOrder {
 	 * @return
 	 * @return ArrayList<KeyNamePair>
 	 */
-	protected ArrayList<KeyNamePair> getDataDriver(String trxName){
+	protected ArrayList<KeyNamePair> getDataDriver(String trxName) {
 		String sql = "SELECT d.FTA_Driver_ID, d.Value || ' - ' || d.Name " +
 				"FROM FTA_EntryTicket et " + 
 				"INNER JOIN FTA_Driver d ON(d.FTA_Driver_ID = et.FTA_Driver_ID) " +
@@ -1038,7 +1044,7 @@ public class LoadOrder {
 	 * @return
 	 * @return ArrayList<KeyNamePair>
 	 */
-	protected ArrayList<KeyNamePair> getVehicleData(String trxName){
+	protected ArrayList<KeyNamePair> getVehicleData(String trxName) {
 		String sql = "SELECT v.FTA_Vehicle_ID, v.VehiclePlate || ' - ' || v.Name " +
 				"FROM FTA_EntryTicket et " + 
 				"INNER JOIN FTA_Vehicle v ON(v.FTA_Vehicle_ID = et.FTA_Vehicle_ID) " +
@@ -1054,7 +1060,7 @@ public class LoadOrder {
 	 * @return
 	 * @return ArrayList<KeyNamePair>
 	 */
-	protected ArrayList<KeyNamePair> getDataDocumentType(String trxName){
+	protected ArrayList<KeyNamePair> getDataDocumentType(String trxName) {
 		
 		if(m_OperationType == null)
 			return null;
@@ -1079,7 +1085,7 @@ public class LoadOrder {
 	 * @return
 	 * @return ArrayList<KeyNamePair>
 	 */
-	protected ArrayList<KeyNamePair> getDataWarehouse(String trxName){
+	protected ArrayList<KeyNamePair> getDataWarehouse(String trxName) {
 		String sql = "SELECT w.M_Warehouse_ID, w.Name " +
 				"FROM M_Warehouse w " +
 				"WHERE w.IsActive = 'Y' " +
@@ -1106,7 +1112,7 @@ public class LoadOrder {
 			comboSearch.addItem(pp);
 		}
 		//	Set Default
-		if (comboSearch.getItemCount() != 0){
+		if (comboSearch.getItemCount() != 0) {
 			comboSearch.setSelectedIndex(0);
 			m_ID = ((KeyNamePair)comboSearch.getSelectedItem()).getKey();
 		}
@@ -1121,7 +1127,7 @@ public class LoadOrder {
 	 * @return
 	 * @return int
 	 */
-	protected int loadComboBox(CComboBox comboSearch, ArrayList<KeyNamePair> data){
+	protected int loadComboBox(CComboBox comboSearch, ArrayList<KeyNamePair> data) {
 		return loadComboBox(comboSearch, data, false);
 	}
 	
@@ -1133,7 +1139,7 @@ public class LoadOrder {
 	 * @return
 	 * @return ArrayList<KeyNamePair>
 	 */
-	private ArrayList<KeyNamePair> getData(String sql, String trxName){
+	private ArrayList<KeyNamePair> getData(String sql, String trxName) {
 		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
 		
 		log.config("getData");
@@ -1159,7 +1165,7 @@ public class LoadOrder {
 	 * @param seqNo
 	 * @return
 	 */
-	public boolean exists_seqNo(IMiniTable orderLineTable, int row, int seqNo){
+	public boolean exists_seqNo(IMiniTable orderLineTable, int row, int seqNo) {
 		log.info("exists_seqNo");
 		int rows = orderLineTable.getRowCount();
 		int seqNoTable = 0;
@@ -1167,7 +1173,7 @@ public class LoadOrder {
 			if (((Boolean)orderLineTable.getValueAt(i, SELECT)).booleanValue() 
 					&& i != row) {
 				seqNoTable = (Integer) orderLineTable.getValueAt(i, OL_SEQNO);
-				if(seqNo == seqNoTable){
+				if(seqNo == seqNoTable) {
 					return true;
 				}
 			}
@@ -1181,15 +1187,13 @@ public class LoadOrder {
 	 * @param orderLineTable
 	 * @return void
 	 */
-	public void loadBuffer(IMiniTable orderLineTable){
+	public void loadBuffer(IMiniTable orderLineTable) {
 		log.info("Load Buffer");
 		int rows = orderLineTable.getRowCount();
 		int m_C_OrderLine_ID = 0;
 		BigDecimal qty = Env.ZERO;
 		Integer seqNo = 0;
 		m_BufferSelect = new Vector<BufferTableSelect>();
-		
-		//stockModel = new DefaultTableModel(null, getstockColumnNames());
 		
 		for (int i = 0; i < rows; i++) {
 			if (((Boolean)orderLineTable.getValueAt(i, SELECT)).booleanValue()) {
@@ -1198,12 +1202,8 @@ public class LoadOrder {
 				seqNo = (Integer)orderLineTable.getValueAt(i, OL_SEQNO);
 				m_BufferSelect.addElement(
 						new BufferTableSelect(m_C_OrderLine_ID, qty, seqNo));
-				//loadProductsStock(orderLineTable, i, true);
 			}
 		}
-		//stockTable.setModel(stockModel);
-		//stockTable.autoSize();
-		//setStockColumnClass(stockTable);
 	}
 	
 	/**
@@ -1212,11 +1212,11 @@ public class LoadOrder {
 	 * @param orderLineTable
 	 * @return void
 	 */
-	public void loadStockWarehouse(IMiniTable orderLineTable){
+	public void loadStockWarehouse(IMiniTable orderLineTable) {
 		
 		log.info("Load StockWarehouse");
 		int rows = orderLineTable.getRowCount();
-		stockModel = new DefaultTableModel(null, getstockColumnNames());
+		stockModel = new DefaultTableModel(null, getStockColumnNames());
 		
 		for (int i = 0; i < rows; i++) {
 			if (((Boolean)orderLineTable.getValueAt(i, SELECT)).booleanValue()) {
@@ -1235,9 +1235,9 @@ public class LoadOrder {
 	 * @return
 	 * @return int
 	 */
-	private int existProductStock(int Product_ID){
-		for(int i = 0; i < stockModel.getRowCount(); i++){
-			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == Product_ID){
+	private int existProductStock(int Product_ID) {
+		for(int i = 0; i < stockModel.getRowCount(); i++) {
+			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == Product_ID) {
 				return i;
 			}
 		}
@@ -1252,7 +1252,7 @@ public class LoadOrder {
 	 * @param isSelected
 	 * @return void
 	 */
-	protected void loadProductsStock(IMiniTable orderLineTable, int row, boolean isSelected){
+	protected void loadProductsStock(IMiniTable orderLineTable, int row, boolean isSelected) {
 		KeyNamePair product = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
 		KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
 		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
@@ -1266,7 +1266,7 @@ public class LoadOrder {
 		//	Convert Quantity Set
 		qtySet = qtySet.multiply(rate).setScale(2, BigDecimal.ROUND_HALF_UP);
 		
-		if(pos > -1){
+		if(pos > -1) {
 			BigDecimal qtySetOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTYSET);
 			//	Negate
 			if(!isSelected)
@@ -1277,7 +1277,7 @@ public class LoadOrder {
 			stockModel.setValueAt(qtyOnHand, pos, SW_QTYONHAND);
 			stockModel.setValueAt(qtySet, pos, SW_QTYSET);
 			stockModel.setValueAt(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTYAVAILABLE);
-		} else if(isSelected){
+		} else if(isSelected) {
 			Vector<Object> line = new Vector<Object>();
 			line.add(product);
 			line.add(uom);
@@ -1296,11 +1296,11 @@ public class LoadOrder {
 	 * @return
 	 * @return BufferTableSelect
 	 */
-	private BufferTableSelect isSelect(int m_Record_ID){
+	private BufferTableSelect isSelect(int m_Record_ID) {
 		log.info("Is Select " + m_Record_ID);
-		if(m_BufferSelect != null){
-			for(int i = 0; i < m_BufferSelect.size(); i++){
-				if(m_BufferSelect.get(i).getRecord_ID() == m_Record_ID){
+		if(m_BufferSelect != null) {
+			for(int i = 0; i < m_BufferSelect.size(); i++) {
+				if(m_BufferSelect.get(i).getRecord_ID() == m_Record_ID) {
 					return m_BufferSelect.get(i);
 				}
 			}	
@@ -1314,16 +1314,16 @@ public class LoadOrder {
 	 * @param orderLineTable
 	 * @return void
 	 */
-	protected void setValueFromBuffer(IMiniTable orderLineTable){
+	protected void setValueFromBuffer(IMiniTable orderLineTable) {
 		log.info("Set Value From Buffer");
-		if(m_BufferSelect != null){
+		if(m_BufferSelect != null) {
 			int rows = orderLineTable.getRowCount();
 			int m_C_OrderLine_ID = 0;
 			BufferTableSelect bts = null;
 			for (int i = 0; i < rows; i++) {
 				m_C_OrderLine_ID = ((KeyNamePair)orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
 				bts = isSelect(m_C_OrderLine_ID);
-				if(bts != null){
+				if(bts != null) {
 					orderLineTable.setValueAt(true, i, SELECT);
 					orderLineTable.setValueAt(bts.getQty(), i, OL_WEIGHT);
 					orderLineTable.setValueAt(bts.getSeqNo(), i, OL_SEQNO);
@@ -1355,7 +1355,7 @@ public class LoadOrder {
 		for (int i = 0; i < rows; i++) {
 			if (((Boolean)table.getValueAt(i, SELECT)).booleanValue()) {
 				cont++;
-				if(cont > 1){
+				if(cont > 1) {
 					return true;
 				}
 			}
