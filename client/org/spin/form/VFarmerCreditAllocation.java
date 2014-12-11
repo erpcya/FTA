@@ -359,10 +359,7 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		// Organization
 		if (name.equals("AD_Org_ID"))
 		{
-			m_AD_Org_ID = 0;
-			if (value != null)
-				m_AD_Org_ID = ((Integer) value).intValue();
-			
+			m_AD_Org_ID = ((Integer) value).intValue();
 			loadBPartner();
 		}
 

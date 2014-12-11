@@ -261,7 +261,8 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			}
 		}
 		//	Valid Entry Ticket
-		if(getFTA_EntryTicket_ID() == 0) {
+		if(getFTA_EntryTicket_ID() == 0
+				&& !MFTAWeightScale.isWeightScaleOrg(getAD_Org_ID(), get_TrxName())) {
 			m_processMsg = "@FTA_EntryTicket_ID@ @NotFound@";
 			return DocAction.STATUS_InProgress;
 		}
