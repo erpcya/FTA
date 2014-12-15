@@ -220,9 +220,9 @@ public class LoadOrder {
 					"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
 					"AND ord.AD_Client_ID=? ");
 			if (m_AD_Org_ID != 0)
-				sql.append("AND ord.AD_Org_ID=? ");
+				sql.append("AND lord.AD_Org_ID=? ");
 			if (m_M_Warehouse_ID != 0 )
-				sql.append("AND ord.M_Warehouse_ID=? ");
+				sql.append("AND lord.M_Warehouse_ID=? ");
 			if (m_C_SalesRegion_ID != 0 )
 				sql.append("AND bploc.C_SalesRegion_ID=? ");
 			if (m_SalesRep_ID != 0 )
@@ -286,7 +286,7 @@ public class LoadOrder {
 					"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
 					"AND ord.AD_Client_ID=? ");
 			if (m_AD_Org_ID != 0)
-				sql.append("AND ord.AD_Org_ID=? ");
+				sql.append("AND lord.AD_Org_ID=? ");
 			if (m_M_Warehouse_ID != 0 )
 				sql.append("AND lord.M_Warehouse_ID=? ");
 			if (m_C_SalesRegion_ID != 0 )
