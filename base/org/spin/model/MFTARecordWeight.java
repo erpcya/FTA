@@ -1053,6 +1053,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			if(m_Current_Movement != null){
 				//	Create Line
 				MMovementLine m_MovementLine = new MMovementLine(m_Current_Movement);
+				//	Reference
+				m_MovementLine.setM_Movement_ID(m_Current_Movement.getM_Movement_ID());
+				m_MovementLine.setDD_OrderLine_ID(m_DD_OrderLine.getDD_OrderLine_ID());
 				//	Set Product
 				m_MovementLine.setM_Product_ID(line.getM_Product_ID());
 				m_MovementLine.setM_Locator_ID(m_DD_OrderLine.getM_Locator_ID());
@@ -1061,11 +1064,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					m_MovementLine.setM_AttributeSetInstance_ID(m_DD_OrderLine.getM_AttributeSetInstance_ID());
 				if(m_DD_OrderLine.getM_AttributeSetInstanceTo_ID() > 0)
 					m_MovementLine.setM_AttributeSetInstanceTo_ID(m_DD_OrderLine.getM_AttributeSetInstanceTo_ID());
-				m_MovementLine.setMovementQty(m_DD_OrderLine.getQtyEntered());
-				m_MovementLine.setDD_OrderLine_ID(m_DD_OrderLine.get_ID());
-				m_MovementLine.setM_Movement_ID(m_Current_Movement.get_ID());
+				m_MovementLine.setMovementQty(line.getQty());
 				m_MovementLine.saveEx();
-				line.setM_MovementLine_ID(m_MovementLine.get_ID());
+				line.setM_MovementLine_ID(m_MovementLine.getM_MovementLine_ID());
 				line.saveEx();
 			}
 			
