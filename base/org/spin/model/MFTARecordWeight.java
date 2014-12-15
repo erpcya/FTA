@@ -257,6 +257,18 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				|| getNetWeight().doubleValue() == 0)
 				isValidWeight = false;
 		
+		//	Dixon Martinez 30/05/2014
+		//	Add Support complete record weight with Shipment Guide
+		if((getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
+				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct))
+				&& isValidWeight){
+			m_processMsg = validateShipmentGuide();
+			if(m_processMsg != null) 
+				return DocAction.STATUS_InProgress;
+		}
+		//	End Dixon Martinez
+		//	User Validation
+		
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -305,20 +317,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				m_processMsg = msg;
 		}
 		//	End Dixon Martinez
-		
-		//	Dixon Martinez 30/05/2014
-		//	Add Support complete record weight with Shipment Guide
-		if((getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
-				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct))
-				&& isValidWeight){
-			m_processMsg = validateShipmentGuide();
-			if(m_processMsg != null) 
-				return DocAction.STATUS_InProgress;
-		}
-		//	End Dixon Martinez
-		
-		
-		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
 		{

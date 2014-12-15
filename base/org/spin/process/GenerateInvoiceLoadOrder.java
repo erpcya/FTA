@@ -226,7 +226,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 		if(m_Current_Invoice != null
 				&& m_Current_Invoice.getDocStatus().equals(X_C_Invoice.DOCSTATUS_Drafted)) {
 			m_Current_Invoice.setDocAction(p_DocAction);
-			m_Current_Invoice.processIt(X_C_Invoice.DOCACTION_Complete);
+			m_Current_Invoice.processIt(p_DocAction);
 			m_Current_Invoice.saveEx();
 			addLog(m_Current_Invoice.getC_Invoice_ID(), m_Current_Invoice.getDateAcct(), null,
 					m_Current_Invoice.getDocumentNo() + 

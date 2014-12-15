@@ -262,7 +262,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 		if(m_Current_Shipment != null
 				&& m_Current_Shipment.getDocStatus().equals(X_M_InOut.DOCSTATUS_Drafted)) {
 			m_Current_Shipment.setDocAction(p_DocAction);
-			m_Current_Shipment.processIt(X_M_InOut.DOCACTION_Complete);
+			m_Current_Shipment.processIt(p_DocAction);
 			m_Current_Shipment.saveEx();
 			addLog(m_Current_Shipment.getM_InOut_ID(), m_Current_Shipment.getDateAcct(), null,
 					m_Current_Shipment.getDocumentNo() + 
