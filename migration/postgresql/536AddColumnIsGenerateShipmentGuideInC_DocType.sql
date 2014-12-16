@@ -45,6 +45,6 @@ UPDATE AD_Field SET DisplayLogic='@DocBaseType@ = ''FLO''',Updated=TO_TIMESTAMP(
 
 -- Dec 16, 2014 10:59:08 AM VET
 -- FTA
-ALTER TABLE C_DocType ADD COLUMN IsGenerateShipmentGuide CHAR(1) DEFAULT NULL CHECK (IsGenerateShipmentGuide IN ('Y','N'))
+ALTER TABLE C_DocType ADD COLUMN IsGenerateShipmentGuide CHAR(1) DEFAULT 'N' CHECK (IsGenerateShipmentGuide IN ('Y','N'))
 ;
 

@@ -1,0 +1,5 @@
+-- Dec 16, 2014 3:53:37 PM VET
+-- FTA
+UPDATE AD_Column SET DefaultValue='N',Updated=TO_DATE('2014-12-16 15:53:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=74966
+;
+
