@@ -627,8 +627,7 @@ public class VLoadOrder extends LoadOrder
 	 *  - Allocate
 	 *  @param e event
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		log.config("");
 		if(e.getSource().equals(selectAllButton)) {
 			int rows = orderLineTable.getRowCount();
@@ -1054,7 +1053,11 @@ public class VLoadOrder extends LoadOrder
 		else if(m_FTA_VehicleType_ID == 0)
 			msg = "@FTA_VehicleType_ID@ @NotFound@";
 		//	Difference Capacity
-		else if(totalWeight.doubleValue() > 0) {
+		else if(totalWeight.doubleValue() == 0) {
+			msg = "@Weight@ = @0@";
+		} else if(totalVolume.doubleValue() == 0) {
+			msg = "@Volume@ = @0@";
+		} else if(totalWeight.doubleValue() > 0) {
 			BigDecimal difference = (BigDecimal) (weightDiffField.getValue() != null
 														? weightDiffField.getValue()
 																: Env.ZERO);

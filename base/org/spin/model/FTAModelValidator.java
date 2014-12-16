@@ -405,7 +405,8 @@ public class FTAModelValidator implements ModelValidator {
 						return "@FTA_BillOfExchange_ID@ @Unsigned@";
 				}
 			}
-		} else if(timing == TIMING_BEFORE_REVERSECORRECT){
+		} else if(timing == TIMING_BEFORE_REVERSECORRECT
+				|| timing == TIMING_BEFORE_VOID){
 			if (po.get_TableName().equals(I_C_Invoice.Table_Name)
 					&& creditControlModule){
 				MInvoice invoice = (MInvoice) po;

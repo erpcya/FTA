@@ -66,12 +66,13 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 	public String validExcedeed(){
 		BigDecimal res = DB.getSQLValueBD(get_TrxName(), "SELECT ol.QtyOrdered - SUM(COALESCE(lol.ConfirmedQty, lol.Qty)) " +
 				"FROM C_OrderLine ol " +
-				"INNER JOIN FTA_LoadOrderLine lol ON(lol.C_OrderLine_ID = ol.C_OrderLine_ID) " +
-				"INNER JOIN FTA_LoadOrder lo ON(lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID) " +
-				"WHERE lo.DocStatus NOT IN('VO', 'RE', 'CL') " +
+				"LEFT JOIN FTA_LoadOrderLine lol ON(lol.C_OrderLine_ID = ol.C_OrderLine_ID) " +
+				"LEFT JOIN FTA_LoadOrder lo ON(lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID) " +
+				"WHERE (lo.DocStatus IS NULL OR lo.DocStatus NOT IN('VO', 'RE', 'CL')) " +
 				"AND ol.C_OrderLine_ID = ? " +
 				"AND lol.FTA_LoadOrder_ID <> " + getFTA_LoadOrder_ID() + " " +
 				"GROUP BY ol.C_OrderLine_ID", getC_OrderLine_ID());
+		//	
 		if(res == null)
 			return null;
 		//	Valid
@@ -82,6 +83,7 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 					"@M_Product_ID@:\"" + product.getValue() + " - " + product.getName() + "\" " + 
 					"@Difference@=" + res.subtract(getQty());
 		}
+		//	
 		return null;
 	}
 

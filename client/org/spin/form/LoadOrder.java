@@ -30,7 +30,6 @@ import javax.swing.table.DefaultTableModel;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.MOrgInfo;
 import org.compiere.model.MRefList;
 import org.compiere.model.MRole;
 import org.compiere.model.MUOM;
@@ -47,6 +46,7 @@ import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTALoadOrderLine;
 import org.spin.model.MFTAVehicle;
 import org.spin.model.MFTAVehicleType;
+import org.spin.model.MFTAWeightScale;
 import org.spin.model.X_FTA_LoadOrder;
 import org.spin.util.BufferTableSelect;
 import org.spin.util.StringNamePair;
@@ -817,14 +817,10 @@ public class LoadOrder {
 		int rows = orderLineTable.getRowCount();
 		MFTALoadOrder loadOrder = new MFTALoadOrder(Env.getCtx(), 0, trxName);
 		MFTALoadOrderLine lorder = null;
-		//	Org Info
-		MOrgInfo orgInfo = null;
-		
-		orgInfo = MOrgInfo.get(Env.getCtx(), m_AD_Org_ID, trxName);
-		
+		//	
 		BigDecimal totalWeight = Env.ZERO;
 		BigDecimal totalVolume = Env.ZERO;
-		
+		//	
 		loadOrder.setAD_Org_ID(m_AD_Org_ID);
 		loadOrder.setOperationType(m_OperationType);
 		loadOrder.setFTA_VehicleType_ID(m_FTA_VehicleType_ID);
@@ -835,7 +831,8 @@ public class LoadOrder {
 		loadOrder.setVolumeCapacity(m_VolumeCapacity);
 		loadOrder.setC_UOM_Weight_ID(m_C_UOM_Weight_ID);
 		loadOrder.setC_UOM_Volume_ID(m_C_UOM_Volume_ID);
-		loadOrder.setIsWeightRegister(orgInfo.get_ValueAsBoolean("IsWeightRegister"));
+		//	Set Is Weight Register
+		loadOrder.setIsWeightRegister(MFTAWeightScale.isWeightScaleOrg(m_AD_Org_ID, trxName));
 		//	Set Warehouse
 		if(m_M_Warehouse_ID != 0)
 			loadOrder.setM_Warehouse_ID(m_M_Warehouse_ID);
