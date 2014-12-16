@@ -837,10 +837,12 @@ public class LoadOrder {
 		if(m_M_Warehouse_ID != 0)
 			loadOrder.setM_Warehouse_ID(m_M_Warehouse_ID);
 		//	Invoice Rule
-		if(m_InvoiceRule != null)
+		if(m_InvoiceRule != null
+				&& m_InvoiceRule.trim().length() > 0)
 			loadOrder.setInvoiceRule(m_InvoiceRule);
 		//	Delivery Rule
-		if(m_DeliveryRule != null)
+		if(m_DeliveryRule != null
+				&& m_DeliveryRule.trim().length() > 0)
 			loadOrder.setDeliveryRule(m_DeliveryRule);
 		//	Set Shipper
 		if(m_M_Shipper_ID != 0)

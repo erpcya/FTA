@@ -17,10 +17,12 @@
 package org.spin.model;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.compiere.model.MProduct;
+import org.compiere.model.X_C_Order;
 import org.compiere.util.DB;
 
 /**
@@ -64,27 +66,102 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 	 * @return String
 	 */
 	public String validExcedeed(){
-		BigDecimal res = DB.getSQLValueBD(get_TrxName(), "SELECT ol.QtyOrdered - SUM(COALESCE(lol.ConfirmedQty, lol.Qty)) " +
-				"FROM C_OrderLine ol " +
-				"LEFT JOIN FTA_LoadOrderLine lol ON(lol.C_OrderLine_ID = ol.C_OrderLine_ID) " +
-				"LEFT JOIN FTA_LoadOrder lo ON(lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID) " +
-				"WHERE (lo.DocStatus IS NULL OR lo.DocStatus NOT IN('VO', 'RE', 'CL')) " +
-				"AND ol.C_OrderLine_ID = ? " +
-				"AND lol.FTA_LoadOrder_ID <> " + getFTA_LoadOrder_ID() + " " +
-				"GROUP BY ol.C_OrderLine_ID", getC_OrderLine_ID());
-		//	
-		if(res == null)
-			return null;
-		//	Valid
-		if(res.subtract(getQty()).signum() < 0){
-			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-			return "@Qty@ > (@QtyOrdered@ - @QtyDelivered@) " +
-					"@SeqNo@:" + getSeqNo() + " " +
-					"@M_Product_ID@:\"" + product.getValue() + " - " + product.getName() + "\" " + 
-					"@Difference@=" + res.subtract(getQty());
+		String sql = null;
+		MFTALoadOrder m_LoadOrder = (MFTALoadOrder) getFTA_LoadOrder();
+		if(m_LoadOrder.getOperationType()
+				.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement)) {
+			sql = new String("SELECT ol.QtyOrdered, SUM(COALESCE(lol.ConfirmedQty, lol.Qty, 0)) QtyDelivered, " + 
+					"SUM(s.QtyOnHand) QtyOnHand, o.DeliveryRule " +
+					"FROM DD_Order o " + 
+					"INNER JOIN DD_OrderLine ol ON(ol.DD_Order_ID = o.DD_Order_ID) " +
+					"LEFT JOIN FTA_LoadOrderLine lol ON(lol.DD_OrderLine_ID = ol.DD_OrderLine_ID) " +
+					"LEFT JOIN FTA_LoadOrder lo ON(lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID) " + 
+					"LEFT JOIN " + 
+					"	(SELECT st.M_Locator_ID, st.M_Product_ID, " +
+					"		COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " + 
+					"	FROM M_Storage st " + 
+					"	GROUP BY st.M_Locator_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) " + 
+					"s ON(s.M_Product_ID = ol.M_Product_ID AND s.M_Locator_ID = ol.M_Locator_ID " + 
+					"AND ol.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) " +
+					"WHERE (lo.DocStatus IS NULL OR lo.DocStatus NOT IN('VO', 'RE', 'CL')) " +
+					"AND ol.C_OrderLine_ID = ? " +
+					"AND lol.FTA_LoadOrder_ID <> ? " +
+					"GROUP BY ol.C_OrderLine_ID, o.DeliveryRule");
+		} else {
+			sql = new String("SELECT ol.QtyOrdered, SUM(COALESCE(lol.ConfirmedQty, lol.Qty, 0)) QtyDelivered, " + 
+					"s.QtyOnHand, o.DeliveryRule " +
+					"FROM C_Order o " + 
+					"INNER JOIN C_OrderLine ol ON(ol.C_Order_ID = o.C_Order_ID) " +
+					"LEFT JOIN FTA_LoadOrderLine lol ON(lol.C_OrderLine_ID = ol.C_OrderLine_ID) " +
+					"LEFT JOIN FTA_LoadOrder lo ON(lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID) " + 
+					"LEFT JOIN " + 
+					"	(SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
+					"		COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " + 
+					"	FROM M_Storage st " + 
+					"	INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " + 
+					"	GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) " + 
+					"s ON(s.M_Product_ID = ol.M_Product_ID AND s.M_Warehouse_ID = ol.M_Warehouse_ID " + 
+					"AND ol.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) " +
+					"WHERE (lo.DocStatus IS NULL OR lo.DocStatus NOT IN('VO', 'RE', 'CL')) " +
+					"AND ol.C_OrderLine_ID = ? " +
+					"AND lol.FTA_LoadOrder_ID <> ? " +
+					"GROUP BY ol.C_OrderLine_ID, s.QtyOnHand, o.DeliveryRule");
 		}
 		//	
-		return null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String errorMsg = null;
+		try {
+			ps = DB.prepareStatement(sql.toString(), get_TrxName());
+			ps.setInt(1, getC_OrderLine_ID());
+			ps.setInt(2, getFTA_LoadOrder_ID());
+			rs = ps.executeQuery();
+			//	
+			if(rs.next()){
+				BigDecimal m_QtyOrdered 	= rs.getBigDecimal("QtyOrdered");
+				BigDecimal m_QtyDelivered 	= rs.getBigDecimal("QtyDelivered");
+				BigDecimal m_QtyOnHand 		= rs.getBigDecimal("QtyOnHand");
+				String m_DeliveryRule		= rs.getString("DeliveryRule");
+				BigDecimal m_Qty			= getQty();
+				//	Valid Quantity Ordered
+				BigDecimal m_AvailableForOrder = m_QtyOrdered
+						.subtract(m_QtyDelivered)
+						.subtract(m_Qty);
+				//	
+				BigDecimal m_DiffQtyOnHand = m_QtyOnHand
+						.subtract(m_QtyDelivered)
+						.subtract(m_Qty);
+				//	Valid Order vs Delivered
+				if(m_AvailableForOrder.signum() < 0){
+					MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+					errorMsg = "@Qty@ > (@QtyOrdered@ - @QtyDelivered@) " +
+							"@SeqNo@:" + getSeqNo() + " " +
+							"@M_Product_ID@:\"" + product.getValue() + " - " + product.getName() + "\" " +
+							"@Qty@=" + m_Qty.doubleValue() + " " + 
+							"@QtyOrdered@=" + m_QtyOrdered.doubleValue() + " " +
+							"@QtyDelivered@=" + m_QtyDelivered.doubleValue() + " " +
+							"@Difference@=" + m_AvailableForOrder.doubleValue();
+				} else if(m_DeliveryRule.equals(X_C_Order.DELIVERYRULE_Availability)
+						&& m_DiffQtyOnHand.signum() < 0) {
+					MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+					errorMsg = "(@Qty@ + @QtyDelivered@) > @QtyOnHand@ " +
+							"@SeqNo@:" + getSeqNo() + " " +
+							"@M_Product_ID@:\"" + product.getValue() + " - " + product.getName() + "\" " +
+							"@QtyOnHand@=" + m_QtyOnHand.doubleValue() + " " +
+							"@Qty@=" + m_Qty.doubleValue() + " " + 
+							"@QtyOrdered@=" + m_QtyOrdered.doubleValue() + " " +
+							"@QtyDelivered@=" + m_QtyDelivered.doubleValue() + " " +
+							"@Difference@=" + m_DiffQtyOnHand.doubleValue();
+				}
+			}
+		} catch(Exception ex) {
+			log.severe("validExcedeed() Error: " + ex.getMessage());
+		} finally {
+			DB.close(rs, ps);
+			rs = null; ps = null;
+		}
+		//	
+		return errorMsg;
 	}
 
 	@Override
