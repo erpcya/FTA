@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.compiere.model.MClientInfo;
+import org.compiere.model.MDocType;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
@@ -110,6 +111,13 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 		//	Valid Load Order
 		if(p_FTA_LoadOrder_ID == 0)
 			throw new AdempiereUserError("@FTA_LoadOrder_ID@ @NotFound@");
+		//	Instance Load Order
+		MFTALoadOrder m_LoadOrder = new MFTALoadOrder(getCtx(), p_FTA_LoadOrder_ID, get_TrxName());
+		//	Valid Order
+		MDocType m_DocType = MDocType.get(getCtx(), m_LoadOrder.getC_DocType_ID());
+		//	Valid just Check
+		if(!m_DocType.get_ValueAsBoolean("IsGenerateShipmentGuide"))
+			return "OK";
 		//	Valid if this yet generated
 		int mobilizationGuide_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(mg.FTA_MobilizationGuide_ID) " +
 				"FROM FTA_MobilizationGuide mg " +
@@ -118,9 +126,7 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 		//	
 		if(mobilizationGuide_ID > 0)
 			return "";
-		
-		//	Instance Load Order
-		MFTALoadOrder m_LoadOrder = new MFTALoadOrder(getCtx(), p_FTA_LoadOrder_ID, get_TrxName());
+		//	
 		if(p_AD_Org_ID == 0){
 			p_AD_Org_ID = m_LoadOrder.getAD_Org_ID();
 			p_AD_OrgTrx_ID = p_AD_Org_ID;

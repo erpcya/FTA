@@ -182,7 +182,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						invoiceLine.setC_OrderLine_ID(line.getC_OrderLine_ID());
 						invoiceLine.setM_Product_ID(product.getM_Product_ID());
 						invoiceLine.setC_UOM_ID(product.getC_UOM_ID());
-						invoiceLine.setQty(oLine.getQtyEntered());
+						invoiceLine.setQty(line.getQty());
 						invoiceLine.setAD_Org_ID(m_Current_Invoice.getAD_Org_ID());
 						invoiceLine.setPriceList(oLine.getPriceList());
 						invoiceLine.setPriceEntered(oLine.getPriceEntered());
