@@ -100,9 +100,9 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 					"s ON(s.M_Product_ID = ol.M_Product_ID AND s.M_Locator_ID = ol.M_Locator_ID " + 
 					"AND ol.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) " +
 					"WHERE (lo.DocStatus IS NULL OR lo.DocStatus NOT IN('VO', 'RE', 'CL')) " +
-					"AND ol.C_OrderLine_ID = ? " +
+					"AND ol.DD_OrderLine_ID = ? " +
 					"AND lol.FTA_LoadOrder_ID <> ? " +
-					"GROUP BY ol.C_OrderLine_ID, o.DeliveryRule");
+					"GROUP BY ol.DD_OrderLine_ID, o.DeliveryRule");
 		} else {
 			sql = new String("SELECT ol.QtyOrdered, SUM(COALESCE(lol.ConfirmedQty, lol.Qty, 0)) QtyDelivered, " + 
 					"s.QtyOnHand, o.DeliveryRule " +
