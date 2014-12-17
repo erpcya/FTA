@@ -168,7 +168,8 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 				throw new AdempiereUserError("@FTA_RecordWeight_ID@ @NotFound@ @FTA_LoadOrder_ID@ @IsHandleRecordWeight@");
 			
 			if(m_RecordWeight.getOperationType()
-						.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryBulkMaterial)){
+						.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryBulkMaterial) || m_RecordWeight.getOperationType()
+						.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryFinishedProduct)){
 				MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
 				if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
 					return "@C_UOM_Weight_ID@ @NotFound@";

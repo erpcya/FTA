@@ -301,6 +301,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				&& isValidWeight) {
 			//	Generate Material Receipt
 			String msg = createInOut();
+			validateEntryTicket();
 			if(m_processMsg != null)
 				return DocAction.STATUS_Invalid;
 			else
@@ -331,7 +332,24 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	}	//	completeIt
 	
 	
-
+	private void validateEntryTicket() {
+		String sql = "SELECT COUNT(*) " +
+				"FROM FTA_LoadOrder lo " +
+				"WHERE lo.FTA_EntryTicket_ID=?";
+		
+		int EntryTicket_ID = DB.getSQLValue(get_TrxName(), sql, getFTA_EntryTicket_ID());
+		if(EntryTicket_ID==0)
+		{
+			
+			MFTALoadOrder m_LoadOrder = new MFTALoadOrder(getCtx(), getFTA_LoadOrder_ID(), get_TrxName());
+			m_LoadOrder.setFTA_EntryTicket_ID(getFTA_EntryTicket_ID());
+			MFTAEntryTicket m_Ticket = new MFTAEntryTicket(getCtx(), getFTA_EntryTicket_ID(), get_TrxName());
+			m_LoadOrder.setFTA_Driver_ID(m_Ticket.getFTA_Driver_ID());
+			m_LoadOrder.setFTA_Vehicle_ID(m_Ticket.getFTA_Vehicle_ID());
+			m_LoadOrder.setM_Shipper_ID(m_Ticket.getM_Shipper_ID());
+			m_LoadOrder.saveEx();			
+		}
+	}
 	/**
 	 * Add Support complete record weight with Shipment Guide
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 30/05/2014, 15:21:38
