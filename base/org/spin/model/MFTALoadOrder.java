@@ -812,32 +812,33 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			msg = "@FTA_VehicleType_ID@ @NotFound@";
 		//	End Yamel Senih
 	
-		if(getVolumeCapacity().compareTo(getVolume()) < 0)
-			msg = "@VolumeCapacity@ < @0@";
+		if(getVolumeCapacity().compareTo(getVolume()) <= 0)
+			msg = "@VolumeCapacity@ <= @0@";
 		
-		if(getLoadCapacity().compareTo(getWeight()) < 0)
-			msg = "@LoadCapacity@ < @0@";
+		if(getLoadCapacity().compareTo(getWeight()) <= 0)
+			msg = "@LoadCapacity@ <= @0@";
 		
 		if(msg != null)
 			throw new AdempiereException(msg);
 		//	End Dixon Martinez
 		
 		//	Set if Handle Record Weight
-		setIsHandleRecordWeight();
+		setIsHandleRecordWeight(MFTAWeightScale
+				.isWeightScaleOrg(getAD_Org_ID(), get_TrxName()));
+		//	Set Values from ticket
+		if(getFTA_EntryTicket_ID() > 0) {
+			MFTAEntryTicket m_EntryTicket = (MFTAEntryTicket) getFTA_EntryTicket();
+			MFTAVehicle m_Vehicle = (MFTAVehicle) m_EntryTicket.getFTA_Vehicle();
+			setFTA_Driver_ID(m_EntryTicket.getFTA_Driver_ID());
+			setFTA_Vehicle_ID(m_EntryTicket.getFTA_Vehicle_ID());
+			setFTA_VehicleType_ID(m_Vehicle.getFTA_VehicleType_ID());
+			setLoadCapacity(m_Vehicle.getLoadCapacity());
+			setVolumeCapacity(m_Vehicle.getVolumeCapacity());
+		} else if(getFTA_VehicleType_ID() > 0) {
+			MFTAVehicleType m_VehicleType = (MFTAVehicleType) getFTA_VehicleType();
+			setLoadCapacity(m_VehicleType.getLoadCapacity());
+			setVolumeCapacity(m_VehicleType.getVolumeCapacity());
+		}
 		return true;
 	}//	End beforeSave
-	
-	/**
-	 * Set Handle Record Weight from the config Record Weight
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 25/01/2014, 12:45:58
-	 * @return void
-	 */
-	public void setIsHandleRecordWeight() {
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(ws.FTA_WeightScale_ID) " +
-				"FROM FTA_WeightScale ws " +
-				"WHERE ws.AD_Org_ID = ? "
-				+ " OR ws.AD_Org_ID = 0 ", getAD_Org_ID());
-		//	set Handle Record Weight
-		setIsHandleRecordWeight(m_Reference_ID > 0);
-	}
 }

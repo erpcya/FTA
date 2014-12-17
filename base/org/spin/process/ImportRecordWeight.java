@@ -1557,10 +1557,7 @@ public class ImportRecordWeight extends SvrProcess implements ImportProcess
 			lo.setFTA_Driver_ID(imp.getFTA_Driver_ID());
 			lo.setFTA_Vehicle_ID(imp.getFTA_Vehicle_ID());
 			lo.setLoadCapacity((imp.getFTA_Vehicle_ID()==0?Env.ZERO:imp.getFTA_Vehicle().getLoadCapacity()));
-			lo.setVolumeCapacity((imp.getFTA_Vehicle_ID()==0?Env.ZERO:imp.getFTA_Vehicle().getVolumeCapacity()));
-			
-			lo.setIsHandleRecordWeight();
-			
+			lo.setVolumeCapacity((imp.getFTA_Vehicle_ID()==0?Env.ZERO:imp.getFTA_Vehicle().getVolumeCapacity()));			
 			lo.saveEx(get_TrxName());
 			
 			MFTALoadOrderLine lol = new MFTALoadOrderLine(getCtx(), imp.getFTA_LoadOrderLine_ID(), get_TrxName());
