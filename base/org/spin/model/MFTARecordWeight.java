@@ -356,7 +356,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				+ "	WHERE"
 				+ "		mg.DocStatus IN ('CO','CL')"
 				+ "		AND mg.IsSotrx = 'Y'"
-				+ "		AND rw.FTA_RecordWeight_ID=?;";
+				+ "		AND rw.FTA_RecordWeight_ID=?";
 		
 		int shipmentGuide_ID = DB.getSQLValue(get_TrxName(), sql, get_ID());
 		if(shipmentGuide_ID > 0)
