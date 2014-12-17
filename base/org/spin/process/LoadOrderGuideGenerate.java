@@ -163,39 +163,39 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 		if(p_M_Warehouse_ID != 0)
 			m_MobilizationGuide.setM_Warehouse_ID(p_M_Warehouse_ID);
 		//	If is Record Weight
-		if(m_LoadOrder.isHandleRecordWeight()) {
+		if(m_LoadOrder.isHandleRecordWeight()
+				&& m_LoadOrder.getOperationType()
+						.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryBulkMaterial)) {
+			//	Valid Record Weight
 			if(m_RecordWeight == null)
 				throw new AdempiereUserError("@FTA_RecordWeight_ID@ @NotFound@ @FTA_LoadOrder_ID@ @IsHandleRecordWeight@");
-			
-			if(m_RecordWeight.getOperationType()
-						.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryBulkMaterial) || m_RecordWeight.getOperationType()
-						.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryFinishedProduct)){
-				MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
-				if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
-					return "@C_UOM_Weight_ID@ @NotFound@";
-				//	Get Category
-				MProduct product = null;
-				if(m_RecordWeight.getM_Product_ID() != 0)
-					product = MProduct.get(getCtx(), m_RecordWeight.getM_Product_ID());
-				else
-					product = MProduct.get(getCtx(), m_LoadOrder.getM_Product_ID());
-				//	Rate Convert
-				BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
-						product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
-				MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
-				//	Set Precision
-				int precision = uom.getStdPrecision();
-				//	Valid Conversion
-				if(rate == null)
-					throw new AdempiereUserError("@NoUOMConversion@");
+			//	
+			MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
+			if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
+				return "@C_UOM_Weight_ID@ @NotFound@";
+			//	Get Category
+			MProduct product = null;
+			if(m_RecordWeight.getM_Product_ID() != 0)
+				product = MProduct.get(getCtx(), m_RecordWeight.getM_Product_ID());
+			else
+				product = MProduct.get(getCtx(), m_LoadOrder.getM_Product_ID());
+			//	Rate Convert
+			BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+					product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
+			MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
+			//	Set Precision
+			int precision = uom.getStdPrecision();
+			//	Valid Conversion
+			if(rate == null)
+				throw new AdempiereUserError("@NoUOMConversion@");
 				
-				//	Get Weight
-				m_MobilizationGuide.setQtyToDeliver(m_RecordWeight.getNetWeight()
-						.multiply(rate)
-						.setScale(precision, BigDecimal.ROUND_HALF_UP));
-			}
-		} else
+			//	Get Weight
+			m_MobilizationGuide.setQtyToDeliver(m_RecordWeight.getNetWeight()
+					.multiply(rate)
+					.setScale(precision, BigDecimal.ROUND_HALF_UP));
+		} else {
 			m_MobilizationGuide.setQtyToDeliver(m_LoadOrder.getWeight());
+		}
 		//	
 		m_MobilizationGuide.saveEx();
 		//	Complete Document
