@@ -65,7 +65,23 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 	 * @return
 	 * @return String
 	 */
-	public String validExcedeed(){
+	public String validLine() {
+		String errorMsg = null;
+		//	Get Product
+		MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+		//	Valid Weight and Volume
+		if(product.getWeight() == null
+				|| product.getWeight().doubleValue() <= 0) {
+			return "@Weight@ = @0@ " +
+					"@SeqNo@:" + getSeqNo() + " " +
+					"@M_Product_ID@:\"" + product.getValue() + " - " + product.getName() + "\" ";
+		} else if(product.getVolume() == null
+				|| product.getVolume().doubleValue() <= 0) {
+			return "@Volume@ = @0@ " +
+					"@SeqNo@:" + getSeqNo() + " " +
+					"@M_Product_ID@:\"" + product.getValue() + " - " + product.getName() + "\" ";
+		}
+		//	Valid Storage
 		String sql = null;
 		MFTALoadOrder m_LoadOrder = (MFTALoadOrder) getFTA_LoadOrder();
 		if(m_LoadOrder.getOperationType()
@@ -110,14 +126,13 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 		//	
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String errorMsg = null;
 		try {
 			ps = DB.prepareStatement(sql.toString(), get_TrxName());
 			ps.setInt(1, getC_OrderLine_ID());
 			ps.setInt(2, getFTA_LoadOrder_ID());
 			rs = ps.executeQuery();
 			//	
-			if(rs.next()){
+			if(rs.next()) {
 				BigDecimal m_QtyOrdered 	= rs.getBigDecimal("QtyOrdered");
 				BigDecimal m_QtyDelivered 	= rs.getBigDecimal("QtyDelivered");
 				BigDecimal m_QtyOnHand 		= rs.getBigDecimal("QtyOnHand");
@@ -132,8 +147,7 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 						.subtract(m_QtyDelivered)
 						.subtract(m_Qty);
 				//	Valid Order vs Delivered
-				if(m_AvailableForOrder.signum() < 0){
-					MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+				if(m_AvailableForOrder.signum() < 0) {
 					errorMsg = "@Qty@ > (@QtyOrdered@ - @QtyDelivered@) " +
 							"@SeqNo@:" + getSeqNo() + " " +
 							"@M_Product_ID@:\"" + product.getValue() + " - " + product.getName() + "\" " +
@@ -143,7 +157,6 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 							"@Difference@=" + m_AvailableForOrder.doubleValue();
 				} else if(m_DeliveryRule.equals(X_C_Order.DELIVERYRULE_Availability)
 						&& m_DiffQtyOnHand.signum() < 0) {
-					MProduct product = MProduct.get(getCtx(), getM_Product_ID());
 					errorMsg = "(@Qty@ + @QtyDelivered@) > @QtyOnHand@ " +
 							"@SeqNo@:" + getSeqNo() + " " +
 							"@M_Product_ID@:\"" + product.getValue() + " - " + product.getName() + "\" " +
@@ -187,7 +200,7 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 	 * @return
 	 * @return boolean
 	 */
-	private boolean updateHeader(){
+	private boolean updateHeader() {
 		//	Recalculate Header
 		//	Update Load Order Header
 		String sql = "UPDATE FTA_LoadOrder lo SET Weight=("

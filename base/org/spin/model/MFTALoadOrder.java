@@ -239,7 +239,7 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			StringBuffer msgLong = new StringBuffer();
 			for(MFTALoadOrderLine line : m_lines){
 				//	Evaluate Error
-				String msg = line.validExcedeed();
+				String msg = line.validLine();
 				if(msg != null){
 					if(msgLong.length() != 0)
 						msgLong
