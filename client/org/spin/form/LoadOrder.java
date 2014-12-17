@@ -430,7 +430,8 @@ public class LoadOrder {
 					"pro.Weight, pro.Volume, ord.DeliveryRule " +
 					"FROM DD_Order ord " +
 					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
-					"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = ord.M_Warehouse_ID) " +
+					"INNER JOIN M_Locator l ON(l.M_Locator_ID = lord.M_Locator_ID) " + 
+					"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = l.M_Warehouse_ID) " +
 					"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
 					"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
 					"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
@@ -444,10 +445,9 @@ public class LoadOrder {
 					"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
 					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s " +
 					"														ON(s.M_Product_ID = lord.M_Product_ID " +
-					"																AND s.M_Warehouse_ID = ord.M_Warehouse_ID " +
+					"																AND s.M_Warehouse_ID = l.M_Warehouse_ID " +
 					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
 					.append("WHERE pro.IsStocked = 'Y' ")
-					//.append("AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) ")
 					.append("AND ")
 					.append(sqlWhere).append(" ");
 			//	Add Where
