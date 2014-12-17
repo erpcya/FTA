@@ -86,7 +86,7 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 					+ " tsb.C_Tax_ID,"
 					+ " tsb.OperationType, "
 					+ " ol.AD_Org_ID, "
-					+ " ol.M_Warehouse_ID "
+					+ " l.M_Warehouse_ID "
 					+ " FROM T_Selection ts "
 					+ " INNER JOIN ( "
 						+ " Select  tsb.AD_PInstance_ID, tsb.T_Selection_ID,"
@@ -106,8 +106,9 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 						+ ") tsb ON(ts.AD_PInstance_ID = tsb.AD_PInstance_ID AND ts.T_Selection_ID = tsb.T_Selection_ID)"
 					+ " INNER JOIN FTA_LoadOrderLine lol ON(lol.FTA_LoadOrderLine_ID = ts.T_Selection_ID)"
 					+ " INNER JOIN DD_OrderLine ol ON(ol.DD_OrderLine_ID = lol.DD_OrderLine_ID)"
+					+ " INNER JOIN M_Locator l ON(l.M_Locator_ID = ol.M_Locator_ID)"
 					+ " WHERE ts.AD_PInstance_ID = ?"
-					+ " ORDER BY tsb.C_BPartner_ID, ol.M_Warehouse_ID");
+					+ " ORDER BY tsb.C_BPartner_ID, l.M_Warehouse_ID");
 		log.fine(sql.toString());
 	}
 
@@ -209,6 +210,7 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 					m_MovementLine.setMovementQty(m_Qty);
 					m_MovementLine.saveEx();
 					m_FTA_LoadOrderLine.setM_MovementLine_ID(m_MovementLine.getM_MovementLine_ID());
+					m_FTA_LoadOrderLine.setConfirmedQty(m_Qty);
 					m_FTA_LoadOrderLine.saveEx();
 					
 				}	//End Invoice Line Created
