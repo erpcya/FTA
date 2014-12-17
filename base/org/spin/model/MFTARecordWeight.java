@@ -1056,7 +1056,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				m_Current_BPartner_ID = m_DD_Order.getC_BPartner_ID();
 				//	Create Movement
 				m_Current_Movement = new MMovement(getCtx(), 0, get_TrxName());
-				m_Current_Movement.setDateReceived(getDateDoc());
+				m_Current_Movement.setDateReceived(getDateForDocument());
 				//	Set Organization
 				m_Current_Movement.setAD_Org_ID(getAD_Org_ID());
 				m_Current_Movement.setDD_Order_ID(m_DD_Order.get_ID());
