@@ -8,7 +8,7 @@
     <property file="build.properties"/>
   	<import file="${adempiere.trunk}/utils_dev/properties.xml"/>
     
-    <property name="base" value="base"/>
+    <property name="base" value="${basedir}/base"/>
     <property name="patches" value="patches"/>
     <property name="client" value="client"/>
     <property name="build.dir" value="build"/>
@@ -16,6 +16,11 @@
     <property name="build.dir" value="build"/>
     <property name="jar.path" value="${project.trunk}/packages/${project-name}/lib"/>
     <property name="jar.name" value="${project-name}"/>
+	  <property name="zkjar" value="${dist}/zkclass"/>
+	  <property name="jar" value="${build}"/>
+	  <property name="zksrc" value="${basedir}/zkwebui/WEB-INF/src"/>
+	  <property name="zkclasses" value="${dist}/zkclass/WEB-INF/classes"/>
+	  <property name="class" value="${dist}/class"/>
 
     <!-- set path to include the necessary jar files for javac -->
     <path id="project.class.path">
@@ -31,10 +36,61 @@
 		<fileset dir="${custom-smartbrowse.trunk}/packages/Custom-SmartBrowse/lib">
     	    <include name="*.jar"/>
     	</fileset>
+    	<fileset dir="/opt/Development/workspace/FTA/packages/FTA/lib">
+    	    	    <include name="*.jar"/>
+    	    	</fileset>
     	
     </path>
+	
     
-    
+	  <!-- @author Raul Muñoz Set Path --> 
+	  <path id="compilezk.classpath">
+	    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+	  	
+	  	<fileset dir="${basedir}/packages/FTA/lib">
+	  	  	      <include name="*.jar"/>
+	  	</fileset>
+	    <fileset dir="${adempiere.trunk}/lib">
+	      <include name="*.jar"/>
+	    </fileset>
+	    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+	      <include name="*.jar"/>
+	    </fileset>
+	  </path>
+	 <!-- @author  Raul Muñoz Compile ZK Directory --> 
+	  <target name="zkcompile" depends="dist,init_zk"
+	        description="compile the source " >
+	    <!-- Compile the zk java code from ${src} into ${zkclasses} -->
+	    <echo message="Directorio Fuente ${zksrc}"/>
+	    <echo message="Directorio Destino ${zkclasses}"/>
+	    <javac srcdir="${zksrc}" destdir="${zkclasses}" includeantruntime="true">
+	      <classpath refid="compilezk.classpath"/>
+	    </javac>
+	    <jar jarfile="${basedir}/zkpackages/FTA/lib/FTA.jar" basedir="${zkjar}"/>
+	  </target>
+
+		
+	  <!-- @author  Raul Muñoz Remove Class ZK Directory -->
+	  <target name="clean_zk" description="clean up class" >
+		<echo message="Remove Class ZK Directory"/>
+	  	<delete dir="${zkjar}"/>
+	  	<delete dir="${jar}"/>
+	  </target>
+		
+	  <!-- @author  Raul Muñoz Create ZK Directory -->
+	  <target name="init_zk" depends="clean_zk" description="clean up class" >
+		<echo message="Create Class ZK Directory"/>
+	  	<!-- Create the classes directory structure used by compile -->
+		<mkdir dir="${dist}"/>
+		<mkdir dir="${zkjar}"/>
+	  	<mkdir dir="${zkjar}/WEB-INF"/>
+	  	<mkdir dir="${zkclasses}"/>
+	  </target>	
+	  
+	  <!-- @author  Raul Muñoz Create Class And ZK Directory -->
+	  <target name="init" depends="clean_zk,init_zk">
+		<echo message="Initialize Folders "/>
+	  </target>
     <!-- =========================================== -->
 	<!-- Distribution                                -->
 	<!-- =========================================== -->
@@ -45,7 +101,7 @@
 	
 	<target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac target="1.6" encoding="UTF-8" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
+    <javac target="1.6" encoding="UTF-8" fork="true" destdir="${build.dir}" includeantruntime="false" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
       	<src path="${base}"/>
       	<src path="${patches}"/>
       	<src path="${client}"/>
@@ -59,15 +115,16 @@
   	</target>
   	
 	
-	<target name="init" description="initialization target" depends="clean">
+	<!-- <target name="init" description="initialization target" depends="clean">
     	<echo message="=========== Build ${project-name}"/>
-    	<!-- create the time stamp -->
+    	 create the time stamp 
     	<tstamp/>
-    	<!-- create the build directory structure used by compile -->
+    	 create the build directory structure used by compile 
     	<mkdir dir="${build.dir}"/>
-    	<!-- check for the distribution directory -->
+    	 check for the distribution directory 
     	<available file="${dist.dir}" type="dir" property="dist.dir.exists"/>
-  	</target>
+  	</target> 
+	-->
   	
 	<target name="clean">
     	<!-- Delete the ${build.dir} directory trees -->
