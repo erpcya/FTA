@@ -412,7 +412,7 @@ public class WLoadOrder extends LoadOrder
 		selectAllButton.setImage("/images/SelectAll24.png");
 		row.appendChild(weightDiffLabel.rightAlign());
 		row.appendChild(weightDiffField);
-		row.appendChild(volumeDiffLabel);
+		row.appendChild(volumeDiffLabel.rightAlign());
 		row.appendChild(volumeDiffField);
 		row.appendChild(gLoadOrderButton);
 		volumeDiffField.setEnabled(false);
@@ -651,6 +651,7 @@ public class WLoadOrder extends LoadOrder
             }
         });*/
 		
+		//Coments
 //		stockTable.setModel(stockModel);
 //		setStockColumnClass(stockTable);
 		
@@ -728,8 +729,10 @@ public class WLoadOrder extends LoadOrder
 		count=0;
 		//  Set Model Line
 		//	Set Stock Model
-		stockTable.setModel(stockModel);
-		setStockColumnClass(stockTable);
+		if(stockTable.getColumnCount()>1){
+			stockTable.setModel(stockModel);
+			setStockColumnClass(stockTable);
+		}
 		//	Parameters
 		salesRegionPick.setValue(null);
 		salesRepSearch.setValue(null);
