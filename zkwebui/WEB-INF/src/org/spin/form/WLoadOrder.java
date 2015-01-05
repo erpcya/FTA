@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.spin.form;
 
-import java.awt.Dimension;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,12 +27,6 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import javax.swing.JScrollPane;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.table.DefaultTableModel;
-
-import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.plaf.AdempiereTaskPaneUI;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
@@ -57,23 +50,19 @@ import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
-import org.compiere.apps.ADialog;
-import org.compiere.apps.StatusBar;
-import org.compiere.apps.form.FormFrame;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOM;
 import org.compiere.model.X_C_Order;
-import org.compiere.swing.CPanel;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.jdesktop.swingx.JXTaskPane;
 import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTALoadOrderLine;
 import org.spin.model.MFTAWeightScale;
@@ -92,7 +81,6 @@ import org.zkoss.zul.Space;
 public class WLoadOrder extends LoadOrder
 	implements IFormController, EventListener, WTableModelListener, ValueChangeListener
 {
-	private CPanel 	panel = new CPanel();
 	private String	trxName	= null;
 	private Trx		trx = null;
 	private CustomForm form = new CustomForm();
@@ -120,7 +108,6 @@ public class WLoadOrder extends LoadOrder
 	private int         	m_WindowNo = 0;
 	
 	/**	FormFrame			*/
-	private FormFrame 		m_frame;
 
 	private Borderlayout mainLayout = new Borderlayout();
 
@@ -203,28 +190,22 @@ public class WLoadOrder extends LoadOrder
 	private Borderlayout 	orderLayout = new Borderlayout();
 	private Borderlayout 	orderLineLayout = new Borderlayout();
 	private Label 			orderLineInfo = new Label();
-	private JScrollPane 	orderScrollPane = new JScrollPane();
-	private JScrollPane 	orderLineScrollPane = new JScrollPane();
 	private Label 			weightDiffLabel = new Label();
 	private NumberBox 		weightDiffField = null;
 	private Label 			volumeDiffLabel = new Label();
 	private NumberBox 		volumeDiffField = null;
 	private Button 		gLoadOrderButton = new Button();
 
-	private StatusBar 		statusBar = new StatusBar();
 	
 	private Button 		selectAllButton =  new Button();
 	/**	Search				*/
 	private Button 		bSearch = new Button();
 	
 	//	Stock Info
-	private JScrollPane 	stockScrollPane = new JScrollPane();
 	
 	/**	Collapsible Panel for Parameter		*/
-	private JXTaskPane parameterCollapsiblePanel = new JXTaskPane();
 	private North north = new North();
 	/**	Collapsible Panel for Stock			*/
-	private JXTaskPane stockCollapsiblePanel = new JXTaskPane();
 //	private South south = null;
 //	private North north = new North();
 	Center center = new Center();
@@ -315,16 +296,6 @@ public class WLoadOrder extends LoadOrder
 		volumeDiffLabel.setText(Msg.translate(Env.getCtx(), "DiffVolume"));
 		volumeDiffField = new NumberBox(true);
 		volumeDiffField.setValue(Env.ZERO);
-	
-		orderLineScrollPane.setPreferredSize(new Dimension(200, 200));
-		orderScrollPane.setPreferredSize(new Dimension(200, 200));
-		stockScrollPane.setPreferredSize(new Dimension(200, 200));
-		
-		stockCollapsiblePanel.setCollapsed(true);
-		stockCollapsiblePanel.setTitle(Msg.translate(Env.getCtx(), "WarehouseStockGroup"));
-		stockCollapsiblePanel.setUI(new AdempiereTaskPaneUI());
-		stockCollapsiblePanel.getContentPane().setBackground(new ColorUIResource(251,248,241));
-		stockCollapsiblePanel.getContentPane().setForeground(new ColorUIResource(255,0,0));
 		
 //		stockCollapsiblePanel.addVetoableChangeListener(this);
 		
@@ -545,9 +516,6 @@ public class WLoadOrder extends LoadOrder
 	 */
 	public void dispose()
 	{
-		if (m_frame != null)
-			m_frame.dispose();
-		m_frame = null;
 	}	//	dispose
 
 	/**
@@ -683,9 +651,8 @@ public class WLoadOrder extends LoadOrder
             }
         });*/
 		
-		stockModel = new DefaultTableModel(null, getStockColumnNames());
-		stockTable.setModel(stockModel);
-		setStockColumnClass(stockTable);
+//		stockTable.setModel(stockModel);
+//		setStockColumnClass(stockTable);
 		
 	}   //  dynInit
 //	
@@ -760,10 +727,7 @@ public class WLoadOrder extends LoadOrder
 		w_orderLineTable.getModel().removeTableModelListener(this);
 		count=0;
 		//  Set Model Line
-		DefaultTableModel modelLine = new DefaultTableModel();
-		orderLineTable.setModel(modelLine);
 		//	Set Stock Model
-		stockModel = new DefaultTableModel(null, getStockColumnNames());
 		stockTable.setModel(stockModel);
 		setStockColumnClass(stockTable);
 		//	Parameters
@@ -817,7 +781,7 @@ public class WLoadOrder extends LoadOrder
 		}
 		//	
 		if(msg != null) {
-			ADialog.info(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), msg));
+			FDialog.info(m_WindowNo, parameterPanel, null, Msg.parseTranslation(Env.getCtx(), msg));
 			calculate();
 			return;
 		}
@@ -967,7 +931,7 @@ public class WLoadOrder extends LoadOrder
 		}
 		//	
 		if(msg != null) {
-			ADialog.info(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), msg));
+			FDialog.info(m_WindowNo, parameterPanel, null, Msg.parseTranslation(Env.getCtx(), msg));
 			calculate();
 			return false;
 		}
@@ -1111,20 +1075,17 @@ public class WLoadOrder extends LoadOrder
 	private void saveData() {
 		try	{	
 			String msg = generateLoadOrder(trxName);
-			statusBar.setStatusLine(msg);
 			trx.commit();
-			ADialog.info(m_WindowNo, panel, null, msg);
+			FDialog.info(m_WindowNo, parameterPanel, null, msg);
 			shipperPick.setValue(0);
 			driverSearch.removeAllItems();
 			vehicleSearch.removeAllItems();
-			parameterCollapsiblePanel.setCollapsed(false);
 			//	Clear Data
 			clearData();
 			calculate();
 		} catch (Exception e) {
 			trx.rollback();
-			ADialog.error(m_WindowNo, panel, "Error", e.getLocalizedMessage());
-			statusBar.setStatusLine("Error: " + e.getLocalizedMessage());
+			FDialog.error(m_WindowNo, parameterPanel, "Error", e.getLocalizedMessage());
 			e.printStackTrace();
 			return;
 		}
@@ -1194,7 +1155,7 @@ public class WLoadOrder extends LoadOrder
 			}	
 		} else if(arg0.getTarget().equals(gLoadOrderButton)) {
 			if(validData()) {
-				if (ADialog.ask(m_WindowNo, panel, null, 
+				if (FDialog.ask(m_WindowNo, parameterPanel, null, 
 						Msg.translate(Env.getCtx(), "GenerateOrder") + "?")) {
 					saveData();
 				}
@@ -1270,7 +1231,7 @@ public class WLoadOrder extends LoadOrder
 			if(col == SELECT
 					&& m_IsBulk
 					&& moreOneSelect(w_orderTable)) {
-				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
+				FDialog.info(m_WindowNo, parameterPanel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
 				w_orderTable.setValueAt(false, row, SELECT);
 				return;
 			}
@@ -1291,7 +1252,7 @@ public class WLoadOrder extends LoadOrder
 				setOrderLineColumnClass(w_orderLineTable);
 				setValueFromBuffer(w_orderLineTable);	
 			} else {
-				ADialog.info(m_WindowNo, panel, "Error", Msg.parseTranslation(Env.getCtx(), "@C_UOM_ID@ @NotFound@"));
+				FDialog.info(m_WindowNo, parameterPanel, "Error", Msg.parseTranslation(Env.getCtx(), "@C_UOM_ID@ @NotFound@"));
 				//loadOrder();
 				calculate();
 			}
@@ -1339,7 +1300,7 @@ public class WLoadOrder extends LoadOrder
 				}
 				//	
 				if(validError != null) {
-					ADialog.warn(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), validError));
+					FDialog.warn(m_WindowNo, parameterPanel, null, Msg.parseTranslation(Env.getCtx(), validError));
 					qty = qtyOrdered
 							.subtract(qtyDelivered)
 							.subtract(qtyOrderLine)
@@ -1377,7 +1338,7 @@ public class WLoadOrder extends LoadOrder
 						m_MaxSeqNo = seqNo;
 					}
 				} else {
-					ADialog.warn(m_WindowNo, panel, null, Msg.translate(Env.getCtx(), "SeqNoEx"));
+					FDialog.warn(m_WindowNo, parameterPanel, null, Msg.translate(Env.getCtx(), "SeqNoEx"));
 					m_MaxSeqNo += 10;
 					w_orderLineTable.setValueAt(m_MaxSeqNo, row, OL_SEQNO);
 				}
@@ -1706,7 +1667,7 @@ public class WLoadOrder extends LoadOrder
 		String errorMsg = loadOrder.getProcessMsg();
 		if(errorMsg != null
 				&& loadOrder.getDocStatus().equals(X_FTA_LoadOrder.DOCSTATUS_Invalid))
-			throw new AdempiereException(errorMsg);
+			errorMsg="asd";
 		//	Message
 		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + loadOrder.getDocumentNo() 
 				+ "] || @LineNo@" + " = [" + m_gen + "]" + (errorMsg != null? "\n@Errors@:" + errorMsg: ""));
