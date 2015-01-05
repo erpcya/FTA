@@ -771,7 +771,7 @@ public class LoadOrder {
 		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  4-Quantity Set
 		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Quantity Available
 		//  Table UI
-		stockTable.autoSize();
+//		stockTable.autoSize();
 	}
 	
 	
@@ -802,7 +802,7 @@ public class LoadOrder {
 		orderLineTable.setColumnClass(i++, Integer.class, false);		//  16-Sequence No
 		orderLineTable.setColumnClass(i++, String.class, true);			//  17-Delivery Rule
 		//  Table UI
-		orderLineTable.autoSize();
+//		orderLineTable.autoSize();
 	}
 	
 	/**
@@ -1224,7 +1224,7 @@ public class LoadOrder {
 			}
 		}
 		stockTable.setModel(stockModel);
-		stockTable.autoSize();
+//		stockTable.autoSize();
 		setStockColumnClass(stockTable);
 	}
 	

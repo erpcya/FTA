@@ -165,11 +165,9 @@ public class WLoadOrder extends LoadOrder
 	/**	Load Capacity			*/
 	private Label 			loadCapacityLabel = new Label();
 	private Doublebox 		loadCapacityField = new Doublebox();
-//	private NumberBox 		loadCapacityField = null;
 	/**	Volume Capacity			*/
 	private Label 			volumeCapacityLabel = new Label();
 	private Doublebox 		volumeCapacityField = new Doublebox();
-//	private NumberBox 		volumeCapacityField = null;
 	/**	Bulk				*/
 	private Checkbox 		isBulkCheck = new Checkbox();
 	/**	Product				*/
