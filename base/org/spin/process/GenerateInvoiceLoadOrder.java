@@ -141,10 +141,6 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 			while(rs.next()) {
 				int m_C_Order_ID = rs.getInt("C_Order_ID");
 				//
-				int m_FTA_LoadOrder_ID 	= rs.getInt("FTA_LoadOrder_ID");
-				MFTALoadOrder m_FTA_LoadOrder = new MFTALoadOrder(getCtx(), m_FTA_LoadOrder_ID, get_TrxName());
-				if(m_FTA_LoadOrder.getOperationType().equals("DFP"))
-				{
 				if (m_Current_Order_ID != m_C_Order_ID) {
 					//	Complete Previous Invoice
 					completeInvoice();
@@ -187,7 +183,24 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						invoiceLine.setC_OrderLine_ID(line.getC_OrderLine_ID());
 						invoiceLine.setM_Product_ID(product.getM_Product_ID());
 						invoiceLine.setC_UOM_ID(product.getC_UOM_ID());
+						int m_FTA_LoadOrder_ID 	= rs.getInt("FTA_LoadOrder_ID");
+						MFTALoadOrder m_FTA_LoadOrder = new MFTALoadOrder(getCtx(), m_FTA_LoadOrder_ID, get_TrxName());
+						if(m_FTA_LoadOrder.getOperationType().equals("DFP"))
+						{
 						invoiceLine.setQty(line.getQty());
+						}
+						else if(m_FTA_LoadOrder.getOperationType().equals("DBM"))
+						{
+							String sql = "SELECT FTA_RecordWeight_ID " +
+									"FROM  FTA_RecordWeight " +
+									"WHERE DocStatus='CO' " +
+									"AND FTA_LoadOrder_ID= ?";
+							
+							int FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), sql, m_FTA_LoadOrder_ID);
+							
+							MFTARecordWeight m_RecordWeight = m_RecordWeight = new MFTARecordWeight(getCtx(), FTA_RecordWeight_ID, get_TrxName());
+							invoiceLine.setQty(m_RecordWeight.getNetWeight());
+						}	
 						invoiceLine.setAD_Org_ID(m_Current_Invoice.getAD_Org_ID());
 						invoiceLine.setPriceList(oLine.getPriceList());
 						invoiceLine.setPriceEntered(oLine.getPriceEntered());
@@ -206,80 +219,6 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 					}
 					
 				}//End Invoice Line Created
-			}
-				else if(m_FTA_LoadOrder.getOperationType().equals("DBM"))
-				{
-					String sql = "SELECT FTA_RecordWeight_ID " +
-							"FROM  FTA_RecordWeight " +
-							"WHERE DocStatus='CO' " +
-							"AND FTA_LoadOrder_ID= ?";
-					
-					int FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), sql, m_FTA_LoadOrder_ID);
-					
-					MFTARecordWeight m_RecordWeight = m_RecordWeight = new MFTARecordWeight(getCtx(), FTA_RecordWeight_ID, get_TrxName());
-					
-					if (m_Current_Order_ID != m_C_Order_ID) {
-						//	Complete Previous Invoice
-						completeInvoice();
-						m_Current_Order_ID = m_C_Order_ID;
-						//	Valid Purchase Order and Business Partner
-						if(m_C_Order_ID == 0)
-							throw new AdempiereException("@C_Order_ID@ @NotFound@");
-						//Load Order From Farming
-						MOrder order = new MOrder(getCtx(), m_Current_Order_ID, get_TrxName());
-						//Create Invoice From Order
-						m_Current_Invoice = new MInvoice(order, p_C_DocTypeTarget_ID, p_DateInvoiced);
-						m_Current_Invoice.setDateAcct(p_DateInvoiced);
-						//	Set DocStatus
-						m_Current_Invoice.setDocStatus(X_C_Invoice.DOCSTATUS_Drafted);
-						m_Current_Invoice.saveEx(get_TrxName());
-						//	Initialize Message
-						if(msg.length() > 0)
-							msg.append(" - " + m_Current_Invoice.getDocumentNo());
-						else
-							msg.append(m_Current_Invoice.getDocumentNo());		
-					}
-					//Invoiced Created?
-					if (m_Current_Invoice != null){
-						//	Get Values from Result Set
-						int m_FTA_LoadOrderLine_ID 	= rs.getInt("FTA_LoadOrderLine_ID");
-						
-						//Get Lines From Load Order
-						List<MFTALoadOrderLine> lines = new Query(getCtx(), MFTALoadOrderLine.Table_Name, "FTA_LoadOrderLine_ID = ?",get_TrxName())
-								.setOnlyActiveRecords(true)
-								.setParameters(m_FTA_LoadOrderLine_ID)
-								.list();
-						
-						//Create Invoice Lines From Order
-						for (MFTALoadOrderLine line : lines) {
-							MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), 0, get_TrxName());
-							//	Get Product
-							MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
-							MOrderLine oLine = new MOrderLine(getCtx(), line.getC_OrderLine_ID(), get_TrxName());
-							//	Set Values For Line
-							invoiceLine.setC_OrderLine_ID(line.getC_OrderLine_ID());
-							invoiceLine.setM_Product_ID(product.getM_Product_ID());
-							invoiceLine.setC_UOM_ID(product.getC_UOM_ID());
-							invoiceLine.setQty(m_RecordWeight.getNetWeight());
-							invoiceLine.setAD_Org_ID(m_Current_Invoice.getAD_Org_ID());
-							invoiceLine.setPriceList(oLine.getPriceList());
-							invoiceLine.setPriceEntered(oLine.getPriceEntered());
-							invoiceLine.setPriceActual(oLine.getPriceActual());
-							invoiceLine.setC_Tax_ID(oLine.getC_Tax_ID());
-							invoiceLine.setC_Invoice_ID(m_Current_Invoice.getC_Invoice_ID());
-							invoiceLine.save(get_TrxName());
-							//	
-							line.setC_InvoiceLine_ID(invoiceLine.getC_InvoiceLine_ID());
-							line.saveEx();
-							//	Change Load Order
-							MFTALoadOrder lo = new MFTALoadOrder(getCtx(), 
-									line.getFTA_LoadOrder_ID(), get_TrxName());
-							lo.setIsInvoiced(true);
-							lo.saveEx();
-						}
-						
-					}//End Invoice Line Created
-				}
 				}//End Invoice Generated
 			
 			completeInvoice();
