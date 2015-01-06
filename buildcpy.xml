@@ -12,6 +12,7 @@
   <property name="dist" value="${basedir}/dist"/>
   <property name="patches" value="${basedir}/patches"/>
   <property name="client" value="${basedir}/client"/>
+	<property name="base" value="${basedir}/base"/>
   <property name="zksrc" value="${basedir}/zkwebui/WEB-INF/src"/>
   <property name="zkclasses" value="${dist}/zkclass/WEB-INF/classes"/>
   <property name="class" value="${dist}/class"/>
@@ -26,9 +27,18 @@
     <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
       <include name="*.jar"/>
     </fileset>
+  	 <fileset dir="${custom-smartbrowse.trunk}/packages/Custom-SmartBrowse/lib">
+  	  	      <include name="*.jar"/>
+  	  	    </fileset>
     <fileset dir="${adempiere.trunk}/zkwebui/dist">
       <include name="*.war"/>
     </fileset>
+  	<fileset dir="${basedir}/packages/FTA/lib">
+  	  	      <include name="*.jar"/>
+  	</fileset>
+ 	 <fileset dir="${get-weight.trunk}/packages/Get-Weight/lib">
+ 	      <include name="*.jar"/>
+ 	    </fileset>
   </path>
 
   <!-- @author Carlos Parada Set Path --> 
@@ -38,6 +48,9 @@
   	<fileset dir="${basedir}/packages/FTA/lib">
   	  	      <include name="*.jar"/>
   	</fileset>
+ 	 <fileset dir="${custom-smartbrowse.trunk}/packages/Custom-SmartBrowse/lib">
+ 	  	      <include name="*.jar"/>
+ 	  	    </fileset>
     <fileset dir="${adempiere.trunk}/lib">
       <include name="*.jar"/>
     </fileset>
@@ -69,10 +82,8 @@
   <target name="compile" depends="init_class"
         description="compile the source " >
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    <javac srcdir="${patches}:${client}" destdir="${class}" includeantruntime="false" >
+    <javac srcdir="${patches}:${client}:${base}" destdir="${class}" includeantruntime="false" >
       <classpath refid="compile.classpath"/>
-  	  <include name="**/org/spin/model/*.java"/>
-  	  <include name="**/org/spin/util/*.java"/>	
     </javac>
     <!--
     <javac srcdir="${client}" destdir="${class}">
