@@ -204,8 +204,6 @@ public class WLoadOrder extends LoadOrder
 	/**	Collapsible Panel for Parameter		*/
 	private North north = new North();
 	/**	Collapsible Panel for Stock			*/
-//	private South south = null;
-//	private North north = new North();
 	Center center = new Center();
 	private WListbox w_orderTable = ListboxFactory.newDataTable();
 	private WListbox w_orderLineTable = ListboxFactory.newDataTable();
@@ -228,7 +226,6 @@ public class WLoadOrder extends LoadOrder
 
 		mainLayout.setWidth("99%");
 		mainLayout.setHeight("100%");
-//		mainPanel.setLayout(mainLayout);
 		parameterPanel.appendChild(parameterLayout);
 		
 		Rows rows = null;
@@ -237,10 +234,7 @@ public class WLoadOrder extends LoadOrder
 		rows = parameterLayout.newRows();
 		row = rows.newRow();
 		//
-//		parameterPanel.setLayout(parameterLayout);
-//		loadOrderPanel.setLayout(loadOrderLayout);
 		driverLabel.setText(Msg.translate(Env.getCtx(), "FTA_Driver_ID"));
-//		mainLayout.appendChild(parameterPanel);
 		shipperLabel.setText(Msg.translate(Env.getCtx(), "M_Shipper_ID"));
 		vehicleLabel.setText(Msg.translate(Env.getCtx(), "FTA_Vehicle_ID"));
 		salesRegionLabel.setText(Msg.translate(Env.getCtx(), "C_SalesRegion_ID"));
@@ -294,12 +288,6 @@ public class WLoadOrder extends LoadOrder
 		volumeDiffLabel.setText(Msg.translate(Env.getCtx(), "DiffVolume"));
 		volumeDiffField = new NumberBox(true);
 		volumeDiffField.setValue(Env.ZERO);
-		
-//		stockCollapsiblePanel.addVetoableChangeListener(this);
-		
-//		mainPanel.add(parameterCollapsiblePanel, BorderLayout.NORTH);
-		
-		//mainPanel.add(parameterPanel, BorderLayout.NORTH);
 		
 		organizationLabel.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
 		row.appendChild(organizationLabel.rightAlign());
@@ -418,29 +406,7 @@ public class WLoadOrder extends LoadOrder
 		
 		invoiceLabel.setText(" " + Msg.translate(Env.getCtx(), "C_OrderLine_ID"));
 		
-//		center.setStyle("border: none;");
-////		orderLayout.appendChild(center);
-//		orderLabel.setText("asdadsa");
-////		orderPanel.appendChild(w_orderTable);
-//		w_orderTable.setWidth("100%");
-//		w_orderTable.setHeight("30%");
-//		
-////		orderPanel.appendChild(w_orderLineTable);
-//		center.appendChild(w_orderTable);
-//		orderLayout.appendChild(center);
-//		mainLayout.appendChild(orderLayout);
-//		center.setCollapsible(true);
-//		center.setSplittable(true);
-//		center.setTitle("sadsad");
-//		south = new South();
-//		south.setStyle("border: none");
-//		south.appendChild(orderLabel);
-//		center.appendChild(w_orderLineTable);
-//		mainLayout.appendChild(center);
-//		w_orderLineTable.setWidth("100%");
-//		w_orderLineTable.setHeight("50%");
-//		mainLayout.appendChild(south);
-			invoiceInfo.setText(".");
+		invoiceInfo.setText(".");
 		paymentInfo.setText(".");
 		orderPanel.appendChild(orderLayout);
 		orderPanel.setWidth("100%");
@@ -602,21 +568,15 @@ public class WLoadOrder extends LoadOrder
 		bpartnerSearch = new WTableDirEditor("C_BPartner_ID", true, false, true, lookupBPartner);
 		bpartnerSearch.addValueChangeListener(this);
 		
-		//	Visible
-//		productLabel.setVisible(false);
-//		productSearch.setVisible(false);
-//		bpartnerLabel.setVisible(false);
-//		bpartnerSearch.setVisible(false);
-//		
-//		driverSearch.setEnabled(false);
-//		driverSearch.setEditable(false);		
-//		vehicleSearch.setEnabled(false);
-//		vehicleSearch.setEditable(false);
-//		
-//		//  Translation
-//		statusBar.setStatusLine(Msg.translate(Env.getCtx(), "FTA_LoadOrder_ID"));
-//		statusBar.setStatusDB("");
-//		
+//			Visible
+		productLabel.setVisible(false);
+		productSearch.setVisible(false);
+		bpartnerLabel.setVisible(false);
+		bpartnerSearch.setVisible(false);
+		
+		driverSearch.setEnabled(false);
+		vehicleSearch.setEnabled(false);
+
 //		//	Document Type Order
 		docTypeSearch.addActionListener(this);
 //		
@@ -720,7 +680,6 @@ public class WLoadOrder extends LoadOrder
 	private void clearData() {
 		w_orderTable.getModel().removeTableModelListener(this);
 		ListModelTable modelP = new ListModelTable();
-//		modelP.addTableModelListener(this);
 		w_orderTable.setModel(modelP);
 		
 		w_orderLineTable.getModel().removeTableModelListener(this);
@@ -809,16 +768,12 @@ public class WLoadOrder extends LoadOrder
 		value = salesRepSearch.getValue();
 		m_SalesRep_ID = ((Integer)(value != null? value: 0)).intValue();
 		//	Warehouse
-//		KeyNamePair pp = (KeyNamePair)(Object) warehouseSearch.getSelectedItem();
 		m_M_Warehouse_ID = warehouseSearch.getSelectedIndex();
-//				(pp != null? pp.getKey(): 0);
 		//	Operation Type
 		value = operationTypePick.getValue();
 		m_OperationType = (String)value;
 		//	Document Type
-//		pp = (KeyNamePair)(Object) docTypeSearch.getSelectedItem();
 		m_C_DocType_ID = docTypeSearch.getSelectedIndex();
-//				(pp != null? pp.getKey(): 0);
 		//	Document Type Target
 		value = docTypeTargetPick.getValue();
 		m_C_DocTypeTarget_ID = ((Integer)(value != null? value: 0)).intValue();
@@ -846,21 +801,15 @@ public class WLoadOrder extends LoadOrder
 		value = shipperPick.getValue();
 		m_M_Shipper_ID = ((Integer)(value != null? value: 0)).intValue();
 		//	Driver
-//		pp = (KeyNamePair) driverSearch.getSelectedItem();
 		if(driverSearch.getName() != null)
 			m_FTA_Driver_ID = Integer.parseInt(driverSearch.getName());
 		else
 			m_FTA_Driver_ID = 0;
-//		(pp != null? pp.getKey(): 0);
-//		pp = (KeyNamePair) vehicleSearch.getSelectedItem();
 		//	Vehicle
-//		m_FTA_Vehicle_ID = (pp != null? pp.getKey(): 0);
 		if(vehicleSearch.getName() != null)
 			m_FTA_Vehicle_ID =  Integer.parseInt(vehicleSearch.getName());
 		else
 			m_FTA_Vehicle_ID = 0;
-//		pp = (KeyNamePair) docTypeSearch.getSelectedItem();
-//		m_C_DocType_ID = (pp != null? pp.getKey(): 0);
 		if(docTypeSearch.getName() != null)
 			m_C_DocType_ID = Integer.parseInt(docTypeSearch.getName());
 		else
@@ -964,7 +913,6 @@ public class WLoadOrder extends LoadOrder
 		//	Load Data
 		Vector<Vector<Object>> data = w_getOrderData(w_orderTable, m_OperationType);
 		Vector<String> columnNames = getOrderColumnNames();
-		System.out.println(data);
 
 		//  Remove previous listeners
 		w_orderTable.getModel().removeTableModelListener(this);
@@ -1149,10 +1097,8 @@ public class WLoadOrder extends LoadOrder
 			cmd_search();
 		} else if(arg0.getTarget().equals(selectAllButton)) {
 			int rows = w_orderLineTable.getRowCount();
-			System.out.println(w_orderLineTable.getRowCount());
 			for (int i = 0; i < rows; i++) {
 				w_orderLineTable.setValueAt(true, i, SELECT);
-				System.out.println("sd");
 			}	
 		} else if(arg0.getTarget().equals(gLoadOrderButton)) {
 			if(validData()) {
@@ -1238,14 +1184,13 @@ public class WLoadOrder extends LoadOrder
 			}
 			//	Load Lines
 			if(m_C_UOM_Weight_ID != 0) {
-				StringBuffer sql = getQueryLine(w_orderTable,m_OperationType);
+				StringBuffer sql = w_getQueryLine(w_orderTable, m_OperationType);
 				Vector<Vector<Object>> data = getOrderLineData(w_orderTable, sql);
 				Vector<String> columnNames = getOrderLineColumnNames();
 				
 				loadBuffer(w_orderLineTable);
 				//  Remove previous listeners
 				w_orderLineTable.getModel().removeTableModelListener(this);
-				System.out.println(data);
 				//  Set Model
 				ListModelTable modelP = new ListModelTable(data);
 				modelP.addTableModelListener(this);
@@ -1672,5 +1617,175 @@ public class WLoadOrder extends LoadOrder
 		//	Message
 		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + loadOrder.getDocumentNo() 
 				+ "] || @LineNo@" + " = [" + m_gen + "]" + (errorMsg != null? "\n@Errors@:" + errorMsg: ""));
+	}
+	/**
+	 * Get Order Line Data
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:11:36
+	 * @param orderTable
+	 * @return
+	 * @return StringBuffer
+	 */
+	protected StringBuffer w_getQueryLine(WListbox orderTable,String p_OperationType) {
+		StringBuffer sql = null;
+				
+		log.config("getQueryLine");
+		
+		/** 2014-12-02 Carlos Parada Add Support to DD_OrderLine */ 
+		if (p_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement)) {
+			int rows = orderTable.getRowCount();
+			m_RowsSelected = 0;
+			StringBuffer sqlWhere = new StringBuffer("ord.DD_Order_ID IN(0"); 
+			for (int i = 0; i < rows; i++) {
+				if (((Boolean)orderTable.getValueAt(i, 0)).booleanValue()) {
+					int ID = ((KeyNamePair)orderTable.getValueAt(i, ORDER)).getKey();
+					sqlWhere.append(",");
+					sqlWhere.append(ID);
+					m_RowsSelected ++;
+				}
+			}
+			sqlWhere.append(")");
+			
+			sql = new StringBuffer("SELECT ord.M_Warehouse_ID, alm.Name Warehouse, lord.DD_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
+					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
+					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, 0 QtyInvoiced, lord.QtyDelivered, " +
+					"SUM(" +
+					"		CASE " +
+					"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"			THEN lc.Qty " +
+					"			ELSE 0 " +
+					"		END" +
+					") QtyLoc, " +
+					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
+					"	SUM(" +
+					"			CASE " +
+					"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"				THEN lc.Qty " +
+					"				ELSE 0 " +
+					"			END" +
+					"		)" +
+					") Qty, " +
+					"pro.Weight, pro.Volume, ord.DeliveryRule " +
+					"FROM DD_Order ord " +
+					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
+					"INNER JOIN M_Locator l ON(l.M_Locator_ID = lord.M_Locator_ID) " + 
+					"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = l.M_Warehouse_ID) " +
+					"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
+					"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
+					"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
+					"LEFT JOIN FTA_LoadOrderLine lc ON(lc.DD_OrderLine_ID = lord.DD_OrderLine_ID) " +
+					"LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
+					"LEFT JOIN (" +
+					"				SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
+					"					COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, " +
+					"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
+					"				FROM M_Storage st " +
+					"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
+					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s " +
+					"														ON(s.M_Product_ID = lord.M_Product_ID " +
+					"																AND s.M_Warehouse_ID = l.M_Warehouse_ID " +
+					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
+					.append("WHERE pro.IsStocked = 'Y' ")
+					.append("AND ")
+					.append(sqlWhere).append(" ");
+			//	Add Where
+			if(m_IsBulk)
+				sql.append("AND lord.M_Product_ID = ?").append(" ");
+			//	Group By
+			sql.append("GROUP BY ord.M_Warehouse_ID, lord.DD_Order_ID, lord.DD_OrderLine_ID, " +
+					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
+					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " +
+					"lord.QtyDelivered, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
+			//	Having
+			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
+					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
+					"													ELSE 0 " +
+					"												END" +
+					"											)" +
+					"			) > 0").append(" ");
+			//	Order By
+			sql.append("ORDER BY lord.DD_Order_ID ASC");
+			
+		}
+		else{
+
+			int rows = orderTable.getRowCount();
+			m_RowsSelected = 0;
+			StringBuffer sqlWhere = new StringBuffer("ord.C_Order_ID IN(0"); 
+			for (int i = 0; i < rows; i++) {
+				if (((Boolean)orderTable.getValueAt(i, 0)).booleanValue()) {
+					int ID = ((KeyNamePair)orderTable.getValueAt(i, ORDER)).getKey();
+					sqlWhere.append(",");
+					sqlWhere.append(ID);
+					m_RowsSelected ++;
+				}
+			}
+			sqlWhere.append(")");
+			
+			sql = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
+					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
+					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
+					"SUM(" +
+					"		CASE " +
+					"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"			THEN lc.Qty " +
+					"			ELSE 0 " +
+					"		END" +
+					") QtyLoc, " +
+					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
+					"	SUM(" +
+					"			CASE " +
+					"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"				THEN lc.Qty " +
+					"				ELSE 0 " +
+					"			END" +
+					"		)" +
+					") Qty, " +
+					"pro.Weight, pro.Volume, ord.DeliveryRule " +
+					"FROM C_Order ord " +
+					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
+					"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = lord.M_Warehouse_ID) " +
+					"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
+					"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
+					"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
+					"LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
+					"LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
+					"LEFT JOIN (" +
+					"				SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
+					"					COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, " +
+					"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
+					"				FROM M_Storage st " +
+					"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
+					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s " +
+					"														ON(s.M_Product_ID = lord.M_Product_ID " +
+					"																AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
+					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
+					.append("WHERE pro.IsStocked = 'Y' ")
+					.append("AND ")
+					.append(sqlWhere).append(" ");
+			//	Add Where
+			if(m_IsBulk)
+				sql.append("AND lord.M_Product_ID = ?").append(" ");
+			//	Group By
+			sql.append("GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
+					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
+					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " + 
+					"lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
+			//	Having
+			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
+					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
+					"													ELSE 0 " +
+					"												END" +
+					"											)" +
+					"			) > 0").append(" ");
+			//	Order By
+			sql.append("ORDER BY lord.C_Order_ID ASC");
+			
+		}
+		//	
+		log.fine("SQL Line Order=" + sql.toString());
+		//	Return
+		return sql;
 	}
 }

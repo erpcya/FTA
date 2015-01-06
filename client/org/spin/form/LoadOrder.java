@@ -607,7 +607,7 @@ public class LoadOrder {
 		orderTable.setColumnClass(i++, String.class, true);			//  15-Address 4
 		//	
 		//  Table UI
-		orderTable.autoSize();
+//		orderTable.autoSize();
 	}
 	
 	/**
