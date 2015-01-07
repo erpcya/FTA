@@ -681,8 +681,9 @@ public class WLoadOrder extends LoadOrder
 		w_orderTable.getModel().removeTableModelListener(this);
 		ListModelTable modelP = new ListModelTable();
 		w_orderTable.setModel(modelP);
-		
+		modelP = new ListModelTable();
 		w_orderLineTable.getModel().removeTableModelListener(this);
+		w_orderLineTable.setModel(modelP);
 		count=0;
 		//  Set Model Line
 		//	Set Stock Model
@@ -1026,7 +1027,7 @@ public class WLoadOrder extends LoadOrder
 			String msg = generateLoadOrder(trxName);
 			trx.commit();
 			FDialog.info(m_WindowNo, parameterPanel, null, msg);
-			shipperPick.setValue(0);
+			shipperPick.setValue(null);
 			driverSearch.removeAllItems();
 			vehicleSearch.removeAllItems();
 			//	Clear Data
