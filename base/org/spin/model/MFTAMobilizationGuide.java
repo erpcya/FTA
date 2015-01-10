@@ -202,11 +202,34 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		//setIsApproved(false);
 		return true;
 	}	//	rejectIt
-	
+	public void ValidRecordWeight()
+	{
+		
+		String sql ;
+		int p_FTA_RecordWeight_ID = 0;
+		
+		sql = "SELECT rw.FTA_RecordWeight_ID"
+				+ " FROM FTA_RecordWeight rw"
+				+ " WHERE"
+				+ "		rw.DocStatus IN('IP', 'DR')"
+				+ "		AND rw.FTA_LoadOrder_ID = ?"; 
+		
+		p_FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), 
+				sql,getFTA_LoadOrder_ID());
+		setFTA_RecordWeight_ID(p_FTA_RecordWeight_ID);
+		saveEx();
+			if(p_FTA_RecordWeight_ID<0)
+			{
+				m_processMsg = "@FTA_RecordWeight_ID@ @NotFound@";
+			}
+			
+			
+	}
 	/**
 	 * 	Complete Document
 	 * 	@return new status (Complete, In Progress, Invalid, Waiting ..)
 	 */
+	
 	public String completeIt()
 	{
 		//	Re-Check
@@ -234,7 +257,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 			else if(getFTA_RecordWeight_ID() == 0) {
 				MFTALoadOrder loadOrder = new MFTALoadOrder(getCtx(), getFTA_LoadOrder_ID(), get_TrxName());
 				if(loadOrder.isHandleRecordWeight())
-					m_processMsg = "@FTA_RecordWeight_ID@ @NotFound@";
+					ValidRecordWeight();
 			} else 
 				m_processMsg = validMGReference();
 		} else {
