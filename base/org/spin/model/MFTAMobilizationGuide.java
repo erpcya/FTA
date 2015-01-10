@@ -276,7 +276,8 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		//	Dixon Martinez 03/06/2014 08:58:00
 		//	Add Support to complete exists guide outside
 		if(isSOTrx()
-				&& getExt_Guide() == null){
+				&& (getExt_Guide() == null
+						|| getExt_Guide().trim().length() == 0)){
 			m_processMsg = "@Ext_Guide@ @NotFound@";
 			return DOCACTION_Invalidate;
 		}
