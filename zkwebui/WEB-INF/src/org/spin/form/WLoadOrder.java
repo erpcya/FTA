@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
@@ -203,6 +204,7 @@ public class WLoadOrder extends LoadOrder
 	
 	/**	Collapsible Panel for Parameter		*/
 	private North north = new North();
+	private North north1 = new North();
 	/**	Collapsible Panel for Stock			*/
 	Center center = new Center();
 	private WListbox w_orderTable = ListboxFactory.newDataTable();
@@ -377,12 +379,13 @@ public class WLoadOrder extends LoadOrder
 		row.appendChild(bSearch);
 		bSearch.addActionListener(this);
 		//	
-		north = new North();
-		north.setCollapsible(true);
-		north.setTitle("Parameter");
-			north.setStyle("border-style: solid; border-width: 1px; border-color: rgb(0,0,255)");
-		mainLayout.appendChild(north);
-		north.appendChild(parameterPanel);
+		north1 = new North();
+		north1.setCollapsible(true);
+		north1.setTitle("Parameter");
+			
+		north1.setStyle("border-style: solid; border-width: 1px; border-color: rgb(0,0,255)");
+		mainLayout.appendChild(north1);
+		north1.appendChild(parameterPanel);
 		
 		South south = new South();
 		south = new South();
@@ -681,8 +684,9 @@ public class WLoadOrder extends LoadOrder
 		w_orderTable.getModel().removeTableModelListener(this);
 		ListModelTable modelP = new ListModelTable();
 		w_orderTable.setModel(modelP);
-		
+		modelP = new ListModelTable();
 		w_orderLineTable.getModel().removeTableModelListener(this);
+		w_orderLineTable.setModel(modelP);
 		count=0;
 		//  Set Model Line
 		//	Set Stock Model
@@ -747,7 +751,7 @@ public class WLoadOrder extends LoadOrder
 		}
 		//	Load Data
 		if(loadDataOrder()){
-			north.setOpen(true);
+			north1.setOpen(false);
 		}
 	}
 	
@@ -1026,7 +1030,7 @@ public class WLoadOrder extends LoadOrder
 			String msg = generateLoadOrder(trxName);
 			trx.commit();
 			FDialog.info(m_WindowNo, parameterPanel, null, msg);
-			shipperPick.setValue(0);
+			shipperPick.setValue(null);
 			driverSearch.removeAllItems();
 			vehicleSearch.removeAllItems();
 			//	Clear Data
@@ -1613,7 +1617,7 @@ public class WLoadOrder extends LoadOrder
 		String errorMsg = loadOrder.getProcessMsg();
 		if(errorMsg != null
 				&& loadOrder.getDocStatus().equals(X_FTA_LoadOrder.DOCSTATUS_Invalid))
-			errorMsg="asd";
+			throw new AdempiereException(errorMsg);
 		//	Message
 		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + loadOrder.getDocumentNo() 
 				+ "] || @LineNo@" + " = [" + m_gen + "]" + (errorMsg != null? "\n@Errors@:" + errorMsg: ""));
