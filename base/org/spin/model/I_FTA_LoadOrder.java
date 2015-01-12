@@ -321,6 +321,15 @@ public interface I_FTA_LoadOrder
 	/** Get Is Handle Record Weight	  */
 	public boolean isHandleRecordWeight();
 
+    /** Column name IsImmediateDelivery */
+    public static final String COLUMNNAME_IsImmediateDelivery = "IsImmediateDelivery";
+
+	/** Set Immediate Delivery	  */
+	public void setIsImmediateDelivery (boolean IsImmediateDelivery);
+
+	/** Get Immediate Delivery	  */
+	public boolean isImmediateDelivery();
+
     /** Column name IsInvoiced */
     public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
 

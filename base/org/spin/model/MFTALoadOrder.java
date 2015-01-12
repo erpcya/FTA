@@ -27,6 +27,7 @@ import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
+import org.compiere.model.MInOut;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -689,6 +690,42 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		}
 		//	Convert
 		MFTALoadOrderLine [] lines = new MFTALoadOrderLine[list.size ()];
+		list.toArray(lines);
+		return lines;
+	}
+	
+	
+	public MInOut[] getInOutOfLoadOrder(int p_FTA_LoadOrder_ID ) {
+		//	SQL
+		String sql = new String("SELECT io.* "
+				+ " FROM FTA_LoadOrderLine lol "
+				+ " INNER JOIN M_InOutLine iol ON (lol.M_InOutLine_ID = iol.M_InOutLine_ID)"
+				+ " INNER JOIN M_InOut io ON (io.M_InOut_ID = iol.M_InOut_ID )"
+				+ " WHERE FTA_LoadOrder_ID=?");
+		//	Get
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		//	List
+		ArrayList<MInOut> list = new ArrayList<MInOut>();
+		//	
+		try {
+			ps = DB.prepareStatement(sql.toString(), get_TrxName());
+			ps.setInt(1, p_FTA_LoadOrder_ID);
+			rs = ps.executeQuery();
+			//	
+			while(rs.next()){
+				list.add(new MInOut(getCtx(), rs, get_TrxName()));
+			}
+		} catch(Exception ex) {
+			log.severe("getInOutOfLoadOrder() Error: " + ex.getMessage());
+		} finally {
+			  DB.close(rs, ps);
+		      rs = null; ps = null;
+		}
+		if(list.size() == 0 )
+			return null;
+		//	Convert
+		MInOut [] lines = new MInOut[list.size ()];
 		list.toArray(lines);
 		return lines;
 	}
