@@ -192,14 +192,6 @@ public class FTAModelValidator implements ModelValidator {
 			}
 		}
 		//	End Dixon Martinez
-		else if (po.get_TableName().equals(X_FTA_LoadOrder.Table_Name) 
-				&& type == TYPE_BEFORE_NEW)	 {
-				MFTALoadOrder m_LoadOrder = (MFTALoadOrder) po;
-				
-				MDocType m_DocType = new MDocType(Env.getCtx(), m_LoadOrder.getC_DocType_ID(), po.get_TrxName());
-
-				m_LoadOrder.setIsImmediateDelivery(m_DocType.get_ValueAsBoolean("IsImmediateDelivery"));
-			}
 		return null;
 	}
 	

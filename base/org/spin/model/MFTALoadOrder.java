@@ -174,6 +174,14 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			return DocAction.STATUS_Invalid;
 		}
 		
+		//	Set if Handle Record Weight
+		setIsHandleRecordWeight(MFTAWeightScale
+				.isWeightScaleOrg(getAD_Org_ID(), get_TrxName()));
+		//	Set Immediate 
+		MDocType m_DocType = MDocType.get(Env.getCtx(), getC_DocType_ID());
+
+		setIsImmediateDelivery(m_DocType.get_ValueAsBoolean("IsImmediateDelivery"));
+		
 		//	Add up Amounts
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
@@ -838,7 +846,7 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
-		//	Dixon Martinez 20/12/2013 09:29
+		//	Dixon Martinez 2013-12-20 09:29
 		//	Add validation for trying to save the charge by not permitted to do so if the vehicle type is null. 
 			
 		String msg = null;
@@ -859,9 +867,6 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			throw new AdempiereException(msg);
 		//	End Dixon Martinez
 		
-		//	Set if Handle Record Weight
-		setIsHandleRecordWeight(MFTAWeightScale
-				.isWeightScaleOrg(getAD_Org_ID(), get_TrxName()));
 		//	Set Values from ticket
 		if(getFTA_EntryTicket_ID() > 0) {
 			MFTAEntryTicket m_EntryTicket = (MFTAEntryTicket) getFTA_EntryTicket();
