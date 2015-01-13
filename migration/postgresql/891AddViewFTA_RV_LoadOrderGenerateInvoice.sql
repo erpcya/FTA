@@ -36,7 +36,8 @@ SELECT
     lol.FTA_LoadOrderLine_ID,
     lo.DocStatus,
     lol.C_InvoiceLine_ID,
-    lol.M_InOutLine_ID
+    lol.M_InOutLine_ID,
+    lo.IsImmediateDelivery
 FROM FTA_LoadOrderLine lol 
 INNER JOIN FTA_LoadOrder lo ON (lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID)
 INNER JOIN C_OrderLine ol ON (lol.C_OrderLine_ID = ol.C_OrderLine_ID)
