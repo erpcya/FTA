@@ -123,3 +123,17 @@ ALTER TABLE FTA_RecordWeight ADD TrailerPlate NVARCHAR2(60) DEFAULT NULL
 ALTER TABLE C_DocType ADD IsCheckReturn CHAR(1) DEFAULT 'N' CHECK (IsCheckReturn IN ('Y','N'))
 ;
 
+-- Jan 13, 2015 10:01:07 AM VET
+-- FTA
+ALTER TABLE C_DocType ADD IsImmediateDelivery CHAR(1) DEFAULT 'N' CHECK (IsImmediateDelivery IN ('Y','N'))
+;
+
+-- Jan 13, 2015 10:01:30 AM VET
+-- FTA
+ALTER TABLE FTA_LoadOrder ADD IsImmediateDelivery CHAR(1) DEFAULT 'N' CHECK (IsImmediateDelivery IN ('Y','N'))
+;
+
+-- Jan 13, 2015 10:02:03 AM VET
+-- FTA
+ALTER TABLE M_InOut ADD ControlNo NVARCHAR2(60) DEFAULT NULL 
+;
