@@ -369,7 +369,7 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 			bpartnerSearch.setValue(value);
 			m_C_BPartner_ID = ((Integer)value).intValue();
 			
-			m_FTA_FarmerCredit_ID = loadFarmerCredit(farmerCreditSearch, m_C_BPartner_ID);
+			m_FTA_FarmerCredit_ID =loadFarmerSearh(farmerCreditSearch);
 			loadBPartner();
 		}
 		//	Currency
@@ -382,6 +382,7 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 		else if (name.equals("Date") && multiCurrency.isSelected())
 			loadBPartner();
 	}   //  vetoableChange
+	
 	
 	public void loadBPartner()
 	{
