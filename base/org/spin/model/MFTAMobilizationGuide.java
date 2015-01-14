@@ -202,6 +202,10 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		//setIsApproved(false);
 		return true;
 	}	//	rejectIt
+	/**
+	 * Valid Reference in another record
+	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 10/01/2015, 16:05:21
+	 */
 	public void ValidRecordWeight()
 	{
 		
@@ -211,7 +215,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		sql = "SELECT rw.FTA_RecordWeight_ID"
 				+ " FROM FTA_RecordWeight rw"
 				+ " WHERE"
-				+ "		rw.DocStatus IN('IP', 'DR')"
+				+ "		rw.DocStatus IN('IP', 'CO',)"
 				+ "		AND rw.FTA_LoadOrder_ID = ?"; 
 		
 		p_FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), 
@@ -283,9 +287,6 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		}
 		
 		//	End Dixon Martinez
-		
-		
-		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
