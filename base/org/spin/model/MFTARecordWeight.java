@@ -1360,9 +1360,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			//	Verify if Is Immediate Delivery
 			if(lo.isImmediateDelivery()){
 				//	Not Created Shipments
-				MInOut [] inOut = lo.getInOutOfLoadOrder(getFTA_LoadOrder_ID());
-				if(inOut == null)	//	If not exists In Out return NULL
+				MInOut [] inOut = lo.getInOutFromLoadOrder(getFTA_LoadOrder_ID());
+				if(inOut == null) {	//	If not exists In Out return NULL
+					m_processMsg = "@IsImmediateDelivery@ (@M_InOut_ID@ @NotFound@)";
 					return null;
+				}
 				//	Set Value of FTA_RecordWeight
 				for (MInOut mInOut : inOut) {
 					mInOut.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
@@ -1515,9 +1517,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	Verify if Is Immediate Delivery
 		if(lo.isImmediateDelivery()) {
 			//	Not Created Shipments
-			MInOut [] inOut = lo.getInOutOfLoadOrder(getFTA_LoadOrder_ID());
-			if(inOut == null)	//	If not exists In Out return NULL
-				return "@M_InOut_ID@ @NotFound@";
+			MInOut [] inOut = lo.getInOutFromLoadOrder(getFTA_LoadOrder_ID());
+			if(inOut == null) {	//	If not exists In Out return NULL
+				m_processMsg = "@IsImmediateDelivery@ (@M_InOut_ID@ @NotFound@)";
+				return null;
+			}
 			//	Set Value of FTA_RecordWeight
 			for (MInOut mInOut : inOut) {
 				mInOut.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());

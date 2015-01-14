@@ -702,14 +702,21 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		return lines;
 	}
 	
-	
-	public MInOut[] getInOutOfLoadOrder(int p_FTA_LoadOrder_ID ) {
+	/**
+	 * Get Shipments from Load Order
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 14/1/2015, 16:29:38
+	 * @param p_FTA_LoadOrder_ID
+	 * @return
+	 * @return MInOut[]
+	 */
+	public MInOut[] getInOutFromLoadOrder(int p_FTA_LoadOrder_ID ) {
 		//	SQL
 		String sql = new String("SELECT io.* "
 				+ " FROM FTA_LoadOrderLine lol "
 				+ " INNER JOIN M_InOutLine iol ON (lol.M_InOutLine_ID = iol.M_InOutLine_ID)"
 				+ " INNER JOIN M_InOut io ON (io.M_InOut_ID = iol.M_InOut_ID )"
-				+ " WHERE FTA_LoadOrder_ID=?");
+				+ " WHERE lol.FTA_LoadOrder_ID = ?"
+				+ " AND io.DocStatus IN('CO', 'CL')");
 		//	Get
 		PreparedStatement ps = null;
 		ResultSet rs = null;
