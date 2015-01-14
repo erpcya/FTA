@@ -1513,11 +1513,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			return null;
 		}
 		//	Verify if Is Immediate Delivery
-		if(lo.isImmediateDelivery()){
+		if(lo.isImmediateDelivery()) {
 			//	Not Created Shipments
 			MInOut [] inOut = lo.getInOutOfLoadOrder(getFTA_LoadOrder_ID());
 			if(inOut == null)	//	If not exists In Out return NULL
-				return null;
+				return "@M_InOut_ID@ @NotFound@";
 			//	Set Value of FTA_RecordWeight
 			for (MInOut mInOut : inOut) {
 				mInOut.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
