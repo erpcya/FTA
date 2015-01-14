@@ -25,6 +25,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.MWarehouse;
@@ -199,11 +200,13 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					//	Create Shipment Line
 					MInOutLine shipmentLine = 
 							new MInOutLine(getCtx(), 0, get_TrxName());
+					//	Get Order Line
+					MOrderLine oLine = (MOrderLine) m_FTA_LoadOrderLine.getC_OrderLine();
 					//	Instance MProduct
 					MProduct product = MProduct.get(getCtx(), m_M_Product_ID);
 					//	Rate Convert
 					BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
-							product.getM_Product_ID(), product.getC_UOM_ID());
+							product.getM_Product_ID(), oLine.getC_UOM_ID());
 					//	Validate Rate equals null
 					if(rate == null){
 						throw new AdempiereException("@NoUOMConversion@");
@@ -213,18 +216,17 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					shipmentLine.setM_InOut_ID(m_Current_Shipment.getM_InOut_ID());
 					//	Quantity and Product
 					shipmentLine.setM_Product_ID(product.getM_Product_ID());
-					BigDecimal m_MovementQty = m_Qty.multiply(rate);
 					shipmentLine.setM_Warehouse_ID(m_Current_Shipment.getM_Warehouse_ID());
-					shipmentLine.setC_UOM_ID(product.getC_UOM_ID());
-					shipmentLine.setQty(m_FTA_LoadOrderLine.getQty());
+					shipmentLine.setC_UOM_ID(oLine.getC_UOM_ID());
+					shipmentLine.setQty(m_Qty.multiply(rate));
 					//	References
-					shipmentLine.setM_Locator_ID(m_MovementQty);
+					shipmentLine.setM_Locator_ID(m_Qty);
 					shipmentLine.setC_OrderLine_ID(m_FTA_LoadOrderLine.getC_OrderLine_ID());
 					//	Save Line
 					shipmentLine.saveEx(get_TrxName());
 					
 					//	Manually Process Shipment
-					m_FTA_LoadOrderLine.setConfirmedQty(m_MovementQty);
+					m_FTA_LoadOrderLine.setConfirmedQty(m_Qty);
 					m_FTA_LoadOrderLine.setM_InOutLine_ID(shipmentLine.get_ID());
 					m_FTA_LoadOrderLine.saveEx();
 					//	Instance MFTALoadOrder

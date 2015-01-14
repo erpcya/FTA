@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.spin.process;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -27,6 +28,7 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MUOMConversion;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Invoice;
 import org.compiere.process.ProcessInfoParameter;
@@ -140,6 +142,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 			//	
 			while(rs.next()) {
 				int m_C_Order_ID = rs.getInt("C_Order_ID");
+				BigDecimal m_Qty = rs.getBigDecimal("Qty");
 				//
 				if (m_Current_Order_ID != m_C_Order_ID) {
 					//	Complete Previous Invoice
@@ -179,18 +182,20 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						//	Get Product
 						MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
 						MOrderLine oLine = new MOrderLine(getCtx(), line.getC_OrderLine_ID(), get_TrxName());
+						//	Rate Convert
+						BigDecimal rate = MUOMConversion.getProductRateTo(Env.getCtx(), 
+								product.getM_Product_ID(), oLine.getC_UOM_ID());
+						
 						//	Set Values For Line
 						invoiceLine.setC_OrderLine_ID(line.getC_OrderLine_ID());
 						invoiceLine.setM_Product_ID(product.getM_Product_ID());
-						invoiceLine.setC_UOM_ID(product.getC_UOM_ID());
+						invoiceLine.setC_UOM_ID(oLine.getC_UOM_ID());
 						int m_FTA_LoadOrder_ID 	= rs.getInt("FTA_LoadOrder_ID");
 						MFTALoadOrder m_FTA_LoadOrder = new MFTALoadOrder(getCtx(), m_FTA_LoadOrder_ID, get_TrxName());
-						if(m_FTA_LoadOrder.getOperationType().equals("DFP"))
-						{
-						invoiceLine.setQty(line.getQty());
-						}
-						else if(m_FTA_LoadOrder.getOperationType().equals("DBM"))
-						{
+						if(m_FTA_LoadOrder.getOperationType().equals("DFP")) {
+							invoiceLine.setQtyEntered(m_Qty.multiply(rate));
+							invoiceLine.setQtyInvoiced(m_Qty);
+						} else if(m_FTA_LoadOrder.getOperationType().equals("DBM")) {
 							String sql = "SELECT FTA_RecordWeight_ID " +
 									"FROM  FTA_RecordWeight " +
 									"WHERE DocStatus='CO' " +
@@ -198,7 +203,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 							
 							int FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), sql, m_FTA_LoadOrder_ID);
 							
-							MFTARecordWeight m_RecordWeight = m_RecordWeight = new MFTARecordWeight(getCtx(), FTA_RecordWeight_ID, get_TrxName());
+							MFTARecordWeight m_RecordWeight = new MFTARecordWeight(getCtx(), FTA_RecordWeight_ID, get_TrxName());
 							invoiceLine.setQty(m_RecordWeight.getNetWeight());
 						}	
 						invoiceLine.setAD_Org_ID(m_Current_Invoice.getAD_Org_ID());
