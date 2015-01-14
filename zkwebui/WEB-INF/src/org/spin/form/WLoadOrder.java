@@ -17,15 +17,11 @@
 package org.spin.form;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.component.Button;
@@ -52,13 +48,11 @@ import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOM;
 import org.compiere.model.X_C_Order;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -82,11 +76,12 @@ import org.zkoss.zul.Space;
 public class WLoadOrder extends LoadOrder
 	implements IFormController, EventListener, WTableModelListener, ValueChangeListener
 {
-	private String	trxName	= null;
-	private Trx		trx = null;
-	private CustomForm form = new CustomForm();
 	
-
+	/**
+	 * 
+	 * *** Constructor ***
+	 * @author <a href="mailto:raulmunozn@gmail.com">Raul Muñoz</a> 14/01/2015, 10:02:25
+	 */
 	public WLoadOrder() {
 		trxName	= Trx.createTrxName(null);
 		trx = Trx.get(trxName, true);
@@ -103,18 +98,19 @@ public class WLoadOrder extends LoadOrder
 		}
 	}
 
-	MLookup lookupSPP;
 	
 	/**	Window No			*/
 	private int         	m_WindowNo = 0;
 	
-	/**	FormFrame			*/
+	/**	Custom Form			*/
+	private CustomForm form = new CustomForm();
+	private String	trxName	= null;
+	private Trx		trx = null;
 
 	private Borderlayout mainLayout = new Borderlayout();
 
 	private Grid 			parameterLayout		= GridFactory.newGridLayout();
 	private Panel 			parameterPanel = new Panel();
-//	private GridBagLayout 	parameterLayout = new GridBagLayout();
 	/**	Organization			*/
 	private Label 			organizationLabel = new Label();
 	private WTableDirEditor 		organizationPick = null;
@@ -135,28 +131,28 @@ public class WLoadOrder extends LoadOrder
 	private Listbox 		docTypeSearch = ListboxFactory.newDropdownListbox();
 	/**	Document Type Target	*/
 	private Label 			docTypeTargetLabel = new Label();
-	private WTableDirEditor 		docTypeTargetPick = null;
+	private WTableDirEditor	docTypeTargetPick = null;
 	/**	Invoice Rule			*/
 	private Label 			invoiceRuleLabel = new Label();
-	private WTableDirEditor 		invoiceRulePick = null;
+	private WTableDirEditor invoiceRulePick = null;
 	/**	Delivery Rule			*/
 	private Label 			deliveryRuleLabel = new Label();
-	private WTableDirEditor 		deliveryRulePick = null;
+	private WTableDirEditor deliveryRulePick = null;
 	/**	Vehicle Type			*/
 	private Label 			vehicleTypeLabel = new Label();
-	private WTableDirEditor 		vehicleTypePick = null;
+	private WTableDirEditor vehicleTypePick = null;
 	/**	Document Date			*/
 	private Label 			labelDateDoc = new Label();
-	private Datebox 			dateDocField = new Datebox();
+	private Datebox 		dateDocField = new Datebox();
 	/**	Shipment Date			*/
 	private Label 			labelShipDate = new Label();
-	private Datebox 			shipDateField = new Datebox();
+	private Datebox 		shipDateField = new Datebox();
 	/**	Entry Ticket			*/
 	private Label 			entryTicketLabel = new Label();
 	private WSearchEditor 	entryTicketPick = null;
 	/**	Shipper					*/
 	private Label 			shipperLabel = new Label();
-	private WTableDirEditor 		shipperPick = null;
+	private WTableDirEditor shipperPick = null;
 	/**	Driver					*/
 	private Label 			driverLabel = new Label();
 	private Listbox 		driverSearch = ListboxFactory.newDropdownListbox();
@@ -173,49 +169,51 @@ public class WLoadOrder extends LoadOrder
 	private Checkbox 		isBulkCheck = new Checkbox();
 	/**	Product				*/
 	private Label 			productLabel = new Label();
-	private WTableDirEditor 		productSearch = null;
+	private WTableDirEditor productSearch = null;
 	/**	Business Partner	*/
 	private Label 			bpartnerLabel = new Label();
-	private WTableDirEditor 		bpartnerSearch = null;
+	private WTableDirEditor bpartnerSearch = null;
 
-	private DateFormat 			dateFormat 		 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private DateFormat 		dateFormat 		 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
-	/**/
-	private Borderlayout infoPanel = new Borderlayout();
+	/** Panels				*/
+	private Borderlayout	infoPanel = new Borderlayout();
 	private Panel 			orderPanel = new Panel();
 	private Panel 			orderLinePanel = new Panel();
 	private Label 			orderLabel = new Label();
 	private Label 			orderLineLabel = new Label();
 	private Borderlayout 	orderLayout = new Borderlayout();
 	private Borderlayout 	orderLineLayout = new Borderlayout();
+	private Panel 			southPanel = new Panel();
+	private Panel 			allocationPanel = new Panel();
+	private Grid 			allocationLayout = GridFactory.newGridLayout();
+	/**	Collapsible Panel for Parameter		*/
+	private North 			north = new North();
+	private North 			north1 = new North();
+	/** Order Line			*/
 	private Label 			orderLineInfo = new Label();
+	/** Weight Difference	*/
 	private Label 			weightDiffLabel = new Label();
 	private NumberBox 		weightDiffField = null;
+	/** Volume Difference	*/
 	private Label 			volumeDiffLabel = new Label();
 	private NumberBox 		volumeDiffField = null;
-	private Button 		gLoadOrderButton = new Button();
-
-	
-	private Button 		selectAllButton =  new Button();
+	/** Generate Load Order	*/
+	private Button 			gLoadOrderButton = new Button();
+	/** Select all Button   */
+	private Button 			selectAllButton =  new Button();
 	/**	Search				*/
-	private Button 		bSearch = new Button();
-	
-	//	Stock Info
-	
-	/**	Collapsible Panel for Parameter		*/
-	private North north = new North();
-	private North north1 = new North();
-	/**	Collapsible Panel for Stock			*/
-	Center center = new Center();
-	private WListbox w_orderTable = ListboxFactory.newDataTable();
-	private WListbox w_orderLineTable = ListboxFactory.newDataTable();
-	private int count = 0;
-	private Label paymentInfo = new Label();
-	private Label invoiceInfo = new Label();
-	private Panel southPanel = new Panel();
-	private Label invoiceLabel = new Label();
-	private Panel allocationPanel = new Panel();
-	private Grid allocationLayout = GridFactory.newGridLayout();
+	private Button 			bSearch = new Button();
+	/** Order Table 		*/
+	private WListbox 		w_orderTable = ListboxFactory.newDataTable();
+	/** Order Line Table 	*/
+	private WListbox 		w_orderLineTable = ListboxFactory.newDataTable();
+	private int 			count = 0;
+	/**	Payment Info		*/
+	private Label 			paymentInfo = new Label();
+	/**	Invoice Info		*/
+	private Label 			invoiceInfo = new Label();
+	private Label			invoiceLabel = new Label();
 	
 	/**
 	 *  Static zkInit
@@ -223,7 +221,6 @@ public class WLoadOrder extends LoadOrder
 	 */
 	private void zkInit() throws Exception
 	{
-		
 		form.appendChild(mainLayout);
 
 		mainLayout.setWidth("99%");
@@ -259,9 +256,6 @@ public class WLoadOrder extends LoadOrder
 		deliveryRuleLabel.setText(Msg.translate(Env.getCtx(), "DeliveryRule"));
 		//	Warehouse
 		warehouseLabel.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
-		//	Date
-//		labelDateDoc.setText(Msg.translate(Env.getCtx(), "DateDoc"));
-//		labelShipDate.setText(Msg.translate(Env.getCtx(), "ShipDate"));
 		//	Product
 		productLabel.setText(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		//	Business Partner
@@ -269,9 +263,7 @@ public class WLoadOrder extends LoadOrder
 		
 		bSearch.setLabel(Msg.translate(Env.getCtx(), "Search"));
 		
-//		orderLabel.setRequestFocusEnabled(false);
 		orderLabel.setText(" " + Msg.translate(Env.getCtx(), "C_Order_ID"));
-//		orderLineLabel.setRequestFocusEnabled(false);
 		orderLineLabel.setText(" " + Msg.translate(Env.getCtx(), "C_OrderLine_ID"));
 		orderPanel.appendChild(orderLayout);
 		orderPanel.setWidth("100%");
@@ -304,7 +296,7 @@ public class WLoadOrder extends LoadOrder
 		row.appendChild(warehouseSearch);
 		warehouseSearch.setWidth("200px");
 		//	Operation Type
-		row.appendChild(operationTypeLabel);
+		row.appendChild(operationTypeLabel.rightAlign());
 		row.appendChild(operationTypePick.getComponent());
 		
 		//	Document Type
@@ -339,18 +331,15 @@ public class WLoadOrder extends LoadOrder
 		//	Shipper
 		row.appendChild(shipperLabel.rightAlign());
 		row.appendChild(shipperPick.getComponent());
-//		shipperPick.setReadWrite(false);
 		
 		//	Driver
 		row.appendChild(driverLabel.rightAlign());
 		row.appendChild(driverSearch);
-//		driverSearch.setDisabled(true);
 		driverSearch.setWidth("200px");
 		row = rows.newRow();
 		//	Vehicle
 		row.appendChild(vehicleLabel.rightAlign());
 		row.appendChild(vehicleSearch);
-//		vehicleSearch.setDisabled(true);
 		vehicleSearch.setWidth("200px");
 		//	Load Capacity
 		row.appendChild(loadCapacityLabel.rightAlign());
@@ -362,7 +351,6 @@ public class WLoadOrder extends LoadOrder
 		volumeCapacityField.setReadonly(true);
 		row = rows.newRow();
 		//	Bulk
-//		row.appendChild(isBulkCheck);
 		isBulkCheck.setSelected(false);
 		//	Product
 		row.appendChild(productLabel.rightAlign());
@@ -454,7 +442,7 @@ public class WLoadOrder extends LoadOrder
 		w_orderLineTable.setWidth("99%");
 		w_orderLineTable.setHeight("99%");
 		center.setStyle("border: none");
-		//
+		
 		center = new Center();
 		center.setFlex(true);
 		mainLayout.appendChild(center);
@@ -479,13 +467,6 @@ public class WLoadOrder extends LoadOrder
 	}   //  jbInit
 
 	/**
-	 * 	Dispose
-	 */
-	public void dispose()
-	{
-	}	//	dispose
-
-	/**
 	 *  Dynamic Init (prepare dynamic fields)
 	 *  @throws Exception if Lookups cannot be initialized
 	 */
@@ -494,7 +475,7 @@ public class WLoadOrder extends LoadOrder
 		//	Set Client
 		m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		//  Load Default Values
-				loadDefaultValues(trxName);
+		loadDefaultValues(trxName);
 		// Organization filter selection
 		int AD_Column_ID = 69835;		//	FTA_LoadOrer.AD_Org_ID
 		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
@@ -571,7 +552,7 @@ public class WLoadOrder extends LoadOrder
 		bpartnerSearch = new WTableDirEditor("C_BPartner_ID", true, false, true, lookupBPartner);
 		bpartnerSearch.addValueChangeListener(this);
 		
-//			Visible
+		//	Visible
 		productLabel.setVisible(false);
 		productSearch.setVisible(false);
 		bpartnerLabel.setVisible(false);
@@ -580,80 +561,20 @@ public class WLoadOrder extends LoadOrder
 		driverSearch.setEnabled(false);
 		vehicleSearch.setEnabled(false);
 
-//		//	Document Type Order
+		//	Document Type Order
 		docTypeSearch.addActionListener(this);
-//		
-//		//	Warehouse
+		
+		//	Warehouse
 		warehouseSearch.addActionListener(this);
-//		//	Search
-//		bSearch.addActionListener(this);
-//		
-//		//	Select All Items
+		
+		//	Select All Items
 		selectAllButton.addActionListener(this);
-//		
-//		
-//		//	Date
-//		dateDocField.setMandatory(true);
-//		dateDocField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-//		shipDateField.setMandatory(true);
-//		shipDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		
-		/*orderLineTable.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent me) {
-            	int col = ((MiniTable)me.getSource()).getSelectedColumn();
-            	refresh(
-            		((MiniTable)me.getSource()).getValueAt(row,2),
-            		new BigDecimal(pickWarehouse.getValue().toString()).intValue(),
-            		new BigDecimal(pickPriceList.getValue().toString()).intValue()
-            		);
-            	if(col == OL_PRODUCT) {
-            		stockCollapsiblePanel.setCollapsed(false);
-            	}
-            }
-        });*/
-		
-		//Coments
-//		stockTable.setModel(stockModel);
-//		setStockColumnClass(stockTable);
 		
 	}   //  dynInit
-//	
-//	/**************************************************************************
-//	 *  Action Listener.
-//	 *  - MultiCurrency
-//	 *  - Allocate
-//	 *  @param e event
-//	 */
-//	public void actionPerformed(ActionEvent e) {
-//		log.config("");
-//		if(e.getSource().equals(selectAllButton)) {
-//			int rows = orderLineTable.getRowCount();
-//			for (int i = 0; i < rows; i++) {
-//				orderLineTable.setValueAt(true, i, SELECT);
-//			}			
-//		} else if(e.getSource().equals(docTypeSearch)) {
-//			KeyNamePair pp = (KeyNamePair) docTypeSearch.getSelectedItem();
-//			m_C_DocType_ID = (pp != null? pp.getKey(): 0);
-//			clearData();
-//		} else if(e.getSource().equals(warehouseSearch)) {
-//			KeyNamePair pp = (KeyNamePair) warehouseSearch.getSelectedItem();
-//			m_M_Warehouse_ID = (pp != null? pp.getKey(): 0);
-//			clearData();
-//		} else if(e.getSource().equals(gLoadOrderButton)) {
-//			if(validData()) {
-//				if (ADialog.ask(m_WindowNo, panel, null, 
-//						Msg.translate(Env.getCtx(), "GenerateOrder") + "?")) {
-//					saveData();
-//				}
-//			}
-//		} else if (e.getSource() == bSearch)
-//			cmd_search();
-//	}   //  actionPerformed
-//	
-//	
+	
 	/**
 	 * Set Capacity for Weight and Volume
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 14:01:37
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 19/12/2015, 15:39:35
 	 * @return void
 	 */
 	private void setFillCapacity() {
@@ -664,7 +585,7 @@ public class WLoadOrder extends LoadOrder
 	
 	/**
 	 * Set Value on Is Bulk
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 10/12/2013, 17:45:23
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 19/12/2015, 15:44:14
 	 * @return void
 	 */
 	private void setIsBulk() {
@@ -677,7 +598,7 @@ public class WLoadOrder extends LoadOrder
 	
 	/**
 	 * Clear Data of Table
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 15:39:31
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 19/12/2015, 15:33:31
 	 * @return void
 	 */
 	private void clearData() {
@@ -688,7 +609,6 @@ public class WLoadOrder extends LoadOrder
 		w_orderLineTable.getModel().removeTableModelListener(this);
 		w_orderLineTable.setModel(modelP);
 		count=0;
-		//  Set Model Line
 		//	Set Stock Model
 		if(stockTable.getColumnCount()>1){
 			stockTable.setModel(stockModel);
@@ -713,7 +633,7 @@ public class WLoadOrder extends LoadOrder
 
 	/**
 	 * Search Data
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/12/2013, 11:51:44
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 23/12/2015, 10:06:11
 	 * @return void
 	 */
 	private void cmd_search() {
@@ -843,7 +763,7 @@ public class WLoadOrder extends LoadOrder
 	
 	/**
 	 * Validate data
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 16:17:41
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 23/12/2015, 10:06:11
 	 * @return
 	 * @return boolean
 	 */
@@ -894,7 +814,7 @@ public class WLoadOrder extends LoadOrder
 	
 	/**
 	 * Load Order Data
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 11:26:11
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 23/12/2015, 10:06:11
 	 * @return
 	 * @return boolean
 	 */
@@ -915,12 +835,11 @@ public class WLoadOrder extends LoadOrder
 		log.config(name + "=" + value);
 		w_orderTable.clear();
 		//	Load Data
-		Vector<Vector<Object>> data = w_getOrderData(w_orderTable, m_OperationType);
+		Vector<Vector<Object>> data = getOrderData(w_orderTable, m_OperationType);
 		Vector<String> columnNames = getOrderColumnNames();
 
 		//  Remove previous listeners
 		w_orderTable.getModel().removeTableModelListener(this);
-		
 		
 		//  Set Model
 		ListModelTable modelP = new ListModelTable(data);
@@ -941,7 +860,7 @@ public class WLoadOrder extends LoadOrder
 	
 	/**
 	 * Calculate difference
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 12/12/2013, 11:52:15
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 12/01/2015, 11:52:15
 	 * @return void
 	 */
 	public void calculate() {
@@ -1022,8 +941,10 @@ public class WLoadOrder extends LoadOrder
 		}
 	}
 	
-	/**************************************************************************
-	 *  Save Data
+	/**
+	 * Save Data
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 14/01/2015, 12:26:57
+	 * @return void
 	 */
 	private void saveData() {
 		try	{	
@@ -1128,7 +1049,7 @@ public class WLoadOrder extends LoadOrder
 	
 	/**
 	 * Load the Combo Box from ArrayList (Web Version)
-	 * @author <a href="mailto:raulmunozn@gmail.com">Raul Muñoz</a> 18/12/2014, 11:09:43
+	 * @author <a href="mailto:raulmunozn@gmail.com">Raul Muñoz</a> 18/12/2015, 11:09:43
 	 * @param comboSearch
 	 * @param data
 	 * @param mandatory
@@ -1153,9 +1074,10 @@ public class WLoadOrder extends LoadOrder
 		}
 		return m_ID;
 	}
+
 	/**
 	 * Load Combo Box from ArrayList (No Mandatory)
-	 * @author <a href="mailto:raulmunozn@gmail.com">Raul Muñoz</a> 18/12/2014, 10:42:38
+	 * @author <a href="mailto:raulmunozn@gmail.com">Raul Muñoz</a> 18/12/2015, 10:42:38
 	 * @param comboSearch
 	 * @param data
 	 * @return
@@ -1188,7 +1110,7 @@ public class WLoadOrder extends LoadOrder
 			}
 			//	Load Lines
 			if(m_C_UOM_Weight_ID != 0) {
-				StringBuffer sql = w_getQueryLine(w_orderTable, m_OperationType);
+				StringBuffer sql = getQueryLine(w_orderTable, m_OperationType);
 				Vector<Vector<Object>> data = getOrderLineData(w_orderTable, sql);
 				Vector<String> columnNames = getOrderLineColumnNames();
 				
@@ -1299,222 +1221,10 @@ public class WLoadOrder extends LoadOrder
 		
 		calculate();		
 	}
-	/**
-	 * Get Order data from parameters
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:10:10
-	 * @return Vector<Vector<Object>>
-	 */
-	protected Vector<Vector<Object>> w_getOrderData(IMiniTable orderTable, String p_OperationType) {
 		
-		/**
-		 * 2014-12-02 Carlos Parada Add Support to DD_Order
-		 */
-		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		StringBuffer sql = null;
-		if (p_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement)) {
-			//Query for Material Movement
-			sql = new StringBuffer("SELECT " +
-					"wr.Name Warehouse, ord.DD_Order_ID, ord.DocumentNo, " +	//	1..3
-					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..8
-					"cp.Name Partner, bploc.Name, " +	//	9..10
-					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	11..17
-					"FROM DD_Order ord " +
-					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
-					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
-					"INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = ord.C_BPartner_ID) " +
-					"INNER JOIN AD_User sr ON(sr.AD_User_ID = ord.SalesRep_ID) " +
-					"INNER JOIN M_Warehouse wr ON(wr.M_Warehouse_ID = ord.M_Warehouse_ID) " +
-					"INNER JOIN C_BPartner_Location bploc ON(bploc.C_BPartner_Location_ID = ord.C_BPartner_Location_ID) " +
-					"INNER JOIN C_Location loc ON(loc.C_Location_ID = bploc.C_Location_ID) " +
-					"LEFT JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
-					"LEFT JOIN C_City cit ON(cit.C_City_ID = loc.C_City_ID) " +
-					"LEFT JOIN (SELECT lord.DD_OrderLine_ID, " +
-					"	(COALESCE(lord.QtyOrdered, 0) - " +
-					"		SUM(" +
-					"				CASE WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
-					"						ELSE 0 " +
-					"				END" +
-					"			)" +
-					"	) QtyAvailable " +
-					"	FROM DD_OrderLine lord " +
-					"	LEFT JOIN FTA_LoadOrderLine lc ON(lc.DD_OrderLine_ID = lord.DD_OrderLine_ID) " +
-					"	LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
-					"	WHERE lord.M_Product_ID IS NOT NULL " +
-					"	GROUP BY lord.DD_Order_ID, lord.DD_OrderLine_ID, lord.QtyOrdered " +
-					"	ORDER BY lord.DD_OrderLine_ID ASC) qafl " +
-					"	ON(qafl.DD_OrderLine_ID = lord.DD_OrderLine_ID) " +
-					"WHERE  wr.IsActive = 'Y' " +
-					"AND ord.DocStatus = 'CO' " +
-					"AND pr.IsStocked = 'Y' " +
-					"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
-					"AND ord.AD_Client_ID=? ");
-			if (m_AD_Org_ID != 0)
-				sql.append("AND lord.AD_Org_ID=? ");
-			if (m_M_Warehouse_ID != 0 )
-				sql.append("AND lord.M_Warehouse_ID=? ");
-			if (m_C_SalesRegion_ID != 0 )
-				sql.append("AND bploc.C_SalesRegion_ID=? ");
-			if (m_SalesRep_ID != 0 )
-				sql.append("AND ord.SalesRep_ID=? ");
-			if (m_C_DocType_ID != 0 )
-				sql.append("AND ord.C_DocType_ID=? ");
-			if(m_IsBulk) {
-				sql.append("AND lord.M_Product_ID=? ");
-				sql.append("AND ord.C_BPartner_ID=? ");
-			}
-			
-			//	Group By
-			sql.append("GROUP BY wr.Name, ord.DD_Order_ID, ord.DocumentNo, ord.DateOrdered, " +
-					"ord.DatePromised, ord.Weight, ord.Volume, sr.Name, cp.Name, bploc.Name, " +
-					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID ");
-		
-			//	Having
-			sql.append("HAVING (SUM(COALESCE(lord.QtyOrdered, 0)) - SUM(COALESCE(lord.QtyDelivered, 0))) > 0 ");
-			
-			
-			//	Order By
-			sql.append("ORDER BY ord.DD_Order_ID ASC");
-			
-			// role security
-		} else {//Query for Sales Order
-			sql = new StringBuffer("SELECT " +
-					"wr.Name Warehouse, ord.C_Order_ID, ord.DocumentNo, " +	//	1..3
-					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..8
-					"cp.Name Partner, bploc.Name, " +	//	9..10
-					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	11..17
-					"FROM C_Order ord " +
-					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
-					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
-					"INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = ord.C_BPartner_ID) " +
-					"INNER JOIN AD_User sr ON(sr.AD_User_ID = ord.SalesRep_ID) " +
-					"INNER JOIN M_Warehouse wr ON(wr.M_Warehouse_ID = ord.M_Warehouse_ID) " +
-					"INNER JOIN C_BPartner_Location bploc ON(bploc.C_BPartner_Location_ID = ord.C_BPartner_Location_ID) " +
-					"INNER JOIN C_Location loc ON(loc.C_Location_ID = bploc.C_Location_ID) " +
-					"LEFT JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
-					"LEFT JOIN C_City cit ON(cit.C_City_ID = loc.C_City_ID) " +
-					"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
-					"	(COALESCE(lord.QtyOrdered, 0) - " +
-					"		SUM(" +
-					"				CASE WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
-					"						ELSE 0 " +
-					"				END" +
-					"			)" +
-					"	) QtyAvailable " +
-					"	FROM C_OrderLine lord " +
-					"	LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
-					"	LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
-					"	WHERE lord.M_Product_ID IS NOT NULL " +
-					"	GROUP BY lord.C_Order_ID, lord.C_OrderLine_ID, lord.QtyOrdered " +
-					"	ORDER BY lord.C_OrderLine_ID ASC) qafl " +
-					"	ON(qafl.C_OrderLine_ID = lord.C_OrderLine_ID) " +
-					"WHERE ord.IsSOTrx = 'Y' " +
-					"AND wr.IsActive = 'Y' " +
-					"AND ord.DocStatus = 'CO' " +
-					"AND pr.IsStocked = 'Y' " +
-					"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
-					"AND ord.AD_Client_ID=? ");
-			if (m_AD_Org_ID != 0)
-				sql.append("AND lord.AD_Org_ID=? ");
-			if (m_M_Warehouse_ID != 0 )
-				sql.append("AND lord.M_Warehouse_ID=? ");
-			if (m_C_SalesRegion_ID != 0 )
-				sql.append("AND bploc.C_SalesRegion_ID=? ");
-			if (m_SalesRep_ID != 0 )
-				sql.append("AND ord.SalesRep_ID=? ");
-			if (m_C_DocType_ID != 0 )
-				sql.append("AND ord.C_DocType_ID=? ");
-			if(m_IsBulk) {
-				sql.append("AND lord.M_Product_ID=? ");
-				sql.append("AND ord.C_BPartner_ID=? ");
-			}
-			
-			//	Group By
-			sql.append("GROUP BY wr.Name, ord.C_Order_ID, ord.DocumentNo, ord.DateOrdered, " +
-					"ord.DatePromised, ord.Weight, ord.Volume, sr.Name, cp.Name, bploc.Name, " +
-					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID ");
-		
-			//	Having
-			sql.append("HAVING (SUM(COALESCE(lord.QtyOrdered, 0)) - SUM(COALESCE(lord.QtyDelivered, 0))) > 0 ");
-			
-			
-			//	Order By
-			sql.append("ORDER BY ord.C_Order_ID ASC");
-			
-			// role security
-		}
-		
-		/** End Carlos Parada **/
-		log.fine("LoadOrderSQL=" + sql.toString());
-		//	
-		try {
-			//	
-			int param = 1;
-			int column = 1;
-			
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
-			
-			pstmt.setInt(param++, Env.getAD_Client_ID(Env.getCtx()));
-			
-			if (m_AD_Org_ID != 0)
-				pstmt.setInt(param++, m_AD_Org_ID);
-			if (m_M_Warehouse_ID != 0 )
-				pstmt.setInt(param++, m_M_Warehouse_ID);
-			if (m_C_SalesRegion_ID != 0 )
-				pstmt.setInt(param++, m_C_SalesRegion_ID);
-			if (m_SalesRep_ID != 0 )
-				pstmt.setInt(param++, m_SalesRep_ID);
-			if (m_C_DocType_ID != 0 )
-				pstmt.setInt(param++, m_C_DocType_ID);
-			if(m_IsBulk) {
-				pstmt.setInt(param++, m_M_Product_ID);
-				pstmt.setInt(param++, m_C_BPartner_ID);
-			}
-			
-			log.fine("AD_Org_ID=" + m_AD_Org_ID);
-			log.fine("M_Warehouse_ID=" + m_M_Warehouse_ID);
-			log.fine("SalesRep_ID=" + m_SalesRep_ID);
-			log.fine("C_DocType_ID=" + m_C_DocType_ID);
-			log.fine("IsBulk=" + m_IsBulk);
-			
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				column = 1;
-				Vector<Object> line = new Vector<Object>();
-				line.add(new Boolean(false));       		//  0-Selection
-				line.add(rs.getString(column++));       	//  1-Warehouse
-				KeyNamePair pp = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(pp);				       			//  2-DocumentNo
-				line.add(rs.getTimestamp(column++));      	//  3-DateOrdered
-				line.add(rs.getTimestamp(column++));      	//  4-DatePromised
-				line.add(rs.getBigDecimal(column++));		//	5-Weight
-				line.add(rs.getBigDecimal(column++));		//	6-Volume
-				line.add(rs.getString(column++));			//	7-Sales Representative
-				line.add(rs.getString(column++));			//	8-Business Partner
-				line.add(rs.getString(column++));			//	9-Location
-				line.add(rs.getString(column++));			//	10-Region
-				line.add(rs.getString(column++));			//	11-City
-				line.add(rs.getString(column++));			//	12-Address 1
-				line.add(rs.getString(column++));			//	13-Address 2
-				line.add(rs.getString(column++));			//	14-Address 3
-				line.add(rs.getString(column++));			//	15-Address 4
-				//
-				data.add(line);
-			}
-			rs.close();
-			pstmt.close();
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, sql.toString(), e);
-		}
-		
-		return data;
-	}
-	
-	
 	/**
 	 * Generate Load Order
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/12/2013, 11:34:33
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 08/01/2015, 11:34:33
 	 * @param trxName
 	 * @return
 	 * @return String
@@ -1621,175 +1331,5 @@ public class WLoadOrder extends LoadOrder
 		//	Message
 		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + loadOrder.getDocumentNo() 
 				+ "] || @LineNo@" + " = [" + m_gen + "]" + (errorMsg != null? "\n@Errors@:" + errorMsg: ""));
-	}
-	/**
-	 * Get Order Line Data
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 09/12/2013, 14:11:36
-	 * @param orderTable
-	 * @return
-	 * @return StringBuffer
-	 */
-	protected StringBuffer w_getQueryLine(WListbox orderTable,String p_OperationType) {
-		StringBuffer sql = null;
-				
-		log.config("getQueryLine");
-		
-		/** 2014-12-02 Carlos Parada Add Support to DD_OrderLine */ 
-		if (p_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement)) {
-			int rows = orderTable.getRowCount();
-			m_RowsSelected = 0;
-			StringBuffer sqlWhere = new StringBuffer("ord.DD_Order_ID IN(0"); 
-			for (int i = 0; i < rows; i++) {
-				if (((Boolean)orderTable.getValueAt(i, 0)).booleanValue()) {
-					int ID = ((KeyNamePair)orderTable.getValueAt(i, ORDER)).getKey();
-					sqlWhere.append(",");
-					sqlWhere.append(ID);
-					m_RowsSelected ++;
-				}
-			}
-			sqlWhere.append(")");
-			
-			sql = new StringBuffer("SELECT ord.M_Warehouse_ID, alm.Name Warehouse, lord.DD_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
-					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
-					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, 0 QtyInvoiced, lord.QtyDelivered, " +
-					"SUM(" +
-					"		CASE " +
-					"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"			THEN lc.Qty " +
-					"			ELSE 0 " +
-					"		END" +
-					") QtyLoc, " +
-					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
-					"	SUM(" +
-					"			CASE " +
-					"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"				THEN lc.Qty " +
-					"				ELSE 0 " +
-					"			END" +
-					"		)" +
-					") Qty, " +
-					"pro.Weight, pro.Volume, ord.DeliveryRule " +
-					"FROM DD_Order ord " +
-					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
-					"INNER JOIN M_Locator l ON(l.M_Locator_ID = lord.M_Locator_ID) " + 
-					"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = l.M_Warehouse_ID) " +
-					"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
-					"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
-					"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
-					"LEFT JOIN FTA_LoadOrderLine lc ON(lc.DD_OrderLine_ID = lord.DD_OrderLine_ID) " +
-					"LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
-					"LEFT JOIN (" +
-					"				SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
-					"					COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, " +
-					"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
-					"				FROM M_Storage st " +
-					"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
-					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s " +
-					"														ON(s.M_Product_ID = lord.M_Product_ID " +
-					"																AND s.M_Warehouse_ID = l.M_Warehouse_ID " +
-					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
-					.append("WHERE pro.IsStocked = 'Y' ")
-					.append("AND ")
-					.append(sqlWhere).append(" ");
-			//	Add Where
-			if(m_IsBulk)
-				sql.append("AND lord.M_Product_ID = ?").append(" ");
-			//	Group By
-			sql.append("GROUP BY ord.M_Warehouse_ID, lord.DD_Order_ID, lord.DD_OrderLine_ID, " +
-					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " +
-					"lord.QtyDelivered, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
-			//	Having
-			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
-					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
-					"													ELSE 0 " +
-					"												END" +
-					"											)" +
-					"			) > 0").append(" ");
-			//	Order By
-			sql.append("ORDER BY lord.DD_Order_ID ASC");
-			
-		}
-		else{
-
-			int rows = orderTable.getRowCount();
-			m_RowsSelected = 0;
-			StringBuffer sqlWhere = new StringBuffer("ord.C_Order_ID IN(0"); 
-			for (int i = 0; i < rows; i++) {
-				if (((Boolean)orderTable.getValueAt(i, 0)).booleanValue()) {
-					int ID = ((KeyNamePair)orderTable.getValueAt(i, ORDER)).getKey();
-					sqlWhere.append(",");
-					sqlWhere.append(ID);
-					m_RowsSelected ++;
-				}
-			}
-			sqlWhere.append(")");
-			
-			sql = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
-					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
-					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
-					"SUM(" +
-					"		CASE " +
-					"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"			THEN lc.Qty " +
-					"			ELSE 0 " +
-					"		END" +
-					") QtyLoc, " +
-					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
-					"	SUM(" +
-					"			CASE " +
-					"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"				THEN lc.Qty " +
-					"				ELSE 0 " +
-					"			END" +
-					"		)" +
-					") Qty, " +
-					"pro.Weight, pro.Volume, ord.DeliveryRule " +
-					"FROM C_Order ord " +
-					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
-					"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = lord.M_Warehouse_ID) " +
-					"INNER JOIN M_Product pro ON(pro.M_Product_ID = lord.M_Product_ID) " +
-					"INNER JOIN C_UOM uom ON(uom.C_UOM_ID = lord.C_UOM_ID) " +
-					"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
-					"LEFT JOIN FTA_LoadOrderLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
-					"LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +
-					"LEFT JOIN (" +
-					"				SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
-					"					COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, " +
-					"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
-					"				FROM M_Storage st " +
-					"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
-					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s " +
-					"														ON(s.M_Product_ID = lord.M_Product_ID " +
-					"																AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
-					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
-					.append("WHERE pro.IsStocked = 'Y' ")
-					.append("AND ")
-					.append(sqlWhere).append(" ");
-			//	Add Where
-			if(m_IsBulk)
-				sql.append("AND lord.M_Product_ID = ?").append(" ");
-			//	Group By
-			sql.append("GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
-					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
-					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " + 
-					"lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
-			//	Having
-			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
-					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
-					"													ELSE 0 " +
-					"												END" +
-					"											)" +
-					"			) > 0").append(" ");
-			//	Order By
-			sql.append("ORDER BY lord.C_Order_ID ASC");
-			
-		}
-		//	
-		log.fine("SQL Line Order=" + sql.toString());
-		//	Return
-		return sql;
 	}
 }
