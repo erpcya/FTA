@@ -366,7 +366,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		MFTALoadOrder m_FTA_LoadOrder = new MFTALoadOrder(getCtx(), m_FTA_LoadOrder_ID, get_TrxName());
 		MDocType m_DocType = MDocType.get(getCtx(), m_FTA_LoadOrder.getC_DocType_ID());
 		//	Valid just Check
-		if(!m_DocType.get_ValueAsBoolean("IsGenerateShipmentGuide")
+		if(m_DocType.get_ValueAsBoolean("IsGenerateShipmentGuide")
 				&& !MSysConfig.getBooleanValue("FTA_MANDATORY_SHIPMENT_GUIDE", false, getAD_Client_ID()))
 			return null;
 		//	
