@@ -205,23 +205,24 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					//	Instance MProduct
 					MProduct product = MProduct.get(getCtx(), m_M_Product_ID);
 					//	Rate Convert
-					BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+					BigDecimal rate = MUOMConversion.getProductRateTo(Env.getCtx(), 
 							product.getM_Product_ID(), oLine.getC_UOM_ID());
 					//	Validate Rate equals null
-					if(rate == null){
+					if(rate == null)
 						throw new AdempiereException("@NoUOMConversion@");
-					}
 					//	Set Values for Lines
 					shipmentLine.setAD_Org_ID(m_Current_Shipment.getAD_Org_ID());
 					shipmentLine.setM_InOut_ID(m_Current_Shipment.getM_InOut_ID());
 					//	Quantity and Product
 					shipmentLine.setM_Product_ID(product.getM_Product_ID());
 					shipmentLine.setM_Warehouse_ID(m_Current_Shipment.getM_Warehouse_ID());
-					shipmentLine.setC_UOM_ID(oLine.getC_UOM_ID());
-					shipmentLine.setQty(m_Qty.multiply(rate));
 					//	References
-					shipmentLine.setM_Locator_ID(m_Qty);
 					shipmentLine.setC_OrderLine_ID(m_FTA_LoadOrderLine.getC_OrderLine_ID());
+					//	Quantity
+					shipmentLine.setC_UOM_ID(oLine.getC_UOM_ID());
+					shipmentLine.setQty(m_Qty);
+					shipmentLine.setQtyEntered(m_Qty.multiply(rate));
+					shipmentLine.setM_Locator_ID(m_Qty);
 					//	Save Line
 					shipmentLine.saveEx(get_TrxName());
 					

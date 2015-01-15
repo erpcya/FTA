@@ -28,6 +28,7 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Invoice;
@@ -185,7 +186,13 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						//	Rate Convert
 						BigDecimal rate = MUOMConversion.getProductRateTo(Env.getCtx(), 
 								product.getM_Product_ID(), oLine.getC_UOM_ID());
-						
+						//	Validate Rate equals null
+						if(rate == null) {
+							MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
+							MUOM oLineUOM = MUOM.get(getCtx(), oLine.getC_UOM_ID());
+							throw new AdempiereException("@NoUOMConversion@ @from@ " 
+											+ oLineUOM.getName() + " @to@ " + productUOM.getName());
+						}
 						//	Set Values For Line
 						invoiceLine.setC_OrderLine_ID(line.getC_OrderLine_ID());
 						invoiceLine.setM_Product_ID(product.getM_Product_ID());
@@ -197,14 +204,35 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 							invoiceLine.setQtyInvoiced(m_Qty);
 						} else if(m_FTA_LoadOrder.getOperationType().equals("DBM")) {
 							String sql = "SELECT FTA_RecordWeight_ID " +
-									"FROM  FTA_RecordWeight " +
-									"WHERE DocStatus='CO' " +
+									"FROM FTA_RecordWeight " +
+									"WHERE DocStatus IN('CO', 'CL') " +
 									"AND FTA_LoadOrder_ID= ?";
-							
+							//	
 							int FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), sql, m_FTA_LoadOrder_ID);
+							//	Valid Record Weight
+							if(FTA_RecordWeight_ID <= 0)
+								throw new AdempiereException("@FTA_RecordWeight_ID@ @NotFound@");
 							
 							MFTARecordWeight m_RecordWeight = new MFTARecordWeight(getCtx(), FTA_RecordWeight_ID, get_TrxName());
-							invoiceLine.setQty(m_RecordWeight.getNetWeight());
+							//	Get Rate for Weight
+							BigDecimal rateWeight = MUOMConversion.getProductRateTo(Env.getCtx(), 
+									product.getM_Product_ID(), m_RecordWeight.getC_UOM_ID());
+							//	
+							//	Validate Rate equals null
+							if(rateWeight == null) {
+								MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
+								MUOM oLineUOM = MUOM.get(getCtx(), m_RecordWeight.getC_UOM_ID());
+								throw new AdempiereException("@NoUOMConversion@ @from@ " 
+												+ oLineUOM.getName() + " @to@ " + productUOM.getName());
+							}
+							//	
+							BigDecimal m_QtyWeight = m_RecordWeight.getNetWeight();
+							BigDecimal m_QtyInvoced = m_QtyWeight.multiply(rateWeight);
+							BigDecimal m_QtyEntered = m_QtyInvoced.multiply(rate);
+							
+							invoiceLine.setQtyEntered(m_QtyEntered);
+							invoiceLine.setQtyInvoiced(m_QtyInvoced);
+							
 						}	
 						invoiceLine.setAD_Org_ID(m_Current_Invoice.getAD_Org_ID());
 						invoiceLine.setPriceList(oLine.getPriceList());
