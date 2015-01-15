@@ -27,6 +27,7 @@ import org.compiere.model.MInOutLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.X_M_InOut;
@@ -208,8 +209,12 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					BigDecimal rate = MUOMConversion.getProductRateTo(Env.getCtx(), 
 							product.getM_Product_ID(), oLine.getC_UOM_ID());
 					//	Validate Rate equals null
-					if(rate == null)
-						throw new AdempiereException("@NoUOMConversion@");
+					if(rate == null) {
+						MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
+						MUOM oLineUOM = MUOM.get(getCtx(), oLine.getC_UOM_ID());
+						throw new AdempiereException("@NoUOMConversion@ @from@ " 
+										+ oLineUOM.getName() + " @to@ " + productUOM.getName());
+					}
 					//	Set Values for Lines
 					shipmentLine.setAD_Org_ID(m_Current_Shipment.getAD_Org_ID());
 					shipmentLine.setM_InOut_ID(m_Current_Shipment.getM_InOut_ID());

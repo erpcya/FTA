@@ -36,6 +36,7 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
@@ -1389,22 +1390,29 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					break;
 				//Get Order and Line
 				MOrder order = null;
+				MOrderLine oLine = null;
 				MAttributeSetInstance asi = null;
 				MProduct product = null;
 				if (lol[i].getC_OrderLine_ID()!=0) {
-					order =(MOrder) lol[i].getC_OrderLine().getC_Order();
-					product = (MProduct)lol[i].getC_OrderLine().getM_Product();
+					oLine = (MOrderLine) lol[i].getC_OrderLine();
+					order =(MOrder) oLine.getC_Order();
+					product = MProduct.get(getCtx(), oLine.getM_Product_ID());
 				}
+				//	Valid Order
 				if(order == null) {
 					m_processMsg = "@C_Order_ID@ @NotFound@";
 					return null;
 				}
-				
+				//	Valid Order Line
+				if(oLine == null) {
+					m_processMsg = "@C_OrderLine_ID@ @NotFound@";
+					return null;
+				}
+				//	Valid Product
 				if (product==null) {
 					m_processMsg = "@M_Product_ID@ @NotFound@";
 					return null;
 				}
-				
 				MDocType m_DocType = MDocType.get(getCtx(), order.getC_DocType_ID());
 				
 				if(m_DocType.getC_DocTypeShipment_ID() == 0) {
@@ -1431,27 +1439,41 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
 						product.getM_Product_ID(), getC_UOM_ID());
 				
+				//	Validate Rate equals null
 				if(rate == null) {
-					m_processMsg = "@NoUOMConversion@";
+					MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
+					MUOM oLineUOM = MUOM.get(getCtx(), getC_UOM_ID());
+					m_processMsg = "@NoUOMConversion@ @from@ " 
+									+ oLineUOM.getName() + " @to@ " + productUOM.getName();
 					return null;
 				}
-
+				//	
+				BigDecimal orderRate = MUOMConversion.getProductRateTo(Env.getCtx(), 
+						product.getM_Product_ID(), oLine.getC_UOM_ID());
+				//	Validate Rate equals null
+				if(orderRate == null) {
+					MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
+					MUOM oLineUOM = MUOM.get(getCtx(), oLine.getC_UOM_ID());
+					throw new AdempiereException("@NoUOMConversion@ @from@ " 
+									+ oLineUOM.getName() + " @to@ " + productUOM.getName());
+				}
+				//	
+				BigDecimal m_QtyWeight = getNetWeight();
+				BigDecimal m_MovementQty = m_QtyWeight.multiply(rate);
+				BigDecimal m_Qty = m_MovementQty.multiply(orderRate);
+				
 				if (m_TotalWeight == Env.ZERO)
 					m_TotalWeight = getValidWeight(false).multiply(rate);
 					
-				//BigDecimal m_MovementQty = (!getPayWeight().equals(Env.ZERO)?getPayWeight().multiply(rate):getNetWeight().multiply(rate));
-				BigDecimal m_MovementQty =lol[i].getQty().multiply(rate);
-				
-				if (lol.length == 1)
+				if (lol.length == 1) {
 					m_MovementQty = getValidWeight(false).multiply(rate);
-				else{
+				} else {
 					m_AcumWeight = m_AcumWeight.add(m_MovementQty);
 					if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == 1)
 						m_MovementQty = m_MovementQty.subtract(m_AcumWeight.subtract(getValidWeight(false).multiply(rate)));
 					else if (m_AcumWeight.compareTo(getValidWeight(false).multiply(rate)) == -1)
 						m_MovementQty = m_MovementQty.add(getValidWeight(false).multiply(rate).subtract(m_AcumWeight));
 				}
-				
 				
 				//	Set Product
 				ioLine.setProduct(product);
@@ -1465,11 +1487,14 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				if (asi != null)
 					ioLine.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
 				
-				ioLine.setM_Locator_ID(m_MovementQty);
 				ioLine.setC_OrderLine_ID(lol[i].getC_OrderLine_ID());
 				
 				//	Set Quantity
+				ioLine.setC_UOM_ID(oLine.getC_UOM_ID());
 				ioLine.setQty(m_MovementQty);
+				ioLine.setQtyEntered(m_Qty);
+				ioLine.setM_Locator_ID(m_MovementQty);
+				//	
 				ioLine.saveEx(get_TrxName());
 				//	Manually Process Shipment
 				m_Receipt.processIt(DocAction.ACTION_Complete);
