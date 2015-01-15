@@ -202,6 +202,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		//setIsApproved(false);
 		return true;
 	}	//	rejectIt
+	
 	/**
 	 * Valid Reference in another record
 	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 10/01/2015, 16:05:21
@@ -215,19 +216,18 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		sql = "SELECT rw.FTA_RecordWeight_ID"
 				+ " FROM FTA_RecordWeight rw"
 				+ " WHERE"
-				+ "		rw.DocStatus IN('IP', 'CO',)"
+				+ "		rw.DocStatus IN('IP', 'CO')"
 				+ "		AND rw.FTA_LoadOrder_ID = ?"; 
 		
 		p_FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), 
 				sql,getFTA_LoadOrder_ID());
 		setFTA_RecordWeight_ID(p_FTA_RecordWeight_ID);
 		saveEx();
-			if(p_FTA_RecordWeight_ID<0)
-			{
-				m_processMsg = "@FTA_RecordWeight_ID@ @NotFound@";
-			}
-			
-			
+		//	
+		if(p_FTA_RecordWeight_ID <= 0)
+		{
+			m_processMsg = "@FTA_RecordWeight_ID@ @NotFound@";
+		}
 	}
 	/**
 	 * 	Complete Document
