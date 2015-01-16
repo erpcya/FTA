@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MDocType;
 import org.compiere.model.MProduct;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.process.DocAction;
@@ -64,6 +65,18 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 	/**	Document Date				*/
 	private Timestamp 	p_DateDoc 				= null;
 	
+	private BigDecimal 			p_Qty 			= Env.ZERO;
+
+	private BigDecimal 			m_MaxReceipt 	= Env.ZERO;
+	
+	private MFTARecordWeight 	m_RecordWeight 	= null;
+	
+	private MFTALoadOrder 		m_LoadOrder 	= null;
+	
+	private String 				msg				= "";
+	
+	private int 				created 		= 0;
+	
 	@Override
 	protected void prepare() {
 		for (ProcessInfoParameter para:getParameter()){
@@ -93,11 +106,17 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 			else if(getTable_ID() == I_FTA_LoadOrder.Table_ID)
 				p_FTA_LoadOrder_ID = getRecord_ID();
 		}
+		
+		m_MaxReceipt = new BigDecimal(MSysConfig.getValue("QUANTITY_TO_GENERATE_SHIPMENT_GUIDE", "", Env.getAD_Client_ID(Env.getCtx())));
+		if(m_MaxReceipt != null
+				&& m_MaxReceipt.compareTo(Env.ZERO) <= 0)
+			m_MaxReceipt = Env.ZERO;
+				
 	}
 	
 	@Override
 	protected String doIt() throws Exception {
-		MFTARecordWeight m_RecordWeight = null;
+		
 		if(p_FTA_RecordWeight_ID != 0){
 			m_RecordWeight = new MFTARecordWeight(getCtx(), p_FTA_RecordWeight_ID, get_TrxName());
 			if(p_AD_Org_ID == 0){
@@ -112,7 +131,7 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 		if(p_FTA_LoadOrder_ID == 0)
 			throw new AdempiereUserError("@FTA_LoadOrder_ID@ @NotFound@");
 		//	Instance Load Order
-		MFTALoadOrder m_LoadOrder = new MFTALoadOrder(getCtx(), p_FTA_LoadOrder_ID, get_TrxName());
+		m_LoadOrder = new MFTALoadOrder(getCtx(), p_FTA_LoadOrder_ID, get_TrxName());
 		//	Valid Order
 		MDocType m_DocType = MDocType.get(getCtx(), m_LoadOrder.getC_DocType_ID());
 		//	Valid just Check
@@ -132,6 +151,77 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 			p_AD_OrgTrx_ID = p_AD_Org_ID;
 		}
 		
+		//	If is Record Weight
+		if(m_LoadOrder.isHandleRecordWeight()
+				&& m_LoadOrder.getOperationType()
+						.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryBulkMaterial)) {
+			//	Valid Record Weight
+			if(m_RecordWeight == null)
+				throw new AdempiereUserError("@FTA_RecordWeight_ID@ @NotFound@ @FTA_LoadOrder_ID@ @IsHandleRecordWeight@");
+			//	
+			MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
+			if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
+				return "@C_UOM_Weight_ID@ @NotFound@";
+			//	Get Category
+			MProduct product = null;
+			if(m_RecordWeight.getM_Product_ID() != 0)
+				product = MProduct.get(getCtx(), m_RecordWeight.getM_Product_ID());
+			else
+				product = MProduct.get(getCtx(), m_LoadOrder.getM_Product_ID());
+			//	Rate Convert
+			BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+					product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
+			MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
+			//	Set Precision
+			int precision = uom.getStdPrecision();
+			//	Valid Conversion
+			if(rate == null)
+				throw new AdempiereUserError("@NoUOMConversion@");
+				
+			
+			p_Qty = m_RecordWeight.getNetWeight()
+					.multiply(rate)
+					.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			//	Get Weight
+		} else {
+			p_Qty = m_LoadOrder.getWeight();
+		}
+
+		BigDecimal acum = Env.ZERO;
+		BigDecimal acum2 = Env.ZERO;
+		BigDecimal acum3 = Env.ZERO;
+		boolean  b = false;
+		while(m_MaxReceipt.compareTo(Env.ZERO) >= 0
+				&& !b) {
+			if(m_MaxReceipt.compareTo(Env.ZERO) == 0){
+				generateGuide(p_Qty);
+				break;
+			}else 
+				acum = acum.add(m_MaxReceipt);
+			if(p_Qty.compareTo(acum) > 0){
+				acum2 = m_MaxReceipt;
+				acum3 = p_Qty.subtract(acum);
+				generateGuide(acum2);
+				if(p_Qty.compareTo(m_MaxReceipt) == 0)
+					b = true;
+			}
+			else if((acum3.compareTo(acum) <= 0) && (acum3.compareTo(Env.ZERO) > 0)) {
+				generateGuide(acum3);
+				b = true;
+			}
+			else if(p_Qty.compareTo(acum) <= 0){
+				generateGuide(p_Qty);
+				b = true;
+			}else {
+				b = true;
+			}
+		}
+	
+		return msg;
+		
+	}
+
+	private String generateGuide(BigDecimal p_Qty) {
 		//	Create Guide
 		MFTAMobilizationGuide m_MobilizationGuide = new MFTAMobilizationGuide(getCtx(), 0, get_TrxName());
 		m_MobilizationGuide.setAD_Org_ID(p_AD_Org_ID);
@@ -162,50 +252,24 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 		//	Set Warehouse
 		if(p_M_Warehouse_ID != 0)
 			m_MobilizationGuide.setM_Warehouse_ID(p_M_Warehouse_ID);
-		//	If is Record Weight
-		if(m_LoadOrder.isHandleRecordWeight()
-				&& m_LoadOrder.getOperationType()
-						.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryBulkMaterial)) {
-			//	Valid Record Weight
-			if(m_RecordWeight == null)
-				throw new AdempiereUserError("@FTA_RecordWeight_ID@ @NotFound@ @FTA_LoadOrder_ID@ @IsHandleRecordWeight@");
-			//	
-			MClientInfo m_ClientInfo = MClientInfo.get(getCtx());
-			if(m_ClientInfo.getC_UOM_Weight_ID() == 0)
-				return "@C_UOM_Weight_ID@ @NotFound@";
-			//	Get Category
-			MProduct product = null;
-			if(m_RecordWeight.getM_Product_ID() != 0)
-				product = MProduct.get(getCtx(), m_RecordWeight.getM_Product_ID());
-			else
-				product = MProduct.get(getCtx(), m_LoadOrder.getM_Product_ID());
-			//	Rate Convert
-			BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), 
-					product.getM_Product_ID(), m_ClientInfo.getC_UOM_Weight_ID());
-			MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
-			//	Set Precision
-			int precision = uom.getStdPrecision();
-			//	Valid Conversion
-			if(rate == null)
-				throw new AdempiereUserError("@NoUOMConversion@");
-				
-			//	Get Weight
-			m_MobilizationGuide.setQtyToDeliver(m_RecordWeight.getNetWeight()
-					.multiply(rate)
-					.setScale(precision, BigDecimal.ROUND_HALF_UP));
-		} else {
-			m_MobilizationGuide.setQtyToDeliver(m_LoadOrder.getWeight());
-		}
+		
+
+		m_MobilizationGuide.setQtyToDeliver(p_Qty);
+		
 		//	
 		m_MobilizationGuide.saveEx();
 		//	Complete Document
 		m_MobilizationGuide.processIt(DocAction.ACTION_Prepare);
 		m_MobilizationGuide.saveEx();
 		//	Message
-		String msg = m_MobilizationGuide.getProcessMsg();
+		msg = m_MobilizationGuide.getProcessMsg();
 		if(msg != null)
 			return "@Error@: " + msg;
-		//	
-		return "@FTA_MobilizationGuide_ID@ = " + m_MobilizationGuide.getDocumentNo();
+		
+		created++;
+		
+		msg = "@Created@ " + created;
+		
+		return msg;
 	}
 }
