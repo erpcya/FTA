@@ -156,6 +156,15 @@ public class LoadOrderGuideGenerate extends SvrProcess {
 				&& m_LoadOrder.getOperationType()
 						.equals(X_FTA_RecordWeight.OPERATIONTYPE_DeliveryBulkMaterial)) {
 			//	Valid Record Weight
+			if(m_RecordWeight == null) {
+				p_FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
+						"FROM FTA_RecordWeight rw " +
+						"WHERE rw.DocStatus NOT IN('VO', 'RE','CL') " +
+						"AND rw.FTA_LoadOrder_ID = ?", p_FTA_LoadOrder_ID);
+				if(p_FTA_RecordWeight_ID > 0)
+					m_RecordWeight = new MFTARecordWeight(getCtx(), p_FTA_RecordWeight_ID, get_TrxName());
+			}
+			//	Valid Record Weight
 			if(m_RecordWeight == null)
 				throw new AdempiereUserError("@FTA_RecordWeight_ID@ @NotFound@ @FTA_LoadOrder_ID@ @IsHandleRecordWeight@");
 			//	
