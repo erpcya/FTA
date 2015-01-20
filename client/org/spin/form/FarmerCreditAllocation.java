@@ -420,29 +420,6 @@ public class FarmerCreditAllocation
 		return pp;
 	}
 	
-	/**
-	 * load Farmer Searh Data
-	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 14/01/2015, 11:07:52
-	 * @param comboSearch
-	 * @return
-	 * @return int
-	 */
-	public int loadFarmerSearh(CComboBox comboSearch){
-		int m_ID = 0;
-		ArrayList<KeyNamePair> list = loadFarmerData(m_C_BPartner_ID);
-		comboSearch.removeAllItems();
-		// Load CComboBox
-		for(KeyNamePair pp : list)
-			comboSearch.addItem(pp);
-		if (comboSearch.getItemCount() != 0) {
-			comboSearch.setSelectedIndex(0);
-			KeyNamePair pp = (KeyNamePair) comboSearch.getSelectedItem();
-			m_ID = (pp != null? pp.getKey(): 0);
-		}
-		
-		return m_ID;
-	}
-	
 	public void calculate(boolean isMultiCurrency)
 	{
 		i_open = isMultiCurrency ? 6 : 4;

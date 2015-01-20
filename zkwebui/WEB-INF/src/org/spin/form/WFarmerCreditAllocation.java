@@ -416,51 +416,21 @@ public class WFarmerCreditAllocation extends FarmerCreditAllocation
 	}   //  saveData
 
 	/**
-	 * Load Data from Farmer Credit
-	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 07/01/2014, 15:56:12
-	 * @param comboSearch
-	 * @param p_C_BPartner_ID
-	 * @return
-	 * @return int
+	 * load Farmer Searh Data
+	 * @author <a href="mailto:raulmunozn@gmail.com">Raul Muñoz</a> 14/01/2015, 09:13:27
+	 * @return m_ID
 	 */
-	protected ArrayList<KeyNamePair> w_loadFarmerData(int p_C_BPartner_ID) {
-		log.config("getData");
-		ArrayList<KeyNamePair> pp = new ArrayList<KeyNamePair>();
-		String sql = "SELECT cr.FTA_FarmerCredit_ID, "
-				//+ "l.Name || ' - ' || "
-				+ "cr.DocumentNo  || CASE WHEN cd.Description IS NOT NULL THEN  '_' || COALESCE(cd.Description,'') ELSE '' END " +
-				"FROM FTA_FarmerCredit cr " +
-				"INNER JOIN FTA_CreditDefinition cd ON(cd.FTA_CreditDefinition_ID = cr.FTA_CreditDefinition_ID) " +
-				//"INNER JOIN M_Lot l ON(l.M_Lot_ID = cd.PlantingCycle_ID) " +
-				"WHERE cr.C_BPartner_ID = ? " +
-				//	Dixon Martinez 20-05-2014 
-				//	Add support for Parent Farmer Credit
-				//	"AND cr.Parent_FarmerCredit_ID IS NULL " +					
-				//	End Dixon Martinez
-				"AND cr.DocStatus = 'CO'";
-		try	{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, p_C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				pp.add(new KeyNamePair(rs.getInt(1), rs.getString(2)));
-			}
-			DB.close(rs, pstmt);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return pp;
-	}
 	public int w_loadFarmerSearh(Listbox comboSearch){
 		int m_ID = 0;
 		comboSearch.removeAllItems();
-		
-		ArrayList<KeyNamePair> list = w_loadFarmerData(m_C_BPartner_ID);
+		//	Load Farmer Data
+		ArrayList<KeyNamePair> list = loadFarmerData(m_C_BPartner_ID);
+		// Load Listbox
 		for(KeyNamePair pp : list)
+			//	Add Items
 			farmerCreditSearch.addItem(pp);
 		if (comboSearch.getItemCount() != 0) {
+			//	Select First
 			comboSearch.setSelectedIndex(0);
 			KeyNamePair pp = farmerCreditSearch.getSelectedItem().toKeyNamePair();
 				m_ID = pp.getKey();

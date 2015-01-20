@@ -23,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -383,6 +384,32 @@ public class VFarmerCreditAllocation extends FarmerCreditAllocation
 			loadBPartner();
 	}   //  vetoableChange
 	
+
+	/**
+	 * load Farmer Searh Data
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 14/01/2015, 11:07:52
+	 * @param comboSearch
+	 * @return
+	 * @return int
+	 */
+	public int loadFarmerSearh(CComboBox comboSearch){
+		int m_ID = 0;
+		//	Load Farmer Data
+		ArrayList<KeyNamePair> list = loadFarmerData(m_C_BPartner_ID);
+		comboSearch.removeAllItems();
+		// Load CComboBox
+		for(KeyNamePair pp : list)
+			//	Add Items
+			comboSearch.addItem(pp);
+		if (comboSearch.getItemCount() != 0) {
+			//	Select First
+			comboSearch.setSelectedIndex(0);
+			KeyNamePair pp = (KeyNamePair) comboSearch.getSelectedItem();
+			m_ID = (pp != null? pp.getKey(): 0);
+		}
+		
+		return m_ID;
+	}
 	
 	public void loadBPartner()
 	{
