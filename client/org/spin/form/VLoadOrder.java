@@ -775,11 +775,15 @@ public class VLoadOrder extends LoadOrder
 				BigDecimal unitWeight = product.getWeight();
 				BigDecimal unitVolume = product.getVolume();
 				String validError = null;
+				//	Dixon Martinez 2015-01-27
+				//	Add support for validate quantity in hand 
 				//	Valid Quantity
-				if(dr.getID().equals(X_C_Order.DELIVERYRULE_Availability)
-						&& qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()
-						>
-						qtyOnHand.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()) {
+				if((dr.getID().equals(X_C_Order.DELIVERYRULE_Availability ) 
+						&& m_DocType_LoadOrder.get_ValueAsBoolean("IsValidateQuantity"))
+				//	End Dixon Martinez
+							&& qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()
+							>
+							qtyOnHand.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()) {
 					//	
 					validError = "@Qty@ > @QtyOnHand@";
 					//	

@@ -30,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MDocType;
 import org.compiere.model.MRefList;
 import org.compiere.model.MRole;
 import org.compiere.model.MUOM;
@@ -167,6 +168,9 @@ public class LoadOrder {
 	/**	Stock Table			*/
 	protected MiniTable			stockTable = new MiniTable();
 	protected DefaultTableModel stockModel = null;
+	
+	//	Dixon Martinez 2015-01-27
+	MDocType m_DocType_LoadOrder = null;
 	
 	
 	/**
@@ -676,8 +680,13 @@ public class LoadOrder {
 						MRefList.getListName(Env.getCtx(), X_C_Order.DELIVERYRULE_AD_Reference_ID, m_DeliveryRuleKey));
 				if(m_DeliveryRule.getID() == null)
 					m_DeliveryRule.setKey(X_C_Order.DELIVERYRULE_Availability);
+				//	Dixon Martinez 2015-01-27
+				//	Verify Document Type
+				m_DocType_LoadOrder = MDocType.get(Env.getCtx(), m_C_DocTypeTarget_ID);
+				//	End Dixon Martinez
 				//	Valid Quantity On Hand
-				if(m_DeliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Availability)) {
+				if(m_DeliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Availability)
+						&&	m_DocType_LoadOrder.get_ValueAsBoolean("IsValidateQuantity")) {
 					diff = qtyOnHand.subtract(qty).setScale(precision, BigDecimal.ROUND_HALF_UP);
 					//	Set Quantity
 					if(diff.doubleValue() < 0) {
