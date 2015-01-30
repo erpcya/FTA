@@ -867,8 +867,8 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		if(getVolumeCapacity().compareTo(getVolume()) <= 0)
 			msg = "@VolumeCapacity@ <= @0@";
 		
-		if(getLoadCapacity().compareTo(getWeight()) <= 0)
-			msg = "@LoadCapacity@ <= @0@";
+		if(getLoadCapacity().compareTo(getWeight()) < 0)
+			msg = "@LoadCapacity@ < @0@";
 		
 		if(msg != null)
 			throw new AdempiereException(msg);
