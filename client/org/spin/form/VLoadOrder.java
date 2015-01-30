@@ -779,7 +779,7 @@ public class VLoadOrder extends LoadOrder
 				//	Add support for validate quantity in hand 
 				//	Valid Quantity
 				if((dr.getID().equals(X_C_Order.DELIVERYRULE_Availability ) 
-						&& m_DocType_LoadOrder.get_ValueAsBoolean("IsValidateQuantity"))
+						&& m_IsValidateQuantity)
 				//	End Dixon Martinez
 							&& qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()
 							>
