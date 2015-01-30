@@ -1152,7 +1152,7 @@ public class WLoadOrder extends LoadOrder
 				//	Valid Quantity
 				//	Valid Quantity onHand from Swing
 				if((dr.getID().equals(X_C_Order.DELIVERYRULE_Availability ) 
-						&& m_DocType_LoadOrder.get_ValueAsBoolean("IsValidateQuantity"))
+						&& m_IsValidateQuantity)
 				//	End Yamel Senih
 							&& qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()
 							>

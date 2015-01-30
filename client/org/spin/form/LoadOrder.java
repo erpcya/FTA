@@ -168,9 +168,8 @@ public class LoadOrder {
 	/**	Stock Table			*/
 	protected MiniTable			stockTable = new MiniTable();
 	protected DefaultTableModel stockModel = null;
-	
-	//	Dixon Martinez 2015-01-27
-	MDocType m_DocType_LoadOrder = null;
+	/**	Validate Quantity	*/
+	protected boolean 			m_IsValidateQuantity = true;
 	
 	
 	/**
@@ -179,7 +178,12 @@ public class LoadOrder {
 	 * @return Vector<Vector<Object>>
 	 */
 	protected Vector<Vector<Object>> getOrderData(IMiniTable orderTable, String p_OperationType) {
-		
+		//	Load Validation Flag
+		if(m_C_DocTypeTarget_ID > 0) { 
+			MDocType m_DocType = MDocType.get(Env.getCtx(), m_C_DocTypeTarget_ID);
+			m_IsValidateQuantity = m_DocType.get_ValueAsBoolean("IsValidateQuantity");
+		}
+		//	
 		/**
 		 * 2014-12-02 Carlos Parada Add Support to DD_Order
 		 */
@@ -680,13 +684,9 @@ public class LoadOrder {
 						MRefList.getListName(Env.getCtx(), X_C_Order.DELIVERYRULE_AD_Reference_ID, m_DeliveryRuleKey));
 				if(m_DeliveryRule.getID() == null)
 					m_DeliveryRule.setKey(X_C_Order.DELIVERYRULE_Availability);
-				//	Dixon Martinez 2015-01-27
-				//	Verify Document Type
-				m_DocType_LoadOrder = MDocType.get(Env.getCtx(), m_C_DocTypeTarget_ID);
-				//	End Dixon Martinez
 				//	Valid Quantity On Hand
 				if(m_DeliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Availability)
-						&&	m_DocType_LoadOrder.get_ValueAsBoolean("IsValidateQuantity")) {
+						&&	m_IsValidateQuantity) {
 					diff = qtyOnHand.subtract(qty).setScale(precision, BigDecimal.ROUND_HALF_UP);
 					//	Set Quantity
 					if(diff.doubleValue() < 0) {
