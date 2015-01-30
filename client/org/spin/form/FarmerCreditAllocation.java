@@ -27,7 +27,6 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MRole;
 import org.compiere.process.DocAction;
-import org.compiere.swing.CComboBox;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;

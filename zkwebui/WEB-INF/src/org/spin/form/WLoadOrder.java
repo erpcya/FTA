@@ -1150,10 +1150,13 @@ public class WLoadOrder extends LoadOrder
 				BigDecimal unitVolume = product.getVolume();
 				String validError = null;
 				//	Valid Quantity
-				if(dr.getID().equals(X_C_Order.DELIVERYRULE_Availability)
-						&& qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()
-						>
-						qtyOnHand.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()) {
+				//	Valid Quantity onHand from Swing
+				if((dr.getID().equals(X_C_Order.DELIVERYRULE_Availability ) 
+						&& m_DocType_LoadOrder.get_ValueAsBoolean("IsValidateQuantity"))
+				//	End Yamel Senih
+							&& qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()
+							>
+							qtyOnHand.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue()) {
 					//	
 					validError = "@Qty@ > @QtyOnHand@";
 					//	
