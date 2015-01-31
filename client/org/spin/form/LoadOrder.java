@@ -265,10 +265,10 @@ public class LoadOrder {
 					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
 					"INNER JOIN C_BPartner cp ON(cp.C_BPartner_ID = ord.C_BPartner_ID) " +
-					"INNER JOIN AD_User sr ON(sr.AD_User_ID = ord.SalesRep_ID) " +
-					"INNER JOIN M_Warehouse wr ON(wr.M_Warehouse_ID = ord.M_Warehouse_ID) " +
+					"INNER JOIN M_Warehouse wr ON(wr.M_Warehouse_ID = lord.M_Warehouse_ID) " +
 					"INNER JOIN C_BPartner_Location bploc ON(bploc.C_BPartner_Location_ID = ord.C_BPartner_Location_ID) " +
 					"INNER JOIN C_Location loc ON(loc.C_Location_ID = bploc.C_Location_ID) " +
+					"LEFT JOIN AD_User sr ON(sr.AD_User_ID = ord.SalesRep_ID) " +
 					"LEFT JOIN C_Region reg ON(reg.C_Region_ID = loc.C_Region_ID) " +
 					"LEFT JOIN C_City cit ON(cit.C_City_ID = loc.C_City_ID) " +
 					"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
