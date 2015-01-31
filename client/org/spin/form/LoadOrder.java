@@ -21,7 +21,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -1035,15 +1034,16 @@ public class LoadOrder {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/11/2013, 18:17:22
 	 * @param trxName
 	 * @return
-	 * @return ArrayList<KeyNamePair>
+	 * @return KeyNamePair[]
 	 */
-	protected ArrayList<KeyNamePair> getDataDriver(String trxName) {
+	protected KeyNamePair[] getDataDriver(String trxName) {
 		String sql = "SELECT d.FTA_Driver_ID, d.Value || ' - ' || d.Name " +
 				"FROM FTA_EntryTicket et " + 
 				"INNER JOIN FTA_Driver d ON(d.FTA_Driver_ID = et.FTA_Driver_ID) " +
 				"WHERE et.FTA_EntryTicket_ID = " + m_FTA_EntryTicket_ID + " " +
 				"ORDER BY d.Value, d.Name";
-		return getData(sql, trxName);
+		//	
+		return DB.getKeyNamePairs(trxName, sql, false, (String)null);
 	}
 	
 	/**
@@ -1051,15 +1051,16 @@ public class LoadOrder {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 10:08:03
 	 * @param trxName
 	 * @return
-	 * @return ArrayList<KeyNamePair>
+	 * @return KeyNamePair[]
 	 */
-	protected ArrayList<KeyNamePair> getVehicleData(String trxName) {
+	protected KeyNamePair[] getVehicleData(String trxName) {
 		String sql = "SELECT v.FTA_Vehicle_ID, v.VehiclePlate || ' - ' || v.Name " +
 				"FROM FTA_EntryTicket et " + 
 				"INNER JOIN FTA_Vehicle v ON(v.FTA_Vehicle_ID = et.FTA_Vehicle_ID) " +
 				"WHERE et.FTA_EntryTicket_ID = " + m_FTA_EntryTicket_ID + " " +
 				"ORDER BY v.VehiclePlate, v.Name";
-		return getData(sql, trxName);
+		//	
+		return DB.getKeyNamePairs(trxName, sql, false, (String)null);
 	}
 	
 	/**
@@ -1067,9 +1068,9 @@ public class LoadOrder {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 15:53:34
 	 * @param trxName
 	 * @return
-	 * @return ArrayList<KeyNamePair>
+	 * @return KeyNamePair[]
 	 */
-	protected ArrayList<KeyNamePair> getDataDocumentType(String trxName) {
+	protected KeyNamePair[] getDataDocumentType(String trxName) {
 		
 		if(m_OperationType == null)
 			return null;
@@ -1084,7 +1085,7 @@ public class LoadOrder {
 				"AND doc.OperationType = '" + m_OperationType + "' " + 
 				"AND (doc.DocSubTypeSO IS NULL OR doc.DocSubTypeSO NOT IN('RM', 'OB')) " +
 				"ORDER BY doc.Name", "doc", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RW);		
-		return getData(sql, trxName);
+		return DB.getKeyNamePairs(trxName, sql, false, (String)null);
 	}	
 	
 	/**
@@ -1092,27 +1093,27 @@ public class LoadOrder {
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 14:47:28
 	 * @param trxName
 	 * @return
-	 * @return ArrayList<KeyNamePair>
+	 * @return KeyNamePair[]
 	 */
-	protected ArrayList<KeyNamePair> getDataWarehouse(String trxName) {
+	protected KeyNamePair[] getDataWarehouse(String trxName) {
 		String sql = "SELECT w.M_Warehouse_ID, w.Name " +
 				"FROM M_Warehouse w " +
 				"WHERE w.IsActive = 'Y' " +
 				"AND w.AD_Org_ID = " + m_AD_Org_ID + " " + 
 				"ORDER BY w.Name";
-		return getData(sql, trxName);
+		return DB.getKeyNamePairs(trxName, sql, false, (String)null);
 	}
 	
 	/**
 	 * Load the Combo Box from ArrayList
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 14:22:20
 	 * @param comboSearch
-	 * @param data
+	 * @param data[]
 	 * @param mandatory
 	 * @return
 	 * @return int
 	 */
-	protected int loadComboBox(CComboBox comboSearch, ArrayList<KeyNamePair> data, boolean mandatory) {
+	protected int loadComboBox(CComboBox comboSearch, KeyNamePair[] data, boolean mandatory) {
 		comboSearch.removeAllItems();
 		if(!mandatory)
 			comboSearch.addItem(new KeyNamePair(0, ""));
@@ -1132,40 +1133,12 @@ public class LoadOrder {
 	 * Load Combo Box from ArrayList (No Mandatory)
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 22/01/2014, 12:14:30
 	 * @param comboSearch
-	 * @param data
+	 * @param data[]
 	 * @return
 	 * @return int
 	 */
-	protected int loadComboBox(CComboBox comboSearch, ArrayList<KeyNamePair> data) {
+	protected int loadComboBox(CComboBox comboSearch, KeyNamePair[] data) {
 		return loadComboBox(comboSearch, data, false);
-	}
-	
-	/**
-	 * Get Data from SQL
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 08:31:44
-	 * @param sql
-	 * @param trxName
-	 * @return
-	 * @return ArrayList<KeyNamePair>
-	 */
-	private ArrayList<KeyNamePair> getData(String sql, String trxName) {
-		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
-		
-		log.config("getData");
-		
-		try	{
-			PreparedStatement pstmt = DB.prepareStatement(sql, trxName);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			while (rs.next()) {
-				data.add(new KeyNamePair(rs.getInt(1), rs.getString(2)));
-			}
-			rs.close();
-			pstmt.close();
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, sql, e);
-		}
-		return data;
 	}
 	
 	/**

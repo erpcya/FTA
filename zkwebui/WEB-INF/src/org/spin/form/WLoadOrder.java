@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -976,7 +975,7 @@ public class WLoadOrder extends LoadOrder
 			clearData();
 		} else if(name.equals("AD_Org_ID")) {
 			m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
-			ArrayList<KeyNamePair> data = getDataWarehouse(trxName);
+			KeyNamePair[] data = getDataWarehouse(trxName);
 			warehouseSearch.removeActionListener(this);
 			m_M_Warehouse_ID = loadComboBoxW(warehouseSearch, data);
 			warehouseSearch.addEventListener(Events.ON_SELECT, this);
@@ -985,7 +984,7 @@ public class WLoadOrder extends LoadOrder
 			
 			m_OperationType = ((String)(value != null? value: 0));
 			Env.setContext(Env.getCtx(), m_WindowNo, "OperationType", m_OperationType);
-			ArrayList<KeyNamePair> data = getDataDocumentType(trxName);
+			KeyNamePair[] data = getDataDocumentType(trxName);
 			docTypeSearch.removeActionListener(this);
 			m_C_DocType_ID = loadComboBoxW(docTypeSearch, data);
 			docTypeSearch.addActionListener(this);
@@ -1001,7 +1000,7 @@ public class WLoadOrder extends LoadOrder
 			calculate();
 		} else if(name.equals("FTA_EntryTicket_ID")) {
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
-			ArrayList<KeyNamePair> data = getDataDriver(trxName);
+			KeyNamePair[] data = getDataDriver(trxName);
 			m_FTA_Driver_ID = loadComboBoxW(driverSearch, data, true);
 			//	Vehicle
 			data = getVehicleData(trxName);
@@ -1051,12 +1050,12 @@ public class WLoadOrder extends LoadOrder
 	 * Load the Combo Box from ArrayList (Web Version)
 	 * @author <a href="mailto:raulmunozn@gmail.com">Raul Muñoz</a> 18/12/2015, 11:09:43
 	 * @param comboSearch
-	 * @param data
+	 * @param data[]
 	 * @param mandatory
 	 * @return
 	 * @return int
 	 */
-	protected int loadComboBoxW(Listbox comboSearch, ArrayList<KeyNamePair> data, boolean mandatory) {
+	protected int loadComboBoxW(Listbox comboSearch, KeyNamePair[] data, boolean mandatory) {
 		comboSearch.removeAllItems();
 		if(!mandatory){
 			comboSearch.appendItem("", "0");
@@ -1079,11 +1078,11 @@ public class WLoadOrder extends LoadOrder
 	 * Load Combo Box from ArrayList (No Mandatory)
 	 * @author <a href="mailto:raulmunozn@gmail.com">Raul Muñoz</a> 18/12/2015, 10:42:38
 	 * @param comboSearch
-	 * @param data
+	 * @param data[]
 	 * @return
 	 * @return int
 	 */
-	protected int loadComboBoxW(Listbox comboSearch, ArrayList<KeyNamePair> data) {
+	protected int loadComboBoxW(Listbox comboSearch, KeyNamePair[] data) {
 		return loadComboBoxW(comboSearch, data, false);
 	}
 

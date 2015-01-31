@@ -26,7 +26,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -669,7 +668,7 @@ public class VLoadOrder extends LoadOrder
 			clearData();
 		} else if(name.equals("AD_Org_ID")) {
 			m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
-			ArrayList<KeyNamePair> data = getDataWarehouse(trxName);
+			KeyNamePair[] data = getDataWarehouse(trxName);
 			warehouseSearch.removeActionListener(this);
 			m_M_Warehouse_ID = loadComboBox(warehouseSearch, data);
 			warehouseSearch.addActionListener(this);
@@ -693,7 +692,7 @@ public class VLoadOrder extends LoadOrder
 			calculate();
 		} else if(name.equals("FTA_EntryTicket_ID")) {
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
-			ArrayList<KeyNamePair> data = getDataDriver(trxName);
+			KeyNamePair[] data = getDataDriver(trxName);
 			m_FTA_Driver_ID = loadComboBox(driverSearch, data, true);
 			//	Vehicle
 			data = getVehicleData(trxName);
