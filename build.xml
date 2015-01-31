@@ -36,7 +36,12 @@
     
     <fileset dir="${Get-Weight.trunk}/packages/Get-Weight/lib">
   	  	      <include name="*.jar"/>
-  	</fileset>    
+  	</fileset>
+  	
+    <fileset dir="${Custom-SmartBrowse.trunk}/packages/Custom-SmartBrowse/lib">
+  	  	      <include name="*.jar"/>
+  	</fileset>
+  	
   </path>
 
   <!-- @author Carlos Parada Set Path --> 
@@ -62,6 +67,10 @@
     </fileset>
     
     <fileset dir="${Get-Weight.trunk}/packages/Get-Weight/lib">
+  	  	      <include name="*.jar"/>
+  	</fileset>
+  	
+    <fileset dir="${Custom-SmartBrowse.trunk}/packages/Custom-SmartBrowse/lib">
   	  	      <include name="*.jar"/>
   	</fileset>
   	
