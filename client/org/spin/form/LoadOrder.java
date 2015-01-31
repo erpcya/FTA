@@ -1043,7 +1043,7 @@ public class LoadOrder {
 				"WHERE et.FTA_EntryTicket_ID = " + m_FTA_EntryTicket_ID + " " +
 				"ORDER BY d.Value, d.Name";
 		//	
-		return DB.getKeyNamePairs(trxName, sql, false, (String)null);
+		return DB.getKeyNamePairs(trxName, sql, false, new Object[]{});
 	}
 	
 	/**
@@ -1060,7 +1060,7 @@ public class LoadOrder {
 				"WHERE et.FTA_EntryTicket_ID = " + m_FTA_EntryTicket_ID + " " +
 				"ORDER BY v.VehiclePlate, v.Name";
 		//	
-		return DB.getKeyNamePairs(trxName, sql, false, (String)null);
+		return DB.getKeyNamePairs(trxName, sql, false, new Object[]{});
 	}
 	
 	/**
@@ -1085,7 +1085,7 @@ public class LoadOrder {
 				"AND doc.OperationType = '" + m_OperationType + "' " + 
 				"AND (doc.DocSubTypeSO IS NULL OR doc.DocSubTypeSO NOT IN('RM', 'OB')) " +
 				"ORDER BY doc.Name", "doc", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RW);		
-		return DB.getKeyNamePairs(trxName, sql, false, (String)null);
+		return DB.getKeyNamePairs(trxName, sql, false, new Object[]{});
 	}	
 	
 	/**
@@ -1101,7 +1101,7 @@ public class LoadOrder {
 				"WHERE w.IsActive = 'Y' " +
 				"AND w.AD_Org_ID = " + m_AD_Org_ID + " " + 
 				"ORDER BY w.Name";
-		return DB.getKeyNamePairs(trxName, sql, false, (String)null);
+		return DB.getKeyNamePairs(trxName, sql, false, new Object[]{});
 	}
 	
 	/**
