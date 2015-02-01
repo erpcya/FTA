@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInvoice;
@@ -27,9 +28,16 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MQuery;
+import org.compiere.model.MTable;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
+import org.compiere.model.PrintInfo;
 import org.compiere.model.X_C_Invoice;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
+import org.compiere.print.Viewer;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
@@ -60,6 +68,8 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 	private StringBuffer 		sql 					= new StringBuffer();
 	/** Created Records						*/
 	private int 				m_Created 				= 0;
+	/**	Print Document						*/
+	private ArrayList<Integer>	m_IDs					= new ArrayList<Integer>();
 
 	/* (non-Javadoc)
 	 * @see org.compiere.process.SvrProcess#prepare()
@@ -249,9 +259,11 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 					lo.saveEx();
 				}//End Invoice Line Created
 			}//End Invoice Generated
-			
+			//	
 			completeInvoice();
 			commitEx();
+			//	Print Documents
+			printDocuments();
 		}
 		catch(Exception ex){
 			rollback();
@@ -263,6 +275,17 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 		}
 		//	Info
 		return "@C_Invoice_ID@ @Created@ = "+ m_Created + " [" + msg.toString() + "]";
+	}
+	
+	/**
+	 * Print Invoices
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 1, 2015, 12:29:09 PM
+	 * @return void
+	 */
+	private void printDocuments() {
+		for (int Record_ID : m_IDs) {
+			ReportCtl.startDocumentPrint(ReportEngine.INVOICE, Record_ID, null, 0, true);
+		}
 	}
 	
 	/**
@@ -283,6 +306,10 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 							:" --> @OK@"));
 			//	Created
 			m_Created ++;
+			//	Is Printed?
+			if(m_Current_Invoice.getDocStatus().equals(X_C_Invoice.DOCSTATUS_Completed)) {
+				m_IDs.add(m_Current_Invoice.getC_Invoice_ID());
+			}
 		}
 	}
 }
