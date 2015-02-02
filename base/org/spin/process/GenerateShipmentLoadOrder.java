@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInOut;
@@ -31,6 +32,8 @@ import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.X_M_InOut;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
@@ -49,21 +52,25 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 
 
 	/** Document Type						*/
-	private int 				p_C_DocTypeTarget_ID 	= 0;
+	private int 				p_C_DocTypeTarget_ID 			= 0;
 	/** DateInvoiced 						*/
-	private Timestamp 			p_MovementDate			= null;	
+	private Timestamp 			p_MovementDate					= null;	
 	/**	Document Action						*/
-	private String				p_DocAction				= null;
+	private String				p_DocAction						= null;
 	/** Sql									*/
-	private StringBuffer 		sql 					= new StringBuffer();
+	private StringBuffer 		sql 							= new StringBuffer();
 	/** Current Warehouse 					*/
-	private int 				m_Current_Warehouse_ID	= 0;
+	private int 				m_Current_Warehouse_ID			= 0;
 	/** Current Business Partner 			*/
-	private int 				m_Current_BPartner_ID 	= 0; 
+	private int 				m_Current_BPartner_ID 			= 0;
 	/**	Current Shipment					*/
-	private MInOut				m_Current_Shipment 		= null;
+	private MInOut				m_Current_Shipment 				= null;
 	/** Created Records						*/
-	private int 				m_Created 				= 0;
+	private int 				m_Created 						= 0;
+	/**	Is Immediate Delivery				*/
+	private boolean				m_Current_IsImmediateDelivery 	= false;
+	/**	Print Document						*/
+	private ArrayList<Integer>	m_IDs							= new ArrayList<Integer>();
 	
 	@Override
 	protected void prepare() {
@@ -242,13 +249,17 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					lo.setIsDelivered(true);
 					//	Save
 					lo.saveEx(get_TrxName());
-					
+					//	Set Current Delivery
+					m_Current_IsImmediateDelivery = lo.isImmediateDelivery();
 				}	//End Invoice Line Created
 			}	//	End Invoice Generated
 			//	Complete Shipment
 			completeShipment();
 			//	Commit Transaction
 			commitEx();
+			//	Print Documents
+			printDocuments();
+			//	
 		} catch(Exception ex) {
 			rollback();
 			return ex.getMessage();
@@ -258,6 +269,17 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 		}
 		//	Info
 		return "@M_InOut_ID@ @Created@ = "+ m_Created + " [" + msg.toString() + "]";
+	}
+	
+	/**
+	 * Print Document
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 2, 2015, 9:05:06 AM
+	 * @return void
+	 */
+	private void printDocuments() {
+		for (int Record_ID : m_IDs) {
+			ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, Record_ID, null, 0, true);
+		}
 	}
 	
 	/**
@@ -279,6 +301,11 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 							:" --> @OK@"));
 			//	Created
 			m_Created ++;
+			//	Is Printed?
+			if(m_Current_Shipment.getDocStatus().equals(X_M_InOut.DOCSTATUS_Completed)
+					&& m_Current_IsImmediateDelivery) {
+				m_IDs.add(m_Current_Shipment.getM_InOut_ID());
+			}
 		}
 	}
 

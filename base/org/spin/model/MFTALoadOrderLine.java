@@ -24,6 +24,7 @@ import java.util.Properties;
 import org.compiere.model.MProduct;
 import org.compiere.model.X_C_Order;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -177,6 +178,30 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 		return errorMsg;
 	}
 
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		MProduct m_Product = MProduct.get(getCtx(), getM_Product_ID());
+		if(m_Product != null) {
+			BigDecimal m_Qty = getQty();
+			BigDecimal m_Weight = m_Product.getWeight();
+			BigDecimal m_Volume = m_Product.getVolume();
+			//	Valid Quantity
+			if(m_Qty == null)
+				m_Qty = Env.ZERO;
+			//	Valid Weight
+			if(m_Weight == null)
+				m_Weight = Env.ZERO;
+			//	Valid Volume
+			if(m_Volume == null)
+				m_Volume = Env.ZERO;
+			//	Set Weight and Volume
+			setWeight(m_Qty.multiply(m_Weight));
+			setVolume(m_Qty.multiply(m_Volume));
+		}
+		//	
+		return super.beforeSave(newRecord);
+	}
+	
 	@Override
 	protected boolean afterSave(boolean newRecord, boolean success) {
 		super.afterSave(newRecord, success);

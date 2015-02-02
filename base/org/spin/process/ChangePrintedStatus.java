@@ -48,35 +48,33 @@ public class ChangePrintedStatus extends SvrProcess {
 		MProcess pr = MProcess.get(getCtx(), m_AD_Process_ID);
 		if(pr != null){
 			X_AD_ReportView rv = new X_AD_ReportView(getCtx(), pr.getAD_ReportView_ID(), get_TrxName());
-			if(rv != null){
-				MTable reportTable = MTable.get(getCtx(), rv.getAD_Table_ID());
-				MPrintFormat f = MPrintFormat.get(getCtx(), rv.getAD_ReportView_ID(), reportTable.getAD_Table_ID());
-				//	for all Mobilization Guide
-				if(f != null) {
-					MTable modelTable = MTable.get(getCtx(), getTable_ID());
-					MQuery q = new MQuery(reportTable.getTableName());
-					q.addRestriction(modelTable.getTableName() + "_ID", "=", p_Record_ID);
-					PrintInfo i = new PrintInfo(Msg.translate(getCtx(), reportTable.getTableName() + "_ID"), reportTable.getAD_Table_ID(), p_Record_ID);
-					//i.setAD_Table_ID(reportTable.getAD_Table_ID());
-					ReportEngine re = new ReportEngine(Env.getCtx(), f, q, i, get_TrxName());
-					//	Print
-					if(re != null){
-						//	Direct Print
-						re.print();
-						PO model = modelTable.getPO(p_Record_ID, get_TrxName());
-						//	Dixon Martinez
-						//	Check model is not null
-						//	If it returns null check if the table exists
-						if(model == null)
-							return "";
-						//	End Dixon Martinez
-						
-						model.set_ValueOfColumn("IsPrinted", true);
-						model.saveEx();
-					}	
-				} else 
-					log.warning(Msg.parseTranslation(getCtx(), "@NoDocPrintFormat@ @AD_Table_ID@=" + reportTable.getTableName()));	
+			MTable reportTable = MTable.get(getCtx(), rv.getAD_Table_ID());
+			MPrintFormat f = MPrintFormat.get(getCtx(), rv.getAD_ReportView_ID(), reportTable.getAD_Table_ID());
+			//	for all Mobilization Guide
+			if(f != null) {
+				MTable modelTable = MTable.get(getCtx(), getTable_ID());
+				MQuery q = new MQuery(reportTable.getTableName());
+				q.addRestriction(modelTable.getTableName() + "_ID", "=", p_Record_ID);
+				PrintInfo i = new PrintInfo(Msg.translate(getCtx(), reportTable.getTableName() + "_ID"), reportTable.getAD_Table_ID(), p_Record_ID);
+				//i.setAD_Table_ID(reportTable.getAD_Table_ID());
+				ReportEngine re = new ReportEngine(Env.getCtx(), f, q, i, get_TrxName());
+				//	Print
+				//	Direct Print
+				re.print();
+				PO model = modelTable.getPO(p_Record_ID, get_TrxName());
+				//	Dixon Martinez
+				//	Check model is not null
+				//	If it returns null check if the table exists
+				if(model == null)
+					return "";
+				//	End Dixon Martinez
+				
+				model.set_ValueOfColumn("IsPrinted", true);
+				model.saveEx();	
+			} else {
+				log.warning(Msg.parseTranslation(getCtx(), "@NoDocPrintFormat@ @AD_Table_ID@=" + reportTable.getTableName()));
 			}
+
 		}
 		return "";
 	}

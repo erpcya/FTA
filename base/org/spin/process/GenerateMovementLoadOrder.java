@@ -20,10 +20,13 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import org.compiere.model.MMovement;
 import org.compiere.model.MMovementLine;
 import org.compiere.model.X_M_Movement;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
@@ -31,6 +34,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
+import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTALoadOrderLine;
 
 /**
@@ -40,19 +44,23 @@ import org.spin.model.MFTALoadOrderLine;
 public class GenerateMovementLoadOrder extends SvrProcess {
 
 	/** Document Type						*/
-	private int 				p_C_DocTypeTarget_ID 	= 0;
+	private int 				p_C_DocTypeTarget_ID 			= 0;
 	/** DateInvoiced 						*/
-	private Timestamp 			p_MovementDate			= null;	
+	private Timestamp 			p_MovementDate					= null;	
 	/**	Document Action						*/
-	private String				p_DocAction				= null;
+	private String				p_DocAction						= null;
 	/** Sql									*/
-	private StringBuffer 		sql 					= new StringBuffer();
+	private StringBuffer 		sql 							= new StringBuffer();
 	/** Current Business Partner 			*/
-	private int 				m_Current_BPartner_ID 	= 0; 
+	private int 				m_Current_BPartner_ID 			= 0;
 	/**	Current Shipment					*/
-	private MMovement			m_Current_Movement 		= null;
+	private MMovement			m_Current_Movement 				= null;
 	/** Created Records						*/
-	private int 				m_Created 				= 0;
+	private int 				m_Created 						= 0;
+	/**	Is Immediate Delivery				*/
+	private boolean				m_Current_IsImmediateDelivery 	= false;
+	/**	Print Document						*/
+	private ArrayList<Integer>	m_IDs							= new ArrayList<Integer>();
 	
 	/* (non-Javadoc)
 	 * @see org.compiere.process.SvrProcess#prepare()
@@ -212,13 +220,25 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 					m_FTA_LoadOrderLine.setM_MovementLine_ID(m_MovementLine.getM_MovementLine_ID());
 					m_FTA_LoadOrderLine.setConfirmedQty(m_Qty);
 					m_FTA_LoadOrderLine.saveEx();
-					
+					//	Instance MFTALoadOrder
+					MFTALoadOrder lo = new MFTALoadOrder(getCtx(), 
+							m_FTA_LoadOrderLine.getFTA_LoadOrder_ID(), get_TrxName());
+					//	Set true Is Delivered and Is Weight Register
+					lo.setIsMoved(true);
+					//	Save
+					lo.saveEx(get_TrxName());
+					//	Set Current Delivery
+					m_Current_IsImmediateDelivery = lo.isImmediateDelivery();
+					//	
 				}	//End Invoice Line Created
 			}	//	End Invoice Generated
 			//	Complete Shipment
 			completeMovement();
 			//	Commit Transaction
 			commitEx();
+			//	Print Documents
+			printDocuments();
+			//	
 		} catch(Exception ex) {
 			rollback();
 			return ex.getMessage();
@@ -228,6 +248,17 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 		}
 		//	Info
 		return "@M_Movement_ID@ @Created@ = "+ m_Created + " [" + msg.toString() + "]";
+	}
+	
+	/**
+	 * Print Document
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 2, 2015, 9:05:06 AM
+	 * @return void
+	 */
+	private void printDocuments() {
+		for (int Record_ID : m_IDs) {
+			ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, Record_ID, null, 0, true);
+		}
 	}
 	
 	/**
@@ -249,6 +280,11 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 							:" --> @OK@"));
 			//	Created
 			m_Created ++;
+			//	Is Printed?
+			if(m_Current_Movement.getDocStatus().equals(X_M_Movement.DOCSTATUS_Completed)
+					&& m_Current_IsImmediateDelivery) {
+				m_IDs.add(m_Current_Movement.getM_Movement_ID());
+			}
 		}
 	}
 }
