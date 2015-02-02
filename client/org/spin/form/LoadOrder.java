@@ -178,6 +178,8 @@ public class LoadOrder {
 	 */
 	protected Vector<Vector<Object>> getOrderData(IMiniTable orderTable, String p_OperationType) {
 		//	Load Validation Flag
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
 		if(m_C_DocTypeTarget_ID > 0) { 
 			MDocType m_DocType = MDocType.get(Env.getCtx(), m_C_DocTypeTarget_ID);
 			m_IsValidateQuantity = m_DocType.get_ValueAsBoolean("IsValidateQuantity");
@@ -330,7 +332,7 @@ public class LoadOrder {
 			int param = 1;
 			int column = 1;
 			
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			
 			pstmt.setInt(param++, Env.getAD_Client_ID(Env.getCtx()));
 			
@@ -355,7 +357,7 @@ public class LoadOrder {
 			log.fine("C_DocType_ID=" + m_C_DocType_ID);
 			log.fine("IsBulk=" + m_IsBulk);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				column = 1;
 				Vector<Object> line = new Vector<Object>();
@@ -379,10 +381,12 @@ public class LoadOrder {
 				//
 				data.add(line);
 			}
-			rs.close();
-			pstmt.close();
+			
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		finally{
+			DB.close(rs, pstmt);
 		}
 		
 		return data;
@@ -626,19 +630,21 @@ public class LoadOrder {
 	 * @return Vector<Vector<Object>>
 	 */
 	protected Vector<Vector<Object>> getOrderLineData(IMiniTable orderLineTable, StringBuffer sqlPrep) {
-		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();		
+		PreparedStatement pstmt = null;
+		ResultSet rs= null;
 		
 		log.fine("LoadOrderLineSQL=" + sqlPrep.toString());
 		try {
 			
-			PreparedStatement pstmt = DB.prepareStatement(sqlPrep.toString(), null);
+			pstmt = DB.prepareStatement(sqlPrep.toString(), null);
 			//	Parameter
 			int param = 1;
 			//	
 			if(m_IsBulk)
 				pstmt.setInt(param++, m_M_Product_ID);
 			//	
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			int column = 1;
 			//BigDecimal rate = Env.ZERO;
 			BigDecimal qty = Env.ZERO;
@@ -707,10 +713,11 @@ public class LoadOrder {
 				//	Add Data
 				data.add(line);
 			}
-			rs.close();
-			pstmt.close();
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, sqlPrep.toString(), e);
+		}
+		finally{
+			DB.close(rs, pstmt);
 		}
 		//	
 		return data;
