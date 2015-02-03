@@ -30,7 +30,8 @@ SELECT
     COALESCE(m.C_BPartner_ID,o.C_BPartner_ID)C_BPartner_ID,
     ml.MovementQty,
     lo.operationtype,
-    lo.fta_entryticket_id
+    lo.fta_entryticket_id,
+    lo.IsImmediateDelivery
 FROM FTA_LoadOrder lo
 INNER JOIN FTA_LoadOrderLine lol ON (lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID )
 LEFT JOIN DD_OrderLine ol ON (ol.DD_OrderLine_ID = lol.DD_OrderLine_ID)
