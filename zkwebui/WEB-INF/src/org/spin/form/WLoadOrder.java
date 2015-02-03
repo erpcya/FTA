@@ -22,9 +22,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
-import javax.swing.table.DefaultTableModel;
-
-import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
@@ -61,10 +58,6 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.spin.model.MFTALoadOrder;
-import org.spin.model.MFTALoadOrderLine;
-import org.spin.model.MFTAWeightScale;
-import org.spin.model.X_FTA_LoadOrder;
 import org.spin.util.StringNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -116,10 +109,8 @@ public class WLoadOrder extends LoadOrder
 	private Grid 			parameterLayout		= GridFactory.newGridLayout();
 	private Panel 			parameterPanel = new Panel();
 	/**	Organization			*/
-	private Label 			organizationLabel = new Label();
 	private WTableDirEditor 		organizationPick = null;
 	/**	Sales Region			*/
-	private Label 			salesRegionLabel = new Label();
 	private WTableDirEditor 		salesRegionPick = null;
 	/**	Sales Representative	*/
 	private Label 			salesRepLabel = new Label();
@@ -128,13 +119,11 @@ public class WLoadOrder extends LoadOrder
 	private Label 			warehouseLabel = new Label();
 	private Listbox 		warehouseSearch = ListboxFactory.newDropdownListbox();
 	/**	Operation Type			*/
-	private Label 			operationTypeLabel = new Label();
 	private WTableDirEditor 		operationTypePick = null;
 	/**	Document Type			*/
 	private Label 			docTypeLabel = new Label();
 	private Listbox 		docTypeSearch = ListboxFactory.newDropdownListbox();
 	/**	Document Type Target	*/
-	private Label 			docTypeTargetLabel = new Label();
 	private WTableDirEditor	docTypeTargetPick = null;
 	/**	Invoice Rule			*/
 	private Label 			invoiceRuleLabel = new Label();
@@ -143,7 +132,6 @@ public class WLoadOrder extends LoadOrder
 	private Label 			deliveryRuleLabel = new Label();
 	private WTableDirEditor deliveryRulePick = null;
 	/**	Vehicle Type			*/
-	private Label 			vehicleTypeLabel = new Label();
 	private WTableDirEditor vehicleTypePick = null;
 	/**	Document Date			*/
 	private Label 			labelDateDoc = new Label();
@@ -247,7 +235,7 @@ public class WLoadOrder extends LoadOrder
 		salesRepLabel.setText(Msg.translate(Env.getCtx(), "SalesRep_ID"));
 		loadCapacityLabel.setText(Msg.translate(Env.getCtx(), "LoadCapacity"));
 		volumeCapacityLabel.setText(Msg.translate(Env.getCtx(), "VolumeCapacity"));
-		vehicleTypeLabel.setText(Msg.translate(Env.getCtx(), "FTA_VehicleType_ID"));
+		vehicleTypePick.getLabel().setText(Msg.translate(Env.getCtx(), "FTA_VehicleType_ID"));
 		entryTicketLabel.setText(Msg.translate(Env.getCtx(), "FTA_EntryTicket_ID"));
 		orderPanel.appendChild(orderLayout);
 		orderLinePanel.appendChild(orderLineLayout);
@@ -322,7 +310,7 @@ public class WLoadOrder extends LoadOrder
 		row.appendChild(deliveryRulePick.getComponent());
 		row = rows.newRow();
 		//	Vehicle Type
-		row.appendChild(vehicleTypeLabel.rightAlign());
+		row.appendChild(vehicleTypePick.getLabel().rightAlign());
 		row.appendChild(vehicleTypePick.getComponent());
 		
 		//	Document Date
@@ -976,7 +964,7 @@ public class WLoadOrder extends LoadOrder
 	public void valueChange(ValueChangeEvent evt) {
 		String name = evt.getPropertyName();
 		Object value = evt.getNewValue();
-		log.config(name + " = " + value);
+//		log.config(name + " = " + value);
 		
 		if(name.equals("C_SalesRegion_ID") || 
 				name.equals("SalesRep_ID")) {
