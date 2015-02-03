@@ -618,7 +618,7 @@ public class LoadOrder {
 		orderTable.setColumnClass(i++, String.class, true);			//  15-Address 4
 		//	
 		//  Table UI
-//		orderTable.autoSize();
+		orderTable.autoSize();
 	}
 	
 	/**
@@ -786,7 +786,7 @@ public class LoadOrder {
 		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  4-Quantity Set
 		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Quantity Available
 		//  Table UI
-//		stockTable.autoSize();
+		stockTable.autoSize();
 	}
 	
 	
@@ -817,7 +817,7 @@ public class LoadOrder {
 		orderLineTable.setColumnClass(i++, Integer.class, false);		//  16-Sequence No
 		orderLineTable.setColumnClass(i++, String.class, true);			//  17-Delivery Rule
 		//  Table UI
-//		orderLineTable.autoSize();
+		orderLineTable.autoSize();
 	}
 	
 	/**
@@ -1187,7 +1187,7 @@ public class LoadOrder {
 		for (int i = 0; i < rows; i++) {
 			if (((Boolean)orderLineTable.getValueAt(i, SELECT)).booleanValue()) {
 				m_C_OrderLine_ID = ((KeyNamePair)orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
-				qty = (BigDecimal)orderLineTable.getValueAt(i, OL_WEIGHT);
+				qty = (BigDecimal)orderLineTable.getValueAt(i, OL_QTY);
 				seqNo = (Integer)orderLineTable.getValueAt(i, OL_SEQNO);
 				m_BufferSelect.addElement(
 						new BufferTableSelect(m_C_OrderLine_ID, qty, seqNo));
@@ -1314,7 +1314,7 @@ public class LoadOrder {
 				bts = isSelect(m_C_OrderLine_ID);
 				if(bts != null) {
 					orderLineTable.setValueAt(true, i, SELECT);
-					orderLineTable.setValueAt(bts.getQty(), i, OL_WEIGHT);
+					orderLineTable.setValueAt(bts.getQty(), i, OL_QTY);
 					orderLineTable.setValueAt(bts.getSeqNo(), i, OL_SEQNO);
 				}
 			}	
