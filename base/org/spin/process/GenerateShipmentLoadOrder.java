@@ -41,6 +41,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTALoadOrderLine;
+import org.spin.model.MFTARecordWeight;
+import org.spin.model.X_FTA_LoadOrder;
 
 /**
  * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
@@ -150,16 +152,59 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		StringBuffer msg = new StringBuffer();
-		try{
+		try {
 			ps = DB.prepareStatement(sql.toString(), get_TrxName());
 			ps.setInt(1, getAD_PInstance_ID());
 			rs = ps.executeQuery();
 			//	
 			while(rs.next()){
 				//	Valid Document Order and Business Partner
-				int m_C_BPartner_ID 	= rs.getInt("C_BPartner_ID");
-				int m_M_Warehouse_ID 	= rs.getInt("M_Warehouse_ID");
-				int m_C_Order_ID 		= rs.getInt("C_Order_ID");
+				int m_C_BPartner_ID 		= rs.getInt("C_BPartner_ID");
+				int m_M_Warehouse_ID 		= rs.getInt("M_Warehouse_ID");
+				int m_C_Order_ID 			= rs.getInt("C_Order_ID");
+				int m_FTA_LoadOrderLine_ID 	= rs.getInt("FTA_LoadOrderLine_ID");
+				BigDecimal m_Qty 			= rs.getBigDecimal("Qty");
+				//	Record Weight Reference
+				int m_FTA_RecordWeight_ID 	= 0;
+				//	Instance MLoadOrderLine
+				MFTALoadOrderLine m_FTA_LoadOrderLine = 
+						new MFTALoadOrderLine(getCtx(), m_FTA_LoadOrderLine_ID, get_TrxName());
+				//	Instance MFTALoadOrder
+				MFTALoadOrder m_FTA_LoadOrder = new MFTALoadOrder(getCtx(), 
+						m_FTA_LoadOrderLine.getFTA_LoadOrder_ID(), get_TrxName());
+				//	Valid Immediate Delivery
+				if(m_FTA_LoadOrder.getOperationType()
+						.equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryBulkMaterial)
+						&& m_FTA_LoadOrder.isHandleRecordWeight()
+						&& !m_FTA_LoadOrder.isWeightRegister()) {
+					completeShipment();
+					//	
+					continue;
+				} else if(m_FTA_LoadOrder.getOperationType()
+						.equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryBulkMaterial)
+						&& m_FTA_LoadOrder.isHandleRecordWeight()
+						&& m_FTA_LoadOrder.isWeightRegister()) {
+					MFTARecordWeight m_FTA_RecordWeight = m_FTA_LoadOrder.getRecordWeight();
+					if(m_FTA_RecordWeight == null) {
+						completeShipment();
+						//	
+						continue;
+					}
+					//	
+					m_FTA_RecordWeight_ID = m_FTA_RecordWeight.getFTA_RecordWeight_ID();
+					//	Get Weight
+					BigDecimal m_NetWeight = m_FTA_RecordWeight.getNetWeight();
+					//	Get Product
+					MProduct product = MProduct.get(getCtx(), m_FTA_LoadOrder.getM_Product_ID());
+					//	Rate Convert
+					BigDecimal rate = MUOMConversion.getProductRateTo(Env.getCtx(), 
+							product.getM_Product_ID(), m_FTA_RecordWeight.getC_UOM_ID());
+					//	Convert Quantity
+					m_Qty = m_NetWeight.multiply(rate);
+				}
+				//	Valid Null
+				if(m_Qty == null)
+					m_Qty = Env.ZERO;
 				//	
 				if (m_Current_BPartner_ID != m_C_BPartner_ID
 						|| m_Current_Warehouse_ID != m_M_Warehouse_ID) {
@@ -186,6 +231,10 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					//	Set Warehouse
 					m_Current_Shipment.setM_Warehouse_ID(m_Current_Warehouse_ID);
 					m_Current_Shipment.setDocStatus(X_M_InOut.DOCSTATUS_Drafted);
+					//	Set Record Weight Reference
+					if(m_FTA_RecordWeight_ID > 0) {
+						m_Current_Shipment.set_ValueOfColumn("FTA_RecordWeight_ID", m_FTA_RecordWeight_ID);
+					}
 					m_Current_Shipment.saveEx(get_TrxName());
 					//	Initialize Message
 					if(msg.length() > 0)
@@ -195,23 +244,13 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 				}
 				//	Shipment Created?
 				if (m_Current_Shipment != null) {
-					//	Get Values from Result Set
-					int m_FTA_LoadOrderLine_ID 	= rs.getInt("FTA_LoadOrderLine_ID");
-					int m_M_Product_ID 			= rs.getInt("M_Product_ID");
-					BigDecimal m_Qty 			= rs.getBigDecimal("Qty");
-					//	Valid Null
-					if(m_Qty == null)
-						m_Qty = Env.ZERO;
-					//	Instance MLoadOrderLine
-					MFTALoadOrderLine m_FTA_LoadOrderLine = 
-							new MFTALoadOrderLine(getCtx(), m_FTA_LoadOrderLine_ID, get_TrxName());
 					//	Create Shipment Line
 					MInOutLine shipmentLine = 
 							new MInOutLine(getCtx(), 0, get_TrxName());
 					//	Get Order Line
 					MOrderLine oLine = (MOrderLine) m_FTA_LoadOrderLine.getC_OrderLine();
 					//	Instance MProduct
-					MProduct product = MProduct.get(getCtx(), m_M_Product_ID);
+					MProduct product = MProduct.get(getCtx(), m_FTA_LoadOrderLine.getM_Product_ID());
 					//	Rate Convert
 					BigDecimal rate = MUOMConversion.getProductRateTo(Env.getCtx(), 
 							product.getM_Product_ID(), oLine.getC_UOM_ID());
@@ -242,15 +281,12 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					m_FTA_LoadOrderLine.setConfirmedQty(m_Qty);
 					m_FTA_LoadOrderLine.setM_InOutLine_ID(shipmentLine.get_ID());
 					m_FTA_LoadOrderLine.saveEx();
-					//	Instance MFTALoadOrder
-					MFTALoadOrder lo = new MFTALoadOrder(getCtx(), 
-							m_FTA_LoadOrderLine.getFTA_LoadOrder_ID(), get_TrxName());
 					//	Set true Is Delivered and Is Weight Register
-					lo.setIsDelivered(true);
+					m_FTA_LoadOrder.setIsDelivered(true);
 					//	Save
-					lo.saveEx(get_TrxName());
+					m_FTA_LoadOrder.saveEx(get_TrxName());
 					//	Set Current Delivery
-					m_Current_IsImmediateDelivery = lo.isImmediateDelivery();
+					m_Current_IsImmediateDelivery = m_FTA_LoadOrder.isImmediateDelivery();
 				}	//End Invoice Line Created
 			}	//	End Invoice Generated
 			//	Complete Shipment

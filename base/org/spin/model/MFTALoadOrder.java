@@ -461,6 +461,23 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		return null;
 	}
 	
+	/**
+	 * Get Current Record Weight
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 3, 2015, 9:07:37 PM
+	 * @return
+	 * @return MFTARecordWeight
+	 */
+	public MFTARecordWeight getRecordWeight(){
+		int m_FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
+				"FROM FTA_RecordWeight rw " +
+				"WHERE rw.DocStatus NOT IN('VO', 'RE') " +				
+				"AND rw.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+		if(m_FTA_RecordWeight_ID <= 0)
+			return null;
+		//	Instance
+		return new MFTARecordWeight(getCtx(), m_FTA_RecordWeight_ID, get_TrxName());
+	}
+	
 	
 	/**
 	 * 	Close Document.
