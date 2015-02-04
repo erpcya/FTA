@@ -83,7 +83,7 @@ public class WLoadOrder extends LoadOrder
 		trx = Trx.get(trxName, true);
 		Env.setContext(Env.getCtx(), form.getWindowNo(), "IsSOTrx", "Y");   //  defaults to no
 		
-		Trx.get(trxName, true);
+		
 		try	{
 			
 			dyInit();
@@ -169,16 +169,22 @@ public class WLoadOrder extends LoadOrder
 	private DateFormat 		dateFormat 		 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	/** Panels				*/
-	private Borderlayout	infoPanel = new Borderlayout();
 	private Panel 			orderPanel = new Panel();
 	private Panel 			orderLinePanel = new Panel();
 	private Label 			orderLabel = new Label();
+	private Label 			stockLabel = new Label();
 	private Label 			orderLineLabel = new Label();
 	private Borderlayout 	orderLayout = new Borderlayout();
 	private Borderlayout 	orderLineLayout = new Borderlayout();
+	private Borderlayout 	stockLayout = new Borderlayout();
+	private Panel 			stockPanel = new Panel();
+	private Borderlayout 	medioLayout = new Borderlayout();
+	private Panel 			medioPanel = new Panel();
 	private Panel 			southPanel = new Panel();
 	private Panel 			allocationPanel = new Panel();
 	private Grid 			allocationLayout = GridFactory.newGridLayout();
+	private Borderlayout 	infoLayout = new Borderlayout();
+	private South 			south1 = new South();
 	/**	Collapsible Panel for Parameter		*/
 	private North 			north = new North();
 	private North 			north1 = new North();
@@ -206,6 +212,8 @@ public class WLoadOrder extends LoadOrder
 	private int 			count = 0;
 	/**	Payment Info		*/
 	private Label 			paymentInfo = new Label();
+	/**	Stock Info		*/
+	private Label 			stockInfo = new Label();
 	/**	Invoice Info		*/
 	private Label 			invoiceInfo = new Label();
 	private Label			invoiceLabel = new Label();
@@ -239,6 +247,8 @@ public class WLoadOrder extends LoadOrder
 		entryTicketLabel.setText(Msg.translate(Env.getCtx(), "FTA_EntryTicket_ID"));
 		orderPanel.appendChild(orderLayout);
 		orderLinePanel.appendChild(orderLineLayout);
+		medioPanel.appendChild(medioLayout);
+		stockPanel.appendChild(stockLayout);
 		//	Operation Type
 		operationTypePick.getLabel().setText(Msg.translate(Env.getCtx(), "OperationType"));
 		//	Document Type
@@ -252,13 +262,15 @@ public class WLoadOrder extends LoadOrder
 		//	Warehouse
 		warehouseLabel.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		//	Product
-		productLabel.setText(Msg.translate(Env.getCtx(), "M_Product_ID"));
+		productSearch.getLabel().setText(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		//	Business Partner
-		bpartnerLabel.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		bpartnerSearch.getLabel().setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		
 		bSearch.setLabel(Msg.translate(Env.getCtx(), "Search"));
-		
+
 		orderLabel.setText(" " + Msg.translate(Env.getCtx(), "C_Order_ID"));
+//		dssd
+		stockLabel.setText("yruy " + Msg.translate(Env.getCtx(), "C_Order_ID"));
 		orderLineLabel.setText(" " + Msg.translate(Env.getCtx(), "C_OrderLine_ID"));
 		orderPanel.appendChild(orderLayout);
 		orderPanel.setWidth("100%");
@@ -266,6 +278,12 @@ public class WLoadOrder extends LoadOrder
 		orderLayout.setWidth("100%");
 		orderLayout.setHeight("50%");
 		orderLayout.setStyle("border: none");
+		stockPanel.appendChild(stockLayout);
+		stockPanel.setWidth("100%");
+		stockPanel.setHeight("100%");
+		stockLayout.setWidth("100%");
+		stockLayout.setHeight("50%");
+		stockLayout.setStyle("border: none");
 		
 		gLoadOrderButton.setLabel(Msg.translate(Env.getCtx(), "GenerateOrder"));
 		gLoadOrderButton.addActionListener(this);
@@ -348,12 +366,12 @@ public class WLoadOrder extends LoadOrder
 		//	Bulk
 		isBulkCheck.setSelected(false);
 		//	Product
-		row.appendChild(productLabel.rightAlign());
+		row.appendChild(productSearch.getLabel().rightAlign());
 		row.appendChild(productSearch.getComponent());
 		productLabel.setVisible(false);
 		productSearch.setVisible(false);
 		//	Business Partner
-		row.appendChild(bpartnerLabel.rightAlign());
+		row.appendChild(bpartnerSearch.getLabel().rightAlign());
 		row.appendChild(bpartnerSearch.getComponent());
 		bpartnerLabel.setVisible(false);
 		bpartnerSearch.setVisible(false);
@@ -371,7 +389,6 @@ public class WLoadOrder extends LoadOrder
 		north1.appendChild(parameterPanel);
 		
 		South south = new South();
-		south = new South();
 		south.setStyle("border: none");
 		mainLayout.appendChild(south);
 		south.appendChild(southPanel);
@@ -391,8 +408,9 @@ public class WLoadOrder extends LoadOrder
 		weightDiffField.setEnabled(false);
 		
 		invoiceLabel.setText(" " + Msg.translate(Env.getCtx(), "C_OrderLine_ID"));
-		
+
 		invoiceInfo.setText(".");
+		stockInfo.setText(".");
 		paymentInfo.setText(".");
 		orderPanel.appendChild(orderLayout);
 		orderPanel.setWidth("100%");
@@ -407,6 +425,21 @@ public class WLoadOrder extends LoadOrder
 		orderLineLayout.setWidth("100%");
 		orderLineLayout.setHeight("100%");
 		orderLineLayout.setStyle("border: none");
+		
+		stockPanel.appendChild(stockLayout);
+		stockPanel.setWidth("100%");
+		stockPanel.setHeight("100%");
+		stockLayout.setWidth("100%");
+		stockLayout.setHeight("100%");
+		stockLayout.setStyle("border: none");
+		
+		medioPanel.appendChild(medioLayout);
+		medioPanel.setWidth("100%");
+		medioPanel.setHeight("100%");
+		medioLayout.setWidth("100%");
+		medioLayout.setHeight("100%");
+		medioLayout.setStyle("border: none");
+		
 		
 		north = new North();
 		north.setStyle("border: none");
@@ -429,36 +462,73 @@ public class WLoadOrder extends LoadOrder
 		north.appendChild(invoiceLabel);
 		south = new South();
 		south.setStyle("border: none");
-		orderLineLayout.appendChild(south);
 		south.appendChild(invoiceInfo.rightAlign());
 		center = new Center();
 		orderLineLayout.appendChild(center);
 		center.appendChild(w_orderLineTable);
-		w_orderLineTable.setWidth("99%");
-		w_orderLineTable.setHeight("99%");
-		center.setStyle("border: none");
+		orderLineLayout.appendChild(south);
+		w_orderLineTable.setWidth("100%");
+		w_orderLineTable.setHeight("100%");
+		center.setStyle("border: 1px solid #000; height:50%");
+
+		north = new North();
+		north.setStyle("border: none; height:90%;");
+		stockLayout.appendChild(north);
+		north.setTitle(Msg.translate(Env.getCtx(), "WarehouseStockGroup"));
+		north.appendChild(invoiceLabel);
+		north.setFlex(true);
+		south = new South();
+		south.setStyle("border: none");
+		south.appendChild(stockInfo.rightAlign());
+		center = new Center();
+		stockLayout.appendChild(center);
+		center.appendChild(stockTable);
+		stockLayout.appendChild(south);
+		stockTable.setWidth("100%");
+		stockTable.setHeight("100%");
+		center.setStyle("border: 1px solid #000; height:50%");
+		north = new North();
+		north.setStyle("border: none; height:90%;");
+		north.setFlex(true);
+		medioLayout.appendChild(north);
+		north.appendChild(w_orderLineTable);
+		south1 = new South();
+		
+		medioLayout.appendChild(south1);
+		south1.appendChild(stockTable);
+		south1.setTitle(Msg.translate(Env.getCtx(), "WarehouseStockGroup"));
+		south1.setStyle("border-style: solid; border-width: 1px; border-color: rgb(0,0,255)");
+		south1.addEventListener("onClick", this);
+		south1.setHeight("50%");
+		south1.setZIndex(99);
+		south1.setFlex(true);
+		south1.setCollapsible(true);
+		south1.setOpen(false);
+		south1.setSplittable(true);
 		
 		center = new Center();
-		center.setFlex(true);
 		mainLayout.appendChild(center);
-		center.appendChild(infoPanel);
-		
-		infoPanel.setStyle("border: none");
-		infoPanel.setWidth("100%");
-		infoPanel.setHeight("100%");
+		center.appendChild(infoLayout);
+		center.setAutoscroll(true);
+
+		infoLayout.setStyle("border: none");
+		infoLayout.setWidth("100%");
+		infoLayout.setHeight("100%");
 		
 		north = new North();
 		north.setStyle("border: none");
-		north.setHeight("49%");
-		infoPanel.appendChild(north);
-		north.appendChild(orderPanel);
+		north.setHeight("50%");
+		infoLayout.appendChild(north);
+		north.appendChild(orderLayout);
 		north.setSplittable(true);
+		north.setFlex(true);
+		
 		center = new Center();
 		center.setStyle("border: none");
-		center.setFlex(true);
-		infoPanel.appendChild(center);
-		center.appendChild(orderLinePanel);
-		
+		infoLayout.appendChild(center);
+		center.appendChild(medioLayout);
+		center.setHeight("100%");
+		center.setAutoscroll(true);
 	}   //  jbInit
 
 	/**
@@ -532,7 +602,7 @@ public class WLoadOrder extends LoadOrder
 		//  Vehicle Type
 		AD_Column_ID = 69851;		//  FTA_LoadOrder.FTA_VehicleType_ID
 		MLookup lookupVT = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
-		vehicleTypePick = new WTableDirEditor("FTA_VehicleType_ID", false, false, true, lookupVT);
+		vehicleTypePick = new WTableDirEditor("FTA_VehicleType_ID", true, false, true, lookupVT);
 		vehicleTypePick.addValueChangeListener(this);
 		
 		//	Product
@@ -546,7 +616,7 @@ public class WLoadOrder extends LoadOrder
 		MLookup lookupBPartner = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
 		bpartnerSearch = new WTableDirEditor("C_BPartner_ID", true, false, true, lookupBPartner);
 		bpartnerSearch.addValueChangeListener(this);
-		
+
 		//	Visible
 		productLabel.setVisible(false);
 		productSearch.setVisible(false);
@@ -1195,6 +1265,12 @@ public class WLoadOrder extends LoadOrder
 				//	Calculate Volume
 				volume = qty.multiply(unitVolume).setScale(m_VolumePrecision, BigDecimal.ROUND_HALF_UP);
 				w_orderLineTable.setValueAt(volume, row, OL_VOLUME);
+				
+				//  Load Stock Product
+				stockModel = new ListModelTable();
+				stockTable.setData(stockModel, getStockColumnNames());
+				setStockColumnClass(stockTable);
+				
 			} else if(col == SELECT) {
 				boolean select = (Boolean) w_orderLineTable.getValueAt(row, col);
 				if(select) {
@@ -1229,14 +1305,14 @@ public class WLoadOrder extends LoadOrder
 		
 		log.info("Load StockWarehouse");
 		int rows = orderLineTable.getRowCount();
-		stockModel = new ListModelTable(getStockColumnNames());
+		stockModel = new ListModelTable();
 		
 		for (int i = 0; i < rows; i++) {
 			if (((Boolean)orderLineTable.getValueAt(i, SELECT)).booleanValue()) {
 				loadProductsStock(orderLineTable, i, true);
 			}
 		}
-		stockTable.setModel(stockModel);
+		stockTable.setData(stockModel,getStockColumnNames());
 		stockTable.autoSize();
 		setStockColumnClass(stockTable);
 	}
