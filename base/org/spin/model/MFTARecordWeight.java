@@ -827,6 +827,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 */
 	private String reverseMovement() {
 		//	List 
+		MFTALoadOrder m_FTALoadOrder = new MFTALoadOrder(getCtx(), getFTA_LoadOrder_ID(), get_TrxName());
 		List<MMovement> lists = new Query(getCtx(), MMovement.Table_Name, "FTA_RecordWeight_ID = ? AND DocStatus IN ('CO','CL')" , get_TrxName())
 		.setParameters(getFTA_RecordWeight_ID())
 		.setOrderBy("DocStatus")
@@ -837,6 +838,12 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			if(mMovement.getDocStatus().equals(X_M_Movement.DOCSTATUS_Closed))
 				throw new AdempiereException("@FTA_RecordWeight_ID@ @Referenced@ --> @M_Movement_ID@ " + mMovement.getDocumentNo() + 
 						"@DocStatus@ " + X_M_Movement.DOCSTATUS_Closed);
+			
+			if(m_FTALoadOrder.isImmediateDelivery()){
+				mMovement.set_ValueOfColumn("FTA_RecordWeight_ID", 0);
+				mMovement.saveEx();
+				continue;
+			}
 			mMovement.set_ValueOfColumn("FTA_RecordWeight_ID", null);
 			mMovement.setDocAction(X_M_Movement.DOCACTION_Reverse_Correct);
 			mMovement.processIt(X_M_Movement.DOCACTION_Reverse_Correct);
@@ -1049,6 +1056,19 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		int m_Created = 0;
 		// Create Movements
 		for (MFTALoadOrderLine line : lines) {
+			
+			if(lo.isImmediateDelivery()){
+				if (line.getM_MovementLine_ID()!=0){
+					MMovementLine movl = new MMovementLine(getCtx(),line.getM_MovementLine_ID() , get_TrxName());
+					MMovement mov = new MMovement(getCtx(),movl.getM_Movement_ID() , get_TrxName());
+					mov.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
+					mov.saveEx();
+					lo.setIsWeightRegister(true);
+					//	Save
+					lo.saveEx(get_TrxName());	
+				}
+				break;
+			}
 			//	Valid Line
 			MDDOrderLine m_DD_OrderLine =(MDDOrderLine) line.getDD_OrderLine();
 			//	
@@ -1543,10 +1563,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		if(lo.isImmediateDelivery()) {
 			//	Not Created Shipments
 			MInOut [] inOut = lo.getInOutFromLoadOrder(getFTA_LoadOrder_ID());
-			if(inOut == null) {	//	If not exists In Out return NULL
-				m_processMsg = "@IsImmediateDelivery@ (@M_InOut_ID@ @NotFound@)";
-				return null;
-			}
 			//	Set Value of FTA_RecordWeight
 			for (MInOut mInOut : inOut) {
 				mInOut.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
