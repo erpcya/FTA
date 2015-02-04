@@ -48,10 +48,13 @@ import org.compiere.apps.form.FormPanel;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
+import org.compiere.minigrid.IMiniTable;
+import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOM;
+import org.compiere.model.MUOMConversion;
 import org.compiere.model.X_C_Order;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CButton;
@@ -102,115 +105,117 @@ public class VLoadOrder extends LoadOrder
 		}
 	}	//	init
 
-	MLookup lookupSPP;
-	
 	/**	Window No			*/
-	private int         	m_WindowNo = 0;
+	private int         		m_WindowNo = 0;
 	
 	/**	FormFrame			*/
-	private FormFrame 		m_frame;
+	private FormFrame 			m_frame;
 
-	private CPanel 			mainPanel = new CPanel();
-	private BorderLayout 	mainLayout = new BorderLayout();
-	private CPanel 			parameterPanel = new CPanel();
-	private CPanel 			loadOrderPanel = new CPanel();
-	private GridBagLayout 	parameterLayout = new GridBagLayout();
+	private CPanel 				mainPanel = new CPanel();
+	private BorderLayout 		mainLayout = new BorderLayout();
+	private CPanel 				parameterPanel = new CPanel();
+	private CPanel 				loadOrderPanel = new CPanel();
+	private GridBagLayout 		parameterLayout = new GridBagLayout();
 	/**	Organization			*/
-	private JLabel 			organizationLabel = new JLabel();
-	private VLookup 		organizationPick = null;
+	private JLabel 				organizationLabel = new JLabel();
+	private VLookup 			organizationPick = null;
 	/**	Sales Region			*/
-	private JLabel 			salesRegionLabel = new JLabel();
-	private VLookup 		salesRegionPick = null;
+	private JLabel 				salesRegionLabel = new JLabel();
+	private VLookup 			salesRegionPick = null;
 	/**	Sales Representative	*/
-	private JLabel 			salesRepLabel = new JLabel();
-	private VLookup 		salesRepSearch = null;
+	private JLabel 				salesRepLabel = new JLabel();
+	private VLookup 			salesRepSearch = null;
 	/**	Warehouse				*/
-	private JLabel 			warehouseLabel = new JLabel();
-	private CComboBox 		warehouseSearch = new CComboBox();
+	private JLabel 				warehouseLabel = new JLabel();
+	private CComboBox 			warehouseSearch = new CComboBox();
 	/**	Operation Type			*/
-	private JLabel 			operationTypeLabel = new JLabel();
-	private VLookup 		operationTypePick = null;
+	private JLabel 				operationTypeLabel = new JLabel();
+	private VLookup 			operationTypePick = null;
 	/**	Document Type			*/
-	private JLabel 			docTypeLabel = new JLabel();
-	private CComboBox 		docTypeSearch = new CComboBox();
+	private JLabel 				docTypeLabel = new JLabel();
+	private CComboBox 			docTypeSearch = new CComboBox();
 	/**	Document Type Target	*/
-	private JLabel 			docTypeTargetLabel = new JLabel();
-	private VLookup 		docTypeTargetPick = null;
+	private JLabel 				docTypeTargetLabel = new JLabel();
+	private VLookup 			docTypeTargetPick = null;
 	/**	Invoice Rule			*/
-	private JLabel 			invoiceRuleLabel = new JLabel();
-	private VLookup 		invoiceRulePick = null;
+	private JLabel 				invoiceRuleLabel = new JLabel();
+	private VLookup 			invoiceRulePick = null;
 	/**	Delivery Rule			*/
-	private JLabel 			deliveryRuleLabel = new JLabel();
-	private VLookup 		deliveryRulePick = null;
+	private JLabel 				deliveryRuleLabel = new JLabel();
+	private VLookup 			deliveryRulePick = null;
 	/**	Vehicle Type			*/
-	private JLabel 			vehicleTypeLabel = new JLabel();
-	private VLookup 		vehicleTypePick = null;
+	private JLabel 				vehicleTypeLabel = new JLabel();
+	private VLookup 			vehicleTypePick = null;
 	/**	Document Date			*/
-	private CLabel 			labelDateDoc = new CLabel();
-	private VDate 			dateDocField = new VDate();
+	private CLabel 				labelDateDoc = new CLabel();
+	private VDate 				dateDocField = new VDate();
 	/**	Shipment Date			*/
-	private CLabel 			labelShipDate = new CLabel();
-	private VDate 			shipDateField = new VDate();
+	private CLabel 				labelShipDate = new CLabel();
+	private VDate 				shipDateField = new VDate();
 	/**	Entry Ticket			*/
-	private JLabel 			entryTicketLabel = new JLabel();
-	private VLookup 		entryTicketPick = null;
+	private JLabel 				entryTicketLabel = new JLabel();
+	private VLookup 			entryTicketPick = null;
 	/**	Shipper					*/
-	private JLabel 			shipperLabel = new JLabel();
-	private VLookup 		shipperPick = null;
+	private JLabel 				shipperLabel = new JLabel();
+	private VLookup 			shipperPick = null;
 	/**	Driver					*/
-	private JLabel 			driverLabel = new JLabel();
-	private CComboBox 		driverSearch = new CComboBox();
+	private JLabel 				driverLabel = new JLabel();
+	private CComboBox 			driverSearch = new CComboBox();
 	/**	Vehicle					*/
-	private JLabel 			vehicleLabel = new JLabel();
-	private CComboBox 		vehicleSearch = new CComboBox();
+	private JLabel 				vehicleLabel = new JLabel();
+	private CComboBox 			vehicleSearch = new CComboBox();
 	/**	Load Capacity			*/
-	private JLabel 			loadCapacityLabel = new JLabel();
-	private VNumber 		loadCapacityField = null;
+	private JLabel 				loadCapacityLabel = new JLabel();
+	private VNumber 			loadCapacityField = null;
 	/**	Volume Capacity			*/
-	private JLabel 			volumeCapacityLabel = new JLabel();
-	private VNumber 		volumeCapacityField = null;
-	/**	Bulk				*/
-	//private JCheckBox 		isBulkCheck = new JCheckBox();
+	private JLabel 				volumeCapacityLabel = new JLabel();
+	private VNumber 			volumeCapacityField = null;
 	/**	Product				*/
-	private JLabel 			productLabel = new JLabel();
-	private VLookup 		productSearch = null;
+	private JLabel 				productLabel = new JLabel();
+	private VLookup 			productSearch = null;
 	/**	Business Partner	*/
-	private JLabel 			bpartnerLabel = new JLabel();
-	private VLookup 		bpartnerSearch = null;
+	private JLabel 				bpartnerLabel = new JLabel();
+	private VLookup 			bpartnerSearch = null;
 	
 	
 	/**/
-	private JSplitPane 		infoPanel = new JSplitPane();
-	private CPanel 			orderPanel = new CPanel();
-	private CPanel 			orderLinePanel = new CPanel();
-	private JLabel 			orderLabel = new JLabel();
-	private JLabel 			orderLineLabel = new JLabel();
-	private BorderLayout 	orderLayout = new BorderLayout();
-	private BorderLayout 	orderLineLayout = new BorderLayout();
-	private JLabel 			orderInfo = new JLabel();
-	private JLabel 			orderLineInfo = new JLabel();
-	private JScrollPane 	orderScrollPane = new JScrollPane();
-	private JScrollPane 	orderLineScrollPane = new JScrollPane();
-	private GridBagLayout 	loadOrderLayout = new GridBagLayout();
-	private JLabel 			weightDiffLabel = new JLabel();
-	private VNumber 		weightDiffField = null;
-	private JLabel 			volumeDiffLabel = new JLabel();
-	private VNumber 		volumeDiffField = null;
-	private JButton 		gLoadOrderButton = new JButton();
+	private JSplitPane 			infoPanel = new JSplitPane();
+	private CPanel 				orderPanel = new CPanel();
+	private CPanel 				orderLinePanel = new CPanel();
+	private JLabel 				orderLabel = new JLabel();
+	private JLabel 				orderLineLabel = new JLabel();
+	private BorderLayout 		orderLayout = new BorderLayout();
+	private BorderLayout 		orderLineLayout = new BorderLayout();
+	private JLabel 				orderInfo = new JLabel();
+	private JLabel 				orderLineInfo = new JLabel();
+	private JScrollPane 		orderScrollPane = new JScrollPane();
+	private JScrollPane 		orderLineScrollPane = new JScrollPane();
+	private GridBagLayout 		loadOrderLayout = new GridBagLayout();
+	private JLabel 				weightDiffLabel = new JLabel();
+	private VNumber 			weightDiffField = null;
+	private JLabel 				volumeDiffLabel = new JLabel();
+	private VNumber 			volumeDiffField = null;
+	private JButton 			gLoadOrderButton = new JButton();
 
-	private CPanel 			stockInfoPanel = new CPanel();
-	private BorderLayout 	orderLineStockInfoLayout = new BorderLayout();
-	private StatusBar 		statusBar = new StatusBar();
+	private CPanel 				stockInfoPanel = new CPanel();
+	private BorderLayout 		orderLineStockInfoLayout = new BorderLayout();
+	private StatusBar 			statusBar = new StatusBar();
 	
-	private CButton 		selectAllButton =  new CButton(Env.getImageIcon2("SelectAll24"));
+	private CButton 			selectAllButton =  new CButton(Env.getImageIcon2("SelectAll24"));
 	/**	Search				*/
-	private CButton 		bSearch = new CButton();
-	
+	private CButton 			bSearch = new CButton();
 	//	Stock Info
-	private JScrollPane 	stockScrollPane = new JScrollPane();
-	
+	private JScrollPane 		stockScrollPane = new JScrollPane();
+	/**	Order Table			*/
+	private MiniTable 			orderTable = null;
+	/**	Order Line Table	*/
+	private MiniTable 			orderLineTable = null;
+	/**	Stock Table			*/
+	private MiniTable			stockTable = null;
+	/**	Stop model			*/
+	private DefaultTableModel 	stockModel = null;
 	/**	Collapsible Panel for Parameter		*/
-	private JXTaskPane parameterCollapsiblePanel = new JXTaskPane();
+	private JXTaskPane 			parameterCollapsiblePanel = new JXTaskPane();
 
 	/**	Collapsible Panel for Stock			*/
 	private JXTaskPane stockCollapsiblePanel = new JXTaskPane();
@@ -488,6 +493,10 @@ public class VLoadOrder extends LoadOrder
 	 */
 	public void dynInit() throws Exception
 	{
+		//	Instance Tables
+		orderTable = new MiniTable();
+		orderLineTable = new MiniTable();
+		stockTable = new MiniTable();
 		//	Set Client
 		m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		
@@ -852,6 +861,89 @@ public class VLoadOrder extends LoadOrder
 	}   //  tableChanged
 	
 	/**
+	 * Refresh Stock Values
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:34:21
+	 * @param orderLineTable
+	 * @return void
+	 */
+	private void loadStockWarehouse(IMiniTable orderLineTable) {
+		
+		log.info("Load StockWarehouse");
+		int rows = orderLineTable.getRowCount();
+		stockModel = new DefaultTableModel(null, getStockColumnNames());
+		
+		for (int i = 0; i < rows; i++) {
+			if (((Boolean)orderLineTable.getValueAt(i, SELECT)).booleanValue()) {
+				loadProductsStock(orderLineTable, i, true);
+			}
+		}
+		stockTable.setModel(stockModel);
+		stockTable.autoSize();
+		setStockColumnClass(stockTable);
+	}
+	
+	/**
+	 * Verify if exists the product on table
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:29:57
+	 * @param Product_ID
+	 * @return
+	 * @return int
+	 */
+	private int existProductStock(int Product_ID) {
+		for(int i = 0; i < stockModel.getRowCount(); i++) {
+			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == Product_ID) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	/**
+	 * Load Product Stock
+	 * @author Yamel Senih 08/06/2012, 10:56:29
+	 * @param orderLineTable
+	 * @param row
+	 * @param isSelected
+	 * @return void
+	 */
+	private void loadProductsStock(IMiniTable orderLineTable, int row, boolean isSelected) {
+		KeyNamePair product = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
+		KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
+		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
+		BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
+		//	
+		int pos = existProductStock(product.getKey());
+		
+		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), product.getKey(), m_C_UOM_Weight_ID);
+		if(rate == null)
+			rate = Env.ZERO;
+		//	Convert Quantity Set
+		qtySet = qtySet.multiply(rate).setScale(2, BigDecimal.ROUND_HALF_UP);
+		
+		if(pos > -1) {
+			BigDecimal qtySetOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTYSET);
+			//	Negate
+			if(!isSelected)
+				qtySet = qtySet.negate();
+			//	
+			qtySet = qtySet.add(qtySetOld);
+			
+			stockModel.setValueAt(qtyOnHand, pos, SW_QTYONHAND);
+			stockModel.setValueAt(qtySet, pos, SW_QTYSET);
+			stockModel.setValueAt(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTYAVAILABLE);
+		} else if(isSelected) {
+			Vector<Object> line = new Vector<Object>();
+			line.add(product);
+			line.add(uom);
+			line.add(qtyOnHand);
+			line.add(qtySet);
+			line.add(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP));
+			//	
+			stockModel.addRow(line);
+		}
+	}
+	
+	/**
 	 * Set Capacity for Weight and Volume
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 14:01:37
 	 * @return void
@@ -1208,7 +1300,7 @@ public class VLoadOrder extends LoadOrder
 	 */
 	private void saveData() {
 		try	{	
-			String msg = generateLoadOrder(trxName);
+			String msg = generateLoadOrder(trxName, orderLineTable);
 			statusBar.setStatusLine(msg);
 			trx.commit();
 			ADialog.info(m_WindowNo, panel, null, msg);
@@ -1227,5 +1319,4 @@ public class VLoadOrder extends LoadOrder
 			return;
 		}
 	}   //  saveData
-
 }

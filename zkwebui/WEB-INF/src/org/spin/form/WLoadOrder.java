@@ -22,7 +22,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
@@ -47,20 +46,18 @@ import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOM;
+import org.compiere.model.MUOMConversion;
 import org.compiere.model.X_C_Order;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.spin.model.MFTALoadOrder;
-import org.spin.model.MFTALoadOrderLine;
-import org.spin.model.MFTAWeightScale;
-import org.spin.model.X_FTA_LoadOrder;
 import org.spin.util.StringNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -85,6 +82,7 @@ public class WLoadOrder extends LoadOrder
 		trxName	= Trx.createTrxName(null);
 		trx = Trx.get(trxName, true);
 		Env.setContext(Env.getCtx(), form.getWindowNo(), "IsSOTrx", "Y");   //  defaults to no
+		
 		Trx.get(trxName, true);
 		try	{
 			
@@ -111,10 +109,8 @@ public class WLoadOrder extends LoadOrder
 	private Grid 			parameterLayout		= GridFactory.newGridLayout();
 	private Panel 			parameterPanel = new Panel();
 	/**	Organization			*/
-	private Label 			organizationLabel = new Label();
 	private WTableDirEditor 		organizationPick = null;
 	/**	Sales Region			*/
-	private Label 			salesRegionLabel = new Label();
 	private WTableDirEditor 		salesRegionPick = null;
 	/**	Sales Representative	*/
 	private Label 			salesRepLabel = new Label();
@@ -123,13 +119,11 @@ public class WLoadOrder extends LoadOrder
 	private Label 			warehouseLabel = new Label();
 	private Listbox 		warehouseSearch = ListboxFactory.newDropdownListbox();
 	/**	Operation Type			*/
-	private Label 			operationTypeLabel = new Label();
 	private WTableDirEditor 		operationTypePick = null;
 	/**	Document Type			*/
 	private Label 			docTypeLabel = new Label();
 	private Listbox 		docTypeSearch = ListboxFactory.newDropdownListbox();
 	/**	Document Type Target	*/
-	private Label 			docTypeTargetLabel = new Label();
 	private WTableDirEditor	docTypeTargetPick = null;
 	/**	Invoice Rule			*/
 	private Label 			invoiceRuleLabel = new Label();
@@ -138,7 +132,6 @@ public class WLoadOrder extends LoadOrder
 	private Label 			deliveryRuleLabel = new Label();
 	private WTableDirEditor deliveryRulePick = null;
 	/**	Vehicle Type			*/
-	private Label 			vehicleTypeLabel = new Label();
 	private WTableDirEditor vehicleTypePick = null;
 	/**	Document Date			*/
 	private Label 			labelDateDoc = new Label();
@@ -207,6 +200,9 @@ public class WLoadOrder extends LoadOrder
 	private WListbox 		w_orderTable = ListboxFactory.newDataTable();
 	/** Order Line Table 	*/
 	private WListbox 		w_orderLineTable = ListboxFactory.newDataTable();
+	/** Stock Table 	*/
+	private WListbox		stockTable = ListboxFactory.newDataTable();;
+	private ListModelTable  stockModel = null; 
 	private int 			count = 0;
 	/**	Payment Info		*/
 	private Label 			paymentInfo = new Label();
@@ -235,20 +231,20 @@ public class WLoadOrder extends LoadOrder
 		driverLabel.setText(Msg.translate(Env.getCtx(), "FTA_Driver_ID"));
 		shipperLabel.setText(Msg.translate(Env.getCtx(), "M_Shipper_ID"));
 		vehicleLabel.setText(Msg.translate(Env.getCtx(), "FTA_Vehicle_ID"));
-		salesRegionLabel.setText(Msg.translate(Env.getCtx(), "C_SalesRegion_ID"));
+		salesRegionPick.getLabel().setText(Msg.translate(Env.getCtx(), "C_SalesRegion_ID"));
 		salesRepLabel.setText(Msg.translate(Env.getCtx(), "SalesRep_ID"));
 		loadCapacityLabel.setText(Msg.translate(Env.getCtx(), "LoadCapacity"));
 		volumeCapacityLabel.setText(Msg.translate(Env.getCtx(), "VolumeCapacity"));
-		vehicleTypeLabel.setText(Msg.translate(Env.getCtx(), "FTA_VehicleType_ID"));
+		vehicleTypePick.getLabel().setText(Msg.translate(Env.getCtx(), "FTA_VehicleType_ID"));
 		entryTicketLabel.setText(Msg.translate(Env.getCtx(), "FTA_EntryTicket_ID"));
 		orderPanel.appendChild(orderLayout);
 		orderLinePanel.appendChild(orderLineLayout);
 		//	Operation Type
-		operationTypeLabel.setText(Msg.translate(Env.getCtx(), "OperationType"));
+		operationTypePick.getLabel().setText(Msg.translate(Env.getCtx(), "OperationType"));
 		//	Document Type
 		docTypeLabel.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
 		//	Document Type Target
-		docTypeTargetLabel.setText(Msg.translate(Env.getCtx(), "C_DocTypeTarget_ID"));
+		docTypeTargetPick.getLabel().setText(Msg.translate(Env.getCtx(), "C_DocTypeTarget_ID"));
 		//	Invoice Rule
 		invoiceRuleLabel.setText(Msg.translate(Env.getCtx(), "InvoiceRule"));
 		//	Delivery Rule
@@ -282,10 +278,10 @@ public class WLoadOrder extends LoadOrder
 		volumeDiffField = new NumberBox(true);
 		volumeDiffField.setValue(Env.ZERO);
 		
-		organizationLabel.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
-		row.appendChild(organizationLabel.rightAlign());
+		organizationPick.getLabel().setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
+		row.appendChild(organizationPick.getLabel().rightAlign());
 		row.appendChild(organizationPick.getComponent());
-		row.appendChild(salesRegionLabel.rightAlign());
+		row.appendChild(salesRegionPick.getLabel().rightAlign());
 		row.appendChild(salesRegionPick.getComponent());
 		row.appendChild(salesRepLabel.rightAlign());
 		row.appendChild(salesRepSearch.getComponent());
@@ -295,7 +291,7 @@ public class WLoadOrder extends LoadOrder
 		row.appendChild(warehouseSearch);
 		warehouseSearch.setWidth("200px");
 		//	Operation Type
-		row.appendChild(operationTypeLabel.rightAlign());
+		row.appendChild(operationTypePick.getLabel().rightAlign());
 		row.appendChild(operationTypePick.getComponent());
 		
 		//	Document Type
@@ -304,7 +300,7 @@ public class WLoadOrder extends LoadOrder
 		docTypeSearch.setWidth("200px");
 		row = rows.newRow();
 		//	Document Type Target
-		row.appendChild(docTypeTargetLabel.rightAlign());
+		row.appendChild(docTypeTargetPick.getLabel().rightAlign());
 		row.appendChild(docTypeTargetPick.getComponent());
 		//	Invoice Rule
 		row.appendChild(invoiceRuleLabel.rightAlign());
@@ -314,7 +310,7 @@ public class WLoadOrder extends LoadOrder
 		row.appendChild(deliveryRulePick.getComponent());
 		row = rows.newRow();
 		//	Vehicle Type
-		row.appendChild(vehicleTypeLabel.rightAlign());
+		row.appendChild(vehicleTypePick.getLabel().rightAlign());
 		row.appendChild(vehicleTypePick.getComponent());
 		
 		//	Document Date
@@ -947,7 +943,7 @@ public class WLoadOrder extends LoadOrder
 	 */
 	private void saveData() {
 		try	{	
-			String msg = generateLoadOrder(trxName);
+			String msg = generateLoadOrder(trxName, w_orderLineTable);
 			trx.commit();
 			FDialog.info(m_WindowNo, parameterPanel, null, msg);
 			shipperPick.setValue(null);
@@ -968,7 +964,7 @@ public class WLoadOrder extends LoadOrder
 	public void valueChange(ValueChangeEvent evt) {
 		String name = evt.getPropertyName();
 		Object value = evt.getNewValue();
-		log.config(name + " = " + value);
+//		log.config(name + " = " + value);
 		
 		if(name.equals("C_SalesRegion_ID") || 
 				name.equals("SalesRep_ID")) {
@@ -1223,115 +1219,85 @@ public class WLoadOrder extends LoadOrder
 		
 		calculate();		
 	}
-		
 	/**
-	 * Generate Load Order
-	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 08/01/2015, 11:34:33
-	 * @param trxName
-	 * @return
-	 * @return String
+	 * Refresh Stock Values
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:34:21
+	 * @param orderLineTable
+	 * @return void
 	 */
-	protected String generateLoadOrder(String trxName) {
-		int m_gen = 0;
-		int rows = w_orderLineTable.getRowCount();
-		MFTALoadOrder loadOrder = new MFTALoadOrder(Env.getCtx(), 0, trxName);
-		MFTALoadOrderLine lorder = null;
-		//	
-		BigDecimal totalWeight = Env.ZERO;
-		BigDecimal totalVolume = Env.ZERO;
-		//	
-		loadOrder.setAD_Org_ID(m_AD_Org_ID);
-		loadOrder.setOperationType(m_OperationType);
-		loadOrder.setFTA_VehicleType_ID(m_FTA_VehicleType_ID);
-		loadOrder.setDateDoc(m_DateDoc);
-		loadOrder.setShipDate(m_ShipDate);
-		loadOrder.setC_DocType_ID(m_C_DocTypeTarget_ID);
-		loadOrder.setLoadCapacity(m_LoadCapacity);
-		loadOrder.setVolumeCapacity(m_VolumeCapacity);
-		loadOrder.setC_UOM_Weight_ID(m_C_UOM_Weight_ID);
-		loadOrder.setC_UOM_Volume_ID(m_C_UOM_Volume_ID);
-		//	Set Is Weight Register
-		loadOrder.setIsWeightRegister(MFTAWeightScale.isWeightScaleOrg(m_AD_Org_ID, trxName));
-		//	Set Warehouse
-		if(m_M_Warehouse_ID != 0)
-			loadOrder.setM_Warehouse_ID(m_M_Warehouse_ID);
-		//	Invoice Rule
-		if(m_InvoiceRule != null
-				&& m_InvoiceRule.trim().length() > 0)
-			loadOrder.setInvoiceRule(m_InvoiceRule);
-		//	Delivery Rule
-		if(m_DeliveryRule != null
-				&& m_DeliveryRule.trim().length() > 0)
-			loadOrder.setDeliveryRule(m_DeliveryRule);
-		//	Set Shipper
-		if(m_M_Shipper_ID != 0)
-			loadOrder.setM_Shipper_ID(m_M_Shipper_ID);
-		//	Set Driver
-		if(m_FTA_Driver_ID != 0)
-			loadOrder.setFTA_Driver_ID(m_FTA_Driver_ID);
-		//	Set Vehicle
-		if(m_FTA_Vehicle_ID != 0)
-			loadOrder.setFTA_Vehicle_ID(m_FTA_Vehicle_ID);
-		//	Set Entry Ticket
-		if(m_FTA_EntryTicket_ID != 0)
-			loadOrder.setFTA_EntryTicket_ID(m_FTA_EntryTicket_ID);
-		//	Set Product
-		if(m_M_Product_ID != 0)
-			loadOrder.setM_Product_ID(m_M_Product_ID);
-		//	Save Order
-		loadOrder.saveEx();
-		//	Loop for add Lines
+	private void loadStockWarehouse(IMiniTable orderLineTable) {
+		
+		log.info("Load StockWarehouse");
+		int rows = orderLineTable.getRowCount();
+		stockModel = new ListModelTable(getStockColumnNames());
+		
 		for (int i = 0; i < rows; i++) {
-			if (((Boolean)w_orderLineTable.getValueAt(i, 0)).booleanValue()) {
-				int m_OrderLine_ID = ((KeyNamePair)w_orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
-				int m_M_Product_ID = ((KeyNamePair)w_orderLineTable.getValueAt(i, OL_PRODUCT)).getKey();
-				BigDecimal qty = (BigDecimal) w_orderLineTable.getValueAt(i, OL_QTY);
-				BigDecimal weight = (BigDecimal) w_orderLineTable.getValueAt(i, OL_WEIGHT);
-				BigDecimal volume = (BigDecimal) w_orderLineTable.getValueAt(i, OL_VOLUME);
-				Integer seqNo = (Integer) w_orderLineTable.getValueAt(i, OL_SEQNO);
-				//	New Line
-				lorder = new MFTALoadOrderLine(Env.getCtx(), 0, trxName);
-				//	Set Values
-				lorder.setAD_Org_ID(m_AD_Org_ID);
-				lorder.setFTA_LoadOrder_ID(loadOrder.getFTA_LoadOrder_ID());
-				/** 2014-12-02 Carlos Parada Add Support to Distribution Order*/ 
-				if (m_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement))
-					lorder.setDD_OrderLine_ID(m_OrderLine_ID);
-				else
-					lorder.setC_OrderLine_ID(m_OrderLine_ID);
-				/** End Carlos Parada*/
-				lorder.setM_Product_ID(m_M_Product_ID);
-				lorder.setQty(qty);
-				lorder.setSeqNo(seqNo);
-				lorder.setWeight(weight);
-				lorder.setVolume(volume);
-				//	Add Weight
-				totalWeight = totalWeight.add(weight);
-				//	Add Volume
-				totalVolume = totalVolume.add(volume);
-				//	Save Line
-				lorder.saveEx();
-				//	Add Count
-				m_gen ++;
+			if (((Boolean)orderLineTable.getValueAt(i, SELECT)).booleanValue()) {
+				loadProductsStock(orderLineTable, i, true);
 			}
 		}
-		//	Set Header Weight
-		loadOrder.setWeight(totalWeight);
-		//	Set Header Volume
-		loadOrder.setVolume(totalVolume);
-		//	Save Header
-		loadOrder.saveEx();
-		//	Complete Order
-		loadOrder.setDocAction(X_FTA_LoadOrder.DOCACTION_Complete);
-		loadOrder.processIt(X_FTA_LoadOrder.DOCACTION_Complete);
-		loadOrder.saveEx();
-		//	Valid Error
-		String errorMsg = loadOrder.getProcessMsg();
-		if(errorMsg != null
-				&& loadOrder.getDocStatus().equals(X_FTA_LoadOrder.DOCSTATUS_Invalid))
-			throw new AdempiereException(errorMsg);
-		//	Message
-		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + loadOrder.getDocumentNo() 
-				+ "] || @LineNo@" + " = [" + m_gen + "]" + (errorMsg != null? "\n@Errors@:" + errorMsg: ""));
+		stockTable.setModel(stockModel);
+		stockTable.autoSize();
+		setStockColumnClass(stockTable);
+	}
+
+	/**
+	 * Verify if exists the product on table
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:29:57
+	 * @param Product_ID
+	 * @return
+	 * @return int
+	 */
+	private int existProductStock(int Product_ID) {
+		for(int i = 0; i < stockModel.getRowCount(); i++) {
+			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == Product_ID) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	/**
+	 * Load Product Stock
+	 * @author Yamel Senih 08/06/2012, 10:56:29
+	 * @param orderLineTable
+	 * @param row
+	 * @param isSelected
+	 * @return void
+	 */
+	private void loadProductsStock(IMiniTable orderLineTable, int row, boolean isSelected) {
+		KeyNamePair product = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
+		KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
+		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
+		BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
+		//	
+		int pos = existProductStock(product.getKey());
+		
+		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), product.getKey(), m_C_UOM_Weight_ID);
+		if(rate == null)
+			rate = Env.ZERO;
+		//	Convert Quantity Set
+		qtySet = qtySet.multiply(rate).setScale(2, BigDecimal.ROUND_HALF_UP);
+		
+		if(pos > -1) {
+			BigDecimal qtySetOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTYSET);
+			//	Negate
+			if(!isSelected)
+				qtySet = qtySet.negate();
+			//	
+			qtySet = qtySet.add(qtySetOld);
+			
+			stockModel.setValueAt(qtyOnHand, pos, SW_QTYONHAND);
+			stockModel.setValueAt(qtySet, pos, SW_QTYSET);
+			stockModel.setValueAt(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTYAVAILABLE);
+		} else if(isSelected) {
+			Vector<Object> line = new Vector<Object>();
+			line.add(product);
+			line.add(uom);
+			line.add(qtyOnHand);
+			line.add(qtySet);
+			line.add(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP));
+			//	
+			stockModel.add(line);
+		}
 	}
 }

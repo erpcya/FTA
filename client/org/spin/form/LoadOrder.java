@@ -24,16 +24,12 @@ import java.sql.Timestamp;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import javax.swing.table.DefaultTableModel;
-
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MDocType;
 import org.compiere.model.MRefList;
 import org.compiere.model.MRole;
 import org.compiere.model.MUOM;
-import org.compiere.model.MUOMConversion;
 import org.compiere.model.X_C_Order;
 import org.compiere.swing.CComboBox;
 import org.compiere.util.CLogger;
@@ -160,13 +156,6 @@ public class LoadOrder {
 	/**	Max Sequence		*/
 	protected int				m_MaxSeqNo = 0;
 	
-	/**	Order Table			*/
-	protected MiniTable 		orderTable = new MiniTable();
-	/**	Order Line Table	*/
-	protected MiniTable 		orderLineTable = new MiniTable();
-	/**	Stock Table			*/
-	protected MiniTable			stockTable = new MiniTable();
-	protected DefaultTableModel stockModel = null;
 	/**	Validate Quantity	*/
 	protected boolean 			m_IsValidateQuantity = true;
 	
@@ -618,7 +607,7 @@ public class LoadOrder {
 		orderTable.setColumnClass(i++, String.class, true);			//  15-Address 4
 		//	
 		//  Table UI
-//		orderTable.autoSize();
+		orderTable.autoSize();
 	}
 	
 	/**
@@ -786,7 +775,7 @@ public class LoadOrder {
 		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  4-Quantity Set
 		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Quantity Available
 		//  Table UI
-//		stockTable.autoSize();
+		stockTable.autoSize();
 	}
 	
 	
@@ -817,17 +806,18 @@ public class LoadOrder {
 		orderLineTable.setColumnClass(i++, Integer.class, false);		//  16-Sequence No
 		orderLineTable.setColumnClass(i++, String.class, true);			//  17-Delivery Rule
 		//  Table UI
-//		orderLineTable.autoSize();
+		orderLineTable.autoSize();
 	}
 	
 	/**
 	 * Generate Load Order
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/12/2013, 11:34:33
 	 * @param trxName
+	 * @param orderLineTable
 	 * @return
 	 * @return String
 	 */
-	protected String generateLoadOrder(String trxName) {
+	protected String generateLoadOrder(String trxName, IMiniTable orderLineTable) {
 		int m_gen = 0;
 		int rows = orderLineTable.getRowCount();
 		MFTALoadOrder loadOrder = new MFTALoadOrder(Env.getCtx(), 0, trxName);
@@ -1187,94 +1177,11 @@ public class LoadOrder {
 		for (int i = 0; i < rows; i++) {
 			if (((Boolean)orderLineTable.getValueAt(i, SELECT)).booleanValue()) {
 				m_C_OrderLine_ID = ((KeyNamePair)orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
-				qty = (BigDecimal)orderLineTable.getValueAt(i, OL_WEIGHT);
+				qty = (BigDecimal)orderLineTable.getValueAt(i, OL_QTY);
 				seqNo = (Integer)orderLineTable.getValueAt(i, OL_SEQNO);
 				m_BufferSelect.addElement(
 						new BufferTableSelect(m_C_OrderLine_ID, qty, seqNo));
 			}
-		}
-	}
-	
-	/**
-	 * Refresh Stock Values
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:34:21
-	 * @param orderLineTable
-	 * @return void
-	 */
-	public void loadStockWarehouse(IMiniTable orderLineTable) {
-		
-		log.info("Load StockWarehouse");
-		int rows = orderLineTable.getRowCount();
-		stockModel = new DefaultTableModel(null, getStockColumnNames());
-		
-		for (int i = 0; i < rows; i++) {
-			if (((Boolean)orderLineTable.getValueAt(i, SELECT)).booleanValue()) {
-				loadProductsStock(orderLineTable, i, true);
-			}
-		}
-		stockTable.setModel(stockModel);
-//		stockTable.autoSize();
-		setStockColumnClass(stockTable);
-	}
-	
-	/**
-	 * Verifi if exists the product on table
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:29:57
-	 * @param Product_ID
-	 * @return
-	 * @return int
-	 */
-	private int existProductStock(int Product_ID) {
-		for(int i = 0; i < stockModel.getRowCount(); i++) {
-			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == Product_ID) {
-				return i;
-			}
-		}
-		return -1;
-	}
-	
-	/**
-	 * Carga los productos en la tabla de Stock y acumulado
-	 * @author Yamel Senih 08/06/2012, 10:56:29
-	 * @param orderLineTable
-	 * @param row
-	 * @param isSelected
-	 * @return void
-	 */
-	protected void loadProductsStock(IMiniTable orderLineTable, int row, boolean isSelected) {
-		KeyNamePair product = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
-		KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
-		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
-		BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
-		//	
-		int pos = existProductStock(product.getKey());
-		
-		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), product.getKey(), m_C_UOM_Weight_ID);
-		if(rate == null)
-			rate = Env.ZERO;
-		//	Convert Quantity Set
-		qtySet = qtySet.multiply(rate).setScale(2, BigDecimal.ROUND_HALF_UP);
-		
-		if(pos > -1) {
-			BigDecimal qtySetOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTYSET);
-			//	Negate
-			if(!isSelected)
-				qtySet = qtySet.negate();
-			//	
-			qtySet = qtySet.add(qtySetOld);
-			
-			stockModel.setValueAt(qtyOnHand, pos, SW_QTYONHAND);
-			stockModel.setValueAt(qtySet, pos, SW_QTYSET);
-			stockModel.setValueAt(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTYAVAILABLE);
-		} else if(isSelected) {
-			Vector<Object> line = new Vector<Object>();
-			line.add(product);
-			line.add(uom);
-			line.add(qtyOnHand);
-			line.add(qtySet);
-			line.add(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP));
-			//	
-			stockModel.addRow(line);
 		}
 	}
 	
@@ -1314,7 +1221,7 @@ public class LoadOrder {
 				bts = isSelect(m_C_OrderLine_ID);
 				if(bts != null) {
 					orderLineTable.setValueAt(true, i, SELECT);
-					orderLineTable.setValueAt(bts.getQty(), i, OL_WEIGHT);
+					orderLineTable.setValueAt(bts.getQty(), i, OL_QTY);
 					orderLineTable.setValueAt(bts.getSeqNo(), i, OL_SEQNO);
 				}
 			}	

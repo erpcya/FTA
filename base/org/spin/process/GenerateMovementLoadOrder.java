@@ -22,16 +22,22 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import org.compiere.model.I_M_Movement;
+import org.compiere.model.MDocType;
 import org.compiere.model.MMovement;
 import org.compiere.model.MMovementLine;
+import org.compiere.model.MQuery;
+import org.compiere.model.MTable;
+import org.compiere.model.PrintInfo;
 import org.compiere.model.X_M_Movement;
-import org.compiere.print.ReportCtl;
+import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
 import org.spin.model.MFTALoadOrder;
@@ -44,23 +50,23 @@ import org.spin.model.MFTALoadOrderLine;
 public class GenerateMovementLoadOrder extends SvrProcess {
 
 	/** Document Type						*/
-	private int 				p_C_DocTypeTarget_ID 			= 0;
+	private int 					p_C_DocTypeTarget_ID 			= 0;
 	/** DateInvoiced 						*/
-	private Timestamp 			p_MovementDate					= null;	
+	private Timestamp 				p_MovementDate					= null;	
 	/**	Document Action						*/
-	private String				p_DocAction						= null;
+	private String					p_DocAction						= null;
 	/** Sql									*/
-	private StringBuffer 		sql 							= new StringBuffer();
+	private StringBuffer 			sql 							= new StringBuffer();
 	/** Current Business Partner 			*/
-	private int 				m_Current_BPartner_ID 			= 0;
+	private int 					m_Current_BPartner_ID 			= 0;
 	/**	Current Shipment					*/
-	private MMovement			m_Current_Movement 				= null;
+	private MMovement				m_Current_Movement 				= null;
 	/** Created Records						*/
-	private int 				m_Created 						= 0;
+	private int 					m_Created 						= 0;
 	/**	Is Immediate Delivery				*/
-	private boolean				m_Current_IsImmediateDelivery 	= false;
+	private boolean					m_Current_IsImmediateDelivery 	= false;
 	/**	Print Document						*/
-	private ArrayList<Integer>	m_IDs							= new ArrayList<Integer>();
+	private ArrayList<Integer[]>	m_IDs							= new ArrayList<Integer[]>();
 	
 	/* (non-Javadoc)
 	 * @see org.compiere.process.SvrProcess#prepare()
@@ -256,8 +262,34 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 	 * @return void
 	 */
 	private void printDocuments() {
-		for (int Record_ID : m_IDs) {
-			ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, Record_ID, null, 0, true);
+		for (Integer[] m_ID : m_IDs) {
+			int m_Record_ID = m_ID[0];
+			int m_C_DocType_ID = m_ID[1];
+			//	Get Document Type
+			MDocType m_DocType = MDocType.get(getCtx(), m_C_DocType_ID);
+			if(m_DocType == null)
+				continue;
+			//	
+			if(m_DocType.getAD_PrintFormat_ID() == 0) {
+				log.warning(Msg.parseTranslation(getCtx(), 
+						"@NoDocPrintFormat@ @AD_Table_ID@=@M_Movement_ID@"));
+				continue;
+			}
+			//	Get Print Format
+			MPrintFormat f = MPrintFormat.get(getCtx(), m_DocType.getAD_PrintFormat_ID(), false);
+			//	for all Mobilization Guide
+			if(f != null) {
+				MTable modelTable = MTable.get(getCtx(), getTable_ID());
+				MQuery q = new MQuery(I_M_Movement.Table_Name);
+				q.addRestriction(modelTable.getTableName() + "_ID", "=", m_Record_ID);
+				PrintInfo i = new PrintInfo(Msg.translate(getCtx(), 
+						I_M_Movement.Table_Name + "_ID"), I_M_Movement.Table_ID, m_Record_ID);
+				//	
+				ReportEngine re = new ReportEngine(Env.getCtx(), f, q, i, get_TrxName());
+				//	Print
+				//	Direct Print
+				re.print();
+			}
 		}
 	}
 	
@@ -283,7 +315,8 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 			//	Is Printed?
 			if(m_Current_Movement.getDocStatus().equals(X_M_Movement.DOCSTATUS_Completed)
 					&& m_Current_IsImmediateDelivery) {
-				m_IDs.add(m_Current_Movement.getM_Movement_ID());
+				m_IDs.add(new Integer[]{m_Current_Movement.getM_Movement_ID(), 
+						m_Current_Movement.getC_DocType_ID()});
 			}
 		}
 	}
