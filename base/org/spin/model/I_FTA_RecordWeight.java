@@ -271,6 +271,17 @@ public interface I_FTA_RecordWeight
 
 	public org.spin.model.I_FTA_Vehicle getFTA_Vehicle() throws RuntimeException;
 
+    /** Column name FTA_WeightScale_ID */
+    public static final String COLUMNNAME_FTA_WeightScale_ID = "FTA_WeightScale_ID";
+
+	/** Set Weight Scale	  */
+	public void setFTA_WeightScale_ID (int FTA_WeightScale_ID);
+
+	/** Get Weight Scale	  */
+	public int getFTA_WeightScale_ID();
+
+	public org.spin.model.I_FTA_WeightScale getFTA_WeightScale() throws RuntimeException;
+
     /** Column name GrossWeight */
     public static final String COLUMNNAME_GrossWeight = "GrossWeight";
 
