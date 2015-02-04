@@ -34,7 +34,7 @@ public class X_I_RecordWeight extends PO implements I_I_RecordWeight, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150112L;
+	private static final long serialVersionUID = 20150203L;
 
     /** Standard Constructor */
     public X_I_RecordWeight (Properties ctx, int I_RecordWeight_ID, String trxName)

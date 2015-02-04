@@ -1,4 +1,4 @@
---DROP VIEW FTA_RV_RecordWeightDetail
+﻿--DROP VIEW FTA_RV_RecordWeightDetail
 CREATE OR REPLACE VIEW FTA_RV_RecordWeightDetail AS 
 SELECT 
 rw.FTA_RecordWeight_ID,
@@ -31,4 +31,4 @@ LEFT JOIN M_InOutLine iol ON (ol.C_OrderLine_ID = iol.C_OrderLine_ID)
 LEFT JOIN DD_OrderLine ddol ON (ddol.DD_OrderLine_ID = lol.DD_OrderLine_ID)
 LEFT JOIN M_MovementLine ml ON(ddol.DD_OrderLine_ID = ml.DD_OrderLine_ID)
 
---WHERE rw.FTA_RecordWeight_ID=1000039
+-- WHERE rw.FTA_RecordWeight_ID=1000038

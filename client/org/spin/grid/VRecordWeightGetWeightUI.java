@@ -43,6 +43,14 @@ public class VRecordWeightGetWeightUI extends VGetWeightUI {
 	public boolean processValue(String trxName) {
 		int p_FTA_RecordWeight_ID = getGridTab().getRecord_ID();
 		MFTARecordWeight recordWeight = new MFTARecordWeight(Env.getCtx(), p_FTA_RecordWeight_ID, trxName);
+		//	Dixon Martinez 2015-02-03
+		//	Set Weight Scale in record weight
+		int p_FTA_WeightScale_ID = Env.getContextAsInt(recordWeight.getCtx(), "FTA_WeightScale_ID");
+		if(p_FTA_WeightScale_ID > 0) {
+			recordWeight.setFTA_WeightScale_ID(p_FTA_WeightScale_ID);
+			recordWeight.saveEx();
+		}
+		//	End Dixon Martinez
 		BigDecimal weightReaded = weight;
 	    BigDecimal grossWeight = recordWeight.getGrossWeight(); 
 	    BigDecimal tareWeight = recordWeight.getTareWeight();
