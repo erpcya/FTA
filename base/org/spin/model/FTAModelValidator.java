@@ -89,6 +89,7 @@ public class FTAModelValidator implements ModelValidator {
 		engine.addDocValidate(MPayment.Table_Name, this);
 		engine.addDocValidate(MFTAFarmerCredit.Table_Name, this);
 		engine.addModelChange(X_C_Order.Table_Name, this);
+		engine.addDocValidate(MMovement.Table_Name, this);
 		//	End Dixon Martinez
 		engine.addModelChange(X_FTA_LoadOrder.Table_Name, this);
 	}
@@ -472,7 +473,7 @@ public class FTAModelValidator implements ModelValidator {
 					
 					MFTALoadOrderLine lin = 
 							new MFTALoadOrderLine(m_MovementLine.getCtx(), p_FTA_LoadOrderLine_ID, m_MovementLine.get_TrxName());
-					lin.setM_InOutLine_ID(0);
+					lin.setM_MovementLine_ID(0);
 					lin.saveEx();
 					
 					MFTALoadOrder lo = new MFTALoadOrder(lin.getCtx(),lin.getFTA_LoadOrder_ID(), lin.get_TrxName());
