@@ -1377,24 +1377,21 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				m_processMsg = "@FTA_LoadOrder_ID@ @NotFound@";
 				return null;
 			}
-			
+			lo.setIsWeightRegister(true);
+			//	Save
+			lo.saveEx(get_TrxName());	
 			//	Verify if Is Immediate Delivery
 			if(lo.isImmediateDelivery()){
 				//	Not Created Shipments
 				MInOut [] inOut = lo.getInOutFromLoadOrder(getFTA_LoadOrder_ID());
 				if(inOut == null) {	//	If not exists In Out return NULL
-					m_processMsg = "@IsImmediateDelivery@ (@M_InOut_ID@ @NotFound@)";
 					return null;
 				}
 				//	Set Value of FTA_RecordWeight
 				for (MInOut mInOut : inOut) {
 					mInOut.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
 					mInOut.saveEx();
-				}
-				lo.setIsWeightRegister(true);
-				//	Save
-				lo.saveEx(get_TrxName());		
-				
+				}				
 				return null;
 			}
 			
@@ -1559,19 +1556,22 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			m_processMsg = "@FTA_LoadOrder_ID@ @NotFound@";
 			return null;
 		}
+		//	
+		lo.setIsWeightRegister(true);
+		//	Save
+		lo.saveEx(get_TrxName());	
 		//	Verify if Is Immediate Delivery
 		if(lo.isImmediateDelivery()) {
 			//	Not Created Shipments
 			MInOut [] inOut = lo.getInOutFromLoadOrder(getFTA_LoadOrder_ID());
+			if(inOut == null) {
+				return null;
+			}
 			//	Set Value of FTA_RecordWeight
 			for (MInOut mInOut : inOut) {
 				mInOut.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
 				mInOut.saveEx();
 			}
-			lo.setIsWeightRegister(true);
-			//	Save
-			lo.saveEx(get_TrxName());		
-			
 			return null;
 		}
 		// Get Lines from Load Order
@@ -1663,7 +1663,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				line.saveEx();
 				//	Set true Is Delivered and Is Weight Register
 				lo.setIsDelivered(true);
-				lo.setIsWeightRegister(true);
 				//	Save
 				lo.saveEx(get_TrxName());
 				

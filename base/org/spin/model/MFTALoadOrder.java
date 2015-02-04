@@ -732,8 +732,7 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 				+ " FROM FTA_LoadOrderLine lol "
 				+ " INNER JOIN M_InOutLine iol ON (lol.M_InOutLine_ID = iol.M_InOutLine_ID)"
 				+ " INNER JOIN M_InOut io ON (io.M_InOut_ID = iol.M_InOut_ID )"
-				+ " WHERE lol.FTA_LoadOrder_ID = ?"
-				+ " AND io.DocStatus IN('CO', 'CL')");
+				+ " WHERE lol.FTA_LoadOrder_ID = ?");
 		//	Get
 		PreparedStatement ps = null;
 		ResultSet rs = null;

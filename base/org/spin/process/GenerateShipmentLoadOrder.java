@@ -23,11 +23,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MClientInfo;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.MWarehouse;
@@ -152,8 +154,15 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		StringBuffer msg = new StringBuffer();
+		double m_BreakValue = MSysConfig.getDoubleValue("FTA_BREAK_SHIPMENT_WEIGHT", 0, getAD_Client_ID());
+		BigDecimal m_BreakWeight = new BigDecimal(m_BreakValue);
+		BigDecimal m_CumulatedWeightLine = Env.ZERO;
+		BigDecimal m_CumulatedWeightAll = Env.ZERO;
+		boolean m_Break = false;
+		boolean m_Added = false;
 		try {
-			ps = DB.prepareStatement(sql.toString(), get_TrxName());
+			ps = DB.prepareStatement(sql.toString(), 
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY, get_TrxName());
 			ps.setInt(1, getAD_PInstance_ID());
 			rs = ps.executeQuery();
 			//	
@@ -164,6 +173,10 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 				int m_C_Order_ID 			= rs.getInt("C_Order_ID");
 				int m_FTA_LoadOrderLine_ID 	= rs.getInt("FTA_LoadOrderLine_ID");
 				BigDecimal m_Qty 			= rs.getBigDecimal("Qty");
+				BigDecimal m_TotalQty		= m_Qty;
+				//	Valid
+				if(m_TotalQty == null)
+					m_TotalQty = Env.ZERO;
 				//	Record Weight Reference
 				int m_FTA_RecordWeight_ID 	= 0;
 				//	Instance MLoadOrderLine
@@ -207,7 +220,8 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					m_Qty = Env.ZERO;
 				//	
 				if (m_Current_BPartner_ID != m_C_BPartner_ID
-						|| m_Current_Warehouse_ID != m_M_Warehouse_ID) {
+						|| m_Current_Warehouse_ID != m_M_Warehouse_ID
+						|| m_Break) {
 					//	Complete Previous Shipment
 					completeShipment();
 					//	Initialize Order and 
@@ -242,6 +256,8 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					else
 						msg.append(m_Current_Shipment.getDocumentNo());					
 				}
+				//	Set Break
+				m_Break = false;
 				//	Shipment Created?
 				if (m_Current_Shipment != null) {
 					//	Create Shipment Line
@@ -261,6 +277,35 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 						throw new AdempiereException("@NoUOMConversion@ @from@ " 
 										+ oLineUOM.getName() + " @to@ " + productUOM.getName());
 					}
+					//	
+					if(m_BreakValue > 0
+							&& m_FTA_LoadOrder.isImmediateDelivery()) {
+						MClientInfo clientInfo = MClientInfo.get(getCtx(), getAD_Client_ID());
+						//	Rate From Product to Weigh
+						BigDecimal rateCumulated = MUOMConversion.getProductRateTo(Env.getCtx(), 
+								product.getM_Product_ID(), clientInfo.getC_UOM_Weight_ID());
+						//	Rate from Weight to Product
+						BigDecimal rateFromWeight = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+								product.getM_Product_ID(), clientInfo.getC_UOM_Weight_ID());
+						//	Validate Rate equals null
+						if(rateCumulated == null) {
+							MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
+							MUOM oLineUOM = MUOM.get(getCtx(), clientInfo.getC_UOM_Weight_ID());
+							throw new AdempiereException("@NoUOMConversion@ @from@ " 
+											+ oLineUOM.getName() + " @to@ " + productUOM.getName());
+						}
+						//	
+						m_Qty = m_Qty.subtract(m_CumulatedWeightAll.multiply(rateFromWeight));
+						BigDecimal nextWeight = m_CumulatedWeightLine.add(m_Qty.multiply(rateCumulated));
+						if(nextWeight.doubleValue() > m_BreakWeight.doubleValue()) {
+							BigDecimal diff = nextWeight.subtract(m_BreakWeight);
+							m_Qty = m_Qty.subtract(diff.multiply(rateFromWeight));
+							m_Break = true;
+						}
+						//	Set Cumulate Weight
+						m_CumulatedWeightLine = m_CumulatedWeightLine.add(m_Qty.multiply(rateCumulated));
+						m_CumulatedWeightAll = m_CumulatedWeightAll.add(m_CumulatedWeightLine);
+					}
 					//	Set Values for Lines
 					shipmentLine.setAD_Org_ID(m_Current_Shipment.getAD_Org_ID());
 					shipmentLine.setM_InOut_ID(m_Current_Shipment.getM_InOut_ID());
@@ -278,8 +323,11 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					shipmentLine.saveEx(get_TrxName());
 					
 					//	Manually Process Shipment
-					m_FTA_LoadOrderLine.setConfirmedQty(m_Qty);
-					m_FTA_LoadOrderLine.setM_InOutLine_ID(shipmentLine.get_ID());
+					//	Added
+					if(!m_Added) {
+						m_FTA_LoadOrderLine.setConfirmedQty(m_TotalQty);
+						m_FTA_LoadOrderLine.setM_InOutLine_ID(shipmentLine.get_ID());
+					}
 					m_FTA_LoadOrderLine.saveEx();
 					//	Set true Is Delivered and Is Weight Register
 					m_FTA_LoadOrder.setIsDelivered(true);
@@ -288,6 +336,15 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					//	Set Current Delivery
 					m_Current_IsImmediateDelivery = m_FTA_LoadOrder.isImmediateDelivery();
 				}	//End Invoice Line Created
+				//	Valid Break
+				if(m_Break) {
+					completeShipment();
+					m_CumulatedWeightLine = Env.ZERO;
+					m_Added = true;
+					rs.previous();
+				} else {
+					m_Added = false;
+				}
 			}	//	End Invoice Generated
 			//	Complete Shipment
 			completeShipment();
