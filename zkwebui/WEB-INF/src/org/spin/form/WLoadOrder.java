@@ -80,16 +80,19 @@ public class WLoadOrder extends LoadOrder
 	 */
 	public WLoadOrder() {
 		Env.setContext(Env.getCtx(), form.getWindowNo(), "IsSOTrx", "Y");   //  defaults to no
-		
+		Trx trx = Trx.get(Trx.createTrxName(null), true);
 		
 		try	{
 			
 			dyInit();
 			zkInit();
 			//	Load Default Values
-			loadDefaultValues(Trx.createTrxName(null));
+			loadDefaultValues(trx.getTrxName());
 		}
 		catch(Exception e) {
+		}
+		finally{
+			trx.close();
 		}
 	}
 
@@ -533,10 +536,12 @@ public class WLoadOrder extends LoadOrder
 	 */
 	public void dyInit() throws Exception
 	{
+		Trx trx = Trx.get(Trx.createTrxName(null),true);
 		//	Set Client
 		m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		//  Load Default Values
-		loadDefaultValues(Trx.createTrxName(null));
+		loadDefaultValues(trx.getTrxName());
+		trx.close();
 		// Organization filter selection
 		int AD_Column_ID = 69835;		//	FTA_LoadOrer.AD_Org_ID
 		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
@@ -1008,9 +1013,9 @@ public class WLoadOrder extends LoadOrder
 	 * @return void
 	 */
 	private void saveData() {
-		Trx trx = Trx.get(Trx.createTrxName("AL"), true);
+		Trx trx = Trx.get(Trx.createTrxName(null), true);
 		try	{	
-			String msg = generateLoadOrder(Trx.createTrxName(null), w_orderLineTable);
+			String msg = generateLoadOrder(trx.getTrxName(), w_orderLineTable);
 			trx.commit();
 			FDialog.info(m_WindowNo, parameterPanel, null, msg);
 			shipperPick.setValue(null);
@@ -1025,6 +1030,9 @@ public class WLoadOrder extends LoadOrder
 			e.printStackTrace();
 			return;
 		}
+		finally{
+			trx.close();
+		}
 	}   //  saveData
 
 	@Override
@@ -1032,13 +1040,13 @@ public class WLoadOrder extends LoadOrder
 		String name = evt.getPropertyName();
 		Object value = evt.getNewValue();
 //		log.config(name + " = " + value);
-		
+		Trx trx = Trx.get(Trx.createTrxName(null), true);
 		if(name.equals("C_SalesRegion_ID") || 
 				name.equals("SalesRep_ID")) {
 			clearData();
 		} else if(name.equals("AD_Org_ID")) {
 			m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
-			KeyNamePair[] data = getDataWarehouse(Trx.createTrxName(null));
+			KeyNamePair[] data = getDataWarehouse(trx.getTrxName());
 			warehouseSearch.removeActionListener(this);
 			m_M_Warehouse_ID = loadComboBoxW(warehouseSearch, data);
 			warehouseSearch.addEventListener(Events.ON_SELECT, this);
@@ -1047,7 +1055,7 @@ public class WLoadOrder extends LoadOrder
 			
 			m_OperationType = ((String)(value != null? value: 0));
 			Env.setContext(Env.getCtx(), m_WindowNo, "OperationType", m_OperationType);
-			KeyNamePair[] data = getDataDocumentType(Trx.createTrxName(null));
+			KeyNamePair[] data = getDataDocumentType(trx.getTrxName());
 			docTypeSearch.removeActionListener(this);
 			m_C_DocType_ID = loadComboBoxW(docTypeSearch, data);
 			docTypeSearch.addActionListener(this);
@@ -1063,18 +1071,19 @@ public class WLoadOrder extends LoadOrder
 			calculate();
 		} else if(name.equals("FTA_EntryTicket_ID")) {
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
-			KeyNamePair[] data = getDataDriver(Trx.createTrxName(null));
+			KeyNamePair[] data = getDataDriver(trx.getTrxName());
 			m_FTA_Driver_ID = loadComboBoxW(driverSearch, data, true);
 			//	Vehicle
-			data = getVehicleData(Trx.createTrxName(null));
+			data = getVehicleData(trx.getTrxName());
 			m_FTA_Vehicle_ID = loadComboBoxW(vehicleSearch, data, true);
-			m_FTA_VehicleType_ID = getFTA_VehicleType_ID(m_FTA_EntryTicket_ID, Trx.createTrxName(null));
+			m_FTA_VehicleType_ID = getFTA_VehicleType_ID(m_FTA_EntryTicket_ID, trx.getTrxName());
 			vehicleTypePick.setValue(m_FTA_VehicleType_ID);
 			vehicleTypePick.setReadWrite(!(m_FTA_EntryTicket_ID > 0));
 			//	Set Capacity
 			setFillCapacity();
 		}
 		calculate();
+		trx.close();
 		
 	}
 
