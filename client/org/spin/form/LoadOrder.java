@@ -924,12 +924,11 @@ public class LoadOrder {
 	/**
 	 * Load the Default Values
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 11:10:31
-	 * @param trxName
 	 * @return void
 	 */
-	protected void loadDefaultValues(String trxName) {
-		m_C_UOM_Weight_ID = getC_UOM_Weight_ID(trxName);
-		m_C_UOM_Volume_ID = getC_UOM_Volume_ID(trxName);
+	protected void loadDefaultValues() {
+		m_C_UOM_Weight_ID = getC_UOM_Weight_ID();
+		m_C_UOM_Volume_ID = getC_UOM_Volume_ID();
 		//	Get Weight Precision
 		if(m_C_UOM_Weight_ID > 0) {
 			m_WeightPrecision = MUOM.getPrecision(Env.getCtx(), m_C_UOM_Weight_ID);
@@ -944,12 +943,11 @@ public class LoadOrder {
 	 * Get Vehicle Type from Vehicle
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/11/2013, 17:28:42
 	 * @param p_FTA_EntryTicket_ID
-	 * @param trxName
 	 * @return
 	 * @return int
 	 */
-	protected int getFTA_VehicleType_ID(int p_FTA_EntryTicket_ID, String trxName) {
-		return DB.getSQLValue(trxName, "SELECT v.FTA_VehicleType_ID "
+	protected int getFTA_VehicleType_ID(int p_FTA_EntryTicket_ID) {
+		return DB.getSQLValue(null, "SELECT v.FTA_VehicleType_ID "
 				+ "FROM FTA_EntryTicket et "
 				+ "INNER JOIN FTA_Vehicle v ON(v.FTA_Vehicle_ID = et.FTA_Vehicle_ID) "
 				+ "AND et.FTA_EntryTicket_ID = ?", p_FTA_EntryTicket_ID);
@@ -959,12 +957,11 @@ public class LoadOrder {
 	 * Get Load Capacity from Vehicle Type
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 10:35:41
 	 * @param p_FTA_VehicleType_ID
-	 * @param trxName
 	 * @return
 	 * @return BigDecimal
 	 */
-	protected BigDecimal getLoadCapacity(int p_FTA_VehicleType_ID, String trxName) {
-		return DB.getSQLValueBD(trxName, "SELECT vt.LoadCapacity "
+	protected BigDecimal getLoadCapacity(int p_FTA_VehicleType_ID) {
+		return DB.getSQLValueBD(null, "SELECT vt.LoadCapacity "
 				+ "FROM FTA_VehicleType vt "
 				+ "WHERE FTA_VehicleType_ID = ?", p_FTA_VehicleType_ID);
 	}
@@ -990,12 +987,11 @@ public class LoadOrder {
 	 * Get Volume Capacity from Vehicle Type
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 12:07:06
 	 * @param p_FTA_VehicleType_ID
-	 * @param trxName
 	 * @return
 	 * @return BigDecimal
 	 */
-	protected BigDecimal getVolumeCapacity(int p_FTA_VehicleType_ID, String trxName) {
-		return DB.getSQLValueBD(trxName, "SELECT vt.VolumeCapacity "
+	protected BigDecimal getVolumeCapacity(int p_FTA_VehicleType_ID) {
+		return DB.getSQLValueBD(null, "SELECT vt.VolumeCapacity "
 				+ "FROM FTA_VehicleType vt "
 				+ "WHERE FTA_VehicleType_ID = ?", p_FTA_VehicleType_ID);
 	}
@@ -1003,12 +999,11 @@ public class LoadOrder {
 	/**
 	 * Get default UOM
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 11:08:46
-	 * @param trxName
 	 * @return
 	 * @return int
 	 */
-	protected int getC_UOM_Weight_ID(String trxName) {
-		return DB.getSQLValue(trxName, "SELECT ci.C_UOM_Weight_ID "
+	protected int getC_UOM_Weight_ID() {
+		return DB.getSQLValue(null, "SELECT ci.C_UOM_Weight_ID "
 				+ "FROM AD_ClientInfo ci "
 				+ "WHERE ci.AD_Client_ID = ?", m_AD_Client_ID);
 	}
@@ -1016,12 +1011,11 @@ public class LoadOrder {
 	/**
 	 * Get default Volume UOM
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/12/2013, 11:14:38
-	 * @param trxName
 	 * @return
 	 * @return int
 	 */
-	protected int getC_UOM_Volume_ID(String trxName) {
-		return DB.getSQLValue(trxName, "SELECT ci.C_UOM_Volume_ID "
+	protected int getC_UOM_Volume_ID() {
+		return DB.getSQLValue(null, "SELECT ci.C_UOM_Volume_ID "
 				+ "FROM AD_ClientInfo ci "
 				+ "WHERE ci.AD_Client_ID = ?", m_AD_Client_ID);
 	}
@@ -1029,45 +1023,42 @@ public class LoadOrder {
 	/**
 	 * Get Driver Data
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/11/2013, 18:17:22
-	 * @param trxName
 	 * @return
 	 * @return KeyNamePair[]
 	 */
-	protected KeyNamePair[] getDataDriver(String trxName) {
+	protected KeyNamePair[] getDataDriver() {
 		String sql = "SELECT d.FTA_Driver_ID, d.Value || ' - ' || d.Name " +
 				"FROM FTA_EntryTicket et " + 
 				"INNER JOIN FTA_Driver d ON(d.FTA_Driver_ID = et.FTA_Driver_ID) " +
 				"WHERE et.FTA_EntryTicket_ID = " + m_FTA_EntryTicket_ID + " " +
 				"ORDER BY d.Value, d.Name";
 		//	
-		return DB.getKeyNamePairs(trxName, sql, false, new Object[]{});
+		return DB.getKeyNamePairs(null, sql, false, new Object[]{});
 	}
 	
 	/**
 	 * Get Vehicle Data
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 10:08:03
-	 * @param trxName
 	 * @return
 	 * @return KeyNamePair[]
 	 */
-	protected KeyNamePair[] getVehicleData(String trxName) {
+	protected KeyNamePair[] getVehicleData() {
 		String sql = "SELECT v.FTA_Vehicle_ID, v.VehiclePlate || ' - ' || v.Name " +
 				"FROM FTA_EntryTicket et " + 
 				"INNER JOIN FTA_Vehicle v ON(v.FTA_Vehicle_ID = et.FTA_Vehicle_ID) " +
 				"WHERE et.FTA_EntryTicket_ID = " + m_FTA_EntryTicket_ID + " " +
 				"ORDER BY v.VehiclePlate, v.Name";
 		//	
-		return DB.getKeyNamePairs(trxName, sql, false, new Object[]{});
+		return DB.getKeyNamePairs(null, sql, false, new Object[]{});
 	}
 	
 	/**
 	 * Get Data for Document Type from Operation Type
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 15:53:34
-	 * @param trxName
 	 * @return
 	 * @return KeyNamePair[]
 	 */
-	protected KeyNamePair[] getDataDocumentType(String trxName) {
+	protected KeyNamePair[] getDataDocumentType() {
 		
 		if(m_OperationType == null)
 			return null;
@@ -1082,23 +1073,22 @@ public class LoadOrder {
 				"AND doc.OperationType = '" + m_OperationType + "' " + 
 				"AND (doc.DocSubTypeSO IS NULL OR doc.DocSubTypeSO NOT IN('RM', 'OB')) " +
 				"ORDER BY doc.Name", "doc", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RW);		
-		return DB.getKeyNamePairs(trxName, sql, false, new Object[]{});
+		return DB.getKeyNamePairs(null, sql, false, new Object[]{});
 	}	
 	
 	/**
 	 * Load the Warehouse from Organization
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 15/11/2013, 14:47:28
-	 * @param trxName
 	 * @return
 	 * @return KeyNamePair[]
 	 */
-	protected KeyNamePair[] getDataWarehouse(String trxName) {
+	protected KeyNamePair[] getDataWarehouse() {
 		String sql = "SELECT w.M_Warehouse_ID, w.Name " +
 				"FROM M_Warehouse w " +
 				"WHERE w.IsActive = 'Y' " +
 				"AND w.AD_Org_ID = " + m_AD_Org_ID + " " + 
 				"ORDER BY w.Name";
-		return DB.getKeyNamePairs(trxName, sql, false, new Object[]{});
+		return DB.getKeyNamePairs(null, sql, false, new Object[]{});
 	}
 	
 	/**

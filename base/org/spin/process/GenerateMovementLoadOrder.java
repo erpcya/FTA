@@ -27,7 +27,6 @@ import org.compiere.model.MDocType;
 import org.compiere.model.MMovement;
 import org.compiere.model.MMovementLine;
 import org.compiere.model.MQuery;
-import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.X_M_Movement;
 import org.compiere.print.MPrintFormat;
@@ -279,9 +278,8 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 			MPrintFormat f = MPrintFormat.get(getCtx(), m_DocType.getAD_PrintFormat_ID(), false);
 			//	for all Mobilization Guide
 			if(f != null) {
-				MTable modelTable = MTable.get(getCtx(), getTable_ID());
 				MQuery q = new MQuery(I_M_Movement.Table_Name);
-				q.addRestriction(modelTable.getTableName() + "_ID", "=", m_Record_ID);
+				q.addRestriction(I_M_Movement.Table_Name + "_ID", "=", m_Record_ID);
 				PrintInfo i = new PrintInfo(Msg.translate(getCtx(), 
 						I_M_Movement.Table_Name + "_ID"), I_M_Movement.Table_ID, m_Record_ID);
 				//	

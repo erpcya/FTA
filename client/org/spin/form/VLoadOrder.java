@@ -17,6 +17,7 @@
 package org.spin.form;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -66,6 +67,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI;
 import org.spin.util.StringNamePair;
@@ -73,10 +75,6 @@ import org.spin.util.StringNamePair;
 public class VLoadOrder extends LoadOrder
 	implements FormPanel, ActionListener, TableModelListener, VetoableChangeListener
 {
-	private CPanel 	panel = new CPanel();
-	private Trx		trx = null;
-	private String	trxName = null;
-
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -88,16 +86,13 @@ public class VLoadOrder extends LoadOrder
 		m_frame = frame;
 		Env.setContext(Env.getCtx(), m_WindowNo, "IsSOTrx", "Y");   //  defaults to yes
 		//	Transaction
-		trxName = Trx.createTrxName("GM");
-		trx = Trx.get(trxName, true);
-		
 		try	{
 			dynInit();
 			jbInit();
 			frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 			frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 			//	Load Default Values
-			loadDefaultValues(trxName);
+			loadDefaultValues();
 		}
 		catch(Exception e)
 		{
@@ -227,7 +222,7 @@ public class VLoadOrder extends LoadOrder
 	private void jbInit() throws Exception
 	{
 		
-		CompiereColor.setBackground(panel);
+		CompiereColor.setBackground(mainPanel);
 		//
 		mainPanel.setLayout(mainLayout);
 
@@ -639,9 +634,11 @@ public class VLoadOrder extends LoadOrder
 		log.config("");
 		if(e.getSource().equals(selectAllButton)) {
 			int rows = orderLineTable.getRowCount();
+			mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			for (int i = 0; i < rows; i++) {
 				orderLineTable.setValueAt(true, i, SELECT);
-			}			
+			}
+			mainPanel.setCursor(Cursor.getDefaultCursor());
 		} else if(e.getSource().equals(docTypeSearch)) {
 			KeyNamePair pp = (KeyNamePair) docTypeSearch.getSelectedItem();
 			m_C_DocType_ID = (pp != null? pp.getKey(): 0);
@@ -652,7 +649,7 @@ public class VLoadOrder extends LoadOrder
 			clearData();
 		} else if(e.getSource().equals(gLoadOrderButton)) {
 			if(validData()) {
-				if (ADialog.ask(m_WindowNo, panel, null, 
+				if (ADialog.ask(m_WindowNo, mainPanel, null, 
 						Msg.translate(Env.getCtx(), "GenerateOrder") + "?")) {
 					saveData();
 				}
@@ -677,7 +674,7 @@ public class VLoadOrder extends LoadOrder
 			clearData();
 		} else if(name.equals("AD_Org_ID")) {
 			m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
-			KeyNamePair[] data = getDataWarehouse(trxName);
+			KeyNamePair[] data = getDataWarehouse();
 			warehouseSearch.removeActionListener(this);
 			m_M_Warehouse_ID = loadComboBox(warehouseSearch, data);
 			warehouseSearch.addActionListener(this);
@@ -685,10 +682,6 @@ public class VLoadOrder extends LoadOrder
 		} else if(name.equals("OperationType")) {
 			m_OperationType = ((String)(value != null? value: 0));
 			Env.setContext(Env.getCtx(), m_WindowNo, "OperationType", m_OperationType);
-			//ArrayList<KeyNamePair> data = getDataDocumentType(trxName);
-			//docTypeSearch.removeActionListener(this);
-			//m_C_DocType_ID = loadComboBox(docTypeSearch, data);
-			//docTypeSearch.addActionListener(this);
 			//	Set Bulk
 			m_IsBulk = isBulk();
 			//	Set Product
@@ -701,12 +694,12 @@ public class VLoadOrder extends LoadOrder
 			calculate();
 		} else if(name.equals("FTA_EntryTicket_ID")) {
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
-			KeyNamePair[] data = getDataDriver(trxName);
+			KeyNamePair[] data = getDataDriver();
 			m_FTA_Driver_ID = loadComboBox(driverSearch, data, true);
 			//	Vehicle
-			data = getVehicleData(trxName);
+			data = getVehicleData();
 			m_FTA_Vehicle_ID = loadComboBox(vehicleSearch, data, true);
-			m_FTA_VehicleType_ID = getFTA_VehicleType_ID(m_FTA_EntryTicket_ID, trxName);
+			m_FTA_VehicleType_ID = getFTA_VehicleType_ID(m_FTA_EntryTicket_ID);
 			vehicleTypePick.setValue(m_FTA_VehicleType_ID);
 			vehicleTypePick.setReadWrite(!(m_FTA_EntryTicket_ID > 0));
 			//	Set Capacity
@@ -715,6 +708,30 @@ public class VLoadOrder extends LoadOrder
 		calculate();
 		
 	}   //  vetoableChange
+	
+	/**
+	 * Search Orden Line
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 5, 2015, 8:44:06 PM
+	 * @return void
+	 */
+	private void searchLine() {
+		mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		StringBuffer sql = getQueryLine(orderTable,m_OperationType);
+		Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
+		Vector<String> columnNames = getOrderLineColumnNames();
+		
+		loadBuffer(orderLineTable);
+		//  Remove previous listeners
+		orderLineTable.getModel().removeTableModelListener(this);
+		
+		//  Set Model
+		DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
+		modelP.addTableModelListener(this);
+		orderLineTable.setModel(modelP);
+		setOrderLineColumnClass(orderLineTable);
+		setValueFromBuffer(orderLineTable);	
+		mainPanel.setCursor(Cursor.getDefaultCursor());
+	}
 	
 	/**
 	 *  Table Model Listener.
@@ -737,28 +754,15 @@ public class VLoadOrder extends LoadOrder
 			if(col == SELECT
 					&& m_IsBulk
 					&& moreOneSelect(orderTable)) {
-				ADialog.info(m_WindowNo, panel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
+				ADialog.info(m_WindowNo, mainPanel, Msg.translate(Env.getCtx(), "IsBulkMaxOne"));
 				orderTable.setValueAt(false, row, SELECT);
 				return;
 			}
 			//	Load Lines
 			if(m_C_UOM_Weight_ID != 0) {
-				StringBuffer sql = getQueryLine(orderTable,m_OperationType);
-				Vector<Vector<Object>> data = getOrderLineData(orderTable, sql);
-				Vector<String> columnNames = getOrderLineColumnNames();
-				
-				loadBuffer(orderLineTable);
-				//  Remove previous listeners
-				orderLineTable.getModel().removeTableModelListener(this);
-				
-				//  Set Model
-				DefaultTableModel modelP = new DefaultTableModel(data, columnNames);
-				modelP.addTableModelListener(this);
-				orderLineTable.setModel(modelP);
-				setOrderLineColumnClass(orderLineTable);
-				setValueFromBuffer(orderLineTable);	
+				searchLine();
 			} else {
-				ADialog.info(m_WindowNo, panel, "Error", Msg.parseTranslation(Env.getCtx(), "@C_UOM_ID@ @NotFound@"));
+				ADialog.info(m_WindowNo, mainPanel, "Error", Msg.parseTranslation(Env.getCtx(), "@C_UOM_ID@ @NotFound@"));
 				//loadOrder();
 				calculate();
 			}
@@ -810,7 +814,7 @@ public class VLoadOrder extends LoadOrder
 				}
 				//	
 				if(validError != null) {
-					ADialog.warn(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), validError));
+					ADialog.warn(m_WindowNo, mainPanel, null, Msg.parseTranslation(Env.getCtx(), validError));
 					qty = qtyOrdered
 							.subtract(qtyDelivered)
 							.subtract(qtyOrderLine)
@@ -848,7 +852,7 @@ public class VLoadOrder extends LoadOrder
 						m_MaxSeqNo = seqNo;
 					}
 				} else {
-					ADialog.warn(m_WindowNo, panel, null, Msg.translate(Env.getCtx(), "SeqNoEx"));
+					ADialog.warn(m_WindowNo, mainPanel, null, Msg.translate(Env.getCtx(), "SeqNoEx"));
 					m_MaxSeqNo += 10;
 					orderLineTable.setValueAt(m_MaxSeqNo, row, OL_SEQNO);
 				}
@@ -856,7 +860,6 @@ public class VLoadOrder extends LoadOrder
 			//	Load Group by Product
 			loadStockWarehouse(orderLineTable);
 		}
-		
 		calculate();
 	}   //  tableChanged
 	
@@ -1038,7 +1041,7 @@ public class VLoadOrder extends LoadOrder
 		}
 		//	
 		if(msg != null) {
-			ADialog.info(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), msg));
+			ADialog.info(m_WindowNo, mainPanel, null, Msg.parseTranslation(Env.getCtx(), msg));
 			calculate();
 			return;
 		}
@@ -1167,7 +1170,7 @@ public class VLoadOrder extends LoadOrder
 		}
 		//	
 		if(msg != null) {
-			ADialog.info(m_WindowNo, panel, null, Msg.parseTranslation(Env.getCtx(), msg));
+			ADialog.info(m_WindowNo, mainPanel, null, Msg.parseTranslation(Env.getCtx(), msg));
 			calculate();
 			return false;
 		}
@@ -1180,7 +1183,8 @@ public class VLoadOrder extends LoadOrder
 	 * @return
 	 * @return boolean
 	 */
-	public boolean loadDataOrder() {		String name = organizationPick.getName();
+	public boolean loadDataOrder() {
+		mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));		String name = organizationPick.getName();
 		Object value = organizationPick.getValue();
 		m_AD_Org_ID = ((Integer)(value != null? value: 0)).intValue();
 		log.config(name + "=" + value);
@@ -1215,6 +1219,7 @@ public class VLoadOrder extends LoadOrder
 		DefaultTableModel modelLine = new DefaultTableModel();
 		orderLineTable.setModel(modelLine);
 		//
+		mainPanel.setCursor(Cursor.getDefaultCursor());
 		return !data.isEmpty();
 	}
 	
@@ -1299,24 +1304,29 @@ public class VLoadOrder extends LoadOrder
 	 *  Save Data
 	 */
 	private void saveData() {
-		try	{	
-			String msg = generateLoadOrder(trxName, orderLineTable);
-			statusBar.setStatusLine(msg);
-			trx.commit();
-			ADialog.info(m_WindowNo, panel, null, msg);
-			shipperPick.setValue(0);
-			driverSearch.removeAllItems();
-			vehicleSearch.removeAllItems();
-			parameterCollapsiblePanel.setCollapsed(false);
-			//	Clear Data
-			clearData();
-			calculate();
+		try {
+			mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			Trx.run(new TrxRunnable() {
+				public void run(String trxName) {
+					String msg = generateLoadOrder(trxName, orderLineTable);
+					statusBar.setStatusLine(msg);
+					ADialog.info(m_WindowNo, mainPanel, null, msg);
+					shipperPick.setValue(0);
+					driverSearch.removeAllItems();
+					vehicleSearch.removeAllItems();
+					parameterCollapsiblePanel.setCollapsed(false);
+					//	Clear Data
+					clearData();
+					calculate();
+				}
+			});
 		} catch (Exception e) {
-			trx.rollback();
-			ADialog.error(m_WindowNo, panel, "Error", e.getLocalizedMessage());
+			ADialog.error(m_WindowNo, mainPanel, "Error", e.getLocalizedMessage());
 			statusBar.setStatusLine("Error: " + e.getLocalizedMessage());
 			e.printStackTrace();
 			return;
+		} finally {
+			mainPanel.setCursor(Cursor.getDefaultCursor());
 		}
 	}   //  saveData
 }
