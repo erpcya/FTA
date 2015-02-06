@@ -458,7 +458,6 @@ public class FTAModelValidator implements ModelValidator {
 						
 						MFTALoadOrder lo = new MFTALoadOrder(lin.getCtx(),lin.getFTA_LoadOrder_ID(), lin.get_TrxName());
 						lo.setIsDelivered(false);
-						lo.setIsWeightRegister(false);
 						lo.saveEx();
 					}
 				}
@@ -478,7 +477,6 @@ public class FTAModelValidator implements ModelValidator {
 					
 					MFTALoadOrder lo = new MFTALoadOrder(lin.getCtx(),lin.getFTA_LoadOrder_ID(), lin.get_TrxName());
 					lo.setIsMoved(false);
-					lo.setIsWeightRegister(false);
 					lo.saveEx();
 				}
 			}
