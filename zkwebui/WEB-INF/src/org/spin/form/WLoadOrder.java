@@ -1407,14 +1407,18 @@ public class WLoadOrder extends LoadOrder
 	 */
 	private void saveData() {
 		
-		try {
-			
-			Trx.run(new TrxRunnable() {
-				public void run(String trxName) {
-					String msg = generateLoadOrder(trxName, w_orderLineTable);
-					statusBar.setStatusLine(msg);
-				}
-			});
+		final String[] success = new String[] { "Error" };
+		final TrxRunnable r = new TrxRunnable() {
+
+			public void run(String trxName) {
+				success[0] = generateLoadOrder(trxName, w_orderLineTable);
+				statusBar.setStatusLine(success[0]);
+				
+			}
+		};
+		try
+		{
+			Trx.run(r);
 		} catch (Exception e) {
 			FDialog.error(m_WindowNo, parameterPanel, "Error", e.getLocalizedMessage());
 			statusBar.setStatusLine("Error: " + e.getLocalizedMessage());

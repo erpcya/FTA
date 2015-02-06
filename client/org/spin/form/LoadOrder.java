@@ -819,7 +819,7 @@ public class LoadOrder {
 	 * @return
 	 * @return String
 	 */
-	protected String generateLoadOrder(String trxName, IMiniTable orderLineTable) {
+	public String generateLoadOrder(String trxName, IMiniTable orderLineTable) {
 		int m_gen = 0;
 		int rows = orderLineTable.getRowCount();
 		m_FTA_LoadOrder = new MFTALoadOrder(Env.getCtx(), 0, trxName);
