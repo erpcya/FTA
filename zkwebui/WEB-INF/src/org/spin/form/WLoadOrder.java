@@ -45,20 +45,28 @@ import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
+import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.minigrid.IMiniTable;
+import org.compiere.model.MDocType;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
+import org.compiere.model.MQuery;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
+import org.compiere.model.PrintInfo;
 import org.compiere.model.X_C_Order;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
+import org.spin.model.I_FTA_LoadOrder;
 import org.spin.util.StringNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -68,6 +76,7 @@ import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Doublebox;
+import org.zkoss.zul.Separator;
 import org.zkoss.zul.Space;
 
 public class WLoadOrder extends LoadOrder
@@ -87,6 +96,7 @@ public class WLoadOrder extends LoadOrder
 			zkInit();
 			//	Load Default Values
 			loadDefaultValues();
+			
 		} catch(Exception e) {
 			log.severe("Error:" + e.getLocalizedMessage());
 		}
@@ -212,7 +222,8 @@ public class WLoadOrder extends LoadOrder
 	/**	Invoice Info		*/
 	private Label 			invoiceInfo = new Label();
 	private Label			invoiceLabel = new Label();
-	
+
+	private StatusBarPanel statusBar = new StatusBarPanel();
 	/**
 	 *  Static zkInit
 	 *  @throws Exception
@@ -264,7 +275,6 @@ public class WLoadOrder extends LoadOrder
 		bSearch.setLabel(Msg.translate(Env.getCtx(), "Search"));
 
 		orderLabel.setText(" " + Msg.translate(Env.getCtx(), "C_Order_ID"));
-//		dssd
 		stockLabel.setText("yruy " + Msg.translate(Env.getCtx(), "C_Order_ID"));
 		orderLineLabel.setText(" " + Msg.translate(Env.getCtx(), "C_OrderLine_ID"));
 		orderPanel.appendChild(orderLayout);
@@ -386,8 +396,11 @@ public class WLoadOrder extends LoadOrder
 		South south = new South();
 		south.setStyle("border: none");
 		mainLayout.appendChild(south);
+		
 		south.appendChild(southPanel);
 		southPanel.appendChild(allocationPanel);
+		southPanel.appendChild(new Separator());
+		southPanel.appendChild(statusBar);
 		allocationPanel.appendChild(allocationLayout);
 		allocationLayout.setWidth("100%");
 		rows = allocationLayout.newRows();
@@ -629,6 +642,11 @@ public class WLoadOrder extends LoadOrder
 		
 		//	Select All Items
 		selectAllButton.addActionListener(this);
+		
+		//  Translation
+		statusBar.setStatusLine(Msg.translate(Env.getCtx(), "FTA_LoadOrder_ID"));
+		statusBar.setStatusDB("");
+
 		
 	}   //  dynInit
 	
@@ -1347,27 +1365,81 @@ public class WLoadOrder extends LoadOrder
 	}
 	
 	/**
+	 * Print Document
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> Feb 6, 2015, 9:34:08 PM
+	 * @return void
+	 */
+	private void printDocument() {
+		//	Get Document Type
+		MDocType m_DocType = MDocType.get(Env.getCtx(), 
+				m_FTA_LoadOrder.getC_DocType_ID());
+		if(m_DocType == null)
+			return;
+		//	
+		if(m_DocType.getAD_PrintFormat_ID() == 0) {
+			String msg = Msg.parseTranslation(Env.getCtx(), 
+					"@NoDocPrintFormat@ @AD_Table_ID@=@FTA_LoadOrder@");
+			log.warning(msg);
+			//	
+			FDialog.warn(m_WindowNo, parameterPanel, "Error", msg);
+		}
+		//	Get Print Format
+		MPrintFormat f = MPrintFormat.get(Env.getCtx(), 
+				m_DocType.getAD_PrintFormat_ID(), false);
+		//	
+		if(f != null) {
+			MQuery q = new MQuery(I_FTA_LoadOrder.Table_Name);
+			q.addRestriction(I_FTA_LoadOrder.Table_Name + "_ID", "=", m_FTA_LoadOrder.getFTA_LoadOrder_ID());
+			PrintInfo i = new PrintInfo(Msg.translate(Env.getCtx(), 
+					I_FTA_LoadOrder.Table_Name + "_ID"), I_FTA_LoadOrder.Table_ID, m_FTA_LoadOrder.getFTA_LoadOrder_ID());
+			//	
+			ReportEngine re = new ReportEngine(Env.getCtx(), f, q, i, null);
+			//	Print
+			//	Direct Print
+			//re.print();
+			ReportCtl.preview(re);
+		}
+	}
+	/**
 	 * Save Data
 	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 14/01/2015, 12:26:57
 	 * @return void
 	 */
 	private void saveData() {
+		
 		try {
+			
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					String msg = generateLoadOrder(trxName, w_orderLineTable);
-					FDialog.info(m_WindowNo, parameterPanel, null, msg);
-					shipperPick.setValue(null);
-					driverSearch.removeAllItems();
-					vehicleSearch.removeAllItems();
-					//	Clear Data
-					clearData();
-					calculate();
+					statusBar.setStatusLine(msg);
 				}
 			});
 		} catch (Exception e) {
 			FDialog.error(m_WindowNo, parameterPanel, "Error", e.getLocalizedMessage());
+			statusBar.setStatusLine("Error: " + e.getLocalizedMessage());
 			e.printStackTrace();
+			return;
+		} finally {
+			
 		}
+		//	Print Document
+		if (FDialog.ask(m_WindowNo, parameterPanel, "print.order", 
+				Msg.parseTranslation(Env.getCtx(), 
+						"@FTA_LoadOrder_ID@ " + m_FTA_LoadOrder.getDocumentNo()))) {
+			//	Print?
+			printDocument();
+		}
+		//	Clear
+		shipperPick.setValue(null);
+		driverSearch.removeAllItems();
+		vehicleSearch.removeAllItems();
+		north1.setOpen(true);
+		//	Clear Data
+		clearData();
+		calculate();
+		
 	}   //  saveData
+	
+	
 }
