@@ -51,13 +51,19 @@ import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MDocType;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
+import org.compiere.model.MQuery;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
+import org.compiere.model.PrintInfo;
 import org.compiere.model.X_C_Order;
 import org.compiere.plaf.CompiereColor;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
 import org.compiere.swing.CLabel;
@@ -70,6 +76,7 @@ import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI;
+import org.spin.model.I_FTA_LoadOrder;
 import org.spin.util.StringNamePair;
 
 public class VLoadOrder extends LoadOrder
@@ -1300,6 +1307,43 @@ public class VLoadOrder extends LoadOrder
 		}
 	}
 	
+	/**
+	 * Print Document
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 5, 2015, 9:45:08 PM
+	 * @return void
+	 */
+	private void printDocument() {
+		//	Get Document Type
+		MDocType m_DocType = MDocType.get(Env.getCtx(), 
+				m_FTA_LoadOrder.getC_DocType_ID());
+		if(m_DocType == null)
+			return;
+		//	
+		if(m_DocType.getAD_PrintFormat_ID() == 0) {
+			String msg = Msg.parseTranslation(Env.getCtx(), 
+					"@NoDocPrintFormat@ @AD_Table_ID@=@FTA_LoadOrder@");
+			log.warning(msg);
+			//	
+			ADialog.warn(m_WindowNo, mainPanel, "Error", msg);
+		}
+		//	Get Print Format
+		MPrintFormat f = MPrintFormat.get(Env.getCtx(), 
+				m_DocType.getAD_PrintFormat_ID(), false);
+		//	
+		if(f != null) {
+			MQuery q = new MQuery(I_FTA_LoadOrder.Table_Name);
+			q.addRestriction(I_FTA_LoadOrder.Table_Name + "_ID", "=", m_FTA_LoadOrder.getFTA_LoadOrder_ID());
+			PrintInfo i = new PrintInfo(Msg.translate(Env.getCtx(), 
+					I_FTA_LoadOrder.Table_Name + "_ID"), I_FTA_LoadOrder.Table_ID, m_FTA_LoadOrder.getFTA_LoadOrder_ID());
+			//	
+			ReportEngine re = new ReportEngine(Env.getCtx(), f, q, i, null);
+			//	Print
+			//	Direct Print
+			//re.print();
+			ReportCtl.preview(re);
+		}
+	}
+	
 	/**************************************************************************
 	 *  Save Data
 	 */
@@ -1310,14 +1354,6 @@ public class VLoadOrder extends LoadOrder
 				public void run(String trxName) {
 					String msg = generateLoadOrder(trxName, orderLineTable);
 					statusBar.setStatusLine(msg);
-					ADialog.info(m_WindowNo, mainPanel, null, msg);
-					shipperPick.setValue(0);
-					driverSearch.removeAllItems();
-					vehicleSearch.removeAllItems();
-					parameterCollapsiblePanel.setCollapsed(false);
-					//	Clear Data
-					clearData();
-					calculate();
 				}
 			});
 		} catch (Exception e) {
@@ -1328,5 +1364,20 @@ public class VLoadOrder extends LoadOrder
 		} finally {
 			mainPanel.setCursor(Cursor.getDefaultCursor());
 		}
+		//	Print Document
+		if (ADialog.ask(m_WindowNo, mainPanel, "print.order", 
+				Msg.parseTranslation(Env.getCtx(), 
+						"@FTA_LoadOrder_ID@ " + m_FTA_LoadOrder.getDocumentNo()))) {
+			//	Print?
+			printDocument();
+		}
+		//	Clear
+		shipperPick.setValue(0);
+		driverSearch.removeAllItems();
+		vehicleSearch.removeAllItems();
+		parameterCollapsiblePanel.setCollapsed(false);
+		//	Clear Data
+		clearData();
+		calculate();
 	}   //  saveData
 }

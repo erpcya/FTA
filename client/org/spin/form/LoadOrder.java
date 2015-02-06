@@ -159,6 +159,8 @@ public class LoadOrder {
 	/**	Validate Quantity	*/
 	protected boolean 			m_IsValidateQuantity = true;
 	
+	/**	Load Order			*/
+	protected MFTALoadOrder 	m_FTA_LoadOrder = null;
 	
 	/**
 	 * Get Order data from parameters
@@ -820,52 +822,52 @@ public class LoadOrder {
 	protected String generateLoadOrder(String trxName, IMiniTable orderLineTable) {
 		int m_gen = 0;
 		int rows = orderLineTable.getRowCount();
-		MFTALoadOrder loadOrder = new MFTALoadOrder(Env.getCtx(), 0, trxName);
-		MFTALoadOrderLine lorder = null;
+		m_FTA_LoadOrder = new MFTALoadOrder(Env.getCtx(), 0, trxName);
+		MFTALoadOrderLine m_FTA_LoadOrderLine = null;
 		//	
 		BigDecimal totalWeight = Env.ZERO;
 		BigDecimal totalVolume = Env.ZERO;
 		//	
-		loadOrder.setAD_Org_ID(m_AD_Org_ID);
-		loadOrder.setOperationType(m_OperationType);
-		loadOrder.setFTA_VehicleType_ID(m_FTA_VehicleType_ID);
-		loadOrder.setDateDoc(m_DateDoc);
-		loadOrder.setShipDate(m_ShipDate);
-		loadOrder.setC_DocType_ID(m_C_DocTypeTarget_ID);
-		loadOrder.setLoadCapacity(m_LoadCapacity);
-		loadOrder.setVolumeCapacity(m_VolumeCapacity);
-		loadOrder.setC_UOM_Weight_ID(m_C_UOM_Weight_ID);
-		loadOrder.setC_UOM_Volume_ID(m_C_UOM_Volume_ID);
+		m_FTA_LoadOrder.setAD_Org_ID(m_AD_Org_ID);
+		m_FTA_LoadOrder.setOperationType(m_OperationType);
+		m_FTA_LoadOrder.setFTA_VehicleType_ID(m_FTA_VehicleType_ID);
+		m_FTA_LoadOrder.setDateDoc(m_DateDoc);
+		m_FTA_LoadOrder.setShipDate(m_ShipDate);
+		m_FTA_LoadOrder.setC_DocType_ID(m_C_DocTypeTarget_ID);
+		m_FTA_LoadOrder.setLoadCapacity(m_LoadCapacity);
+		m_FTA_LoadOrder.setVolumeCapacity(m_VolumeCapacity);
+		m_FTA_LoadOrder.setC_UOM_Weight_ID(m_C_UOM_Weight_ID);
+		m_FTA_LoadOrder.setC_UOM_Volume_ID(m_C_UOM_Volume_ID);
 		//	Set Is Weight Register
-		loadOrder.setIsWeightRegister(MFTAWeightScale.isWeightScaleOrg(m_AD_Org_ID, trxName));
+		m_FTA_LoadOrder.setIsWeightRegister(MFTAWeightScale.isWeightScaleOrg(m_AD_Org_ID, trxName));
 		//	Set Warehouse
 		if(m_M_Warehouse_ID != 0)
-			loadOrder.setM_Warehouse_ID(m_M_Warehouse_ID);
+			m_FTA_LoadOrder.setM_Warehouse_ID(m_M_Warehouse_ID);
 		//	Invoice Rule
 		if(m_InvoiceRule != null
 				&& m_InvoiceRule.trim().length() > 0)
-			loadOrder.setInvoiceRule(m_InvoiceRule);
+			m_FTA_LoadOrder.setInvoiceRule(m_InvoiceRule);
 		//	Delivery Rule
 		if(m_DeliveryRule != null
 				&& m_DeliveryRule.trim().length() > 0)
-			loadOrder.setDeliveryRule(m_DeliveryRule);
+			m_FTA_LoadOrder.setDeliveryRule(m_DeliveryRule);
 		//	Set Shipper
 		if(m_M_Shipper_ID != 0)
-			loadOrder.setM_Shipper_ID(m_M_Shipper_ID);
+			m_FTA_LoadOrder.setM_Shipper_ID(m_M_Shipper_ID);
 		//	Set Driver
 		if(m_FTA_Driver_ID != 0)
-			loadOrder.setFTA_Driver_ID(m_FTA_Driver_ID);
+			m_FTA_LoadOrder.setFTA_Driver_ID(m_FTA_Driver_ID);
 		//	Set Vehicle
 		if(m_FTA_Vehicle_ID != 0)
-			loadOrder.setFTA_Vehicle_ID(m_FTA_Vehicle_ID);
+			m_FTA_LoadOrder.setFTA_Vehicle_ID(m_FTA_Vehicle_ID);
 		//	Set Entry Ticket
 		if(m_FTA_EntryTicket_ID != 0)
-			loadOrder.setFTA_EntryTicket_ID(m_FTA_EntryTicket_ID);
+			m_FTA_LoadOrder.setFTA_EntryTicket_ID(m_FTA_EntryTicket_ID);
 		//	Set Product
 		if(m_M_Product_ID != 0)
-			loadOrder.setM_Product_ID(m_M_Product_ID);
+			m_FTA_LoadOrder.setM_Product_ID(m_M_Product_ID);
 		//	Save Order
-		loadOrder.saveEx();
+		m_FTA_LoadOrder.saveEx();
 		//	Loop for add Lines
 		for (int i = 0; i < rows; i++) {
 			if (((Boolean)orderLineTable.getValueAt(i, 0)).booleanValue()) {
@@ -876,48 +878,48 @@ public class LoadOrder {
 				BigDecimal volume = (BigDecimal) orderLineTable.getValueAt(i, OL_VOLUME);
 				Integer seqNo = (Integer) orderLineTable.getValueAt(i, OL_SEQNO);
 				//	New Line
-				lorder = new MFTALoadOrderLine(Env.getCtx(), 0, trxName);
+				m_FTA_LoadOrderLine = new MFTALoadOrderLine(Env.getCtx(), 0, trxName);
 				//	Set Values
-				lorder.setAD_Org_ID(m_AD_Org_ID);
-				lorder.setFTA_LoadOrder_ID(loadOrder.getFTA_LoadOrder_ID());
+				m_FTA_LoadOrderLine.setAD_Org_ID(m_AD_Org_ID);
+				m_FTA_LoadOrderLine.setFTA_LoadOrder_ID(m_FTA_LoadOrder.getFTA_LoadOrder_ID());
 				/** 2014-12-02 Carlos Parada Add Support to Distribution Order*/ 
 				if (m_OperationType.equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement))
-					lorder.setDD_OrderLine_ID(m_OrderLine_ID);
+					m_FTA_LoadOrderLine.setDD_OrderLine_ID(m_OrderLine_ID);
 				else
-					lorder.setC_OrderLine_ID(m_OrderLine_ID);
+					m_FTA_LoadOrderLine.setC_OrderLine_ID(m_OrderLine_ID);
 				/** End Carlos Parada*/
-				lorder.setM_Product_ID(m_M_Product_ID);
-				lorder.setQty(qty);
-				lorder.setSeqNo(seqNo);
-				lorder.setWeight(weight);
-				lorder.setVolume(volume);
+				m_FTA_LoadOrderLine.setM_Product_ID(m_M_Product_ID);
+				m_FTA_LoadOrderLine.setQty(qty);
+				m_FTA_LoadOrderLine.setSeqNo(seqNo);
+				m_FTA_LoadOrderLine.setWeight(weight);
+				m_FTA_LoadOrderLine.setVolume(volume);
 				//	Add Weight
 				totalWeight = totalWeight.add(weight);
 				//	Add Volume
 				totalVolume = totalVolume.add(volume);
 				//	Save Line
-				lorder.saveEx();
+				m_FTA_LoadOrderLine.saveEx();
 				//	Add Count
 				m_gen ++;
 			}
 		}
 		//	Set Header Weight
-		loadOrder.setWeight(totalWeight);
+		m_FTA_LoadOrder.setWeight(totalWeight);
 		//	Set Header Volume
-		loadOrder.setVolume(totalVolume);
+		m_FTA_LoadOrder.setVolume(totalVolume);
 		//	Save Header
-		loadOrder.saveEx();
+		m_FTA_LoadOrder.saveEx();
 		//	Complete Order
-		loadOrder.setDocAction(X_FTA_LoadOrder.DOCACTION_Complete);
-		loadOrder.processIt(X_FTA_LoadOrder.DOCACTION_Complete);
-		loadOrder.saveEx();
+		m_FTA_LoadOrder.setDocAction(X_FTA_LoadOrder.DOCACTION_Complete);
+		m_FTA_LoadOrder.processIt(X_FTA_LoadOrder.DOCACTION_Complete);
+		m_FTA_LoadOrder.saveEx();
 		//	Valid Error
-		String errorMsg = loadOrder.getProcessMsg();
+		String errorMsg = m_FTA_LoadOrder.getProcessMsg();
 		if(errorMsg != null
-				&& loadOrder.getDocStatus().equals(X_FTA_LoadOrder.DOCSTATUS_Invalid))
+				&& m_FTA_LoadOrder.getDocStatus().equals(X_FTA_LoadOrder.DOCSTATUS_Invalid))
 			throw new AdempiereException(errorMsg);
 		//	Message
-		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + loadOrder.getDocumentNo() 
+		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + m_FTA_LoadOrder.getDocumentNo() 
 				+ "] || @LineNo@" + " = [" + m_gen + "]" + (errorMsg != null? "\n@Errors@:" + errorMsg: ""));
 	}
 	

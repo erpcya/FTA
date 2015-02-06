@@ -1000,32 +1000,6 @@ public class WLoadOrder extends LoadOrder
 					+ "]");
 		}
 	}
-	
-	/**
-	 * Save Data
-	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 14/01/2015, 12:26:57
-	 * @return void
-	 */
-	private void saveData() {
-		try {
-			Trx.run(new TrxRunnable() {
-				public void run(String trxName) {
-					String msg = generateLoadOrder(trxName, w_orderLineTable);
-					FDialog.info(m_WindowNo, parameterPanel, null, msg);
-					shipperPick.setValue(null);
-					driverSearch.removeAllItems();
-					vehicleSearch.removeAllItems();
-					//	Clear Data
-					clearData();
-					calculate();
-				}
-			});
-		} catch (Exception e) {
-			FDialog.error(m_WindowNo, parameterPanel, "Error", e.getLocalizedMessage());
-			e.printStackTrace();
-			return;
-		}
-	}   //  saveData
 
 	@Override
 	public void valueChange(ValueChangeEvent evt) {
@@ -1371,4 +1345,29 @@ public class WLoadOrder extends LoadOrder
 			stockModel.add(line);
 		}
 	}
+	
+	/**
+	 * Save Data
+	 * @author <a href="mailto:Raulmunozn@gmail.com">Raul Muñoz</a> 14/01/2015, 12:26:57
+	 * @return void
+	 */
+	private void saveData() {
+		try {
+			Trx.run(new TrxRunnable() {
+				public void run(String trxName) {
+					String msg = generateLoadOrder(trxName, w_orderLineTable);
+					FDialog.info(m_WindowNo, parameterPanel, null, msg);
+					shipperPick.setValue(null);
+					driverSearch.removeAllItems();
+					vehicleSearch.removeAllItems();
+					//	Clear Data
+					clearData();
+					calculate();
+				}
+			});
+		} catch (Exception e) {
+			FDialog.error(m_WindowNo, parameterPanel, "Error", e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+	}   //  saveData
 }
