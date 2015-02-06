@@ -196,6 +196,11 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			return DocAction.STATUS_Invalid;
 		}
 		
+		m_processMsg = validETReference();
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		
+		
 		//	Add up Amounts
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
@@ -1700,12 +1705,13 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	private String validETReference() {
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT DocumentNo " +
 				"FROM FTA_RecordWeight rw " +
-				"WHERE  rw.FTA_EntryTicket_ID= ? AND rw.FTA_RecordWeight_ID != ? AND rw.DocStatus IN ('CO','CL')", getFTA_EntryTicket_ID(),getFTA_RecordWeight_ID());
-		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
-				+ "FROM FTA_EntryTicket et "
-				+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
-		if(m_ReferenceNo != null) 
+				"WHERE  rw.FTA_EntryTicket_ID= ? AND rw.DocStatus IN ('CO','CL')", getFTA_EntryTicket_ID());
+		if(m_ReferenceNo != null){
+			String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
+					+ "FROM FTA_EntryTicket et "
+					+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
 			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo + " @Generate@ @from@ @FTA_EntryTicket_ID@: " +m_ReferenceNoET;
+		}
 		return null;		
 	}
 	
