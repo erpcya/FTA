@@ -265,6 +265,66 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 	}	//	getLines
 	
 	/**
+	 * Get RecordWeight from Entry Ticket
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 11, 2015, 5:55:07 PM
+	 * @param whereClause
+	 * @return
+	 * @return MFTARecordWeight[]
+	 */
+	public MFTARecordWeight[] getRecordWeight(String whereClause) {
+		List<MFTARecordWeight> list = new Query(getCtx(), 
+				I_FTA_RecordWeight.Table_Name, "FTA_EntryTicket_ID=?" 
+						+ (whereClause != null && whereClause.length() != 0? " AND " + whereClause: ""), get_TrxName())
+		.setParameters(getFTA_EntryTicket_ID())
+		.list();
+
+		MFTARecordWeight[] m_rw = new MFTARecordWeight[list.size ()];
+		list.toArray (m_rw);
+		return m_rw;
+	}	//	getRecordWeight
+	
+
+	/**
+	 * Get Quality Analysis from Entry Ticket
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 11, 2015, 5:56:35 PM
+	 * @param whereClause
+	 * @return
+	 * @return MFTAQualityAnalysis[]
+	 */
+	public MFTAQualityAnalysis[] getQualityAnalysis(String whereClause) {
+		List<MFTAQualityAnalysis> list = new Query(getCtx(), 
+				I_FTA_QualityAnalysis.Table_Name, "FTA_EntryTicket_ID=?"
+						+ (whereClause != null && whereClause.length() != 0? " AND " + whereClause: ""), get_TrxName())
+		.setParameters(getFTA_EntryTicket_ID())
+		.list();
+
+		MFTAQualityAnalysis[] m_qa = new MFTAQualityAnalysis[list.size ()];
+		list.toArray (m_qa);
+		return m_qa;
+	}	//	getQualityAnalysis
+
+	
+	/**
+	 * Get Load Order from Entry Ticket
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 11, 2015, 5:59:10 PM
+	 * @param whereClause
+	 * @return
+	 * @return MFTALoadOrder[]
+	 */
+	public MFTALoadOrder[] getLoadOrder(String whereClause) {
+		List<MFTALoadOrder> list = new Query(getCtx(), 
+				I_FTA_LoadOrder.Table_Name, "FTA_EntryTicket_ID=?"
+						+ (whereClause != null && whereClause.length() != 0? " AND " + whereClause: ""), get_TrxName())
+		.setParameters(getFTA_EntryTicket_ID())
+		.list();
+
+		MFTALoadOrder[] m_lo = new MFTALoadOrder[list.size ()];
+		list.toArray (m_lo);
+		return m_lo;
+	}	//	getQualityAnalysis
+	
+	
+	/**
      *  Set Processed.
      *  Propagate to Lines
      *  @param processed processed
@@ -471,6 +531,24 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 		m_processMsg = validQAReference();
 		if(m_processMsg != null)
 			return false;
+		
+		//	Valid QualityAnalysis Completed
+		m_processMsg = validQAReference();
+		if(m_processMsg != null)
+			return false;
+		//	Valid Record Weight Completed
+		m_processMsg = validRWReference();
+		if(m_processMsg != null)
+			return false;
+		//	Valid Load Order Completed
+		if(getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
+				|| getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)
+				|| getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement)){
+			m_processMsg = validLOReference();
+			if(m_processMsg != null)
+				return false;
+		}
+		
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)

@@ -1164,7 +1164,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return
 	 * @return String
 	 */
-	
 	private String createInOut() {
 		//	this yet generated
 		if(validInOutReference() != null)
