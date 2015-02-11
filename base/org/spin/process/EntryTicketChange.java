@@ -27,7 +27,7 @@ import org.spin.model.MFTARecordWeight;
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
-public class ChangeDriver extends SvrProcess {
+public class EntryTicketChange extends SvrProcess {
 
 	/**	Entry Ticket				*/
 	private int p_FTA_EntryTicket_ID 	= 0;

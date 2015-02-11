@@ -1083,13 +1083,23 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			}
 			//	
 			MDDOrder m_DD_Order = (MDDOrder) m_DD_OrderLine.getDD_Order();
-			//	
+			//	Get Document Type
+			MDocType m_DocType = MDocType.get(getCtx(), m_DD_Order.getC_DocType_ID());
+			//	Get Document for Movement
+			int m_C_DocTypeMovement_ID = m_DocType.get_ValueAsInt("C_DocTypeMovement_ID");
+			//	Valid Document
+			if(m_C_DocTypeMovement_ID == 0) {
+				m_processMsg = "@C_DocTypeMovement_ID@ @NotFound@";
+				return null;
+			}
+			//	Generate
 			if(m_Current_BPartner_ID != m_DD_Order.getC_BPartner_ID()) {
 				//	Complete Previous Movements
 				completeMovement(m_Current_Movement);
 				m_Current_BPartner_ID = m_DD_Order.getC_BPartner_ID();
 				//	Create Movement
 				m_Current_Movement = new MMovement(getCtx(), 0, get_TrxName());
+				m_Current_Movement.setC_DocType_ID(m_C_DocTypeMovement_ID);
 				m_Current_Movement.setDateReceived(getDateForDocument());
 				//	Set Organization
 				m_Current_Movement.setAD_Org_ID(getAD_Org_ID());
