@@ -230,6 +230,18 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
+		
+		//	Valid Volume Capacity
+		if(getVolumeCapacity().compareTo(getVolume()) <= 0) {
+			m_processMsg = "@VolumeCapacity@ <= @Volume@";
+			return DocAction.STATUS_Invalid;
+		}
+		//	Valid Load Capacity
+		if(getLoadCapacity().compareTo(getWeight()) < 0) {
+			m_processMsg = "@LoadCapacity@ < @Weight@";
+			return DocAction.STATUS_Invalid;
+		}
+		
 		//Waditza Rivas 15/05/2014
 		m_processMsg = validETReference();
 	 	if (m_processMsg != null)
@@ -811,8 +823,8 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_LoadOrder_ID " +
 				"FROM FTA_LoadOrder lo " +
 				"WHERE  lo.DocStatus IN('CO', 'CL') "
-				+ "AND lo.FTA_EntryTicket_ID= ? "
-				+ "AND lo.FTA_LoadOrder_ID != ? ", getFTA_EntryTicket_ID(),getFTA_LoadOrder_ID());
+				+ "AND lo.FTA_EntryTicket_ID = ? "
+				+ "AND lo.FTA_LoadOrder_ID != ? ", getFTA_EntryTicket_ID(), getFTA_LoadOrder_ID());
 		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
 				+ "FROM FTA_EntryTicket et "
 				+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
@@ -877,14 +889,8 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		//	Yamel Senih 2013-12-19: 17:04:02
 		//	Valid Operation Type
 		if(getOperationType() == null)
-			msg = "@FTA_VehicleType_ID@ @NotFound@";
+			msg = "@OperationType@ @NotFound@";
 		//	End Yamel Senih
-	
-		if(getVolumeCapacity().compareTo(getVolume()) <= 0)
-			msg = "@VolumeCapacity@ <= @0@";
-		
-		if(getLoadCapacity().compareTo(getWeight()) < 0)
-			msg = "@LoadCapacity@ < @0@";
 		
 		if(msg != null)
 			throw new AdempiereException(msg);
