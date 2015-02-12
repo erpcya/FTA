@@ -21,7 +21,7 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.spin.model.MFTAEntryTicket;
 import org.spin.model.MFTALoadOrder;
-import org.spin.model.MFTARecordWeight;
+import org.spin.model.MFTAVehicle;
 import org.spin.model.X_FTA_EntryTicket;
 
 /**
@@ -106,7 +106,20 @@ public class EntryTicketChange extends SvrProcess {
 			}
 			//	Change Vehicle
 			if(p_FTA_Vehicle_ID != 0) {
+				MFTAVehicle m_Vehicle = MFTAVehicle.get(getCtx(), p_FTA_Vehicle_ID);
+				if(m_Vehicle.getLoadCapacity().doubleValue()
+						< m_FTA_LoadOrder.getWeight().doubleValue()) {
+					throw new AdempiereUserError("@LoadCapacity@ @less@ @Weight@ [@FTA_LoadOrder_ID@ " 
+						+ m_FTA_LoadOrder.getDocumentNo() + "]");
+				} else if(m_Vehicle.getVolumeCapacity().doubleValue() 
+						< m_FTA_LoadOrder.getVolume().doubleValue()) {
+					throw new AdempiereUserError("@VolumeCapacity@ @less@ @Volume@ [@FTA_LoadOrder_ID@ " 
+						+ m_FTA_LoadOrder.getDocumentNo() + "]");	
+				}
+				//	
 				m_FTA_LoadOrder.setFTA_Vehicle_ID(p_FTA_Vehicle_ID);
+				m_FTA_LoadOrder.setLoadCapacity(m_Vehicle.getLoadCapacity());
+				m_FTA_LoadOrder.setVolumeCapacity(m_Vehicle.getVolumeCapacity());
 			}
 			m_FTA_LoadOrder.saveEx();
 			//	Add Log
@@ -114,28 +127,7 @@ public class EntryTicketChange extends SvrProcess {
 			//	Updated
 			m_Updated ++;
 		}
-		
-		MFTARecordWeight[] m_RW = m_FTA_EntryTicket.getRecordWeight(null);
-		//	For all Record Weights
-		for(MFTARecordWeight m_FTA_RecordWeight : m_RW) {
-			//	Change Shipper
-			if(p_M_Shipper_ID != 0) {
-				m_FTA_RecordWeight.setM_Shipper_ID(p_M_Shipper_ID);
-			}
-			//	Change Driver
-			if(p_FTA_Driver_ID != 0) {
-				m_FTA_RecordWeight.setFTA_Driver_ID(p_FTA_Driver_ID);
-			}
-			//	Change Vehicle
-			if(p_FTA_Vehicle_ID != 0) {
-				m_FTA_RecordWeight.setFTA_Vehicle_ID(p_FTA_Vehicle_ID);
-			}
-			m_FTA_RecordWeight.saveEx();
-			//	Add Log
-			addLog("@FTA_RecordWeight_ID@ " + m_FTA_RecordWeight.getDocumentNo() + " @Updated@");
-			//	Updated
-			m_Updated ++;
-		}
+		//	Return
 		return "@Updated@ " + m_Updated;
 	}
 

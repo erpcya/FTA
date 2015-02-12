@@ -167,6 +167,15 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 				int m_DD_Order_ID 		= rs.getInt("DD_Order_ID");
 				//	Create Order
 				MDDOrder order = new MDDOrder(getCtx(), m_DD_Order_ID, get_TrxName());
+				//	Get Document Type
+				MDocType m_DocType = MDocType.get(getCtx(), order.getC_DocType_ID());
+				//	Get Document for Movement
+				int m_C_DocTypeMovement_ID = m_DocType.get_ValueAsInt("C_DocTypeMovement_ID");
+				//	Valid Document
+				if(m_C_DocTypeMovement_ID == 0) {
+					throw new AdempiereUserError("@C_DocTypeMovement_ID@ @NotFound@ "
+							+ "[@C_DocType_ID@ " + m_DocType.getName() + "]");
+				}
 				//	
 				if (m_Current_BPartner_ID != m_C_BPartner_ID) {
 					//	Complete Previous Shipment

@@ -232,8 +232,8 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			return DocAction.STATUS_Invalid;
 		
 		//	Valid Volume Capacity
-		if(getVolumeCapacity().compareTo(getVolume()) <= 0) {
-			m_processMsg = "@VolumeCapacity@ <= @Volume@";
+		if(getVolumeCapacity().compareTo(getVolume()) < 0) {
+			m_processMsg = "@VolumeCapacity@ < @Volume@";
 			return DocAction.STATUS_Invalid;
 		}
 		//	Valid Load Capacity
