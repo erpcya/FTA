@@ -22,6 +22,7 @@ import org.compiere.util.AdempiereUserError;
 import org.spin.model.MFTAEntryTicket;
 import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTARecordWeight;
+import org.spin.model.X_FTA_EntryTicket;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -69,6 +70,10 @@ public class EntryTicketChange extends SvrProcess {
 			throw new AdempiereUserError("[@M_Shipper_ID@ @FTA_Driver_ID@ @FTA_Vehicle_ID@] @NotFound@");
 		//	Change Ticket
 		MFTAEntryTicket m_FTA_EntryTicket = new MFTAEntryTicket(getCtx(), p_FTA_EntryTicket_ID, get_TrxName());
+		//	Valid Document
+		if(!m_FTA_EntryTicket.getDocStatus()
+				.equals(X_FTA_EntryTicket.DOCSTATUS_Completed))
+			throw new AdempiereUserError("@FTA_EntryTicket_ID@ @no@ @completed@");
 		//	Change Shipper
 		if(p_M_Shipper_ID != 0) {
 			m_FTA_EntryTicket.setM_Shipper_ID(p_M_Shipper_ID);
