@@ -1160,11 +1160,6 @@ DELETE FROM AD_Browse_Field WHERE AD_Browse_Field_ID=54002
 
 -- Dec 15, 2014 11:30:23 PM VET
 -- FTA
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=?
-;
-
--- Dec 15, 2014 11:30:23 PM VET
--- FTA
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52801
 ;
 
@@ -1515,17 +1510,7 @@ DELETE FROM AD_Browse_Field WHERE AD_Browse_Field_ID=53998
 
 -- Dec 15, 2014 11:50:41 PM VET
 -- FTA
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=?
-;
-
--- Dec 15, 2014 11:50:41 PM VET
--- FTA
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52797
-;
-
--- Dec 15, 2014 11:50:42 PM VET
--- FTA
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=?
 ;
 
 -- Dec 15, 2014 11:50:42 PM VET
@@ -1610,11 +1595,6 @@ DELETE FROM AD_Browse_Field WHERE AD_Browse_Field_ID=54003
 
 -- Dec 15, 2014 11:53:53 PM VET
 -- FTA
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=?
-;
-
--- Dec 15, 2014 11:53:53 PM VET
--- FTA
 DELETE FROM AD_View_Column WHERE AD_View_Column_ID=52802
 ;
 
@@ -1641,11 +1621,6 @@ DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=54019
 -- Dec 15, 2014 11:54:55 PM VET
 -- FTA
 DELETE FROM AD_Browse_Field WHERE AD_Browse_Field_ID=54019
-;
-
--- Dec 15, 2014 11:55:10 PM VET
--- FTA
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=?
 ;
 
 -- Dec 15, 2014 11:55:10 PM VET
@@ -1678,10 +1653,6 @@ DELETE FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=54020
 DELETE FROM AD_Browse_Field WHERE AD_Browse_Field_ID=54020
 ;
 
--- Dec 15, 2014 11:56:15 PM VET
--- FTA
-DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=?
-;
 
 -- Dec 15, 2014 11:56:15 PM VET
 -- FTA

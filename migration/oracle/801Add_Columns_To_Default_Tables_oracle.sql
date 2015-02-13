@@ -113,11 +113,6 @@ ALTER TABLE M_Product ADD IsCategory CHAR(1) DEFAULT 'N' CHECK (IsCategory IN ('
 ALTER TABLE M_RMA ADD FTA_FarmerCredit_ID NUMBER(10) DEFAULT NULL 
 ;
 
--- Oct 2, 2014 5:27:07 PM VET
--- FTA
-ALTER TABLE FTA_RecordWeight ADD TrailerPlate NVARCHAR2(60) DEFAULT NULL 
-;
-
 -- Oct 24, 2014 10:54:35 AM VET
 -- Farming Technical Assistance
 ALTER TABLE C_DocType ADD IsCheckReturn CHAR(1) DEFAULT 'N' CHECK (IsCheckReturn IN ('Y','N'))
