@@ -132,3 +132,38 @@ ALTER TABLE FTA_LoadOrder ADD IsImmediateDelivery CHAR(1) DEFAULT 'N' CHECK (IsI
 -- FTA
 ALTER TABLE M_InOut ADD ControlNo NVARCHAR2(60) DEFAULT NULL 
 ;
+
+-- Feb 13, 2015 11:08:17 PM VET
+-- FTA
+ALTER TABLE C_DocType ADD IsManual CHAR(1) DEFAULT 'N' CHECK (IsManual IN ('Y','N'))
+;
+
+-- Feb 13, 2015 11:09:43 PM VET
+-- FTA
+ALTER TABLE C_DocType ADD IsValidateQuantity CHAR(1) DEFAULT 'Y' CHECK (IsValidateQuantity IN ('Y','N'))
+;
+
+-- Feb 13, 2015 11:12:49 PM VET
+-- FTA
+ALTER TABLE M_InOut ADD IsManual CHAR(1) DEFAULT 'N' CHECK (IsManual IN ('Y','N'))
+;
+
+-- Feb 13, 2015 11:16:56 PM VET
+-- FTA
+ALTER TABLE M_Movement ADD ControlNo NVARCHAR2(60) DEFAULT NULL 
+;
+
+-- Feb 13, 2015 11:17:06 PM VET
+-- FTA
+ALTER TABLE M_Movement MODIFY DocumentNo NVARCHAR2(30)
+;
+
+-- Feb 13, 2015 11:17:19 PM VET
+-- FTA
+ALTER TABLE M_Movement ADD IsManual CHAR(1) DEFAULT NULL  CHECK (IsManual IN ('Y','N'))
+;
+
+-- Feb 13, 2015 11:18:02 PM VET
+-- FTA
+ALTER TABLE M_Movement ADD FTA_RecordWeight_ID NUMBER(10) DEFAULT NULL 
+;

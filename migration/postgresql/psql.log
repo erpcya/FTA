@@ -2,54 +2,11 @@
 
 #Run Scripts:
 
+psql.bin:/opt/Development/workspace/FTA/migration/postgresql/000Add_EntityType_SFAndroid_And_EntityType_Spin_postgresql.sql:4: ERROR:  duplicate key value violates unique constraint "ad_entitytype_pkey"
+DETAIL:  Key (entitytype)=(ECA01) already exists.
 psql.bin:/opt/Development/workspace/FTA/migration/postgresql/000Add_EntityType_SFAndroid_And_EntityType_Spin_postgresql.sql:9: ERROR:  duplicate key value violates unique constraint "ad_entitytype_pkey"
 DETAIL:  Key (entitytype)=(ECA02) already exists.
- altercolumn 
--------------
- 
-(1 row)
-
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/801Add_Columns_To_Default_Tables_Postgres.sql:119: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/802FTA-ForeignKeysPostgreSQL.sql:266: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/802FTA-ForeignKeysPostgreSQL.sql:458: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/802FTA-ForeignKeysPostgreSQL.sql:486: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/802FTA-ForeignKeysPostgreSQL.sql:490: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/802FTA-ForeignKeysPostgreSQL.sql:494: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/802FTA-ForeignKeysPostgreSQL.sql:498: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/802FTA-ForeignKeysPostgreSQL.sql:502: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/802FTA-ForeignKeysPostgreSQL.sql:506: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/802FTA-ForeignKeysPostgreSQL.sql:646: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/802FTA-ForeignKeysPostgreSQL.sql:678: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/802FTA-ForeignKeysPostgreSQL.sql:682: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/803AddUnikeIndexIntoColumPostgreSQL.sql:16: ERROR:  relation "fta_recordweight" does not exist
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/850AddViewFTA_RV_LiquidationAndFTA_RV_LiquidationLine.sql:82: ERROR:  relation "fta_recordweight" does not exist
-LINE 28: INNER JOIN FTA_RecordWeight rw ON (rw.FTA_RecordWeight_ID = ...
-                    ^
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/851AddViewFTA_RV_RecordWeightUnLiquidated.sql:61: ERROR:  relation "fta_recordweight" does not exist
-LINE 27: FTA_RecordWeight rw
-         ^
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/861AddViewFTA_RV_RecordWeight.sql:65: ERROR:  relation "fta_recordweight" does not exist
-LINE 36: FROM fta_recordweight rw
-              ^
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/877AddViewFTA_RV_LiquidationDetail.sql:51: ERROR:  relation "fta_recordweight" does not exist
-LINE 44: INNER JOIN FTA_RecordWeight rw ON (rw.FTA_RecordWeight_ID = ...
-                    ^
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/884AddViewFTA_RV_ShipmentGuide.sql:50: ERROR:  relation "fta_recordweight" does not exist
-LINE 38: LEFT JOIN FTA_RecordWeight rw ON (rw.FTA_RecordWeight_ID = m...
-                   ^
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/888AddViewFTA_RV_VehicleStatus.sql:32: ERROR:  relation "fta_recordweight" does not exist
-LINE 26: LEFT JOIN FTA_RecordWeight rw ON (et.FTA_EntryTicket_ID = rw...
-                   ^
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/889AddViewFTA_RV_RecordWeight_InOut_Source.sql:217: ERROR:  relation "fta_recordweight" does not exist
-LINE 50: INNER JOIN FTA_RecordWeight rw ON rw.FTA_QualityAnalysis_ID ...
-                    ^
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/893AddViewFTA_RV_RecordWeight_InOut.sql:236: ERROR:  relation "fta_rv_recordweight_inout_source" does not exist
-LINE 100:  FTA_RV_RecordWeight_InOut_Source rwios
-           ^
- ad_client_id | ad_org_id | created | createdby | updated | updatedby | isactive | docstatus | datedoc | c_doctype_id | m_product_id | m_warehouse_id | fta_loadorder_id | qty | weight | confirmedqty | confirmedweight | dd_orderline_id | fta_loadorderline_id | documentno | qtyentered | linenetamt | c_uom_id | m_movementline_id | dd_order_id | m_movement_id | c_bpartner_id | movementqty | operationtype | fta_entryticket_id | isimmediatedelivery 
---------------+-----------+---------+-----------+---------+-----------+----------+-----------+---------+--------------+--------------+----------------+------------------+-----+--------+--------------+-----------------+-----------------+----------------------+------------+------------+------------+----------+-------------------+-------------+---------------+---------------+-------------+---------------+--------------------+---------------------
-(0 rows)
-
-psql.bin:/opt/Development/workspace/FTA/migration/postgresql/895AddViewFTA_RV_RecordWeightDetail.sql:34: ERROR:  relation "fta_recordweight" does not exist
-LINE 24: FROM FTA_RecordWeight rw 
-              ^
+psql.bin:/opt/Development/workspace/FTA/migration/postgresql/000ColumnOutProjects_postgresql.sql:5: ERROR:  duplicate key value violates unique constraint "ad_column_pkey"
+DETAIL:  Key (ad_column_id)=(70855) already exists.
+psql.bin:/opt/Development/workspace/FTA/migration/postgresql/000ColumnOutProjects_postgresql.sql:20: ERROR:  duplicate key value violates unique constraint "ad_field_pkey"
+DETAIL:  Key (ad_field_id)=(71945) already exists.
