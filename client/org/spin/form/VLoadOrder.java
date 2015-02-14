@@ -57,7 +57,6 @@ import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
 import org.compiere.model.MUOM;
-import org.compiere.model.MUOMConversion;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.X_C_Order;
 import org.compiere.plaf.CompiereColor;
@@ -685,6 +684,8 @@ public class VLoadOrder extends LoadOrder
 			warehouseSearch.removeActionListener(this);
 			m_M_Warehouse_ID = loadComboBox(warehouseSearch, data);
 			warehouseSearch.addActionListener(this);
+			Env.setContext(Env.getCtx(), m_WindowNo, "AD_Org_ID", m_AD_Org_ID);
+			docTypeTargetPick.refresh();
 			clearData();
 		} else if(name.equals("OperationType")) {
 			m_OperationType = ((String)(value != null? value: 0));
@@ -895,13 +896,14 @@ public class VLoadOrder extends LoadOrder
 	/**
 	 * Verify if exists the product on table
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:29:57
-	 * @param Product_ID
+	 * @param p_Product_ID
+	 * @param p_M_Warehouse_ID
 	 * @return
 	 * @return int
 	 */
-	private int existProductStock(int Product_ID) {
+	private int existProductStock(int p_Product_ID, int p_M_Warehouse_ID) {
 		for(int i = 0; i < stockModel.getRowCount(); i++) {
-			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == Product_ID) {
+			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == p_Product_ID) {
 				return i;
 			}
 		}
@@ -919,35 +921,41 @@ public class VLoadOrder extends LoadOrder
 	private void loadProductsStock(IMiniTable orderLineTable, int row, boolean isSelected) {
 		KeyNamePair product = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
 		KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
+		KeyNamePair warehouse = (KeyNamePair) orderLineTable.getValueAt(row, OL_WAREHOUSE);
 		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
 		BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
 		//	
-		int pos = existProductStock(product.getKey());
-		
-		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), product.getKey(), m_C_UOM_Weight_ID);
-		if(rate == null)
-			rate = Env.ZERO;
-		//	Convert Quantity Set
-		qtySet = qtySet.multiply(rate).setScale(2, BigDecimal.ROUND_HALF_UP);
-		
+		int pos = existProductStock(product.getKey(), warehouse.getKey());
+		//	
 		if(pos > -1) {
+			BigDecimal qtyInTransitOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTYINTRANSIT);
 			BigDecimal qtySetOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTYSET);
 			//	Negate
 			if(!isSelected)
 				qtySet = qtySet.negate();
 			//	
 			qtySet = qtySet.add(qtySetOld);
-			
 			stockModel.setValueAt(qtyOnHand, pos, SW_QTYONHAND);
+			stockModel.setValueAt(qtyInTransitOld, pos, SW_QTYINTRANSIT);
 			stockModel.setValueAt(qtySet, pos, SW_QTYSET);
-			stockModel.setValueAt(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTYAVAILABLE);
+			stockModel.setValueAt(qtyOnHand
+					.subtract(qtyInTransitOld)
+					.subtract(qtySet)
+					.setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTYAVAILABLE);
 		} else if(isSelected) {
+			//	Get Quantity in Transit
+			BigDecimal qtyInTransit = getQtyInTransit(product.getKey(), warehouse.getKey());
 			Vector<Object> line = new Vector<Object>();
 			line.add(product);
 			line.add(uom);
+			line.add(warehouse);
 			line.add(qtyOnHand);
+			line.add(qtyInTransit);
 			line.add(qtySet);
-			line.add(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP));
+			line.add(qtyOnHand
+					.subtract(qtyInTransit)
+					.subtract(qtySet)
+					.setScale(2, BigDecimal.ROUND_HALF_UP));
 			//	
 			stockModel.addRow(line);
 		}
@@ -1012,6 +1020,7 @@ public class VLoadOrder extends LoadOrder
 		volumeCapacityField.setValue(0);
 		productSearch.setValue(null);
 		bpartnerSearch.setValue(null);
+		docTypeTargetPick.setValue(null);
 	}
 
 	/**

@@ -274,16 +274,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		}
 		//	End Dixon Martinez
 		//	User Validation
-		
-		//	Waditza Rivas 2014-05-08 17:07:02
-		//	Valid Entry ticket 
-		if(getFTA_EntryTicket() != null) {
-			m_processMsg = validETReferenceDuplicated();
-			if(m_processMsg != null) 
-				return DocAction.STATUS_InProgress;
-		}
-		//	End Waditza Rivas	
-		
+		m_processMsg = updateLoadOrder();
+		if(m_processMsg != null) 
+			return DocAction.STATUS_Invalid;
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -316,7 +309,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				&& isValidWeight) {
 			//	Generate Material Receipt
 			String msg = createInOut();
-			validateEntryTicket();
+			//	
 			if(m_processMsg != null)
 				return DocAction.STATUS_Invalid;
 			else
@@ -346,25 +339,33 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
-	
-	private void validateEntryTicket() {
-		String sql = "SELECT COUNT(*) " +
-				"FROM FTA_LoadOrder lo " +
-				"WHERE lo.FTA_EntryTicket_ID=?";
-		
-		int EntryTicket_ID = DB.getSQLValue(get_TrxName(), sql, getFTA_EntryTicket_ID());
-		if(EntryTicket_ID==0)
-		{
-			
-			MFTALoadOrder m_LoadOrder = new MFTALoadOrder(getCtx(), getFTA_LoadOrder_ID(), get_TrxName());
-			m_LoadOrder.setFTA_EntryTicket_ID(getFTA_EntryTicket_ID());
-			MFTAEntryTicket m_Ticket = new MFTAEntryTicket(getCtx(), getFTA_EntryTicket_ID(), get_TrxName());
-			m_LoadOrder.setFTA_Driver_ID(m_Ticket.getFTA_Driver_ID());
-			m_LoadOrder.setFTA_Vehicle_ID(m_Ticket.getFTA_Vehicle_ID());
-			m_LoadOrder.setM_Shipper_ID(m_Ticket.getM_Shipper_ID());
-			m_LoadOrder.saveEx();			
+	/**
+	 * Update Values for Load Order
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 13, 2015, 6:13:58 PM
+	 * @return
+	 * @return String
+	 */
+	private String updateLoadOrder() {
+		//	Valid Operation Type
+		if(!getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
+				&& !getOperationType().equals(OPERATIONTYPE_DeliveryFinishedProduct)
+				&& !getOperationType().equals(OPERATIONTYPE_MaterialOutputMovement))
+			return null;
+		// Get Orders From Load Order
+		MFTALoadOrder lo = null;
+		lo = (MFTALoadOrder) getFTA_LoadOrder();
+		if (lo == null) {
+			return "@FTA_LoadOrder_ID@ @NotFound@";
 		}
+		//	
+		lo.setIsWeightRegister(true);
+		lo.setConfirmedWeight(getNetWeight());
+		//	Save
+		lo.saveEx(get_TrxName());	
+		//	
+		return null;
 	}
+	
 	/**
 	 * Add Support complete record weight with Shipment Guide
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 30/05/2014, 15:21:38
@@ -809,7 +810,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	 * @return String
 	 */
 	private String reverseInOut() {
-		MFTALoadOrder m_FTALoadOrder = new MFTALoadOrder(getCtx(), getFTA_LoadOrder_ID(), get_TrxName());
+		MFTALoadOrder m_FTALoadOrder = (MFTALoadOrder) getFTA_LoadOrder();
 		
 		//	List 
 		List<MInOut> list = new Query(getCtx(), MInOut.Table_Name, "FTA_RecordWeight_ID=? AND DocStatus IN('CO', 'CL')", get_TrxName())
@@ -995,9 +996,15 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	Valid Operation Type
 		if(getOperationType() == null)
 			msg = "@FTA_EntryTicket_ID@ @NotFound@";
+		//	Waditza Rivas 2014-05-08 17:07:02
+		//	Valid Entry ticket 
+		if(getFTA_EntryTicket() != null) {
+			msg = validETReferenceDuplicated();
+		}
+		//	End Waditza Rivas	
 		//	End Yamel Senih
 		//	Operation Type
-		if(getOperationType()
+		else if(getOperationType()
 				.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryBulkMaterial)
 				||	getOperationType()
 						.equals(X_FTA_EntryTicket.OPERATIONTYPE_DeliveryFinishedProduct)
@@ -1008,7 +1015,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 																								 //	Load Order not found.
 			if(getFTA_LoadOrder_ID() == 0)
 				msg = "@FTA_LoadOrder_ID@ @NotFound@";
-		}else if(//2014-01-16 Carlos Parada 
+		} else if(//2014-01-16 Carlos Parada 
 				 //Comment Validation For Operation Tipe Product Bulk Receipt
 				/*getOperationType()
 					.equals(X_FTA_EntryTicket.OPERATIONTYPE_ProductBulkReceipt)
@@ -1047,11 +1054,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	private String createMovement() {
 		// Get Orders From Load Order
 		MFTALoadOrder lo = (MFTALoadOrder) getFTA_LoadOrder();
-		//	
-		if (lo == null) {
-			m_processMsg = "@FTA_LoadOrder_ID@ @NotFound@";
-			return null;
-		}
 		// Get Lines from Load Order
 		MFTALoadOrderLine[] lines = lo.getLinesForMovement();
 		//	Current Values
@@ -1067,10 +1069,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					MMovementLine movl = new MMovementLine(getCtx(),line.getM_MovementLine_ID() , get_TrxName());
 					MMovement mov = new MMovement(getCtx(),movl.getM_Movement_ID() , get_TrxName());
 					mov.set_ValueOfColumn("FTA_RecordWeight_ID", getFTA_RecordWeight_ID());
-					mov.saveEx();
-					lo.setIsWeightRegister(true);
-					//	Save
-					lo.saveEx(get_TrxName());	
+					mov.saveEx();	
 				}
 				break;
 			}
@@ -1136,7 +1135,9 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 					m_MovementLine.setM_AttributeSetInstanceTo_ID(m_DD_OrderLine.getM_AttributeSetInstanceTo_ID());
 				m_MovementLine.setMovementQty(line.getQty());
 				m_MovementLine.saveEx();
+				//	Reference
 				line.setM_MovementLine_ID(m_MovementLine.getM_MovementLine_ID());
+				line.setConfirmedQty(line.getQty());
 				line.saveEx();
 			}
 			
@@ -1144,7 +1145,7 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 		//	Complete Movement
 		completeMovement(m_Current_Movement);
 		//	
-		lo.setIsWeightRegister(true);
+		lo.setIsMoved(true);
 		lo.save(get_TrxName());
 		//	
 		return "@M_Movement_ID@ @Created@ = "+ m_Created + " [" + msg.toString() + "]";
@@ -1386,14 +1387,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			// Get Orders From Load Order
 			MFTALoadOrder lo = null;
 			lo = (MFTALoadOrder) getFTA_LoadOrder();
-			
-			if (lo == null) {
-				m_processMsg = "@FTA_LoadOrder_ID@ @NotFound@";
-				return null;
-			}
-			lo.setIsWeightRegister(true);
-			//	Save
-			lo.saveEx(get_TrxName());	
 			//	Verify if Is Immediate Delivery
 			if(lo.isImmediateDelivery()){
 				//	Not Created Shipments
@@ -1543,7 +1536,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 			//Carlos Parada Set Delivered And Weight Registered
 			
 			lo.setIsDelivered(true);
-			lo.setIsWeightRegister(true);
 			lo.save(get_TrxName());
 			// End Carlos Parada
 				
@@ -1565,13 +1557,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 	private String createShipments() {
 		// Get Orders From Load Order
 		MFTALoadOrder lo = (MFTALoadOrder) getFTA_LoadOrder();
-		//	
-		if (lo == null) {
-			m_processMsg = "@FTA_LoadOrder_ID@ @NotFound@";
-			return null;
-		}
-		//	
-		lo.setIsWeightRegister(true);
 		//	Save
 		lo.saveEx(get_TrxName());	
 		//	Verify if Is Immediate Delivery

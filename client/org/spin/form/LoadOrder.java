@@ -56,9 +56,10 @@ public class LoadOrder {
 	/**	Logger			*/
 	public static CLogger log = CLogger.getCLogger(LoadOrder.class);
 	
-	public final int OL_SO_LOC 					= 6;
 	public final int SELECT 					= 0;
 	public final int ORDER 						= 2;
+	/**	Lines									*/
+	public final int OL_WAREHOUSE 				= 1;
 	public final int ORDER_LINE 				= 2;
 	public final int OL_PRODUCT 				= 3;
 	public final int OL_UOM 					= 4;
@@ -79,9 +80,11 @@ public class LoadOrder {
 	//	
 	public final int SW_PRODUCT 				= 0;
 	public final int SW_UOM 					= 1;
-	public final int SW_QTYONHAND 				= 2;
-	public final int SW_QTYSET 					= 3;
-	public final int SW_QTYAVAILABLE 			= 4;
+	public final int SW_WAREHOUSE 				= 2;
+	public final int SW_QTYONHAND 				= 3;
+	public final int SW_QTYINTRANSIT 			= 4;
+	public final int SW_QTYSET 					= 5;
+	public final int SW_QTYAVAILABLE 			= 6;
 	
 	/**	Buffer				*/
 	public Vector<BufferTableSelect> m_BufferSelect = null;
@@ -757,9 +760,11 @@ public class LoadOrder {
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyInTransit"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyAvailable"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyAvailableForLoad"));
 		return columnNames;
 	}
 
@@ -773,9 +778,11 @@ public class LoadOrder {
 		int i = 0;
 		stockTable.setColumnClass(i++, String.class, true);			//  1-Product
 		stockTable.setColumnClass(i++, String.class, true);			//  2-Unit of Measure
-		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  3-Quantity On Hand
-		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  4-Quantity Set
-		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Quantity Available
+		stockTable.setColumnClass(i++, String.class, true);			//  3-Warehouse
+		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  4-Quantity On Hand
+		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Quantity In Transit
+		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  6-Quantity Set
+		stockTable.setColumnClass(i++, BigDecimal.class, true);		//  7-Quantity Available For Load
 		//  Table UI
 		stockTable.autoSize();
 	}
@@ -1091,6 +1098,45 @@ public class LoadOrder {
 				"AND w.AD_Org_ID = " + m_AD_Org_ID + " " + 
 				"ORDER BY w.Name";
 		return DB.getKeyNamePairs(null, sql, false, new Object[]{});
+	}
+	
+	/**
+	 * Get Quantity in Transit
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 14, 2015, 4:56:25 PM
+	 * @param p_M_Product_ID
+	 * @param p_M_Warehouse_ID
+	 * @return
+	 * @return BigDecimal
+	 */
+	protected BigDecimal getQtyInTransit(int p_M_Product_ID, int p_M_Warehouse_ID) {
+		//	Valid
+		if(p_M_Product_ID == 0 
+				|| p_M_Warehouse_ID == 0)
+			return Env.ZERO;
+		//	
+		String sql = "SELECT SUM("
+				+ "				CASE "
+				+ "					WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) "
+				+ "						AND (ol.M_Warehouse_ID = l.M_Warehouse_ID OR dl.M_Warehouse_ID = l.M_Warehouse_ID) "
+				+ "					THEN lc.Qty "
+				+ "					ELSE 0 "
+				+ "				END"
+				+ "				) QtyLoc "
+				+ "FROM M_Storage st "
+				+ "INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) "
+				+ "LEFT JOIN FTA_LoadOrderLine lc ON(lc.M_Product_ID = st.M_Product_ID) "
+				+ "LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) "
+				+ "LEFT JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = lc.C_OrderLine_ID) "
+				+ "LEFT JOIN DD_OrderLine dol ON(dol.DD_OrderLine_ID = lc.DD_OrderLine_ID) "
+				+ "LEFT JOIN M_Locator dl ON(dl.M_Locator_ID = dol.M_Locator_ID) "
+				+ "WHERE st.M_Product_ID = ? "
+				+ "AND l.M_Warehouse_ID = ?";
+		//	Query
+		BigDecimal m_QtyInTransit = DB.getSQLValueBD(null, sql, new Object[]{p_M_Product_ID, p_M_Warehouse_ID});
+		if(m_QtyInTransit == null)
+			m_QtyInTransit = Env.ZERO;
+		//	Return
+		return m_QtyInTransit;
 	}
 	
 	/**

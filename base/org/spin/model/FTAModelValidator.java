@@ -454,6 +454,7 @@ public class FTAModelValidator implements ModelValidator {
 						MFTALoadOrderLine lin = 
 								new MFTALoadOrderLine(mInOutLine.getCtx(), p_FTA_LoadOrderLine_ID, mInOutLine.get_TrxName());
 						lin.setM_InOutLine_ID(0);
+						lin.setConfirmedQty(Env.ZERO);
 						lin.saveEx();
 						
 						MFTALoadOrder lo = new MFTALoadOrder(lin.getCtx(),lin.getFTA_LoadOrder_ID(), lin.get_TrxName());
@@ -473,6 +474,7 @@ public class FTAModelValidator implements ModelValidator {
 					MFTALoadOrderLine lin = 
 							new MFTALoadOrderLine(m_MovementLine.getCtx(), p_FTA_LoadOrderLine_ID, m_MovementLine.get_TrxName());
 					lin.setM_MovementLine_ID(0);
+					lin.setConfirmedQty(Env.ZERO);
 					lin.saveEx();
 					
 					MFTALoadOrder lo = new MFTALoadOrder(lin.getCtx(),lin.getFTA_LoadOrder_ID(), lin.get_TrxName());

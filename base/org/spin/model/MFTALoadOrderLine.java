@@ -182,21 +182,31 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 	protected boolean beforeSave(boolean newRecord) {
 		MProduct m_Product = MProduct.get(getCtx(), getM_Product_ID());
 		if(m_Product != null) {
-			BigDecimal m_Qty = getQty();
 			BigDecimal m_Weight = m_Product.getWeight();
 			BigDecimal m_Volume = m_Product.getVolume();
-			//	Valid Quantity
-			if(m_Qty == null)
-				m_Qty = Env.ZERO;
 			//	Valid Weight
 			if(m_Weight == null)
 				m_Weight = Env.ZERO;
 			//	Valid Volume
 			if(m_Volume == null)
 				m_Volume = Env.ZERO;
-			//	Set Weight and Volume
-			setWeight(m_Qty.multiply(m_Weight));
-			setVolume(m_Qty.multiply(m_Volume));
+			//	For Quantity
+			if(is_ValueChanged("Qty")) {
+				BigDecimal m_Qty = getQty();
+				//	Valid Quantity
+				if(m_Qty == null)
+					m_Qty = Env.ZERO;
+				//	Set Weight and Volume
+				setWeight(m_Qty.multiply(m_Weight));
+				setVolume(m_Qty.multiply(m_Volume));
+			} else if(is_ValueChanged("Qty")) {
+				BigDecimal m_ConfirmedQty = getConfirmedQty();
+				//	Valid Quantity
+				if(m_ConfirmedQty == null)
+					m_ConfirmedQty = Env.ZERO;
+				//	Set Confirmed Weight
+				setConfirmedWeight(m_ConfirmedQty.multiply(m_Weight));
+			}	
 		}
 		//	
 		return super.beforeSave(newRecord);
