@@ -1,0 +1,219 @@
+-- Feb 13, 2015 11:04:44 PM VET
+-- FTA
+UPDATE AD_Column SET EntityType='D',Updated=TO_DATE('2015-02-13 23:04:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=67717
+;
+
+-- Feb 13, 2015 11:05:01 PM VET
+-- FTA
+UPDATE AD_Field SET EntityType='D',Updated=TO_DATE('2015-02-13 23:05:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=69296
+;
+
+-- Feb 13, 2015 11:05:16 PM VET
+-- FTA
+UPDATE AD_Field SET EntityType='D',Updated=TO_DATE('2015-02-13 23:05:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=69297
+;
+
+-- Feb 13, 2015 11:05:31 PM VET
+-- FTA
+UPDATE AD_Field SET EntityType='D',Updated=TO_DATE('2015-02-13 23:05:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=69303
+;
+
+-- Feb 13, 2015 11:05:49 PM VET
+-- FTA
+UPDATE AD_Column SET EntityType='D',Updated=TO_DATE('2015-02-13 23:05:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=67716
+;
+
+-- Feb 13, 2015 11:06:25 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=80,Updated=TO_DATE('2015-02-13 23:06:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=75289
+;
+
+-- Feb 13, 2015 11:06:25 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=90,Updated=TO_DATE('2015-02-13 23:06:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=75347
+;
+
+-- Feb 13, 2015 11:06:25 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=100,Updated=TO_DATE('2015-02-13 23:06:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=2703
+;
+
+-- Feb 13, 2015 11:06:25 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=110,Updated=TO_DATE('2015-02-13 23:06:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=2931
+;
+
+-- Feb 13, 2015 11:06:25 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=120,Updated=TO_DATE('2015-02-13 23:06:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=2706
+;
+
+-- Feb 13, 2015 11:06:25 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=130,Updated=TO_DATE('2015-02-13 23:06:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=2935
+;
+
+-- Feb 13, 2015 11:08:16 PM VET
+-- FTA
+UPDATE AD_Column SET EntityType='D',Updated=TO_DATE('2015-02-13 23:08:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=70855
+;
+
+-- Feb 13, 2015 11:08:35 PM VET
+-- FTA
+UPDATE AD_Field SET EntityType='D',Updated=TO_DATE('2015-02-13 23:08:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=71945
+;
+
+-- Feb 13, 2015 11:11:26 PM VET
+-- FTA
+UPDATE AD_Column SET ReadOnlyLogic='@IsManual@=''N''',Updated=TO_DATE('2015-02-13 23:11:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=3791
+;
+
+-- Feb 13, 2015 11:15:12 PM VET
+-- FTA
+UPDATE AD_Column SET EntityType='D',Updated=TO_DATE('2015-02-13 23:15:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=69216
+;
+
+-- Feb 13, 2015 11:15:24 PM VET
+-- FTA
+UPDATE AD_Field SET EntityType='D',Updated=TO_DATE('2015-02-13 23:15:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70079
+;
+
+-- Feb 13, 2015 11:15:34 PM VET
+-- FTA
+UPDATE AD_Column SET EntityType='D',Updated=TO_DATE('2015-02-13 23:15:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=74842
+;
+
+-- Feb 13, 2015 11:15:47 PM VET
+-- FTA
+UPDATE AD_Field SET EntityType='D',Updated=TO_DATE('2015-02-13 23:15:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=74868
+;
+
+-- Feb 13, 2015 11:15:57 PM VET
+-- FTA
+UPDATE AD_Column SET EntityType='D',Updated=TO_DATE('2015-02-13 23:15:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=69217
+;
+
+-- Feb 13, 2015 11:16:10 PM VET
+-- FTA
+UPDATE AD_Field SET EntityType='D',Updated=TO_DATE('2015-02-13 23:16:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70080
+;
+
+-- Feb 13, 2015 11:17:05 PM VET
+-- FTA
+UPDATE AD_Column SET ReadOnlyLogic='@IsManual@ = ''N''',Updated=TO_DATE('2015-02-13 23:17:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=3577
+;
+
+-- Feb 13, 2015 11:29:22 PM VET
+-- FTA
+UPDATE AD_Column SET Callout='org.compiere.model.CalloutMovement.doctype',Updated=TO_DATE('2015-02-13 23:29:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=12201
+;
+
+-- Feb 13, 2015 11:32:40 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=220,Updated=TO_DATE('2015-02-13 23:32:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=76217
+;
+
+-- Feb 13, 2015 11:32:40 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=230,Updated=TO_DATE('2015-02-13 23:32:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72204
+;
+
+-- Feb 13, 2015 11:32:40 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=240,Updated=TO_DATE('2015-02-13 23:32:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70293
+;
+
+-- Feb 13, 2015 11:32:40 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=250,Updated=TO_DATE('2015-02-13 23:32:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70315
+;
+
+-- Feb 13, 2015 11:32:40 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=260,Updated=TO_DATE('2015-02-13 23:32:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=71873
+;
+
+-- Feb 13, 2015 11:32:41 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=270,Updated=TO_DATE('2015-02-13 23:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70301
+;
+
+-- Feb 13, 2015 11:32:41 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=280,Updated=TO_DATE('2015-02-13 23:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70311
+;
+
+-- Feb 13, 2015 11:32:41 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=290,Updated=TO_DATE('2015-02-13 23:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70299
+;
+
+-- Feb 13, 2015 11:32:41 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=300,Updated=TO_DATE('2015-02-13 23:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70313
+;
+
+-- Feb 13, 2015 11:32:41 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=310,Updated=TO_DATE('2015-02-13 23:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70305
+;
+
+-- Feb 13, 2015 11:32:41 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=320,Updated=TO_DATE('2015-02-13 23:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=71902
+;
+
+-- Feb 13, 2015 11:32:41 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=330,Updated=TO_DATE('2015-02-13 23:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70297
+;
+
+-- Feb 13, 2015 11:32:41 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=340,Updated=TO_DATE('2015-02-13 23:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70294
+;
+
+-- Feb 13, 2015 11:32:41 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=350,Updated=TO_DATE('2015-02-13 23:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70309
+;
+
+-- Feb 13, 2015 11:32:42 PM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=360,Updated=TO_DATE('2015-02-13 23:32:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70287
+;
+
+-- Feb 13, 2015 11:32:57 PM VET
+-- FTA
+UPDATE AD_Field SET IsSameLine='Y',Updated=TO_DATE('2015-02-13 23:32:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=76217
+;
+
+-- Feb 14, 2015 12:04:46 AM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=120,Updated=TO_DATE('2015-02-14 00:04:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72282
+;
+
+-- Feb 14, 2015 12:04:46 AM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=130,Updated=TO_DATE('2015-02-14 00:04:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72556
+;
+
+-- Feb 14, 2015 12:04:46 AM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=140,Updated=TO_DATE('2015-02-14 00:04:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72548
+;
+
+-- Feb 14, 2015 12:05:14 AM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=130,Updated=TO_DATE('2015-02-14 00:05:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72548
+;
+
+-- Feb 14, 2015 12:05:14 AM VET
+-- FTA
+UPDATE AD_Field SET IsDisplayed='Y', SeqNo=140,Updated=TO_DATE('2015-02-14 00:05:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72556
+;
+
+-- Feb 14, 2015 12:10:10 AM VET
+-- FTA
+UPDATE AD_Column SET DefaultValue='2', MandatoryLogic=NULL,Updated=TO_DATE('2015-02-14 00:10:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=69438
+;

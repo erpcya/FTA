@@ -1,0 +1,12 @@
+
+
+#Run Scripts:
+
+psql.bin:/opt/Development/workspace/FTA/migration/postgresql/000Add_EntityType_SFAndroid_And_EntityType_Spin_postgresql.sql:4: ERROR:  duplicate key value violates unique constraint "ad_entitytype_pkey"
+DETAIL:  Key (entitytype)=(ECA01) already exists.
+psql.bin:/opt/Development/workspace/FTA/migration/postgresql/000Add_EntityType_SFAndroid_And_EntityType_Spin_postgresql.sql:9: ERROR:  duplicate key value violates unique constraint "ad_entitytype_pkey"
+DETAIL:  Key (entitytype)=(ECA02) already exists.
+psql.bin:/opt/Development/workspace/FTA/migration/postgresql/000ColumnOutProjects_postgresql.sql:5: ERROR:  duplicate key value violates unique constraint "ad_column_pkey"
+DETAIL:  Key (ad_column_id)=(70855) already exists.
+psql.bin:/opt/Development/workspace/FTA/migration/postgresql/000ColumnOutProjects_postgresql.sql:20: ERROR:  duplicate key value violates unique constraint "ad_field_pkey"
+DETAIL:  Key (ad_field_id)=(71945) already exists.

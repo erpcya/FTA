@@ -34,7 +34,7 @@ public class X_FTA_FC_PaySchedule extends PO implements I_FTA_FC_PaySchedule, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150203L;
+	private static final long serialVersionUID = 20150214L;
 
     /** Standard Constructor */
     public X_FTA_FC_PaySchedule (Properties ctx, int FTA_FC_PaySchedule_ID, String trxName)

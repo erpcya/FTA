@@ -10,7 +10,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jan 27, 2015 4:42:17 PM VET
 -- FTA
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsAllowsCopy,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,75497,75347,0,257,TO_DATE('2015-01-27 16:42:09','YYYY-MM-DD HH24:MI:SS'),100,'This is a manual process',0,'D','The Manual check box indicates if the process will done manually.','N','Y','N','Y','Y','N','N','N','N','N','Manual',0,530,0,TO_DATE('2015-01-27 16:42:09','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,75497,75347,0,257,TO_DATE('2015-01-27 16:42:09','YYYY-MM-DD HH24:MI:SS'),100,'This is a manual process',0,'D','The Manual check box indicates if the process will done manually.','N','Y','Y','Y','N','N','N','N','N','Manual',0,530,0,TO_DATE('2015-01-27 16:42:09','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 27, 2015 4:42:17 PM VET
