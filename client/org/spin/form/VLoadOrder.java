@@ -779,13 +779,13 @@ public class VLoadOrder extends LoadOrder
 				BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
 				BigDecimal weight = (BigDecimal) orderLineTable.getValueAt(row, OL_WEIGHT);
 				BigDecimal volume = (BigDecimal) orderLineTable.getValueAt(row, OL_VOLUME);
-				BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
+				BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ON_HAND);
 				BigDecimal qtyOrdered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ORDERED);
-				BigDecimal qtyOrderLine = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_LOAD_ORDER_LINE);
+				BigDecimal qtyOrderLine = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_IN_TRANSIT);
 				BigDecimal qtyDelivered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_DELIVERED);
 				
 				//	Get Precision
-				KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_QTY_UOM);
+				KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
 				KeyNamePair pr = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
 				StringNamePair dr = (StringNamePair) orderLineTable.getValueAt(row, OL_DELIVERY_RULE);
 				int p_C_UOM_ID = uom.getKey();
@@ -922,26 +922,26 @@ public class VLoadOrder extends LoadOrder
 		KeyNamePair product = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
 		KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
 		KeyNamePair warehouse = (KeyNamePair) orderLineTable.getValueAt(row, OL_WAREHOUSE);
-		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
+		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ON_HAND);
 		BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
 		//	
 		int pos = existProductStock(product.getKey(), warehouse.getKey());
 		//	
 		if(pos > -1) {
-			BigDecimal qtyInTransitOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTYINTRANSIT);
-			BigDecimal qtySetOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTYSET);
+			BigDecimal qtyInTransitOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTY_IN_TRANSIT);
+			BigDecimal qtySetOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTY_SET);
 			//	Negate
 			if(!isSelected)
 				qtySet = qtySet.negate();
 			//	
 			qtySet = qtySet.add(qtySetOld);
-			stockModel.setValueAt(qtyOnHand, pos, SW_QTYONHAND);
-			stockModel.setValueAt(qtyInTransitOld, pos, SW_QTYINTRANSIT);
-			stockModel.setValueAt(qtySet, pos, SW_QTYSET);
+			stockModel.setValueAt(qtyOnHand, pos, SW_QTY_ON_HAND);
+			stockModel.setValueAt(qtyInTransitOld, pos, SW_QTY_IN_TRANSIT);
+			stockModel.setValueAt(qtySet, pos, SW_QTY_SET);
 			stockModel.setValueAt(qtyOnHand
 					.subtract(qtyInTransitOld)
 					.subtract(qtySet)
-					.setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTYAVAILABLE);
+					.setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTY_AVAILABLE);
 		} else if(isSelected) {
 			//	Get Quantity in Transit
 			BigDecimal qtyInTransit = getQtyInTransit(product.getKey(), warehouse.getKey());
@@ -1183,6 +1183,10 @@ public class VLoadOrder extends LoadOrder
 																: Env.ZERO);
 			if(difference.compareTo(Env.ZERO) < 0)
 				msg = "@Volume@ > @VolumeCapacity@";
+		} 
+		//	Valid Message
+		if(msg == null) {
+			msg = validStock(stockTable);
 		}
 		//	
 		if(msg != null) {
