@@ -1036,9 +1036,10 @@ public class WLoadOrder extends LoadOrder
 			warehouseSearch.removeActionListener(this);
 			m_M_Warehouse_ID = loadComboBoxW(warehouseSearch, data);
 			warehouseSearch.addEventListener(Events.ON_SELECT, this);
+			Env.setContext(Env.getCtx(), m_WindowNo, "AD_Org_ID", m_AD_Org_ID);
+			docTypeTargetPick.actionRefresh();
 			clearData();
 		} else if(name.equals("OperationType")) {
-			
 			m_OperationType = ((String)(value != null? value: 0));
 			Env.setContext(Env.getCtx(), m_WindowNo, "OperationType", m_OperationType);
 			KeyNamePair[] data = getDataDocumentType();
