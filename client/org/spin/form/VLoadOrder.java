@@ -642,7 +642,9 @@ public class VLoadOrder extends LoadOrder
 			int rows = orderLineTable.getRowCount();
 			mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			for (int i = 0; i < rows; i++) {
-				orderLineTable.setValueAt(true, i, SELECT);
+				if(!((Boolean)orderLineTable.getValueAt(i, SELECT))) {
+					orderLineTable.setValueAt(true, i, SELECT);
+				}
 			}
 			mainPanel.setCursor(Cursor.getDefaultCursor());
 		} else if(e.getSource().equals(docTypeSearch)) {

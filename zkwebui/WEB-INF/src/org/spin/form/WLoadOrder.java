@@ -1079,7 +1079,9 @@ public class WLoadOrder extends LoadOrder
 		} else if(arg0.getTarget().equals(selectAllButton)) {
 			int rows = w_orderLineTable.getRowCount();
 			for (int i = 0; i < rows; i++) {
-				w_orderLineTable.setValueAt(true, i, SELECT);
+				if(!((Boolean)w_orderLineTable.getValueAt(i, SELECT))) {
+					w_orderLineTable.setValueAt(true, i, SELECT);
+				}
 			}	
 		} else if(arg0.getTarget().equals(gLoadOrderButton)) {
 			if(validData()) {
