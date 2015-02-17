@@ -88,6 +88,25 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 				setConfirmedWeight(m_ConfirmedQty.multiply(m_Weight));
 			}	
 		}
+		//	Add Warehouse
+		if(newRecord) {
+			int m_M_Warehouse_ID = 0;
+			//	For Sales Order
+			if(getC_OrderLine_ID() != 0) {
+				m_M_Warehouse_ID = DB.getSQLValue(get_TrxName(), "SELECT ol.M_Warehouse_ID "
+						+ "FROM C_OrderLine ol "
+						+ "WHERE ol.C_OrderLine_ID = ?", getC_OrderLine_ID());
+			} else if(getDD_OrderLine_ID() != 0) {
+				m_M_Warehouse_ID = DB.getSQLValue(get_TrxName(), "SELECT l.M_Warehouse_ID "
+						+ "FROM DD_OrderLine dol "
+						+ "INNER JOIN M_Locator l ON(l.M_Locator_ID = dol.M_Locator_ID) "
+						+ "WHERE ol.DD_OrderLine_ID = ?", getDD_OrderLine_ID());
+			}
+			//	Set Warehouse
+			if(m_M_Warehouse_ID > 0) {
+				set_ValueOfColumn("M_Warehouse_ID", m_M_Warehouse_ID);
+			}
+		}
 		//	
 		return super.beforeSave(newRecord);
 	}

@@ -202,7 +202,8 @@ public class LoadOrder {
 					"LEFT JOIN (SELECT lord.DD_OrderLine_ID, " +
 					"	(COALESCE(lord.QtyOrdered, 0) - " +
 					"		SUM(" +
-					"				CASE WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"				CASE WHEN c.IsMoved = 'N' " + 
+					"						AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.FTA_LoadOrder_ID IS NULL) " +
 					"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
 					"						ELSE 0 " +
 					"				END" +
@@ -267,7 +268,8 @@ public class LoadOrder {
 					"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
 					"	(COALESCE(lord.QtyOrdered, 0) - " +
 					"		SUM(" +
-					"				CASE WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"				CASE WHEN c.IsDelivered = 'N' " + 
+					"							AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.FTA_LoadOrder_ID IS NULL) " +
 					"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
 					"						ELSE 0 " +
 					"				END" +
@@ -415,19 +417,19 @@ public class LoadOrder {
 					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, 0 QtyInvoiced, lord.QtyDelivered, " +
 					"SUM(" +
-					"		CASE " +
-					"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"		COALESCE(CASE " +
+					"			WHEN (c.IsMoved = 'N' AND c.OperationType = 'MOM' AND c.DocStatus = 'CO') " +
 					"			THEN lc.Qty " +
 					"			ELSE 0 " +
-					"		END" +
+					"		END, 0)" +
 					") QtyLoc, " +
 					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
 					"	SUM(" +
-					"			CASE " +
-					"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"				THEN lc.Qty " +
-					"				ELSE 0 " +
-					"			END" +
+					"		COALESCE(CASE " +
+					"			WHEN (c.IsMoved = 'N' AND c.OperationType = 'MOM' AND c.DocStatus = 'CO') " +
+					"			THEN lc.Qty " +
+					"			ELSE 0 " +
+					"		END, 0)" +
 					"		)" +
 					") Qty, " +
 					"pro.Weight, pro.Volume, ord.DeliveryRule " +
@@ -462,12 +464,14 @@ public class LoadOrder {
 					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " +
 					"lord.QtyDelivered, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
 			//	Having
-			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
-					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
-					"													ELSE 0 " +
-					"												END" +
-					"											)" +
+			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " + 
+					"								SUM(" +
+					"									COALESCE(CASE " +
+					"										WHEN (c.IsMoved = 'N' AND c.OperationType = 'MOM' AND c.DocStatus = 'CO') " +
+					"											THEN lc.Qty " +
+					"											ELSE 0 " +
+					"										END, 0)" +
+					"								)" +
 					"			) > 0").append(" ");
 			//	Order By
 			sql.append("ORDER BY lord.DD_Order_ID ASC");
@@ -492,19 +496,19 @@ public class LoadOrder {
 					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
 					"SUM(" +
-					"		CASE " +
-					"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"		COALESCE(CASE " +
+					"			WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DPF') AND c.DocStatus = 'CO') " +
 					"			THEN lc.Qty " +
 					"			ELSE 0 " +
-					"		END" +
+					"		END, 0)" +
 					") QtyLoc, " +
 					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
 					"	SUM(" +
-					"			CASE " +
-					"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"				THEN lc.Qty " +
-					"				ELSE 0 " +
-					"			END" +
+					"		COALESCE(CASE " +
+					"			WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DPF') AND c.DocStatus = 'CO') " +
+					"			THEN lc.Qty " +
+					"			ELSE 0 " +
+					"		END, 0)" +
 					"		)" +
 					") Qty, " +
 					"pro.Weight, pro.Volume, ord.DeliveryRule " +
@@ -538,12 +542,14 @@ public class LoadOrder {
 					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " + 
 					"lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
 			//	Having
-			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
-					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
-					"													ELSE 0 " +
-					"												END" +
-					"											)" +
+			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " + 
+					"									SUM(" +
+					"										COALESCE(CASE " +
+					"											WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DPF') AND c.DocStatus = 'CO') " +
+					"											THEN lc.Qty " +
+					"											ELSE 0 " +
+					"										END, 0)" +
+					"									)" +
 					"			) > 0").append(" ");
 			//	Order By
 			sql.append("ORDER BY lord.C_Order_ID ASC");
@@ -1125,23 +1131,17 @@ public class LoadOrder {
 				|| p_M_Warehouse_ID == 0)
 			return Env.ZERO;
 		//	
-		String sql = "SELECT SUM("
-				+ "				CASE "
-				+ "					WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) "
-				+ "						AND (ol.M_Warehouse_ID = l.M_Warehouse_ID OR dl.M_Warehouse_ID = l.M_Warehouse_ID) "
-				+ "					THEN lc.Qty "
-				+ "					ELSE 0 "
-				+ "				END"
-				+ "				) QtyLoc "
-				+ "FROM M_Storage st "
-				+ "INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) "
-				+ "LEFT JOIN FTA_LoadOrderLine lc ON(lc.M_Product_ID = st.M_Product_ID) "
-				+ "LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) "
-				+ "LEFT JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = lc.C_OrderLine_ID) "
-				+ "LEFT JOIN DD_OrderLine dol ON(dol.DD_OrderLine_ID = lc.DD_OrderLine_ID) "
-				+ "LEFT JOIN M_Locator dl ON(dl.M_Locator_ID = dol.M_Locator_ID) "
-				+ "WHERE st.M_Product_ID = ? "
-				+ "AND l.M_Warehouse_ID = ?";
+		String sql = "SELECT COALESCE(SUM(lc.Qty), 0) QtyLoc "
+				+ "FROM FTA_LoadOrder c "
+				+ "INNER JOIN FTA_LoadOrderLine lc ON(lc.FTA_LoadOrder_ID = c.FTA_LoadOrder_ID) "
+				+ "WHERE lc.M_Product_ID = ? "
+				+ "AND lc.M_Warehouse_ID = ? "
+				+ "AND c.DocStatus = 'CO' "
+				+ "AND ("
+				+ "			(c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP')) "
+				+ "			OR "
+				+ "			(c.IsMoved = 'N' AND c.OperationType = 'MOM')"
+				+ "		)";
 		//	Query
 		BigDecimal m_QtyInTransit = DB.getSQLValueBD(null, sql, new Object[]{p_M_Product_ID, p_M_Warehouse_ID});
 		if(m_QtyInTransit == null)
