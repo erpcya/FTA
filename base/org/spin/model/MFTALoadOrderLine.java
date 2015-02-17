@@ -79,7 +79,7 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 				//	Set Weight and Volume
 				setWeight(m_Qty.multiply(m_Weight));
 				setVolume(m_Qty.multiply(m_Volume));
-			} else if(is_ValueChanged("Qty")) {
+			} else if(is_ValueChanged("ConfirmedQty")) {
 				BigDecimal m_ConfirmedQty = getConfirmedQty();
 				//	Valid Quantity
 				if(m_ConfirmedQty == null)
@@ -100,7 +100,7 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 				m_M_Warehouse_ID = DB.getSQLValue(get_TrxName(), "SELECT l.M_Warehouse_ID "
 						+ "FROM DD_OrderLine dol "
 						+ "INNER JOIN M_Locator l ON(l.M_Locator_ID = dol.M_Locator_ID) "
-						+ "WHERE ol.DD_OrderLine_ID = ?", getDD_OrderLine_ID());
+						+ "WHERE dol.DD_OrderLine_ID = ?", getDD_OrderLine_ID());
 			}
 			//	Set Warehouse
 			if(m_M_Warehouse_ID > 0) {
