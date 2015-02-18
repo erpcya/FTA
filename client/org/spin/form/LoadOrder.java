@@ -202,8 +202,7 @@ public class LoadOrder {
 					"LEFT JOIN (SELECT lord.DD_OrderLine_ID, " +
 					"	(COALESCE(lord.QtyOrdered, 0) - " +
 					"		SUM(" +
-					"				CASE WHEN c.IsMoved = 'N' " + 
-					"						AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.FTA_LoadOrder_ID IS NULL) " +
+					"				CASE WHEN (c.IsMoved = 'N' AND c.OperationType = 'MOM' AND c.DocStatus = 'CO') " +
 					"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
 					"						ELSE 0 " +
 					"				END" +
@@ -268,8 +267,7 @@ public class LoadOrder {
 					"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
 					"	(COALESCE(lord.QtyOrdered, 0) - " +
 					"		SUM(" +
-					"				CASE WHEN c.IsDelivered = 'N' " + 
-					"							AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.FTA_LoadOrder_ID IS NULL) " +
+					"				CASE WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DPF') AND c.DocStatus = 'CO') " +
 					"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
 					"						ELSE 0 " +
 					"				END" +
