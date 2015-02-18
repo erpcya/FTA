@@ -104,7 +104,7 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 			}
 			//	Set Warehouse
 			if(m_M_Warehouse_ID > 0) {
-				set_ValueOfColumn("M_Warehouse_ID", m_M_Warehouse_ID);
+				setM_Warehouse_ID(m_M_Warehouse_ID);
 			}
 		}
 		//	
