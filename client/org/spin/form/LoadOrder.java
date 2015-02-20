@@ -267,7 +267,7 @@ public class LoadOrder {
 					"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
 					"	(COALESCE(lord.QtyOrdered, 0) - " +
 					"		SUM(" +
-					"				CASE WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DPF') AND c.DocStatus = 'CO') " +
+					"				CASE WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP') AND c.DocStatus = 'CO') " +
 					"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
 					"						ELSE 0 " +
 					"				END" +
@@ -495,7 +495,7 @@ public class LoadOrder {
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
 					"SUM(" +
 					"		COALESCE(CASE " +
-					"			WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DPF') AND c.DocStatus = 'CO') " +
+					"			WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP') AND c.DocStatus = 'CO') " +
 					"			THEN lc.Qty " +
 					"			ELSE 0 " +
 					"		END, 0)" +
@@ -503,7 +503,7 @@ public class LoadOrder {
 					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
 					"	SUM(" +
 					"		COALESCE(CASE " +
-					"			WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DPF') AND c.DocStatus = 'CO') " +
+					"			WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP') AND c.DocStatus = 'CO') " +
 					"			THEN lc.Qty " +
 					"			ELSE 0 " +
 					"		END, 0)" +
@@ -543,7 +543,7 @@ public class LoadOrder {
 			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " + 
 					"									SUM(" +
 					"										COALESCE(CASE " +
-					"											WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DPF') AND c.DocStatus = 'CO') " +
+					"											WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP') AND c.DocStatus = 'CO') " +
 					"											THEN lc.Qty " +
 					"											ELSE 0 " +
 					"										END, 0)" +
@@ -1227,7 +1227,7 @@ public class LoadOrder {
 			BigDecimal m_QtySet 		= ((BigDecimal) stockTable.getValueAt(i, SW_QTY_SET));
 			BigDecimal m_QtyAvailable 	= ((BigDecimal) stockTable.getValueAt(i, SW_QTY_AVAILABLE));
 			//	Valid
-			if(m_QtyAvailable.compareTo(Env.ZERO) > 0)
+			if(m_QtyAvailable.compareTo(Env.ZERO) >= 0)
 				continue;
 			//	First Row
 			if(msg.length() == 0) {
