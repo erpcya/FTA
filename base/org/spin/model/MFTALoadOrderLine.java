@@ -89,7 +89,10 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 			}	
 		}
 		//	Add Warehouse
-		if(newRecord) {
+		if(is_ValueChanged("C_OrderLine_ID")
+				|| is_ValueChanged("DD_OrderLine_ID")
+				|| is_ValueChanged("M_InOutLine_ID")
+				|| is_ValueChanged("M_MovementLine_ID")) {
 			int m_M_Warehouse_ID = 0;
 			//	For Sales Order
 			if(getC_OrderLine_ID() != 0) {
