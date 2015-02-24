@@ -593,16 +593,49 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	 * @return String
 	 */
 	private String validReference(){
-		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(rw.DocumentNo) " +
-				"FROM FTA_RecordWeight rw " +
-				//	Dixon Martinez 23/04/2014 09:51:00
-				//	Add Support for closed Load Order
-				//	"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
-				"WHERE rw.DocStatus NOT IN('VO', 'RE','CL') " +				
-				//	End Dixon Martinez		
-				"AND rw.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
-		if(m_ReferenceNo != null)
-			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;
+		String m_ReferenceNo = null;
+		//	Valid Record weight
+		if(isWeightRegister()) {
+			m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(rw.DocumentNo) " +
+					"FROM FTA_RecordWeight rw " +
+					"WHERE rw.DocStatus NOT IN('VO', 'RE','CL') " + 	
+					"AND rw.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+			if(m_ReferenceNo != null)
+				return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;
+		}
+		//	
+		if(getOperationType().equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryFinishedProduct)
+				|| getOperationType().equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryBulkMaterial)) {
+			//	Valid Invoice
+			m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(i.DocumentNo) " +
+					"FROM FTA_LoadOrderLine lol " +
+					"INNER JOIN C_InvoiceLine il ON(il.C_InvoiceLine_ID = lol.C_InvoiceLine_ID) " +
+					"INNER JOIN C_Invoice i ON(i.C_Invoice_ID = il.C_Invoice_ID)" + 
+					"WHERE i.DocStatus NOT IN('VO', 'RE','CL') " +	
+					"AND lol.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+			if(m_ReferenceNo != null)
+				return "@SQLErrorReferenced@ @C_Invoice_ID@: " + m_ReferenceNo;
+			//	Valid Delivery
+			m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(io.DocumentNo) " +
+					"FROM FTA_LoadOrderLine lol " +
+					"INNER JOIN M_InOutLine iol ON(iol.M_InOutLine_ID = lol.M_InOutLine_ID) " +
+					"INNER JOIN M_InOut io ON(io.M_InOut_ID = iol.M_InOut_ID)" + 
+					"WHERE io.DocStatus NOT IN('VO', 'RE','CL') " + 	
+					"AND lol.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+			if(m_ReferenceNo != null)
+				return "@SQLErrorReferenced@ @M_InOut_ID@: " + m_ReferenceNo;
+		} else if(getOperationType().equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement)) {
+			//	Valid Delivery
+			m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(mo.DocumentNo) " +
+					"FROM FTA_LoadOrderLine lol " +
+					"INNER JOIN M_MovementLine mol ON(mol.M_MovementLine_ID = lol.M_MovementLine_ID) " +
+					"INNER JOIN M_Movement mo ON(mo.M_Movement_ID = mol.M_Movement_ID)" + 
+					"WHERE mo.DocStatus NOT IN('VO', 'RE','CL') " + 	
+					"AND lol.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+			if(m_ReferenceNo != null)
+				return "@SQLErrorReferenced@ @M_Movement_ID@: " + m_ReferenceNo;
+		}
+		//	
 		return null;
 	}
 	
@@ -636,13 +669,6 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
 		if (m_processMsg != null)
 			return false;
-		//	Dixon Martinez 23/04/2014 09:51:00
-		//	Add Support for closed Load Order 
-
-		m_processMsg = validReference();
-		if(m_processMsg != null)
-			return false;
-		//	Set Status
 
 		// After Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
