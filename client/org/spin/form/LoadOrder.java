@@ -860,8 +860,8 @@ public class LoadOrder {
 		m_FTA_LoadOrder.setVolumeCapacity(m_VolumeCapacity);
 		m_FTA_LoadOrder.setC_UOM_Weight_ID(m_C_UOM_Weight_ID);
 		m_FTA_LoadOrder.setC_UOM_Volume_ID(m_C_UOM_Volume_ID);
-		//	Set Is Weight Register
-		m_FTA_LoadOrder.setIsWeightRegister(MFTAWeightScale.isWeightScaleOrg(m_AD_Org_ID, trxName));
+		//	Set Is Handle Record Weight
+		m_FTA_LoadOrder.setIsHandleRecordWeight(MFTAWeightScale.isWeightScaleOrg(m_AD_Org_ID, trxName));
 		//	Set Warehouse
 		if(m_M_Warehouse_ID != 0)
 			m_FTA_LoadOrder.setM_Warehouse_ID(m_M_Warehouse_ID);
