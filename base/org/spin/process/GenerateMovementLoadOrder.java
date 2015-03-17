@@ -133,9 +133,6 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 		//	Valid Parameter Movement Date
 		if (p_MovementDate == null)
 			p_MovementDate = Env.getContextAsDate(getCtx(), "#Date");
-		//	Valid Document Type Target
-		if(p_C_DocTypeTarget_ID <= 0)
-			throw new AdempiereUserError("@C_DocTypeTarget_ID@ @NotFound@");
 		//	Valid Parameter Document Action
 		if (p_DocAction == null)
 			throw new AdempiereUserError("@DocAction@ @NotFound@");
@@ -170,9 +167,11 @@ public class GenerateMovementLoadOrder extends SvrProcess {
 				//	Get Document Type
 				MDocType m_DocType = MDocType.get(getCtx(), order.getC_DocType_ID());
 				//	Get Document for Movement
-				int m_C_DocTypeMovement_ID = m_DocType.get_ValueAsInt("C_DocTypeMovement_ID");
+				if(p_C_DocTypeTarget_ID == 0) {
+					p_C_DocTypeTarget_ID = m_DocType.get_ValueAsInt("C_DocTypeMovement_ID");
+				}
 				//	Valid Document
-				if(m_C_DocTypeMovement_ID == 0) {
+				if(p_C_DocTypeTarget_ID == 0) {
 					throw new AdempiereUserError("@C_DocTypeMovement_ID@ @NotFound@ "
 							+ "[@C_DocType_ID@ " + m_DocType.getName() + "]");
 				}

@@ -33,7 +33,7 @@ public class X_FTA_ProductsToApply extends PO implements I_FTA_ProductsToApply, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150214L;
+	private static final long serialVersionUID = 20150218L;
 
     /** Standard Constructor */
     public X_FTA_ProductsToApply (Properties ctx, int FTA_ProductsToApply_ID, String trxName)

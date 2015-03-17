@@ -214,6 +214,8 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 							product.getM_Product_ID(), m_FTA_RecordWeight.getC_UOM_ID());
 					//	Convert Quantity
 					m_Qty = m_NetWeight.multiply(rate);
+					//	Set Total Quantity
+					m_TotalQty = m_Qty;
 				}
 				//	Valid Null
 				if(m_Qty == null)

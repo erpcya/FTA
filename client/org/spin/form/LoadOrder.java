@@ -53,7 +53,7 @@ import org.spin.util.StringNamePair;
  */
 public class LoadOrder {
 
-	/**	Logger			*/
+	/**	Logger									*/
 	public static CLogger log = CLogger.getCLogger(LoadOrder.class);
 	
 	public final int SELECT 					= 0;
@@ -63,28 +63,26 @@ public class LoadOrder {
 	public final int ORDER_LINE 				= 2;
 	public final int OL_PRODUCT 				= 3;
 	public final int OL_UOM 					= 4;
-	public final int OL_QTY_ONDHAND 			= 5;
-	public final int OL_QTY_ORDERED 			= 6;
-	public final int OL_UOM_CONVERSION 			= 7;
-	public final int OL_QTY_RESERVERD 			= 8;
-	public final int OL_QTY_INVOICED 			= 9;
-	public final int OL_QTY_DELIVERED 			= 10;
-	public final int OL_QTY_LOAD_ORDER_LINE 	= 11;
-	public final int OL_QTY 					= 12;
-	public final int OL_QTY_UOM 				= 13;
-	public final int OL_WEIGHT 					= 14;
-	public final int OL_VOLUME 					= 15;
-	public final int OL_SEQNO 					= 16;
-	public final int OL_DELIVERY_RULE 			= 17;
-	
-	//	
+	public final int OL_QTY_ON_HAND 			= 5;
+	public final int OL_QTY 					= 6;
+	public final int OL_WEIGHT 					= 7;
+	public final int OL_VOLUME 					= 8;
+	public final int OL_SEQNO 					= 9;
+	public final int OL_QTY_ORDERED 			= 10;
+	public final int OL_UOM_CONVERSION 			= 11;
+	public final int OL_QTY_RESERVERD 			= 12;
+	public final int OL_QTY_INVOICED 			= 13;
+	public final int OL_QTY_DELIVERED 			= 14;
+	public final int OL_QTY_IN_TRANSIT 			= 15;
+	public final int OL_DELIVERY_RULE 			= 16;
+	/**	Warehouse and Product					*/
 	public final int SW_PRODUCT 				= 0;
 	public final int SW_UOM 					= 1;
 	public final int SW_WAREHOUSE 				= 2;
-	public final int SW_QTYONHAND 				= 3;
-	public final int SW_QTYINTRANSIT 			= 4;
-	public final int SW_QTYSET 					= 5;
-	public final int SW_QTYAVAILABLE 			= 6;
+	public final int SW_QTY_ON_HAND 			= 3;
+	public final int SW_QTY_IN_TRANSIT 			= 4;
+	public final int SW_QTY_SET 				= 5;
+	public final int SW_QTY_AVAILABLE 			= 6;
 	
 	/**	Buffer				*/
 	public Vector<BufferTableSelect> m_BufferSelect = null;
@@ -204,7 +202,7 @@ public class LoadOrder {
 					"LEFT JOIN (SELECT lord.DD_OrderLine_ID, " +
 					"	(COALESCE(lord.QtyOrdered, 0) - " +
 					"		SUM(" +
-					"				CASE WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"				CASE WHEN (c.IsMoved = 'N' AND c.OperationType = 'MOM' AND c.DocStatus = 'CO') " +
 					"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
 					"						ELSE 0 " +
 					"				END" +
@@ -243,7 +241,7 @@ public class LoadOrder {
 					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID ");
 		
 			//	Having
-			sql.append("HAVING (SUM(COALESCE(lord.QtyOrdered, 0)) - SUM(COALESCE(lord.QtyDelivered, 0))) > 0 ");
+			sql.append("HAVING (SUM(COALESCE(lord.QtyOrdered, 0)) - SUM(COALESCE(lord.QtyInTransit, 0)) - SUM(COALESCE(lord.QtyDelivered, 0))) > 0 ");
 			
 			
 			//	Order By
@@ -269,7 +267,7 @@ public class LoadOrder {
 					"LEFT JOIN (SELECT lord.C_OrderLine_ID, " +
 					"	(COALESCE(lord.QtyOrdered, 0) - " +
 					"		SUM(" +
-					"				CASE WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"				CASE WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP') AND c.DocStatus = 'CO') " +
 					"						THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
 					"						ELSE 0 " +
 					"				END" +
@@ -413,23 +411,23 @@ public class LoadOrder {
 			}
 			sqlWhere.append(")");
 			
-			sql = new StringBuffer("SELECT ord.M_Warehouse_ID, alm.Name Warehouse, lord.DD_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
+			sql = new StringBuffer("SELECT alm.M_Warehouse_ID, alm.Name Warehouse, lord.DD_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, 0 QtyInvoiced, lord.QtyDelivered, " +
 					"SUM(" +
-					"		CASE " +
-					"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"		COALESCE(CASE " +
+					"			WHEN (c.IsMoved = 'N' AND c.OperationType = 'MOM' AND c.DocStatus = 'CO') " +
 					"			THEN lc.Qty " +
 					"			ELSE 0 " +
-					"		END" +
+					"		END, 0)" +
 					") QtyLoc, " +
-					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
+					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyInTransit, 0) - COALESCE(lord.QtyDelivered, 0) - " +
 					"	SUM(" +
-					"			CASE " +
-					"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"				THEN lc.Qty " +
-					"				ELSE 0 " +
-					"			END" +
+					"		COALESCE(CASE " +
+					"			WHEN (c.IsMoved = 'N' AND c.OperationType = 'MOM' AND c.DocStatus = 'CO') " +
+					"			THEN lc.Qty " +
+					"			ELSE 0 " +
+					"		END, 0)" +
 					"		)" +
 					") Qty, " +
 					"pro.Weight, pro.Volume, ord.DeliveryRule " +
@@ -459,17 +457,19 @@ public class LoadOrder {
 			if(m_IsBulk)
 				sql.append("AND lord.M_Product_ID = ?").append(" ");
 			//	Group By
-			sql.append("GROUP BY ord.M_Warehouse_ID, lord.DD_Order_ID, lord.DD_OrderLine_ID, " +
+			sql.append("GROUP BY alm.M_Warehouse_ID, lord.DD_Order_ID, lord.DD_OrderLine_ID, " +
 					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " +
 					"lord.QtyDelivered, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
 			//	Having
-			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
-					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
-					"													ELSE 0 " +
-					"												END" +
-					"											)" +
+			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyInTransit, 0) - COALESCE(lord.QtyDelivered, 0) - " + 
+					"								SUM(" +
+					"									COALESCE(CASE " +
+					"										WHEN (c.IsMoved = 'N' AND c.OperationType = 'MOM' AND c.DocStatus = 'CO') " +
+					"											THEN lc.Qty " +
+					"											ELSE 0 " +
+					"										END, 0)" +
+					"								)" +
 					"			) > 0").append(" ");
 			//	Order By
 			sql.append("ORDER BY lord.DD_Order_ID ASC");
@@ -494,19 +494,19 @@ public class LoadOrder {
 					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
 					"SUM(" +
-					"		CASE " +
-					"			WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
+					"		COALESCE(CASE " +
+					"			WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP') AND c.DocStatus = 'CO') " +
 					"			THEN lc.Qty " +
 					"			ELSE 0 " +
-					"		END" +
+					"		END, 0)" +
 					") QtyLoc, " +
 					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
 					"	SUM(" +
-					"			CASE " +
-					"				WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"				THEN lc.Qty " +
-					"				ELSE 0 " +
-					"			END" +
+					"		COALESCE(CASE " +
+					"			WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP') AND c.DocStatus = 'CO') " +
+					"			THEN lc.Qty " +
+					"			ELSE 0 " +
+					"		END, 0)" +
 					"		)" +
 					") Qty, " +
 					"pro.Weight, pro.Volume, ord.DeliveryRule " +
@@ -540,12 +540,14 @@ public class LoadOrder {
 					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " + 
 					"lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
 			//	Having
-			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - SUM(CASE " +
-					"													WHEN (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) " +
-					"														THEN COALESCE(lc.ConfirmedQty, lc.Qty, 0) " +
-					"													ELSE 0 " +
-					"												END" +
-					"											)" +
+			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " + 
+					"									SUM(" +
+					"										COALESCE(CASE " +
+					"											WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP') AND c.DocStatus = 'CO') " +
+					"											THEN lc.Qty " +
+					"											ELSE 0 " +
+					"										END, 0)" +
+					"									)" +
 					"			) > 0").append(" ");
 			//	Order By
 			sql.append("ORDER BY lord.C_Order_ID ASC");
@@ -566,7 +568,7 @@ public class LoadOrder {
 	protected Vector<String> getOrderColumnNames() {	
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>();
-		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Select"));
 		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
 		columnNames.add(Msg.translate(Env.getCtx(), "DateOrdered"));
@@ -580,8 +582,8 @@ public class LoadOrder {
 		columnNames.add(Msg.translate(Env.getCtx(), "C_City_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address1"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address2"));
-		columnNames.add(Msg.getElement(Env.getCtx(), "Address3"));
-		columnNames.add(Msg.getElement(Env.getCtx(), "Address4"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Address3"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Address4"));
 		//	
 		return columnNames;
 	}
@@ -640,70 +642,85 @@ public class LoadOrder {
 			//	
 			rs = pstmt.executeQuery();
 			int column = 1;
-			//BigDecimal rate = Env.ZERO;
-			BigDecimal qty = Env.ZERO;
-			BigDecimal qtyOnHand = Env.ZERO;
-			BigDecimal diff = Env.ZERO;
+			KeyNamePair m_Warehouse = null;
+			KeyNamePair m_DocumentNo = null;
+			KeyNamePair m_Product = null;
+			KeyNamePair m_Product_UOM = null;
+			KeyNamePair m_Order_UOM = null;
+			BigDecimal m_QtyOnHand = Env.ZERO;
+			BigDecimal m_QtyReserved = Env.ZERO;
+			BigDecimal m_QtyInvoiced = Env.ZERO;
+			BigDecimal m_QtyDelivered = Env.ZERO;
+			BigDecimal m_QtyInTransit = Env.ZERO;
+			BigDecimal m_QtyOrdered = Env.ZERO;
+			BigDecimal m_Qty = Env.ZERO;
+			BigDecimal m_Weight = Env.ZERO;
+			BigDecimal m_Volume = Env.ZERO;
+			String m_DeliveryRuleKey= null;
 			int precision = 0;
 			//	
 			while (rs.next()) {
 				column = 1;
-				Vector<Object> line = new Vector<Object>();
-				line.add(new Boolean(false));       	//  0-Selection
-				KeyNamePair wr = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(wr);       					//  1-Warehouse
-				KeyNamePair lo = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(lo);				       		//  2-DocumentNo
-				KeyNamePair pr = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(pr);				      		//  3-Product
-				KeyNamePair uop = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(uop);				      		//  4-Unit Product
+				m_Warehouse 		= new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				m_DocumentNo 		= new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				m_Product 			= new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				m_Product_UOM 		= new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				m_QtyOnHand 		= rs.getBigDecimal(column++);
+				m_QtyOrdered 		= rs.getBigDecimal(column++);
+				m_Order_UOM 		= new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				m_QtyReserved 		= rs.getBigDecimal(column++);
+				m_QtyInvoiced 		= rs.getBigDecimal(column++);
+				m_QtyDelivered 		= rs.getBigDecimal(column++);
+				m_QtyInTransit 		= rs.getBigDecimal(column++);
+				m_Qty 				= rs.getBigDecimal(column++);
+				m_Weight 			= rs.getBigDecimal(column++);
+				m_Volume 			= rs.getBigDecimal(column++);
+				m_DeliveryRuleKey 	= rs.getString(column++);				
 				//	Get Precision
-				precision = MUOM.getPrecision(Env.getCtx(), uop.getKey());
+				precision = MUOM.getPrecision(Env.getCtx(), m_Product_UOM.getKey());
 				//	
-				qtyOnHand = rs.getBigDecimal(column++);
 				//	Valid Null
-				if(qtyOnHand == null)
-					qtyOnHand = Env.ZERO;
-				line.add(qtyOnHand);  					//  5-QtyOnHand
-				line.add(rs.getBigDecimal(column++));  	//  6-QtyOrdered
-				KeyNamePair uo = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(uo);				      		//  7-Unit Conversion
-				line.add(rs.getBigDecimal(column++)); 	//  8-QtyReserved
-				line.add(rs.getBigDecimal(column++));  	//  9-QtyInvoiced
-				line.add(rs.getBigDecimal(column++));	//  10-QtyDelivered
-				line.add(rs.getBigDecimal(column++));	//  11-QtyLoc
-				//	Set Quantity
-				qty = rs.getBigDecimal(column++);
-				BigDecimal weight = rs.getBigDecimal(column++);
-				BigDecimal volume = rs.getBigDecimal(column++);
-				String m_DeliveryRuleKey = rs.getString(column++);
+				if(m_QtyOnHand == null)
+					m_QtyOnHand = Env.ZERO;
 				//	Delivery Rule
 				StringNamePair m_DeliveryRule = new StringNamePair(m_DeliveryRuleKey, 
-						MRefList.getListName(Env.getCtx(), X_C_Order.DELIVERYRULE_AD_Reference_ID, m_DeliveryRuleKey));
+						MRefList.getListName(Env.getCtx(), 
+								X_C_Order.DELIVERYRULE_AD_Reference_ID, m_DeliveryRuleKey));
 				if(m_DeliveryRule.getID() == null)
 					m_DeliveryRule.setKey(X_C_Order.DELIVERYRULE_Availability);
 				//	Valid Quantity On Hand
 				if(m_DeliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Availability)
 						&&	m_IsValidateQuantity) {
-					diff = qtyOnHand.subtract(qty).setScale(precision, BigDecimal.ROUND_HALF_UP);
+					BigDecimal diff = m_QtyOnHand.subtract(m_Qty).setScale(precision, BigDecimal.ROUND_HALF_UP);
 					//	Set Quantity
 					if(diff.doubleValue() < 0) {
-						qty = qty
+						m_Qty = m_Qty
 							.subtract(diff.abs())
 							.setScale(precision, BigDecimal.ROUND_HALF_UP);
 					}
 					//	Valid Zero
-					if(qty.doubleValue() <= 0)
+					if(m_Qty.doubleValue() <= 0)
 						continue;
 				}
-				//					
-				line.add(qty);							//  12-Quantity
-				line.add(uop);				      		//  13-Unit Product
-				line.add(weight.multiply(qty));			//	14-Weight
-				line.add(volume.multiply(qty));			//	15-Volume
-				line.add(Env.ZERO);						//	16-SeqNo
-				line.add(m_DeliveryRule);				//	17-Delivery Rule
+				//	Fill Row
+				Vector<Object> line = new Vector<Object>();
+				line.add(new Boolean(false));       			//  0-Selection
+				line.add(m_Warehouse);       					//  1-Warehouse
+				line.add(m_DocumentNo);				       		//  2-DocumentNo
+				line.add(m_Product);				      		//  3-Product
+				line.add(m_Product_UOM);				      	//  4-Unit Product
+				line.add(m_QtyOnHand);  						//  5-QtyOnHand
+				line.add(m_Qty);								//  6-Quantity
+				line.add(m_Weight.multiply(m_Qty));				//	7-Weight
+				line.add(m_Volume.multiply(m_Qty));				//	8-Volume
+				line.add(Env.ZERO);								//	9-SeqNo
+				line.add(m_QtyOrdered);							//	10-QtyOrdered
+				line.add(m_Order_UOM);							//	11-UOM-Conversion
+				line.add(m_QtyReserved);				      	//  12-QtyReserved
+				line.add(m_QtyInvoiced);				      	//  13-QtyInvoiced
+				line.add(m_QtyDelivered);				      	//  14-QtyDelivered
+				line.add(m_QtyInTransit);				      	//  15-QtyInTransit			
+				line.add(m_DeliveryRule);						//	16-Delivery Rule
 				//	Add Data
 				data.add(line);
 			}
@@ -732,19 +749,18 @@ public class LoadOrder {
 		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Weight")
+				+ " (" + m_UOM_Weight_Symbol + ")");
+		columnNames.add(Msg.translate(Env.getCtx(), "Volume")
+				+ " (" + m_UOM_Volume_Symbol + ")");
+		columnNames.add(Msg.translate(Env.getCtx(), "LoadSeq"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrdered"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyReserved"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyInvoiced"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyDelivered"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyInTransit"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Weight")
-				+ " (" + m_UOM_Weight_Symbol + ")");
-		columnNames.add(Msg.translate(Env.getCtx(), "Volume")
-				+ " (" + m_UOM_Volume_Symbol + ")");
-		columnNames.add(Msg.translate(Env.getCtx(), "LoadSeq"));
 		columnNames.add(Msg.translate(Env.getCtx(), "DeliveryRule"));
 		return columnNames;
 	}
@@ -802,18 +818,17 @@ public class LoadOrder {
 		orderLineTable.setColumnClass(i++, String.class, true);			//  3-Product
 		orderLineTable.setColumnClass(i++, String.class, true);			//  4-Unit Measure Product
 		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  5-QtyOnHand
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  6-QtyOrdered
-		orderLineTable.setColumnClass(i++, String.class, true);			//  7-Unit Measure Conversion
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  8-QtyReserved
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  9-QtyInvoiced
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  10-QtyDelivered
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//	11-QtyLoc
-		orderLineTable.setColumnClass(i++, BigDecimal.class, false);	//  12-Quantity
-		orderLineTable.setColumnClass(i++, String.class, true);			//  13-Unit Measure Product
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  14-Weight
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  15-Volume
-		orderLineTable.setColumnClass(i++, Integer.class, false);		//  16-Sequence No
-		orderLineTable.setColumnClass(i++, String.class, true);			//  17-Delivery Rule
+		orderLineTable.setColumnClass(i++, BigDecimal.class, false);	//  6-Quantity
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  7-Weight
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  8-Volume
+		orderLineTable.setColumnClass(i++, Integer.class, false);		//  9-Sequence No
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  10-QtyOrdered
+		orderLineTable.setColumnClass(i++, String.class, true);			//  11-Unit Measure Conversion
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  12-QtyReserved
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  13-QtyInvoiced
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  14-QtyDelivered
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//	15-QtyInTransit
+		orderLineTable.setColumnClass(i++, String.class, true);			//  16-Delivery Rule
 		//  Table UI
 		orderLineTable.autoSize();
 	}
@@ -845,8 +860,8 @@ public class LoadOrder {
 		m_FTA_LoadOrder.setVolumeCapacity(m_VolumeCapacity);
 		m_FTA_LoadOrder.setC_UOM_Weight_ID(m_C_UOM_Weight_ID);
 		m_FTA_LoadOrder.setC_UOM_Volume_ID(m_C_UOM_Volume_ID);
-		//	Set Is Weight Register
-		m_FTA_LoadOrder.setIsWeightRegister(MFTAWeightScale.isWeightScaleOrg(m_AD_Org_ID, trxName));
+		//	Set Is Handle Record Weight
+		m_FTA_LoadOrder.setIsHandleRecordWeight(MFTAWeightScale.isWeightScaleOrg(m_AD_Org_ID, trxName));
 		//	Set Warehouse
 		if(m_M_Warehouse_ID != 0)
 			m_FTA_LoadOrder.setM_Warehouse_ID(m_M_Warehouse_ID);
@@ -1114,23 +1129,17 @@ public class LoadOrder {
 				|| p_M_Warehouse_ID == 0)
 			return Env.ZERO;
 		//	
-		String sql = "SELECT SUM("
-				+ "				CASE "
-				+ "					WHEN c.IsDelivered = 'N' AND (c.DocStatus NOT IN('VO', 'RE', 'CL') OR c.DocStatus IS NULL) "
-				+ "						AND (ol.M_Warehouse_ID = l.M_Warehouse_ID OR dl.M_Warehouse_ID = l.M_Warehouse_ID) "
-				+ "					THEN lc.Qty "
-				+ "					ELSE 0 "
-				+ "				END"
-				+ "				) QtyLoc "
-				+ "FROM M_Storage st "
-				+ "INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) "
-				+ "LEFT JOIN FTA_LoadOrderLine lc ON(lc.M_Product_ID = st.M_Product_ID) "
-				+ "LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) "
-				+ "LEFT JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = lc.C_OrderLine_ID) "
-				+ "LEFT JOIN DD_OrderLine dol ON(dol.DD_OrderLine_ID = lc.DD_OrderLine_ID) "
-				+ "LEFT JOIN M_Locator dl ON(dl.M_Locator_ID = dol.M_Locator_ID) "
-				+ "WHERE st.M_Product_ID = ? "
-				+ "AND l.M_Warehouse_ID = ?";
+		String sql = "SELECT COALESCE(SUM(lc.Qty), 0) QtyLoc "
+				+ "FROM FTA_LoadOrder c "
+				+ "INNER JOIN FTA_LoadOrderLine lc ON(lc.FTA_LoadOrder_ID = c.FTA_LoadOrder_ID) "
+				+ "WHERE lc.M_Product_ID = ? "
+				+ "AND lc.M_Warehouse_ID = ? "
+				+ "AND c.DocStatus = 'CO' "
+				+ "AND ("
+				+ "			(c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP')) "
+				+ "			OR "
+				+ "			(c.IsMoved = 'N' AND c.OperationType = 'MOM')"
+				+ "		)";
 		//	Query
 		BigDecimal m_QtyInTransit = DB.getSQLValueBD(null, sql, new Object[]{p_M_Product_ID, p_M_Warehouse_ID});
 		if(m_QtyInTransit == null)
@@ -1196,6 +1205,49 @@ public class LoadOrder {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Valid Quantity on Stock
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 15, 2015, 1:30:12 PM
+	 * @param stockTable
+	 * @return
+	 * @return String
+	 */
+	public String validStock(IMiniTable stockTable) {
+		log.info("validStock");
+		int rows = stockTable.getRowCount();
+		StringBuffer msg = new StringBuffer();
+		for (int i = 0; i < rows; i++) {
+			//	Get Values
+			String product 				= ((KeyNamePair) stockTable.getValueAt(i, SW_PRODUCT)).getName();
+			String warehouse 			= ((KeyNamePair) stockTable.getValueAt(i, SW_WAREHOUSE)).getName();
+			BigDecimal m_QtyOnHand 		= ((BigDecimal) stockTable.getValueAt(i, SW_QTY_ON_HAND));
+			BigDecimal m_QtyInTransit 	= ((BigDecimal) stockTable.getValueAt(i, SW_QTY_IN_TRANSIT));
+			BigDecimal m_QtySet 		= ((BigDecimal) stockTable.getValueAt(i, SW_QTY_SET));
+			BigDecimal m_QtyAvailable 	= ((BigDecimal) stockTable.getValueAt(i, SW_QTY_AVAILABLE));
+			//	Valid
+			if(m_QtyAvailable.compareTo(Env.ZERO) >= 0)
+				continue;
+			//	First Row
+			if(msg.length() == 0) {
+				msg.append("@QtyInsufficient@");
+			}
+			//	Add to Msg
+			msg.append(Env.NL)
+				.append("*")
+				.append(product)
+				.append("[")
+				.append("@M_Warehouse_ID@=").append(warehouse)
+				.append(" @QtyAvailable@=").append(m_QtyOnHand.subtract(m_QtyInTransit).doubleValue())
+				.append(" @QtyToDeliver@=").append(m_QtySet.doubleValue())
+				.append(" @QtyAvailableForLoad@=").append(m_QtyAvailable.doubleValue())
+				.append("]");
+		}
+		//	
+		return msg.length() > 0
+				? msg.toString()
+						: null;
 	}
 	
 	/**
@@ -1273,7 +1325,8 @@ public class LoadOrder {
 	 * @return boolean
 	 */
 	protected boolean isBulk() {
-		return (m_OperationType.equals("DBM"));
+		return (m_OperationType
+				.equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryBulkMaterial));
 	}
 	
 	/**

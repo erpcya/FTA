@@ -1525,7 +1525,6 @@ public class MFTARecordWeight extends X_FTA_RecordWeight implements DocAction, D
 				m_Receipt.saveEx(get_TrxName());
 				
 				lol[i].setConfirmedQty(m_MovementQty);
-				lol[i].setConfirmedWeight(getValidWeight(false));
 				lol[i].setM_InOutLine_ID(ioLine.getM_InOutLine_ID());
 				lol[i].saveEx(get_TrxName());
 				

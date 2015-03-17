@@ -54,7 +54,6 @@ import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
 import org.compiere.model.MUOM;
-import org.compiere.model.MUOMConversion;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.X_C_Order;
 import org.compiere.print.MPrintFormat;
@@ -881,6 +880,10 @@ public class WLoadOrder extends LoadOrder
 			if(difference.compareTo(Env.ZERO) < 0)
 				msg = "@Volume@ > @VolumeCapacity@";
 		}
+		//	Valid Message
+		if(msg == null) {
+			msg = validStock(stockTable);
+		}
 		//	
 		if(msg != null) {
 			FDialog.info(m_WindowNo, parameterPanel, null, Msg.parseTranslation(Env.getCtx(), msg));
@@ -1033,9 +1036,10 @@ public class WLoadOrder extends LoadOrder
 			warehouseSearch.removeActionListener(this);
 			m_M_Warehouse_ID = loadComboBoxW(warehouseSearch, data);
 			warehouseSearch.addEventListener(Events.ON_SELECT, this);
+			Env.setContext(Env.getCtx(), m_WindowNo, "AD_Org_ID", m_AD_Org_ID);
+			docTypeTargetPick.actionRefresh();
 			clearData();
 		} else if(name.equals("OperationType")) {
-			
 			m_OperationType = ((String)(value != null? value: 0));
 			Env.setContext(Env.getCtx(), m_WindowNo, "OperationType", m_OperationType);
 			KeyNamePair[] data = getDataDocumentType();
@@ -1075,7 +1079,9 @@ public class WLoadOrder extends LoadOrder
 		} else if(arg0.getTarget().equals(selectAllButton)) {
 			int rows = w_orderLineTable.getRowCount();
 			for (int i = 0; i < rows; i++) {
-				w_orderLineTable.setValueAt(true, i, SELECT);
+				if(!((Boolean)w_orderLineTable.getValueAt(i, SELECT))) {
+					w_orderLineTable.setValueAt(true, i, SELECT);
+				}
 			}	
 		} else if(arg0.getTarget().equals(gLoadOrderButton)) {
 			if(validData()) {
@@ -1185,13 +1191,13 @@ public class WLoadOrder extends LoadOrder
 				BigDecimal qty = (BigDecimal) w_orderLineTable.getValueAt(row, OL_QTY);
 				BigDecimal weight = (BigDecimal) w_orderLineTable.getValueAt(row, OL_WEIGHT);
 				BigDecimal volume = (BigDecimal) w_orderLineTable.getValueAt(row, OL_VOLUME);
-				BigDecimal qtyOnHand = (BigDecimal) w_orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
+				BigDecimal qtyOnHand = (BigDecimal) w_orderLineTable.getValueAt(row, OL_QTY_ON_HAND);
 				BigDecimal qtyOrdered = (BigDecimal) w_orderLineTable.getValueAt(row, OL_QTY_ORDERED);
-				BigDecimal qtyOrderLine = (BigDecimal) w_orderLineTable.getValueAt(row, OL_QTY_LOAD_ORDER_LINE);
+				BigDecimal qtyOrderLine = (BigDecimal) w_orderLineTable.getValueAt(row, OL_QTY_IN_TRANSIT);
 				BigDecimal qtyDelivered = (BigDecimal) w_orderLineTable.getValueAt(row, OL_QTY_DELIVERED);
 				
 				//	Get Precision
-				KeyNamePair uom = (KeyNamePair) w_orderLineTable.getValueAt(row, OL_QTY_UOM);
+				KeyNamePair uom = (KeyNamePair) w_orderLineTable.getValueAt(row, OL_UOM);
 				KeyNamePair pr = (KeyNamePair) w_orderLineTable.getValueAt(row, OL_PRODUCT);
 				StringNamePair dr = (StringNamePair) w_orderLineTable.getValueAt(row, OL_DELIVERY_RULE);
 				int p_C_UOM_ID = uom.getKey();
@@ -1303,22 +1309,24 @@ public class WLoadOrder extends LoadOrder
 		stockTable.autoSize();
 		setStockColumnClass(stockTable);
 	}
-
+	
 	/**
 	 * Verify if exists the product on table
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:29:57
-	 * @param Product_ID
+	 * @param p_Product_ID
+	 * @param p_M_Warehouse_ID
 	 * @return
 	 * @return int
 	 */
-	private int existProductStock(int Product_ID) {
+	private int existProductStock(int p_Product_ID, int p_M_Warehouse_ID) {
 		for(int i = 0; i < stockModel.getRowCount(); i++) {
-			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == Product_ID) {
+			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == p_Product_ID) {
 				return i;
 			}
 		}
 		return -1;
 	}
+	
 	/**
 	 * Load Product Stock
 	 * @author Yamel Senih 08/06/2012, 10:56:29
@@ -1330,35 +1338,41 @@ public class WLoadOrder extends LoadOrder
 	private void loadProductsStock(IMiniTable orderLineTable, int row, boolean isSelected) {
 		KeyNamePair product = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
 		KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
-		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ONDHAND);
+		KeyNamePair warehouse = (KeyNamePair) orderLineTable.getValueAt(row, OL_WAREHOUSE);
+		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ON_HAND);
 		BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
 		//	
-		int pos = existProductStock(product.getKey());
-		
-		BigDecimal rate = MUOMConversion.getProductRateFrom(Env.getCtx(), product.getKey(), m_C_UOM_Weight_ID);
-		if(rate == null)
-			rate = Env.ZERO;
-		//	Convert Quantity Set
-		qtySet = qtySet.multiply(rate).setScale(2, BigDecimal.ROUND_HALF_UP);
-		
+		int pos = existProductStock(product.getKey(), warehouse.getKey());
+		//	
 		if(pos > -1) {
-			BigDecimal qtySetOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTYSET);
+			BigDecimal qtyInTransitOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTY_IN_TRANSIT);
+			BigDecimal qtySetOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTY_SET);
 			//	Negate
 			if(!isSelected)
 				qtySet = qtySet.negate();
 			//	
 			qtySet = qtySet.add(qtySetOld);
-			
-			stockModel.setValueAt(qtyOnHand, pos, SW_QTYONHAND);
-			stockModel.setValueAt(qtySet, pos, SW_QTYSET);
-			stockModel.setValueAt(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTYAVAILABLE);
+			stockModel.setValueAt(qtyOnHand, pos, SW_QTY_ON_HAND);
+			stockModel.setValueAt(qtyInTransitOld, pos, SW_QTY_IN_TRANSIT);
+			stockModel.setValueAt(qtySet, pos, SW_QTY_SET);
+			stockModel.setValueAt(qtyOnHand
+					.subtract(qtyInTransitOld)
+					.subtract(qtySet)
+					.setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTY_AVAILABLE);
 		} else if(isSelected) {
+			//	Get Quantity in Transit
+			BigDecimal qtyInTransit = getQtyInTransit(product.getKey(), warehouse.getKey());
 			Vector<Object> line = new Vector<Object>();
 			line.add(product);
 			line.add(uom);
+			line.add(warehouse);
 			line.add(qtyOnHand);
+			line.add(qtyInTransit);
 			line.add(qtySet);
-			line.add(qtyOnHand.subtract(qtySet).setScale(2, BigDecimal.ROUND_HALF_UP));
+			line.add(qtyOnHand
+					.subtract(qtyInTransit)
+					.subtract(qtySet)
+					.setScale(2, BigDecimal.ROUND_HALF_UP));
 			//	
 			stockModel.add(line);
 		}

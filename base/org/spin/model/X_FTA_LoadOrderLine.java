@@ -33,7 +33,7 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150214L;
+	private static final long serialVersionUID = 20150218L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrderLine (Properties ctx, int FTA_LoadOrderLine_ID, String trxName)
@@ -337,6 +337,34 @@ public class X_FTA_LoadOrderLine extends PO implements I_FTA_LoadOrderLine, I_Pe
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
+
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
+	{
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+	}
+
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
