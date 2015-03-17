@@ -482,7 +482,10 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	public MFTARecordWeight getRecordWeight(){
 		int m_FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
 				"FROM FTA_RecordWeight rw " +
-				"WHERE rw.DocStatus NOT IN('VO', 'RE') " +				
+				//2015-03-17 Carlos Parada Change Validation to Complete 
+				//"WHERE rw.DocStatus NOT IN('VO', 'RE') " +				
+				"WHERE rw.DocStatus = 'CO' " +
+				//End Carlos Parada
 				"AND rw.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
 		if(m_FTA_RecordWeight_ID <= 0)
 			return null;
