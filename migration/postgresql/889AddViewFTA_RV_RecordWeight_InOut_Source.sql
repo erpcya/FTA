@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW FTA_RV_RecordWeight_InOut_Source AS 
+﻿CREATE OR REPLACE VIEW FTA_RV_RecordWeight_InOut_Source AS 
 --Query 1
 SELECT mg.DocumentNo MobilizationGuide,
 	et.Ext_Guide,
@@ -88,7 +88,7 @@ SELECT mg.DocumentNo MobilizationGuide,
 	0 AS FTA_CreditDefinition_ID, 
 	io.M_WareHouse_ID, 
 	0 AS M_Lot_ID, 
-	et.C_BPartner_ID, 
+	ol.C_BPartner_ID, 
 	et.FTA_Driver_ID, 
 	et.FTA_Vehicle_ID, 
 	et.FTA_MobilizationGuide_ID, 
@@ -106,6 +106,9 @@ INNER JOIN FTA_RecordWeight rw ON rw.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID
 INNER JOIN FTA_QualityAnalysis qa ON qa.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND qa.AnalysisType = 'QA'
 INNER JOIN FTA_MobilizationGuide mg ON mg.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID
 INNER JOIN M_InOut io ON io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND io.DocStatus = rw.DocStatus
+INNER JOIN FTA_LoadOrder lo ON(lo.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID)
+INNER JOIN FTA_LoadOrderLine lol ON(lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID)
+INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = lol.C_OrderLine_ID)
 WHERE et.OperationType = 'DBM'
 /*
 --Query 3
