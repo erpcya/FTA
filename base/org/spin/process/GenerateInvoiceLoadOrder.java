@@ -112,8 +112,10 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						+ " From T_Selection_Browse tsb "
 						+ " Group By tsb.AD_PInstance_ID, tsb.T_Selection_ID"
 						+ ") tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID "
+					+ " Inner Join FTA_LoadOrderLine lord ON(lord.FTA_LoadOrderLine_ID = ts.T_Selection_ID) "
+					+ " Inner Join C_OrderLine oline ON(oline.C_OrderLine_ID = lord.C_OrderLine_ID) "
 						+ " Where ts.AD_PInstance_ID=? "
-						+ " Order By tsb.C_BPartner_ID");
+						+ " Order By tsb.C_BPartner_ID, oline.Line");
 		log.fine(sql.toString());
 	}
 
