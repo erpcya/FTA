@@ -50,7 +50,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 
 
 	/** Document Type						*/
-	private int 				p_C_DocTypeTarget_ID 	= 0;
+	private int 				p_C_DocTypeInvoice_ID 	= 0;
 	/** DateInvoiced 						*/
 	private Timestamp 			p_DateInvoiced			= null;	
 	/**	Document Action						*/
@@ -74,8 +74,8 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("C_DocTypeTarget_ID"))
-				p_C_DocTypeTarget_ID = para.getParameterAsInt();
+			else if (name.equals("C_DocTypeInvoice_ID"))
+				p_C_DocTypeInvoice_ID = para.getParameterAsInt();
 			else if (name.equals("DateInvoiced"))
 				p_DateInvoiced =  (Timestamp) para.getParameter();
 			else if (name.equals("DocAction"))
@@ -165,7 +165,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 					completeInvoice();
 					m_Current_BPartner_ID = m_C_BPartner_ID;
 					//Create Invoice From Order
-					m_Current_Invoice = new MInvoice(order, p_C_DocTypeTarget_ID, p_DateInvoiced);
+					m_Current_Invoice = new MInvoice(order, p_C_DocTypeInvoice_ID, p_DateInvoiced);
 					m_Current_Invoice.setDateAcct(p_DateInvoiced);
 					//	Set DocStatus
 					m_Current_Invoice.setDocStatus(X_C_Invoice.DOCSTATUS_Drafted);

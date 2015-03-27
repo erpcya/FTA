@@ -56,7 +56,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 
 
 	/** Document Type						*/
-	private int 				p_C_DocTypeTarget_ID 			= 0;
+	private int 				p_C_DocTypeShipment_ID 			= 0;
 	/** DateInvoiced 						*/
 	private Timestamp 			p_MovementDate					= null;	
 	/**	Document Action						*/
@@ -86,8 +86,8 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("C_DocTypeTarget_ID"))
-				p_C_DocTypeTarget_ID = para.getParameterAsInt();
+			else if (name.equals("C_DocTypeShipment_ID"))
+				p_C_DocTypeShipment_ID = para.getParameterAsInt();
 			else if (name.equals("MovementDate"))
 				p_MovementDate =  (Timestamp) para.getParameter();
 			else if (name.equals("DocAction"))
@@ -250,7 +250,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					//	Create Order
 					MOrder order = new MOrder(getCtx(), m_C_Order_ID, get_TrxName());
 					//Create Shipment From Order
-					m_Current_Shipment = new MInOut(order, p_C_DocTypeTarget_ID, p_MovementDate);
+					m_Current_Shipment = new MInOut(order, p_C_DocTypeShipment_ID, p_MovementDate);
 					m_Current_Shipment.setDateAcct(p_MovementDate);
 					m_Current_Shipment.setAD_Org_ID(warehouse.getAD_Org_ID());
 					m_Current_Shipment.setAD_OrgTrx_ID(warehouse.getAD_Org_ID());
