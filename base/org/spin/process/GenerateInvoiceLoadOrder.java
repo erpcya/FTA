@@ -56,7 +56,9 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 	/**	Document Action						*/
 	private String				p_DocAction				= null;
 	/**	Current Order						*/
-	private int 				m_Current_BPartner_ID		= 0;
+	private int 				m_Current_BPartner_ID	= 0;
+	/**	Parent Instance						*/
+	private int 				m_Parent_Instance_ID 	= 0;
 	/**	Current Invoice						*/
 	private MInvoice 			m_Current_Invoice		= null;
 	/** Sql									*/
@@ -65,10 +67,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 	private int 				m_Created 				= 0;
 	/**	Print Document						*/
 	private ArrayList<Integer>	m_IDs					= new ArrayList<Integer>();
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.SvrProcess#prepare()
-	 */
+	
 	@Override
 	protected void prepare() {
 		for (ProcessInfoParameter para:getParameter()){
@@ -81,7 +80,12 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 				p_DateInvoiced =  (Timestamp) para.getParameter();
 			else if (name.equals("DocAction"))
 				p_DocAction =  (String) para.getParameter();
+			else if(name.equals("Parent_Instance_ID"))
+					m_Parent_Instance_ID = para.getParameterAsInt();
 		}
+		//	
+		if(m_Parent_Instance_ID == 0)
+			m_Parent_Instance_ID = getAD_PInstance_ID();
 		//	SQL
 		sql.append("Select "
 					+ "	ts.AD_PInstance_ID, "
@@ -143,7 +147,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 		StringBuffer msg = new StringBuffer();
 		try{
 			ps = DB.prepareStatement(sql.toString(), get_TrxName());
-			ps.setInt(1, getAD_PInstance_ID());
+			ps.setInt(1, m_Parent_Instance_ID);
 			rs = ps.executeQuery();
 			//	
 			while(rs.next()) {

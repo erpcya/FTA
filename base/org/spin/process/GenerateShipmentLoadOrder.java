@@ -67,6 +67,10 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 	private int 				m_Current_Warehouse_ID			= 0;
 	/** Current Business Partner 			*/
 	private int 				m_Current_BPartner_ID 			= 0;
+	/**	Parent Instance						*/
+	private int 				m_Parent_Instance_ID 			= 0;
+	/**	Print?								*/
+	private boolean 			m_IsPrint						= false;
 	/**	Current Shipment					*/
 	private MInOut				m_Current_Shipment 				= null;
 	/** Created Records						*/
@@ -88,6 +92,13 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 				p_MovementDate =  (Timestamp) para.getParameter();
 			else if (name.equals("DocAction"))
 				p_DocAction =  (String) para.getParameter();
+			else if(name.equals("Parent_Instance_ID"))
+				m_Parent_Instance_ID = para.getParameterAsInt();
+		}
+		//	
+		if(m_Parent_Instance_ID == 0) {
+			m_Parent_Instance_ID = getAD_PInstance_ID();
+			m_IsPrint = true;
 		}
 		//	Sql
 		sql.append("SELECT "
@@ -163,7 +174,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 		try {
 			ps = DB.prepareStatement(sql.toString(), 
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY, get_TrxName());
-			ps.setInt(1, getAD_PInstance_ID());
+			ps.setInt(1, m_Parent_Instance_ID);
 			rs = ps.executeQuery();
 			//	
 			while(rs.next()){
@@ -398,7 +409,8 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 			m_Created ++;
 			//	Is Printed?
 			if(m_Current_Shipment.getDocStatus().equals(X_M_InOut.DOCSTATUS_Completed)
-					&& m_Current_IsImmediateDelivery) {
+					&& m_Current_IsImmediateDelivery
+					&& m_IsPrint) {
 				m_IDs.add(m_Current_Shipment.getM_InOut_ID());
 			}
 		}
