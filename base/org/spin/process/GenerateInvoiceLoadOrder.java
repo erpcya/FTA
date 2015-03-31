@@ -65,6 +65,8 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 	private StringBuffer 		sql 					= new StringBuffer();
 	/** Created Records						*/
 	private int 				m_Created 				= 0;
+	/**	Message								*/
+	private StringBuffer 		msg 					= new StringBuffer();
 	/**	Print Document						*/
 	private ArrayList<Integer>	m_IDs					= new ArrayList<Integer>();
 	
@@ -144,7 +146,6 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 	private String createInvoices(){
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		StringBuffer msg = new StringBuffer();
 		try{
 			ps = DB.prepareStatement(sql.toString(), get_TrxName());
 			ps.setInt(1, m_Parent_Instance_ID);
@@ -170,11 +171,6 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 					//	Set DocStatus
 					m_Current_Invoice.setDocStatus(X_C_Invoice.DOCSTATUS_Drafted);
 					m_Current_Invoice.saveEx(get_TrxName());
-					//	Initialize Message
-					if(msg.length() > 0)
-						msg.append(" - " + m_Current_Invoice.getDocumentNo());
-					else
-						msg.append(m_Current_Invoice.getDocumentNo());		
 				}
 				//Invoiced Created?
 				if (m_Current_Invoice != null){
@@ -300,11 +296,17 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 			m_Current_Invoice.setDocAction(p_DocAction);
 			m_Current_Invoice.processIt(p_DocAction);
 			m_Current_Invoice.saveEx();
+			m_Current_Invoice.load(get_TrxName());
 			addLog(m_Current_Invoice.getC_Invoice_ID(), m_Current_Invoice.getDateAcct(), null,
 					m_Current_Invoice.getDocumentNo() + 
 					(m_Current_Invoice.getProcessMsg() != null && m_Current_Invoice.getProcessMsg().length() !=0
 					? ": Error " + m_Current_Invoice.getProcessMsg()
 							:" --> @OK@"));
+			//	Initialize Message
+			if(msg.length() > 0)
+				msg.append(" - " + m_Current_Invoice.getDocumentNo());
+			else
+				msg.append(m_Current_Invoice.getDocumentNo());		
 			//	Created
 			m_Created ++;
 			//	Is Printed?
