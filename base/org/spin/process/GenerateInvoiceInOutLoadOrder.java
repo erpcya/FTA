@@ -18,6 +18,7 @@ package org.spin.process;
 
 import java.util.Vector;
 
+import org.adempiere.util.ProcessUtil;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
@@ -25,7 +26,8 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.Trx;
 
 /**
- * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
+ * 
+ * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
  *
  */
 public class GenerateInvoiceInOutLoadOrder extends SvrProcess {
@@ -64,14 +66,13 @@ public class GenerateInvoiceInOutLoadOrder extends SvrProcess {
 		//	Create Trx
 		Trx trx = Trx.get(get_TrxName(), false);
 		//	Execute Process
-		ProcessCtl.process(null, 0, null, pi_Invoice, trx);
+		ProcessUtil.startJavaProcess(getCtx(), pi_Invoice, trx, false);
 		//	
 		ProcessInfo pi_InOut = new ProcessInfo(getProcessInfo().getTitle(), 53713);
-		//	53713
 		//	Add Parameters
 		pi_InOut.setParameter(processParams.toArray(new ProcessInfoParameter[processParams.size()]));
 		//	Execute Process
-		ProcessCtl.process(null, 0, null, pi_InOut, trx);
+		ProcessUtil.startJavaProcess(getCtx(), pi_InOut, trx, false);
 		//	Commit
 		trx.commit();
 		//	

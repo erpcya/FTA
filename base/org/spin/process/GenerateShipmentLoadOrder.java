@@ -69,8 +69,8 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 	private int 				m_Current_BPartner_ID 			= 0;
 	/**	Parent Instance						*/
 	private int 				m_Parent_Instance_ID 			= 0;
-	/**	Print?								*/
-	private boolean 			m_IsPrint						= false;
+	/**	Is From Parent						*/
+	private boolean 			m_IsFromParent					= true;
 	/**	Current Shipment					*/
 	private MInOut				m_Current_Shipment 				= null;
 	/** Created Records						*/
@@ -98,7 +98,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 		//	
 		if(m_Parent_Instance_ID == 0) {
 			m_Parent_Instance_ID = getAD_PInstance_ID();
-			m_IsPrint = true;
+			m_IsFromParent = false;
 		}
 		//	Sql
 		sql.append("SELECT "
@@ -362,12 +362,16 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 			//	Complete Shipment
 			completeShipment();
 			//	Commit Transaction
-			commitEx();
+			if(!m_IsFromParent) {
+				commitEx();
+			}
 			//	Print Documents
 			printDocuments();
 			//	
 		} catch(Exception ex) {
-			rollback();
+			if(!m_IsFromParent) {
+				rollback();
+			}
 			return ex.getMessage();
 		} finally {
 			  DB.close(rs, ps);
@@ -410,7 +414,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 			//	Is Printed?
 			if(m_Current_Shipment.getDocStatus().equals(X_M_InOut.DOCSTATUS_Completed)
 					&& m_Current_IsImmediateDelivery
-					&& m_IsPrint) {
+					&& !m_IsFromParent) {
 				m_IDs.add(m_Current_Shipment.getM_InOut_ID());
 			}
 		}
