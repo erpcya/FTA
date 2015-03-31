@@ -71,9 +71,7 @@ public class GenerateInvoiceInOutLoadOrder extends SvrProcess {
 		//	Add Parameters
 		pi_InOut.setParameter(processParams.toArray(new ProcessInfoParameter[processParams.size()]));
 		//	Execute Process
-		ProcessUtil.startJavaProcess(getCtx(), pi_InOut, trx, false);
-		//	Commit
-		trx.commit();
+		ProcessUtil.startJavaProcess(getCtx(), pi_InOut, trx, true);
 		//	
 		return pi_Invoice.getSummary() 
 				+ (pi_InOut.getSummary() != null && pi_InOut.getSummary().length() > 0

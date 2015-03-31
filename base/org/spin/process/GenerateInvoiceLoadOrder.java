@@ -59,8 +59,6 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 	private int 				m_Current_BPartner_ID	= 0;
 	/**	Parent Instance						*/
 	private int 				m_Parent_Instance_ID 	= 0;
-	/**	Is From Parent						*/
-	private boolean 			m_IsFromParent			= true;
 	/**	Current Invoice						*/
 	private MInvoice 			m_Current_Invoice		= null;
 	/** Sql									*/
@@ -86,10 +84,8 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 					m_Parent_Instance_ID = para.getParameterAsInt();
 		}
 		//	
-		if(m_Parent_Instance_ID == 0) {
+		if(m_Parent_Instance_ID == 0)
 			m_Parent_Instance_ID = getAD_PInstance_ID();
-			m_IsFromParent = false;
-		}
 		//	SQL
 		sql.append("Select "
 					+ "	ts.AD_PInstance_ID, "
@@ -267,16 +263,12 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 			//	
 			completeInvoice();
 			//	Commmit
-			if(!m_IsFromParent) {
-				commitEx();
-			}
+			commitEx();
 			//	Print Documents
 			printDocuments();
 		}
 		catch(Exception ex) {
-			if(!m_IsFromParent) {
-				rollback();
-			}
+			rollback();
 			return ex.getMessage();
 		} finally{
 			DB.close(rs, ps);
