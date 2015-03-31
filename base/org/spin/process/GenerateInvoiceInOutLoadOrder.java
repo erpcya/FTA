@@ -19,7 +19,6 @@ package org.spin.process;
 import java.util.Vector;
 
 import org.adempiere.util.ProcessUtil;
-import org.compiere.apps.ProcessCtl;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
