@@ -371,6 +371,8 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 		} catch(Exception ex) {
 			if(!m_IsFromParent) {
 				rollback();
+			} else {
+				throw new AdempiereException(ex);
 			}
 			return ex.getMessage();
 		} finally {
@@ -408,7 +410,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					m_Current_Shipment.getDocumentNo() + 
 					(m_Current_Shipment.getProcessMsg() != null && m_Current_Shipment.getProcessMsg().length() !=0
 					? ": Error " + m_Current_Shipment.getProcessMsg()
-							:" --> @OK@"));
+							:" --> @OK@"));			
 			//	Created
 			m_Created ++;
 			//	Is Printed?

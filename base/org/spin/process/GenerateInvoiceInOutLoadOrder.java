@@ -58,20 +58,23 @@ public class GenerateInvoiceInOutLoadOrder extends SvrProcess {
 
 	@Override
 	protected String doIt() throws Exception {
-		//	Create Process Info
-		ProcessInfo pi_Invoice = new ProcessInfo(getProcessInfo().getTitle(), 53709);
-		//	Add Parameters
-		pi_Invoice.setParameter(processParams.toArray(new ProcessInfoParameter[processParams.size()]));
 		//	Create Trx
 		Trx trx = Trx.get(get_TrxName(), false);
-		//	Execute Process
-		ProcessUtil.startJavaProcess(getCtx(), pi_Invoice, trx, false);
 		//	
 		ProcessInfo pi_InOut = new ProcessInfo(getProcessInfo().getTitle(), 53713);
 		//	Add Parameters
 		pi_InOut.setParameter(processParams.toArray(new ProcessInfoParameter[processParams.size()]));
 		//	Execute Process
-		ProcessUtil.startJavaProcess(getCtx(), pi_InOut, trx, true);
+		ProcessUtil.startJavaProcess(getCtx(), pi_InOut, trx, false);
+		if(pi_InOut.isError()) {
+			return pi_InOut.getSummary();
+		}
+		//	Create Process Info
+		ProcessInfo pi_Invoice = new ProcessInfo(getProcessInfo().getTitle(), 53709);
+		//	Add Parameters
+		pi_Invoice.setParameter(processParams.toArray(new ProcessInfoParameter[processParams.size()]));
+		//	Execute Process
+		ProcessUtil.startJavaProcess(getCtx(), pi_Invoice, trx, true);
 		//	
 		return pi_Invoice.getSummary() 
 				+ (pi_InOut.getSummary() != null && pi_InOut.getSummary().length() > 0
