@@ -1,5 +1,5 @@
 ﻿CREATE OR REPLACE VIEW FTA_RV_RecordWeight_InOut_Source AS 
---Query 1
+--Query 1 (Raw Material Receipt)
 SELECT mg.DocumentNo MobilizationGuide,
 	et.Ext_Guide,
 	et.DocumentNo EntryTicket,
@@ -54,7 +54,7 @@ INNER JOIN FTA_FarmerCredit fc ON fc.FTA_FarmerCredit_ID = fm.FTA_FarmerCredit_I
 INNER JOIN M_InOut io ON io.FTA_RecordWeight_ID = rw.FTA_RecordWeight_ID AND io.DocStatus = rw.DocStatus
 WHERE et.OperationType = 'RMR' AND rw.DocStatus = qa.DocStatus
 
---Query 2
+--Query 2 (Delivery Bulk Material)
 UNION ALL
 
 SELECT mg.DocumentNo MobilizationGuide, 
@@ -110,6 +110,7 @@ INNER JOIN FTA_LoadOrder lo ON(lo.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID)
 INNER JOIN FTA_LoadOrderLine lol ON(lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID)
 INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = lol.C_OrderLine_ID)
 WHERE et.OperationType = 'DBM'
+AND qa.DocStatus = rw.DocStatus
 /*
 --Query 3
 UNION ALL
@@ -163,7 +164,7 @@ INNER JOIN FTA_RecordWeight rw ON rw.FTA_EntryTicket_ID = et.FTA_EntryTicket_ID
 WHERE et.OperationType = 'ORW'
 
 */
---Query 4
+--Query 4 (Bulk Material receipt)
 UNION ALL
 
 SELECT mg.DocumentNo  MobilizationGuide,
