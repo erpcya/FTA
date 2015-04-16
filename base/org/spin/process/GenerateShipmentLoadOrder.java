@@ -307,9 +307,10 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 							throw new AdempiereException("@NoUOMConversion@ @from@ " 
 											+ oLineUOM.getName() + " @to@ " + productUOM.getName());
 						}
-						//	
-						m_Qty = m_Qty.subtract(m_CumulatedWeightAll.multiply(rateFromWeight));
-						BigDecimal nextWeight = m_CumulatedWeightLine.add(m_Qty.multiply(rateCumulated));
+						//
+						BigDecimal m_QtyWeight = m_Qty;
+						m_QtyWeight = m_QtyWeight.subtract(m_CumulatedWeightAll.multiply(rateFromWeight));
+						BigDecimal nextWeight = m_CumulatedWeightLine.add(m_QtyWeight.multiply(rateCumulated));
 						if(nextWeight.doubleValue() > m_BreakWeight.doubleValue()) {
 							BigDecimal diff = nextWeight.subtract(m_BreakWeight);
 							m_Qty = m_Qty.subtract(diff.multiply(rateFromWeight));
