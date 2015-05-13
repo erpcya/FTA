@@ -67,6 +67,8 @@ public class GenerateInvoiceInOutLoadOrder extends SvrProcess {
 		//	Execute Process
 		ProcessUtil.startJavaProcess(getCtx(), pi_InOut, trx, false);
 		if(pi_InOut.isError()) {
+			//	Add Rollback for transaction
+			trx.rollback();
 			return pi_InOut.getSummary();
 		}
 		//	Create Process Info
