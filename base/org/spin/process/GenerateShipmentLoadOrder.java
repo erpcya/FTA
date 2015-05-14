@@ -308,13 +308,16 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 											+ oLineUOM.getName() + " @to@ " + productUOM.getName());
 						}
 						//
-						m_Qty = m_Qty.subtract(m_CumulatedWeightAll.multiply(rateFromWeight));
+						
+						if(!m_FTA_LoadOrder.isImmediateDelivery())
+						{m_Qty = m_Qty.subtract(m_CumulatedWeightAll.multiply(rateFromWeight));
+						System.out.println(m_CumulatedWeightAll);
 						BigDecimal nextWeight = m_CumulatedWeightLine.add(m_Qty.multiply(rateCumulated));
 						if(nextWeight.doubleValue() > m_BreakWeight.doubleValue()) {
 							BigDecimal diff = nextWeight.subtract(m_BreakWeight);
 							m_Qty = m_Qty.subtract(diff.multiply(rateFromWeight));
 							m_Break = true;
-						}
+						}}
 						//	Set Cumulate Weight
 						m_CumulatedWeightLine = m_CumulatedWeightLine.add(m_Qty.multiply(rateCumulated));
 						m_CumulatedWeightAll = m_CumulatedWeightAll.add(m_CumulatedWeightLine);
