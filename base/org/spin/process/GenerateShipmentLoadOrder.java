@@ -169,6 +169,9 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 		BigDecimal m_BreakWeight = new BigDecimal(m_BreakValue);
 		BigDecimal m_CumulatedWeightLine = Env.ZERO;
 		BigDecimal m_CumulatedWeightAll = Env.ZERO;
+		//2015-05-14 Carlos Parada Fix Error in Shipment
+		BigDecimal m_QtySubtract	= Env.ZERO;
+		//End Carlos Parada
 		boolean m_Break = false;
 		boolean m_Added = false;
 		try {
@@ -185,6 +188,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 				int m_FTA_LoadOrderLine_ID 	= rs.getInt("FTA_LoadOrderLine_ID");
 				BigDecimal m_Qty 			= rs.getBigDecimal("Qty");
 				BigDecimal m_TotalQty		= m_Qty;
+				
 				//	Valid
 				if(m_TotalQty == null)
 					m_TotalQty = Env.ZERO;
@@ -308,16 +312,17 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 											+ oLineUOM.getName() + " @to@ " + productUOM.getName());
 						}
 						//
-						
-						if(!m_FTA_LoadOrder.isImmediateDelivery())
-						{m_Qty = m_Qty.subtract(m_CumulatedWeightAll.multiply(rateFromWeight));
-						System.out.println(m_CumulatedWeightAll);
-						BigDecimal nextWeight = m_CumulatedWeightLine.add(m_Qty.multiply(rateCumulated));
+						//2015-05-14 Carlos Parada Fix Error in Shipment
+						m_Qty = m_Qty.subtract(m_QtySubtract);
+						//BigDecimal m_QtyWeight = m_Qty;
+						//m_QtyWeight = m_QtyWeight.subtract(m_CumulatedWeightLine.multiply(rateFromWeight));
+						BigDecimal nextWeight = m_CumulatedWeightAll.add(m_Qty.multiply(rateCumulated));
+						//End Carlos Parada
 						if(nextWeight.doubleValue() > m_BreakWeight.doubleValue()) {
 							BigDecimal diff = nextWeight.subtract(m_BreakWeight);
 							m_Qty = m_Qty.subtract(diff.multiply(rateFromWeight));
 							m_Break = true;
-						}}
+						}
 						//	Set Cumulate Weight
 						m_CumulatedWeightLine = m_CumulatedWeightLine.add(m_Qty.multiply(rateCumulated));
 						m_CumulatedWeightAll = m_CumulatedWeightAll.add(m_CumulatedWeightLine);
@@ -351,14 +356,22 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					m_FTA_LoadOrder.saveEx(get_TrxName());
 					//	Set Current Delivery
 					m_Current_IsImmediateDelivery = m_FTA_LoadOrder.isImmediateDelivery();
+					
+					m_CumulatedWeightLine = Env.ZERO;
 				}	//End Invoice Line Created
 				//	Valid Break
 				if(m_Break) {
+					//2015-05-14 Carlos Parada Fix Error in Shipment
+					m_CumulatedWeightAll = Env.ZERO;
+					m_QtySubtract = m_QtySubtract.add(m_Qty);
+					//End Carlos Parada
 					completeShipment();
-					m_CumulatedWeightLine = Env.ZERO;
 					m_Added = true;
 					rs.previous();
 				} else {
+					//2015-05-14 Carlos Parada Fix Error in Shipment
+					m_QtySubtract = Env.ZERO;
+					//End Carlos Parada
 					m_Added = false;
 				}
 			}	//	End Invoice Generated
