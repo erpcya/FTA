@@ -318,7 +318,11 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 						//m_QtyWeight = m_QtyWeight.subtract(m_CumulatedWeightLine.multiply(rateFromWeight));
 						BigDecimal nextWeight = m_CumulatedWeightAll.add(m_Qty.multiply(rateCumulated));
 						//End Carlos Parada
-						if(nextWeight.doubleValue() > m_BreakWeight.doubleValue()) {
+						if(nextWeight.doubleValue() > m_BreakWeight.doubleValue()
+								//2015-05-21 Carlos Parada Divide Shipment only Product Bulk
+								&& product.get_ValueAsBoolean("IsBulk")
+								//End Carlos Parada
+								) {
 							BigDecimal diff = nextWeight.subtract(m_BreakWeight);
 							m_Qty = m_Qty.subtract(diff.multiply(rateFromWeight));
 							m_Break = true;
