@@ -220,8 +220,11 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						
 						MFTARecordWeight m_RecordWeight = new MFTARecordWeight(getCtx(), FTA_RecordWeight_ID, get_TrxName());
 						//	Get Rate for Weight
-						BigDecimal rateWeight = MUOMConversion.getProductRateTo(Env.getCtx(), 
+						
+						//2015-05-16 Carlos Parada Change for get Rate From 
+						BigDecimal rateWeight = MUOMConversion.getProductRateFrom(Env.getCtx(), 
 								product.getM_Product_ID(), m_RecordWeight.getC_UOM_ID());
+						//End Carlos Parada
 						//	
 						//	Validate Rate equals null
 						if(rateWeight == null) {
