@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MCharge;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
@@ -41,6 +42,7 @@ import org.compiere.util.Env;
 import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTALoadOrderLine;
 import org.spin.model.MFTARecordWeight;
+import org.spin.model.X_FTA_LoadOrder;
 
 /**
  * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
@@ -97,6 +99,10 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 					+ " tsb.M_Product_ID, "
 					+ " tsb.Qty, "
 					+ " tsb.C_Order_ID,"
+					//2015-06-19 Carlos Parada Add for Support Charges And Not Items Products from Sales Order
+					+ " tsb.C_OrderLine_ID,"
+					+ " tsb.C_Charge_ID,"
+					//End Carlos Parada
 					+ " tsb.FTA_LoadOrder_ID,"
 					+ " tsb.PriceEntered,"
 					+ " tsb.PriceList,"
@@ -114,12 +120,18 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						+ " 	Max(Case When tsb.ColumnName = 'GI_PriceEntered' Then tsb.Value_Number Else Null End) As PriceEntered,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_PriceList' Then tsb.Value_Number Else Null End) As PriceList,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Order_ID' Then tsb.Value_Number Else Null End) As C_Order_ID,"
+						//2015-06-19 Carlos Parada Add for Support Charges And Not Items Products from Sales Order
+						+ " 	Max(Case When tsb.ColumnName = 'GI_C_OrderLine_ID' Then tsb.Value_Number Else Null End) As C_OrderLine_ID,"
+						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Charge_ID' Then tsb.Value_Number Else Null End) As C_Charge_ID,"
+						//End Carlos Parada
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Tax_ID' Then tsb.Value_Number Else Null End) As C_Tax_ID"
 						+ " From T_Selection_Browse tsb "
 						+ " Group By tsb.AD_PInstance_ID, tsb.T_Selection_ID"
 						+ ") tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID "
-					+ " Inner Join FTA_LoadOrderLine lord ON(lord.FTA_LoadOrderLine_ID = ts.T_Selection_ID) "
-					+ " Inner Join C_OrderLine oline ON(oline.C_OrderLine_ID = lord.C_OrderLine_ID) "
+						//2015-06-19 Carlos Parada Add for Support Charges And Not Items Products from Sales Order
+						//+ " Inner Join FTA_LoadOrderLine lord ON(lord.FTA_LoadOrderLine_ID = ts.T_Selection_ID) "
+						+ " Inner Join C_OrderLine oline ON(oline.C_OrderLine_ID = tsb.C_OrderLine_ID) "
+						//End Carlos Parada
 						+ " Where ts.AD_PInstance_ID=? "
 						+ " Order By tsb.C_BPartner_ID, oline.Line");
 		log.fine(sql.toString());
@@ -153,6 +165,9 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 			//	
 			while(rs.next()) {
 				int m_C_Order_ID = rs.getInt("C_Order_ID");
+				int m_C_OrderLine_ID = rs.getInt("C_OrderLine_ID");
+				int m_C_Charge_ID = rs.getInt("C_Charge_ID");
+				BigDecimal rate = Env.ZERO;
 				//	Valid Purchase Order and Business Partner
 				if(m_C_Order_ID == 0)
 					throw new AdempiereException("@C_Order_ID@ @NotFound@");
@@ -184,64 +199,77 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 					MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), 0, get_TrxName());
 					//	Get Product
 					MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
-					MOrderLine oLine = new MOrderLine(getCtx(), line.getC_OrderLine_ID(), get_TrxName());
-					//	Rate Convert
-					BigDecimal rate = MUOMConversion.getProductRateTo(Env.getCtx(), 
-							product.getM_Product_ID(), oLine.getC_UOM_ID());
-					//	Validate Rate equals null
-					if(rate == null) {
-						MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
-						MUOM oLineUOM = MUOM.get(getCtx(), oLine.getC_UOM_ID());
-						throw new AdempiereException("@NoUOMConversion@ @from@ " 
-										+ oLineUOM.getName() + " @to@ " + productUOM.getName());
+					
+					MOrderLine oLine = new MOrderLine(getCtx(), m_C_OrderLine_ID, get_TrxName());
+					
+					//2015-05-19 Carlos Parada Only Convertion for Products
+					if(oLine.getM_Product_ID()!=0){
+						//	Rate Convert
+						rate = MUOMConversion.getProductRateTo(Env.getCtx(), 
+								product.getM_Product_ID(), oLine.getC_UOM_ID());
+						//	Validate Rate equals null
+						if(rate == null) {
+							MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
+							MUOM oLineUOM = MUOM.get(getCtx(), oLine.getC_UOM_ID());
+							throw new AdempiereException("@NoUOMConversion@ @from@ " 
+											+ oLineUOM.getName() + " @to@ " + productUOM.getName());
+						}
+						invoiceLine.setM_Product_ID(product.getM_Product_ID());
+					}else if (oLine.getC_Charge_ID()!=0){
+						invoiceLine.setC_Charge_ID(m_C_Charge_ID);
+						invoiceLine.setQtyEntered(oLine.getQtyOrdered());
+						invoiceLine.setQtyInvoiced(oLine.getQtyOrdered());
 					}
+					//End Carlos Parada
 					//	Set Values For Line
-					invoiceLine.setC_OrderLine_ID(line.getC_OrderLine_ID());
-					invoiceLine.setM_Product_ID(product.getM_Product_ID());
+					invoiceLine.setC_OrderLine_ID(oLine.getC_OrderLine_ID());
+					
 					invoiceLine.setC_UOM_ID(oLine.getC_UOM_ID());
 					int m_FTA_LoadOrder_ID 	= rs.getInt("FTA_LoadOrder_ID");
 					//	
 					MFTALoadOrder m_FTA_LoadOrder = new MFTALoadOrder(getCtx(), 
 							m_FTA_LoadOrder_ID, get_TrxName());
 					//	
-					if(m_FTA_LoadOrder.getOperationType().equals("DFP")) {
-						invoiceLine.setQtyEntered(m_Qty.multiply(rate));
-						invoiceLine.setQtyInvoiced(m_Qty);
-					} else if(m_FTA_LoadOrder.getOperationType().equals("DBM")) {
-						String sql = "SELECT FTA_RecordWeight_ID " +
-								"FROM FTA_RecordWeight " +
-								"WHERE DocStatus IN('CO', 'CL') " +
-								"AND FTA_LoadOrder_ID= ?";
-						//	
-						int FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), sql, m_FTA_LoadOrder_ID);
-						//	Valid Record Weight
-						if(FTA_RecordWeight_ID <= 0)
-							throw new AdempiereException("@FTA_RecordWeight_ID@ @NotFound@");
-						
-						MFTARecordWeight m_RecordWeight = new MFTARecordWeight(getCtx(), FTA_RecordWeight_ID, get_TrxName());
-						//	Get Rate for Weight
-						
-						//2015-05-16 Carlos Parada Change for get Rate From 
-						BigDecimal rateWeight = MUOMConversion.getProductRateFrom(Env.getCtx(), 
-								product.getM_Product_ID(), m_RecordWeight.getC_UOM_ID());
-						//End Carlos Parada
-						//	
-						//	Validate Rate equals null
-						if(rateWeight == null) {
-							MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
-							MUOM oLineUOM = MUOM.get(getCtx(), m_RecordWeight.getC_UOM_ID());
-							throw new AdempiereException("@NoUOMConversion@ @from@ " 
-											+ oLineUOM.getName() + " @to@ " + productUOM.getName());
-						}
-						//	
-						BigDecimal m_QtyWeight = m_RecordWeight.getNetWeight();
-						BigDecimal m_QtyInvoced = m_QtyWeight.multiply(rateWeight);
-						BigDecimal m_QtyEntered = m_QtyInvoced.multiply(rate);
-						
-						invoiceLine.setQtyEntered(m_QtyEntered);
-						invoiceLine.setQtyInvoiced(m_QtyInvoced);
-						
-					}	
+					if (line.getFTA_LoadOrder_ID()!=0){
+						if(m_FTA_LoadOrder.getOperationType().equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryFinishedProduct)) {
+							invoiceLine.setQtyEntered(m_Qty.multiply(rate));
+							invoiceLine.setQtyInvoiced(m_Qty);
+						} else if(m_FTA_LoadOrder.getOperationType().equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryBulkMaterial)) {
+							String sql = "SELECT FTA_RecordWeight_ID " +
+									"FROM FTA_RecordWeight " +
+									"WHERE DocStatus IN('CO', 'CL') " +
+									"AND FTA_LoadOrder_ID= ?";
+							//	
+							int FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), sql, m_FTA_LoadOrder_ID);
+							//	Valid Record Weight
+							if(FTA_RecordWeight_ID <= 0)
+								throw new AdempiereException("@FTA_RecordWeight_ID@ @NotFound@");
+							
+							MFTARecordWeight m_RecordWeight = new MFTARecordWeight(getCtx(), FTA_RecordWeight_ID, get_TrxName());
+							//	Get Rate for Weight
+							
+							//2015-05-16 Carlos Parada Change for get Rate From 
+							BigDecimal rateWeight = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+									product.getM_Product_ID(), m_RecordWeight.getC_UOM_ID());
+							//End Carlos Parada
+							//	
+							//	Validate Rate equals null
+							if(rateWeight == null) {
+								MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
+								MUOM oLineUOM = MUOM.get(getCtx(), m_RecordWeight.getC_UOM_ID());
+								throw new AdempiereException("@NoUOMConversion@ @from@ " 
+												+ oLineUOM.getName() + " @to@ " + productUOM.getName());
+							}
+							//	
+							BigDecimal m_QtyWeight = m_RecordWeight.getNetWeight();
+							BigDecimal m_QtyInvoced = m_QtyWeight.multiply(rateWeight);
+							BigDecimal m_QtyEntered = m_QtyInvoced.multiply(rate);
+							
+							invoiceLine.setQtyEntered(m_QtyEntered);
+							invoiceLine.setQtyInvoiced(m_QtyInvoced);
+							
+						}	
+					}
 					invoiceLine.setAD_Org_ID(m_Current_Invoice.getAD_Org_ID());
 					invoiceLine.setPriceList(oLine.getPriceList());
 					invoiceLine.setPriceEntered(oLine.getPriceEntered());
@@ -250,13 +278,16 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 					invoiceLine.setC_Invoice_ID(m_Current_Invoice.getC_Invoice_ID());
 					invoiceLine.save(get_TrxName());
 					//	
-					line.setC_InvoiceLine_ID(invoiceLine.getC_InvoiceLine_ID());
-					line.saveEx();
-					//	Change Load Order
-					MFTALoadOrder lo = new MFTALoadOrder(getCtx(), 
-							line.getFTA_LoadOrder_ID(), get_TrxName());
-					lo.setIsInvoiced(true);
-					lo.saveEx();
+					if (line.getFTA_LoadOrder_ID()!=0){
+						line.setC_InvoiceLine_ID(invoiceLine.getC_InvoiceLine_ID());
+						line.saveEx();
+					
+						//	Change Load Order
+						MFTALoadOrder lo = new MFTALoadOrder(getCtx(), 
+								line.getFTA_LoadOrder_ID(), get_TrxName());
+						lo.setIsInvoiced(true);
+						lo.saveEx();
+					}
 				}//End Invoice Line Created
 			}//End Invoice Generated
 			//	
