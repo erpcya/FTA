@@ -72,7 +72,6 @@ LEFT JOIN M_InOutLine iol ON (iol.M_InOutLine_ID = lol.M_InOutLine_ID)
 --SELECT * FROM FTA_RV_LoadOrderGenerateInvoice
 
 -- DROP VIEW fta_rv_loadordergenerateinvoice;
-
 CREATE OR REPLACE VIEW FTA_RV_LoadOrderGenerateInvoice AS 
  SELECT COALESCE(lo.AD_Org_ID,o.AD_Org_ID) AD_Org_ID,
     COALESCE(ol.AD_Client_ID,o.AD_Client_ID) AD_Client_ID,
@@ -83,7 +82,7 @@ CREATE OR REPLACE VIEW FTA_RV_LoadOrderGenerateInvoice AS
     COALESCE(lo.UpdatedBy,o.UpdatedBy) UpdatedBy,
     o.C_BPartner_ID,
     o.C_Order_ID,
-    lol.M_Product_ID,
+    p.M_Product_ID,
     COALESCE(lol.Qty,ol.QtyOrdered) Qty,
     ol.C_UOM_ID,
     ol.PriceEntered,
@@ -113,7 +112,13 @@ CREATE OR REPLACE VIEW FTA_RV_LoadOrderGenerateInvoice AS
     lo.IsImmediateDelivery,
     ol.C_OrderLine_ID,
     ol.C_Charge_ID,
-    COALESCE(p.Name,c.Name) ProductName
+    COALESCE(p.Name,c.Name) ProductName,
+    CASE WHEN  lol.FTA_LoadOrderLine_ID IS NOT NULL THEN tlo.Table_ID ELSE tol.Table_ID END ||
+    COALESCE(lol.FTA_LoadOrderLine_ID,ol.C_OrderLine_ID) Record_ID,
+    ol.qtyinvoiced,
+    ol.qtyordered
+    
+    
    FROM FTA_LoadOrderLine lol
      INNER JOIN FTA_LoadOrder lo ON lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID
      LEFT JOIN C_InvoiceLine il ON il.C_InvoiceLine_ID = lol.C_InvoiceLine_ID
@@ -122,4 +127,10 @@ CREATE OR REPLACE VIEW FTA_RV_LoadOrderGenerateInvoice AS
      JOIN C_Order o ON ol.C_Order_ID = o.C_Order_ID
      LEFT JOIN C_BPartner_Location bpl ON o.C_BPartner_Location_ID = bpl.C_BPartner_Location_ID
      LEFT JOIN M_Product p ON p.M_Product_ID = ol.M_Product_ID
-     LEFT JOIN C_Charge c ON c.C_Charge_ID = ol.C_Charge_ID;
+     LEFT JOIN C_Charge c ON c.C_Charge_ID = ol.C_Charge_ID,
+     (SELECT LEFT(CAST(AD_Table_ID AS VARCHAR),1) Table_ID FROM AD_Table WHERE TableName ='FTA_LoadOrderLine') tlo,
+     (SELECT LEFT(CAST(AD_Table_ID AS VARCHAR),1) Table_ID FROM AD_Table WHERE TableName ='C_OrderLine') tol
+     WHERE (
+     (p.ProductType = 'I' AND p.M_Product_ID = lol.M_Product_ID)
+      OR (p.ProductType <> 'I' AND lol.M_Product_ID IS NULL )
+	OR (p.M_Product_ID IS NULL )

@@ -23,7 +23,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MCharge;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
@@ -93,7 +92,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 		//	SQL
 		sql.append("Select "
 					+ "	ts.AD_PInstance_ID, "
-					+ " ts.T_Selection_ID As FTA_LoadOrderLine_ID, "
+					+ " ts.T_Selection_ID As Record_ID, "
 					+ " tsb.C_BPartner_ID, "
 					+ " tsb.DateDoc, "
 					+ " tsb.M_Product_ID, "
@@ -102,6 +101,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 					//2015-06-19 Carlos Parada Add for Support Charges And Not Items Products from Sales Order
 					+ " tsb.C_OrderLine_ID,"
 					+ " tsb.C_Charge_ID,"
+					+ " tsb.FTA_LoadOrderLine_ID,"
 					//End Carlos Parada
 					+ " tsb.FTA_LoadOrder_ID,"
 					+ " tsb.PriceEntered,"
@@ -115,6 +115,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						+ " 	Max(Case When tsb.ColumnName = 'GI_DateDoc' Then tsb.Value_Date Else Null End) As DateDoc, "
 						+ " 	Max(Case When tsb.ColumnName = 'GI_M_Product_ID' Then tsb.Value_Number Else Null End) As M_Product_ID,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_FTA_LoadOrder_ID' Then tsb.Value_Number Else Null End) As FTA_LoadOrder_ID,"
+						
 						+ " 	Max(Case When tsb.ColumnName = 'GI_Qty' Then tsb.Value_Number Else Null End) As Qty,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_PriceActual' Then tsb.Value_Number Else Null End) As PriceActual,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_PriceEntered' Then tsb.Value_Number Else Null End) As PriceEntered,"
@@ -123,6 +124,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						//2015-06-19 Carlos Parada Add for Support Charges And Not Items Products from Sales Order
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_OrderLine_ID' Then tsb.Value_Number Else Null End) As C_OrderLine_ID,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Charge_ID' Then tsb.Value_Number Else Null End) As C_Charge_ID,"
+						+ " 	Max(Case When tsb.ColumnName = 'GI_FTA_LoadOrderLine_ID' Then tsb.Value_Number Else Null End) As FTA_LoadOrderLine_ID,"
 						//End Carlos Parada
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Tax_ID' Then tsb.Value_Number Else Null End) As C_Tax_ID"
 						+ " From T_Selection_Browse tsb "
@@ -167,6 +169,8 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 				int m_C_Order_ID = rs.getInt("C_Order_ID");
 				int m_C_OrderLine_ID = rs.getInt("C_OrderLine_ID");
 				int m_C_Charge_ID = rs.getInt("C_Charge_ID");
+				int m_M_Product_ID = rs.getInt("M_Product_ID");
+				
 				BigDecimal rate = Env.ZERO;
 				//	Valid Purchase Order and Business Partner
 				if(m_C_Order_ID == 0)
@@ -198,7 +202,7 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 					
 					MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), 0, get_TrxName());
 					//	Get Product
-					MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
+					MProduct product = MProduct.get(getCtx(), m_M_Product_ID);
 					
 					MOrderLine oLine = new MOrderLine(getCtx(), m_C_OrderLine_ID, get_TrxName());
 					
@@ -215,8 +219,11 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 											+ oLineUOM.getName() + " @to@ " + productUOM.getName());
 						}
 						invoiceLine.setM_Product_ID(product.getM_Product_ID());
-					}else if (oLine.getC_Charge_ID()!=0){
+					}else if (oLine.getC_Charge_ID()!=0)
 						invoiceLine.setC_Charge_ID(m_C_Charge_ID);
+					
+					
+					if (m_FTA_LoadOrderLine_ID==0){
 						invoiceLine.setQtyEntered(oLine.getQtyOrdered());
 						invoiceLine.setQtyInvoiced(oLine.getQtyOrdered());
 					}

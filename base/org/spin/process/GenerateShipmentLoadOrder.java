@@ -103,7 +103,11 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 		//	Sql
 		sql.append("SELECT "
 					+ "	ts.AD_PInstance_ID, "
-					+ " ts.T_Selection_ID As FTA_LoadOrderLine_ID, "
+					//2015-06-19 Carlos Parada Add for Support Charges And Not Items Products from Sales Order
+					+ " ts.T_Selection_ID As Record_ID, "
+					+ " tsb.C_OrderLine_ID,"
+					+ " tsb.FTA_LoadOrderLine_ID,"
+					//End Carlos Parada
 					+ " tsb.C_BPartner_ID, "
 					+ " tsb.DateDoc, "
 					+ " tsb.M_Product_ID, "
@@ -130,13 +134,16 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 						+ " 	Max(Case When tsb.ColumnName = 'GI_PriceList' Then tsb.Value_Number Else Null End) As PriceList,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Order_ID' Then tsb.Value_Number Else Null End) As C_Order_ID,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Tax_ID' Then tsb.Value_Number Else Null End) As C_Tax_ID,"
+						//2015-06-19 Carlos Parada Add for Support Charges And Not Items Products from Sales Order
+						+ " 	Max(Case When tsb.ColumnName = 'GI_C_OrderLine_ID' Then tsb.Value_Number Else Null End) As C_OrderLine_ID,"
+						+ " 	Max(Case When tsb.ColumnName = 'GI_FTA_LoadOrderLine_ID' Then tsb.Value_Number Else Null End) As FTA_LoadOrderLine_ID,"
+						//End Carlos Parada
 						+ " 	Max(Case When tsb.ColumnName = 'GI_OperationType' Then tsb.Value_String Else Null End) As OperationType"
 						+ " FROM T_Selection_Browse tsb "
 						+ " GROUP BY tsb.AD_PInstance_ID, tsb.T_Selection_ID"
 						+ ") tsb ON(ts.AD_PInstance_ID = tsb.AD_PInstance_ID AND ts.T_Selection_ID = tsb.T_Selection_ID)"
-					+ " INNER JOIN FTA_LoadOrderLine lol ON(lol.FTA_LoadOrderLine_ID = ts.T_Selection_ID)"
-					+ " INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = lol.C_OrderLine_ID)"
-					+ " WHERE ts.AD_PInstance_ID = ?"
+					+ " INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = tsb.C_OrderLine_ID)"
+					+ " WHERE ts.AD_PInstance_ID = ? AND tsb.FTA_LoadOrderLine_ID != 0 "
 					+ " ORDER BY tsb.C_BPartner_ID, ol.M_Warehouse_ID");
 		log.fine(sql.toString());
 	}
