@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.util.ProcessUtil;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
@@ -33,11 +34,13 @@ import org.compiere.model.MUOMConversion;
 import org.compiere.model.X_C_Invoice;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
+import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Trx;
 import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTALoadOrderLine;
 import org.spin.model.MFTARecordWeight;
@@ -317,11 +320,25 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 	
 	/**
 	 * Print Invoices
+	 * Add support for generating control number to generate invoices from load order
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 1, 2015, 12:29:09 PM
+	 * @author <a href="mailto:dmartinez@erpcya.com">Dixon Martinez</a> 10/11/2015, 18:04:43
 	 * @return void
 	 */
 	private void printDocuments() {
 		for (int Record_ID : m_IDs) {
+			//	Create Trx
+			Trx trx = Trx.get(get_TrxName(), false);
+			//	Create Process Info
+			ProcessInfo pi_PrintInvoice = new ProcessInfo(getProcessInfo().getTitle(), 116);
+			//	Dixon Martinez 2015-11-10
+			//	Set AD_PInstance to process generate in/out
+			pi_PrintInvoice.setAD_PInstance_ID(getAD_PInstance_ID());
+			//	End Dixon Martinez
+			//	Add Parameters
+			pi_PrintInvoice.setRecord_ID(Record_ID);
+			//	Execute Process
+			ProcessUtil.startJavaProcess(getCtx(), pi_PrintInvoice, trx, true);
 			ReportCtl.startDocumentPrint(ReportEngine.INVOICE, Record_ID, null, 0, true);
 		}
 	}

@@ -62,6 +62,10 @@ public class GenerateInvoiceInOutLoadOrder extends SvrProcess {
 		Trx trx = Trx.get(get_TrxName(), false);
 		//	
 		ProcessInfo pi_InOut = new ProcessInfo(getProcessInfo().getTitle(), 53713);
+		//	Dixon Martinez 2015-11-10
+		//	Set AD_PInstance to process generate in/out
+		pi_InOut.setAD_PInstance_ID(getAD_PInstance_ID());
+		//	End Dixon Martinez
 		//	Add Parameters
 		pi_InOut.setParameter(processParams.toArray(new ProcessInfoParameter[processParams.size()]));
 		//	Execute Process
@@ -75,6 +79,10 @@ public class GenerateInvoiceInOutLoadOrder extends SvrProcess {
 		ProcessInfo pi_Invoice = new ProcessInfo(getProcessInfo().getTitle(), 53709);
 		//	Add Parameters
 		pi_Invoice.setParameter(processParams.toArray(new ProcessInfoParameter[processParams.size()]));
+		//	Dixon Martinez 2015-11-10
+		//	Set AD_PInstance to process generate in/out
+		pi_Invoice.setAD_PInstance_ID(getAD_PInstance_ID());
+		//	End Dixon Martinez
 		//	Execute Process
 		ProcessUtil.startJavaProcess(getCtx(), pi_Invoice, trx, true);
 		//	
