@@ -1061,6 +1061,22 @@ public class LoadOrder {
 	}
 	
 	/**
+	 * Get Driver Data
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 19/11/2013, 18:17:22
+	 * @return
+	 * @return KeyNamePair[]
+	 */
+	protected KeyNamePair[] getDataShipper() {
+		String sql = "SELECT s.M_Shipper_ID, s.Name " +
+				"FROM FTA_EntryTicket et " + 
+				"INNER JOIN M_Shipper s ON(s.M_Shipper_ID = et.M_Shipper_ID)  " +
+				"WHERE et.FTA_EntryTicket_ID = " + m_FTA_EntryTicket_ID + " " +
+				"ORDER BY s.Name";
+		//	
+		return DB.getKeyNamePairs(null, sql, false, new Object[]{});
+	}
+	
+	/**
 	 * Get Vehicle Data
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 18/11/2013, 10:08:03
 	 * @return

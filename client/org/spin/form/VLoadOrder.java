@@ -159,6 +159,8 @@ public class VLoadOrder extends LoadOrder
 	/**	Shipper					*/
 	private JLabel 				shipperLabel = new JLabel();
 	private VLookup 			shipperPick = null;
+	private CComboBox 			shipperSearch = new CComboBox();
+	
 	/**	Driver					*/
 	private JLabel 				driverLabel = new JLabel();
 	private CComboBox 			driverSearch = new CComboBox();
@@ -554,10 +556,14 @@ public class VLoadOrder extends LoadOrder
 		
 		//  Shipper
 		AD_Column_ID = 69852;		//  FTA_LoadOrder.M_Shipper_ID
-		MLookup lookupSP = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
+//		MLookup lookupSP = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
+//		shipperPick = new VLookup("M_Shipper_ID", false, true, true, lookupSP);
+//		//shipperPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
+//		shipperPick.addVetoableChangeListener(this);
+		MLookup lookupSP = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Table);
 		shipperPick = new VLookup("M_Shipper_ID", false, true, true, lookupSP);
-		//shipperPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
 		shipperPick.addVetoableChangeListener(this);
+		
 		
 		//  Vehicle Type
 		AD_Column_ID = 69851;		//  FTA_LoadOrder.FTA_VehicleType_ID
@@ -706,6 +712,12 @@ public class VLoadOrder extends LoadOrder
 			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
 			KeyNamePair[] data = getDataDriver();
 			m_FTA_Driver_ID = loadComboBox(driverSearch, data, true);
+			
+			m_FTA_EntryTicket_ID = ((Integer)(value != null? value: 0)).intValue();
+			KeyNamePair[] dataShipper = getDataShipper();
+			m_M_Shipper_ID = loadComboBox(shipperSearch, dataShipper, true);
+			shipperPick.setValue(m_M_Shipper_ID);
+			
 			//	Vehicle
 			data = getVehicleData();
 			m_FTA_Vehicle_ID = loadComboBox(vehicleSearch, data, true);
