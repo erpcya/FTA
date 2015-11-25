@@ -982,12 +982,12 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	 * @return String
 	 */
 	private String validETReference(){
-		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_LoadOrder_ID " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT lo.DocumentNo " +
 				"FROM FTA_LoadOrder lo " +
-				"WHERE  lo.DocStatus IN('CO', 'CL') "
+				"WHERE  lo.DocStatus = '" + DOCACTION_Complete + "'"
 				+ "AND lo.FTA_EntryTicket_ID = ? "
 				+ "AND lo.FTA_LoadOrder_ID != ? ", getFTA_EntryTicket_ID(), getFTA_LoadOrder_ID());
-		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
+		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.DocumentNo "
 				+ "FROM FTA_EntryTicket et "
 				+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
 		if(m_ReferenceNo != null) 
