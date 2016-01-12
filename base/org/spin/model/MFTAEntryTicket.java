@@ -164,11 +164,11 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
+		
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateDoc(), dt.getDocBaseType(), getAD_Org_ID()))
-		{
+		if (!MPeriod.isOpen(getCtx(), getDateDoc(), dt.getDocBaseType(), getAD_Org_ID())) {
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
@@ -528,6 +528,17 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
+		//	Dixon Martinez 2016-01-12
+		//	Add support for validate period is open?
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+
+		//	Std Period open?
+		if (!MPeriod.isOpen(getCtx(), getDateDoc(), dt.getDocBaseType(), getAD_Org_ID()))	{
+			m_processMsg = "@PeriodClosed@";
+			return false;
+		}
+		//	End Dixon Martinez
+		
 		m_processMsg = validQAReference();
 		if(m_processMsg != null)
 			return false;
@@ -538,7 +549,7 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 			return false;
 		//	Valid Record Weight Completed
 		m_processMsg = validRWReference();
-		if(m_processMsg != null)
+		if(m_processMsg != null)//TEARA-3534
 			return false;
 		//	Valid Load Order Completed
 		if(getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
