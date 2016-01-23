@@ -549,7 +549,7 @@ public class MFTAEntryTicket extends X_FTA_EntryTicket implements DocAction, Doc
 			return false;
 		//	Valid Record Weight Completed
 		m_processMsg = validRWReference();
-		if(m_processMsg != null)//TEARA-3534
+		if(m_processMsg != null)
 			return false;
 		//	Valid Load Order Completed
 		if(getOperationType().equals(OPERATIONTYPE_DeliveryBulkMaterial)
