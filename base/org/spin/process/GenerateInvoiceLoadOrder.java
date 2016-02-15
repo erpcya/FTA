@@ -328,9 +328,10 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 	private void printDocuments() {
 		for (int Record_ID : m_IDs) {
 			//	Create Trx
-			Trx trx = Trx.get(get_TrxName(), false);
+			String trxName = Trx.createTrxName("PRINTER_INVOICE");	
+			Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
 			//	Create Process Info
-			ProcessInfo pi_PrintInvoice = new ProcessInfo(getProcessInfo().getTitle(), 116);
+			ProcessInfo pi_PrintInvoice = new ProcessInfo(getProcessInfo().getTitle() , 116);
 			//	Dixon Martinez 2015-11-10
 			//	Set AD_PInstance to process generate in/out
 			pi_PrintInvoice.setAD_PInstance_ID(getAD_PInstance_ID());
