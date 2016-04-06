@@ -917,7 +917,11 @@ public class VLoadOrder extends LoadOrder
 	 */
 	private int existProductStock(int p_Product_ID, int p_M_Warehouse_ID) {
 		for(int i = 0; i < stockModel.getRowCount(); i++) {
-			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == p_Product_ID) {
+			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == p_Product_ID
+					//2016-04-06 Carlos Parada Add Support to Warehouse Filter
+					&& ((KeyNamePair) stockModel.getValueAt(i, SW_WAREHOUSE)).getKey() == p_M_Warehouse_ID
+					//End Carlos Parada
+					) {
 				return i;
 			}
 		}
