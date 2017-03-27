@@ -15,7 +15,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Oct 31, 2013 5:48:08 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Detalle Orden de Pago',Updated=TO_TIMESTAMP('2013-10-31 17:48:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53680 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Detalle Orden de Pago',Updated=TO_TIMESTAMP('2013-10-31 17:48:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53680 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 5:48:17 PM VET
@@ -265,7 +265,7 @@ UPDATE AD_Menu SET AD_Process_ID=53523,Updated=TO_TIMESTAMP('2013-10-31 17:55:51
 
 -- Oct 31, 2013 5:56:16 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle Orden de Pago',Updated=TO_TIMESTAMP('2013-10-31 17:56:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53523 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle Orden de Pago',Updated=TO_TIMESTAMP('2013-10-31 17:56:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53523 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 5:56:20 PM VET

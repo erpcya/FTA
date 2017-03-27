@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Jul 10, 2013 10:13:00 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Etapa del Cultivo',Updated=TO_TIMESTAMP('2013-07-10 10:13:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53249 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Etapa del Cultivo',Updated=TO_TIMESTAMP('2013-07-10 10:13:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53249 AND AD_Language='es_VE'
 ;
 
 -- Jul 10, 2013 10:13:41 AM VET
@@ -139,7 +139,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jul 10, 2013 10:16:57 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Etapa del Cultivo',Updated=TO_TIMESTAMP('2013-07-10 10:16:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53691 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Etapa del Cultivo',Updated=TO_TIMESTAMP('2013-07-10 10:16:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53691 AND AD_Language='es_VE'
 ;
 
 -- Jul 10, 2013 10:17:43 AM VET

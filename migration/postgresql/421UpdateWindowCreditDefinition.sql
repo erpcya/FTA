@@ -1,11 +1,11 @@
 -- Mar 18, 2014 8:49:31 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='0',Updated=TO_TIMESTAMP('2014-03-18 08:49:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53774 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='0',Updated=TO_TIMESTAMP('2014-03-18 08:49:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53774 AND AD_Language='es_VE'
 ;
 
 -- Mar 18, 2014 8:49:34 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Detalle Orden de Carga',Updated=TO_TIMESTAMP('2014-03-18 08:49:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53774 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Detalle Orden de Carga',Updated=TO_TIMESTAMP('2014-03-18 08:49:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53774 AND AD_Language='es_VE'
 ;
 
 -- Mar 18, 2014 8:49:39 AM VET
@@ -60,7 +60,7 @@ UPDATE AD_Process_Para SET SeqNo=25,Updated=TO_TIMESTAMP('2014-03-18 08:51:45','
 
 -- Mar 18, 2014 8:55:07 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle Orden de Carga',Updated=TO_TIMESTAMP('2014-03-18 08:55:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53595 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle Orden de Carga',Updated=TO_TIMESTAMP('2014-03-18 08:55:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53595 AND AD_Language='es_VE'
 ;
 
 -- Mar 18, 2014 8:55:12 AM VET

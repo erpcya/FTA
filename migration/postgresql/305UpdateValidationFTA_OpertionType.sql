@@ -35,7 +35,7 @@ UPDATE AD_Field SET DisplayLogic='@DocBaseType@=''FBE'' | @DocBaseType@=''FQA'' 
 
 -- Nov 18, 2013 9:55:57 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Orden de carga',Updated=TO_TIMESTAMP('2013-11-18 09:55:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54157 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Orden de carga',Updated=TO_TIMESTAMP('2013-11-18 09:55:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54157 AND AD_Language='es_VE'
 ;
 
 -- Nov 18, 2013 9:56:03 AM VET
@@ -45,7 +45,7 @@ UPDATE AD_Ref_List_Trl SET Name='Orden de carga',Updated=TO_TIMESTAMP('2013-11-1
 
 -- Nov 18, 2013 10:03:35 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Despacho Producto a Granel',Updated=TO_TIMESTAMP('2013-11-18 10:03:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54153 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Despacho Producto a Granel',Updated=TO_TIMESTAMP('2013-11-18 10:03:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54153 AND AD_Language='es_VE'
 ;
 
 -- Nov 18, 2013 10:03:54 AM VET
@@ -75,7 +75,7 @@ UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=54150
 
 -- Nov 18, 2013 10:05:43 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Recepción de Producto a Granel',Updated=TO_TIMESTAMP('2013-11-18 10:05:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54150 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Recepción de Producto a Granel',Updated=TO_TIMESTAMP('2013-11-18 10:05:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54150 AND AD_Language='es_VE'
 ;
 
 -- Nov 18, 2013 10:05:47 AM VET
@@ -125,7 +125,7 @@ UPDATE AD_Element_Trl SET Name='No Asignación',PrintName='No Asignación',Updat
 
 -- Nov 18, 2013 10:37:25 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='No Asignación',PrintName='No Asignación',Updated=TO_TIMESTAMP('2013-11-18 10:37:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56151 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='No Asignación',PrintName='No Asignación',Updated=TO_TIMESTAMP('2013-11-18 10:37:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56151 AND AD_Language='es_VE'
 ;
 
 -- Nov 18, 2013 10:37:40 AM VET

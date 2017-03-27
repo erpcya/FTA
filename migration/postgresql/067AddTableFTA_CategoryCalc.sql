@@ -98,7 +98,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 26, 2013 3:56:14 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Calculo del Rubro',Updated=TO_TIMESTAMP('2013-08-26 15:56:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53568 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Calculo del Rubro',Updated=TO_TIMESTAMP('2013-08-26 15:56:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53568 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 3:57:13 PM VET

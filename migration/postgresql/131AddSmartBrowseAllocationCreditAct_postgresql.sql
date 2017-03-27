@@ -455,7 +455,7 @@ INSERT INTO AD_Browse_Field_Trl (AD_Language,AD_Browse_Field_ID, Description,Hel
 
 -- 07-oct-2013 15:25:03 VET
 -- SFAndroid Contribution
-UPDATE AD_Browse_Trl SET Name='Asignar Creditos a Acta',Description='Asignar Creditos a Acta',Help='Asignar Creditos a Actas',Updated=TO_TIMESTAMP('2013-10-07 15:25:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50022 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Asignar Creditos a Acta',Description='Asignar Creditos a Acta',Help='Asignar Creditos a Actas',Updated=TO_TIMESTAMP('2013-10-07 15:25:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50022 AND AD_Language='es_VE'
 ;
 
 -- 07-oct-2013 15:25:11 VET

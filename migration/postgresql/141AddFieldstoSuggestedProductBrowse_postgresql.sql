@@ -55,7 +55,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Suggested', Name='Suggested' WHERE IsCe
 
 -- Oct 11, 2013 2:04:49 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Sugerido',PrintName='Sugerido',Updated=TO_TIMESTAMP('2013-10-11 14:04:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56478 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Sugerido',PrintName='Sugerido',Updated=TO_TIMESTAMP('2013-10-11 14:04:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56478 AND AD_Language='es_VE'
 ;
 
 -- Oct 11, 2013 2:05:20 PM VET

@@ -30,7 +30,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Feb 21, 2014 8:02:54 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Copiar Productos',PrintName='Copiar Productos',Updated=TO_TIMESTAMP('2014-02-21 08:02:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57052 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Copiar Productos',PrintName='Copiar Productos',Updated=TO_TIMESTAMP('2014-02-21 08:02:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57052 AND AD_Language='es_VE'
 ;
 
 -- Feb 21, 2014 8:03:00 AM VET
@@ -90,7 +90,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Copy Only Product', Name='Copy Only Pro
 
 -- Feb 21, 2014 8:41:50 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Copiar Solo Productos',PrintName='Copiar Solo Productos',Updated=TO_TIMESTAMP('2014-02-21 08:41:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57052 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Copiar Solo Productos',PrintName='Copiar Solo Productos',Updated=TO_TIMESTAMP('2014-02-21 08:41:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57052 AND AD_Language='es_VE'
 ;
 
 -- Feb 21, 2014 8:41:53 AM VET

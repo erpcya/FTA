@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Jun 3, 2014 8:02:04 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Registro del Peso (Mantenimiento)',Updated=TO_TIMESTAMP('2014-06-03 08:02:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53362 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Registro del Peso (Mantenimiento)',Updated=TO_TIMESTAMP('2014-06-03 08:02:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53362 AND AD_Language='es_VE'
 ;
 
 -- Jun 3, 2014 8:02:14 AM VET
@@ -538,7 +538,7 @@ UPDATE AD_Tab_Trl SET IsTranslated='N' WHERE AD_Tab_ID=53964
 
 -- Jun 3, 2014 8:05:24 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Registro del Peso (Mantenimiento)',Updated=TO_TIMESTAMP('2014-06-03 08:05:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53964 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Registro del Peso (Mantenimiento)',Updated=TO_TIMESTAMP('2014-06-03 08:05:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53964 AND AD_Language='es_VE'
 ;
 
 -- Jun 3, 2014 8:05:30 AM VET
@@ -548,7 +548,7 @@ UPDATE AD_Tab_Trl SET Name='Registro del Peso (Mantenimiento)',Updated=TO_TIMEST
 
 -- Jun 3, 2014 8:05:57 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Registro del Peso Detalle (Mantenimiento)',Updated=TO_TIMESTAMP('2014-06-03 08:05:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53965 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Registro del Peso Detalle (Mantenimiento)',Updated=TO_TIMESTAMP('2014-06-03 08:05:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53965 AND AD_Language='es_VE'
 ;
 
 -- Jun 3, 2014 8:05:59 AM VET

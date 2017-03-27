@@ -5,12 +5,12 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', IsSetNLPosition='Y
 
 -- 16/10/2013 03:02:11 PM VET
 -- Farming Technical Assistance
-UPDATE C_DocType_Trl SET Name='Analisis de Calidad',PrintName='Analisis de Calidad',Updated=TO_TIMESTAMP('2013-10-16 15:02:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE C_DocType_ID=1000052 AND AD_Language='es_MX'
+UPDATE C_DocType_Trl SET Name='Analisis de Calidad',PrintName='Analisis de Calidad',Updated=TO_TIMESTAMP('2013-10-16 15:02:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE C_DocType_ID=1000052 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 03:03:10 PM VET
 -- Farming Technical Assistance
-UPDATE C_DocType_Trl SET Name='Análisis de Calidad',PrintName='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-10-16 15:03:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE C_DocType_ID=1000052 AND AD_Language='es_MX'
+UPDATE C_DocType_Trl SET Name='Análisis de Calidad',PrintName='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-10-16 15:03:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE C_DocType_ID=1000052 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 03:09:48 PM VET
@@ -110,7 +110,7 @@ UPDATE AD_PrintFormatItem_Trl SET PrintName = (SELECT e.PrintName FROM AD_Elemen
 
 -- 16/10/2013 03:56:08 PM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='T. Análisis:',Updated=TO_TIMESTAMP('2013-10-16 15:56:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55713 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='T. Análisis:',Updated=TO_TIMESTAMP('2013-10-16 15:56:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55713 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 03:56:41 PM VET
@@ -295,6 +295,6 @@ UPDATE AD_PrintFormatItem_Trl SET IsTranslated='N' WHERE AD_PrintFormatItem_ID=5
 
 -- 16/10/2013 04:09:56 PM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Hoja de Muestreo',Updated=TO_TIMESTAMP('2013-10-16 16:09:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55661 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Hoja de Muestreo',Updated=TO_TIMESTAMP('2013-10-16 16:09:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55661 AND AD_Language='es_VE'
 ;
 

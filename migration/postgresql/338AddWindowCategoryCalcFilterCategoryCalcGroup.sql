@@ -209,7 +209,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Category Calc Group', Name='Category Ca
 
 -- Jan 13, 2014 4:53:17 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Grupo de Cálculo',PrintName='Grupo de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 16:53:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56986 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Grupo de Cálculo',PrintName='Grupo de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 16:53:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56986 AND AD_Language='es_VE'
 ;
 
 -- Jan 13, 2014 4:53:22 PM VET
@@ -239,7 +239,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jan 13, 2014 4:55:06 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Grupo de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 16:55:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53739 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Grupo de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 16:55:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53739 AND AD_Language='es_VE'
 ;
 
 -- Jan 13, 2014 4:55:11 PM VET
@@ -249,7 +249,7 @@ UPDATE AD_Table_Trl SET Name='Grupo de Cálculo',Updated=TO_TIMESTAMP('2014-01-1
 
 -- Jan 13, 2014 4:55:21 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Grupo de Cálculo',Description='Grupo de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 16:55:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53338 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Grupo de Cálculo',Description='Grupo de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 16:55:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53338 AND AD_Language='es_VE'
 ;
 
 -- Jan 13, 2014 4:55:26 PM VET
@@ -378,7 +378,7 @@ UPDATE AD_Menu SET EntityType='ECA02',Updated=TO_TIMESTAMP('2014-01-13 16:58:05'
 
 -- Jan 13, 2014 4:58:23 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Grupo de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 16:58:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53743 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Grupo de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 16:58:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53743 AND AD_Language='es_VE'
 ;
 
 -- Jan 13, 2014 4:58:27 PM VET
@@ -566,7 +566,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Jan 13, 2014 5:10:33 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 17:10:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53740 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 17:10:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53740 AND AD_Language='es_VE'
 ;
 
 -- Jan 13, 2014 5:10:38 PM VET
@@ -611,7 +611,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Category Calc Filter', Name='Category C
 
 -- Jan 13, 2014 5:11:12 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Filtro de Cálculo',PrintName='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 17:11:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56987 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Filtro de Cálculo',PrintName='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 17:11:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56987 AND AD_Language='es_VE'
 ;
 
 -- Jan 13, 2014 5:11:17 PM VET
@@ -702,12 +702,12 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jan 13, 2014 5:17:04 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Valor',PrintName='Valor',Updated=TO_TIMESTAMP('2014-01-13 17:17:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56988 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Valor',PrintName='Valor',Updated=TO_TIMESTAMP('2014-01-13 17:17:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56988 AND AD_Language='es_VE'
 ;
 
 -- Jan 13, 2014 5:17:14 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Description='Valor Numerico',Updated=TO_TIMESTAMP('2014-01-13 17:17:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56988 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Description='Valor Numerico',Updated=TO_TIMESTAMP('2014-01-13 17:17:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56988 AND AD_Language='es_VE'
 ;
 
 -- Jan 13, 2014 5:17:18 PM VET
@@ -797,7 +797,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jan 13, 2014 5:25:07 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Filtro de Cálculo',Description='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 17:25:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53339 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Filtro de Cálculo',Description='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 17:25:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53339 AND AD_Language='es_VE'
 ;
 
 -- Jan 13, 2014 5:25:12 PM VET
@@ -807,7 +807,7 @@ UPDATE AD_Window_Trl SET Name='Filtro de Cálculo',Description='Filtro de Cálcu
 
 -- Jan 13, 2014 5:25:17 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 17:25:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53885 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-01-13 17:25:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53885 AND AD_Language='es_VE'
 ;
 
 -- Jan 13, 2014 5:25:23 PM VET

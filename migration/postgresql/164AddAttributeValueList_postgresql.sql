@@ -135,7 +135,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Oct 16, 2013 12:09:38 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Lista de Atributos del Producto',Updated=TO_TIMESTAMP('2013-10-16 12:09:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53626 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Lista de Atributos del Producto',Updated=TO_TIMESTAMP('2013-10-16 12:09:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53626 AND AD_Language='es_VE'
 ;
 
 -- Oct 16, 2013 12:09:46 PM VET

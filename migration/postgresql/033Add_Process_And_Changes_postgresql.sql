@@ -75,7 +75,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53566
 
 -- 22/07/2013 04:38:54 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Rubro',Updated=TO_TIMESTAMP('2013-07-22 16:38:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53249 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Rubro',Updated=TO_TIMESTAMP('2013-07-22 16:38:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53249 AND AD_Language='es_VE'
 ;
 
 -- 22/07/2013 04:39:02 PM VET
@@ -90,17 +90,17 @@ UPDATE AD_Tab_Trl SET IsTranslated='N' WHERE AD_Tab_ID=53692
 
 -- 22/07/2013 04:39:10 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Rubro',Updated=TO_TIMESTAMP('2013-07-22 16:39:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53692 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Rubro',Updated=TO_TIMESTAMP('2013-07-22 16:39:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53692 AND AD_Language='es_VE'
 ;
 
 -- 22/07/2013 04:39:20 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Description='Rubro o Typo de Producto',Updated=TO_TIMESTAMP('2013-07-22 16:39:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53692 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Description='Rubro o Typo de Producto',Updated=TO_TIMESTAMP('2013-07-22 16:39:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53692 AND AD_Language='es_VE'
 ;
 
 -- 22/07/2013 04:43:18 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Description='Rubro o Tipo de Producto',Updated=TO_TIMESTAMP('2013-07-22 16:43:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53692 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Description='Rubro o Tipo de Producto',Updated=TO_TIMESTAMP('2013-07-22 16:43:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53692 AND AD_Language='es_VE'
 ;
 
 -- 22/07/2013 04:57:52 PM VET
@@ -155,17 +155,17 @@ UPDATE AD_Column SET IsUpdateable='N',Updated=TO_TIMESTAMP('2013-07-22 17:27:15'
 
 -- 22/07/2013 05:28:28 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Guía de Movilización',PrintName='Guía de Movilización',Updated=TO_TIMESTAMP('2013-07-22 17:28:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55979 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Guía de Movilización',PrintName='Guía de Movilización',Updated=TO_TIMESTAMP('2013-07-22 17:28:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55979 AND AD_Language='es_VE'
 ;
 
 -- 22/07/2013 05:28:36 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Guía de Movilización',Updated=TO_TIMESTAMP('2013-07-22 17:28:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53510 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Guía de Movilización',Updated=TO_TIMESTAMP('2013-07-22 17:28:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53510 AND AD_Language='es_VE'
 ;
 
 -- 22/07/2013 05:28:53 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Guía de Movilización',Updated=TO_TIMESTAMP('2013-07-22 17:28:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53673 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Guía de Movilización',Updated=TO_TIMESTAMP('2013-07-22 17:28:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53673 AND AD_Language='es_VE'
 ;
 
 -- 22/07/2013 05:30:14 PM VET
@@ -185,12 +185,12 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- 22/07/2013 05:32:43 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Process_Trl SET Name='Validar',Description='Validar Finca',Updated=TO_TIMESTAMP('2013-07-22 17:32:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53419 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Validar',Description='Validar Finca',Updated=TO_TIMESTAMP('2013-07-22 17:32:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53419 AND AD_Language='es_VE'
 ;
 
 -- 22/07/2013 05:33:34 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Process_Trl SET Name='Copiar Etapas',Description='Copiar Etapas y Secuencia desde otro Rubro',Updated=TO_TIMESTAMP('2013-07-22 17:33:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53420 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Copiar Etapas',Description='Copiar Etapas y Secuencia desde otro Rubro',Updated=TO_TIMESTAMP('2013-07-22 17:33:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53420 AND AD_Language='es_VE'
 ;
 
 -- 22/07/2013 05:33:50 PM VET

@@ -30,7 +30,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Jun 28, 2013 3:18:55 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Productos a Aplicar',Updated=TO_TIMESTAMP('2013-06-28 15:18:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53515 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Productos a Aplicar',Updated=TO_TIMESTAMP('2013-06-28 15:18:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53515 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 3:19:06 PM VET
@@ -128,7 +128,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2013 3:22:00 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Productos a Aplicar',PrintName='Productos a Aplicar',Updated=TO_TIMESTAMP('2013-06-28 15:22:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55988 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Productos a Aplicar',PrintName='Productos a Aplicar',Updated=TO_TIMESTAMP('2013-06-28 15:22:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55988 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 3:22:47 PM VET
@@ -203,7 +203,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 3:27:44 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Cant. Sugerida',PrintName='Cant. Sugerida',Updated=TO_TIMESTAMP('2013-06-28 15:27:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55989 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Cant. Sugerida',PrintName='Cant. Sugerida',Updated=TO_TIMESTAMP('2013-06-28 15:27:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55989 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 3:28:07 PM VET

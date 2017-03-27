@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Feb 17, 2014 8:51:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Peso a Pagar',PrintName='Peso a Pagar',Updated=TO_TIMESTAMP('2014-02-17 08:51:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57041 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Peso a Pagar',PrintName='Peso a Pagar',Updated=TO_TIMESTAMP('2014-02-17 08:51:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57041 AND AD_Language='es_VE'
 ;
 
 -- Feb 17, 2014 8:51:19 AM VET
@@ -291,7 +291,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Feb 17, 2014 8:59:32 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Detalle Registro de Peso',Updated=TO_TIMESTAMP('2014-02-17 08:59:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53761 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Detalle Registro de Peso',Updated=TO_TIMESTAMP('2014-02-17 08:59:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53761 AND AD_Language='es_VE'
 ;
 
 -- Feb 17, 2014 8:59:44 AM VET
@@ -301,7 +301,7 @@ UPDATE AD_Table_Trl SET Name='Detalle Registro de Peso',Updated=TO_TIMESTAMP('20
 
 -- Feb 17, 2014 8:59:52 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Detalle Registro de Peso',Updated=TO_TIMESTAMP('2014-02-17 08:59:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53905 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Detalle Registro de Peso',Updated=TO_TIMESTAMP('2014-02-17 08:59:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53905 AND AD_Language='es_VE'
 ;
 
 -- Feb 17, 2014 8:59:55 AM VET

@@ -45,7 +45,7 @@ INSERT INTO AD_Message_Trl (AD_Language,AD_Message_ID, MsgText,MsgTip, IsTransla
 
 -- Jun 2, 2014 5:00:22 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='Crédito usado es mayor a  monto Aprovado',Updated=TO_TIMESTAMP('2014-06-02 17:00:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53274 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='Crédito usado es mayor a  monto Aprovado',Updated=TO_TIMESTAMP('2014-06-02 17:00:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53274 AND AD_Language='es_VE'
 ;
 
 -- Jun 2, 2014 5:00:24 PM VET

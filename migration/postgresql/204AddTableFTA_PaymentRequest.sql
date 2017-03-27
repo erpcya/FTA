@@ -250,7 +250,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 24, 2013 7:56:57 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 19:56:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53650 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 19:56:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53650 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 7:57:23 PM VET
@@ -330,7 +330,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 24, 2013 8:06:13 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 20:06:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54133 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 20:06:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54133 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 8:07:15 PM VET

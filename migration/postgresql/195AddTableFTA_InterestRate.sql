@@ -103,12 +103,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 24, 2013 9:05:04 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Tasa de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:05:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53648 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Tasa de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:05:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53648 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:05:16 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tasa de Interes',PrintName='Tasa de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:05:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56548 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tasa de Interes',PrintName='Tasa de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:05:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56548 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:06:01 AM VET

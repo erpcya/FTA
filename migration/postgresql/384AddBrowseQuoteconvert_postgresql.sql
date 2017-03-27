@@ -20,7 +20,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53583
 
 -- Feb 18, 2014 11:25:05 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Convertir Cotización y Asignar A Credito de Productor',Description='Convierte una Propuesta o Cotización abierta a Orden y Asignar A Credito de Productor',Help='Usted puede convertir una Propuesta o una Cotización a cualquier otro tipo de documento de Orden. Utilizaría este proceso, si usted desea mantener la Propuesta o la Cotización. El estado del documento necesita estar en proceso.',Updated=TO_TIMESTAMP('2014-02-18 11:25:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53583 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Convertir Cotización y Asignar A Credito de Productor',Description='Convierte una Propuesta o Cotización abierta a Orden y Asignar A Credito de Productor',Help='Usted puede convertir una Propuesta o una Cotización a cualquier otro tipo de documento de Orden. Utilizaría este proceso, si usted desea mantener la Propuesta o la Cotización. El estado del documento necesita estar en proceso.',Updated=TO_TIMESTAMP('2014-02-18 11:25:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53583 AND AD_Language='es_VE'
 ;
 
 -- Feb 18, 2014 11:25:17 AM VET
@@ -80,7 +80,7 @@ INSERT INTO AD_Browse_Trl (AD_Language,AD_Browse_ID, Description,Help,Name, IsTr
 
 -- Feb 18, 2014 12:00:24 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Browse_Trl SET Name='Convertir Cotización y Asignar A Credito de Productor',Description='Convertir Cotización y Asignar A Credito de Productor',Updated=TO_TIMESTAMP('2014-02-18 12:00:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50032 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Convertir Cotización y Asignar A Credito de Productor',Description='Convertir Cotización y Asignar A Credito de Productor',Updated=TO_TIMESTAMP('2014-02-18 12:00:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50032 AND AD_Language='es_VE'
 ;
 
 -- Feb 18, 2014 12:00:27 PM VET
@@ -402,7 +402,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Feb 18, 2014 12:23:44 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Convertir Cotización y Asignar A Credito de Productor',Updated=TO_TIMESTAMP('2014-02-18 12:23:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53776 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Convertir Cotización y Asignar A Credito de Productor',Updated=TO_TIMESTAMP('2014-02-18 12:23:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53776 AND AD_Language='es_VE'
 ;
 
 -- Feb 18, 2014 12:23:46 PM VET

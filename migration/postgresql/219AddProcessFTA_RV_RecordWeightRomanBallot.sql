@@ -60,7 +60,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Oct 28, 2013 12:06:53 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Boletas de Romana',Updated=TO_TIMESTAMP('2013-10-28 12:06:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53514 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Boletas de Romana',Updated=TO_TIMESTAMP('2013-10-28 12:06:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53514 AND AD_Language='es_VE'
 ;
 
 -- Oct 28, 2013 12:07:24 PM VET

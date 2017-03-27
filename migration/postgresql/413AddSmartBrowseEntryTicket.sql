@@ -216,7 +216,7 @@ UPDATE AD_Browse SET AccessLevel='3',Updated=TO_TIMESTAMP('2014-03-13 23:55:02',
 
 -- Mar 13, 2014 11:55:13 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Browse_Trl SET Name='Tickets de entrada pendientes por Análisis de Calidad',Updated=TO_TIMESTAMP('2014-03-13 23:55:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50033 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Tickets de entrada pendientes por Análisis de Calidad',Updated=TO_TIMESTAMP('2014-03-13 23:55:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50033 AND AD_Language='es_VE'
 ;
 
 -- Mar 13, 2014 11:55:26 PM VET

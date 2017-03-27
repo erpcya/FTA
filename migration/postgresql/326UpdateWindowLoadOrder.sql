@@ -341,7 +341,7 @@ INSERT INTO AD_Message_Trl (AD_Language,AD_Message_ID, MsgText,MsgTip, IsTransla
 
 -- Dec 19, 2013 3:53:22 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='Diferencia de Peso',Updated=TO_TIMESTAMP('2013-12-19 15:53:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53256 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='Diferencia de Peso',Updated=TO_TIMESTAMP('2013-12-19 15:53:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53256 AND AD_Language='es_VE'
 ;
 
 -- Dec 19, 2013 3:53:27 PM VET
@@ -361,7 +361,7 @@ INSERT INTO AD_Message_Trl (AD_Language,AD_Message_ID, MsgText,MsgTip, IsTransla
 
 -- Dec 19, 2013 3:53:59 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='Diferencia de Volumen',Updated=TO_TIMESTAMP('2013-12-19 15:53:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53257 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='Diferencia de Volumen',Updated=TO_TIMESTAMP('2013-12-19 15:53:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53257 AND AD_Language='es_VE'
 ;
 
 -- Dec 19, 2013 3:54:04 PM VET

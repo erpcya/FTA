@@ -245,7 +245,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Mar 19, 2014 9:06:04 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle Registro de Peso (Diario)',Updated=TO_TIMESTAMP('2014-03-19 21:06:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53606 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle Registro de Peso (Diario)',Updated=TO_TIMESTAMP('2014-03-19 21:06:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53606 AND AD_Language='es_VE'
 ;
 
 -- Mar 19, 2014 9:06:06 PM VET

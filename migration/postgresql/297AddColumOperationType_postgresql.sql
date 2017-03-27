@@ -50,7 +50,7 @@ INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name
 
 -- Nov 12, 2013 3:54:42 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Reference_Trl SET Name='FTA_Tipo de Operación',Updated=TO_TIMESTAMP('2013-11-12 15:54:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53597 AND AD_Language='es_MX'
+UPDATE AD_Reference_Trl SET Name='FTA_Tipo de Operación',Updated=TO_TIMESTAMP('2013-11-12 15:54:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53597 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 3:54:47 PM VET
@@ -70,12 +70,12 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Nov 12, 2013 3:55:36 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Recepcion de Materia Prima',Updated=TO_TIMESTAMP('2013-11-12 15:55:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54149 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Recepcion de Materia Prima',Updated=TO_TIMESTAMP('2013-11-12 15:55:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54149 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 3:56:50 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Recepción de Materia Prima',Updated=TO_TIMESTAMP('2013-11-12 15:56:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54149 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Recepción de Materia Prima',Updated=TO_TIMESTAMP('2013-11-12 15:56:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54149 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 3:56:55 PM VET
@@ -95,7 +95,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Nov 12, 2013 3:57:33 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Recepción de Combustible',Updated=TO_TIMESTAMP('2013-11-12 15:57:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54150 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Recepción de Combustible',Updated=TO_TIMESTAMP('2013-11-12 15:57:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54150 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 3:57:43 PM VET
@@ -115,7 +115,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Nov 12, 2013 3:59:18 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Recepción Varios Productos',Updated=TO_TIMESTAMP('2013-11-12 15:59:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54151 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Recepción Varios Productos',Updated=TO_TIMESTAMP('2013-11-12 15:59:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54151 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 3:59:23 PM VET
@@ -135,7 +135,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Nov 12, 2013 4:00:03 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Movimiento de Entrada',Updated=TO_TIMESTAMP('2013-11-12 16:00:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54152 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Movimiento de Entrada',Updated=TO_TIMESTAMP('2013-11-12 16:00:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54152 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 4:00:08 PM VET
@@ -155,7 +155,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Nov 12, 2013 4:12:30 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Despacho Producto Terminado',Updated=TO_TIMESTAMP('2013-11-12 16:12:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54153 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Despacho Producto Terminado',Updated=TO_TIMESTAMP('2013-11-12 16:12:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54153 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 4:12:35 PM VET

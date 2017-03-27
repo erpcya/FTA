@@ -30,7 +30,7 @@ UPDATE AD_Window_Trl SET Name='Guía de Movilización',Updated=TO_TIMESTAMP('201
 
 -- Jan 25, 2014 10:03:03 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:03:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53341 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:03:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53341 AND AD_Language='es_VE'
 ;
 
 -- Jan 25, 2014 10:03:07 AM VET
@@ -65,7 +65,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:04:52 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:04:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53892 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:04:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53892 AND AD_Language='es_VE'
 ;
 
 -- Jan 25, 2014 10:04:57 AM VET
@@ -490,7 +490,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53600, SeqNo=10,Updated=TO_TIMESTAMP('2014-01
 
 -- Jan 25, 2014 10:16:54 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:16:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53757 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:16:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53757 AND AD_Language='es_VE'
 ;
 
 -- Jan 25, 2014 10:16:58 AM VET
@@ -555,7 +555,7 @@ UPDATE AD_Field SET IsSameLine='Y',Updated=TO_TIMESTAMP('2014-01-25 10:45:31','Y
 
 -- Jan 25, 2014 10:47:52 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Industria',PrintName='Industria',Updated=TO_TIMESTAMP('2014-01-25 10:47:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56978 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Industria',PrintName='Industria',Updated=TO_TIMESTAMP('2014-01-25 10:47:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56978 AND AD_Language='es_VE'
 ;
 
 -- Jan 25, 2014 10:47:59 AM VET

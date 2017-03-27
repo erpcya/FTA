@@ -40,7 +40,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 14, 2013 1:53:20 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Crédito a Productor Manual',PrintName='Crédito a Productor Manual',Updated=TO_TIMESTAMP('2013-10-14 01:53:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56479 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Crédito a Productor Manual',PrintName='Crédito a Productor Manual',Updated=TO_TIMESTAMP('2013-10-14 01:53:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56479 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 1:53:38 AM VET
@@ -95,7 +95,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 14, 2013 2:45:35 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Crear Movimiento de Crédito',Description='Crear Movimiento de Crédito',Help='Crear los Movimiento de Crédito a partir de un Rango de Fecha y una Tabla',Updated=TO_TIMESTAMP('2013-10-14 02:45:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53488 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Crear Movimiento de Crédito',Description='Crear Movimiento de Crédito',Help='Crear los Movimiento de Crédito a partir de un Rango de Fecha y una Tabla',Updated=TO_TIMESTAMP('2013-10-14 02:45:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53488 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 2:48:42 AM VET
@@ -200,7 +200,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 14, 2013 3:30:02 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Crédito/Préstamo Padre',PrintName='Crédito/Préstamo Padre',Description='Crédito/Préstamo al que se cargará la Deuda',Updated=TO_TIMESTAMP('2013-10-14 03:30:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56480 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Crédito/Préstamo Padre',PrintName='Crédito/Préstamo Padre',Description='Crédito/Préstamo al que se cargará la Deuda',Updated=TO_TIMESTAMP('2013-10-14 03:30:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56480 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 3:30:55 AM VET
@@ -325,7 +325,7 @@ INSERT INTO AD_Message_Trl (AD_Language,AD_Message_ID, MsgText,MsgTip, IsTransla
 
 -- Oct 14, 2013 3:46:54 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='Debe Generar',Updated=TO_TIMESTAMP('2013-10-14 03:46:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53250 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='Debe Generar',Updated=TO_TIMESTAMP('2013-10-14 03:46:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53250 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 3:49:05 AM VET

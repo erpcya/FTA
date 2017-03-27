@@ -160,7 +160,7 @@ UPDATE AD_Column SET IsUpdateable='N',Updated=TO_TIMESTAMP('2013-08-23 15:59:17'
 
 -- Aug 23, 2013 4:00:20 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Field_Trl SET Name='Guía INSAI',Updated=TO_TIMESTAMP('2013-08-23 16:00:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=68291 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Guía INSAI',Updated=TO_TIMESTAMP('2013-08-23 16:00:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=68291 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 4:00:24 PM VET
@@ -520,7 +520,7 @@ INSERT INTO AD_FieldGroup_Trl (AD_Language,AD_FieldGroup_ID, Name, IsTranslated,
 
 -- Aug 23, 2013 4:40:26 PM VET
 -- SFAndroid Contribution
-UPDATE AD_FieldGroup_Trl SET Name='Tolva',Updated=TO_TIMESTAMP('2013-08-23 16:40:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50030 AND AD_Language='es_MX'
+UPDATE AD_FieldGroup_Trl SET Name='Tolva',Updated=TO_TIMESTAMP('2013-08-23 16:40:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50030 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 4:40:35 PM VET
@@ -915,17 +915,17 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Aug 23, 2013 5:08:01 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Completado',Updated=TO_TIMESTAMP('2013-08-23 17:08:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54014 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Completado',Updated=TO_TIMESTAMP('2013-08-23 17:08:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54014 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 5:08:12 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Esperando peso Tara',Updated=TO_TIMESTAMP('2013-08-23 17:08:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54013 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Esperando peso Tara',Updated=TO_TIMESTAMP('2013-08-23 17:08:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54013 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 5:08:23 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Esperando peso Bruto',Updated=TO_TIMESTAMP('2013-08-23 17:08:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54012 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Esperando peso Bruto',Updated=TO_TIMESTAMP('2013-08-23 17:08:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54012 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 5:09:33 PM VET

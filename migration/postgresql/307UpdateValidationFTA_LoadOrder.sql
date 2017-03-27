@@ -30,7 +30,7 @@ UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=54154
 
 -- Nov 19, 2013 3:39:28 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Despacho Producto Terminado',Updated=TO_TIMESTAMP('2013-11-19 15:39:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54154 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Despacho Producto Terminado',Updated=TO_TIMESTAMP('2013-11-19 15:39:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54154 AND AD_Language='es_VE'
 ;
 
 -- Nov 19, 2013 3:39:33 PM VET

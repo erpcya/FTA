@@ -15,7 +15,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Oct 18, 2013 1:57:00 PM VET
 -- LVE-Import
-UPDATE AD_Menu_Trl SET Name='Importar Registro de Peso',Updated=TO_TIMESTAMP('2013-10-18 13:57:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53655 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Importar Registro de Peso',Updated=TO_TIMESTAMP('2013-10-18 13:57:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53655 AND AD_Language='es_VE'
 ;
 
 -- Oct 18, 2013 1:57:43 PM VET
@@ -165,7 +165,7 @@ UPDATE AD_Process SET AccessLevel='3',Updated=TO_TIMESTAMP('2013-10-18 14:23:23'
 
 -- Oct 18, 2013 2:23:35 PM VET
 -- LVE-Import
-UPDATE AD_Process_Trl SET Name='Importar Registro de Peso',Updated=TO_TIMESTAMP('2013-10-18 14:23:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53498 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Importar Registro de Peso',Updated=TO_TIMESTAMP('2013-10-18 14:23:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53498 AND AD_Language='es_VE'
 ;
 
 -- Oct 18, 2013 2:24:05 PM VET

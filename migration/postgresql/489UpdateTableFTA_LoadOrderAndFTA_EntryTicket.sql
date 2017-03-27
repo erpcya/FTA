@@ -15,7 +15,7 @@ UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=54029
 
 -- Sep 17, 2014 11:32:02 AM VET
 -- FTA
-UPDATE AD_Ref_List_Trl SET Name='Registro de Peso',Description='Registro de Peso',Updated=TO_TIMESTAMP('2014-09-17 11:32:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54029 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Registro de Peso',Description='Registro de Peso',Updated=TO_TIMESTAMP('2014-09-17 11:32:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54029 AND AD_Language='es_VE'
 ;
 
 -- Sep 17, 2014 12:46:04 PM VET

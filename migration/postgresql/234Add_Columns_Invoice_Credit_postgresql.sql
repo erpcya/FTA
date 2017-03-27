@@ -55,7 +55,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 29, 2013 2:48:07 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Límite de Crédito Excedido',PrintName='Límite de Crédito Excedido',Updated=TO_TIMESTAMP('2013-10-29 14:48:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56571 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Límite de Crédito Excedido',PrintName='Límite de Crédito Excedido',Updated=TO_TIMESTAMP('2013-10-29 14:48:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56571 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 2:48:22 PM VET

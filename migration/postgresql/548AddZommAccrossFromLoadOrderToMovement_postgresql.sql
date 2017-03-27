@@ -51,7 +51,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Feb 4, 2015 4:24:24 PM VET
 -- FTA
-UPDATE AD_Ref_List_Trl SET Name='Movimientos de Inventario',Description='Movimientos de Inventario',Updated=TO_TIMESTAMP('2015-02-04 16:24:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54555 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Movimientos de Inventario',Description='Movimientos de Inventario',Updated=TO_TIMESTAMP('2015-02-04 16:24:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54555 AND AD_Language='es_VE'
 ;
 
 -- Feb 4, 2015 4:24:52 PM VET
@@ -66,7 +66,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Feb 4, 2015 4:25:07 PM VET
 -- FTA
-UPDATE AD_Ref_List_Trl SET Name='Orden de Carga',Description='Orden de Carga',Updated=TO_TIMESTAMP('2015-02-04 16:25:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54556 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Orden de Carga',Description='Orden de Carga',Updated=TO_TIMESTAMP('2015-02-04 16:25:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54556 AND AD_Language='es_VE'
 ;
 
 -- Feb 4, 2015 4:25:24 PM VET

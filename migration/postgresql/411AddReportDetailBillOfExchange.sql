@@ -900,7 +900,7 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', IsPrinted='Y', Seq
 
 -- Mar 13, 2014 6:15:31 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2014-03-13 18:15:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53636 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2014-03-13 18:15:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53636 AND AD_Language='es_VE'
 ;
 
 -- Mar 13, 2014 6:15:34 PM VET

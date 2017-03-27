@@ -333,7 +333,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53572
 
 -- 8/02/2014 02:42:43 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Abono/Cargo Por Partida de Financiamiento',Description='Genera un Documento de Abono o Cargo y Asigna el Documento a la Partida Correspondiente',Help='Genera un Documento de Abono o Cargo y Asigna el Documento a la Partida Correspondiente',Updated=TO_TIMESTAMP('2014-02-08 14:42:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53572 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Abono/Cargo Por Partida de Financiamiento',Description='Genera un Documento de Abono o Cargo y Asigna el Documento a la Partida Correspondiente',Help='Genera un Documento de Abono o Cargo y Asigna el Documento a la Partida Correspondiente',Updated=TO_TIMESTAMP('2014-02-08 14:42:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53572 AND AD_Language='es_VE'
 ;
 
 -- 8/02/2014 02:42:50 PM VET
@@ -603,7 +603,7 @@ UPDATE AD_Browse_Trl SET IsTranslated='N' WHERE AD_Browse_ID=50031
 
 -- 8/02/2014 02:52:27 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Browse_Trl SET Name='Generar Abono/Cargo Por Partida',Description='Generar Abono/Cargo Por Partida',Help='Generar Abono/Cargo Por Partida',Updated=TO_TIMESTAMP('2014-02-08 14:52:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50031 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Generar Abono/Cargo Por Partida',Description='Generar Abono/Cargo Por Partida',Help='Generar Abono/Cargo Por Partida',Updated=TO_TIMESTAMP('2014-02-08 14:52:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50031 AND AD_Language='es_VE'
 ;
 
 -- 8/02/2014 02:52:53 PM VET
@@ -628,7 +628,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- 8/02/2014 02:55:13 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Generar Abono/Cargo Por Partida',Description='Generar Abono/Cargo Por Partida',Updated=TO_TIMESTAMP('2014-02-08 14:55:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53762 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Generar Abono/Cargo Por Partida',Description='Generar Abono/Cargo Por Partida',Updated=TO_TIMESTAMP('2014-02-08 14:55:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53762 AND AD_Language='es_VE'
 ;
 
 -- 8/02/2014 02:55:18 PM VET

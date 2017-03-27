@@ -90,7 +90,7 @@ INSERT INTO AD_Message_Trl (AD_Language,AD_Message_ID, MsgText,MsgTip, IsTransla
 
 -- Feb 12, 2014 5:29:28 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='No Hay linea equivalente',Updated=TO_TIMESTAMP('2014-02-12 17:29:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53260 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='No Hay linea equivalente',Updated=TO_TIMESTAMP('2014-02-12 17:29:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53260 AND AD_Language='es_VE'
 ;
 
 -- Feb 12, 2014 5:29:31 PM VET

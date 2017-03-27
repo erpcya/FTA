@@ -50,7 +50,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 30, 2013 5:53:30 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='% Fijo',PrintName='% Fijo',Updated=TO_TIMESTAMP('2013-10-30 17:53:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56575 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='% Fijo',PrintName='% Fijo',Updated=TO_TIMESTAMP('2013-10-30 17:53:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56575 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 5:53:37 PM VET
@@ -110,7 +110,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 30, 2013 5:59:43 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='En Base a Partida',Updated=TO_TIMESTAMP('2013-10-30 17:59:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54141 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='En Base a Partida',Updated=TO_TIMESTAMP('2013-10-30 17:59:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54141 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 6:00:00 PM VET
@@ -125,7 +125,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 30, 2013 6:00:09 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='En Base a Documentos',Updated=TO_TIMESTAMP('2013-10-30 18:00:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54142 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='En Base a Documentos',Updated=TO_TIMESTAMP('2013-10-30 18:00:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54142 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 6:00:15 PM VET

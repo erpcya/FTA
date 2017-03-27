@@ -108,17 +108,17 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2013 2:43:56 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Producto Sugerido',Updated=TO_TIMESTAMP('2013-06-28 14:43:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53513 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Producto Sugerido',Updated=TO_TIMESTAMP('2013-06-28 14:43:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53513 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 2:44:14 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Producto Sugerido',PrintName='Producto Sugerido',Updated=TO_TIMESTAMP('2013-06-28 14:44:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55984 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Producto Sugerido',PrintName='Producto Sugerido',Updated=TO_TIMESTAMP('2013-06-28 14:44:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55984 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 2:44:40 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Tipo de Observacion',PrintName='Tipo de Observacion',Updated=TO_TIMESTAMP('2013-06-28 14:44:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55980 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Observacion',PrintName='Tipo de Observacion',Updated=TO_TIMESTAMP('2013-06-28 14:44:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55980 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 2:45:02 PM VET
@@ -163,7 +163,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 2:47:05 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='UM Dosis',PrintName='UM Dosis',Updated=TO_TIMESTAMP('2013-06-28 14:47:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55985 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='UM Dosis',PrintName='UM Dosis',Updated=TO_TIMESTAMP('2013-06-28 14:47:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55985 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 2:47:29 PM VET
@@ -188,7 +188,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 2:48:08 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Cant. Dosis',PrintName='Cant. Dosis',Updated=TO_TIMESTAMP('2013-06-28 14:48:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55986 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Cant. Dosis',PrintName='Cant. Dosis',Updated=TO_TIMESTAMP('2013-06-28 14:48:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55986 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 2:49:02 PM VET

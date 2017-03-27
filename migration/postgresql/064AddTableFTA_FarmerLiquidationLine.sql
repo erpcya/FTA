@@ -15,7 +15,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Aug 26, 2013 3:06:32 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Detalle Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 15:06:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53565 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Detalle Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 15:06:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53565 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 3:06:51 PM VET
@@ -153,7 +153,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 26, 2013 3:16:23 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Calculo del Rubro',PrintName='Calculo del Rubro',Updated=TO_TIMESTAMP('2013-08-26 15:16:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56147 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Calculo del Rubro',PrintName='Calculo del Rubro',Updated=TO_TIMESTAMP('2013-08-26 15:16:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56147 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 3:17:54 PM VET
@@ -198,7 +198,7 @@ UPDATE AD_Column SET IsMandatory='Y',Updated=TO_TIMESTAMP('2013-08-26 15:19:58',
 
 -- Aug 26, 2013 3:20:56 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Detalle Liquidacion del Productor',PrintName='Detalle Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 15:20:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56146 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Detalle Liquidacion del Productor',PrintName='Detalle Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 15:20:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56146 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 3:22:20 PM VET
@@ -213,7 +213,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 26, 2013 3:22:31 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Peso a Pagar',PrintName='Peso a Pagar',Updated=TO_TIMESTAMP('2013-08-26 15:22:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56148 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Peso a Pagar',PrintName='Peso a Pagar',Updated=TO_TIMESTAMP('2013-08-26 15:22:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56148 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 3:22:57 PM VET

@@ -45,7 +45,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Aug 5, 2013 1:48:37 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Tipo de Vehículo',Description='Tipo de Vehículo, Capacidad de Carga y otros....',Updated=TO_TIMESTAMP('2013-08-05 01:48:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53257 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Tipo de Vehículo',Description='Tipo de Vehículo, Capacidad de Carga y otros....',Updated=TO_TIMESTAMP('2013-08-05 01:48:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53257 AND AD_Language='es_VE'
 ;
 
 -- Aug 5, 2013 1:49:07 AM VET
@@ -60,12 +60,12 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 5, 2013 1:49:17 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Tipo de Vehículo',Updated=TO_TIMESTAMP('2013-08-05 01:49:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53715 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Tipo de Vehículo',Updated=TO_TIMESTAMP('2013-08-05 01:49:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53715 AND AD_Language='es_VE'
 ;
 
 -- Aug 5, 2013 1:49:26 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Description='Tipo de Vehículo, Capacidad de Carga y otros....',Updated=TO_TIMESTAMP('2013-08-05 01:49:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53715 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Description='Tipo de Vehículo, Capacidad de Carga y otros....',Updated=TO_TIMESTAMP('2013-08-05 01:49:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53715 AND AD_Language='es_VE'
 ;
 
 -- Aug 5, 2013 1:49:32 AM VET

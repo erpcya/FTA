@@ -10,7 +10,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Mar 20, 2014 5:39:33 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Registro de Peso (Socio del Negocio)',Updated=TO_TIMESTAMP('2014-03-20 17:39:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53610 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Registro de Peso (Socio del Negocio)',Updated=TO_TIMESTAMP('2014-03-20 17:39:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53610 AND AD_Language='es_VE'
 ;
 
 -- Mar 20, 2014 5:39:49 PM VET
@@ -20,7 +20,7 @@ UPDATE AD_Process_Trl SET Name='Registro de Peso (Recepciones)',Updated=TO_TIMES
 
 -- Mar 20, 2014 5:39:54 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Registro de Peso (Recepciones)',Updated=TO_TIMESTAMP('2014-03-20 17:39:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53610 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Registro de Peso (Recepciones)',Updated=TO_TIMESTAMP('2014-03-20 17:39:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53610 AND AD_Language='es_VE'
 ;
 
 -- Mar 20, 2014 5:40:35 PM VET
@@ -40,7 +40,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Mar 20, 2014 5:40:43 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Registro de Peso (Recepciones)',Updated=TO_TIMESTAMP('2014-03-20 17:40:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53801 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Registro de Peso (Recepciones)',Updated=TO_TIMESTAMP('2014-03-20 17:40:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53801 AND AD_Language='es_VE'
 ;
 
 -- Mar 20, 2014 5:40:45 PM VET

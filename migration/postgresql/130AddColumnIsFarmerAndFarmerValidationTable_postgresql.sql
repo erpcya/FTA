@@ -65,7 +65,7 @@ INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name
 
 -- 07-oct-2013 15:05:17 VET
 -- SFAndroid Contribution
-UPDATE AD_Reference_Trl SET Name='FTA_Productores',Updated=TO_TIMESTAMP('2013-10-07 15:05:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53570 AND AD_Language='es_MX'
+UPDATE AD_Reference_Trl SET Name='FTA_Productores',Updated=TO_TIMESTAMP('2013-10-07 15:05:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53570 AND AD_Language='es_VE'
 ;
 
 -- 07-oct-2013 15:06:32 VET

@@ -100,7 +100,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53777
 
 -- Feb 24, 2014 2:17:23 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Registro de Peso (Guiado)',Updated=TO_TIMESTAMP('2014-02-24 14:17:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53584 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Registro de Peso (Guiado)',Updated=TO_TIMESTAMP('2014-02-24 14:17:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53584 AND AD_Language='es_VE'
 ;
 
 -- Feb 24, 2014 2:18:00 PM VET
@@ -160,7 +160,7 @@ UPDATE AD_Field SET IsDisplayed='N',Updated=TO_TIMESTAMP('2014-02-24 17:15:29','
 
 -- Feb 25, 2014 1:31:54 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Registro de Peso (Guiado)',Updated=TO_TIMESTAMP('2014-02-25 13:31:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53777 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Registro de Peso (Guiado)',Updated=TO_TIMESTAMP('2014-02-25 13:31:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53777 AND AD_Language='es_VE'
 ;
 
 -- Feb 25, 2014 1:31:58 PM VET

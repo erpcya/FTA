@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Oct 24, 2013 9:19:19 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Patrón de Financiamiento',Description='Patrón de Financiamiento',Updated=TO_TIMESTAMP('2013-10-24 09:19:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53292 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Patrón de Financiamiento',Description='Patrón de Financiamiento',Updated=TO_TIMESTAMP('2013-10-24 09:19:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53292 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:19:49 AM VET
@@ -25,7 +25,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Oct 24, 2013 9:20:04 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Patrón de Financiamiento',Description='Patrón de Financiamiento',Updated=TO_TIMESTAMP('2013-10-24 09:20:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53789 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Patrón de Financiamiento',Description='Patrón de Financiamiento',Updated=TO_TIMESTAMP('2013-10-24 09:20:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53789 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:20:12 AM VET
@@ -149,12 +149,12 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Oct 24, 2013 9:22:28 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Interes por Partida',Updated=TO_TIMESTAMP('2013-10-24 09:22:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53649 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Interes por Partida',Updated=TO_TIMESTAMP('2013-10-24 09:22:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53649 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:22:33 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Interes por Partida',Updated=TO_TIMESTAMP('2013-10-24 09:22:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53790 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Interes por Partida',Updated=TO_TIMESTAMP('2013-10-24 09:22:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53790 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:22:40 AM VET
@@ -277,7 +277,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Oct 24, 2013 9:25:54 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Configuración de Préstamo',Description='Configuración de Préstamo',Updated=TO_TIMESTAMP('2013-10-24 09:25:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53667 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Configuración de Préstamo',Description='Configuración de Préstamo',Updated=TO_TIMESTAMP('2013-10-24 09:25:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53667 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:25:58 AM VET

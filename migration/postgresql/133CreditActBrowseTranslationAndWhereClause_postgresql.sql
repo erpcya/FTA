@@ -1,11 +1,11 @@
 -- 07-oct-2013 15:43:47 VET
 -- SFAndroid Contribution
-UPDATE AD_Process_Trl SET Name='Asignación de Credito a Acta',Description='Asignación de Credito a Acta',Help='Asignación de Credito a Acta',Updated=TO_TIMESTAMP('2013-10-07 15:43:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53482 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Asignación de Credito a Acta',Description='Asignación de Credito a Acta',Help='Asignación de Credito a Acta',Updated=TO_TIMESTAMP('2013-10-07 15:43:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53482 AND AD_Language='es_VE'
 ;
 
 -- 07-oct-2013 15:44:17 VET
 -- SFAndroid Contribution
-UPDATE AD_Browse_Trl SET Name='Asignación de Credito a Acta',Description='Asignación de Credito a Acta',Help='Asignación de Credito a Acta',Updated=TO_TIMESTAMP('2013-10-07 15:44:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50022 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Asignación de Credito a Acta',Description='Asignación de Credito a Acta',Help='Asignación de Credito a Acta',Updated=TO_TIMESTAMP('2013-10-07 15:44:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50022 AND AD_Language='es_VE'
 ;
 
 -- 07-oct-2013 15:46:17 VET

@@ -10,17 +10,17 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 18, 2013 4:32:43 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Abono / Cargo',Updated=TO_TIMESTAMP('2013-10-18 16:32:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53500 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Abono / Cargo',Updated=TO_TIMESTAMP('2013-10-18 16:32:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53500 AND AD_Language='es_VE'
 ;
 
 -- Oct 18, 2013 4:32:56 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Description='Genera un Documento de Abono o Cargo',Updated=TO_TIMESTAMP('2013-10-18 16:32:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53500 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Description='Genera un Documento de Abono o Cargo',Updated=TO_TIMESTAMP('2013-10-18 16:32:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53500 AND AD_Language='es_VE'
 ;
 
 -- Oct 18, 2013 4:33:10 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Help='Puede Generar una Nota de Crédito o una Factura',Updated=TO_TIMESTAMP('2013-10-18 16:33:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53500 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Help='Puede Generar una Nota de Crédito o una Factura',Updated=TO_TIMESTAMP('2013-10-18 16:33:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53500 AND AD_Language='es_VE'
 ;
 
 -- Oct 18, 2013 4:34:13 PM VET

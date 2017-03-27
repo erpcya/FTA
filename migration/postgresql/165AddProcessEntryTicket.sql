@@ -15,7 +15,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- 16/10/2013 11:39:33 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Hoja de Muestreo',Updated=TO_TIMESTAMP('2013-10-16 11:39:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53497 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Hoja de Muestreo',Updated=TO_TIMESTAMP('2013-10-16 11:39:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53497 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 11:40:27 AM VET
@@ -120,7 +120,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53654, SeqNo=0,Updated=TO_TIMESTAMP('2013-10-
 
 -- 16/10/2013 11:41:11 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Hoja de Muestreo',Updated=TO_TIMESTAMP('2013-10-16 11:41:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53653 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Hoja de Muestreo',Updated=TO_TIMESTAMP('2013-10-16 11:41:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53653 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 11:42:10 AM VET

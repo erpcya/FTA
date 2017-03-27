@@ -1,6 +1,6 @@
 -- Mar 21, 2014 10:32:31 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Detalle de Recepciones (Productor)',Updated=TO_TIMESTAMP('2014-03-21 10:32:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53801 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Detalle de Recepciones (Productor)',Updated=TO_TIMESTAMP('2014-03-21 10:32:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53801 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 10:32:39 AM VET
@@ -10,12 +10,12 @@ UPDATE AD_Menu_Trl SET Name='Detalle de Recepciones (Productor)',Description='Mu
 
 -- Mar 21, 2014 10:32:41 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Description='Muestra las Recepciones de un Productor',Updated=TO_TIMESTAMP('2014-03-21 10:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53801 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Description='Muestra las Recepciones de un Productor',Updated=TO_TIMESTAMP('2014-03-21 10:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53801 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 10:33:13 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle de Recepciones (Productor)',Description='Muestra las Recepciones de un Productor',Updated=TO_TIMESTAMP('2014-03-21 10:33:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53610 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle de Recepciones (Productor)',Description='Muestra las Recepciones de un Productor',Updated=TO_TIMESTAMP('2014-03-21 10:33:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53610 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 10:33:20 AM VET
@@ -350,7 +350,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53651
 
 -- Mar 21, 2014 10:41:01 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Movimiento de Partida',Description='Muestra los movimientos por Partida del Productor',Updated=TO_TIMESTAMP('2014-03-21 10:41:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53490 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Movimiento de Partida',Description='Muestra los movimientos por Partida del Productor',Updated=TO_TIMESTAMP('2014-03-21 10:41:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53490 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 10:41:07 AM VET

@@ -108,7 +108,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Mar 26, 2014 6:02:18 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Programa de Pagos de Crédito/Préstamo',Updated=TO_TIMESTAMP('2014-03-26 18:02:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53786 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Programa de Pagos de Crédito/Préstamo',Updated=TO_TIMESTAMP('2014-03-26 18:02:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53786 AND AD_Language='es_VE'
 ;
 
 -- Mar 26, 2014 6:02:23 PM VET
@@ -248,7 +248,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Farmer Credit Payment Schedule', Name='
 
 -- Mar 26, 2014 6:08:11 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Programa de Pagos de Crédito/Préstamo',PrintName='Programa de Pagos de Crédito/Préstamo',Updated=TO_TIMESTAMP('2014-03-26 18:08:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57101 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Programa de Pagos de Crédito/Préstamo',PrintName='Programa de Pagos de Crédito/Préstamo',Updated=TO_TIMESTAMP('2014-03-26 18:08:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57101 AND AD_Language='es_VE'
 ;
 
 -- Mar 26, 2014 6:08:18 PM VET
@@ -268,7 +268,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Mar 26, 2014 6:12:05 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Validar',Description='Validar Programa de Pagos',Updated=TO_TIMESTAMP('2014-03-26 18:12:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53614 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Validar',Description='Validar Programa de Pagos',Updated=TO_TIMESTAMP('2014-03-26 18:12:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53614 AND AD_Language='es_VE'
 ;
 
 -- Mar 26, 2014 6:12:32 PM VET
@@ -323,7 +323,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Mar 26, 2014 6:18:09 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Programa de Pagos de Crédito/Préstamo',Updated=TO_TIMESTAMP('2014-03-26 18:18:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53941 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Programa de Pagos de Crédito/Préstamo',Updated=TO_TIMESTAMP('2014-03-26 18:18:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53941 AND AD_Language='es_VE'
 ;
 
 -- Mar 26, 2014 6:18:12 PM VET

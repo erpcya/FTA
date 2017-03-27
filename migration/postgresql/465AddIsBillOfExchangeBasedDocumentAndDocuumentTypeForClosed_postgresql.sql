@@ -15,7 +15,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- 17/05/2014 01:42:23 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Giro Basado en Documentos',PrintName='Giro Basado en Documentos',Updated=TO_TIMESTAMP('2014-05-17 13:42:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57157 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Giro Basado en Documentos',PrintName='Giro Basado en Documentos',Updated=TO_TIMESTAMP('2014-05-17 13:42:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57157 AND AD_Language='es_VE'
 ;
 
 -- 17/05/2014 01:43:39 PM VET
@@ -70,7 +70,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- 17/05/2014 01:49:24 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de Documento Para el Cierre',PrintName='Tipo de Documento Para el Cierre',Updated=TO_TIMESTAMP('2014-05-17 13:49:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57158 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Documento Para el Cierre',PrintName='Tipo de Documento Para el Cierre',Updated=TO_TIMESTAMP('2014-05-17 13:49:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57158 AND AD_Language='es_VE'
 ;
 
 -- 17/05/2014 01:50:11 PM VET

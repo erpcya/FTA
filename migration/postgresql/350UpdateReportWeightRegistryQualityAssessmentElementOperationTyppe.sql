@@ -215,7 +215,7 @@ UPDATE AD_Column SET IsMandatory='Y', IsUpdateable='N',Updated=TO_TIMESTAMP('201
 
 -- Jan 17, 2014 2:40:56 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Grupo de Cálculo',Updated=TO_TIMESTAMP('2014-01-17 14:40:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53884 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Grupo de Cálculo',Updated=TO_TIMESTAMP('2014-01-17 14:40:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53884 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 2:41:03 PM VET
@@ -500,7 +500,7 @@ UPDATE AD_Process_Para SET IsMandatory='Y',Updated=TO_TIMESTAMP('2014-01-17 14:5
 
 -- Jan 17, 2014 2:52:13 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de Operación',PrintName='Tipo de Operación',Updated=TO_TIMESTAMP('2014-01-17 14:52:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56607 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Operación',PrintName='Tipo de Operación',Updated=TO_TIMESTAMP('2014-01-17 14:52:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56607 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 2:52:20 PM VET

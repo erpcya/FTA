@@ -60,12 +60,12 @@ DELETE FROM AD_Element WHERE AD_Element_ID=56447
 
 -- Oct 7, 2013 12:11:47 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Conductor',PrintName='Conductor',Description='Conductor de Veículo',Updated=TO_TIMESTAMP('2013-10-07 12:11:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56441 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Conductor',PrintName='Conductor',Description='Conductor de Veículo',Updated=TO_TIMESTAMP('2013-10-07 12:11:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56441 AND AD_Language='es_VE'
 ;
 
 -- Oct 7, 2013 12:11:58 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Description='Conductor de Vehículo',Updated=TO_TIMESTAMP('2013-10-07 12:11:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56441 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Description='Conductor de Vehículo',Updated=TO_TIMESTAMP('2013-10-07 12:11:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56441 AND AD_Language='es_VE'
 ;
 
 -- Oct 7, 2013 12:14:45 PM VET
@@ -80,7 +80,7 @@ UPDATE AD_Column SET Callout='org.spin.model.CalloutFarming.estimatedQty',Update
 
 -- Oct 7, 2013 1:49:37 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Validar Cultivo',Description='Validar Cultivo',Help='Valida el Area del Cultivo',Updated=TO_TIMESTAMP('2013-10-07 13:49:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53467 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Validar Cultivo',Description='Validar Cultivo',Help='Valida el Area del Cultivo',Updated=TO_TIMESTAMP('2013-10-07 13:49:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53467 AND AD_Language='es_VE'
 ;
 
 -- Oct 7, 2013 1:50:23 PM VET
@@ -155,6 +155,6 @@ UPDATE AD_Field_Trl SET IsTranslated='N' WHERE AD_Field_ID=68316
 
 -- Oct 7, 2013 5:04:31 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Name='Obtener Peso',Description='Obtener Peso de Romana',Help='Obtiene el Peso de la Romana',Updated=TO_TIMESTAMP('2013-10-07 17:04:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=68316 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Obtener Peso',Description='Obtener Peso de Romana',Help='Obtiene el Peso de la Romana',Updated=TO_TIMESTAMP('2013-10-07 17:04:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=68316 AND AD_Language='es_VE'
 ;
 

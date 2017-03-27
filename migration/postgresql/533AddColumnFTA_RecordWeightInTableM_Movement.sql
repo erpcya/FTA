@@ -10,7 +10,7 @@ UPDATE AD_Process_Para SET DefaultValue='@AD_Org_ID@', IsActive='Y',Updated=TO_T
 
 -- Dec 2, 2014 10:03:29 PM VET
 -- FTA
-UPDATE AD_Field_Trl SET Name='Obtener Peso',Description='Obtener Peso de Romana',Help='Obtiene el Peso de la Romana',Updated=TO_TIMESTAMP('2014-12-02 22:03:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=73608 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Obtener Peso',Description='Obtener Peso de Romana',Help='Obtiene el Peso de la Romana',Updated=TO_TIMESTAMP('2014-12-02 22:03:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=73608 AND AD_Language='es_VE'
 ;
 
 -- Dec 2, 2014 10:07:18 PM VET

@@ -10,7 +10,7 @@ UPDATE AD_Table_Trl SET IsTranslated='N' WHERE AD_Table_ID=53652
 
 -- Apr 23, 2014 4:19:25 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Detalle de la Guía',Updated=TO_TIMESTAMP('2014-04-23 16:19:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53652 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Detalle de la Guía',Updated=TO_TIMESTAMP('2014-04-23 16:19:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53652 AND AD_Language='es_VE'
 ;
 
 -- Apr 23, 2014 4:19:28 PM VET
@@ -55,7 +55,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Guide Detail', Name='Guide Detail' WHER
 
 -- Apr 23, 2014 4:19:54 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Detalle de la Guía',PrintName='Detalle de la Guía',Updated=TO_TIMESTAMP('2014-04-23 16:19:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56569 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Detalle de la Guía',PrintName='Detalle de la Guía',Updated=TO_TIMESTAMP('2014-04-23 16:19:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56569 AND AD_Language='es_VE'
 ;
 
 -- Apr 23, 2014 4:19:57 PM VET
@@ -65,7 +65,7 @@ UPDATE AD_Element_Trl SET Name='Detalle de la Guía',PrintName='Detalle de la Gu
 
 -- Apr 23, 2014 4:20:16 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Detalle de la Guía',Updated=TO_TIMESTAMP('2014-04-23 16:20:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53795 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Detalle de la Guía',Updated=TO_TIMESTAMP('2014-04-23 16:20:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53795 AND AD_Language='es_VE'
 ;
 
 -- Apr 23, 2014 4:20:19 PM VET

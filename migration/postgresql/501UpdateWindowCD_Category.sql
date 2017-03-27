@@ -65,7 +65,7 @@ UPDATE AD_Field SET IsSameLine='Y',Updated=TO_TIMESTAMP('2014-10-01 16:13:01','Y
 
 -- Oct 1, 2014 4:19:12 PM VET
 -- FTA
-UPDATE AD_Table_Trl SET Name='Rubro',Updated=TO_TIMESTAMP('2014-10-01 16:19:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53883 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Rubro',Updated=TO_TIMESTAMP('2014-10-01 16:19:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53883 AND AD_Language='es_VE'
 ;
 
 -- Oct 1, 2014 4:20:14 PM VET

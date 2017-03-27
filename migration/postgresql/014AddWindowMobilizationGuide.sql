@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Jun 28, 2013 4:53:09 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Guia de Movilizacion',Updated=TO_TIMESTAMP('2013-06-28 16:53:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53240 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Guia de Movilizacion',Updated=TO_TIMESTAMP('2013-06-28 16:53:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53240 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 4:53:29 PM VET
@@ -25,7 +25,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jun 28, 2013 4:53:42 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Guia de Movilizacion',Updated=TO_TIMESTAMP('2013-06-28 16:53:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53673 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Guia de Movilizacion',Updated=TO_TIMESTAMP('2013-06-28 16:53:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53673 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 4:53:49 PM VET

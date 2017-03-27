@@ -163,7 +163,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Mar 11, 2014 10:32:50 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Status Vehiculo',Updated=TO_TIMESTAMP('2014-03-11 10:32:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53597 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Status Vehiculo',Updated=TO_TIMESTAMP('2014-03-11 10:32:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53597 AND AD_Language='es_VE'
 ;
 
 -- Mar 11, 2014 10:33:35 AM VET
@@ -288,7 +288,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53654, SeqNo=5,Updated=TO_TIMESTAMP('2014-03-
 
 -- Mar 11, 2014 10:35:56 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Status Vehículo',Updated=TO_TIMESTAMP('2014-03-11 10:35:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53597 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Status Vehículo',Updated=TO_TIMESTAMP('2014-03-11 10:35:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53597 AND AD_Language='es_VE'
 ;
 
 -- Mar 11, 2014 10:36:00 AM VET
@@ -668,7 +668,7 @@ UPDATE AD_PrintFormatItem_Trl SET IsTranslated='N' WHERE AD_PrintFormatItem_ID=5
 
 -- Mar 11, 2014 11:58:01 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Análisis de Calidad Tolva',Updated=TO_TIMESTAMP('2014-03-11 11:58:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=57154 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Análisis de Calidad Tolva',Updated=TO_TIMESTAMP('2014-03-11 11:58:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=57154 AND AD_Language='es_VE'
 ;
 
 -- Mar 11, 2014 11:58:05 AM VET

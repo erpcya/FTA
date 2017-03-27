@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Oct 24, 2013 8:13:22 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Orden de Pago Crédito',Description='Orden de Pago del crédito',Updated=TO_TIMESTAMP('2013-10-24 20:13:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53294 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Orden de Pago Crédito',Description='Orden de Pago del crédito',Updated=TO_TIMESTAMP('2013-10-24 20:13:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53294 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 8:13:56 PM VET
@@ -25,7 +25,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Oct 24, 2013 8:14:07 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Orden de Pago',Description='Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 20:14:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53793 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Orden de Pago',Description='Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 20:14:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53793 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 8:14:30 PM VET
@@ -395,6 +395,6 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53592, SeqNo=10, Updated=CURRENT_TIMESTAMP WH
 
 -- Oct 24, 2013 8:27:59 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Orden de Pago',Description='Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 20:27:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53669 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Orden de Pago',Description='Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 20:27:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53669 AND AD_Language='es_VE'
 ;
 

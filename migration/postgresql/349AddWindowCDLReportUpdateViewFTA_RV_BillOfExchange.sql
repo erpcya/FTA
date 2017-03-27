@@ -622,7 +622,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53667, SeqNo=4,Updated=TO_TIMESTAMP('2014-01-
 
 -- Jan 17, 2014 10:59:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 10:59:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53742 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 10:59:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53742 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 10:59:24 AM VET
@@ -632,7 +632,7 @@ UPDATE AD_Table_Trl SET Name='Reportes de Partidas',Updated=TO_TIMESTAMP('2014-0
 
 -- Jan 17, 2014 10:59:36 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Reportes de Partidas',PrintName='Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 10:59:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56994 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Reportes de Partidas',PrintName='Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 10:59:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56994 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 10:59:41 AM VET
@@ -642,7 +642,7 @@ UPDATE AD_Element_Trl SET Name='Reportes de Partidas',PrintName='Reportes de Par
 
 -- Jan 17, 2014 11:00:02 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Detalle Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 11:00:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53743 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Detalle Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 11:00:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53743 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 11:00:06 AM VET
@@ -652,7 +652,7 @@ UPDATE AD_Table_Trl SET Name='Detalle Reportes de Partidas',Updated=TO_TIMESTAMP
 
 -- Jan 17, 2014 11:00:20 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Detalle Reportes de Partidas',PrintName='Detalle Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 11:00:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56995 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Detalle Reportes de Partidas',PrintName='Detalle Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 11:00:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56995 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 11:00:24 AM VET
@@ -747,7 +747,7 @@ UPDATE AD_Table SET AD_Window_ID=53340,Updated=TO_TIMESTAMP('2014-01-17 11:01:16
 
 -- Jan 17, 2014 11:01:39 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 11:01:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53340 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 11:01:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53340 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 11:01:48 AM VET
@@ -757,7 +757,7 @@ UPDATE AD_Window_Trl SET Name='Reportes de Partidas',Updated=TO_TIMESTAMP('2014-
 
 -- Jan 17, 2014 11:01:55 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 11:01:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53887 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-17 11:01:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53887 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 11:01:58 AM VET
@@ -767,7 +767,7 @@ UPDATE AD_Tab_Trl SET Name='Reportes de Partidas',Updated=TO_TIMESTAMP('2014-01-
 
 -- Jan 17, 2014 11:03:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Detalles',Updated=TO_TIMESTAMP('2014-01-17 11:03:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53888 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Detalles',Updated=TO_TIMESTAMP('2014-01-17 11:03:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53888 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 11:03:18 AM VET

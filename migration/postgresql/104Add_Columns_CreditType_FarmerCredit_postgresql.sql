@@ -55,7 +55,7 @@ INSERT INTO AD_FieldGroup_Trl (AD_Language,AD_FieldGroup_ID, Name, IsTranslated,
 
 -- Sep 11, 2013 11:37:06 AM VET
 -- Farming Technical Assistance
-UPDATE AD_FieldGroup_Trl SET Name='Crédito a Productor',Updated=TO_TIMESTAMP('2013-09-11 11:37:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50037 AND AD_Language='es_MX'
+UPDATE AD_FieldGroup_Trl SET Name='Crédito a Productor',Updated=TO_TIMESTAMP('2013-09-11 11:37:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50037 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 11:37:18 AM VET
@@ -1270,7 +1270,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Credit Type', Name='Credit Type' WHERE 
 
 -- Sep 11, 2013 12:06:26 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo Crédito',PrintName='Tipo Crédito',Description='Si es Crédito, Préstamo u otro Convenio de Recepción',Updated=TO_TIMESTAMP('2013-09-11 12:06:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56154 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo Crédito',PrintName='Tipo Crédito',Description='Si es Crédito, Préstamo u otro Convenio de Recepción',Updated=TO_TIMESTAMP('2013-09-11 12:06:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56154 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 12:07:17 PM VET
@@ -1295,7 +1295,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Sep 11, 2013 12:09:29 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Crédito a Productor',Description='Crédito otorgado al Productor',Updated=TO_TIMESTAMP('2013-09-11 12:09:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54052 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Crédito a Productor',Description='Crédito otorgado al Productor',Updated=TO_TIMESTAMP('2013-09-11 12:09:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54052 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 12:09:43 PM VET
@@ -1310,7 +1310,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Sep 11, 2013 12:09:59 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Préstamo',Description='Préstamo a Productor',Updated=TO_TIMESTAMP('2013-09-11 12:09:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54053 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Préstamo',Description='Préstamo a Productor',Updated=TO_TIMESTAMP('2013-09-11 12:09:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54053 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 12:10:06 PM VET
@@ -1325,7 +1325,7 @@ UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=54052
 
 -- Sep 11, 2013 12:10:13 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Crédito',Updated=TO_TIMESTAMP('2013-09-11 12:10:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54052 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Crédito',Updated=TO_TIMESTAMP('2013-09-11 12:10:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54052 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 12:14:31 PM VET
@@ -1340,7 +1340,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Sep 11, 2013 12:15:04 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Acuerdo de Recepción',Description='Acuerdo de Recepción de Producto',Updated=TO_TIMESTAMP('2013-09-11 12:15:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54054 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Acuerdo de Recepción',Description='Acuerdo de Recepción de Producto',Updated=TO_TIMESTAMP('2013-09-11 12:15:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54054 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 12:16:02 PM VET

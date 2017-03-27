@@ -10,7 +10,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- 15/02/2014 11:18:24 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Reparar Costos',Description='Reparar Costos Facturación Promedio',Updated=TO_TIMESTAMP('2014-02-15 11:18:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53578 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Reparar Costos',Description='Reparar Costos Facturación Promedio',Updated=TO_TIMESTAMP('2014-02-15 11:18:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53578 AND AD_Language='es_VE'
 ;
 
 -- 15/02/2014 11:18:45 AM VET
@@ -55,7 +55,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- 15/02/2014 11:29:17 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Reparar Costos',Updated=TO_TIMESTAMP('2014-02-15 11:29:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53766 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Reparar Costos',Updated=TO_TIMESTAMP('2014-02-15 11:29:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53766 AND AD_Language='es_VE'
 ;
 
 -- 15/02/2014 11:29:23 AM VET

@@ -25,7 +25,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Oct 30, 2013 6:19:23 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Contrato',Updated=TO_TIMESTAMP('2013-10-30 18:19:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53519 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Contrato',Updated=TO_TIMESTAMP('2013-10-30 18:19:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53519 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 6:19:28 PM VET

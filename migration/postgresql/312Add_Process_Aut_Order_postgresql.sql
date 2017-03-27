@@ -1,6 +1,6 @@
 -- Nov 25, 2013 11:21:09 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Help='Al Comenzar el proceso se verificarán las definiciones de crédito y serán agregadas las lineas faltantes',Updated=TO_TIMESTAMP('2013-11-25 11:21:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53533 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Help='Al Comenzar el proceso se verificarán las definiciones de crédito y serán agregadas las lineas faltantes',Updated=TO_TIMESTAMP('2013-11-25 11:21:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53533 AND AD_Language='es_VE'
 ;
 
 -- Nov 25, 2013 11:21:15 AM VET
@@ -20,7 +20,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Nov 25, 2013 11:41:12 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Autorizar Orden de Venta',Description='Autoriza una Orden de Venta',Help='Al comenzar el proceso se realiza la autorización de una Orden de Venta',Updated=TO_TIMESTAMP('2013-11-25 11:41:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53534 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Autorizar Orden de Venta',Description='Autoriza una Orden de Venta',Help='Al comenzar el proceso se realiza la autorización de una Orden de Venta',Updated=TO_TIMESTAMP('2013-11-25 11:41:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53534 AND AD_Language='es_VE'
 ;
 
 -- Nov 25, 2013 11:41:29 AM VET
@@ -130,17 +130,17 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53535
 
 -- Nov 25, 2013 2:32:22 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Autorizar Factura',Updated=TO_TIMESTAMP('2013-11-25 14:32:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53535 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Autorizar Factura',Updated=TO_TIMESTAMP('2013-11-25 14:32:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53535 AND AD_Language='es_VE'
 ;
 
 -- Nov 25, 2013 2:32:45 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Description='Autoriza una Factura',Updated=TO_TIMESTAMP('2013-11-25 14:32:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53535 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Description='Autoriza una Factura',Updated=TO_TIMESTAMP('2013-11-25 14:32:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53535 AND AD_Language='es_VE'
 ;
 
 -- Nov 25, 2013 2:33:08 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Help='Al comenzar el proceso se realiza la autorización de una Factura',Updated=TO_TIMESTAMP('2013-11-25 14:33:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53535 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Help='Al comenzar el proceso se realiza la autorización de una Factura',Updated=TO_TIMESTAMP('2013-11-25 14:33:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53535 AND AD_Language='es_VE'
 ;
 
 -- Nov 25, 2013 2:33:17 PM VET
@@ -275,7 +275,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Nov 25, 2013 4:23:36 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Autorizar (Orden de Venta/Factura)',Description='Autoriza (Orden de Venta/Factura)',Help='Al comenzar el proceso se realiza la autorización de una Orden de Venta/Factura',Updated=TO_TIMESTAMP('2013-11-25 16:23:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53534 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Autorizar (Orden de Venta/Factura)',Description='Autoriza (Orden de Venta/Factura)',Help='Al comenzar el proceso se realiza la autorización de una Orden de Venta/Factura',Updated=TO_TIMESTAMP('2013-11-25 16:23:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53534 AND AD_Language='es_VE'
 ;
 
 -- Nov 25, 2013 4:23:49 PM VET

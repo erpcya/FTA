@@ -20,7 +20,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 3, 2014 10:02:52 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Basado en Cantidad Efectiva',PrintName='Basado en Cantidad Efectiva',Updated=TO_TIMESTAMP('2014-06-03 10:02:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57183 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Basado en Cantidad Efectiva',PrintName='Basado en Cantidad Efectiva',Updated=TO_TIMESTAMP('2014-06-03 10:02:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57183 AND AD_Language='es_VE'
 ;
 
 -- Jun 3, 2014 10:02:56 AM VET
@@ -40,7 +40,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Jun 3, 2014 10:05:15 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Cambiar Cantidad Aprobada con Cantidad Efectiva',Updated=TO_TIMESTAMP('2014-06-03 10:05:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53634 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Cambiar Cantidad Aprobada con Cantidad Efectiva',Updated=TO_TIMESTAMP('2014-06-03 10:05:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53634 AND AD_Language='es_VE'
 ;
 
 -- Jun 3, 2014 10:05:18 AM VET
@@ -65,7 +65,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Jun 3, 2014 10:06:09 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Cambiar Cantidad Aprobada con Cantidad Efectiva',Updated=TO_TIMESTAMP('2014-06-03 10:06:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53834 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Cambiar Cantidad Aprobada con Cantidad Efectiva',Updated=TO_TIMESTAMP('2014-06-03 10:06:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53834 AND AD_Language='es_VE'
 ;
 
 -- Jun 3, 2014 10:06:11 AM VET
@@ -170,7 +170,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 3, 2014 10:13:59 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Cantidad Efectiva',PrintName='Cantidad Efectiva',Updated=TO_TIMESTAMP('2014-06-03 10:13:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57184 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Cantidad Efectiva',PrintName='Cantidad Efectiva',Updated=TO_TIMESTAMP('2014-06-03 10:13:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57184 AND AD_Language='es_VE'
 ;
 
 -- Jun 3, 2014 10:14:03 AM VET

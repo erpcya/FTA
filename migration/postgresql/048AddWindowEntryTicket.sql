@@ -20,12 +20,12 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 23, 2013 11:05:47 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Ticket de ingreso',Updated=TO_TIMESTAMP('2013-08-23 11:05:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53729 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Ticket de ingreso',Updated=TO_TIMESTAMP('2013-08-23 11:05:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53729 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 11:05:53 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Ticket de ingreso',Updated=TO_TIMESTAMP('2013-08-23 11:05:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53262 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Ticket de ingreso',Updated=TO_TIMESTAMP('2013-08-23 11:05:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53262 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 11:06:53 AM VET
@@ -355,7 +355,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53569, SeqNo=6, Updated=CURRENT_TIMESTAMP WHE
 
 -- Aug 23, 2013 11:12:46 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Ticket de ingreso',Description='Ticket de ingreso',Updated=TO_TIMESTAMP('2013-08-23 11:12:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53597 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Ticket de ingreso',Description='Ticket de ingreso',Updated=TO_TIMESTAMP('2013-08-23 11:12:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53597 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 11:20:17 AM VET

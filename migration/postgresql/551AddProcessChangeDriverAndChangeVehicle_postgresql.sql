@@ -35,7 +35,7 @@ INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,C
 
 -- Feb 11, 2015 6:38:40 PM VET
 -- FTA
-UPDATE AD_Process_Trl SET Name='Cambiar Conductor',Updated=TO_TIMESTAMP('2015-02-11 18:38:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53742 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Cambiar Conductor',Updated=TO_TIMESTAMP('2015-02-11 18:38:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53742 AND AD_Language='es_VE'
 ;
 
 -- Feb 11, 2015 6:39:26 PM VET
@@ -245,7 +245,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Feb 11, 2015 6:44:11 PM VET
 -- FTA
-UPDATE AD_Process_Trl SET Name='Cambiar Vehiculo',Updated=TO_TIMESTAMP('2015-02-11 18:44:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53743 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Cambiar Vehiculo',Updated=TO_TIMESTAMP('2015-02-11 18:44:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53743 AND AD_Language='es_VE'
 ;
 
 -- Feb 11, 2015 6:44:15 PM VET

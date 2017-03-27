@@ -200,7 +200,7 @@ UPDATE AD_FieldGroup SET FieldGroupType='C',Updated=TO_TIMESTAMP('2013-07-15 11:
 
 -- Jul 15, 2013 11:47:29 AM VET
 -- SFAndroid Contribution
-UPDATE AD_FieldGroup_Trl SET Name='Pronóstico',Updated=TO_TIMESTAMP('2013-07-15 11:47:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50028 AND AD_Language='es_MX'
+UPDATE AD_FieldGroup_Trl SET Name='Pronóstico',Updated=TO_TIMESTAMP('2013-07-15 11:47:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50028 AND AD_Language='es_VE'
 ;
 
 -- Jul 15, 2013 11:47:38 AM VET

@@ -10,7 +10,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Nov 21, 2013 11:44:57 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Verificar Definición de Crédito',Description='Verifica si la Definición de Crédito tiene las lineas predeterminadas creadas',Updated=TO_TIMESTAMP('2013-11-21 11:44:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53533 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Verificar Definición de Crédito',Description='Verifica si la Definición de Crédito tiene las lineas predeterminadas creadas',Updated=TO_TIMESTAMP('2013-11-21 11:44:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53533 AND AD_Language='es_VE'
 ;
 
 -- Nov 21, 2013 11:45:02 AM VET

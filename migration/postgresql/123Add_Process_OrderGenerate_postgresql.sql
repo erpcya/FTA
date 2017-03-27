@@ -35,7 +35,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53592
 
 -- Oct 2, 2013 2:53:10 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Crédito/Préstamo del Productor',Description='Crédito/Préstamo del Productor',Updated=TO_TIMESTAMP('2013-10-02 14:53:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53592 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Crédito/Préstamo del Productor',Description='Crédito/Préstamo del Productor',Updated=TO_TIMESTAMP('2013-10-02 14:53:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53592 AND AD_Language='es_VE'
 ;
 
 -- Oct 2, 2013 2:58:42 PM VET

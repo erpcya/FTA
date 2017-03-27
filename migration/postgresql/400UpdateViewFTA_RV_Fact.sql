@@ -218,7 +218,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Mar 6, 2014 2:41:17 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Distribución en Créditos',Updated=TO_TIMESTAMP('2014-03-06 14:41:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53912 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Distribución en Créditos',Updated=TO_TIMESTAMP('2014-03-06 14:41:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53912 AND AD_Language='es_VE'
 ;
 
 -- Mar 6, 2014 2:41:22 PM VET
@@ -273,7 +273,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Mar 6, 2014 4:36:18 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Capacidad minima de carga',PrintName='Capacidad minima de carga',Updated=TO_TIMESTAMP('2014-03-06 16:36:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57073 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Capacidad minima de carga',PrintName='Capacidad minima de carga',Updated=TO_TIMESTAMP('2014-03-06 16:36:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57073 AND AD_Language='es_VE'
 ;
 
 -- Mar 6, 2014 4:36:23 PM VET
@@ -283,7 +283,7 @@ UPDATE AD_Element_Trl SET Name='Capacidad minima de carga',PrintName='Capacidad 
 
 -- Mar 6, 2014 4:36:44 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Capacidad Mínima de Carga',PrintName='Capacidad Mínima de Carga',Updated=TO_TIMESTAMP('2014-03-06 16:36:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57073 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Capacidad Mínima de Carga',PrintName='Capacidad Mínima de Carga',Updated=TO_TIMESTAMP('2014-03-06 16:36:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57073 AND AD_Language='es_VE'
 ;
 
 -- Mar 6, 2014 4:36:49 PM VET
@@ -338,7 +338,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Minimum Volume Capacity', Name='Minimum
 
 -- Mar 6, 2014 4:38:44 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Volumen Mínimo de Carga',PrintName='Volumen Mínimo de Carga',Updated=TO_TIMESTAMP('2014-03-06 16:38:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57074 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Volumen Mínimo de Carga',PrintName='Volumen Mínimo de Carga',Updated=TO_TIMESTAMP('2014-03-06 16:38:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57074 AND AD_Language='es_VE'
 ;
 
 -- Mar 6, 2014 4:38:51 PM VET

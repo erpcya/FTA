@@ -15,7 +15,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- 19/05/2014 11:10:42 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Cerrar Documentos de Credito a Productor',Updated=TO_TIMESTAMP('2014-05-19 11:10:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53829 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Cerrar Documentos de Credito a Productor',Updated=TO_TIMESTAMP('2014-05-19 11:10:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53829 AND AD_Language='es_VE'
 ;
 
 -- 19/05/2014 11:10:46 AM VET

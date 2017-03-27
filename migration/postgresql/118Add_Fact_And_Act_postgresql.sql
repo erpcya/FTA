@@ -190,12 +190,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Sep 27, 2013 3:35:15 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Acta de Crédito',Updated=TO_TIMESTAMP('2013-09-27 15:35:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53597 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Acta de Crédito',Updated=TO_TIMESTAMP('2013-09-27 15:35:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53597 AND AD_Language='es_VE'
 ;
 
 -- Sep 27, 2013 3:36:22 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Acta de Crédito',PrintName='Acta de Crédito',Description='Acta de Aprobación de Crédito',Updated=TO_TIMESTAMP('2013-09-27 15:36:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56396 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Acta de Crédito',PrintName='Acta de Crédito',Description='Acta de Aprobación de Crédito',Updated=TO_TIMESTAMP('2013-09-27 15:36:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56396 AND AD_Language='es_VE'
 ;
 
 
@@ -319,12 +319,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Sep 27, 2013 3:46:16 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Uso Crédito',Updated=TO_TIMESTAMP('2013-09-27 15:46:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53600 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Uso Crédito',Updated=TO_TIMESTAMP('2013-09-27 15:46:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53600 AND AD_Language='es_VE'
 ;
 
 -- Sep 27, 2013 3:48:00 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Uso Crédito',PrintName='Uso Crédito',Description='Uso Crédito, Utilizado para Calcular el Saldo del Crédito',Updated=TO_TIMESTAMP('2013-09-27 15:48:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56397 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Uso Crédito',PrintName='Uso Crédito',Description='Uso Crédito, Utilizado para Calcular el Saldo del Crédito',Updated=TO_TIMESTAMP('2013-09-27 15:48:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56397 AND AD_Language='es_VE'
 ;
 
 -- Sep 27, 2013 3:51:32 PM VET
@@ -454,7 +454,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Sep 27, 2013 4:06:32 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Acta de Crédito',Description='Acta de Crédito',Updated=TO_TIMESTAMP('2013-09-27 16:06:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53281 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Acta de Crédito',Description='Acta de Crédito',Updated=TO_TIMESTAMP('2013-09-27 16:06:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53281 AND AD_Language='es_VE'
 ;
 
 -- Sep 27, 2013 4:07:10 PM VET
@@ -469,7 +469,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Sep 27, 2013 4:07:32 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Acta',Description='Acta de Crédito',Updated=TO_TIMESTAMP('2013-09-27 16:07:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53773 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Acta',Description='Acta de Crédito',Updated=TO_TIMESTAMP('2013-09-27 16:07:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53773 AND AD_Language='es_VE'
 ;
 
 -- Sep 27, 2013 4:07:45 PM VET
@@ -719,7 +719,7 @@ UPDATE AD_Window SET IsSOTrx='N',Updated=TO_TIMESTAMP('2013-09-27 16:11:54','YYY
 
 -- Sep 27, 2013 4:14:09 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Uso Crédito',Description='Uso Crédito',Updated=TO_TIMESTAMP('2013-09-27 16:14:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53282 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Uso Crédito',Description='Uso Crédito',Updated=TO_TIMESTAMP('2013-09-27 16:14:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53282 AND AD_Language='es_VE'
 ;
 
 -- Sep 27, 2013 4:17:55 PM VET
@@ -734,7 +734,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Sep 27, 2013 4:18:15 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Uso Crédito',Description='Uso Crédito',Updated=TO_TIMESTAMP('2013-09-27 16:18:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53774 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Uso Crédito',Description='Uso Crédito',Updated=TO_TIMESTAMP('2013-09-27 16:18:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53774 AND AD_Language='es_VE'
 ;
 
 -- Sep 27, 2013 4:18:22 PM VET
@@ -1097,7 +1097,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Sep 27, 2013 4:39:37 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Acta de Crédito',Updated=TO_TIMESTAMP('2013-09-27 16:39:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54099 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Acta de Crédito',Updated=TO_TIMESTAMP('2013-09-27 16:39:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54099 AND AD_Language='es_VE'
 ;
 
 -- Sep 27, 2013 4:40:45 PM VET

@@ -36,7 +36,7 @@ And (FTA_Farming.FTA_FarmerCredit_ID Is Null Or FTA_Farming.FTA_FarmerCredit_ID=
 
 -- Sep 25, 2013 3:16:11 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Help='Verifica que el Area de los Lotes Sobrepase el Area de la Finca',Updated=TO_TIMESTAMP('2013-09-25 15:16:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53419 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Help='Verifica que el Area de los Lotes Sobrepase el Area de la Finca',Updated=TO_TIMESTAMP('2013-09-25 15:16:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53419 AND AD_Language='es_VE'
 ;
 
 -- Sep 25, 2013 3:19:14 PM VET
@@ -73,7 +73,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Sep 25, 2013 3:22:41 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Validar Cultivo',PrintName='Validar Cultivo',Description='Verifica que el Cultivo no exceda el Area del Lote',Updated=TO_TIMESTAMP('2013-09-25 15:22:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56388 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Validar Cultivo',PrintName='Validar Cultivo',Description='Verifica que el Cultivo no exceda el Area del Lote',Updated=TO_TIMESTAMP('2013-09-25 15:22:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56388 AND AD_Language='es_VE'
 ;
 
 -- Sep 25, 2013 3:23:46 PM VET

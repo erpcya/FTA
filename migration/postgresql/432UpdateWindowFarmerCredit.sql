@@ -45,7 +45,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Farming Quantity', Name='Farming Quanti
 
 -- Mar 21, 2014 6:03:28 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Cantidad de Cultivo',PrintName='Cantidad de Cultivo',Updated=TO_TIMESTAMP('2014-03-21 18:03:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57097 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Cantidad de Cultivo',PrintName='Cantidad de Cultivo',Updated=TO_TIMESTAMP('2014-03-21 18:03:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57097 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 6:03:32 PM VET
@@ -75,7 +75,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Mar 21, 2014 6:05:17 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Monto de Cultivo',PrintName='Monto de Cultivo',Updated=TO_TIMESTAMP('2014-03-21 18:05:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57098 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Monto de Cultivo',PrintName='Monto de Cultivo',Updated=TO_TIMESTAMP('2014-03-21 18:05:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57098 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 6:05:22 PM VET

@@ -10,7 +10,7 @@ INSERT INTO AD_Form_Trl (AD_Language,AD_Form_ID, Description,Help,Name, IsTransl
 
 -- Sep 12, 2013 7:30:40 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Form_Trl SET Name='Cruce de Cuentas en Crédito',Description='Cruza las Cuentas por Cobrar con la Liquidación del Productor',Updated=TO_TIMESTAMP('2013-09-12 19:30:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Form_ID=53036 AND AD_Language='es_MX'
+UPDATE AD_Form_Trl SET Name='Cruce de Cuentas en Crédito',Description='Cruza las Cuentas por Cobrar con la Liquidación del Productor',Updated=TO_TIMESTAMP('2013-09-12 19:30:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Form_ID=53036 AND AD_Language='es_VE'
 ;
 
 -- Sep 12, 2013 7:33:02 PM VET

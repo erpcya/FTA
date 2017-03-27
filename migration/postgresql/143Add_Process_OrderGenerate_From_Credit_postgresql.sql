@@ -35,7 +35,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 10, 2013 9:14:49 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Cantidad Re-Estimada',PrintName='Cantidad Re-Estimada',Updated=TO_TIMESTAMP('2013-10-10 21:14:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56459 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Cantidad Re-Estimada',PrintName='Cantidad Re-Estimada',Updated=TO_TIMESTAMP('2013-10-10 21:14:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56459 AND AD_Language='es_VE'
 ;
 
 -- Oct 10, 2013 9:15:30 PM VET
@@ -125,12 +125,12 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Oct 10, 2013 9:29:17 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Control de Credito a Productor',Description='Control de Credito a Productor',Updated=TO_TIMESTAMP('2013-10-10 21:29:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53648 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Control de Credito a Productor',Description='Control de Credito a Productor',Updated=TO_TIMESTAMP('2013-10-10 21:29:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53648 AND AD_Language='es_VE'
 ;
 
 -- Oct 10, 2013 9:30:05 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Gestión de Crédito a Productor',Description='Gestión de Crédito a Productor',Updated=TO_TIMESTAMP('2013-10-10 21:30:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53648 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Gestión de Crédito a Productor',Description='Gestión de Crédito a Productor',Updated=TO_TIMESTAMP('2013-10-10 21:30:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53648 AND AD_Language='es_VE'
 ;
 
 -- Oct 10, 2013 9:30:48 PM VET
@@ -205,17 +205,17 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53648
 
 -- Oct 10, 2013 9:33:04 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Movimiento de Crédito',Description='Movimiento de Crédito',Updated=TO_TIMESTAMP('2013-10-10 21:33:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53282 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Movimiento de Crédito',Description='Movimiento de Crédito',Updated=TO_TIMESTAMP('2013-10-10 21:33:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53282 AND AD_Language='es_VE'
 ;
 
 -- Oct 10, 2013 9:33:31 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Movimiento',Description='Movimiento de Crédito',Updated=TO_TIMESTAMP('2013-10-10 21:33:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53774 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Movimiento',Description='Movimiento de Crédito',Updated=TO_TIMESTAMP('2013-10-10 21:33:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53774 AND AD_Language='es_VE'
 ;
 
 -- Oct 10, 2013 9:33:50 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Movimiento de Crédito',Description='Movimiento de Crédito',Updated=TO_TIMESTAMP('2013-10-10 21:33:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53637 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Movimiento de Crédito',Description='Movimiento de Crédito',Updated=TO_TIMESTAMP('2013-10-10 21:33:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53637 AND AD_Language='es_VE'
 ;
 
 -- Oct 10, 2013 9:34:42 PM VET
@@ -395,7 +395,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53602
 
 -- Oct 10, 2013 9:36:33 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Configuración de Asistencia Técnica',Description='Configuración de Asistencia Técnica',Updated=TO_TIMESTAMP('2013-10-10 21:36:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53571 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Configuración de Asistencia Técnica',Description='Configuración de Asistencia Técnica',Updated=TO_TIMESTAMP('2013-10-10 21:36:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53571 AND AD_Language='es_VE'
 ;
 
 -- Oct 10, 2013 9:36:43 PM VET
@@ -420,7 +420,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 10, 2013 11:19:24 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Orden de Compra',Description='Genera una Orden de Compra en Base a la Cantidad Estimada de los Cultivos',Help='Al Generar la Orden de Compra ya se Puede Comenzar a Recibir el Producto',Updated=TO_TIMESTAMP('2013-10-10 23:19:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53486 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Orden de Compra',Description='Genera una Orden de Compra en Base a la Cantidad Estimada de los Cultivos',Help='Al Generar la Orden de Compra ya se Puede Comenzar a Recibir el Producto',Updated=TO_TIMESTAMP('2013-10-10 23:19:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53486 AND AD_Language='es_VE'
 ;
 
 -- Oct 10, 2013 11:20:36 PM VET

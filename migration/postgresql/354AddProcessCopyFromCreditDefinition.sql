@@ -55,7 +55,7 @@ UPDATE AD_Process SET Classname='org.spin.process.CopyFromCreditDefinition',Upda
 
 -- Jan 22, 2014 10:33:19 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Copia Desde Definición de Crédito',Updated=TO_TIMESTAMP('2014-01-22 10:33:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53560 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Copia Desde Definición de Crédito',Updated=TO_TIMESTAMP('2014-01-22 10:33:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53560 AND AD_Language='es_VE'
 ;
 
 -- Jan 22, 2014 10:33:25 AM VET

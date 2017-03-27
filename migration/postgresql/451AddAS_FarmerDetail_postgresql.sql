@@ -40,7 +40,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Apr 9, 2014 5:30:03 PM CEST
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Estado de Cuenta (Productor Detallado)',Updated=TO_TIMESTAMP('2014-04-09 17:30:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53618 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Estado de Cuenta (Productor Detallado)',Updated=TO_TIMESTAMP('2014-04-09 17:30:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53618 AND AD_Language='es_VE'
 ;
 
 -- Apr 9, 2014 5:30:07 PM CEST

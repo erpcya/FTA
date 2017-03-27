@@ -55,7 +55,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Feb 8, 2014 10:53:12 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Copiar Desde',Description='Copiar Desde',Updated=TO_TIMESTAMP('2014-02-08 10:53:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53571 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Copiar Desde',Description='Copiar Desde',Updated=TO_TIMESTAMP('2014-02-08 10:53:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53571 AND AD_Language='es_VE'
 ;
 
 -- Feb 8, 2014 10:53:17 AM VET
@@ -100,7 +100,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Feb 8, 2014 10:57:45 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='A Ciclo de Siembra',PrintName='A Ciclo de Siembra',Updated=TO_TIMESTAMP('2014-02-08 10:57:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57031 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='A Ciclo de Siembra',PrintName='A Ciclo de Siembra',Updated=TO_TIMESTAMP('2014-02-08 10:57:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57031 AND AD_Language='es_VE'
 ;
 
 -- Feb 8, 2014 10:57:50 AM VET
@@ -430,7 +430,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Feb 8, 2014 12:00:51 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Filtro de Cálculo',PrintName='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-02-08 12:00:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57032 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Filtro de Cálculo',PrintName='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-02-08 12:00:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57032 AND AD_Language='es_VE'
 ;
 
 -- Feb 8, 2014 12:00:55 PM VET
@@ -485,7 +485,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Feb 8, 2014 2:09:52 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Área Efectiva',PrintName='Área Efectiva',Updated=TO_TIMESTAMP('2014-02-08 14:09:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57033 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Área Efectiva',PrintName='Área Efectiva',Updated=TO_TIMESTAMP('2014-02-08 14:09:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57033 AND AD_Language='es_VE'
 ;
 
 -- Feb 8, 2014 2:09:59 PM VET

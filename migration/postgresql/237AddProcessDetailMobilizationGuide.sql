@@ -110,7 +110,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53516
 
 -- Oct 29, 2013 5:53:00 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Description='Mobilization Guide to Quality Analysis unapplied',Updated=TO_TIMESTAMP('2013-10-29 17:53:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53516 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Description='Mobilization Guide to Quality Analysis unapplied',Updated=TO_TIMESTAMP('2013-10-29 17:53:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53516 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 5:53:51 PM VET
@@ -125,12 +125,12 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53516
 
 -- Oct 29, 2013 5:54:33 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle Guía Movilización  ',Updated=TO_TIMESTAMP('2013-10-29 17:54:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53516 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle Guía Movilización  ',Updated=TO_TIMESTAMP('2013-10-29 17:54:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53516 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 5:54:38 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle Guía Movilización',Updated=TO_TIMESTAMP('2013-10-29 17:54:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53516 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle Guía Movilización',Updated=TO_TIMESTAMP('2013-10-29 17:54:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53516 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 5:54:44 PM VET
@@ -140,7 +140,7 @@ UPDATE AD_Process_Trl SET Name='Detalle Guía Movilización',Updated=TO_TIMESTAM
 
 -- Oct 29, 2013 5:55:02 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Description='Guía de Movilización con Análisis de Calidad no aplicado',Updated=TO_TIMESTAMP('2013-10-29 17:55:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53516 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Description='Guía de Movilización con Análisis de Calidad no aplicado',Updated=TO_TIMESTAMP('2013-10-29 17:55:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53516 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 5:55:06 PM VET

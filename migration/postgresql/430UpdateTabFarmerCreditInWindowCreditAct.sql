@@ -1065,7 +1065,7 @@ UPDATE AD_Field_Trl SET IsTranslated='N' WHERE AD_Field_ID=72952
 
 -- Mar 21, 2014 9:31:46 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Name='Procesar Crédito/Deuda del Productor',Description=NULL,Help=NULL,Updated=TO_TIMESTAMP('2014-03-21 09:31:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72952 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Procesar Crédito/Deuda del Productor',Description=NULL,Help=NULL,Updated=TO_TIMESTAMP('2014-03-21 09:31:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72952 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 9:31:51 AM VET
@@ -1095,7 +1095,7 @@ UPDATE AD_Field_Trl SET IsTranslated='N' WHERE AD_Field_ID=72964
 
 -- Mar 21, 2014 9:33:36 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Name='Generar Documento de Préstamo',Updated=TO_TIMESTAMP('2014-03-21 09:33:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72964 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Generar Documento de Préstamo',Updated=TO_TIMESTAMP('2014-03-21 09:33:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72964 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 9:33:39 AM VET
@@ -1110,7 +1110,7 @@ UPDATE AD_Field_Trl SET Description='Genera los Documentos de Préstamo',Updated
 
 -- Mar 21, 2014 9:33:54 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Description='Genera los Documentos de Préstamo',Help='Puede Generar una Nota de Crédito y una Factura dependiendo del Campo Beneficiario',Updated=TO_TIMESTAMP('2014-03-21 09:33:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72964 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Description='Genera los Documentos de Préstamo',Help='Puede Generar una Nota de Crédito y una Factura dependiendo del Campo Beneficiario',Updated=TO_TIMESTAMP('2014-03-21 09:33:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72964 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 9:33:57 AM VET
@@ -1125,7 +1125,7 @@ UPDATE AD_Field SET DisplayLogic='@CreditType@!''L'' & @DocStatus@=''CO''',Updat
 
 -- Mar 21, 2014 9:35:32 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Name='Generar Orden de Compra',Updated=TO_TIMESTAMP('2014-03-21 09:35:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72959 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Generar Orden de Compra',Updated=TO_TIMESTAMP('2014-03-21 09:35:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72959 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 9:35:40 AM VET
@@ -1135,7 +1135,7 @@ UPDATE AD_Field_Trl SET Name='Generar Orden de Compra',Description='Genera una O
 
 -- Mar 21, 2014 9:35:53 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Description='Genera una Orden de Compra en Base a la Cantidad Estimada de los Cultivos',Help='Al Generar la Orden de Compra ya se Puede Comenzar a Recibir el Producto',Updated=TO_TIMESTAMP('2014-03-21 09:35:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72959 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Description='Genera una Orden de Compra en Base a la Cantidad Estimada de los Cultivos',Help='Al Generar la Orden de Compra ya se Puede Comenzar a Recibir el Producto',Updated=TO_TIMESTAMP('2014-03-21 09:35:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72959 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 9:36:00 AM VET
@@ -1195,7 +1195,7 @@ UPDATE AD_Field SET IsCentrallyMaintained='N',Updated=TO_TIMESTAMP('2014-03-21 0
 
 -- Mar 21, 2014 9:39:07 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Name='Generar Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2014-03-21 09:39:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72958 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Generar Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2014-03-21 09:39:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72958 AND AD_Language='es_VE'
 ;
 
 -- Mar 21, 2014 9:39:09 AM VET

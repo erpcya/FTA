@@ -220,7 +220,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 23, 2013 9:56:07 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Análisis de Calidad',PrintName='Quality analysis',Updated=TO_TIMESTAMP('2013-08-23 09:56:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56132 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Análisis de Calidad',PrintName='Quality analysis',Updated=TO_TIMESTAMP('2013-08-23 09:56:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56132 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 9:56:27 AM VET
@@ -260,7 +260,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Quality Analysis', Name='Quality Analys
 
 -- Aug 23, 2013 9:56:34 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET PrintName='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 09:56:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56132 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET PrintName='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 09:56:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56132 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 9:58:39 AM VET
@@ -305,7 +305,7 @@ UPDATE AD_Column SET AD_Reference_ID=18, AD_Reference_Value_ID=53527,Updated=TO_
 
 -- Aug 23, 2013 10:09:57 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Reference_Trl SET Name='M_AttributeInstance Quality Analysis',Updated=TO_TIMESTAMP('2013-08-23 10:09:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53527 AND AD_Language='es_MX'
+UPDATE AD_Reference_Trl SET Name='M_AttributeInstance Quality Analysis',Updated=TO_TIMESTAMP('2013-08-23 10:09:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53527 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:12:04 AM VET
@@ -320,7 +320,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 23, 2013 10:12:15 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Estado del Producto',PrintName='Estado del Producto',Updated=TO_TIMESTAMP('2013-08-23 10:12:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56133 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Estado del Producto',PrintName='Estado del Producto',Updated=TO_TIMESTAMP('2013-08-23 10:12:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56133 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:17:31 AM VET
@@ -360,7 +360,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 23, 2013 10:20:09 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Analisis de Calidad Chute',PrintName='Analisis de Calidad Chute',Updated=TO_TIMESTAMP('2013-08-23 10:20:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56134 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Analisis de Calidad Chute',PrintName='Analisis de Calidad Chute',Updated=TO_TIMESTAMP('2013-08-23 10:20:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56134 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:23:29 AM VET

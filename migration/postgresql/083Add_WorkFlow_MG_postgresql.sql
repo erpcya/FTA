@@ -20,7 +20,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Aug 30, 2013 6:05:13 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Procesar Guía de Movilización',Updated=TO_TIMESTAMP('2013-08-30 18:05:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53443 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Guía de Movilización',Updated=TO_TIMESTAMP('2013-08-30 18:05:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53443 AND AD_Language='es_VE'
 ;
 
 -- Aug 30, 2013 6:06:35 PM VET
@@ -35,12 +35,12 @@ INSERT INTO AD_Workflow_Trl (AD_Language,AD_Workflow_ID, Description,Help,Name, 
 
 -- Aug 30, 2013 6:07:21 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Workflow_Trl SET Name='Proceso de Guía de Movilización',Description='(Proceso de Guía de Movilización)',Updated=TO_TIMESTAMP('2013-08-30 18:07:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50030 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Guía de Movilización',Description='(Proceso de Guía de Movilización)',Updated=TO_TIMESTAMP('2013-08-30 18:07:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50030 AND AD_Language='es_VE'
 ;
 
 -- Aug 30, 2013 6:07:32 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Workflow_Trl SET Description='Proceso de Guía de Movilización',Updated=TO_TIMESTAMP('2013-08-30 18:07:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50030 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Description='Proceso de Guía de Movilización',Updated=TO_TIMESTAMP('2013-08-30 18:07:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50030 AND AD_Language='es_VE'
 ;
 
 -- Aug 30, 2013 6:08:07 PM VET

@@ -45,7 +45,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Oct 14, 2013 7:23:47 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='View Mobilization Guide',Updated=TO_TIMESTAMP('2013-10-14 19:23:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53620 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='View Mobilization Guide',Updated=TO_TIMESTAMP('2013-10-14 19:23:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53620 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 7:25:54 PM VET

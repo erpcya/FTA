@@ -10,7 +10,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Mar 19, 2014 11:24:51 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Autorizar Impresión',Updated=TO_TIMESTAMP('2014-03-19 11:24:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53605 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Autorizar Impresión',Updated=TO_TIMESTAMP('2014-03-19 11:24:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53605 AND AD_Language='es_VE'
 ;
 
 -- Mar 19, 2014 11:24:54 AM VET
@@ -90,7 +90,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Mar 19, 2014 11:28:49 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2014-03-19 11:28:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54389 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2014-03-19 11:28:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54389 AND AD_Language='es_VE'
 ;
 
 -- Mar 19, 2014 11:28:51 AM VET
@@ -120,7 +120,7 @@ UPDATE AD_Process_Para SET DisplayLogic='@AuthorizePrinting@ = ''ET''',Updated=T
 
 -- Mar 19, 2014 11:34:53 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2014-03-19 11:34:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54390 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2014-03-19 11:34:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54390 AND AD_Language='es_VE'
 ;
 
 -- Mar 19, 2014 11:34:55 AM VET
@@ -145,7 +145,7 @@ UPDATE AD_Process_Para SET DisplayLogic='@AuthorizePrinting@ = ''QA''',Updated=T
 
 -- Mar 19, 2014 11:35:42 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Análisis de Calidad',Updated=TO_TIMESTAMP('2014-03-19 11:35:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54391 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Análisis de Calidad',Updated=TO_TIMESTAMP('2014-03-19 11:35:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54391 AND AD_Language='es_VE'
 ;
 
 -- Mar 19, 2014 11:35:44 AM VET

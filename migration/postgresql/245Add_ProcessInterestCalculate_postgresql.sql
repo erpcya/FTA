@@ -25,7 +25,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 30, 2013 10:19:23 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Intereses a Crédito/Préstamo',Description='Generar Intereses a Crédito/Préstamo',Help='Genera Intereses',Updated=TO_TIMESTAMP('2013-10-30 10:19:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53518 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Intereses a Crédito/Préstamo',Description='Generar Intereses a Crédito/Préstamo',Help='Genera Intereses',Updated=TO_TIMESTAMP('2013-10-30 10:19:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53518 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 10:19:33 AM VET
@@ -305,7 +305,7 @@ UPDATE AD_Column SET AD_Reference_ID=18,Updated=TO_TIMESTAMP('2013-10-30 13:58:1
 
 -- Oct 30, 2013 2:07:02 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Partida y Financiamiento',PrintName='Partida y Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:07:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56546 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Partida y Financiamiento',PrintName='Partida y Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:07:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56546 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:07:10 PM VET
@@ -315,7 +315,7 @@ UPDATE AD_Element_Trl SET Name='Partida y Financiamiento',PrintName='Partida y F
 
 -- Oct 30, 2013 2:07:40 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:07:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53649 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:07:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53649 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:08:51 PM VET
@@ -325,12 +325,12 @@ UPDATE AD_Element_Trl SET Name='Partida de Financiamiento',PrintName='Partida de
 
 -- Oct 30, 2013 2:09:00 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Partida de Financiamiento',PrintName='Partida de Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:09:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56546 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Partida de Financiamiento',PrintName='Partida de Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:09:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56546 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:10:18 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Partida de Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:10:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53645 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Partida de Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:10:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53645 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:12:34 PM VET
@@ -423,12 +423,12 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 30, 2013 2:16:51 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:16:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53790 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:16:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53790 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:17:00 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:17:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53797 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:17:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53797 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:17:04 PM VET

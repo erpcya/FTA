@@ -85,12 +85,12 @@ UPDATE AD_PrintFormatItem SET AD_PrintFont_ID=160, IsGroupBy='N', IsPageBreak='N
 
 -- Oct 14, 2013 5:49:36 PM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='R.I.F. :',Updated=TO_TIMESTAMP('2013-10-14 17:49:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=54336 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='R.I.F. :',Updated=TO_TIMESTAMP('2013-10-14 17:49:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=54336 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 5:49:43 PM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='R.I.F.:',Updated=TO_TIMESTAMP('2013-10-14 17:49:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=54336 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='R.I.F.:',Updated=TO_TIMESTAMP('2013-10-14 17:49:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=54336 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 5:50:24 PM VET

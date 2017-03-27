@@ -579,7 +579,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- 10-oct-2013 12:21:03 VET
 -- SFAndroid Contribution
-UPDATE AD_Process_Trl SET Name='Productos Sugeridos',Description='Productos Sugeridos',Help='Productos Sugeridos',Updated=TO_TIMESTAMP('2013-10-10 12:21:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53485 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Productos Sugeridos',Description='Productos Sugeridos',Help='Productos Sugeridos',Updated=TO_TIMESTAMP('2013-10-10 12:21:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53485 AND AD_Language='es_VE'
 ;
 
 -- 10-oct-2013 12:22:56 VET
@@ -1170,7 +1170,7 @@ INSERT INTO AD_Browse_Field_Trl (AD_Language,AD_Browse_Field_ID, Description,Hel
 
 -- 10-oct-2013 12:32:19 VET
 -- SFAndroid Contribution
-UPDATE AD_Browse_Field_Trl SET Name='Producto',Description='Producto; servicio o artículo.',Help='Identifica un artículo que puede ser comprado o vendido es esta organización.',Updated=TO_TIMESTAMP('2013-10-10 12:32:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_Field_ID=53333 AND AD_Language='es_MX'
+UPDATE AD_Browse_Field_Trl SET Name='Producto',Description='Producto; servicio o artículo.',Help='Identifica un artículo que puede ser comprado o vendido es esta organización.',Updated=TO_TIMESTAMP('2013-10-10 12:32:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_Field_ID=53333 AND AD_Language='es_VE'
 ;
 
 -- 10-oct-2013 12:32:30 VET
@@ -1205,7 +1205,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53485
 
 -- 10-oct-2013 12:37:42 VET
 -- SFAndroid Contribution
-UPDATE AD_Process_Trl SET Name='Generar Productos Sugeridos',Description='Generar Productos Sugeridos',Help='Generar Productos Sugeridos',Updated=TO_TIMESTAMP('2013-10-10 12:37:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53485 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Productos Sugeridos',Description='Generar Productos Sugeridos',Help='Generar Productos Sugeridos',Updated=TO_TIMESTAMP('2013-10-10 12:37:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53485 AND AD_Language='es_VE'
 ;
 
 -- 10-oct-2013 12:38:40 VET
@@ -1230,7 +1230,7 @@ UPDATE AD_Process SET Value='FTA_TechnicalFormLine Suggested_Process',Updated=TO
 
 -- 10-oct-2013 12:40:20 VET
 -- SFAndroid Contribution
-UPDATE AD_Process_Trl SET Name='Generar Productos Sugeridos Proceso',Description='Genera un Listado de Productos Sugeridos Proceso',Help='Se Pueden Seleccionar Varios Productos y Cantidades Proceso',Updated=TO_TIMESTAMP('2013-10-10 12:40:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53480 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Productos Sugeridos Proceso',Description='Genera un Listado de Productos Sugeridos Proceso',Help='Se Pueden Seleccionar Varios Productos y Cantidades Proceso',Updated=TO_TIMESTAMP('2013-10-10 12:40:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53480 AND AD_Language='es_VE'
 ;
 
 -- 10-oct-2013 12:40:47 VET

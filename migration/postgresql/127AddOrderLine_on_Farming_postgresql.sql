@@ -290,7 +290,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 5, 2013 12:54:23 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Estimar Cantidad',PrintName='Estimar Cantidad',Updated=TO_TIMESTAMP('2013-10-05 12:54:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56447 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Estimar Cantidad',PrintName='Estimar Cantidad',Updated=TO_TIMESTAMP('2013-10-05 12:54:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56447 AND AD_Language='es_VE'
 ;
 
 -- Oct 5, 2013 12:54:37 PM VET
@@ -843,11 +843,11 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 5, 2013 2:24:04 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Esperando peso Bruto',Updated=TO_TIMESTAMP('2013-10-05 14:24:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54013 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Esperando peso Bruto',Updated=TO_TIMESTAMP('2013-10-05 14:24:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54013 AND AD_Language='es_VE'
 ;
 
 -- Oct 5, 2013 2:24:14 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Esperando peso Tara',Updated=TO_TIMESTAMP('2013-10-05 14:24:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54012 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Esperando peso Tara',Updated=TO_TIMESTAMP('2013-10-05 14:24:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54012 AND AD_Language='es_VE'
 ;
 

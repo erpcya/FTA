@@ -10,12 +10,12 @@ UPDATE AD_Field SET DisplayLength=10,Updated=TO_TIMESTAMP('2014-03-29 11:20:14',
 
 -- Mar 29, 2014 11:20:47 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Name='Guia SADA',Updated=TO_TIMESTAMP('2014-03-29 11:20:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72626 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Guia SADA',Updated=TO_TIMESTAMP('2014-03-29 11:20:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72626 AND AD_Language='es_VE'
 ;
 
 -- Mar 29, 2014 11:28:10 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Name='Guia S.A.D.A.',Updated=TO_TIMESTAMP('2014-03-29 11:28:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72626 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Guia S.A.D.A.',Updated=TO_TIMESTAMP('2014-03-29 11:28:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72626 AND AD_Language='es_VE'
 ;
 
 -- Mar 29, 2014 11:28:12 AM VET
@@ -90,7 +90,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Guide SADA', Name='Guide SADA' WHERE Is
 
 -- Mar 29, 2014 12:04:52 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Guia SADA',PrintName='Guia SADA',Updated=TO_TIMESTAMP('2014-03-29 12:04:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57109 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Guia SADA',PrintName='Guia SADA',Updated=TO_TIMESTAMP('2014-03-29 12:04:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57109 AND AD_Language='es_VE'
 ;
 
 -- Mar 29, 2014 12:04:54 PM VET

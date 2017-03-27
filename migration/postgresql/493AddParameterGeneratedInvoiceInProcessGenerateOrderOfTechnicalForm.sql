@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Sep 22, 2014 10:10:03 AM VET
 -- FTA
-UPDATE AD_Element_Trl SET Name='Generar Factura',PrintName='Generar Factura',Updated=TO_TIMESTAMP('2014-09-22 10:10:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57457 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Generar Factura',PrintName='Generar Factura',Updated=TO_TIMESTAMP('2014-09-22 10:10:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57457 AND AD_Language='es_VE'
 ;
 
 -- Sep 22, 2014 10:10:48 AM VET

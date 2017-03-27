@@ -380,7 +380,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jan 25, 2014 12:22:43 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Maneja Registro de Peso',PrintName='Maneja Registro de Peso',Updated=TO_TIMESTAMP('2014-01-25 12:22:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57001 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Maneja Registro de Peso',PrintName='Maneja Registro de Peso',Updated=TO_TIMESTAMP('2014-01-25 12:22:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57001 AND AD_Language='es_VE'
 ;
 
 -- Jan 25, 2014 12:22:48 PM VET
@@ -415,7 +415,7 @@ UPDATE AD_Field SET IsReadOnly='Y',Updated=TO_TIMESTAMP('2014-01-25 12:23:55','Y
 
 -- Jan 25, 2014 12:26:06 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Peso Registrado',PrintName='Peso Registrado',Updated=TO_TIMESTAMP('2014-01-25 12:26:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56606 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Peso Registrado',PrintName='Peso Registrado',Updated=TO_TIMESTAMP('2014-01-25 12:26:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56606 AND AD_Language='es_VE'
 ;
 
 -- Jan 25, 2014 12:26:12 PM VET
@@ -425,7 +425,7 @@ UPDATE AD_Element_Trl SET Name='Peso Registrado',PrintName='Peso Registrado',Upd
 
 -- Jan 25, 2014 12:26:30 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Maneja Romana',PrintName='Maneja Romana',Updated=TO_TIMESTAMP('2014-01-25 12:26:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57001 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Maneja Romana',PrintName='Maneja Romana',Updated=TO_TIMESTAMP('2014-01-25 12:26:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57001 AND AD_Language='es_VE'
 ;
 
 -- Jan 25, 2014 12:26:36 PM VET

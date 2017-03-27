@@ -15,7 +15,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Oct 23, 2013 8:39:45 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Partidas y Financiamiento',Updated=TO_TIMESTAMP('2013-10-23 20:39:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53641 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Partidas y Financiamiento',Updated=TO_TIMESTAMP('2013-10-23 20:39:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53641 AND AD_Language='es_VE'
 ;
 
 -- Oct 23, 2013 8:40:26 PM VET
@@ -41,7 +41,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 23, 2013 8:41:27 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Partidas y Financiamiento',PrintName='Partidas y Financiamiento',Updated=TO_TIMESTAMP('2013-10-23 20:41:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56542 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Partidas y Financiamiento',PrintName='Partidas y Financiamiento',Updated=TO_TIMESTAMP('2013-10-23 20:41:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56542 AND AD_Language='es_VE'
 ;
 
 DELETE FROM AD_Table WHERE AD_Table_ID = 53641;
@@ -58,7 +58,7 @@ INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_
 
 -- Oct 24, 2013 8:30:57 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Patrón de Financiamiento',Updated=TO_TIMESTAMP('2013-10-24 08:30:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53645 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Patrón de Financiamiento',Updated=TO_TIMESTAMP('2013-10-24 08:30:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53645 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 8:31:15 AM VET

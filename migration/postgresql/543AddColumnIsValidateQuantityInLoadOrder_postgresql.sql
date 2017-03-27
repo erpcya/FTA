@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jan 27, 2015 11:53:47 AM VET
 -- FTA
-UPDATE AD_Element_Trl SET Name='Validar Cantidad',PrintName='Validar Cantidad',Updated=TO_TIMESTAMP('2015-01-27 11:53:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57758 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Validar Cantidad',PrintName='Validar Cantidad',Updated=TO_TIMESTAMP('2015-01-27 11:53:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57758 AND AD_Language='es_VE'
 ;
 
 -- Jan 27, 2015 11:53:55 AM VET

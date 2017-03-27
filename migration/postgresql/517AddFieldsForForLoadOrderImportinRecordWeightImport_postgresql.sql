@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jan 28, 2014 11:55:35 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de Documento de Orden de Carga',PrintName='Tipo de Documento de Orden de Carga',Updated=TO_TIMESTAMP('2014-01-28 11:55:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57002 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Documento de Orden de Carga',PrintName='Tipo de Documento de Orden de Carga',Updated=TO_TIMESTAMP('2014-01-28 11:55:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57002 AND AD_Language='es_VE'
 ;
 
 -- Jan 28, 2014 11:55:43 AM VET
@@ -30,7 +30,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jan 28, 2014 11:58:03 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='N. Documento Orden de Ventas/Compra',PrintName='N. Documento Orden de Ventas/Compra',Updated=TO_TIMESTAMP('2014-01-28 11:58:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57003 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='N. Documento Orden de Ventas/Compra',PrintName='N. Documento Orden de Ventas/Compra',Updated=TO_TIMESTAMP('2014-01-28 11:58:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57003 AND AD_Language='es_VE'
 ;
 
 -- Jan 28, 2014 11:58:09 AM VET

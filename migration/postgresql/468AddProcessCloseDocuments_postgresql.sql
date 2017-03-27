@@ -10,7 +10,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- 19/05/2014 10:57:00 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Cerrar Documentos de Credito a Productor',Description='Cerrar Documentos de Credito a Productor',Updated=TO_TIMESTAMP('2014-05-19 10:56:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53631 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Cerrar Documentos de Credito a Productor',Description='Cerrar Documentos de Credito a Productor',Updated=TO_TIMESTAMP('2014-05-19 10:56:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53631 AND AD_Language='es_VE'
 ;
 
 -- 19/05/2014 10:57:04 AM VET

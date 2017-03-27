@@ -40,7 +40,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Oct 31, 2013 2:36:23 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Reportes de Liquidación',Updated=TO_TIMESTAMP('2013-10-31 14:36:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53679 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Reportes de Liquidación',Updated=TO_TIMESTAMP('2013-10-31 14:36:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53679 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 2:36:29 PM VET
@@ -90,7 +90,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53679, SeqNo=0,Updated=TO_TIMESTAMP('2013-10-
 
 -- Oct 31, 2013 2:36:57 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle de Liquidaciones',Updated=TO_TIMESTAMP('2013-10-31 14:36:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53522 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle de Liquidaciones',Updated=TO_TIMESTAMP('2013-10-31 14:36:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53522 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 2:37:46 PM VET

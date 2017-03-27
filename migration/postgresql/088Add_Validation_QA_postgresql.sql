@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Sep 5, 2013 2:51:38 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Análisis de Calidad (Tolva)',Description='Análisis de Calidad (Tolva)',Updated=TO_TIMESTAMP('2013-09-05 14:51:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53268 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Análisis de Calidad (Tolva)',Description='Análisis de Calidad (Tolva)',Updated=TO_TIMESTAMP('2013-09-05 14:51:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53268 AND AD_Language='es_VE'
 ;
 
 -- Sep 5, 2013 2:53:04 PM VET
@@ -25,7 +25,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Sep 5, 2013 2:53:21 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Análisis de Calidad (Tolva)',Description='Análisis de Calidad (Tolva)',Updated=TO_TIMESTAMP('2013-09-05 14:53:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53742 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Análisis de Calidad (Tolva)',Description='Análisis de Calidad (Tolva)',Updated=TO_TIMESTAMP('2013-09-05 14:53:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53742 AND AD_Language='es_VE'
 ;
 
 -- Sep 5, 2013 2:53:32 PM VET

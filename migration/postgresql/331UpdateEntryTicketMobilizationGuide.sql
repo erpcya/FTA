@@ -90,7 +90,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53551
 
 -- Jan 9, 2014 6:20:32 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle Análisis de Cálidad',Updated=TO_TIMESTAMP('2014-01-09 18:20:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53551 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle Análisis de Cálidad',Updated=TO_TIMESTAMP('2014-01-09 18:20:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53551 AND AD_Language='es_VE'
 ;
 
 -- Jan 9, 2014 6:20:37 PM VET

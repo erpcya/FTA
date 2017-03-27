@@ -155,12 +155,12 @@ INSERT INTO AD_Message_Trl (AD_Language,AD_Message_ID, MsgText,MsgTip, IsTransla
 
 -- Oct 21, 2013 9:38:21 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='La Factura y la Orden son inconsistentes',Updated=TO_TIMESTAMP('2013-10-21 09:38:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53251 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='La Factura y la Orden son inconsistentes',Updated=TO_TIMESTAMP('2013-10-21 09:38:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53251 AND AD_Language='es_VE'
 ;
 
 -- Oct 21, 2013 10:23:17 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Gestión de Asistencia Técnica',Description='Gestión de Asistencia Técnica al Productor',Updated=TO_TIMESTAMP('2013-10-21 10:23:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53569 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Gestión de Asistencia Técnica',Description='Gestión de Asistencia Técnica al Productor',Updated=TO_TIMESTAMP('2013-10-21 10:23:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53569 AND AD_Language='es_VE'
 ;
 
 -- Oct 21, 2013 3:21:12 PM VET
@@ -175,7 +175,7 @@ INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_
 
 -- Oct 21, 2013 3:21:53 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Vista de Definición de Crédito',Updated=TO_TIMESTAMP('2013-10-21 15:21:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53631 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Vista de Definición de Crédito',Updated=TO_TIMESTAMP('2013-10-21 15:21:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53631 AND AD_Language='es_VE'
 ;
 
 -- Oct 21, 2013 3:22:10 PM VET
@@ -190,7 +190,7 @@ INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_
 
 -- Oct 21, 2013 3:22:18 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Vista de Linea Definición de Crédito',Updated=TO_TIMESTAMP('2013-10-21 15:22:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53632 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Vista de Linea Definición de Crédito',Updated=TO_TIMESTAMP('2013-10-21 15:22:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53632 AND AD_Language='es_VE'
 ;
 
 -- Oct 21, 2013 3:22:36 PM VET
@@ -618,7 +618,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 21, 2013 3:28:22 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Definición de Credito',Updated=TO_TIMESTAMP('2013-10-21 15:28:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53502 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Definición de Credito',Updated=TO_TIMESTAMP('2013-10-21 15:28:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53502 AND AD_Language='es_VE'
 ;
 
 -- Oct 21, 2013 3:28:37 PM VET

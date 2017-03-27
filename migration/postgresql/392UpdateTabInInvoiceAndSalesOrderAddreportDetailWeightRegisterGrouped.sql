@@ -1176,7 +1176,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Feb 21, 2014 11:27:43 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Registro de Peso (Agrupado)',Updated=TO_TIMESTAMP('2014-02-21 11:27:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53584 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Registro de Peso (Agrupado)',Updated=TO_TIMESTAMP('2014-02-21 11:27:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53584 AND AD_Language='es_VE'
 ;
 
 -- Feb 21, 2014 11:27:48 AM VET

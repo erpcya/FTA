@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jul 30, 2013 10:18:00 AM VET
 -- LVE Withholding
-UPDATE AD_Element_Trl SET Name='Documento Afectado',PrintName='Documento Afectado',Updated=TO_TIMESTAMP('2013-07-30 10:18:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56067 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Documento Afectado',PrintName='Documento Afectado',Updated=TO_TIMESTAMP('2013-07-30 10:18:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56067 AND AD_Language='es_VE'
 ;
 
 -- Jul 30, 2013 10:18:39 AM VET

@@ -175,7 +175,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53657
 
 -- Oct 24, 2013 9:33:05 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Abono/Cargo',Updated=TO_TIMESTAMP('2013-10-24 09:33:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53500 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Abono/Cargo',Updated=TO_TIMESTAMP('2013-10-24 09:33:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53500 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:37:26 AM VET
@@ -195,7 +195,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 24, 2013 4:27:43 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Generar Selección de Pago',PrintName='Generar Selección de Pago',Updated=TO_TIMESTAMP('2013-10-24 16:27:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56550 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Generar Selección de Pago',PrintName='Generar Selección de Pago',Updated=TO_TIMESTAMP('2013-10-24 16:27:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56550 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 4:28:19 PM VET
@@ -250,7 +250,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Generate Payment Request', Name='Genera
 
 -- Oct 24, 2013 8:09:32 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Generar Orden de Pago',PrintName='Generar Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 20:09:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56550 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Generar Orden de Pago',PrintName='Generar Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 20:09:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56550 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:33:44 PM VET
@@ -265,7 +265,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 24, 2013 9:35:02 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Proceso de Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 21:35:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53511 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Proceso de Orden de Pago',Updated=TO_TIMESTAMP('2013-10-24 21:35:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53511 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:35:30 PM VET
@@ -295,7 +295,7 @@ UPDATE AD_Workflow SET EntityType='ECA02', IsValid='N',Updated=TO_TIMESTAMP('201
 
 -- Oct 24, 2013 9:39:06 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Workflow_Trl SET Name='Proceso de Orden de Pago',Description='(Proceso de Orden de Pago)',Updated=TO_TIMESTAMP('2013-10-24 21:39:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50039 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Orden de Pago',Description='(Proceso de Orden de Pago)',Updated=TO_TIMESTAMP('2013-10-24 21:39:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50039 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:39:43 PM VET

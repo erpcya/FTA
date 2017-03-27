@@ -15,12 +15,12 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Jun 28, 2013 2:57:08 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Detalle Ficha Tecnica',Updated=TO_TIMESTAMP('2013-06-28 14:57:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53514 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Detalle Ficha Tecnica',Updated=TO_TIMESTAMP('2013-06-28 14:57:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53514 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 2:59:06 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Detalle Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 14:59:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53514 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Detalle Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 14:59:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53514 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 2:59:19 PM VET
@@ -118,12 +118,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2013 2:59:59 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Detalle Hoja Tecnica',PrintName='Detalle Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 14:59:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55987 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Detalle Hoja Tecnica',PrintName='Detalle Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 14:59:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55987 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 3:00:29 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Hoja Tecnica',PrintName='Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 15:00:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55968 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Hoja Tecnica',PrintName='Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 15:00:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55968 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 3:01:16 PM VET
@@ -168,7 +168,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2013 3:03:03 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Cultivo',PrintName='Cultivo',Updated=TO_TIMESTAMP('2013-06-28 15:03:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55971 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Cultivo',PrintName='Cultivo',Updated=TO_TIMESTAMP('2013-06-28 15:03:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55971 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 3:03:46 PM VET

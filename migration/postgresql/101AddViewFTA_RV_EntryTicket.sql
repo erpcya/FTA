@@ -15,7 +15,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- 11/09/2013 11:54:03 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-09-11 11:54:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53585 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-09-11 11:54:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53585 AND AD_Language='es_VE'
 ;
 
 -- 11/09/2013 11:54:28 AM VET

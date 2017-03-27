@@ -5,7 +5,7 @@ UPDATE AD_Column SET AD_Val_Rule_ID=52222,Updated=TO_TIMESTAMP('2013-11-02 13:58
 
 -- Nov 2, 2013 2:02:28 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Cruce de Cuentas en Crédito (Automático)',Updated=TO_TIMESTAMP('2013-11-02 14:02:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53620 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Cruce de Cuentas en Crédito (Automático)',Updated=TO_TIMESTAMP('2013-11-02 14:02:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53620 AND AD_Language='es_VE'
 ;
 
 -- Nov 2, 2013 2:09:35 PM VET

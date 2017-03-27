@@ -352,7 +352,7 @@ UPDATE AD_Field SET DisplayLogic='@IsManagesPaymentProgram@=''Y'' & @CreditType@
 
 -- Mar 28, 2014 2:07:41 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Programa de Pagos ',Updated=TO_TIMESTAMP('2014-03-28 14:07:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53941 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Programa de Pagos ',Updated=TO_TIMESTAMP('2014-03-28 14:07:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53941 AND AD_Language='es_VE'
 ;
 
 -- Mar 28, 2014 2:07:45 PM VET
@@ -367,7 +367,7 @@ UPDATE AD_Tab_Trl SET Name='Programa de Pagos',Updated=TO_TIMESTAMP('2014-03-28 
 
 -- Mar 28, 2014 2:07:52 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Programa de Pagos',Updated=TO_TIMESTAMP('2014-03-28 14:07:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53941 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Programa de Pagos',Updated=TO_TIMESTAMP('2014-03-28 14:07:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53941 AND AD_Language='es_VE'
 ;
 
 -- Mar 28, 2014 2:11:25 PM VET

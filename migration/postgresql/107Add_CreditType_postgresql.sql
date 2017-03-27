@@ -10,7 +10,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Sep 11, 2013 2:48:37 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Acuerdo de Recepción',Updated=TO_TIMESTAMP('2013-09-11 14:48:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54055 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Acuerdo de Recepción',Updated=TO_TIMESTAMP('2013-09-11 14:48:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54055 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 2:54:36 PM VET
@@ -55,7 +55,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Farmer Credit/Loan', Name='Farmer Credi
 
 -- Sep 11, 2013 2:55:56 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Crédito/Préstamo',PrintName='Crédito/Préstamo',Updated=TO_TIMESTAMP('2013-09-11 14:55:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56084 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Crédito/Préstamo',PrintName='Crédito/Préstamo',Updated=TO_TIMESTAMP('2013-09-11 14:55:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56084 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 2:56:05 PM VET
@@ -105,7 +105,7 @@ UPDATE AD_Table_Trl SET IsTranslated='N' WHERE AD_Table_ID=53544
 
 -- Sep 11, 2013 2:56:40 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Crédito/Préstamo del Productor',Updated=TO_TIMESTAMP('2013-09-11 14:56:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53544 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Crédito/Préstamo del Productor',Updated=TO_TIMESTAMP('2013-09-11 14:56:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53544 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 2:56:56 PM VET
@@ -130,7 +130,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53589
 
 -- Sep 11, 2013 2:57:30 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Crédito/Préstamo del Productor',Description='Crédito/Préstamo Otorgados al Productor',Updated=TO_TIMESTAMP('2013-09-11 14:57:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53259 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Crédito/Préstamo del Productor',Description='Crédito/Préstamo Otorgados al Productor',Updated=TO_TIMESTAMP('2013-09-11 14:57:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53259 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 2:57:42 PM VET
@@ -145,7 +145,7 @@ UPDATE AD_Tab_Trl SET IsTranslated='N' WHERE AD_Tab_ID=53721
 
 -- Sep 11, 2013 2:58:11 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Crédito/Préstamo',Description='Crédito/Préstamo o Acuerdo que tiene el Productor con la Empresa o con un Tercero',Updated=TO_TIMESTAMP('2013-09-11 14:58:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53721 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Crédito/Préstamo',Description='Crédito/Préstamo o Acuerdo que tiene el Productor con la Empresa o con un Tercero',Updated=TO_TIMESTAMP('2013-09-11 14:58:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53721 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 3:01:41 PM VET
@@ -325,7 +325,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Sep 11, 2013 4:11:20 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Cantidad Máxima',PrintName='Cantidad Máxima',Description='Cantidad Máxima',Updated=TO_TIMESTAMP('2013-09-11 16:11:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56335 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Cantidad Máxima',PrintName='Cantidad Máxima',Description='Cantidad Máxima',Updated=TO_TIMESTAMP('2013-09-11 16:11:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56335 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 4:12:01 PM VET
@@ -340,7 +340,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Sep 11, 2013 4:15:44 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Help='Genera las Guías de Movilización del Cultivo',Updated=TO_TIMESTAMP('2013-09-11 16:15:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53426 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Help='Genera las Guías de Movilización del Cultivo',Updated=TO_TIMESTAMP('2013-09-11 16:15:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53426 AND AD_Language='es_VE'
 ;
 
 -- Sep 11, 2013 4:16:01 PM VET

@@ -35,7 +35,7 @@ INSERT INTO AD_Window_Access (AD_Client_ID,AD_Org_ID,AD_Role_ID,AD_Window_ID,Cre
 
 -- Feb 5, 2015 9:09:51 AM VET
 -- FTA
-UPDATE AD_Window_Trl SET Name='Registro del Peso (Sin Filtro)',Updated=TO_TIMESTAMP('2015-02-05 09:09:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53404 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Registro del Peso (Sin Filtro)',Updated=TO_TIMESTAMP('2015-02-05 09:09:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53404 AND AD_Language='es_VE'
 ;
 
 -- Feb 5, 2015 9:10:17 AM VET
@@ -70,17 +70,17 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53602, SeqNo=4,Updated=TO_TIMESTAMP('2015-02-
 
 -- Feb 5, 2015 9:14:16 AM VET
 -- FTA
-UPDATE AD_Tab_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2015-02-05 09:14:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=54053 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2015-02-05 09:14:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=54053 AND AD_Language='es_VE'
 ;
 
 -- Feb 5, 2015 9:14:22 AM VET
 -- FTA
-UPDATE AD_Tab_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2015-02-05 09:14:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=54054 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2015-02-05 09:14:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=54054 AND AD_Language='es_VE'
 ;
 
 -- Feb 5, 2015 9:14:48 AM VET
 -- FTA
-UPDATE AD_Tab_Trl SET Name='Registro del Peso Detalle',Updated=TO_TIMESTAMP('2015-02-05 09:14:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=54054 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Registro del Peso Detalle',Updated=TO_TIMESTAMP('2015-02-05 09:14:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=54054 AND AD_Language='es_VE'
 ;
 
 -- Feb 5, 2015 9:16:18 AM VET
@@ -115,6 +115,6 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53940
 
 -- Feb 5, 2015 9:39:41 AM VET
 -- FTA
-UPDATE AD_Window_Trl SET Name='Registro del Peso (Todos)',Updated=TO_TIMESTAMP('2015-02-05 09:39:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53404 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Registro del Peso (Todos)',Updated=TO_TIMESTAMP('2015-02-05 09:39:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53404 AND AD_Language='es_VE'
 ;
 

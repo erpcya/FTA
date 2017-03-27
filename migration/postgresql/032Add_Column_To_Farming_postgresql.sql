@@ -178,7 +178,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 17/07/2013 09:44:17 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Localización del Productor',Description='Direcciones del Productor',Updated=TO_TIMESTAMP('2013-07-17 09:44:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53696 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Localización del Productor',Description='Direcciones del Productor',Updated=TO_TIMESTAMP('2013-07-17 09:44:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53696 AND AD_Language='es_VE'
 ;
 
 -- 17/07/2013 09:44:30 AM VET
@@ -228,12 +228,12 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- 17/07/2013 10:12:18 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Asistencia Técnica',Description='Asistencia Técnica al Productor',Updated=TO_TIMESTAMP('2013-07-17 10:12:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53569 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Asistencia Técnica',Description='Asistencia Técnica al Productor',Updated=TO_TIMESTAMP('2013-07-17 10:12:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53569 AND AD_Language='es_VE'
 ;
 
 -- 17/07/2013 10:12:43 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Configuración de Productor',Description='Configuración de Productor',Updated=TO_TIMESTAMP('2013-07-17 10:12:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53570 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Configuración de Productor',Description='Configuración de Productor',Updated=TO_TIMESTAMP('2013-07-17 10:12:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53570 AND AD_Language='es_VE'
 ;
 
 -- 17/07/2013 10:22:12 AM VET
@@ -348,7 +348,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- 17/07/2013 10:41:49 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Tipo de Financiamiento',PrintName='Tipo de Financiamiento',Updated=TO_TIMESTAMP('2013-07-17 10:41:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56034 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Financiamiento',PrintName='Tipo de Financiamiento',Updated=TO_TIMESTAMP('2013-07-17 10:41:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56034 AND AD_Language='es_VE'
 ;
 
 -- 17/07/2013 10:43:00 AM VET
@@ -393,12 +393,12 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- 17/07/2013 10:53:00 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Auto-Financiado',Updated=TO_TIMESTAMP('2013-07-17 10:53:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53993 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Auto-Financiado',Updated=TO_TIMESTAMP('2013-07-17 10:53:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53993 AND AD_Language='es_VE'
 ;
 
 -- 17/07/2013 10:53:13 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Aplica Financiamiento',Updated=TO_TIMESTAMP('2013-07-17 10:53:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53994 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Aplica Financiamiento',Updated=TO_TIMESTAMP('2013-07-17 10:53:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53994 AND AD_Language='es_VE'
 ;
 
 -- 17/07/2013 10:53:41 AM VET
@@ -488,6 +488,6 @@ UPDATE AD_Column SET IsUpdateable='N',Updated=TO_TIMESTAMP('2013-07-17 11:03:49'
 
 -- 17/07/2013 11:08:59 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Configuración de Cultivo',Description='Configuración de Cultivo',Updated=TO_TIMESTAMP('2013-07-17 11:08:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53571 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Configuración de Cultivo',Description='Configuración de Cultivo',Updated=TO_TIMESTAMP('2013-07-17 11:08:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53571 AND AD_Language='es_VE'
 ;
 

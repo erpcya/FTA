@@ -25,7 +25,7 @@ INSERT INTO AD_Workflow_Trl (AD_Language,AD_Workflow_ID, Description,Help,Name, 
 
 -- Aug 13, 2013 3:36:42 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Workflow_Trl SET Name='Proceso de Créito a Productor',Description='Proceso de Créito a Productor',Updated=TO_TIMESTAMP('2013-08-13 15:36:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50027 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Créito a Productor',Description='Proceso de Créito a Productor',Updated=TO_TIMESTAMP('2013-08-13 15:36:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50027 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 3:37:47 PM VET

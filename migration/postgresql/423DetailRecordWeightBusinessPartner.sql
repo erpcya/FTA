@@ -15,7 +15,7 @@ UPDATE AD_Process SET EntityType='ECA02',Updated=TO_TIMESTAMP('2014-03-18 15:00:
 
 -- Mar 18, 2014 3:00:18 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Registro de Peso con Análisis de Calidad (Socio del Negocio)',Updated=TO_TIMESTAMP('2014-03-18 15:00:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53604 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Registro de Peso con Análisis de Calidad (Socio del Negocio)',Updated=TO_TIMESTAMP('2014-03-18 15:00:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53604 AND AD_Language='es_VE'
 ;
 
 -- Mar 18, 2014 3:00:24 PM VET
@@ -405,7 +405,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53795
 
 -- Mar 18, 2014 3:11:52 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Registro de Peso (Socio del Negocio)',Updated=TO_TIMESTAMP('2014-03-18 15:11:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53604 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Registro de Peso (Socio del Negocio)',Updated=TO_TIMESTAMP('2014-03-18 15:11:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53604 AND AD_Language='es_VE'
 ;
 
 -- Mar 18, 2014 3:13:30 PM VET
@@ -420,7 +420,7 @@ UPDATE AD_Process_Trl SET Name='Registro de Peso (Socio del Negocio)',Updated=TO
 
 -- Mar 18, 2014 3:16:47 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Registro de Peso (Socio del Negocio)',Updated=TO_TIMESTAMP('2014-03-18 15:16:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53795 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Registro de Peso (Socio del Negocio)',Updated=TO_TIMESTAMP('2014-03-18 15:16:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53795 AND AD_Language='es_VE'
 ;
 
 -- Mar 18, 2014 3:16:51 PM VET

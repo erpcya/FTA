@@ -124,7 +124,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 14, 2014 9:22:10 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-01-14 09:22:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53886 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Filtro de Cálculo',Updated=TO_TIMESTAMP('2014-01-14 09:22:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53886 AND AD_Language='es_VE'
 ;
 
 -- Jan 14, 2014 9:22:16 AM VET
@@ -324,12 +324,12 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jan 14, 2014 9:35:01 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Valor de Atributo',PrintName='Valor de Atributo',Updated=TO_TIMESTAMP('2014-01-14 09:35:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56990 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Valor de Atributo',PrintName='Valor de Atributo',Updated=TO_TIMESTAMP('2014-01-14 09:35:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56990 AND AD_Language='es_VE'
 ;
 
 -- Jan 14, 2014 9:35:13 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Valor de Atributo Hasta',PrintName='Valor de Atributo Hasta',Updated=TO_TIMESTAMP('2014-01-14 09:35:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56990 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Valor de Atributo Hasta',PrintName='Valor de Atributo Hasta',Updated=TO_TIMESTAMP('2014-01-14 09:35:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56990 AND AD_Language='es_VE'
 ;
 
 -- Jan 14, 2014 9:35:19 AM VET
@@ -494,7 +494,7 @@ UPDATE AD_Element_Trl SET Name='Valor A',PrintName='Valor A',Updated=TO_TIMESTAM
 
 -- Jan 14, 2014 9:46:44 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Valor A',PrintName='Valor A',Updated=TO_TIMESTAMP('2014-01-14 09:46:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56988 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Valor A',PrintName='Valor A',Updated=TO_TIMESTAMP('2014-01-14 09:46:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56988 AND AD_Language='es_VE'
 ;
 
 -- Jan 14, 2014 9:50:43 AM VET

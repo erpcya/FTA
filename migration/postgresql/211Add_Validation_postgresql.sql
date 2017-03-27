@@ -140,7 +140,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 25, 2013 12:52:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de Orden de Pago',PrintName='Tipo de Orden de Pago',Updated=TO_TIMESTAMP('2013-10-25 00:52:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56552 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Orden de Pago',PrintName='Tipo de Orden de Pago',Updated=TO_TIMESTAMP('2013-10-25 00:52:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56552 AND AD_Language='es_VE'
 ;
 
 -- Oct 25, 2013 12:53:25 AM VET
@@ -610,7 +610,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53592, SeqNo=10, Updated=CURRENT_TIMESTAMP WH
 
 -- Oct 25, 2013 3:47:07 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Configuración de Crédito/Préstamo',Description='Configuración de Crédito/Préstamo',Updated=TO_TIMESTAMP('2013-10-25 15:47:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53667 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Configuración de Crédito/Préstamo',Description='Configuración de Crédito/Préstamo',Updated=TO_TIMESTAMP('2013-10-25 15:47:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53667 AND AD_Language='es_VE'
 ;
 
 -- Oct 25, 2013 3:55:01 PM VET
@@ -655,7 +655,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 26, 2013 10:35:03 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Rubro',PrintName='Rubro',Description='Es un Rubro',Updated=TO_TIMESTAMP('2013-10-26 10:35:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56559 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Rubro',PrintName='Rubro',Description='Es un Rubro',Updated=TO_TIMESTAMP('2013-10-26 10:35:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56559 AND AD_Language='es_VE'
 ;
 
 -- Oct 26, 2013 10:36:42 AM VET

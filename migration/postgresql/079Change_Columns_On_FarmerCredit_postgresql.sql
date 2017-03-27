@@ -85,7 +85,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Aug 29, 2013 3:48:54 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Hoja Técnica',Description='Hoja Técnica de Seguimiento de Cultivo',Updated=TO_TIMESTAMP('2013-08-29 15:48:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54032 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Hoja Técnica',Description='Hoja Técnica de Seguimiento de Cultivo',Updated=TO_TIMESTAMP('2013-08-29 15:48:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54032 AND AD_Language='es_VE'
 ;
 
 -- Aug 29, 2013 3:49:29 PM VET
@@ -180,7 +180,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 29, 2013 5:12:46 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Crédito',PrintName='Crédito',Description='Es Crédito',Updated=TO_TIMESTAMP('2013-08-29 17:12:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56154 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Crédito',PrintName='Crédito',Description='Es Crédito',Updated=TO_TIMESTAMP('2013-08-29 17:12:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56154 AND AD_Language='es_VE'
 ;
 
 -- Aug 29, 2013 5:14:07 PM VET

@@ -10,7 +10,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Dec 12, 2013 11:52:47 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Definición de Crédito / Letra de Cambio',Updated=TO_TIMESTAMP('2013-12-12 11:52:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54341 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Definición de Crédito / Letra de Cambio',Updated=TO_TIMESTAMP('2013-12-12 11:52:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54341 AND AD_Language='es_VE'
 ;
 
 -- Dec 12, 2013 11:52:54 AM VET
@@ -35,7 +35,7 @@ UPDATE AD_Ref_List SET EntityType='ECA02',Updated=TO_TIMESTAMP('2013-12-12 11:53
 
 -- Dec 12, 2013 11:53:35 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Letra de Cambio/ Definición de Crédito',Updated=TO_TIMESTAMP('2013-12-12 11:53:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54342 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Letra de Cambio/ Definición de Crédito',Updated=TO_TIMESTAMP('2013-12-12 11:53:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54342 AND AD_Language='es_VE'
 ;
 
 -- Dec 12, 2013 11:53:42 AM VET

@@ -10,7 +10,7 @@ INSERT INTO AD_Message_Trl (AD_Language,AD_Message_ID, MsgText,MsgTip, IsTransla
 
 -- Nov 5, 2013 5:34:32 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='Documento Asignado',Updated=TO_TIMESTAMP('2013-11-05 17:34:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53253 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='Documento Asignado',Updated=TO_TIMESTAMP('2013-11-05 17:34:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53253 AND AD_Language='es_VE'
 ;
 
 -- Nov 5, 2013 5:36:25 PM VET
@@ -25,7 +25,7 @@ UPDATE AD_Message_Trl SET IsTranslated='N' WHERE AD_Message_ID=53253
 
 -- Nov 5, 2013 5:38:24 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='Documento Asignado Elimine o Reverse la Asignación para luego Anular o Revertir el Documento',Updated=TO_TIMESTAMP('2013-11-05 17:38:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53253 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='Documento Asignado Elimine o Reverse la Asignación para luego Anular o Revertir el Documento',Updated=TO_TIMESTAMP('2013-11-05 17:38:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53253 AND AD_Language='es_VE'
 ;
 
 -- Nov 6, 2013 9:07:47 AM VET

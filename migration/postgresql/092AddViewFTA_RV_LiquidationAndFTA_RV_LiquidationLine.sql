@@ -261,7 +261,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- 10/09/2013 04:04:29 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Liquidación',Updated=TO_TIMESTAMP('2013-09-10 16:04:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53583 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Liquidación',Updated=TO_TIMESTAMP('2013-09-10 16:04:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53583 AND AD_Language='es_VE'
 ;
 
 -- 10/09/2013 04:04:46 PM VET
@@ -341,7 +341,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Sep 10, 2013 4:09:27 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Detalle Liquidación',Updated=TO_TIMESTAMP('2013-09-10 16:09:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53584 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Detalle Liquidación',Updated=TO_TIMESTAMP('2013-09-10 16:09:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53584 AND AD_Language='es_VE'
 ;
 
 -- Sep 10, 2013 4:09:34 PM VET

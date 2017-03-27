@@ -35,7 +35,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Original Quality Analysis', Name='Origi
 
 -- Sep 5, 2013 11:30:08 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Análisis de Calidad Orígen',PrintName='Análisis de Calidad Orígen',Updated=TO_TIMESTAMP('2013-09-05 11:30:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56134 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Análisis de Calidad Orígen',PrintName='Análisis de Calidad Orígen',Updated=TO_TIMESTAMP('2013-09-05 11:30:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56134 AND AD_Language='es_VE'
 ;
 
 -- Sep 5, 2013 11:31:26 AM VET
@@ -157,7 +157,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Sep 5, 2013 11:42:32 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Análisis de Calidad en Tolva',Updated=TO_TIMESTAMP('2013-09-05 11:42:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54034 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Análisis de Calidad en Tolva',Updated=TO_TIMESTAMP('2013-09-05 11:42:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54034 AND AD_Language='es_VE'
 ;
 
 -- Sep 5, 2013 11:42:57 AM VET
@@ -182,7 +182,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Sep 5, 2013 12:10:09 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de Análisis',PrintName='Tipo de Análisis',Description='Tipo de Análisis, ejem: Tolva, Primario....',Updated=TO_TIMESTAMP('2013-09-05 12:10:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56251 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Análisis',PrintName='Tipo de Análisis',Description='Tipo de Análisis, ejem: Tolva, Primario....',Updated=TO_TIMESTAMP('2013-09-05 12:10:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56251 AND AD_Language='es_VE'
 ;
 
 -- Sep 5, 2013 12:11:41 PM VET
@@ -207,7 +207,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Sep 5, 2013 12:15:33 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Materia Prima',Updated=TO_TIMESTAMP('2013-09-05 12:15:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54035 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Materia Prima',Updated=TO_TIMESTAMP('2013-09-05 12:15:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54035 AND AD_Language='es_VE'
 ;
 
 -- Sep 5, 2013 12:15:42 PM VET
@@ -227,7 +227,7 @@ UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=54035
 
 -- Sep 5, 2013 12:19:11 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-09-05 12:19:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54035 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-09-05 12:19:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54035 AND AD_Language='es_VE'
 ;
 
 -- Sep 5, 2013 12:19:27 PM VET
@@ -242,7 +242,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Sep 5, 2013 12:19:49 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Análisis de Tolva',Updated=TO_TIMESTAMP('2013-09-05 12:19:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54036 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Análisis de Tolva',Updated=TO_TIMESTAMP('2013-09-05 12:19:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54036 AND AD_Language='es_VE'
 ;
 
 -- Sep 5, 2013 12:26:25 PM VET

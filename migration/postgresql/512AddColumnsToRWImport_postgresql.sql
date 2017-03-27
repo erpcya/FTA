@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 28, 2013 10:13:23 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Número de Documento (Analisis de Calidad)',PrintName='Número de Documento (Registro de Peso)',Updated=TO_DATE('2013-10-28 10:13:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56566 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Número de Documento (Analisis de Calidad)',PrintName='Número de Documento (Registro de Peso)',Updated=TO_DATE('2013-10-28 10:13:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56566 AND AD_Language='es_VE'
 ;
 
 -- Oct 28, 2013 10:13:32 AM VET
@@ -30,7 +30,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 28, 2013 10:13:23 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Número de Documento (Registro de Peso)',PrintName='Número de Documento (Registro de Peso)',Updated=TO_TIMESTAMP('2013-10-28 10:13:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56567 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Número de Documento (Registro de Peso)',PrintName='Número de Documento (Registro de Peso)',Updated=TO_TIMESTAMP('2013-10-28 10:13:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56567 AND AD_Language='es_VE'
 ;
 
 -- Oct 28, 2013 10:13:32 AM VET

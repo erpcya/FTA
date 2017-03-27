@@ -1042,12 +1042,12 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 4:59:11 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Deudas del Productor',Updated=TO_TIMESTAMP('2013-08-12 16:59:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53721 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Deudas del Productor',Updated=TO_TIMESTAMP('2013-08-12 16:59:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53721 AND AD_Language='es_VE'
 ;
 
 -- Aug 12, 2013 4:59:54 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Detalle de Deuda',Description='Detalle de Deuda, Se Generan los Documentos',Updated=TO_TIMESTAMP('2013-08-12 16:59:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53722 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Detalle de Deuda',Description='Detalle de Deuda, Se Generan los Documentos',Updated=TO_TIMESTAMP('2013-08-12 16:59:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53722 AND AD_Language='es_VE'
 ;
 
 -- Aug 12, 2013 5:00:37 PM VET
@@ -1072,12 +1072,12 @@ UPDATE AD_Tab_Trl SET IsTranslated='N' WHERE AD_Tab_ID=53722
 
 -- Aug 12, 2013 5:01:03 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Description='Detalle de Cada Deuda y Documentos Generados',Updated=TO_TIMESTAMP('2013-08-12 17:01:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53722 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Description='Detalle de Cada Deuda y Documentos Generados',Updated=TO_TIMESTAMP('2013-08-12 17:01:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53722 AND AD_Language='es_VE'
 ;
 
 -- Aug 12, 2013 5:01:44 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Description='Deudas que tiene el Productor con la Empresa o con un Tercero',Updated=TO_TIMESTAMP('2013-08-12 17:01:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53721 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Description='Deudas que tiene el Productor con la Empresa o con un Tercero',Updated=TO_TIMESTAMP('2013-08-12 17:01:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53721 AND AD_Language='es_VE'
 ;
 
 -- Aug 12, 2013 5:02:26 PM VET
@@ -1446,7 +1446,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 12, 2013 5:19:47 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Finca',Description='Finca o Parcela',Updated=TO_TIMESTAMP('2013-08-12 17:19:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53723 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Finca',Description='Finca o Parcela',Updated=TO_TIMESTAMP('2013-08-12 17:19:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53723 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 8:19:00 AM VET
@@ -1545,7 +1545,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:21:15 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Lote de Finca',Description='Lote o Sub-División de Finca',Updated=TO_TIMESTAMP('2013-08-13 08:21:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53724 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Lote de Finca',Description='Lote o Sub-División de Finca',Updated=TO_TIMESTAMP('2013-08-13 08:21:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53724 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 8:22:11 AM VET
@@ -1958,7 +1958,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 8:32:16 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Cultivo',Description='Cultivo o Siembra',Updated=TO_TIMESTAMP('2013-08-13 08:32:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53725 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Cultivo',Description='Cultivo o Siembra',Updated=TO_TIMESTAMP('2013-08-13 08:32:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53725 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 8:32:42 AM VET
@@ -1973,7 +1973,7 @@ UPDATE AD_Tab_Trl SET IsTranslated='N' WHERE AD_Tab_ID=53726
 
 -- Aug 13, 2013 8:32:55 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Guía de Movilización',Description='Guía de Movilización del Cultivo',Updated=TO_TIMESTAMP('2013-08-13 08:32:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53726 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Guía de Movilización',Description='Guía de Movilización del Cultivo',Updated=TO_TIMESTAMP('2013-08-13 08:32:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53726 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 8:33:30 AM VET
@@ -2063,7 +2063,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53571
 
 -- Aug 13, 2013 8:40:04 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Configuración de A.T',Description='Configuración de A.T',Updated=TO_TIMESTAMP('2013-08-13 08:40:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53571 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Configuración de A.T',Description='Configuración de A.T',Updated=TO_TIMESTAMP('2013-08-13 08:40:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53571 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 8:44:13 AM VET
@@ -2181,12 +2181,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:10:29 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Definició de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:10:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53549 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Definició de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:10:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53549 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:10:59 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Definició de Crédito',PrintName='Definició de Crédito',Description='Definició de Crédito o Tabulador',Updated=TO_TIMESTAMP('2013-08-13 09:10:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56108 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Definició de Crédito',PrintName='Definició de Crédito',Description='Definició de Crédito o Tabulador',Updated=TO_TIMESTAMP('2013-08-13 09:10:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56108 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:12:11 AM VET
@@ -2339,27 +2339,27 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 13, 2013 9:26:39 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Lineas de Cr',Updated=TO_TIMESTAMP('2013-08-13 09:26:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53550 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Lineas de Cr',Updated=TO_TIMESTAMP('2013-08-13 09:26:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53550 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:26:55 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Lineas de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:26:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53550 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Lineas de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:26:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53550 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:27:25 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Línea de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:27:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53550 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Línea de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:27:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53550 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:27:34 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Column_Trl SET Name='Línea de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:27:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=66684 AND AD_Language='es_MX'
+UPDATE AD_Column_Trl SET Name='Línea de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:27:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=66684 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:28:22 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Línea de Crédito',PrintName='Línea de Crédito',Description='Detalle de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:28:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56109 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Línea de Crédito',PrintName='Línea de Crédito',Description='Detalle de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:28:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56109 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:29:14 AM VET
@@ -2552,22 +2552,22 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 13, 2013 9:47:21 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Definición de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:47:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53549 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Definición de Crédito',Updated=TO_TIMESTAMP('2013-08-13 09:47:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53549 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:47:46 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Definición de Crédito',PrintName='Definición de Crédito',Description='Definición de Crédito o Tabulador',Updated=TO_TIMESTAMP('2013-08-13 09:47:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56108 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Definición de Crédito',PrintName='Definición de Crédito',Description='Definición de Crédito o Tabulador',Updated=TO_TIMESTAMP('2013-08-13 09:47:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56108 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:48:32 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Definición de Crédito',Description='Definición de Crédito o Tabulador',Help='Define la Estructura del Crédito a Otorgar',Updated=TO_TIMESTAMP('2013-08-13 09:48:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53261 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Definición de Crédito',Description='Definición de Crédito o Tabulador',Help='Define la Estructura del Crédito a Otorgar',Updated=TO_TIMESTAMP('2013-08-13 09:48:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53261 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:48:52 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Definición de Crédito',Description='Definición de Crédito o Tabulador',Updated=TO_TIMESTAMP('2013-08-13 09:48:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53727 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Definición de Crédito',Description='Definición de Crédito o Tabulador',Updated=TO_TIMESTAMP('2013-08-13 09:48:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53727 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:50:26 AM VET
@@ -2592,7 +2592,7 @@ UPDATE AD_Tab_Trl SET IsTranslated='N' WHERE AD_Tab_ID=53728
 
 -- Aug 13, 2013 9:52:04 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Línea de Crédito',Description='Línea de Crédito',Help='Productos, Categoría o Cargos',Updated=TO_TIMESTAMP('2013-08-13 09:52:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53728 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Línea de Crédito',Description='Línea de Crédito',Help='Productos, Categoría o Cargos',Updated=TO_TIMESTAMP('2013-08-13 09:52:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53728 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 9:52:22 AM VET
@@ -2985,7 +2985,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Aug 13, 2013 10:30:12 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Definición de Crédito',Description='Definición de Crédito',Updated=TO_TIMESTAMP('2013-08-13 10:30:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53592 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Definición de Crédito',Description='Definición de Crédito',Updated=TO_TIMESTAMP('2013-08-13 10:30:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53592 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 10:30:19 AM VET
@@ -3035,17 +3035,17 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53569, SeqNo=6, Updated=CURRENT_TIMESTAMP WHE
 
 -- Aug 13, 2013 10:31:51 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Créditos/Deudas del Productor',Description='Deudas o Créditos Otorgados',Updated=TO_TIMESTAMP('2013-08-13 10:31:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53259 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Créditos/Deudas del Productor',Description='Deudas o Créditos Otorgados',Updated=TO_TIMESTAMP('2013-08-13 10:31:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53259 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 10:32:13 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Description='Créditos o Deudas Otorgados al Productor',Updated=TO_TIMESTAMP('2013-08-13 10:32:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53259 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Description='Créditos o Deudas Otorgados al Productor',Updated=TO_TIMESTAMP('2013-08-13 10:32:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53259 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 10:34:37 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Créditos/Deudas del Productor',Updated=TO_TIMESTAMP('2013-08-13 10:34:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53544 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Créditos/Deudas del Productor',Updated=TO_TIMESTAMP('2013-08-13 10:34:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53544 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 10:35:20 AM VET
@@ -3085,7 +3085,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Farmer Credit', Name='Farmer Credit' WH
 
 -- Aug 13, 2013 10:35:58 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Crédito/Deuda del Productor',PrintName='Crédito/Deuda del Productor',Updated=TO_TIMESTAMP('2013-08-13 10:35:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56084 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Crédito/Deuda del Productor',PrintName='Crédito/Deuda del Productor',Updated=TO_TIMESTAMP('2013-08-13 10:35:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56084 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 10:36:15 AM VET
@@ -3190,7 +3190,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Aug 13, 2013 10:39:51 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Crédito/Deuda del Productor',Updated=TO_TIMESTAMP('2013-08-13 10:39:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53544 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Crédito/Deuda del Productor',Updated=TO_TIMESTAMP('2013-08-13 10:39:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53544 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 10:40:31 AM VET
@@ -3215,7 +3215,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53589
 
 -- Aug 13, 2013 10:40:41 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Crédito/Deuda del Productor',Description='Crédito o Deuda Otorgados al Productor',Updated=TO_TIMESTAMP('2013-08-13 10:40:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53259 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Crédito/Deuda del Productor',Description='Crédito o Deuda Otorgados al Productor',Updated=TO_TIMESTAMP('2013-08-13 10:40:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53259 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 10:41:16 AM VET
@@ -3240,12 +3240,12 @@ UPDATE AD_Tab_Trl SET IsTranslated='N' WHERE AD_Tab_ID=53722
 
 -- Aug 13, 2013 10:41:59 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Detalle',Description='Detalle de Cada Deuda o Crédito y Documentos Generados',Updated=TO_TIMESTAMP('2013-08-13 10:41:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53722 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Detalle',Description='Detalle de Cada Deuda o Crédito y Documentos Generados',Updated=TO_TIMESTAMP('2013-08-13 10:41:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53722 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 10:43:21 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Crédito/Deuda del Productor',Description='Crédito/Deuda que tiene el Productor con la Empresa o con un Tercero',Updated=TO_TIMESTAMP('2013-08-13 10:43:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53721 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Crédito/Deuda del Productor',Description='Crédito/Deuda que tiene el Productor con la Empresa o con un Tercero',Updated=TO_TIMESTAMP('2013-08-13 10:43:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53721 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 10:45:23 AM VET
@@ -3350,7 +3350,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53592
 
 -- Aug 13, 2013 10:48:04 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Crédito/Deuda del Productor',Description='Crédito/Deuda del Productor',Updated=TO_TIMESTAMP('2013-08-13 10:48:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53592 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Crédito/Deuda del Productor',Description='Crédito/Deuda del Productor',Updated=TO_TIMESTAMP('2013-08-13 10:48:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53592 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 11:12:11 AM VET
@@ -3405,22 +3405,22 @@ UPDATE AD_PrintFormatItem SET PrintName='Farmer Credit Line', Name='Farmer Credi
 
 -- Aug 13, 2013 11:12:52 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Detalle',Updated=TO_TIMESTAMP('2013-08-13 11:12:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53545 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Detalle',Updated=TO_TIMESTAMP('2013-08-13 11:12:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53545 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 11:13:16 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Linea de Crédito/Deuda',PrintName='Linea de Crédito/Deuda',Updated=TO_TIMESTAMP('2013-08-13 11:13:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56085 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Linea de Crédito/Deuda',PrintName='Linea de Crédito/Deuda',Updated=TO_TIMESTAMP('2013-08-13 11:13:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56085 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 11:13:32 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Línea de Crédito/Deuda',PrintName='Línea de Crédito/Deuda',Updated=TO_TIMESTAMP('2013-08-13 11:13:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56085 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Línea de Crédito/Deuda',PrintName='Línea de Crédito/Deuda',Updated=TO_TIMESTAMP('2013-08-13 11:13:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56085 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 11:13:44 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Línea de Crédito/Deuda',Updated=TO_TIMESTAMP('2013-08-13 11:13:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53545 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Línea de Crédito/Deuda',Updated=TO_TIMESTAMP('2013-08-13 11:13:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53545 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 11:14:23 AM VET

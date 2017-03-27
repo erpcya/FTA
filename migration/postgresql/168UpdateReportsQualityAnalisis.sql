@@ -25,7 +25,7 @@ UPDATE AD_PrintFormatItem_Trl SET PrintName = (SELECT e.PrintName FROM AD_Elemen
 
 -- 16/10/2013 02:22:48 PM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Valor de Atributo',Updated=TO_TIMESTAMP('2013-10-16 14:22:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55711 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Valor de Atributo',Updated=TO_TIMESTAMP('2013-10-16 14:22:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55711 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 02:24:51 PM VET
@@ -50,7 +50,7 @@ UPDATE AD_Column SET ColumnSQL='''___________________''',Updated=TO_TIMESTAMP('2
 
 -- 16/10/2013 02:34:26 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Reportes',Updated=TO_TIMESTAMP('2013-10-16 14:34:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53654 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Reportes',Updated=TO_TIMESTAMP('2013-10-16 14:34:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53654 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 02:38:27 PM VET

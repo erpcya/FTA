@@ -466,7 +466,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Address', Name='Address' WHERE IsCentra
 
 -- Oct 14, 2013 7:14:34 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Dirección',PrintName='Dirección',Updated=TO_TIMESTAMP('2013-10-14 19:14:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56482 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Dirección',PrintName='Dirección',Updated=TO_TIMESTAMP('2013-10-14 19:14:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56482 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 7:15:36 PM VET
@@ -506,7 +506,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Farm Name', Name='Farm Name' WHERE IsCe
 
 -- Oct 14, 2013 7:15:49 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Nombre de la Finca',PrintName='Nombre de la Finca',Updated=TO_TIMESTAMP('2013-10-14 19:15:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56483 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Nombre de la Finca',PrintName='Nombre de la Finca',Updated=TO_TIMESTAMP('2013-10-14 19:15:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56483 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 7:16:06 PM VET
@@ -551,7 +551,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Tonne', Name='Tonne' WHERE IsCentrallyM
 
 -- Oct 14, 2013 7:17:07 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tonelada',PrintName='Tonelada',Updated=TO_TIMESTAMP('2013-10-14 19:17:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56484 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tonelada',PrintName='Tonelada',Updated=TO_TIMESTAMP('2013-10-14 19:17:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56484 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 7:17:42 PM VET
@@ -591,12 +591,12 @@ UPDATE AD_PrintFormatItem SET PrintName='Vehicle Type', Name='Vehicle Type' WHER
 
 -- Oct 14, 2013 7:17:54 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de Vehiculo',PrintName='Tipo de Vehiculo',Updated=TO_TIMESTAMP('2013-10-14 19:17:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56481 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Vehiculo',PrintName='Tipo de Vehiculo',Updated=TO_TIMESTAMP('2013-10-14 19:17:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56481 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 7:18:19 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de Vehículo',PrintName='Tipo de Vehículo',Updated=TO_TIMESTAMP('2013-10-14 19:18:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56481 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Vehículo',PrintName='Tipo de Vehículo',Updated=TO_TIMESTAMP('2013-10-14 19:18:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56481 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 7:18:42 PM VET

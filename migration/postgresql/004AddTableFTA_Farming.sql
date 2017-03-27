@@ -15,7 +15,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Jun 28, 2013 1:40:37 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Cultivo',Updated=TO_TIMESTAMP('2013-06-28 13:40:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53509 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Cultivo',Updated=TO_TIMESTAMP('2013-06-28 13:40:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53509 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:40:46 PM VET
@@ -164,7 +164,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 1:42:54 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Variedad',PrintName='Variedad',Updated=TO_TIMESTAMP('2013-06-28 13:42:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55972 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Variedad',PrintName='Variedad',Updated=TO_TIMESTAMP('2013-06-28 13:42:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55972 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:43:48 PM VET
@@ -219,7 +219,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 1:47:19 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Fecha de Inicio de Siembra',PrintName='Fecha de Inicio de Siembra',Updated=TO_TIMESTAMP('2013-06-28 13:47:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55973 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Fecha de Inicio de Siembra',PrintName='Fecha de Inicio de Siembra',Updated=TO_TIMESTAMP('2013-06-28 13:47:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55973 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:47:58 PM VET
@@ -244,7 +244,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 1:49:52 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Fecha de Finalizacion de Siembra',PrintName='Fecha de Finalizacion de Siembra',Updated=TO_TIMESTAMP('2013-06-28 13:49:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55974 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Fecha de Finalizacion de Siembra',PrintName='Fecha de Finalizacion de Siembra',Updated=TO_TIMESTAMP('2013-06-28 13:49:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55974 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:50:23 PM VET
@@ -259,7 +259,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jun 28, 2013 1:51:19 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Fecha Final de Siembra',PrintName='Fecha Final de Siembra',Updated=TO_TIMESTAMP('2013-06-28 13:51:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55974 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Fecha Final de Siembra',PrintName='Fecha Final de Siembra',Updated=TO_TIMESTAMP('2013-06-28 13:51:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55974 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:53:32 PM VET
@@ -274,7 +274,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 1:54:08 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Fecha de Inicio de Cosecha',PrintName='Fecha de Inicio de Cosecha',Updated=TO_TIMESTAMP('2013-06-28 13:54:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55975 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Fecha de Inicio de Cosecha',PrintName='Fecha de Inicio de Cosecha',Updated=TO_TIMESTAMP('2013-06-28 13:54:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55975 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:55:00 PM VET
@@ -299,12 +299,12 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 1:55:51 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Fecha Final de Cosecha',PrintName='Fecha Final de Cosecha',Updated=TO_TIMESTAMP('2013-06-28 13:55:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55976 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Fecha Final de Cosecha',PrintName='Fecha Final de Cosecha',Updated=TO_TIMESTAMP('2013-06-28 13:55:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55976 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:56:30 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Updated=TO_TIMESTAMP('2013-06-28 13:56:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55976 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Updated=TO_TIMESTAMP('2013-06-28 13:56:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55976 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:57:04 PM VET
@@ -329,7 +329,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 1:57:53 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Fecha Estimada',PrintName='Fecha Estimada',Updated=TO_TIMESTAMP('2013-06-28 13:57:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55977 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Fecha Estimada',PrintName='Fecha Estimada',Updated=TO_TIMESTAMP('2013-06-28 13:57:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55977 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:58:20 PM VET
@@ -354,7 +354,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 1:59:04 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Cantidad Estimada',PrintName='Cantidad Estimada',Updated=TO_TIMESTAMP('2013-06-28 13:59:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55978 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Cantidad Estimada',PrintName='Cantidad Estimada',Updated=TO_TIMESTAMP('2013-06-28 13:59:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55978 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 2:00:08 PM VET

@@ -1,11 +1,11 @@
 -- Aug 24, 2013 1:59:41 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-08-24 13:59:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53262 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-08-24 13:59:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53262 AND AD_Language='es_VE'
 ;
 
 -- Aug 24, 2013 1:59:48 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-08-24 13:59:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53729 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-08-24 13:59:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53729 AND AD_Language='es_VE'
 ;
 
 -- Aug 24, 2013 1:59:57 PM VET
@@ -15,17 +15,17 @@ UPDATE AD_Field SET SeqNo=30,IsDisplayed='Y' WHERE AD_Field_ID=68292
 
 -- Aug 24, 2013 2:01:30 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-08-24 14:01:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53559 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-08-24 14:01:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53559 AND AD_Language='es_VE'
 ;
 
 -- Aug 24, 2013 2:01:46 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Ticket de Entrada',PrintName='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-08-24 14:01:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56129 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Ticket de Entrada',PrintName='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-08-24 14:01:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56129 AND AD_Language='es_VE'
 ;
 
 -- Aug 24, 2013 2:02:30 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Control de Materiales (Entrada / Salida)',Description='Contiene todo el Proceso de Entrada y/o Salida de Material',Updated=TO_TIMESTAMP('2013-08-24 14:02:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53600 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Control de Materiales (Entrada / Salida)',Description='Contiene todo el Proceso de Entrada y/o Salida de Material',Updated=TO_TIMESTAMP('2013-08-24 14:02:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53600 AND AD_Language='es_VE'
 ;
 
 -- Aug 24, 2013 2:02:36 PM VET
@@ -55,7 +55,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53600, SeqNo=2, Updated=CURRENT_TIMESTAMP WHE
 
 -- Aug 24, 2013 2:16:11 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Categoría',PrintName='Categoría',Updated=TO_TIMESTAMP('2013-08-24 14:16:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=52017 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Categoría',PrintName='Categoría',Updated=TO_TIMESTAMP('2013-08-24 14:16:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=52017 AND AD_Language='es_VE'
 ;
 
 -- Aug 24, 2013 2:19:36 PM VET
@@ -70,7 +70,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 24, 2013 2:20:20 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Rubro',PrintName='Rubro ó Categoría',Updated=TO_TIMESTAMP('2013-08-24 14:20:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56142 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Rubro',PrintName='Rubro ó Categoría',Updated=TO_TIMESTAMP('2013-08-24 14:20:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56142 AND AD_Language='es_VE'
 ;
 
 -- Aug 24, 2013 2:20:34 PM VET
@@ -595,7 +595,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Aug 24, 2013 3:32:47 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Activo',Updated=TO_TIMESTAMP('2013-08-24 15:32:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54015 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Activo',Updated=TO_TIMESTAMP('2013-08-24 15:32:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54015 AND AD_Language='es_VE'
 ;
 
 -- Aug 24, 2013 3:33:26 PM VET
@@ -620,12 +620,12 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Aug 24, 2013 3:34:14 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Cosechado',Updated=TO_TIMESTAMP('2013-08-24 15:34:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54016 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Cosechado',Updated=TO_TIMESTAMP('2013-08-24 15:34:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54016 AND AD_Language='es_VE'
 ;
 
 -- Aug 24, 2013 3:34:22 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Dañado',Updated=TO_TIMESTAMP('2013-08-24 15:34:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54017 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Dañado',Updated=TO_TIMESTAMP('2013-08-24 15:34:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54017 AND AD_Language='es_VE'
 ;
 
 -- Aug 24, 2013 3:34:37 PM VET

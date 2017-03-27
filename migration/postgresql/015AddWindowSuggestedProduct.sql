@@ -20,12 +20,12 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jun 28, 2013 4:59:45 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Productos Sugeridos',Updated=TO_TIMESTAMP('2013-06-28 16:59:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53241 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Productos Sugeridos',Updated=TO_TIMESTAMP('2013-06-28 16:59:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53241 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 4:59:49 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Productos Sugeridos',Updated=TO_TIMESTAMP('2013-06-28 16:59:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53674 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Productos Sugeridos',Updated=TO_TIMESTAMP('2013-06-28 16:59:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53674 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 4:59:57 PM VET

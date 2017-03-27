@@ -695,7 +695,7 @@ UPDATE AD_PrintFormatItem_Trl SET IsTranslated='N' WHERE AD_PrintFormatItem_ID=5
 
 -- 16/10/2013 10:20:03 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2013-10-16 10:20:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55582 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2013-10-16 10:20:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55582 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:20:15 AM VET
@@ -710,7 +710,7 @@ UPDATE AD_PrintFormatItem_Trl SET IsTranslated='N' WHERE AD_PrintFormatItem_ID=5
 
 -- 16/10/2013 10:20:20 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2013-10-16 10:20:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55593 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2013-10-16 10:20:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55593 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:20:40 AM VET
@@ -725,7 +725,7 @@ UPDATE AD_PrintFormatItem_Trl SET IsTranslated='N' WHERE AD_PrintFormatItem_ID=5
 
 -- 16/10/2013 10:20:43 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2013-10-16 10:20:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55599 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2013-10-16 10:20:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55599 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:20:49 AM VET
@@ -740,7 +740,7 @@ UPDATE AD_PrintFormatItem_Trl SET IsTranslated='N' WHERE AD_PrintFormatItem_ID=5
 
 -- 16/10/2013 10:20:54 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2013-10-16 10:20:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55592 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2013-10-16 10:20:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55592 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:21:06 AM VET
@@ -795,7 +795,7 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsPageBr
 
 -- 16/10/2013 10:23:41 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='No°:',Updated=TO_TIMESTAMP('2013-10-16 10:23:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55587 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='No°:',Updated=TO_TIMESTAMP('2013-10-16 10:23:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55587 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:24:10 AM VET
@@ -810,7 +810,7 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsPageBr
 
 -- 16/10/2013 10:24:33 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Análisis N°:',Updated=TO_TIMESTAMP('2013-10-16 10:24:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55597 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Análisis N°:',Updated=TO_TIMESTAMP('2013-10-16 10:24:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55597 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:24:47 AM VET
@@ -825,7 +825,7 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsNextLi
 
 -- 16/10/2013 10:25:24 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Estatus:',Updated=TO_TIMESTAMP('2013-10-16 10:25:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55588 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Estatus:',Updated=TO_TIMESTAMP('2013-10-16 10:25:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55588 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:25:37 AM VET
@@ -835,7 +835,7 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsNextLi
 
 -- 16/10/2013 10:25:44 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Fecha:',Updated=TO_TIMESTAMP('2013-10-16 10:25:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55586 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Fecha:',Updated=TO_TIMESTAMP('2013-10-16 10:25:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55586 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:26:56 AM VET
@@ -855,7 +855,7 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsPageBr
 
 -- 16/10/2013 10:27:21 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='T. Entrada:',Updated=TO_TIMESTAMP('2013-10-16 10:27:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55591 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='T. Entrada:',Updated=TO_TIMESTAMP('2013-10-16 10:27:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55591 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:28:04 AM VET
@@ -895,7 +895,7 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', IsPrinted='Y', Seq
 
 -- 16/10/2013 10:29:07 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2013-10-16 10:29:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55589 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2013-10-16 10:29:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55589 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:29:57 AM VET
@@ -940,7 +940,7 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsPageBr
 
 -- 16/10/2013 10:31:27 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Conductor:',Updated=TO_TIMESTAMP('2013-10-16 10:31:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55590 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Conductor:',Updated=TO_TIMESTAMP('2013-10-16 10:31:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55590 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:31:37 AM VET
@@ -950,7 +950,7 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsNextLi
 
 -- 16/10/2013 10:31:41 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Vehículo:',Updated=TO_TIMESTAMP('2013-10-16 10:31:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55602 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Vehículo:',Updated=TO_TIMESTAMP('2013-10-16 10:31:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55602 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:32:10 AM VET
@@ -960,7 +960,7 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsNextLine='Y', IsPageBreak='N', Li
 
 -- 16/10/2013 10:32:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Producto:',Updated=TO_TIMESTAMP('2013-10-16 10:32:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55595 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Producto:',Updated=TO_TIMESTAMP('2013-10-16 10:32:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55595 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:32:17 AM VET
@@ -970,12 +970,12 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsPageBr
 
 -- 16/10/2013 10:32:37 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Vehículo: ',Updated=TO_TIMESTAMP('2013-10-16 10:32:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55602 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Vehículo: ',Updated=TO_TIMESTAMP('2013-10-16 10:32:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55602 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:32:42 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Producto: ',Updated=TO_TIMESTAMP('2013-10-16 10:32:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55595 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Producto: ',Updated=TO_TIMESTAMP('2013-10-16 10:32:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55595 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:35:11 AM VET
@@ -1020,7 +1020,7 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsNextLi
 
 -- 16/10/2013 10:36:21 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='T. Análisis',Updated=TO_TIMESTAMP('2013-10-16 10:36:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55580 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='T. Análisis',Updated=TO_TIMESTAMP('2013-10-16 10:36:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55580 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:36:35 AM VET
@@ -1055,7 +1055,7 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', IsPrinted='Y', Seq
 
 -- 16/10/2013 10:37:38 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='T. Análisis:',Updated=TO_TIMESTAMP('2013-10-16 10:37:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55580 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='T. Análisis:',Updated=TO_TIMESTAMP('2013-10-16 10:37:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55580 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:37:47 AM VET
@@ -1130,7 +1130,7 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsNextLi
 
 -- 16/10/2013 10:42:07 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Observacion:',Updated=TO_TIMESTAMP('2013-10-16 10:42:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55585 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Observacion:',Updated=TO_TIMESTAMP('2013-10-16 10:42:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55585 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:43:16 AM VET
@@ -1215,7 +1215,7 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=53516
 
 -- 16/10/2013 10:50:44 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Reference_Trl SET Name='FTA_MobilizationGuide',Updated=TO_TIMESTAMP('2013-10-16 10:50:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53516 AND AD_Language='es_MX'
+UPDATE AD_Reference_Trl SET Name='FTA_MobilizationGuide',Updated=TO_TIMESTAMP('2013-10-16 10:50:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53516 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:51:50 AM VET
@@ -1235,7 +1235,7 @@ UPDATE AD_PrintFormatItem_Trl SET PrintName = (SELECT e.PrintName FROM AD_Elemen
 
 -- 16/10/2013 10:51:55 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Guía de Movilización:',Updated=TO_TIMESTAMP('2013-10-16 10:51:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55611 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Guía de Movilización:',Updated=TO_TIMESTAMP('2013-10-16 10:51:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55611 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:52:00 AM VET
@@ -1305,7 +1305,7 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', IsPrinted='Y', Seq
 
 -- 16/10/2013 10:53:22 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Guía N°:',Updated=TO_TIMESTAMP('2013-10-16 10:53:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55611 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Guía N°:',Updated=TO_TIMESTAMP('2013-10-16 10:53:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55611 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:53:51 AM VET
@@ -1350,17 +1350,17 @@ UPDATE AD_PrintFormatItem_Trl SET PrintName = (SELECT e.PrintName FROM AD_Elemen
 
 -- 16/10/2013 10:58:23 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Analista:',Updated=TO_TIMESTAMP('2013-10-16 10:58:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Analista:',Updated=TO_TIMESTAMP('2013-10-16 10:58:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:58:30 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Analista:___________________________',Updated=TO_TIMESTAMP('2013-10-16 10:58:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Analista:___________________________',Updated=TO_TIMESTAMP('2013-10-16 10:58:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:58:55 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Laboratorista:___________________________',Updated=TO_TIMESTAMP('2013-10-16 10:58:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Laboratorista:___________________________',Updated=TO_TIMESTAMP('2013-10-16 10:58:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:59:18 AM VET
@@ -1385,7 +1385,7 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', IsRelativePosition
 
 -- 16/10/2013 10:59:41 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Firma:___________________________',Updated=TO_TIMESTAMP('2013-10-16 10:59:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55613 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Firma:___________________________',Updated=TO_TIMESTAMP('2013-10-16 10:59:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55613 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 10:59:53 AM VET
@@ -1410,22 +1410,22 @@ UPDATE AD_PrintFormatItem SET IsGroupBy='N', IsPageBreak='N', LineAlignmentType=
 
 -- 16/10/2013 11:00:49 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Laboratorista:___________________________          ',Updated=TO_TIMESTAMP('2013-10-16 11:00:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Laboratorista:___________________________          ',Updated=TO_TIMESTAMP('2013-10-16 11:00:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 11:01:04 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Laboratorista:___________________________',Updated=TO_TIMESTAMP('2013-10-16 11:01:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Laboratorista:___________________________',Updated=TO_TIMESTAMP('2013-10-16 11:01:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 11:01:12 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Laboratorista:___________________________           ',Updated=TO_TIMESTAMP('2013-10-16 11:01:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Laboratorista:___________________________           ',Updated=TO_TIMESTAMP('2013-10-16 11:01:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55612 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 11:01:22 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Firma:_____________________',Updated=TO_TIMESTAMP('2013-10-16 11:01:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55613 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Firma:_____________________',Updated=TO_TIMESTAMP('2013-10-16 11:01:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55613 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 11:03:52 AM VET
@@ -1580,7 +1580,7 @@ UPDATE AD_PrintFormatItem SET IsCentrallyMaintained='N', IsGroupBy='N', IsNextLi
 
 -- 16/10/2013 11:14:46 AM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Observación:',Updated=TO_TIMESTAMP('2013-10-16 11:14:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55518 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Observación:',Updated=TO_TIMESTAMP('2013-10-16 11:14:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=55518 AND AD_Language='es_VE'
 ;
 
 -- 16/10/2013 11:15:15 AM VET

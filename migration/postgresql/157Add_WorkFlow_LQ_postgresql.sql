@@ -1,6 +1,6 @@
 -- Oct 15, 2013 1:45:05 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Saldo del Productor',Description='Muestra el Saldo del Productor por Partida',Updated=TO_TIMESTAMP('2013-10-15 13:45:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53490 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Saldo del Productor',Description='Muestra el Saldo del Productor por Partida',Updated=TO_TIMESTAMP('2013-10-15 13:45:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53490 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 1:45:38 PM VET
@@ -45,7 +45,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 15, 2013 2:24:48 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Procesar Asignación de Crédito',Updated=TO_TIMESTAMP('2013-10-15 14:24:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53495 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Asignación de Crédito',Updated=TO_TIMESTAMP('2013-10-15 14:24:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53495 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 2:25:18 PM VET
@@ -70,7 +70,7 @@ UPDATE AD_Process SET AD_Workflow_ID=50036,Updated=TO_TIMESTAMP('2013-10-15 14:2
 
 -- Oct 15, 2013 2:29:09 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Workflow_Trl SET Name='Proceso de Asignación de Liquidación',Description='(Proceso de Asignación de Liquidación)',Updated=TO_TIMESTAMP('2013-10-15 14:29:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50036 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Asignación de Liquidación',Description='(Proceso de Asignación de Liquidación)',Updated=TO_TIMESTAMP('2013-10-15 14:29:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50036 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 2:29:46 PM VET
@@ -165,7 +165,7 @@ UPDATE AD_Process SET Value='FTA_FarmerLiquidation Process',Updated=TO_TIMESTAMP
 
 -- Oct 15, 2013 4:04:58 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Procesar Liquidación de Productor',Updated=TO_TIMESTAMP('2013-10-15 16:04:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53496 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Liquidación de Productor',Updated=TO_TIMESTAMP('2013-10-15 16:04:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53496 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 4:05:22 PM VET
@@ -180,7 +180,7 @@ INSERT INTO AD_Workflow_Trl (AD_Language,AD_Workflow_ID, Description,Help,Name, 
 
 -- Oct 15, 2013 4:05:48 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Workflow_Trl SET Name='Proceso de Liquidación de Productor',Description='(Proceso de Liquidación de Productor)',Updated=TO_TIMESTAMP('2013-10-15 16:05:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50037 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Liquidación de Productor',Description='(Proceso de Liquidación de Productor)',Updated=TO_TIMESTAMP('2013-10-15 16:05:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50037 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 4:06:08 PM VET

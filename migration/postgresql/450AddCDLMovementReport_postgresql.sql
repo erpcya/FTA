@@ -10,7 +10,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Apr 9, 2014 3:37:00 PM CEST
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Movimiento de Partidas (Por Grupo)',Updated=TO_TIMESTAMP('2014-04-09 15:37:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53617 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Movimiento de Partidas (Por Grupo)',Updated=TO_TIMESTAMP('2014-04-09 15:37:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53617 AND AD_Language='es_VE'
 ;
 
 -- Apr 9, 2014 3:37:05 PM CEST

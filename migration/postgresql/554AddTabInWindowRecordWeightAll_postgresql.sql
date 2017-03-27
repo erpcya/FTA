@@ -518,17 +518,17 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Feb 12, 2015 11:41:59 PM VET
 -- FTA
-UPDATE AD_Tab_Trl SET Name='Registro del Peso (Todos)',Updated=TO_TIMESTAMP('2015-02-12 23:41:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=54071 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Registro del Peso (Todos)',Updated=TO_TIMESTAMP('2015-02-12 23:41:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=54071 AND AD_Language='es_VE'
 ;
 
 -- Feb 12, 2015 11:42:10 PM VET
 -- FTA
-UPDATE AD_Tab_Trl SET Name='Registro del Peso Detalle (Todos)',Updated=TO_TIMESTAMP('2015-02-12 23:42:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=54072 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Registro del Peso Detalle (Todos)',Updated=TO_TIMESTAMP('2015-02-12 23:42:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=54072 AND AD_Language='es_VE'
 ;
 
 -- Feb 12, 2015 11:45:17 PM VET
 -- FTA
-UPDATE AD_Field_Trl SET Name='Obtener Peso',Description='Obtener Peso de Romana',Help='Obtiene el Peso de la Romana',Updated=TO_TIMESTAMP('2015-02-12 23:45:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=76190 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Obtener Peso',Description='Obtener Peso de Romana',Help='Obtiene el Peso de la Romana',Updated=TO_TIMESTAMP('2015-02-12 23:45:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=76190 AND AD_Language='es_VE'
 ;
 
 -- Feb 12, 2015 11:45:23 PM VET
