@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 2, 2013 11:18:13 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='UM para Área',PrintName='UM para Área',Description='Unidad de medida estándar para el Área',Help='La unidad de medida estándar para el Área indica la unidad de medida que se utilizará para referencia por área en un documento.',Updated=TO_TIMESTAMP('2013-11-02 11:18:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56587 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='UM para Área',PrintName='UM para Área',Description='Unidad de medida estándar para el Área',Help='La unidad de medida estándar para el Área indica la unidad de medida que se utilizará para referencia por área en un documento.',Updated=TO_TIMESTAMP('2013-11-02 11:18:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56587 AND AD_Language='es_VE'
 ;
 
 -- Nov 2, 2013 11:18:28 AM VET

@@ -55,7 +55,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- 13/11/2013 10:33:00 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Otras Pesadas',Updated=TO_TIMESTAMP('2013-11-13 10:33:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54156 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Otras Pesadas',Updated=TO_TIMESTAMP('2013-11-13 10:33:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54156 AND AD_Language='es_VE'
 ;
 
 -- 13/11/2013 10:33:04 AM VET
@@ -65,7 +65,7 @@ UPDATE AD_Ref_List_Trl SET Name='Otras Pesadas',Updated=TO_TIMESTAMP('2013-11-13
 
 -- 13/11/2013 10:33:44 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Despacho de Materia Prima',Updated=TO_TIMESTAMP('2013-11-13 10:33:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54154 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Despacho de Materia Prima',Updated=TO_TIMESTAMP('2013-11-13 10:33:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54154 AND AD_Language='es_VE'
 ;
 
 -- 13/11/2013 10:33:57 AM VET
@@ -75,7 +75,7 @@ UPDATE AD_Ref_List_Trl SET Name='Despacho de Materia Prima',Updated=TO_TIMESTAMP
 
 -- 13/11/2013 10:34:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Movimiento de Salida',Updated=TO_TIMESTAMP('2013-11-13 10:34:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54155 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Movimiento de Salida',Updated=TO_TIMESTAMP('2013-11-13 10:34:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54155 AND AD_Language='es_VE'
 ;
 
 -- 13/11/2013 10:34:22 AM VET

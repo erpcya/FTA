@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Jun 28, 2013 4:17:16 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Tipo de Observacion',Updated=TO_TIMESTAMP('2013-06-28 16:17:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53238 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Tipo de Observacion',Updated=TO_TIMESTAMP('2013-06-28 16:17:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53238 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 4:17:42 PM VET
@@ -25,7 +25,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jun 28, 2013 4:17:48 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Tipo de Observacion',Updated=TO_TIMESTAMP('2013-06-28 16:17:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53669 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Tipo de Observacion',Updated=TO_TIMESTAMP('2013-06-28 16:17:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53669 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 4:18:23 PM VET

@@ -200,12 +200,12 @@ UPDATE AD_Column SET DefaultValue='@FTA_Farm_ID@',Updated=TO_TIMESTAMP('2013-10-
 
 -- Oct 29, 2013 9:03:09 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Tasa de Interés',Updated=TO_TIMESTAMP('2013-10-29 09:03:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53648 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Tasa de Interés',Updated=TO_TIMESTAMP('2013-10-29 09:03:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53648 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 9:03:40 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tasa de Interés',PrintName='Tasa de Interés',Updated=TO_TIMESTAMP('2013-10-29 09:03:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56548 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tasa de Interés',PrintName='Tasa de Interés',Updated=TO_TIMESTAMP('2013-10-29 09:03:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56548 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 9:04:03 AM VET
@@ -691,7 +691,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 29, 2013 10:01:29 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Crédito Posteado',PrintName='Crédito Posteado',Updated=TO_TIMESTAMP('2013-10-29 10:01:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56570 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Crédito Posteado',PrintName='Crédito Posteado',Updated=TO_TIMESTAMP('2013-10-29 10:01:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56570 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 10:44:48 AM VET

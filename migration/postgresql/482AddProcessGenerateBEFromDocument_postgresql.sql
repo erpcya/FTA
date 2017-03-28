@@ -10,7 +10,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Jun 18, 2014 10:16:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Letra de Cambio Desde Documento',Description='Generar Letra de Cambio Desde Documento',Updated=TO_TIMESTAMP('2014-06-18 10:16:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53643 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Letra de Cambio Desde Documento',Description='Generar Letra de Cambio Desde Documento',Updated=TO_TIMESTAMP('2014-06-18 10:16:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53643 AND AD_Language='es_VE'
 ;
 
 -- Jun 18, 2014 10:16:26 AM VET

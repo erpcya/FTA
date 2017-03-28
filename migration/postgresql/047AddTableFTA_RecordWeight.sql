@@ -10,7 +10,7 @@ INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_
 
 -- Aug 23, 2013 10:30:14 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 10:30:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53561 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 10:30:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53561 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:30:30 AM VET
@@ -190,7 +190,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 23, 2013 10:31:07 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Registro del Peso',PrintName='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 10:31:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56135 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Registro del Peso',PrintName='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 10:31:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56135 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:40:21 AM VET
@@ -205,7 +205,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 23, 2013 10:41:14 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Ticket de ingreso',PrintName='Ticket de ingreso',Updated=TO_TIMESTAMP('2013-08-23 10:41:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56129 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Ticket de ingreso',PrintName='Ticket de ingreso',Updated=TO_TIMESTAMP('2013-08-23 10:41:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56129 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:41:47 AM VET
@@ -220,7 +220,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 23, 2013 10:42:54 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Análisis de Calidad',PrintName='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 10:42:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56131 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Análisis de Calidad',PrintName='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 10:42:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56131 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:43:17 AM VET
@@ -275,7 +275,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 23, 2013 10:46:30 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Peso bruto',PrintName='Peso bruto',Updated=TO_TIMESTAMP('2013-08-23 10:46:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56136 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Peso bruto',PrintName='Peso bruto',Updated=TO_TIMESTAMP('2013-08-23 10:46:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56136 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:47:02 AM VET
@@ -300,7 +300,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 23, 2013 10:50:09 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Peso Tara',PrintName='Peso Tara',Updated=TO_TIMESTAMP('2013-08-23 10:50:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56137 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Peso Tara',PrintName='Peso Tara',Updated=TO_TIMESTAMP('2013-08-23 10:50:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56137 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:50:34 AM VET
@@ -330,7 +330,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 23, 2013 10:51:45 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Peso Neto',PrintName='Peso Neto',Updated=TO_TIMESTAMP('2013-08-23 10:51:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56138 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Peso Neto',PrintName='Peso Neto',Updated=TO_TIMESTAMP('2013-08-23 10:51:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56138 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:52:13 AM VET
@@ -355,7 +355,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 23, 2013 10:52:58 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Fecha de Entrada',PrintName='Fecha de Entrada',Updated=TO_TIMESTAMP('2013-08-23 10:52:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56139 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Fecha de Entrada',PrintName='Fecha de Entrada',Updated=TO_TIMESTAMP('2013-08-23 10:52:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56139 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:53:17 AM VET
@@ -380,7 +380,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 23, 2013 10:53:45 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Fecha de Salida',PrintName='Fecha de Salida',Updated=TO_TIMESTAMP('2013-08-23 10:53:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56140 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Fecha de Salida',PrintName='Fecha de Salida',Updated=TO_TIMESTAMP('2013-08-23 10:53:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56140 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:54:14 AM VET
@@ -405,7 +405,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 23, 2013 10:55:28 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Estado del Peso',PrintName='Estado del Peso',Updated=TO_TIMESTAMP('2013-08-23 10:55:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56141 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Estado del Peso',PrintName='Estado del Peso',Updated=TO_TIMESTAMP('2013-08-23 10:55:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56141 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 10:56:36 AM VET

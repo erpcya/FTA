@@ -30,7 +30,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Feb 10, 2014 12:01:27 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Estado de Cuenta (Productor)',Updated=TO_TIMESTAMP('2014-02-10 12:01:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53573 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Estado de Cuenta (Productor)',Updated=TO_TIMESTAMP('2014-02-10 12:01:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53573 AND AD_Language='es_VE'
 ;
 
 -- Feb 10, 2014 12:01:30 PM VET

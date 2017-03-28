@@ -10,7 +10,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- 07-oct-2013 16:50:51 VET
 -- SFAndroid Contribution
-UPDATE AD_Process_Trl SET Name='Asignación de Credito a Acta',Description='Asignación de Credito a Acta',Help='Asignación de Credito a Acta',Updated=TO_TIMESTAMP('2013-10-07 16:50:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53483 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Asignación de Credito a Acta',Description='Asignación de Credito a Acta',Help='Asignación de Credito a Acta',Updated=TO_TIMESTAMP('2013-10-07 16:50:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53483 AND AD_Language='es_VE'
 ;
 
 -- 07-oct-2013 16:51:35 VET

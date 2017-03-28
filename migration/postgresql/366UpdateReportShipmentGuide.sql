@@ -30,7 +30,7 @@ UPDATE AD_PrintFormatItem_Trl SET IsTranslated='N' WHERE AD_PrintFormatItem_ID=5
 
 -- Jan 27, 2014 3:49:37 PM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2014-01-27 15:49:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=56961 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName=NULL,Updated=TO_TIMESTAMP('2014-01-27 15:49:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=56961 AND AD_Language='es_VE'
 ;
 
 -- Jan 27, 2014 3:49:40 PM VET
@@ -45,7 +45,7 @@ UPDATE AD_PrintFormatItem SET FormatPattern='dd/MM/yyyy', IsGroupBy='N', IsPageB
 
 -- Jan 27, 2014 3:52:23 PM VET
 -- Farming Technical Assistance
-UPDATE AD_PrintFormatItem_Trl SET PrintName='Hora',Updated=TO_TIMESTAMP('2014-01-27 15:52:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=56962 AND AD_Language='es_MX'
+UPDATE AD_PrintFormatItem_Trl SET PrintName='Hora',Updated=TO_TIMESTAMP('2014-01-27 15:52:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_PrintFormatItem_ID=56962 AND AD_Language='es_VE'
 ;
 
 -- Jan 27, 2014 3:52:27 PM VET

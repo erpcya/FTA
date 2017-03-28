@@ -395,6 +395,6 @@ UPDATE AD_PrintFormatItem SET PrintName='Item', Name='Item' WHERE IsCentrallyMai
 
 -- Oct 25, 2013 9:32:46 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Producto/Cargo',PrintName='Producto/Cargo',Updated=TO_TIMESTAMP('2013-10-25 09:32:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56557 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Producto/Cargo',PrintName='Producto/Cargo',Updated=TO_TIMESTAMP('2013-10-25 09:32:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56557 AND AD_Language='es_VE'
 ;
 

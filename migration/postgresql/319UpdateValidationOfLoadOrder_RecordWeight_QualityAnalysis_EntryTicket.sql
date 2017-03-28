@@ -70,7 +70,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Load Order Line', Name='Load Order Line
 
 -- Dec 11, 2013 9:01:51 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Orden de Carga',Updated=TO_TIMESTAMP('2013-12-11 09:01:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54157 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Orden de Carga',Updated=TO_TIMESTAMP('2013-12-11 09:01:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54157 AND AD_Language='es_VE'
 ;
 
 -- Dec 11, 2013 9:01:55 AM VET
@@ -310,7 +310,7 @@ INSERT INTO AD_FieldGroup_Trl (AD_Language,AD_FieldGroup_ID, Name, IsTranslated,
 
 -- Dec 11, 2013 11:03:04 AM VET
 -- Farming Technical Assistance
-UPDATE AD_FieldGroup_Trl SET Name='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-12-11 11:03:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50042 AND AD_Language='es_MX'
+UPDATE AD_FieldGroup_Trl SET Name='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-12-11 11:03:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50042 AND AD_Language='es_VE'
 ;
 
 -- Dec 11, 2013 11:03:10 AM VET

@@ -10,7 +10,7 @@ INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name
 
 -- Nov 5, 2013 3:51:37 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Reference_Trl SET Name='Asignación <-> Liquidación Productor',Updated=TO_TIMESTAMP('2013-11-05 15:51:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53593 AND AD_Language='es_MX'
+UPDATE AD_Reference_Trl SET Name='Asignación <-> Liquidación Productor',Updated=TO_TIMESTAMP('2013-11-05 15:51:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53593 AND AD_Language='es_VE'
 ;
 
 -- Nov 5, 2013 3:53:17 PM VET
@@ -40,7 +40,7 @@ INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name
 
 -- Nov 5, 2013 3:55:45 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Reference_Trl SET Name='Liquidación Productor <-> Asignación',Description=NULL,Updated=TO_TIMESTAMP('2013-11-05 15:55:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53594 AND AD_Language='es_MX'
+UPDATE AD_Reference_Trl SET Name='Liquidación Productor <-> Asignación',Description=NULL,Updated=TO_TIMESTAMP('2013-11-05 15:55:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53594 AND AD_Language='es_VE'
 ;
 
 -- Nov 5, 2013 3:55:49 PM VET

@@ -20,7 +20,7 @@ UPDATE AD_Column SET AD_Reference_ID=30,Updated=TO_TIMESTAMP('2014-01-14 20:24:1
 
 -- 14/01/2014 08:31:21 PM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,71278,72125,0,53731,TO_TIMESTAMP('2014-01-14 20:31:14','YYYY-MM-DD HH24:MI:SS'),100,'Product, Service, Item',10,'ECA02','Identifies an item which is either purchased or sold in this organization.','N','Y','Y','Y','N','N','N','N','N','Product',0,360,0,TO_TIMESTAMP('2014-01-14 20:31:14','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,71278,72125,0,53731,TO_TIMESTAMP('2014-01-14 20:31:14','YYYY-MM-DD HH24:MI:SS'),100,'Product, Service, Item',10,'ECA02','Identifies an item which is either purchased or sold in this organization.','N','Y','Y','Y','N','N','N','N','N','Product',0,360,0,TO_TIMESTAMP('2014-01-14 20:31:14','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- 14/01/2014 08:31:21 PM VET

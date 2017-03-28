@@ -865,7 +865,7 @@ INSERT INTO AD_Browse_Field_Trl (AD_Language,AD_Browse_Field_ID, Description,Hel
 
 -- Dec 15, 2014 11:22:23 PM VET
 -- FTA
-UPDATE AD_Browse_Trl SET Name='Generar Movimiento desde Orden de Carga',Description='Generar Entrega desde Orden de Carga',Updated=TO_TIMESTAMP('2014-12-15 23:22:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50044 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Generar Movimiento desde Orden de Carga',Description='Generar Entrega desde Orden de Carga',Updated=TO_TIMESTAMP('2014-12-15 23:22:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50044 AND AD_Language='es_VE'
 ;
 
 -- Dec 15, 2014 11:23:35 PM VET
@@ -1320,7 +1320,7 @@ UPDATE AD_Browse_Trl SET Name='Generar Movimiento desde Orden de Carga',Updated=
 
 -- Dec 15, 2014 11:35:51 PM VET
 -- FTA
-UPDATE AD_Browse_Trl SET Description='Generar Movimiento desde Orden de Carga',Updated=TO_TIMESTAMP('2014-12-15 23:35:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50044 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Description='Generar Movimiento desde Orden de Carga',Updated=TO_TIMESTAMP('2014-12-15 23:35:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50044 AND AD_Language='es_VE'
 ;
 
 -- Dec 15, 2014 11:35:53 PM VET
@@ -1330,7 +1330,7 @@ UPDATE AD_Browse_Trl SET Description='Generar Movimiento desde Orden de Carga',U
 
 -- Dec 15, 2014 11:35:57 PM VET
 -- FTA
-UPDATE AD_Menu_Trl SET Name='Generar Movimiento desde Orden de Carga',Updated=TO_TIMESTAMP('2014-12-15 23:35:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53898 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Generar Movimiento desde Orden de Carga',Updated=TO_TIMESTAMP('2014-12-15 23:35:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53898 AND AD_Language='es_VE'
 ;
 
 -- Dec 15, 2014 11:35:59 PM VET
@@ -1375,7 +1375,7 @@ INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,C
 
 -- Dec 15, 2014 11:37:19 PM VET
 -- FTA
-UPDATE AD_Process_Trl SET Name='Generar Movimiento desde Orden de Carga',Updated=TO_TIMESTAMP('2014-12-15 23:37:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53723 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Movimiento desde Orden de Carga',Updated=TO_TIMESTAMP('2014-12-15 23:37:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53723 AND AD_Language='es_VE'
 ;
 
 -- Dec 15, 2014 11:37:49 PM VET

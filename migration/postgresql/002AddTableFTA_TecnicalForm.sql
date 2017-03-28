@@ -15,7 +15,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Jun 28, 2013 12:29:36 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Ficha Técnica',Updated=TO_TIMESTAMP('2013-06-28 12:29:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53507 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Ficha Técnica',Updated=TO_TIMESTAMP('2013-06-28 12:29:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53507 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 12:30:59 PM VET

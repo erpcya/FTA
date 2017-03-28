@@ -52,7 +52,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- 25-nov-2014 15:30:14 VET
 -- FTA
-UPDATE AD_Element_Trl SET Name='Contra Documento ',PrintName='Contra Documento ',Updated=TO_TIMESTAMP('2014-11-25 15:30:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57560 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Contra Documento ',PrintName='Contra Documento ',Updated=TO_TIMESTAMP('2014-11-25 15:30:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57560 AND AD_Language='es_VE'
 ;
 
 -- 25-nov-2014 15:30:36 VET

@@ -173,7 +173,7 @@ UPDATE AD_Element SET EntityType='ECA02',Updated=TO_TIMESTAMP('2013-10-17 15:10:
 
 -- Oct 17, 2013 3:15:38 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Documento Guía de Movilización',PrintName='Documento Guía de Movilización',Description='Documento Guía de Movilización',Updated=TO_TIMESTAMP('2013-10-17 15:15:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56496 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Documento Guía de Movilización',PrintName='Documento Guía de Movilización',Description='Documento Guía de Movilización',Updated=TO_TIMESTAMP('2013-10-17 15:15:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56496 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 3:17:59 PM VET
@@ -218,7 +218,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 17, 2013 3:22:28 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Tipo de Documento (Tickect de Entrada)',PrintName='Tipo de Documento (Tickect de Entrada)',Description='Tipo de Documento (Tickect de Entrada)',Updated=TO_TIMESTAMP('2013-10-17 15:22:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56497 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Documento (Tickect de Entrada)',PrintName='Tipo de Documento (Tickect de Entrada)',Description='Tipo de Documento (Tickect de Entrada)',Updated=TO_TIMESTAMP('2013-10-17 15:22:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56497 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 3:22:34 PM VET
@@ -303,7 +303,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 17, 2013 3:27:56 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Nombre Tipo de Documento (Ticket de Entrada)',PrintName='Nombre Tipo de Documento (Ticket de Entrada)',Description='Nombre Tipo de Documento (Ticket de Entrada)',Updated=TO_TIMESTAMP('2013-10-17 15:27:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56498 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Nombre Tipo de Documento (Ticket de Entrada)',PrintName='Nombre Tipo de Documento (Ticket de Entrada)',Description='Nombre Tipo de Documento (Ticket de Entrada)',Updated=TO_TIMESTAMP('2013-10-17 15:27:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56498 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 3:29:13 PM VET
@@ -399,7 +399,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 17, 2013 3:38:54 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Código de Conductor',PrintName='Código de Conductor',Updated=TO_TIMESTAMP('2013-10-17 15:38:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56499 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Código de Conductor',PrintName='Código de Conductor',Updated=TO_TIMESTAMP('2013-10-17 15:38:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56499 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 3:39:14 PM VET
@@ -414,7 +414,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 17, 2013 3:39:29 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Nombre de Conductor',PrintName='Nombre de Conductor',Updated=TO_TIMESTAMP('2013-10-17 15:39:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56500 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Nombre de Conductor',PrintName='Nombre de Conductor',Updated=TO_TIMESTAMP('2013-10-17 15:39:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56500 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 3:40:33 PM VET
@@ -479,7 +479,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 17, 2013 3:50:05 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Tipo de Documento (Analisis de Calidad)',PrintName='Tipo de Documento (Analisis de Calidad)',Description='Tipo de Documento (Analisis de Calidad)',Updated=TO_TIMESTAMP('2013-10-17 15:50:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56501 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Documento (Analisis de Calidad)',PrintName='Tipo de Documento (Analisis de Calidad)',Description='Tipo de Documento (Analisis de Calidad)',Updated=TO_TIMESTAMP('2013-10-17 15:50:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56501 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 3:51:33 PM VET
@@ -504,7 +504,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 17, 2013 3:52:33 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Nombre Tipo de Documento (Analisis de Calidad)',PrintName='Nombre Tipo de Documento (Analisis de Calidad)',Description='Nombre Tipo de Documento (Analisis de Calidad)',Updated=TO_TIMESTAMP('2013-10-17 15:52:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56502 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Nombre Tipo de Documento (Analisis de Calidad)',PrintName='Nombre Tipo de Documento (Analisis de Calidad)',Description='Nombre Tipo de Documento (Analisis de Calidad)',Updated=TO_TIMESTAMP('2013-10-17 15:52:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56502 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 3:53:02 PM VET
@@ -559,7 +559,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 17, 2013 4:03:10 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Valor 0',PrintName='Valor 0',Updated=TO_TIMESTAMP('2013-10-17 16:03:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56503 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Valor 0',PrintName='Valor 0',Updated=TO_TIMESTAMP('2013-10-17 16:03:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56503 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 4:03:32 PM VET
@@ -599,7 +599,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Val_0', Name='Val_0' WHERE IsCentrallyM
 
 -- Oct 17, 2013 4:03:36 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Val_0',PrintName='Val_0',Updated=TO_TIMESTAMP('2013-10-17 16:03:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56503 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Val_0',PrintName='Val_0',Updated=TO_TIMESTAMP('2013-10-17 16:03:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56503 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 4:03:53 PM VET
@@ -904,7 +904,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 17, 2013 4:11:19 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Tipo de Documento (Registro de Peso)',PrintName='Tipo de Documento (Registro de Peso)',Updated=TO_TIMESTAMP('2013-10-17 16:11:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56513 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Documento (Registro de Peso)',PrintName='Tipo de Documento (Registro de Peso)',Updated=TO_TIMESTAMP('2013-10-17 16:11:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56513 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 4:27:48 PM VET
@@ -929,7 +929,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 17, 2013 4:32:54 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Nombre Tipo de Documento (Registro de Peso)',PrintName='Nombre Tipo de Documento (Registro de Peso)',Updated=TO_TIMESTAMP('2013-10-17 16:32:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56514 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Nombre Tipo de Documento (Registro de Peso)',PrintName='Nombre Tipo de Documento (Registro de Peso)',Updated=TO_TIMESTAMP('2013-10-17 16:32:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56514 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 4:33:19 PM VET
@@ -1059,12 +1059,12 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Oct 17, 2013 4:42:03 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Window_Trl SET Name='Importar Registro de Peso',Description='Importar Registro de Peso',Help='Importar Registro de Peso',Updated=TO_TIMESTAMP('2013-10-17 16:42:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53287 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Importar Registro de Peso',Description='Importar Registro de Peso',Help='Importar Registro de Peso',Updated=TO_TIMESTAMP('2013-10-17 16:42:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53287 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 4:42:10 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Tab_Trl SET Name='Importar Registro de Peso',Updated=TO_TIMESTAMP('2013-10-17 16:42:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53782 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Importar Registro de Peso',Updated=TO_TIMESTAMP('2013-10-17 16:42:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53782 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 4:42:19 PM VET
@@ -2022,7 +2022,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 17, 2013 5:10:46 PM VET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-UPDATE AD_Element_Trl SET Name='Nombre Vehiculo',PrintName='Nombre Vehiculo',Description='Nombre Vehiculo',Updated=TO_TIMESTAMP('2013-10-17 17:10:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56515 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Nombre Vehiculo',PrintName='Nombre Vehiculo',Description='Nombre Vehiculo',Updated=TO_TIMESTAMP('2013-10-17 17:10:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56515 AND AD_Language='es_VE'
 ;
 
 -- Oct 17, 2013 5:10:59 PM VET

@@ -1,4 +1,4 @@
-﻿--DROP VIEW FTA_RV_LoadOrderGenerateInvoice;
+--DROP VIEW FTA_RV_LoadOrderGenerateInvoice;
 /*CREATE OR REPLACE VIEW FTA_RV_LoadOrderGenerateInvoice AS 
 SELECT 
     lo.AD_Org_ID,
@@ -133,4 +133,4 @@ CREATE OR REPLACE VIEW FTA_RV_LoadOrderGenerateInvoice AS
      WHERE (
      (p.ProductType = 'I' AND p.M_Product_ID = lol.M_Product_ID)
       OR (p.ProductType <> 'I' AND lol.M_Product_ID IS NULL )
-	OR (p.M_Product_ID IS NULL )
+	OR (p.M_Product_ID IS NULL ))

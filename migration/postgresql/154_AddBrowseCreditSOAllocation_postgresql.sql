@@ -125,7 +125,7 @@ UPDATE AD_Process SET Classname='org.spin.process.CreditSOAllocation',Updated=TO
 
 -- Oct 15, 2013 1:11:58 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Process_Trl SET Name='Asignación de Crédito (Ventas)',Description='Asignación de Crédito (Ventas)',Updated=TO_TIMESTAMP('2013-10-15 01:11:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53492 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Asignación de Crédito (Ventas)',Description='Asignación de Crédito (Ventas)',Updated=TO_TIMESTAMP('2013-10-15 01:11:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53492 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 1:14:08 AM VET
@@ -140,7 +140,7 @@ INSERT INTO AD_Browse_Trl (AD_Language,AD_Browse_ID, Description,Help,Name, IsTr
 
 -- Oct 15, 2013 1:14:34 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Browse_Trl SET Name='Asignación de Crédito (Ventas)',Description='Asignación de Crédito (Ventas)',Help='Asignación de Crédito (Ventas)',Updated=TO_TIMESTAMP('2013-10-15 01:14:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50024 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Asignación de Crédito (Ventas)',Description='Asignación de Crédito (Ventas)',Help='Asignación de Crédito (Ventas)',Updated=TO_TIMESTAMP('2013-10-15 01:14:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50024 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 1:14:46 AM VET
@@ -450,7 +450,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Oct 15, 2013 1:23:26 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Asignación de Crédito (Ventas)',Description='Asignación de Crédito (Ventas)',Updated=TO_TIMESTAMP('2013-10-15 01:23:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53652 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Asignación de Crédito (Ventas)',Description='Asignación de Crédito (Ventas)',Updated=TO_TIMESTAMP('2013-10-15 01:23:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53652 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 1:27:51 AM VET

@@ -15,12 +15,12 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Jul 7, 2013 9:37:29 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Guia de Movilización',Updated=TO_TIMESTAMP('2013-07-07 21:37:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53240 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Guia de Movilización',Updated=TO_TIMESTAMP('2013-07-07 21:37:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53240 AND AD_Language='es_VE'
 ;
 
 -- Jul 7, 2013 9:37:41 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Guia de Movilización',Updated=TO_TIMESTAMP('2013-07-07 21:37:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53561 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Guia de Movilización',Updated=TO_TIMESTAMP('2013-07-07 21:37:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53561 AND AD_Language='es_VE'
 ;
 
 -- Jul 7, 2013 9:38:09 PM VET
@@ -40,12 +40,12 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Jul 7, 2013 9:38:42 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Tipo de Observación',Updated=TO_TIMESTAMP('2013-07-07 21:38:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53238 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Tipo de Observación',Updated=TO_TIMESTAMP('2013-07-07 21:38:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53238 AND AD_Language='es_VE'
 ;
 
 -- Jul 7, 2013 9:39:14 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Tipo de Observación',Updated=TO_TIMESTAMP('2013-07-07 21:39:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53562 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Tipo de Observación',Updated=TO_TIMESTAMP('2013-07-07 21:39:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53562 AND AD_Language='es_VE'
 ;
 
 -- Jul 7, 2013 9:39:38 PM VET
@@ -65,12 +65,12 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Jul 7, 2013 9:39:47 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Productor',Updated=TO_TIMESTAMP('2013-07-07 21:39:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53563 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Productor',Updated=TO_TIMESTAMP('2013-07-07 21:39:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53563 AND AD_Language='es_VE'
 ;
 
 -- Jul 7, 2013 9:40:27 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Description='Productor o Entidad encargada de producir la Materia Prima',Updated=TO_TIMESTAMP('2013-07-07 21:40:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53237 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Description='Productor o Entidad encargada de producir la Materia Prima',Updated=TO_TIMESTAMP('2013-07-07 21:40:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53237 AND AD_Language='es_VE'
 ;
 
 -- Jul 7, 2013 9:41:47 PM VET
@@ -130,7 +130,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Jul 7, 2013 9:43:17 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Productos Sugeridos',Updated=TO_TIMESTAMP('2013-07-07 21:43:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53564 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Productos Sugeridos',Updated=TO_TIMESTAMP('2013-07-07 21:43:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53564 AND AD_Language='es_VE'
 ;
 
 -- Jul 7, 2013 9:43:43 PM VET
@@ -150,11 +150,11 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Jul 7, 2013 9:44:04 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Hoja Técnica',Updated=TO_TIMESTAMP('2013-07-07 21:44:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53565 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Hoja Técnica',Updated=TO_TIMESTAMP('2013-07-07 21:44:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53565 AND AD_Language='es_VE'
 ;
 
 -- Jul 7, 2013 9:44:23 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Hoja Técnica',Updated=TO_TIMESTAMP('2013-07-07 21:44:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53239 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Hoja Técnica',Updated=TO_TIMESTAMP('2013-07-07 21:44:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53239 AND AD_Language='es_VE'
 ;
 

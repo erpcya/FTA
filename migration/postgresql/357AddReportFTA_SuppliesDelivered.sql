@@ -105,7 +105,7 @@ UPDATE AD_Menu SET "action"='R',Updated=TO_TIMESTAMP('2014-01-23 19:09:20','YYYY
 
 -- Jan 23, 2014 7:09:47 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Insumos Entregados',Updated=TO_TIMESTAMP('2014-01-23 19:09:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53561 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Insumos Entregados',Updated=TO_TIMESTAMP('2014-01-23 19:09:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53561 AND AD_Language='es_VE'
 ;
 
 -- Jan 23, 2014 7:09:58 PM VET

@@ -180,7 +180,7 @@ UPDATE AD_Field SET IsCentrallyMaintained='N',Updated=TO_TIMESTAMP('2013-11-01 1
 
 -- Nov 1, 2013 4:55:49 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Name='Ticket de Entrada',Description='Ticket de Entrada',Help='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-11-01 16:55:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70255 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Ticket de Entrada',Description='Ticket de Entrada',Help='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-11-01 16:55:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=70255 AND AD_Language='es_VE'
 ;
 
 -- Nov 1, 2013 4:56:04 PM VET

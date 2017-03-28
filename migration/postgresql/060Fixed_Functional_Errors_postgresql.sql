@@ -70,7 +70,7 @@ INSERT INTO AD_FieldGroup_Trl (AD_Language,AD_FieldGroup_ID, Name, IsTranslated,
 
 -- 23/08/2013 06:36:50 PM VET
 -- Farming Technical Assistance
-UPDATE AD_FieldGroup_Trl SET Name='Cantidades Sugeridas',Updated=TO_TIMESTAMP('2013-08-23 18:36:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50031 AND AD_Language='es_MX'
+UPDATE AD_FieldGroup_Trl SET Name='Cantidades Sugeridas',Updated=TO_TIMESTAMP('2013-08-23 18:36:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50031 AND AD_Language='es_VE'
 ;
 
 -- 23/08/2013 06:37:44 PM VET
@@ -105,7 +105,7 @@ UPDATE AD_FieldGroup_Trl SET IsTranslated='N' WHERE AD_FieldGroup_ID=50031
 
 -- 23/08/2013 06:38:22 PM VET
 -- Farming Technical Assistance
-UPDATE AD_FieldGroup_Trl SET Name='Cantidades a Aplicar',Updated=TO_TIMESTAMP('2013-08-23 18:38:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50032 AND AD_Language='es_MX'
+UPDATE AD_FieldGroup_Trl SET Name='Cantidades a Aplicar',Updated=TO_TIMESTAMP('2013-08-23 18:38:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50032 AND AD_Language='es_VE'
 ;
 
 -- 23/08/2013 06:39:38 PM VET
@@ -120,7 +120,7 @@ INSERT INTO AD_FieldGroup_Trl (AD_Language,AD_FieldGroup_ID, Name, IsTranslated,
 
 -- 23/08/2013 06:39:46 PM VET
 -- Farming Technical Assistance
-UPDATE AD_FieldGroup_Trl SET Name='Cantidades a Ordenar',Updated=TO_TIMESTAMP('2013-08-23 18:39:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50033 AND AD_Language='es_MX'
+UPDATE AD_FieldGroup_Trl SET Name='Cantidades a Ordenar',Updated=TO_TIMESTAMP('2013-08-23 18:39:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50033 AND AD_Language='es_VE'
 ;
 
 -- 23/08/2013 06:40:36 PM VET

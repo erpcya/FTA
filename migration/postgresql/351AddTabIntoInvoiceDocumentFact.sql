@@ -10,7 +10,7 @@ UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=54149
 
 -- Jan 20, 2014 8:52:20 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Despacho Producto a Granel (Liquidado)',Updated=TO_TIMESTAMP('2014-01-20 08:52:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54149 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Despacho Producto a Granel (Liquidado)',Updated=TO_TIMESTAMP('2014-01-20 08:52:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54149 AND AD_Language='es_VE'
 ;
 
 -- Jan 20, 2014 8:52:24 AM VET
@@ -980,7 +980,7 @@ UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=54149
 
 -- Jan 20, 2014 11:06:26 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Recepción de Materia Prima',Updated=TO_TIMESTAMP('2014-01-20 11:06:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54149 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Recepción de Materia Prima',Updated=TO_TIMESTAMP('2014-01-20 11:06:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54149 AND AD_Language='es_VE'
 ;
 
 -- Jan 20, 2014 11:06:29 AM VET

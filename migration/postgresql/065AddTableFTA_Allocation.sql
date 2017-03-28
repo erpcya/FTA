@@ -15,7 +15,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Aug 26, 2013 3:30:25 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 15:30:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53566 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 15:30:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53566 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 3:30:36 PM VET
@@ -165,7 +165,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 26, 2013 3:31:41 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Cruce de Cuentas',PrintName='Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 15:31:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56149 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Cruce de Cuentas',PrintName='Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 15:31:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56149 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 3:32:42 PM VET

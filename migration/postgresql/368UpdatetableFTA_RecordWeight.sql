@@ -5,7 +5,7 @@ UPDATE AD_Column SET IsAlwaysUpdateable='Y',Updated=TO_TIMESTAMP('2014-02-03 08:
 
 -- Feb 3, 2014 11:23:08 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Documentos Contabilizados',Updated=TO_TIMESTAMP('2014-02-03 11:23:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53889 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Documentos Contabilizados',Updated=TO_TIMESTAMP('2014-02-03 11:23:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53889 AND AD_Language='es_VE'
 ;
 
 -- Feb 3, 2014 11:23:12 AM VET
@@ -15,7 +15,7 @@ UPDATE AD_Tab_Trl SET Name='Documentos Contabilizados',Updated=TO_TIMESTAMP('201
 
 -- Feb 3, 2014 11:23:37 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Documentos Contabilizados',Updated=TO_TIMESTAMP('2014-02-03 11:23:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53890 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Documentos Contabilizados',Updated=TO_TIMESTAMP('2014-02-03 11:23:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53890 AND AD_Language='es_VE'
 ;
 
 -- Feb 3, 2014 11:23:39 AM VET
@@ -215,7 +215,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Feb 3, 2014 5:37:04 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Placa Remolque',PrintName='Placa Remolque',Updated=TO_TIMESTAMP('2014-02-03 17:37:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57025 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Placa Remolque',PrintName='Placa Remolque',Updated=TO_TIMESTAMP('2014-02-03 17:37:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57025 AND AD_Language='es_VE'
 ;
 
 -- Feb 3, 2014 5:37:10 PM VET

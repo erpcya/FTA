@@ -15,7 +15,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Aug 26, 2013 3:42:22 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Detalle Cruce de Cuentas ',Updated=TO_TIMESTAMP('2013-08-26 15:42:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53567 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Detalle Cruce de Cuentas ',Updated=TO_TIMESTAMP('2013-08-26 15:42:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53567 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 3:42:53 PM VET
@@ -113,7 +113,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 26, 2013 3:43:24 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Detalle Cruce de Cuentas ',PrintName='Detalle Cruce de Cuentas ',Updated=TO_TIMESTAMP('2013-08-26 15:43:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56150 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Detalle Cruce de Cuentas ',PrintName='Detalle Cruce de Cuentas ',Updated=TO_TIMESTAMP('2013-08-26 15:43:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56150 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 3:44:17 PM VET
@@ -168,22 +168,23 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 26, 2013 3:48:09 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56151,0,'AllocationNo',TO_TIMESTAMP('2013-08-26 15:48:08','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Allocation No','Allocation No',TO_TIMESTAMP('2013-08-26 15:48:08','YYYY-MM-DD HH24:MI:SS'),100)
+--INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) 
+--VALUES (0,56151,0,'AllocationNo',TO_TIMESTAMP('2013-08-26 15:48:08','YYYY-MM-DD HH24:MI:SS'),100,'ECA02','Y','Allocation No','Allocation No',TO_TIMESTAMP('2013-08-26 15:48:08','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 26, 2013 3:48:09 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=56151 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=57870 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
 ;
 
 -- Aug 26, 2013 3:48:38 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='No Asignacion',PrintName='No Asignacion',Updated=TO_TIMESTAMP('2013-08-26 15:48:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56151 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='No Asignacion',PrintName='No Asignacion',Updated=TO_TIMESTAMP('2013-08-26 15:48:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57870 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 3:48:52 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,67054,56151,0,22,53567,'AllocationNo',TO_TIMESTAMP('2013-08-26 15:48:51','YYYY-MM-DD HH24:MI:SS'),100,'U',14,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Allocation No',0,TO_TIMESTAMP('2013-08-26 15:48:51','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,67054,57870,0,22,53567,'AllocationNo',TO_TIMESTAMP('2013-08-26 15:48:51','YYYY-MM-DD HH24:MI:SS'),100,'U',14,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Allocation No',0,TO_TIMESTAMP('2013-08-26 15:48:51','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Aug 26, 2013 3:48:52 PM VET

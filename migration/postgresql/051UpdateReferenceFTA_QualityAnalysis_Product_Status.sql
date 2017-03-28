@@ -10,7 +10,7 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=53528
 
 -- Aug 23, 2013 12:04:49 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Reference_Trl SET Name='FTA_QualityAnalysis Product Status',Description='FTA_QualityAnalysis Product Status',Updated=TO_TIMESTAMP('2013-08-23 12:04:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53528 AND AD_Language='es_MX'
+UPDATE AD_Reference_Trl SET Name='FTA_QualityAnalysis Product Status',Description='FTA_QualityAnalysis Product Status',Updated=TO_TIMESTAMP('2013-08-23 12:04:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53528 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 12:05:30 PM VET
@@ -35,12 +35,12 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Aug 23, 2013 12:08:18 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Aceptado',Updated=TO_TIMESTAMP('2013-08-23 12:08:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54009 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Aceptado',Updated=TO_TIMESTAMP('2013-08-23 12:08:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54009 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 12:08:28 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Rechazado',Updated=TO_TIMESTAMP('2013-08-23 12:08:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54010 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Rechazado',Updated=TO_TIMESTAMP('2013-08-23 12:08:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54010 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 12:11:54 PM VET
@@ -55,6 +55,6 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Aug 23, 2013 12:12:04 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='ReGuiado',Updated=TO_TIMESTAMP('2013-08-23 12:12:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54011 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='ReGuiado',Updated=TO_TIMESTAMP('2013-08-23 12:12:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54011 AND AD_Language='es_VE'
 ;
 

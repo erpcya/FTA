@@ -40,7 +40,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Oct 4, 2013 9:52:43 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Marca de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 09:52:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53608 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Marca de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 09:52:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53608 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 9:53:05 AM VET
@@ -158,12 +158,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 4, 2013 9:54:42 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Marca de Vehículo',PrintName='Marca de Vehículo',Description='Marca de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 09:54:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56438 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Marca de Vehículo',PrintName='Marca de Vehículo',Description='Marca de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 09:54:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56438 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 9:54:48 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET PrintName='Marca',Updated=TO_TIMESTAMP('2013-10-04 09:54:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56438 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET PrintName='Marca',Updated=TO_TIMESTAMP('2013-10-04 09:54:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56438 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 9:56:52 AM VET
@@ -183,7 +183,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Oct 4, 2013 9:57:18 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Modelo de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 09:57:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53609 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Modelo de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 09:57:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53609 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 9:58:01 AM VET
@@ -301,7 +301,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 4, 2013 9:58:30 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Modelo de Vehículo',PrintName='Modelo',Description='Modelo de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 09:58:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56439 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Modelo de Vehículo',PrintName='Modelo',Description='Modelo de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 09:58:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56439 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 10:00:46 AM VET
@@ -479,12 +479,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 4, 2013 10:04:22 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Vehículo',Updated=TO_TIMESTAMP('2013-10-04 10:04:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53610 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Vehículo',Updated=TO_TIMESTAMP('2013-10-04 10:04:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53610 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 10:04:46 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Vehículo',PrintName='Vehículo',Description='Vehículo de Carga',Updated=TO_TIMESTAMP('2013-10-04 10:04:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56440 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Vehículo',PrintName='Vehículo',Description='Vehículo de Carga',Updated=TO_TIMESTAMP('2013-10-04 10:04:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56440 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 10:05:50 AM VET
@@ -631,7 +631,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Oct 4, 2013 10:20:58 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Conductor',Updated=TO_TIMESTAMP('2013-10-04 10:20:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53611 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Conductor',Updated=TO_TIMESTAMP('2013-10-04 10:20:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53611 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 10:21:04 AM VET
@@ -950,7 +950,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Oct 4, 2013 11:17:30 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Marca y Modelo de Vehículo',Description='Marca y Modelo de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 11:17:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53283 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Marca y Modelo de Vehículo',Description='Marca y Modelo de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 11:17:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53283 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 11:18:02 AM VET
@@ -965,7 +965,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Oct 4, 2013 11:18:16 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Marca',Description='Marca de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 11:18:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53776 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Marca',Description='Marca de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 11:18:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53776 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 11:18:22 AM VET
@@ -1146,7 +1146,7 @@ UPDATE AD_Tab_Trl SET IsTranslated='N' WHERE AD_Tab_ID=53776
 
 -- Oct 4, 2013 11:21:00 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Modelo',Description='Modelo de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 11:21:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53777 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Modelo',Description='Modelo de Vehículo',Updated=TO_TIMESTAMP('2013-10-04 11:21:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53777 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 11:21:24 AM VET
@@ -1241,7 +1241,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Oct 4, 2013 11:23:22 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Vehículo',Description='Vehículo',Updated=TO_TIMESTAMP('2013-10-04 11:23:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53284 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Vehículo',Description='Vehículo',Updated=TO_TIMESTAMP('2013-10-04 11:23:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53284 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 11:24:10 AM VET
@@ -1256,7 +1256,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Oct 4, 2013 11:24:20 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Vehículo',Description='Vehículo',Updated=TO_TIMESTAMP('2013-10-04 11:24:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53778 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Vehículo',Description='Vehículo',Updated=TO_TIMESTAMP('2013-10-04 11:24:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53778 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 11:24:29 AM VET
@@ -1565,7 +1565,7 @@ UPDATE AD_Table SET AD_Window_ID=53285,Updated=TO_TIMESTAMP('2013-10-04 11:36:14
 
 -- Oct 4, 2013 11:36:29 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Conductor',Description='Conductor',Updated=TO_TIMESTAMP('2013-10-04 11:36:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53285 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Conductor',Description='Conductor',Updated=TO_TIMESTAMP('2013-10-04 11:36:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53285 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 11:36:53 AM VET
@@ -1674,7 +1674,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 4, 2013 11:37:20 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Conductor',Description='Conductor de Veículo',Updated=TO_TIMESTAMP('2013-10-04 11:37:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53779 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Conductor',Description='Conductor de Veículo',Updated=TO_TIMESTAMP('2013-10-04 11:37:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53779 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 11:38:07 AM VET
@@ -1814,7 +1814,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Oct 4, 2013 11:51:11 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Reglas de Control de Material',Description='Reglas de Control de Material',Updated=TO_TIMESTAMP('2013-10-04 11:51:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53646 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Reglas de Control de Material',Description='Reglas de Control de Material',Updated=TO_TIMESTAMP('2013-10-04 11:51:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53646 AND AD_Language='es_VE'
 ;
 
 -- Oct 4, 2013 11:52:00 AM VET

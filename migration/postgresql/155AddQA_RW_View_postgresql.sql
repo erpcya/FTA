@@ -464,7 +464,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 15, 2013 10:33:30 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Placa de Vehículo',PrintName='Placa de Vehículo',Description='Placa de Vehículo',Updated=TO_TIMESTAMP('2013-10-15 10:33:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56485 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Placa de Vehículo',PrintName='Placa de Vehículo',Description='Placa de Vehículo',Updated=TO_TIMESTAMP('2013-10-15 10:33:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56485 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 10:35:03 AM VET
@@ -845,12 +845,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 15, 2013 11:21:05 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Registro de Peso',Updated=TO_TIMESTAMP('2013-10-15 11:21:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53625 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Registro de Peso',Updated=TO_TIMESTAMP('2013-10-15 11:21:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53625 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 11:21:31 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-10-15 11:21:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53623 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-10-15 11:21:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53623 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 11:21:44 AM VET
@@ -875,7 +875,7 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=53570
 
 -- Oct 15, 2013 11:24:47 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Reference_Trl SET Name='C_BPartner Farmers',Updated=TO_TIMESTAMP('2013-10-15 11:24:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53570 AND AD_Language='es_MX'
+UPDATE AD_Reference_Trl SET Name='C_BPartner Farmers',Updated=TO_TIMESTAMP('2013-10-15 11:24:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53570 AND AD_Language='es_VE'
 ;
 
 -- Oct 15, 2013 11:25:00 AM VET

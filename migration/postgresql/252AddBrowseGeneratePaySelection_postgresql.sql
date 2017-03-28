@@ -445,7 +445,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Oct 31, 2013 10:23:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Selección de Pago desde Ordenes de Pagos',Description='Generar Selección de Pago desde Ordenes de Pagos',Help='Generar Selección de Pago desde Ordenes de Pagos',Updated=TO_TIMESTAMP('2013-10-31 10:23:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53520 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Selección de Pago desde Ordenes de Pagos',Description='Generar Selección de Pago desde Ordenes de Pagos',Help='Generar Selección de Pago desde Ordenes de Pagos',Updated=TO_TIMESTAMP('2013-10-31 10:23:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53520 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 10:23:24 AM VET
@@ -660,7 +660,7 @@ INSERT INTO AD_Browse_Field_Trl (AD_Language,AD_Browse_Field_ID, Description,Hel
 
 -- Oct 31, 2013 10:24:57 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Browse_Trl SET Name='Generar Selección de Pago desde Ordenes de Pagos',Description='Generar Selección de Pago desde Ordenes de Pagos',Help='Generar Selección de Pago desde Ordenes de Pagos',Updated=TO_TIMESTAMP('2013-10-31 10:24:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50027 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Generar Selección de Pago desde Ordenes de Pagos',Description='Generar Selección de Pago desde Ordenes de Pagos',Help='Generar Selección de Pago desde Ordenes de Pagos',Updated=TO_TIMESTAMP('2013-10-31 10:24:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50027 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 10:27:26 AM VET
@@ -896,7 +896,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53677
 
 -- Oct 31, 2013 10:35:47 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Generar Selección de Pago desde Ordenes de Pagos',Description='Generar Selección de Pago desde Ordenes de Pagos',Updated=TO_TIMESTAMP('2013-10-31 10:35:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53677 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Generar Selección de Pago desde Ordenes de Pagos',Description='Generar Selección de Pago desde Ordenes de Pagos',Updated=TO_TIMESTAMP('2013-10-31 10:35:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53677 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 10:35:54 AM VET

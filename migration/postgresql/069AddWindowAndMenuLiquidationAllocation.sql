@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Aug 26, 2013 4:22:14 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 16:22:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53265 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 16:22:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53265 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 4:22:59 PM VET
@@ -290,7 +290,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 26, 2013 4:28:19 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Detalle Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 16:28:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53734 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Detalle Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 16:28:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53734 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 4:28:27 PM VET
@@ -318,7 +318,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 26, 2013 4:28:30 PM VET
 -- SFAndroid Contribution
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,67054,68372,0,53734,TO_TIMESTAMP('2013-08-26 16:28:28','YYYY-MM-DD HH24:MI:SS'),100,14,'U','Y','Y','Y','N','N','N','N','N','Allocation No',TO_TIMESTAMP('2013-08-26 16:28:28','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,75862,68372,0,53734,TO_TIMESTAMP('2013-08-26 16:28:28','YYYY-MM-DD HH24:MI:SS'),100,14,'U','Y','Y','Y','N','N','N','N','N','Allocation No',TO_TIMESTAMP('2013-08-26 16:28:28','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Aug 26, 2013 4:28:30 PM VET
@@ -624,7 +624,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Aug 26, 2013 4:53:32 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Cruce de Cuentas',Description='Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 16:53:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53603 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Cruce de Cuentas',Description='Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 16:53:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53603 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 4:55:26 PM VET
@@ -654,7 +654,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53604
 
 -- Aug 26, 2013 4:55:51 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Description='Liquidacion y Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 16:55:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53604 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Description='Liquidacion y Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-26 16:55:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53604 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 4:55:56 PM VET

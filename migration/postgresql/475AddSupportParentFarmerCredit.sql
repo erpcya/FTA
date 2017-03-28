@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- May 25, 2014 1:24:48 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Monto Previo Aprobado',PrintName='Monto Previo Aprobado',Updated=TO_TIMESTAMP('2014-05-25 01:24:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57177 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Monto Previo Aprobado',PrintName='Monto Previo Aprobado',Updated=TO_TIMESTAMP('2014-05-25 01:24:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57177 AND AD_Language='es_VE'
 ;
 
 -- May 25, 2014 1:24:53 AM VET
@@ -90,7 +90,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Previous Approved Quantity', Name='Prev
 
 -- May 25, 2014 1:29:21 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Cantidad Previa Aprobada',PrintName='Cantidad Previa Aprobada',Updated=TO_TIMESTAMP('2014-05-25 01:29:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57178 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Cantidad Previa Aprobada',PrintName='Cantidad Previa Aprobada',Updated=TO_TIMESTAMP('2014-05-25 01:29:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57178 AND AD_Language='es_VE'
 ;
 
 -- May 25, 2014 1:29:26 AM VET

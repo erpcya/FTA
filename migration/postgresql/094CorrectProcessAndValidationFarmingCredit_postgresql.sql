@@ -30,7 +30,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53453
 
 -- Sep 10, 2013 3:38:36 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Process_Trl SET Name='Asignar/Desasignar Cultivo',Description='Asignar/Desasignar Cultivo',Help='Asignar o desasignar un cultivo de crédito',Updated=TO_TIMESTAMP('2013-09-10 15:38:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53453 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Asignar/Desasignar Cultivo',Description='Asignar/Desasignar Cultivo',Help='Asignar o desasignar un cultivo de crédito',Updated=TO_TIMESTAMP('2013-09-10 15:38:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53453 AND AD_Language='es_VE'
 ;
 
 -- Sep 10, 2013 3:44:22 PM VET

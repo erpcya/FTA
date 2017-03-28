@@ -260,7 +260,7 @@ UPDATE AD_Field SET IsDisplayed='Y', SeqNo=230,Updated=TO_TIMESTAMP('2014-03-07 
 
 -- Mar 7, 2014 3:32:35 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Name='Ticket de Entrada',Description='Ticket de Entrada',Help=NULL,Updated=TO_TIMESTAMP('2014-03-07 15:32:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72775 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Ticket de Entrada',Description='Ticket de Entrada',Help=NULL,Updated=TO_TIMESTAMP('2014-03-07 15:32:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72775 AND AD_Language='es_VE'
 ;
 
 -- Mar 7, 2014 3:32:44 PM VET
@@ -345,7 +345,7 @@ UPDATE AD_Field SET IsDisplayed='Y', SeqNo=230,Updated=TO_TIMESTAMP('2014-03-07 
 
 -- Mar 7, 2014 3:33:25 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Field_Trl SET Name='Ticket de Entrada',Description='Ticket de Entrada',Help=NULL,Updated=TO_TIMESTAMP('2014-03-07 15:33:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72776 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Ticket de Entrada',Description='Ticket de Entrada',Help=NULL,Updated=TO_TIMESTAMP('2014-03-07 15:33:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=72776 AND AD_Language='es_VE'
 ;
 
 -- Mar 7, 2014 3:33:30 PM VET

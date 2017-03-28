@@ -35,7 +35,7 @@ UPDATE AD_Field SET DisplayLogic='@OperationType@=''PBR''',Updated=TO_TIMESTAMP(
 
 -- Jan 16, 2014 8:36:57 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle Análisis de Calidad',Updated=TO_TIMESTAMP('2014-01-16 20:36:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53551 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle Análisis de Calidad',Updated=TO_TIMESTAMP('2014-01-16 20:36:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53551 AND AD_Language='es_VE'
 ;
 
 -- Jan 16, 2014 8:37:03 PM VET
@@ -45,7 +45,7 @@ UPDATE AD_Process_Trl SET Name='Detalle Análisis de Calidad',Updated=TO_TIMESTA
 
 -- Jan 16, 2014 8:39:58 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Registro de Peso con Análisis de Calidad',Updated=TO_TIMESTAMP('2014-01-16 20:39:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53551 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Registro de Peso con Análisis de Calidad',Updated=TO_TIMESTAMP('2014-01-16 20:39:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53551 AND AD_Language='es_VE'
 ;
 
 -- Jan 16, 2014 8:40:04 PM VET

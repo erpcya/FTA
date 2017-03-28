@@ -405,12 +405,12 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53783
 
 -- Mar 12, 2014 10:56:07 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Procesar Registro de Peso por lotes',Updated=TO_TIMESTAMP('2014-03-12 10:56:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53593 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Registro de Peso por lotes',Updated=TO_TIMESTAMP('2014-03-12 10:56:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53593 AND AD_Language='es_VE'
 ;
 
 -- Mar 12, 2014 10:56:13 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Procesar Registro de Peso en lotes',Updated=TO_TIMESTAMP('2014-03-12 10:56:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53593 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Registro de Peso en lotes',Updated=TO_TIMESTAMP('2014-03-12 10:56:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53593 AND AD_Language='es_VE'
 ;
 
 -- Mar 12, 2014 10:56:16 AM VET
@@ -420,7 +420,7 @@ UPDATE AD_Process_Trl SET Name='Procesar Registro de Peso en lotes',Updated=TO_T
 
 -- Mar 12, 2014 10:57:10 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Procesar Registro de Peso en lotes',Updated=TO_TIMESTAMP('2014-03-12 10:57:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53783 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Procesar Registro de Peso en lotes',Updated=TO_TIMESTAMP('2014-03-12 10:57:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53783 AND AD_Language='es_VE'
 ;
 
 -- Mar 12, 2014 10:57:22 AM VET

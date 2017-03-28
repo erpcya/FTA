@@ -150,7 +150,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Mar 8, 2014 11:52:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Recalcular Peso a Pagar',Updated=TO_TIMESTAMP('2014-03-08 11:52:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53593 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Recalcular Peso a Pagar',Updated=TO_TIMESTAMP('2014-03-08 11:52:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53593 AND AD_Language='es_VE'
 ;
 
 -- Mar 8, 2014 11:52:19 AM VET
@@ -160,7 +160,7 @@ UPDATE AD_Process_Trl SET Name='Recalcular Peso a Pagar',Updated=TO_TIMESTAMP('2
 
 -- Mar 8, 2014 11:52:28 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Recalcular Peso a Pagar',Updated=TO_TIMESTAMP('2014-03-08 11:52:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53783 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Recalcular Peso a Pagar',Updated=TO_TIMESTAMP('2014-03-08 11:52:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53783 AND AD_Language='es_VE'
 ;
 
 -- Mar 8, 2014 11:52:31 AM VET
@@ -225,7 +225,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Mar 8, 2014 11:54:58 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Procesar Guías en Lote',Updated=TO_TIMESTAMP('2014-03-08 11:54:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53594 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Guías en Lote',Updated=TO_TIMESTAMP('2014-03-08 11:54:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53594 AND AD_Language='es_VE'
 ;
 
 -- Mar 8, 2014 11:55:01 AM VET
@@ -300,7 +300,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Mar 8, 2014 11:56:56 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Procesar Guías en Lote',Updated=TO_TIMESTAMP('2014-03-08 11:56:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53784 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Procesar Guías en Lote',Updated=TO_TIMESTAMP('2014-03-08 11:56:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53784 AND AD_Language='es_VE'
 ;
 
 -- Mar 8, 2014 11:56:58 AM VET
@@ -360,7 +360,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53600, SeqNo=12,Updated=TO_TIMESTAMP('2014-03
 
 -- Mar 8, 2014 11:59:32 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Form_Trl SET Name='Generar Cruce de Cuentas',Updated=TO_TIMESTAMP('2014-03-08 11:59:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Form_ID=53036 AND AD_Language='es_MX'
+UPDATE AD_Form_Trl SET Name='Generar Cruce de Cuentas',Updated=TO_TIMESTAMP('2014-03-08 11:59:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Form_ID=53036 AND AD_Language='es_VE'
 ;
 
 -- Mar 8, 2014 11:59:39 AM VET
@@ -375,7 +375,7 @@ UPDATE AD_Form_Trl SET Description='Cruza las Cuentas por Cobrar con la Liquidac
 
 -- Mar 8, 2014 11:59:59 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Generar Cruce de Cuentas',Updated=TO_TIMESTAMP('2014-03-08 11:59:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53620 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Generar Cruce de Cuentas',Updated=TO_TIMESTAMP('2014-03-08 11:59:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53620 AND AD_Language='es_VE'
 ;
 
 -- Mar 8, 2014 12:00:01 PM VET

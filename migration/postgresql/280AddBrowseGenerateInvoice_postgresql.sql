@@ -885,7 +885,7 @@ UPDATE AD_Browse_Field SET IsDisplayed='Y', SeqNo=50,Updated=TO_TIMESTAMP('2013-
 
 -- Nov 3, 2013 5:20:30 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Browse_Trl SET Name='Generar Factura desde Liquidación',Description='Generar Factura desde Liquidación',Help='Generar Factura desde Liquidación',Updated=TO_TIMESTAMP('2013-11-03 17:20:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50028 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Generar Factura desde Liquidación',Description='Generar Factura desde Liquidación',Help='Generar Factura desde Liquidación',Updated=TO_TIMESTAMP('2013-11-03 17:20:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50028 AND AD_Language='es_VE'
 ;
 
 -- Nov 3, 2013 5:20:40 PM VET
@@ -910,7 +910,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Nov 3, 2013 5:22:06 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Generar Factura desde Liquidación',Description='Generar Factura desde Liquidación',Updated=TO_TIMESTAMP('2013-11-03 17:22:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53683 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Generar Factura desde Liquidación',Description='Generar Factura desde Liquidación',Updated=TO_TIMESTAMP('2013-11-03 17:22:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53683 AND AD_Language='es_VE'
 ;
 
 -- Nov 3, 2013 5:22:14 PM VET

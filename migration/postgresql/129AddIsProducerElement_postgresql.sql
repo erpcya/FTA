@@ -10,6 +10,6 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- 07-oct-2013 14:53:09 VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Es Productor',PrintName='Es Productor',Updated=TO_TIMESTAMP('2013-10-07 14:53:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56448 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Es Productor',PrintName='Es Productor',Updated=TO_TIMESTAMP('2013-10-07 14:53:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56448 AND AD_Language='es_VE'
 ;
 

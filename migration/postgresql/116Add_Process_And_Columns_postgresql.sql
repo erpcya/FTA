@@ -10,7 +10,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Sep 26, 2013 3:46:07 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Ampliación',Description='Ampliación de Crédito',Updated=TO_TIMESTAMP('2013-09-26 15:46:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54097 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Ampliación',Description='Ampliación de Crédito',Updated=TO_TIMESTAMP('2013-09-26 15:46:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54097 AND AD_Language='es_VE'
 ;
 
 -- Sep 26, 2013 3:49:45 PM VET
@@ -25,7 +25,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Sep 26, 2013 3:50:11 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Ampliación de Crédito',Updated=TO_TIMESTAMP('2013-09-26 15:50:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54098 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Ampliación de Crédito',Updated=TO_TIMESTAMP('2013-09-26 15:50:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54098 AND AD_Language='es_VE'
 ;
 
 -- Sep 26, 2013 3:50:55 PM VET
@@ -45,7 +45,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Sep 26, 2013 4:37:24 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Cambiar Estado de Siembra',Description='Cambia el Estado de la Siembra',Help='Cambia el Estado de la Siembra, Ejemplo: Activo, Dañado...',Updated=TO_TIMESTAMP('2013-09-26 16:37:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53468 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Cambiar Estado de Siembra',Description='Cambia el Estado de la Siembra',Help='Cambia el Estado de la Siembra, Ejemplo: Activo, Dañado...',Updated=TO_TIMESTAMP('2013-09-26 16:37:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53468 AND AD_Language='es_VE'
 ;
 
 -- Sep 26, 2013 5:33:02 PM VET

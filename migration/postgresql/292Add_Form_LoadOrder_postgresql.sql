@@ -10,7 +10,7 @@ INSERT INTO AD_Form_Trl (AD_Language,AD_Form_ID, Description,Help,Name, IsTransl
 
 -- Nov 12, 2013 10:03:46 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Form_Trl SET Name='Orden de Carga',Description='Orden de Carga para Despacho y Movimiento de Inventario',Updated=TO_TIMESTAMP('2013-11-12 10:03:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Form_ID=53040 AND AD_Language='es_MX'
+UPDATE AD_Form_Trl SET Name='Orden de Carga',Description='Orden de Carga para Despacho y Movimiento de Inventario',Updated=TO_TIMESTAMP('2013-11-12 10:03:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Form_ID=53040 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:03:56 AM VET
@@ -40,7 +40,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Nov 12, 2013 10:09:48 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Gestión de Carga de Material',Description='Gestión de Carga de Material',Updated=TO_TIMESTAMP('2013-11-12 10:09:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53684 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Gestión de Carga de Material',Description='Gestión de Carga de Material',Updated=TO_TIMESTAMP('2013-11-12 10:09:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53684 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:09:59 AM VET
@@ -100,7 +100,7 @@ UPDATE AD_Form_Trl SET IsTranslated='N' WHERE AD_Form_ID=53040
 
 -- Nov 12, 2013 10:11:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Form_Trl SET Name='Generar Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 10:11:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Form_ID=53040 AND AD_Language='es_MX'
+UPDATE AD_Form_Trl SET Name='Generar Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 10:11:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Form_ID=53040 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:11:19 AM VET

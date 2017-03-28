@@ -10,12 +10,12 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Sep 10, 2013 11:03:12 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Asignación de Cultivo',PrintName='Asignación de Cultivo',Description='Asignación de Cultivo',Help='Asignar o cancelar la asignación del créditos al Cultivo, mientras que el crédito no se ha completado.',Updated=TO_TIMESTAMP('2013-09-10 11:03:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56332 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Asignación de Cultivo',PrintName='Asignación de Cultivo',Description='Asignación de Cultivo',Help='Asignar o cancelar la asignación del créditos al Cultivo, mientras que el crédito no se ha completado.',Updated=TO_TIMESTAMP('2013-09-10 11:03:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56332 AND AD_Language='es_VE'
 ;
 
 -- Sep 10, 2013 11:03:26 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Help='Asignar o cancelar la asignación del crédito al Cultivo, mientras que el crédito no se ha completado.',Updated=TO_TIMESTAMP('2013-09-10 11:03:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56332 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Help='Asignar o cancelar la asignación del crédito al Cultivo, mientras que el crédito no se ha completado.',Updated=TO_TIMESTAMP('2013-09-10 11:03:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56332 AND AD_Language='es_VE'
 ;
 
 -- Sep 10, 2013 11:09:32 AM VET
@@ -155,7 +155,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Farming Allocation', Name='Farming Allo
 
 -- Sep 10, 2013 11:25:32 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Column_Trl SET Name='Farming Allocation',Updated=TO_TIMESTAMP('2013-09-10 11:25:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=67665 AND AD_Language='es_MX'
+UPDATE AD_Column_Trl SET Name='Farming Allocation',Updated=TO_TIMESTAMP('2013-09-10 11:25:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=67665 AND AD_Language='es_VE'
 ;
 
 -- Sep 10, 2013 11:26:19 AM VET

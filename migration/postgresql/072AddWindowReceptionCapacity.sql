@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Aug 26, 2013 5:19:07 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Capacidad de Recepción',Updated=TO_TIMESTAMP('2013-08-26 17:19:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53267 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Capacidad de Recepción',Updated=TO_TIMESTAMP('2013-08-26 17:19:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53267 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 5:19:36 PM VET
@@ -108,7 +108,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Aug 26, 2013 5:20:19 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Capacidad de Recepción',Updated=TO_TIMESTAMP('2013-08-26 17:20:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53738 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Capacidad de Recepción',Updated=TO_TIMESTAMP('2013-08-26 17:20:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53738 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 5:20:36 PM VET
@@ -193,7 +193,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Aug 26, 2013 5:21:59 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Capacidad de Recepción',Updated=TO_TIMESTAMP('2013-08-26 17:21:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53606 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Capacidad de Recepción',Updated=TO_TIMESTAMP('2013-08-26 17:21:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53606 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 5:22:10 PM VET

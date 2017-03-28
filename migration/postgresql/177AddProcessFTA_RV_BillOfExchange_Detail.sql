@@ -55,7 +55,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- 22/10/2013 06:42:09 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-22 18:42:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53507 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-22 18:42:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53507 AND AD_Language='es_VE'
 ;
 
 -- 22/10/2013 06:43:20 PM VET

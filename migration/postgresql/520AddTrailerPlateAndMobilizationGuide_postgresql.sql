@@ -130,7 +130,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- 20/03/2014 04:20:01 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Nombre Tipo de Doc.(Guia Mov.)',PrintName='Nombre Tipo de Doc.(Guia Mov.)',Updated=TO_TIMESTAMP('2014-03-20 16:20:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57096 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Nombre Tipo de Doc.(Guia Mov.)',PrintName='Nombre Tipo de Doc.(Guia Mov.)',Updated=TO_TIMESTAMP('2014-03-20 16:20:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57096 AND AD_Language='es_VE'
 ;
 
 -- 20/03/2014 04:20:08 PM VET

@@ -60,17 +60,17 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Sep 10, 2013 10:54:42 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de Documento para la Orden',PrintName='Tipo de Documento para la Orden',Updated=TO_TIMESTAMP('2013-09-10 10:54:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56331 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Documento para la Orden',PrintName='Tipo de Documento para la Orden',Updated=TO_TIMESTAMP('2013-09-10 10:54:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56331 AND AD_Language='es_VE'
 ;
 
 -- Sep 10, 2013 10:55:27 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Description='Tipo del documento usado para Ordenes generadas desde este documento de Crédito',Updated=TO_TIMESTAMP('2013-09-10 10:55:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56331 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Description='Tipo del documento usado para Ordenes generadas desde este documento de Crédito',Updated=TO_TIMESTAMP('2013-09-10 10:55:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56331 AND AD_Language='es_VE'
 ;
 
 -- Sep 10, 2013 10:56:29 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Help='El Tipo de documento para orden indica el tipo de documento que será usado cuando una orden se genera desde este documento de crédito. Este campo se desplegará solamente cuando el tipo de documento base sea Crédito a Productor',Updated=TO_TIMESTAMP('2013-09-10 10:56:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56331 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Help='El Tipo de documento para orden indica el tipo de documento que será usado cuando una orden se genera desde este documento de crédito. Este campo se desplegará solamente cuando el tipo de documento base sea Crédito a Productor',Updated=TO_TIMESTAMP('2013-09-10 10:56:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56331 AND AD_Language='es_VE'
 ;
 
 -- Sep 10, 2013 10:57:33 AM VET

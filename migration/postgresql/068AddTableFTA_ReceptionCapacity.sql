@@ -15,7 +15,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Aug 26, 2013 4:15:09 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Capacidad de Recepción',Updated=TO_TIMESTAMP('2013-08-26 16:15:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53569 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Capacidad de Recepción',Updated=TO_TIMESTAMP('2013-08-26 16:15:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53569 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 4:15:21 PM VET
@@ -113,7 +113,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Aug 26, 2013 4:15:45 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Capacidad de Recepción',PrintName='Capacidad de Recepción',Updated=TO_TIMESTAMP('2013-08-26 16:15:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56152 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Capacidad de Recepción',PrintName='Capacidad de Recepción',Updated=TO_TIMESTAMP('2013-08-26 16:15:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56152 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 4:16:58 PM VET

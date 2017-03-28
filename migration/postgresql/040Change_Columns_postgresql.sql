@@ -5,17 +5,17 @@ UPDATE AD_Tab SET SeqNo=20,Updated=TO_TIMESTAMP('2013-08-13 14:00:36','YYYY-MM-D
 
 -- Aug 13, 2013 2:01:06 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Finca',Updated=TO_TIMESTAMP('2013-08-13 14:01:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53506 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Finca',Updated=TO_TIMESTAMP('2013-08-13 14:01:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53506 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 2:01:46 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Finca',PrintName='Finca',Description='Finca del Agricultor o Productor',Updated=TO_TIMESTAMP('2013-08-13 14:01:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55966 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Finca',PrintName='Finca',Description='Finca del Agricultor o Productor',Updated=TO_TIMESTAMP('2013-08-13 14:01:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55966 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 2:02:36 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Finca',Description='Finca del Agricultor o Productor',Updated=TO_TIMESTAMP('2013-08-13 14:02:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53260 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Finca',Description='Finca del Agricultor o Productor',Updated=TO_TIMESTAMP('2013-08-13 14:02:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53260 AND AD_Language='es_VE'
 ;
 
 -- Aug 13, 2013 2:11:56 PM VET

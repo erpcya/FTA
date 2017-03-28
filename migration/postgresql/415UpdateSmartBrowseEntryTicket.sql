@@ -15,7 +15,7 @@ UPDATE AD_Process_Trl SET Name='Tickets de entrada pendientes por Análisis de C
 
 -- Mar 14, 2014 3:27:38 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Tickets de entrada pendientes por Análisis de Calidad',Updated=TO_TIMESTAMP('2014-03-14 15:27:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53599 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Tickets de entrada pendientes por Análisis de Calidad',Updated=TO_TIMESTAMP('2014-03-14 15:27:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53599 AND AD_Language='es_VE'
 ;
 
 -- Mar 14, 2014 3:28:41 PM VET

@@ -665,7 +665,7 @@ UPDATE AD_Field SET DisplayLength=10,Updated=TO_TIMESTAMP('2013-12-20 15:48:11',
 
 -- Dec 20, 2013 3:54:45 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Maneja Romana',PrintName='Maneja Romana',Updated=TO_TIMESTAMP('2013-12-20 15:54:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56606 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Maneja Romana',PrintName='Maneja Romana',Updated=TO_TIMESTAMP('2013-12-20 15:54:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56606 AND AD_Language='es_VE'
 ;
 
 -- Dec 20, 2013 3:54:50 PM VET
@@ -690,7 +690,7 @@ INSERT INTO AD_Message_Trl (AD_Language,AD_Message_ID, MsgText,MsgTip, IsTransla
 
 -- Dec 20, 2013 4:07:10 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='Producto y Existencia por Almacen',Updated=TO_TIMESTAMP('2013-12-20 16:07:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53258 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='Producto y Existencia por Almacen',Updated=TO_TIMESTAMP('2013-12-20 16:07:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53258 AND AD_Language='es_VE'
 ;
 
 -- Dec 20, 2013 4:07:14 PM VET

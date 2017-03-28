@@ -305,7 +305,7 @@ INSERT INTO AD_Browse_Trl (AD_Language,AD_Browse_ID, Description,Help,Name, IsTr
 
 -- Oct 29, 2013 9:37:57 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Browse_Trl SET Name='Generar Pago desde Liquidación',Description='Generar Pago desde Liquidación',Help='Generar Pago desde Liquidación',Updated=TO_TIMESTAMP('2013-10-29 21:37:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50026 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Generar Pago desde Liquidación',Description='Generar Pago desde Liquidación',Help='Generar Pago desde Liquidación',Updated=TO_TIMESTAMP('2013-10-29 21:37:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50026 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 9:38:08 PM VET
@@ -549,7 +549,7 @@ INSERT INTO AD_Browse_Field_Trl (AD_Language,AD_Browse_Field_ID, Description,Hel
 
 -- Oct 29, 2013 9:45:54 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Browse_Trl SET Name='Generar Orden de Pago desde Liquidación',Description='Generar Orden de Pago desde Liquidación',Help='Generar Orden de Pago desde Liquidación',Updated=TO_TIMESTAMP('2013-10-29 21:45:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50026 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Generar Orden de Pago desde Liquidación',Description='Generar Orden de Pago desde Liquidación',Help='Generar Orden de Pago desde Liquidación',Updated=TO_TIMESTAMP('2013-10-29 21:45:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50026 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 9:46:03 PM VET
@@ -574,7 +574,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Oct 29, 2013 9:46:14 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Generar Orden de Pago desde Liquidación',Description='Generar Orden de Pago desde Liquidación',Updated=TO_TIMESTAMP('2013-10-29 21:46:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53674 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Generar Orden de Pago desde Liquidación',Description='Generar Orden de Pago desde Liquidación',Updated=TO_TIMESTAMP('2013-10-29 21:46:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53674 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 9:46:40 PM VET

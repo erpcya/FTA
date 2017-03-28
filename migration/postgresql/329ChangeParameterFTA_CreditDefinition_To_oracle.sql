@@ -10,7 +10,7 @@ INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name
 
 -- 27/12/2013 03:44:22 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Reference_Trl SET Name='Definición de Crédito',Description='Definición de Crédito',Updated=TO_DATE('2013-12-27 15:44:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53641 AND AD_Language='es_MX'
+UPDATE AD_Reference_Trl SET Name='Definición de Crédito',Description='Definición de Crédito',Updated=TO_DATE('2013-12-27 15:44:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53641 AND AD_Language='es_VE'
 ;
 
 -- 27/12/2013 03:44:59 PM VET

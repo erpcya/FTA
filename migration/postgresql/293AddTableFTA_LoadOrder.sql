@@ -260,7 +260,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 12, 2013 9:57:29 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='A Almacén',PrintName='A Almacén',Updated=TO_TIMESTAMP('2013-11-12 09:57:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56600 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='A Almacén',PrintName='A Almacén',Updated=TO_TIMESTAMP('2013-11-12 09:57:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56600 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 9:57:34 AM VET
@@ -307,7 +307,7 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 -- Farming Technical Assistance
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=69859 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
 ;
-
+DELETE FROM AD_Field WHERE AD_Column_ID = 3002333;DELETE FROM AD_Column WHERE AD_Column_ID = 3002333;DELETE FROM AD_Element WHERE AD_Element_ID = 3000386;
 -- Nov 12, 2013 10:02:11 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56601,0,'IsBulk',TO_TIMESTAMP('2013-11-12 10:02:10','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',0,'Y','Bulk','Bulk',TO_TIMESTAMP('2013-11-12 10:02:10','YYYY-MM-DD HH24:MI:SS'),100)
@@ -320,7 +320,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 12, 2013 10:02:22 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Producto a Granel',PrintName='Producto a Granel',Updated=TO_TIMESTAMP('2013-11-12 10:02:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56601 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Producto a Granel',PrintName='Producto a Granel',Updated=TO_TIMESTAMP('2013-11-12 10:02:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56601 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:02:28 AM VET
@@ -350,7 +350,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 12, 2013 10:05:29 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Conductor Liberado',PrintName='Conductor Liberado',Updated=TO_TIMESTAMP('2013-11-12 10:05:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56602 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Conductor Liberado',PrintName='Conductor Liberado',Updated=TO_TIMESTAMP('2013-11-12 10:05:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56602 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:05:38 AM VET
@@ -380,7 +380,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 12, 2013 10:06:52 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Carga Interna',PrintName='Carga Interna',Updated=TO_TIMESTAMP('2013-11-12 10:06:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56603 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Carga Interna',PrintName='Carga Interna',Updated=TO_TIMESTAMP('2013-11-12 10:06:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56603 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:07:00 AM VET
@@ -397,12 +397,10 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 -- Farming Technical Assistance
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=69862 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
 ;
-
--- Nov 12, 2013 10:07:52 AM VET
--- Farming Technical Assistance
+DELETE FROM AD_Field WHERE AD_Column_ID = 3000834; DELETE FROM AD_Column WHERE AD_Column_ID = 3000834; UPDATE AD_Element SET ColumnName = 'IsMoved_Old' WHERE AD_Element_ID = 3000274;
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56604,0,'IsMoved',TO_TIMESTAMP('2013-11-12 10:07:50','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',0,'Y','Moved','Moved',TO_TIMESTAMP('2013-11-12 10:07:50','YYYY-MM-DD HH24:MI:SS'),100)
 ;
-
+UPDATE AD_Process_Para SET AD_Element_ID = 56604 WHERE AD_Element_ID = 3000274;DELETE FROM AD_Element WHERE AD_Element_ID = 3000274;
 -- Nov 12, 2013 10:07:52 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=56604 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
@@ -410,7 +408,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 12, 2013 10:08:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Movido',PrintName='Movido',Updated=TO_TIMESTAMP('2013-11-12 10:08:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56604 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Movido',PrintName='Movido',Updated=TO_TIMESTAMP('2013-11-12 10:08:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56604 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:08:19 AM VET
@@ -440,7 +438,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 12, 2013 10:10:56 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Vehículo Liberado',PrintName='Vehículo Liberado',Updated=TO_TIMESTAMP('2013-11-12 10:10:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56605 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Vehículo Liberado',PrintName='Vehículo Liberado',Updated=TO_TIMESTAMP('2013-11-12 10:10:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56605 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:11:03 AM VET
@@ -470,7 +468,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 12, 2013 10:15:46 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Pesado',PrintName='Pesado',Updated=TO_TIMESTAMP('2013-11-12 10:15:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56606 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Pesado',PrintName='Pesado',Updated=TO_TIMESTAMP('2013-11-12 10:15:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56606 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:15:52 AM VET
@@ -565,7 +563,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Nov 12, 2013 10:24:13 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Movimiento',Updated=TO_TIMESTAMP('2013-11-12 10:24:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54147 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Movimiento',Updated=TO_TIMESTAMP('2013-11-12 10:24:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54147 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:24:16 AM VET
@@ -575,7 +573,7 @@ UPDATE AD_Ref_List_Trl SET Name='Movimiento',Updated=TO_TIMESTAMP('2013-11-12 10
 
 -- Nov 12, 2013 10:25:05 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Despacho',Updated=TO_TIMESTAMP('2013-11-12 10:25:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54148 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Despacho',Updated=TO_TIMESTAMP('2013-11-12 10:25:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54148 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:25:18 AM VET
@@ -592,7 +590,7 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 -- Farming Technical Assistance
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=69870 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
 ;
-
+DELETE FROM AD_Column WHERE AD_Column_ID IN (3000878, 3001868);DELETE FROM AD_Element WHERE AD_Element_ID = 3000279;
 -- Nov 12, 2013 10:28:42 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56607,0,'OperationType',TO_TIMESTAMP('2013-11-12 10:28:40','YYYY-MM-DD HH24:MI:SS'),100,NULL,'ECA02',1,NULL,'Y','Operation Type','Operation Type',TO_TIMESTAMP('2013-11-12 10:28:40','YYYY-MM-DD HH24:MI:SS'),100)
@@ -605,7 +603,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 12, 2013 10:28:54 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de operación',PrintName='Tipo de operación',Updated=TO_TIMESTAMP('2013-11-12 10:28:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56607 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de operación',PrintName='Tipo de operación',Updated=TO_TIMESTAMP('2013-11-12 10:28:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56607 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:29:00 AM VET
@@ -630,7 +628,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 12, 2013 10:31:44 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Peso Confirmado',PrintName='Peso Confirmado',Updated=TO_TIMESTAMP('2013-11-12 10:31:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56608 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Peso Confirmado',PrintName='Peso Confirmado',Updated=TO_TIMESTAMP('2013-11-12 10:31:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56608 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 10:35:04 AM VET

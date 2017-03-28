@@ -75,7 +75,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- 7/07/2014 04:53:23 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Estado de Cuenta (Resumen)',Updated=TO_TIMESTAMP('2014-07-07 16:53:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53652 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Estado de Cuenta (Resumen)',Updated=TO_TIMESTAMP('2014-07-07 16:53:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53652 AND AD_Language='es_VE'
 ;
 
 -- 7/07/2014 05:27:34 PM VET
@@ -90,6 +90,6 @@ INSERT INTO AD_Menu_Trl (AD_Language,AD_Menu_ID, Description,Name, IsTranslated,
 
 -- 7/07/2014 05:28:06 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Estado de Cuenta(Resumen)',Updated=TO_TIMESTAMP('2014-07-07 17:28:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53847 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Estado de Cuenta(Resumen)',Updated=TO_TIMESTAMP('2014-07-07 17:28:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53847 AND AD_Language='es_VE'
 ;
 

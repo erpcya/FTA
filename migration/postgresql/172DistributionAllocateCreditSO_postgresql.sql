@@ -35,7 +35,7 @@ UPDATE AD_Browse_Trl SET IsTranslated='N' WHERE AD_Browse_ID=50024
 
 -- Oct 21, 2013 10:29:58 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Browse_Trl SET Name='Asignación de Crédito (Orden de Ventas)',Description='Asignación de Crédito (Orden de Ventas)',Help='Asignación de Crédito (Orden de Ventas)',Updated=TO_TIMESTAMP('2013-10-21 10:29:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50024 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Asignación de Crédito (Orden de Ventas)',Description='Asignación de Crédito (Orden de Ventas)',Help='Asignación de Crédito (Orden de Ventas)',Updated=TO_TIMESTAMP('2013-10-21 10:29:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50024 AND AD_Language='es_VE'
 ;
 
 -- Oct 21, 2013 10:30:31 AM VET
@@ -210,7 +210,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53652
 
 -- Oct 21, 2013 10:42:13 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Asignación de Crédito (Orden de Ventas)',Description='Asignación de Crédito (Orden de Ventas)',Updated=TO_TIMESTAMP('2013-10-21 10:42:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53652 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Asignación de Crédito (Orden de Ventas)',Description='Asignación de Crédito (Orden de Ventas)',Updated=TO_TIMESTAMP('2013-10-21 10:42:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53652 AND AD_Language='es_VE'
 ;
 
 -- Oct 21, 2013 10:51:46 AM VET
@@ -405,7 +405,7 @@ INSERT INTO AD_Browse_Field_Trl (AD_Language,AD_Browse_Field_ID, Description,Hel
 
 -- Oct 21, 2013 10:54:06 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Browse_Trl SET Name='Asignación de Crédito (Factura Cliente)',Description='Asignación de Crédito (Factura Cliente)',Help='Asignación de Crédito (Factura Cliente)',Updated=TO_TIMESTAMP('2013-10-21 10:54:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50025 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Asignación de Crédito (Factura Cliente)',Description='Asignación de Crédito (Factura Cliente)',Help='Asignación de Crédito (Factura Cliente)',Updated=TO_TIMESTAMP('2013-10-21 10:54:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50025 AND AD_Language='es_VE'
 ;
 
 -- Oct 21, 2013 10:56:07 AM VET
@@ -645,7 +645,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53604, SeqNo=7,Updated=TO_TIMESTAMP('2013-10-
 
 -- Oct 21, 2013 11:04:02 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Asignación de Crédito (Factura Cliente)',Description='Asignación de Crédito (Factura Cliente)',Updated=TO_TIMESTAMP('2013-10-21 11:04:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53658 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Asignación de Crédito (Factura Cliente)',Description='Asignación de Crédito (Factura Cliente)',Updated=TO_TIMESTAMP('2013-10-21 11:04:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53658 AND AD_Language='es_VE'
 ;
 
 -- Oct 21, 2013 11:07:10 AM VET

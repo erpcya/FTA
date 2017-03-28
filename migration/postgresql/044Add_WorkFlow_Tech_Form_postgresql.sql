@@ -10,17 +10,17 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Aug 14, 2013 4:18:28 PM VET
 -- FTA Contribution
-UPDATE AD_Process_Trl SET Name='Procesar Definición de Crédito',Updated=TO_TIMESTAMP('2013-08-14 16:18:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53435 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Definición de Crédito',Updated=TO_TIMESTAMP('2013-08-14 16:18:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53435 AND AD_Language='es_VE'
 ;
 
 -- Aug 14, 2013 4:19:25 PM VET
 -- FTA Contribution
-UPDATE AD_Process_Trl SET Name='Procesar Crédito/Deuda del Productor',Updated=TO_TIMESTAMP('2013-08-14 16:19:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53435 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Crédito/Deuda del Productor',Updated=TO_TIMESTAMP('2013-08-14 16:19:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53435 AND AD_Language='es_VE'
 ;
 
 -- Aug 14, 2013 4:19:39 PM VET
 -- FTA Contribution
-UPDATE AD_Process_Trl SET Name='Procesar Definición de Crédito',Updated=TO_TIMESTAMP('2013-08-14 16:19:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53436 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Definición de Crédito',Updated=TO_TIMESTAMP('2013-08-14 16:19:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53436 AND AD_Language='es_VE'
 ;
 
 -- Aug 14, 2013 4:20:19 PM VET
@@ -40,12 +40,12 @@ INSERT INTO AD_Workflow_Trl (AD_Language,AD_Workflow_ID, Description,Help,Name, 
 
 -- Aug 14, 2013 4:21:29 PM VET
 -- FTA Contribution
-UPDATE AD_Workflow_Trl SET Name='Proceso de Crédito a Productor',Description='Proceso de Crédito a Productor',Updated=TO_TIMESTAMP('2013-08-14 16:21:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50027 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Crédito a Productor',Description='Proceso de Crédito a Productor',Updated=TO_TIMESTAMP('2013-08-14 16:21:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50027 AND AD_Language='es_VE'
 ;
 
 -- Aug 14, 2013 4:22:04 PM VET
 -- FTA Contribution
-UPDATE AD_Workflow_Trl SET Name='Proceso de Definición de Crédito',Description='Proceso de Definición de Crédito',Updated=TO_TIMESTAMP('2013-08-14 16:22:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50028 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Definición de Crédito',Description='Proceso de Definición de Crédito',Updated=TO_TIMESTAMP('2013-08-14 16:22:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50028 AND AD_Language='es_VE'
 ;
 
 -- Aug 14, 2013 4:22:36 PM VET
@@ -65,7 +65,7 @@ UPDATE AD_WF_Node_Trl SET IsTranslated='N' WHERE AD_WF_Node_ID=50129
 
 -- Aug 14, 2013 4:24:03 PM VET
 -- FTA Contribution
-UPDATE AD_WF_Node_Trl SET Name='(DocAuto)',Updated=TO_TIMESTAMP('2013-08-14 16:24:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_WF_Node_ID=50129 AND AD_Language='es_MX'
+UPDATE AD_WF_Node_Trl SET Name='(DocAuto)',Updated=TO_TIMESTAMP('2013-08-14 16:24:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_WF_Node_ID=50129 AND AD_Language='es_VE'
 ;
 
 -- Aug 14, 2013 4:24:46 PM VET
@@ -170,7 +170,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Aug 14, 2013 4:48:43 PM VET
 -- FTA Contribution
-UPDATE AD_Process_Trl SET Name='Procesar Ficha Técnica',Updated=TO_TIMESTAMP('2013-08-14 16:48:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53437 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Ficha Técnica',Updated=TO_TIMESTAMP('2013-08-14 16:48:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53437 AND AD_Language='es_VE'
 ;
 
 -- Aug 14, 2013 4:50:36 PM VET
@@ -185,7 +185,7 @@ INSERT INTO AD_Workflow_Trl (AD_Language,AD_Workflow_ID, Description,Help,Name, 
 
 -- Aug 14, 2013 4:50:58 PM VET
 -- FTA Contribution
-UPDATE AD_Workflow_Trl SET Name='Proceso de Ficha Técnica',Description='Proceso de Ficha Técnica',Updated=TO_TIMESTAMP('2013-08-14 16:50:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50029 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Ficha Técnica',Description='Proceso de Ficha Técnica',Updated=TO_TIMESTAMP('2013-08-14 16:50:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50029 AND AD_Language='es_VE'
 ;
 
 -- Aug 14, 2013 4:51:31 PM VET

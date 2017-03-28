@@ -100,7 +100,7 @@ UPDATE AD_Browse_Field SET IsDisplayed='Y', SeqNo=110,Updated=TO_TIMESTAMP('2013
 
 -- Oct 11, 2013 10:38:47 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Browse_Trl SET Name='Productos Sugeridos',Description='Productos Sugeridos',Help='Productos Sugeridos',Updated=TO_TIMESTAMP('2013-10-11 10:38:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50023 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Productos Sugeridos',Description='Productos Sugeridos',Help='Productos Sugeridos',Updated=TO_TIMESTAMP('2013-10-11 10:38:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50023 AND AD_Language='es_VE'
 ;
 
 -- Oct 11, 2013 10:40:34 AM VET

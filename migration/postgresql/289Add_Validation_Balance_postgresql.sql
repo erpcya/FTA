@@ -10,7 +10,7 @@ UPDATE AD_Tab SET WhereClause='(AD_Table_ID IN(318, 53564) OR AD_Table_ID IS NUL
 
 -- Nov 4, 2013 9:04:14 PM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,68772,70280,0,53781,TO_TIMESTAMP('2013-11-04 21:04:12','YYYY-MM-DD HH24:MI:SS'),100,'Database Table information',0,'ECA02','The Database Table provides the information of the table definition','N','Y','Y','Y','N','N','N','N','N','Table',0,180,0,TO_TIMESTAMP('2013-11-04 21:04:12','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,68772,70280,0,53781,TO_TIMESTAMP('2013-11-04 21:04:12','YYYY-MM-DD HH24:MI:SS'),100,'Database Table information',0,'ECA02','The Database Table provides the information of the table definition','N','Y','Y','Y','N','N','N','N','N','Table',0,180,0,TO_TIMESTAMP('2013-11-04 21:04:12','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Nov 4, 2013 9:04:14 PM VET
@@ -45,7 +45,7 @@ INSERT INTO AD_Message_Trl (AD_Language,AD_Message_ID, MsgText,MsgTip, IsTransla
 
 -- Nov 4, 2013 9:59:31 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='No hay Lineas en la Definición de Crédito para éste Documento',Updated=TO_TIMESTAMP('2013-11-04 21:59:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53252 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='No hay Lineas en la Definición de Crédito para éste Documento',Updated=TO_TIMESTAMP('2013-11-04 21:59:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53252 AND AD_Language='es_VE'
 ;
 
 -- Nov 4, 2013 9:59:37 PM VET

@@ -55,7 +55,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 29, 2013 2:48:07 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Límite de Crédito Excedido',PrintName='Límite de Crédito Excedido',Updated=TO_TIMESTAMP('2013-10-29 14:48:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56571 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Límite de Crédito Excedido',PrintName='Límite de Crédito Excedido',Updated=TO_TIMESTAMP('2013-10-29 14:48:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56571 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 2:48:22 PM VET
@@ -110,7 +110,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 29, 2013 2:50:21 PM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,69518,70216,0,263,TO_TIMESTAMP('2013-10-29 14:50:13','YYYY-MM-DD HH24:MI:SS'),100,0,'ECA02','N','Y','Y','Y','N','N','N','Y','N','Credit Limit Exceeded',0,440,0,TO_TIMESTAMP('2013-10-29 14:50:13','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,69518,70216,0,263,TO_TIMESTAMP('2013-10-29 14:50:13','YYYY-MM-DD HH24:MI:SS'),100,0,'ECA02','N','Y','Y','Y','N','N','N','Y','N','Credit Limit Exceeded',0,440,0,TO_TIMESTAMP('2013-10-29 14:50:13','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Oct 29, 2013 2:50:21 PM VET

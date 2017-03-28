@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 6, 2014 10:33:13 AM VET
 -- FTA
-UPDATE AD_Element_Trl SET Name='Cheque Devuelto',PrintName='Cheque Devuelto',Updated=TO_TIMESTAMP('2014-10-06 10:33:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57494 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Cheque Devuelto',PrintName='Cheque Devuelto',Updated=TO_TIMESTAMP('2014-10-06 10:33:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57494 AND AD_Language='es_VE'
 ;
 
 -- Oct 6, 2014 10:34:05 AM VET
@@ -35,23 +35,23 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 6, 2014 10:34:24 AM VET
 -- FTA
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,15806,74636,0,167,TO_TIMESTAMP('2014-10-06 10:34:22','YYYY-MM-DD HH24:MI:SS'),100,'Index the document for the internal search engine',1,'D','For cross document search, the document can be indexed for faster search (Container, Document Type, Request Type)','Y','Y','Y','N','N','N','N','N','Indexed',TO_TIMESTAMP('2014-10-06 10:34:22','YYYY-MM-DD HH24:MI:SS'),100)
-;
+-- INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,15806,74636,0,167,TO_TIMESTAMP('2014-10-06 10:34:22','YYYY-MM-DD HH24:MI:SS'),100,'Index the document for the internal search engine',1,'D','For cross document search, the document can be indexed for faster search (Container, Document Type, Request Type)','Y','Y','Y','N','N','N','N','N','Indexed',TO_TIMESTAMP('2014-10-06 10:34:22','YYYY-MM-DD HH24:MI:SS'),100)
+-- ;
 
 -- Oct 6, 2014 10:34:24 AM VET
 -- FTA
-INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=74636 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
-;
+-- INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=74636 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+-- ;
 
 -- Oct 6, 2014 10:34:36 AM VET
 -- FTA
-DELETE FROM AD_Field_Trl WHERE AD_Field_ID=74636
-;
+-- DELETE FROM AD_Field_Trl WHERE AD_Field_ID=74636
+-- ;
 
 -- Oct 6, 2014 10:34:36 AM VET
 -- FTA
-DELETE FROM AD_Field WHERE AD_Field_ID=74636
-;
+-- DELETE FROM AD_Field WHERE AD_Field_ID=74636
+-- ;
 
 -- Oct 6, 2014 10:36:12 AM VET
 -- FTA

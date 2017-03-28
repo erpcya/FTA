@@ -15,12 +15,12 @@ UPDATE AD_Table_Trl SET Name='Productos Aprovados',Updated=TO_TIMESTAMP('2014-01
 
 -- Jan 29, 2014 2:32:42 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Productos Aprovados',Updated=TO_TIMESTAMP('2014-01-29 14:32:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53745 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Productos Aprovados',Updated=TO_TIMESTAMP('2014-01-29 14:32:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53745 AND AD_Language='es_VE'
 ;
 
 -- Jan 29, 2014 2:32:48 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Productos Aprovados',Updated=TO_TIMESTAMP('2014-01-29 14:32:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53891 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Productos Aprovados',Updated=TO_TIMESTAMP('2014-01-29 14:32:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53891 AND AD_Language='es_VE'
 ;
 
 -- Jan 29, 2014 2:32:52 PM VET

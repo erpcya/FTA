@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Jun 28, 2013 4:24:34 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 16:24:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53239 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 16:24:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53239 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 4:25:05 PM VET
@@ -25,7 +25,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jun 28, 2013 4:25:08 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 16:25:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53670 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 16:25:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53670 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 4:25:14 PM VET
@@ -230,7 +230,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jun 28, 2013 4:28:26 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Detalle Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 16:28:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53671 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Detalle Hoja Tecnica',Updated=TO_TIMESTAMP('2013-06-28 16:28:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53671 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 4:28:31 PM VET
@@ -586,7 +586,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2013 4:33:14 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Productos A Aplicar',Updated=TO_TIMESTAMP('2013-06-28 16:33:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53672 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Productos A Aplicar',Updated=TO_TIMESTAMP('2013-06-28 16:33:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53672 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 4:34:29 PM VET

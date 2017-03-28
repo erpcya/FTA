@@ -15,12 +15,12 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 29, 2013 11:08:27 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Hoja Técnica',Updated=TO_TIMESTAMP('2013-10-29 11:08:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53507 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Hoja Técnica',Updated=TO_TIMESTAMP('2013-10-29 11:08:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53507 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 11:08:33 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Hoja Técnica',Updated=TO_TIMESTAMP('2013-10-29 11:08:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53515 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Hoja Técnica',Updated=TO_TIMESTAMP('2013-10-29 11:08:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53515 AND AD_Language='es_VE'
 ;
 
 -- Oct 29, 2013 11:08:37 AM VET

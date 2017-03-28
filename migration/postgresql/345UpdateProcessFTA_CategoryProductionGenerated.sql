@@ -175,7 +175,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jan 16, 2014 3:55:30 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='A Almacen',PrintName='A Almacen',Description=NULL,Updated=TO_TIMESTAMP('2014-01-16 15:55:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56991 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='A Almacen',PrintName='A Almacen',Description=NULL,Updated=TO_TIMESTAMP('2014-01-16 15:55:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56991 AND AD_Language='es_VE'
 ;
 
 -- Jan 16, 2014 3:55:36 PM VET
@@ -190,12 +190,12 @@ UPDATE AD_Element_Trl SET Name='A Almacén',PrintName='A Almacén',Updated=TO_TI
 
 -- Jan 16, 2014 3:56:00 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='A Almacén',PrintName='A Almacén',Updated=TO_TIMESTAMP('2014-01-16 15:56:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56991 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='A Almacén',PrintName='A Almacén',Updated=TO_TIMESTAMP('2014-01-16 15:56:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56991 AND AD_Language='es_VE'
 ;
 
 -- Jan 16, 2014 3:56:14 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Description='A Almacén y punto de servicio',Updated=TO_TIMESTAMP('2014-01-16 15:56:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56991 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Description='A Almacén y punto de servicio',Updated=TO_TIMESTAMP('2014-01-16 15:56:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56991 AND AD_Language='es_VE'
 ;
 
 -- Jan 16, 2014 3:56:20 PM VET

@@ -88,7 +88,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Oct 30, 2014 11:04:57 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Entrega/Recibo/Factura de Orden de Carga',Updated=TO_TIMESTAMP('2014-10-30 11:04:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53889 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Entrega/Recibo/Factura de Orden de Carga',Updated=TO_TIMESTAMP('2014-10-30 11:04:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53889 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2014 11:05:16 AM VET
@@ -390,7 +390,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53711
 
 -- Oct 30, 2014 11:09:34 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Entrega/Recibo/Factura de Orden de Carga',Updated=TO_TIMESTAMP('2014-10-30 11:09:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53711 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Entrega/Recibo/Factura de Orden de Carga',Updated=TO_TIMESTAMP('2014-10-30 11:09:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53711 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2014 11:10:03 AM VET
@@ -485,7 +485,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53785, SeqNo=1,Updated=TO_TIMESTAMP('2014-10-
 
 -- Oct 30, 2014 11:13:04 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Entrega/Recibo/Factura de Orden de Carga',Updated=TO_TIMESTAMP('2014-10-30 11:13:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53886 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Entrega/Recibo/Factura de Orden de Carga',Updated=TO_TIMESTAMP('2014-10-30 11:13:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53886 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2014 11:17:42 AM VET

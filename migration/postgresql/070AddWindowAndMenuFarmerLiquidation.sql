@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Aug 26, 2013 5:01:53 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Liquidacion del Productor',Description='Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 17:01:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53266 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Liquidacion del Productor',Description='Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 17:01:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53266 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 5:02:26 PM VET
@@ -25,7 +25,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 26, 2013 5:02:38 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Liquidacion del Productor',Description='Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 17:02:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53735 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Liquidacion del Productor',Description='Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 17:02:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53735 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 5:02:45 PM VET
@@ -205,7 +205,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 26, 2013 5:03:58 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Detalle Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 17:03:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53736 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Detalle Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 17:03:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53736 AND AD_Language='es_VE'
 ;
 
 -- Aug 26, 2013 5:04:03 PM VET
@@ -373,6 +373,6 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53604, SeqNo=1, Updated=CURRENT_TIMESTAMP WHE
 
 -- Aug 26, 2013 5:05:48 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 17:05:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53605 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Liquidacion del Productor',Updated=TO_TIMESTAMP('2013-08-26 17:05:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53605 AND AD_Language='es_VE'
 ;
 

@@ -10,7 +10,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jan 12, 2015 3:21:02 PM VET
 -- FTA
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,75411,75289,0,257,TO_TIMESTAMP('2015-01-12 15:21:00','YYYY-MM-DD HH24:MI:SS'),100,0,'D','N','Y','Y','Y','N','N','N','N','N','Control No',0,520,0,TO_TIMESTAMP('2015-01-12 15:21:00','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,75411,75289,0,257,TO_TIMESTAMP('2015-01-12 15:21:00','YYYY-MM-DD HH24:MI:SS'),100,0,'D','N','Y','Y','Y','N','N','N','N','N','Control No',0,520,0,TO_TIMESTAMP('2015-01-12 15:21:00','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 12, 2015 3:21:02 PM VET
@@ -247,12 +247,12 @@ UPDATE AD_Browse SET WhereClause='GI.DocStatus = ''CO'' AND GI.M_InOutline_ID IS
 -- FTA
 UPDATE AD_Column SET IsUpdateable='Y',Updated=TO_TIMESTAMP('2015-01-12 18:24:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=67716
 ;
-
+UPDATE AD_Element SET ColumnName = 'IsImmediateDelivery_Old' WHERE AD_Element_ID = 3000257;
 -- Feb 13, 2015 9:53:06 PM VET
 -- FTA
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,57864,0,20,'IsImmediateDelivery',TO_TIMESTAMP('2015-02-13 21:53:04','YYYY-MM-DD HH24:MI:SS'),100,'ECA02',1,'Y','Immediate Delivery','Immediate Delivery',TO_TIMESTAMP('2015-02-13 21:53:04','YYYY-MM-DD HH24:MI:SS'),100)
 ;
-
+UPDATE AD_Column SET AD_Element_ID = 57864 WHERE AD_Element_ID = 3000257;DELETE FROM AD_Element WHERE AD_Element_ID = 3000257;
 -- Feb 13, 2015 9:53:06 PM VET
 -- FTA
 INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=57864 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
@@ -260,7 +260,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Feb 13, 2015 9:54:04 PM VET
 -- FTA
-UPDATE AD_Element_Trl SET Name='Entrega Inmediata',PrintName='Entrega Inmediata',Updated=TO_TIMESTAMP('2015-02-13 21:54:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57864 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Entrega Inmediata',PrintName='Entrega Inmediata',Updated=TO_TIMESTAMP('2015-02-13 21:54:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57864 AND AD_Language='es_VE'
 ;
 
 -- Feb 13, 2015 9:54:45 PM VET
@@ -275,7 +275,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Feb 13, 2015 9:55:40 PM VET
 -- FTA
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,DisplayLogic,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,75815,76216,0,167,TO_TIMESTAMP('2015-02-13 21:55:38','YYYY-MM-DD HH24:MI:SS'),100,0,'@DocBaseType@ = ''FLO''','D','N','Y','Y','Y','N','N','N','N','N','Immediate Delivery',0,360,0,TO_TIMESTAMP('2015-02-13 21:55:38','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,DisplayLogic,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,75815,76216,0,167,TO_TIMESTAMP('2015-02-13 21:55:38','YYYY-MM-DD HH24:MI:SS'),100,0,'@DocBaseType@ = ''FLO''','D','N','Y','Y','Y','N','N','N','N','N','Immediate Delivery',0,360,0,TO_TIMESTAMP('2015-02-13 21:55:38','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Feb 13, 2015 9:55:40 PM VET

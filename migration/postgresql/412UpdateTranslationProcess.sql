@@ -75,7 +75,7 @@ UPDATE AD_Column SET AD_Reference_ID=21,Updated=TO_TIMESTAMP('2014-03-13 19:01:0
 
 -- Mar 13, 2014 7:08:37 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Estado de Vehículo ',Updated=TO_TIMESTAMP('2014-03-13 19:08:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53597 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Estado de Vehículo ',Updated=TO_TIMESTAMP('2014-03-13 19:08:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53597 AND AD_Language='es_VE'
 ;
 
 -- Mar 13, 2014 7:08:41 PM VET
@@ -110,7 +110,7 @@ UPDATE AD_Process_Para SET AD_Reference_ID=19, AD_Reference_Value_ID=NULL,Update
 
 -- Mar 13, 2014 10:34:38 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Resumen de Liquidaciones',Updated=TO_TIMESTAMP('2014-03-13 22:34:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53522 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Resumen de Liquidaciones',Updated=TO_TIMESTAMP('2014-03-13 22:34:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53522 AND AD_Language='es_VE'
 ;
 
 -- Mar 13, 2014 10:34:41 PM VET
@@ -130,7 +130,7 @@ UPDATE AD_Process_Para SET AD_Reference_ID=30,Updated=TO_TIMESTAMP('2014-03-13 2
 
 -- Mar 13, 2014 11:05:13 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Letra de Cambio (Giro)',Description='Generar Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2014-03-13 23:05:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53510 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Letra de Cambio (Giro)',Description='Generar Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2014-03-13 23:05:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53510 AND AD_Language='es_VE'
 ;
 
 -- Mar 13, 2014 11:05:20 PM VET

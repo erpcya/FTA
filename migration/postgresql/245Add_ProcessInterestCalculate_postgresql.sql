@@ -25,7 +25,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 30, 2013 10:19:23 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Intereses a Crédito/Préstamo',Description='Generar Intereses a Crédito/Préstamo',Help='Genera Intereses',Updated=TO_TIMESTAMP('2013-10-30 10:19:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53518 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Intereses a Crédito/Préstamo',Description='Generar Intereses a Crédito/Préstamo',Help='Genera Intereses',Updated=TO_TIMESTAMP('2013-10-30 10:19:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53518 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 10:19:33 AM VET
@@ -305,7 +305,7 @@ UPDATE AD_Column SET AD_Reference_ID=18,Updated=TO_TIMESTAMP('2013-10-30 13:58:1
 
 -- Oct 30, 2013 2:07:02 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Partida y Financiamiento',PrintName='Partida y Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:07:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56546 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Partida y Financiamiento',PrintName='Partida y Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:07:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56546 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:07:10 PM VET
@@ -315,7 +315,7 @@ UPDATE AD_Element_Trl SET Name='Partida y Financiamiento',PrintName='Partida y F
 
 -- Oct 30, 2013 2:07:40 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:07:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53649 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:07:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53649 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:08:51 PM VET
@@ -325,12 +325,12 @@ UPDATE AD_Element_Trl SET Name='Partida de Financiamiento',PrintName='Partida de
 
 -- Oct 30, 2013 2:09:00 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Partida de Financiamiento',PrintName='Partida de Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:09:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56546 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Partida de Financiamiento',PrintName='Partida de Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:09:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56546 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:10:18 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Partida de Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:10:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53645 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Partida de Financiamiento',Updated=TO_TIMESTAMP('2013-10-30 14:10:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53645 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:12:34 PM VET
@@ -370,7 +370,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Oct 30, 2013 2:16:33 PM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,69336,70234,0,53797,TO_TIMESTAMP('2013-10-30 14:16:31','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','N','Y','Y','Y','N','N','N','N','N','Client',10,TO_TIMESTAMP('2013-10-30 14:16:31','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,69336,70234,0,53797,TO_TIMESTAMP('2013-10-30 14:16:31','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','N','Y','Y','Y','N','N','N','N','N','Client',10,TO_TIMESTAMP('2013-10-30 14:16:31','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Oct 30, 2013 2:16:33 PM VET
@@ -380,7 +380,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 30, 2013 2:16:34 PM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,69337,70235,0,53797,TO_TIMESTAMP('2013-10-30 14:16:33','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','N','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_TIMESTAMP('2013-10-30 14:16:33','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,69337,70235,0,53797,TO_TIMESTAMP('2013-10-30 14:16:33','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','N','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_TIMESTAMP('2013-10-30 14:16:33','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Oct 30, 2013 2:16:34 PM VET
@@ -390,7 +390,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 30, 2013 2:16:36 PM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,69344,70236,0,53797,TO_TIMESTAMP('2013-10-30 14:16:34','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','N','Credit Definition Line Category',30,TO_TIMESTAMP('2013-10-30 14:16:34','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,69344,70236,0,53797,TO_TIMESTAMP('2013-10-30 14:16:34','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','N','Credit Definition Line Category',30,TO_TIMESTAMP('2013-10-30 14:16:34','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Oct 30, 2013 2:16:36 PM VET
@@ -400,7 +400,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 30, 2013 2:16:37 PM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,69345,70237,0,53797,TO_TIMESTAMP('2013-10-30 14:16:36','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','Y','Interest Type',40,TO_TIMESTAMP('2013-10-30 14:16:36','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,69345,70237,0,53797,TO_TIMESTAMP('2013-10-30 14:16:36','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','Y','Interest Type',40,TO_TIMESTAMP('2013-10-30 14:16:36','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Oct 30, 2013 2:16:37 PM VET
@@ -410,7 +410,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 30, 2013 2:16:39 PM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,69340,70238,0,53797,TO_TIMESTAMP('2013-10-30 14:16:37','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,69340,70238,0,53797,TO_TIMESTAMP('2013-10-30 14:16:37','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','N','Active',50,TO_TIMESTAMP('2013-10-30 14:16:37','YYYY-MM-DD HH24:MI:SS'),100)
@@ -423,12 +423,12 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 30, 2013 2:16:51 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:16:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53790 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:16:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53790 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:17:00 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:17:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53797 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Interés por Partida',Updated=TO_TIMESTAMP('2013-10-30 14:17:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53797 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2013 2:17:04 PM VET

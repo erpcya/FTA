@@ -10,7 +10,7 @@ INSERT INTO AD_Message_Trl (AD_Language,AD_Message_ID, MsgText,MsgTip, IsTransla
 
 -- Apr 9, 2014 10:38:29 AM CEST
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='No Firmado',Updated=TO_TIMESTAMP('2014-04-09 10:38:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53261 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='No Firmado',Updated=TO_TIMESTAMP('2014-04-09 10:38:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53261 AND AD_Language='es_VE'
 ;
 
 -- Apr 9, 2014 10:38:34 AM CEST
@@ -128,7 +128,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Apr 9, 2014 10:46:17 AM CEST
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Grupo de Reporte de Partida',Updated=TO_TIMESTAMP('2014-04-09 10:46:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53789 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Grupo de Reporte de Partida',Updated=TO_TIMESTAMP('2014-04-09 10:46:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53789 AND AD_Language='es_VE'
 ;
 
 -- Apr 9, 2014 10:46:22 AM CEST
@@ -173,7 +173,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Apr 9, 2014 10:49:46 AM CEST
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Grupo de Reporte de Partida',Updated=TO_TIMESTAMP('2014-04-09 10:49:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53355 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Grupo de Reporte de Partida',Updated=TO_TIMESTAMP('2014-04-09 10:49:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53355 AND AD_Language='es_VE'
 ;
 
 -- Apr 9, 2014 10:49:50 AM CEST
@@ -193,7 +193,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Apr 9, 2014 10:50:26 AM CEST
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Grupo',Updated=TO_TIMESTAMP('2014-04-09 10:50:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53944 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Grupo',Updated=TO_TIMESTAMP('2014-04-09 10:50:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53944 AND AD_Language='es_VE'
 ;
 
 -- Apr 9, 2014 10:50:31 AM CEST

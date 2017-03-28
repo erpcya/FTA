@@ -20,17 +20,17 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 23, 2013 11:28:06 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 11:28:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53560 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 11:28:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53560 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 11:28:23 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Análisis de Calidad',Description='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 11:28:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53263 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Análisis de Calidad',Description='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 11:28:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53263 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 11:28:36 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Análisis de Calidad',Description='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 11:28:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53730 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Análisis de Calidad',Description='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 11:28:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53730 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 11:29:22 AM VET
@@ -305,7 +305,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Aug 23, 2013 11:33:29 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Análisis de Calidad',Description='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 11:33:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53598 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Análisis de Calidad',Description='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 11:33:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53598 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 11:33:32 AM VET

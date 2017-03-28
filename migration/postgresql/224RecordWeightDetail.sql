@@ -20,7 +20,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53672
 
 -- Oct 28, 2013 5:24:57 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle de Registro de Peso',Updated=TO_TIMESTAMP('2013-10-28 17:24:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53514 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle de Registro de Peso',Updated=TO_TIMESTAMP('2013-10-28 17:24:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53514 AND AD_Language='es_VE'
 ;
 
 -- Oct 28, 2013 5:25:24 PM VET
@@ -30,7 +30,7 @@ UPDATE AD_ReportView SET Name='FTA_RV_RecordWeight RecordWeightDetail',Updated=T
 
 -- Oct 28, 2013 5:26:17 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Detalle de Registro de Peso',Updated=TO_TIMESTAMP('2013-10-28 17:26:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53672 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Detalle de Registro de Peso',Updated=TO_TIMESTAMP('2013-10-28 17:26:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53672 AND AD_Language='es_VE'
 ;
 
 -- Oct 28, 2013 5:26:23 PM VET

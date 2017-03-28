@@ -10,7 +10,7 @@ INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_
 
 -- Aug 23, 2013 9:40:07 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Ticket de ingreso',Updated=TO_TIMESTAMP('2013-08-23 09:40:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53559 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Ticket de ingreso',Updated=TO_TIMESTAMP('2013-08-23 09:40:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53559 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 9:40:17 AM VET
@@ -235,7 +235,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Aug 23, 2013 9:45:44 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Guia Externa',PrintName='Guia Externa',Updated=TO_TIMESTAMP('2013-08-23 09:45:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56130 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Guia Externa',PrintName='Guia Externa',Updated=TO_TIMESTAMP('2013-08-23 09:45:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56130 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 9:46:21 AM VET

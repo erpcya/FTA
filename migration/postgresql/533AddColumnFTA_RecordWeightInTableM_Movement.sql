@@ -10,7 +10,7 @@ UPDATE AD_Process_Para SET DefaultValue='@AD_Org_ID@', IsActive='Y',Updated=TO_T
 
 -- Dec 2, 2014 10:03:29 PM VET
 -- FTA
-UPDATE AD_Field_Trl SET Name='Obtener Peso',Description='Obtener Peso de Romana',Help='Obtiene el Peso de la Romana',Updated=TO_TIMESTAMP('2014-12-02 22:03:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=73608 AND AD_Language='es_MX'
+UPDATE AD_Field_Trl SET Name='Obtener Peso',Description='Obtener Peso de Romana',Help='Obtiene el Peso de la Romana',Updated=TO_TIMESTAMP('2014-12-02 22:03:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=73608 AND AD_Language='es_VE'
 ;
 
 -- Dec 2, 2014 10:07:18 PM VET
@@ -25,13 +25,13 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Dec 2, 2014 10:07:38 PM VET
 -- FTA
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,59048,74867,0,259,TO_TIMESTAMP('2014-12-02 22:07:37','YYYY-MM-DD HH24:MI:SS'),100,'The date+time (expressed in decimal format) when the document has been processed',20,'D','The ProcessedOn Date+Time save the exact moment (nanoseconds precision if allowed by the DB) when a document has been processed.','Y','Y','Y','N','N','N','N','N','Processed On',TO_TIMESTAMP('2014-12-02 22:07:37','YYYY-MM-DD HH24:MI:SS'),100)
-;
+-- INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,59048,74867,0,259,TO_TIMESTAMP('2014-12-02 22:07:37','YYYY-MM-DD HH24:MI:SS'),100,'The date+time (expressed in decimal format) when the document has been processed',20,'D','The ProcessedOn Date+Time save the exact moment (nanoseconds precision if allowed by the DB) when a document has been processed.','Y','Y','Y','N','N','N','N','N','Processed On',TO_TIMESTAMP('2014-12-02 22:07:37','YYYY-MM-DD HH24:MI:SS'),100)
+-- ;
 
 -- Dec 2, 2014 10:07:38 PM VET
 -- FTA
-INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=74867 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
-;
+-- INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=74867 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+-- ;
 
 -- Dec 2, 2014 10:07:39 PM VET
 -- FTA
@@ -45,33 +45,33 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Dec 2, 2014 10:07:39 PM VET
 -- FTA
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,55308,74869,0,259,TO_TIMESTAMP('2014-12-02 22:07:39','YYYY-MM-DD HH24:MI:SS'),100,'ID of document reversal',22,'D','Y','Y','Y','N','N','N','N','N','Reversal ID',TO_TIMESTAMP('2014-12-02 22:07:39','YYYY-MM-DD HH24:MI:SS'),100)
-;
+-- INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,55308,74869,0,259,TO_TIMESTAMP('2014-12-02 22:07:39','YYYY-MM-DD HH24:MI:SS'),100,'ID of document reversal',22,'D','Y','Y','Y','N','N','N','N','N','Reversal ID',TO_TIMESTAMP('2014-12-02 22:07:39','YYYY-MM-DD HH24:MI:SS'),100)
+-- ;
 
 -- Dec 2, 2014 10:07:40 PM VET
 -- FTA
-INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=74869 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
-;
+-- INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=74869 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+-- ;
 
 -- Dec 2, 2014 10:07:52 PM VET
 -- FTA
-DELETE FROM AD_Field_Trl WHERE AD_Field_ID=74869
-;
+-- DELETE FROM AD_Field_Trl WHERE AD_Field_ID=74869
+-- ;
 
 -- Dec 2, 2014 10:07:52 PM VET
 -- FTA
-DELETE FROM AD_Field WHERE AD_Field_ID=74869
-;
+-- DELETE FROM AD_Field WHERE AD_Field_ID=74869
+--;
 
 -- Dec 2, 2014 10:07:56 PM VET
 -- FTA
-DELETE FROM AD_Field_Trl WHERE AD_Field_ID=74867
-;
+-- DELETE FROM AD_Field_Trl WHERE AD_Field_ID=74867
+-- ;
 
 -- Dec 2, 2014 10:07:56 PM VET
 -- FTA
-DELETE FROM AD_Field WHERE AD_Field_ID=74867
-;
+-- DELETE FROM AD_Field WHERE AD_Field_ID=74867
+-- ;
 
 -- Dec 2, 2014 10:08:37 PM VET
 -- FTA

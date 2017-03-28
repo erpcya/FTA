@@ -15,7 +15,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Jun 28, 2013 12:07:59 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Finca',Updated=TO_TIMESTAMP('2013-06-28 12:07:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53506 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Finca',Updated=TO_TIMESTAMP('2013-06-28 12:07:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53506 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 12:08:38 PM VET
@@ -189,7 +189,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 12:21:48 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Área',PrintName='Área',Updated=TO_TIMESTAMP('2013-06-28 12:21:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55967 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Área',PrintName='Área',Updated=TO_TIMESTAMP('2013-06-28 12:21:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55967 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 12:23:38 PM VET

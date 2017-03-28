@@ -30,7 +30,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53739
 
 -- Jan 16, 2014 7:34:06 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Registro de Peso con Análisis de Cálidad',Updated=TO_TIMESTAMP('2014-01-16 19:34:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53551 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Registro de Peso con Análisis de Cálidad',Updated=TO_TIMESTAMP('2014-01-16 19:34:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53551 AND AD_Language='es_VE'
 ;
 
 -- Jan 16, 2014 7:34:10 PM VET

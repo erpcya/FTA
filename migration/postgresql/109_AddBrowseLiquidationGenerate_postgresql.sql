@@ -115,7 +115,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Sep 12, 2013 10:58:42 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Process_Trl SET Name='Generar Liquidación a Productor',Description='Generar Liquidación a Productor',Help='Generar Liquidación a Productor',Updated=TO_TIMESTAMP('2013-09-12 10:58:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53456 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Liquidación a Productor',Description='Generar Liquidación a Productor',Help='Generar Liquidación a Productor',Updated=TO_TIMESTAMP('2013-09-12 10:58:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53456 AND AD_Language='es_VE'
 ;
 
 -- Sep 12, 2013 10:59:54 AM VET
@@ -320,7 +320,7 @@ INSERT INTO AD_Browse_Field_Trl (AD_Language,AD_Browse_Field_ID, Description,Hel
 
 -- Sep 12, 2013 11:04:42 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Browse_Trl SET Name='Generar Liquidación al Productor',Description='Generar Liquidación al Productor',Help='Proceso que genera la liquidación al productor',Updated=TO_TIMESTAMP('2013-09-12 11:04:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50021 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Generar Liquidación al Productor',Description='Generar Liquidación al Productor',Help='Proceso que genera la liquidación al productor',Updated=TO_TIMESTAMP('2013-09-12 11:04:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50021 AND AD_Language='es_VE'
 ;
 
 -- Sep 12, 2013 11:07:33 AM VET
@@ -490,7 +490,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Sep 12, 2013 11:13:06 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Generar Liquidación al Productor',Description='Generar Liquidación al Productor',Updated=TO_TIMESTAMP('2013-09-12 11:13:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53618 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Generar Liquidación al Productor',Description='Generar Liquidación al Productor',Updated=TO_TIMESTAMP('2013-09-12 11:13:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53618 AND AD_Language='es_VE'
 ;
 
 -- Sep 12, 2013 11:13:10 AM VET

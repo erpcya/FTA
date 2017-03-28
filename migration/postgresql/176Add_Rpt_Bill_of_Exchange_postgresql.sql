@@ -200,12 +200,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 22, 2013 8:50:37 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-22 08:50:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53634 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-22 08:50:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53634 AND AD_Language='es_VE'
 ;
 
 -- Oct 22, 2013 8:51:02 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Letra de Cambio (Giro)',PrintName='Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-22 08:51:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56528 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Letra de Cambio (Giro)',PrintName='Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-22 08:51:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56528 AND AD_Language='es_VE'
 ;
 
 -- Oct 22, 2013 8:53:23 AM VET
@@ -265,7 +265,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 22, 2013 8:53:58 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Letra de Cambio',Updated=TO_TIMESTAMP('2013-10-22 08:53:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54121 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Letra de Cambio',Updated=TO_TIMESTAMP('2013-10-22 08:53:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54121 AND AD_Language='es_VE'
 ;
 
 -- Oct 22, 2013 8:54:54 AM VET
@@ -315,12 +315,12 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Oct 22, 2013 9:03:04 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Letra de Cambio (Giro)',Description='Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-22 09:03:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53289 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Letra de Cambio (Giro)',Description='Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-22 09:03:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53289 AND AD_Language='es_VE'
 ;
 
 -- Oct 22, 2013 9:03:23 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Giro',Description='Giro',Updated=TO_TIMESTAMP('2013-10-22 09:03:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53783 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Giro',Description='Giro',Updated=TO_TIMESTAMP('2013-10-22 09:03:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53783 AND AD_Language='es_VE'
 ;
 
 -- Oct 22, 2013 9:03:31 AM VET
@@ -815,7 +815,7 @@ UPDATE AD_Column SET AD_Process_ID=53504,Updated=TO_TIMESTAMP('2013-10-22 10:24:
 
 -- Oct 22, 2013 10:24:24 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Proceso de Letra de Cambio',Updated=TO_TIMESTAMP('2013-10-22 10:24:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53504 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Proceso de Letra de Cambio',Updated=TO_TIMESTAMP('2013-10-22 10:24:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53504 AND AD_Language='es_VE'
 ;
 
 -- Oct 22, 2013 10:25:16 AM VET
@@ -880,7 +880,7 @@ UPDATE AD_Workflow SET AD_WF_Node_ID=50176, IsValid='Y',Updated=TO_TIMESTAMP('20
 
 -- Oct 22, 2013 10:28:24 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Workflow_Trl SET Name='Proceso de Letra de Cambio',Description='(Proceso de Letra de Cambio)',Updated=TO_TIMESTAMP('2013-10-22 10:28:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50038 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Letra de Cambio',Description='(Proceso de Letra de Cambio)',Updated=TO_TIMESTAMP('2013-10-22 10:28:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50038 AND AD_Language='es_VE'
 ;
 
 -- Oct 22, 2013 10:40:33 AM VET
@@ -920,7 +920,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 22, 2013 10:45:15 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Letra de Cambio',Updated=TO_TIMESTAMP('2013-10-22 10:45:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53505 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Letra de Cambio',Updated=TO_TIMESTAMP('2013-10-22 10:45:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53505 AND AD_Language='es_VE'
 ;
 
 -- Oct 22, 2013 10:45:30 AM VET
@@ -1200,7 +1200,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 22, 2013 11:00:07 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Letra de Cambio',Updated=TO_TIMESTAMP('2013-10-22 11:00:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53636 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Letra de Cambio',Updated=TO_TIMESTAMP('2013-10-22 11:00:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53636 AND AD_Language='es_VE'
 ;
 
 -- Oct 22, 2013 11:00:19 AM VET

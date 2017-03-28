@@ -140,7 +140,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 25, 2013 12:52:14 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de Orden de Pago',PrintName='Tipo de Orden de Pago',Updated=TO_TIMESTAMP('2013-10-25 00:52:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56552 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Orden de Pago',PrintName='Tipo de Orden de Pago',Updated=TO_TIMESTAMP('2013-10-25 00:52:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56552 AND AD_Language='es_VE'
 ;
 
 -- Oct 25, 2013 12:53:25 AM VET
@@ -610,7 +610,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53592, SeqNo=10, Updated=CURRENT_TIMESTAMP WH
 
 -- Oct 25, 2013 3:47:07 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Configuración de Crédito/Préstamo',Description='Configuración de Crédito/Préstamo',Updated=TO_TIMESTAMP('2013-10-25 15:47:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53667 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Configuración de Crédito/Préstamo',Description='Configuración de Crédito/Préstamo',Updated=TO_TIMESTAMP('2013-10-25 15:47:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53667 AND AD_Language='es_VE'
 ;
 
 -- Oct 25, 2013 3:55:01 PM VET
@@ -642,12 +642,12 @@ UPDATE AD_Column SET SeqNo=0,Updated=TO_TIMESTAMP('2013-10-26 10:04:59','YYYY-MM
 -- Farming Technical Assistance
 UPDATE AD_Column SET IsIdentifier='Y', SeqNo=2,Updated=TO_TIMESTAMP('2013-10-26 10:05:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=65865
 ;
-
+UPDATE AD_Element SET ColumnName = 'IsCategory_Old' WHERE AD_Element_ID = 3000385;
 -- Oct 26, 2013 10:34:49 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,56559,0,'IsCategory',TO_TIMESTAMP('2013-10-26 10:34:48','YYYY-MM-DD HH24:MI:SS'),100,'Is a Category','ECA02','Y','Is Category','Is Category',TO_TIMESTAMP('2013-10-26 10:34:48','YYYY-MM-DD HH24:MI:SS'),100)
 ;
-
+UPDATE AD_Column SET AD_Element_ID = 56559 WHErE AD_Column_ID = 3002334;
 -- Oct 26, 2013 10:34:49 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=56559 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
@@ -655,14 +655,14 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 26, 2013 10:35:03 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Rubro',PrintName='Rubro',Description='Es un Rubro',Updated=TO_TIMESTAMP('2013-10-26 10:35:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56559 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Rubro',PrintName='Rubro',Description='Es un Rubro',Updated=TO_TIMESTAMP('2013-10-26 10:35:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56559 AND AD_Language='es_VE'
 ;
 
 -- Oct 26, 2013 10:36:42 AM VET
 -- Farming Technical Assistance
 UPDATE AD_Element_Trl SET Name='Rubro',PrintName='Rubro',Description='Es un Rubro',Updated=TO_TIMESTAMP('2013-10-26 10:36:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56559 AND AD_Language='es_VE'
 ;
-
+DELETE FROM AD_Field WHERE AD_Column_ID IN (3002334);DELETE FROM AD_Column WHERE AD_Column_ID IN (3002334);
 -- Oct 26, 2013 10:38:00 AM VET
 -- Farming Technical Assistance
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,69412,56559,0,20,208,'IsCategory',TO_TIMESTAMP('2013-10-26 10:37:59','YYYY-MM-DD HH24:MI:SS'),100,'N','Is a Category','ECA02',1,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Is Category',0,TO_TIMESTAMP('2013-10-26 10:37:59','YYYY-MM-DD HH24:MI:SS'),100,0)

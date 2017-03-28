@@ -30,7 +30,7 @@ UPDATE AD_Window_Trl SET Name='Guía de Movilización',Updated=TO_TIMESTAMP('201
 
 -- Jan 25, 2014 10:03:03 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:03:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53341 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:03:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53341 AND AD_Language='es_VE'
 ;
 
 -- Jan 25, 2014 10:03:07 AM VET
@@ -65,7 +65,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:04:52 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:04:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53892 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:04:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53892 AND AD_Language='es_VE'
 ;
 
 -- Jan 25, 2014 10:04:57 AM VET
@@ -185,7 +185,7 @@ UPDATE AD_Field SET IsSameLine='Y',Updated=TO_TIMESTAMP('2014-01-25 10:07:59','Y
 
 -- Jan 25, 2014 10:08:14 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65875,72208,0,53892,TO_TIMESTAMP('2014-01-25 10:08:13','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','N','Y','Y','Y','N','N','N','N','N','Client',10,TO_TIMESTAMP('2014-01-25 10:08:13','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65875,72208,0,53892,TO_TIMESTAMP('2014-01-25 10:08:13','YYYY-MM-DD HH24:MI:SS'),100,'Client/Tenant for this installation.',22,'ECA02','A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','N','Y','Y','Y','N','N','N','N','N','Client',10,TO_TIMESTAMP('2014-01-25 10:08:13','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:14 AM VET
@@ -195,7 +195,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:16 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65876,72209,0,53892,TO_TIMESTAMP('2014-01-25 10:08:14','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','N','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_TIMESTAMP('2014-01-25 10:08:14','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65876,72209,0,53892,TO_TIMESTAMP('2014-01-25 10:08:14','YYYY-MM-DD HH24:MI:SS'),100,'Organizational entity within client',22,'ECA02','An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','N','Y','Y','Y','N','N','N','N','Y','Organization',20,TO_TIMESTAMP('2014-01-25 10:08:14','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:16 AM VET
@@ -205,7 +205,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:18 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65888,72210,0,53892,TO_TIMESTAMP('2014-01-25 10:08:16','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','N','Farming',30,TO_TIMESTAMP('2014-01-25 10:08:16','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65888,72210,0,53892,TO_TIMESTAMP('2014-01-25 10:08:16','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','N','Farming',30,TO_TIMESTAMP('2014-01-25 10:08:16','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:18 AM VET
@@ -215,7 +215,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:21 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,71364,72211,0,53892,TO_TIMESTAMP('2014-01-25 10:08:18','YYYY-MM-DD HH24:MI:SS'),100,'This is a Sales Transaction',1,'ECA02','The Sales Transaction checkbox indicates if this item is a Sales Transaction.','N','Y','Y','Y','N','N','N','N','Y','Sales Transaction',40,TO_TIMESTAMP('2014-01-25 10:08:18','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,71364,72211,0,53892,TO_TIMESTAMP('2014-01-25 10:08:18','YYYY-MM-DD HH24:MI:SS'),100,'This is a Sales Transaction',1,'ECA02','The Sales Transaction checkbox indicates if this item is a Sales Transaction.','N','Y','Y','Y','N','N','N','N','Y','Sales Transaction',40,TO_TIMESTAMP('2014-01-25 10:08:18','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:21 AM VET
@@ -225,7 +225,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:22 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,71357,72212,0,53892,TO_TIMESTAMP('2014-01-25 10:08:21','YYYY-MM-DD HH24:MI:SS'),100,'Performing or initiating organization',22,'ECA02','The organization which performs or initiates this transaction (for another organization).  The owning Organization may not be the transaction organization in a service bureau environment, with centralized services, and inter-organization transactions.','N','Y','Y','Y','N','N','N','N','N','Trx Organization',50,TO_TIMESTAMP('2014-01-25 10:08:21','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,71357,72212,0,53892,TO_TIMESTAMP('2014-01-25 10:08:21','YYYY-MM-DD HH24:MI:SS'),100,'Performing or initiating organization',22,'ECA02','The organization which performs or initiates this transaction (for another organization).  The owning Organization may not be the transaction organization in a service bureau environment, with centralized services, and inter-organization transactions.','N','Y','Y','Y','N','N','N','N','N','Trx Organization',50,TO_TIMESTAMP('2014-01-25 10:08:21','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:23 AM VET
@@ -235,7 +235,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:25 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66322,72213,0,53892,TO_TIMESTAMP('2014-01-25 10:08:23','YYYY-MM-DD HH24:MI:SS'),100,'Document type or rules',10,'ECA02','The Document Type determines document sequence and processing rules','N','Y','Y','Y','N','N','N','N','Y','Document Type',60,TO_TIMESTAMP('2014-01-25 10:08:23','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66322,72213,0,53892,TO_TIMESTAMP('2014-01-25 10:08:23','YYYY-MM-DD HH24:MI:SS'),100,'Document type or rules',10,'ECA02','The Document Type determines document sequence and processing rules','N','Y','Y','Y','N','N','N','N','Y','Document Type',60,TO_TIMESTAMP('2014-01-25 10:08:23','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:25 AM VET
@@ -245,7 +245,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:27 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65887,72214,0,53892,TO_TIMESTAMP('2014-01-25 10:08:25','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document',10,'ECA02','The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65887,72214,0,53892,TO_TIMESTAMP('2014-01-25 10:08:25','YYYY-MM-DD HH24:MI:SS'),100,'Document sequence number of the document',10,'ECA02','The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "<>".
 
 If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).','N','Y','Y','Y','N','N','N','N','N','Document No',70,TO_TIMESTAMP('2014-01-25 10:08:25','YYYY-MM-DD HH24:MI:SS'),100)
 ;
@@ -257,7 +257,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:29 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65886,72215,0,53892,TO_TIMESTAMP('2014-01-25 10:08:27','YYYY-MM-DD HH24:MI:SS'),100,'Date of the Document',7,'ECA02','The Document Date indicates the date the document was generated.  It may or may not be the same as the accounting date.','N','Y','Y','Y','N','N','N','N','Y','Document Date',80,TO_TIMESTAMP('2014-01-25 10:08:27','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65886,72215,0,53892,TO_TIMESTAMP('2014-01-25 10:08:27','YYYY-MM-DD HH24:MI:SS'),100,'Date of the Document',7,'ECA02','The Document Date indicates the date the document was generated.  It may or may not be the same as the accounting date.','N','Y','Y','Y','N','N','N','N','Y','Document Date',80,TO_TIMESTAMP('2014-01-25 10:08:27','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:29 AM VET
@@ -267,7 +267,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:30 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66352,72216,0,53892,TO_TIMESTAMP('2014-01-25 10:08:29','YYYY-MM-DD HH24:MI:SS'),100,14,'ECA02','N','Y','Y','Y','N','N','N','N','N','Qty to deliver',90,TO_TIMESTAMP('2014-01-25 10:08:29','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66352,72216,0,53892,TO_TIMESTAMP('2014-01-25 10:08:29','YYYY-MM-DD HH24:MI:SS'),100,14,'ECA02','N','Y','Y','Y','N','N','N','N','N','Qty to deliver',90,TO_TIMESTAMP('2014-01-25 10:08:29','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:30 AM VET
@@ -277,7 +277,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:32 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66531,72217,0,53892,TO_TIMESTAMP('2014-01-25 10:08:30','YYYY-MM-DD HH24:MI:SS'),100,'Valid to including this date (last day)',7,'ECA02','The Valid To date indicates the last day of a date range','N','Y','Y','Y','N','N','N','N','Y','Valid to',100,TO_TIMESTAMP('2014-01-25 10:08:30','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66531,72217,0,53892,TO_TIMESTAMP('2014-01-25 10:08:30','YYYY-MM-DD HH24:MI:SS'),100,'Valid to including this date (last day)',7,'ECA02','The Valid To date indicates the last day of a date range','N','Y','Y','Y','N','N','N','N','Y','Valid to',100,TO_TIMESTAMP('2014-01-25 10:08:30','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:32 AM VET
@@ -287,7 +287,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:34 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65889,72218,0,53892,TO_TIMESTAMP('2014-01-25 10:08:32','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','N','Vehicle Type',110,TO_TIMESTAMP('2014-01-25 10:08:32','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65889,72218,0,53892,TO_TIMESTAMP('2014-01-25 10:08:32','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','N','Vehicle Type',110,TO_TIMESTAMP('2014-01-25 10:08:32','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:34 AM VET
@@ -297,7 +297,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:36 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66534,72219,0,53892,TO_TIMESTAMP('2014-01-25 10:08:34','YYYY-MM-DD HH24:MI:SS'),100,'Storage Warehouse and Service Point',10,'ECA02','The Warehouse identifies a unique Warehouse where products are stored or Services are provided.','N','Y','Y','Y','N','N','N','N','Y','Warehouse',120,TO_TIMESTAMP('2014-01-25 10:08:34','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66534,72219,0,53892,TO_TIMESTAMP('2014-01-25 10:08:34','YYYY-MM-DD HH24:MI:SS'),100,'Storage Warehouse and Service Point',10,'ECA02','The Warehouse identifies a unique Warehouse where products are stored or Services are provided.','N','Y','Y','Y','N','N','N','N','Y','Warehouse',120,TO_TIMESTAMP('2014-01-25 10:08:34','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:36 AM VET
@@ -307,7 +307,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:39 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66535,72220,0,53892,TO_TIMESTAMP('2014-01-25 10:08:36','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Business Partner',10,'ECA02','A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson','N','Y','Y','Y','N','N','N','N','N','Business Partner ',130,TO_TIMESTAMP('2014-01-25 10:08:36','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,66535,72220,0,53892,TO_TIMESTAMP('2014-01-25 10:08:36','YYYY-MM-DD HH24:MI:SS'),100,'Identifies a Business Partner',10,'ECA02','A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson','N','Y','Y','Y','N','N','N','N','N','Business Partner ',130,TO_TIMESTAMP('2014-01-25 10:08:36','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:39 AM VET
@@ -317,7 +317,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:41 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65880,72221,0,53892,TO_TIMESTAMP('2014-01-25 10:08:39','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65880,72221,0,53892,TO_TIMESTAMP('2014-01-25 10:08:39','YYYY-MM-DD HH24:MI:SS'),100,'The record is active in the system',1,'ECA02','There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
 (2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.','N','Y','Y','Y','N','N','N','N','Y','Active',140,TO_TIMESTAMP('2014-01-25 10:08:39','YYYY-MM-DD HH24:MI:SS'),100)
@@ -330,7 +330,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:43 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65879,72222,0,53892,TO_TIMESTAMP('2014-01-25 10:08:41','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA02','A description is limited to 255 characters.','N','Y','Y','Y','N','N','N','N','N','Description',150,TO_TIMESTAMP('2014-01-25 10:08:41','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65879,72222,0,53892,TO_TIMESTAMP('2014-01-25 10:08:41','YYYY-MM-DD HH24:MI:SS'),100,'Optional short description of the record',255,'ECA02','A description is limited to 255 characters.','N','Y','Y','Y','N','N','N','N','N','Description',150,TO_TIMESTAMP('2014-01-25 10:08:41','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:43 AM VET
@@ -340,7 +340,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:44 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsMandatory,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,71073,72223,0,53892,TO_TIMESTAMP('2014-01-25 10:08:43','YYYY-MM-DD HH24:MI:SS'),100,3,'ECA02','N','Y','Y','Y','N','N','N','Y','N','N','Owner',160,TO_TIMESTAMP('2014-01-25 10:08:43','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsMandatory,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,71073,72223,0,53892,TO_TIMESTAMP('2014-01-25 10:08:43','YYYY-MM-DD HH24:MI:SS'),100,3,'ECA02','N','Y','Y','Y','N','N','N','Y','N','N','Owner',160,TO_TIMESTAMP('2014-01-25 10:08:43','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:44 AM VET
@@ -350,7 +350,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:47 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,71363,72224,0,53892,TO_TIMESTAMP('2014-01-25 10:08:44','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','Y','Load Order',170,TO_TIMESTAMP('2014-01-25 10:08:44','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,71363,72224,0,53892,TO_TIMESTAMP('2014-01-25 10:08:44','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','Y','Load Order',170,TO_TIMESTAMP('2014-01-25 10:08:44','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:47 AM VET
@@ -360,7 +360,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:49 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,71362,72225,0,53892,TO_TIMESTAMP('2014-01-25 10:08:47','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','N','Record Weight',180,TO_TIMESTAMP('2014-01-25 10:08:47','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,71362,72225,0,53892,TO_TIMESTAMP('2014-01-25 10:08:47','YYYY-MM-DD HH24:MI:SS'),100,10,'ECA02','N','Y','Y','Y','N','N','N','N','N','Record Weight',180,TO_TIMESTAMP('2014-01-25 10:08:47','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:49 AM VET
@@ -370,7 +370,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:50 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_FieldGroup_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,67118,114,72226,0,53892,TO_TIMESTAMP('2014-01-25 10:08:49','YYYY-MM-DD HH24:MI:SS'),100,'The current status of the document',2,'ECA02','The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field','N','Y','Y','Y','N','N','N','Y','N','Document Status',190,TO_TIMESTAMP('2014-01-25 10:08:49','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_FieldGroup_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,67118,114,72226,0,53892,TO_TIMESTAMP('2014-01-25 10:08:49','YYYY-MM-DD HH24:MI:SS'),100,'The current status of the document',2,'ECA02','The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field','N','Y','Y','Y','N','N','N','Y','N','Document Status',190,TO_TIMESTAMP('2014-01-25 10:08:49','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:50 AM VET
@@ -380,7 +380,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:52 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,67117,72227,0,53892,TO_TIMESTAMP('2014-01-25 10:08:50','YYYY-MM-DD HH24:MI:SS'),100,'The targeted status of the document',2,'ECA02','You find the current status in the Document Status field. The options are listed in a popup','N','Y','Y','Y','N','N','N','N','Y','Document Action',200,TO_TIMESTAMP('2014-01-25 10:08:50','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,67117,72227,0,53892,TO_TIMESTAMP('2014-01-25 10:08:50','YYYY-MM-DD HH24:MI:SS'),100,'The targeted status of the document',2,'ECA02','You find the current status in the Document Status field. The options are listed in a popup','N','Y','Y','Y','N','N','N','N','Y','Document Action',200,TO_TIMESTAMP('2014-01-25 10:08:50','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:52 AM VET
@@ -390,7 +390,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:54 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65891,72228,0,53892,TO_TIMESTAMP('2014-01-25 10:08:52','YYYY-MM-DD HH24:MI:SS'),100,'The document has been processed',1,'ECA02','The Processed checkbox indicates that a document has been processed.','N','Y','Y','Y','N','N','N','Y','N','Processed',210,TO_TIMESTAMP('2014-01-25 10:08:52','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,Updated,UpdatedBy) VALUES (0,65891,72228,0,53892,TO_TIMESTAMP('2014-01-25 10:08:52','YYYY-MM-DD HH24:MI:SS'),100,'The document has been processed',1,'ECA02','The Processed checkbox indicates that a document has been processed.','N','Y','Y','Y','N','N','N','Y','N','Processed',210,TO_TIMESTAMP('2014-01-25 10:08:52','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:54 AM VET
@@ -400,7 +400,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jan 25, 2014 10:08:56 AM VET
 -- Farming Technical Assistance
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,65882,72229,0,53892,TO_TIMESTAMP('2014-01-25 10:08:54','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA02','N','Y','Y','N','N','N','N','N','N','Mobilization Guide',TO_TIMESTAMP('2014-01-25 10:08:54','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,65882,72229,0,53892,TO_TIMESTAMP('2014-01-25 10:08:54','YYYY-MM-DD HH24:MI:SS'),100,22,'ECA02','N','Y','Y','N','N','N','N','N','N','Mobilization Guide',TO_TIMESTAMP('2014-01-25 10:08:54','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 25, 2014 10:08:56 AM VET
@@ -490,7 +490,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53600, SeqNo=10,Updated=TO_TIMESTAMP('2014-01
 
 -- Jan 25, 2014 10:16:54 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:16:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53757 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Guía de Despacho',Updated=TO_TIMESTAMP('2014-01-25 10:16:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53757 AND AD_Language='es_VE'
 ;
 
 -- Jan 25, 2014 10:16:58 AM VET
@@ -555,7 +555,7 @@ UPDATE AD_Field SET IsSameLine='Y',Updated=TO_TIMESTAMP('2014-01-25 10:45:31','Y
 
 -- Jan 25, 2014 10:47:52 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Industria',PrintName='Industria',Updated=TO_TIMESTAMP('2014-01-25 10:47:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56978 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Industria',PrintName='Industria',Updated=TO_TIMESTAMP('2014-01-25 10:47:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56978 AND AD_Language='es_VE'
 ;
 
 -- Jan 25, 2014 10:47:59 AM VET

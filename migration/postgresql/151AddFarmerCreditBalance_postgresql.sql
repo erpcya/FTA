@@ -15,7 +15,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 14, 2013 10:11:57 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Documento de Préstamo',Description='Genera los Documentos de Préstamo',Help='Puede Generar una Nota de Crédito y una Factura dependiendo del Campo Beneficiario',Updated=TO_TIMESTAMP('2013-10-14 10:11:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53489 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Documento de Préstamo',Description='Genera los Documentos de Préstamo',Help='Puede Generar una Nota de Crédito y una Factura dependiendo del Campo Beneficiario',Updated=TO_TIMESTAMP('2013-10-14 10:11:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53489 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 10:30:50 AM VET
@@ -55,7 +55,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Oct 14, 2013 10:38:23 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Para_Trl SET Name='Tipo de Documento para Nota de Crédito',Description='Tipo de Documento que se utilizará para generar la Nota de Crédito',Updated=TO_TIMESTAMP('2013-10-14 10:38:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=54144 AND AD_Language='es_MX'
+UPDATE AD_Process_Para_Trl SET Name='Tipo de Documento para Nota de Crédito',Description='Tipo de Documento que se utilizará para generar la Nota de Crédito',Updated=TO_TIMESTAMP('2013-10-14 10:38:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=54144 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 10:41:53 AM VET
@@ -190,7 +190,7 @@ UPDATE AD_Process_Para_Trl SET IsTranslated='N' WHERE AD_Process_Para_ID=54144
 
 -- Oct 14, 2013 11:03:25 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Para_Trl SET Name='Tipo de Documento (CxC)',Description='Tipo de Documento que se utilizará para generar la CXC',Updated=TO_TIMESTAMP('2013-10-14 11:03:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=54144 AND AD_Language='es_MX'
+UPDATE AD_Process_Para_Trl SET Name='Tipo de Documento (CxC)',Description='Tipo de Documento que se utilizará para generar la CXC',Updated=TO_TIMESTAMP('2013-10-14 11:03:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=54144 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 11:04:18 AM VET
@@ -630,7 +630,7 @@ UPDATE AD_Tab_Trl SET IsTranslated='N' WHERE AD_Tab_ID=53774
 
 -- Oct 14, 2013 3:43:48 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Movimiento (Todos)',Updated=TO_TIMESTAMP('2013-10-14 15:43:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53774 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Movimiento (Todos)',Updated=TO_TIMESTAMP('2013-10-14 15:43:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53774 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 3:47:55 PM VET
@@ -1320,7 +1320,7 @@ UPDATE AD_Column SET IsSelectionColumn='Y',Updated=TO_TIMESTAMP('2013-10-14 16:1
 
 -- Oct 14, 2013 4:18:28 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Saldo de Productor',Description='Saldo de Productor',Updated=TO_TIMESTAMP('2013-10-14 16:18:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53781 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Saldo de Productor',Description='Saldo de Productor',Updated=TO_TIMESTAMP('2013-10-14 16:18:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53781 AND AD_Language='es_VE'
 ;
 
 -- Oct 14, 2013 4:20:13 PM VET

@@ -45,7 +45,7 @@ UPDATE AD_Table_Trl SET Name='Uso Crédito',Updated=TO_TIMESTAMP('2014-03-06 11:
 
 -- Mar 6, 2014 11:15:30 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Distribución en Créditos',Updated=TO_TIMESTAMP('2014-03-06 11:15:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53889 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Distribución en Créditos',Updated=TO_TIMESTAMP('2014-03-06 11:15:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53889 AND AD_Language='es_VE'
 ;
 
 -- Mar 6, 2014 11:15:37 AM VET
@@ -60,7 +60,7 @@ UPDATE AD_Tab SET DisplayLogic='@FTA_FarmerCredit_ID@!0',Updated=TO_TIMESTAMP('2
 
 -- Mar 6, 2014 11:17:06 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Distribución en Créditos',Updated=TO_TIMESTAMP('2014-03-06 11:17:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53890 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Distribución en Créditos',Updated=TO_TIMESTAMP('2014-03-06 11:17:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53890 AND AD_Language='es_VE'
 ;
 
 -- Mar 6, 2014 11:17:10 AM VET

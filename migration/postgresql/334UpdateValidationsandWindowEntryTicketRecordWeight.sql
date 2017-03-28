@@ -215,12 +215,12 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53592, SeqNo=14,Updated=TO_TIMESTAMP('2014-01
 
 -- Jan 11, 2014 9:57:33 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Orden de Compra',Description='Genera una Orden de Compra en Base a la Cantidad Estimada de los Cultivos',Help='Al Generar la Orden de Compra ya se Puede Comenzar a Recibir el Producto',Updated=TO_TIMESTAMP('2014-01-11 09:57:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53552 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Orden de Compra',Description='Genera una Orden de Compra en Base a la Cantidad Estimada de los Cultivos',Help='Al Generar la Orden de Compra ya se Puede Comenzar a Recibir el Producto',Updated=TO_TIMESTAMP('2014-01-11 09:57:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53552 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 9:58:21 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Orden de Compra desde Crédito Productor',Updated=TO_TIMESTAMP('2014-01-11 09:58:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53552 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Orden de Compra desde Crédito Productor',Updated=TO_TIMESTAMP('2014-01-11 09:58:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53552 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 9:58:31 AM VET
@@ -615,7 +615,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53455
 
 -- Jan 11, 2014 11:13:49 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Imprimir',Updated=TO_TIMESTAMP('2014-01-11 11:13:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53455 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Imprimir',Updated=TO_TIMESTAMP('2014-01-11 11:13:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53455 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 11:13:54 AM VET
@@ -640,7 +640,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53493
 
 -- Jan 11, 2014 11:14:52 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Imprimir',Updated=TO_TIMESTAMP('2014-01-11 11:14:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53493 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Imprimir',Updated=TO_TIMESTAMP('2014-01-11 11:14:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53493 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 11:14:55 AM VET
@@ -660,7 +660,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53493
 
 -- Jan 11, 2014 11:15:46 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Imprimir Análisis de Cálidad',Updated=TO_TIMESTAMP('2014-01-11 11:15:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53493 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Imprimir Análisis de Cálidad',Updated=TO_TIMESTAMP('2014-01-11 11:15:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53493 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 11:15:50 AM VET
@@ -685,7 +685,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53494
 
 -- Jan 11, 2014 11:16:55 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Imprimir Registro de Peso',Updated=TO_TIMESTAMP('2014-01-11 11:16:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53494 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Imprimir Registro de Peso',Updated=TO_TIMESTAMP('2014-01-11 11:16:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53494 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 11:16:59 AM VET
@@ -706,7 +706,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53455
 
 -- Jan 11, 2014 11:18:40 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Imprimir Ticket de Entrada',Updated=TO_TIMESTAMP('2014-01-11 11:18:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53455 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Imprimir Ticket de Entrada',Updated=TO_TIMESTAMP('2014-01-11 11:18:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53455 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 11:18:46 AM VET
@@ -834,7 +834,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Jan 11, 2014 1:10:25 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Tolva',Updated=TO_TIMESTAMP('2014-01-11 13:10:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53732 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Tolva',Updated=TO_TIMESTAMP('2014-01-11 13:10:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53732 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 1:10:47 PM VET
@@ -894,7 +894,7 @@ UPDATE AD_Element SET AD_Reference_ID=13, FieldLength=10,Updated=TO_TIMESTAMP('2
 
 -- Jan 11, 2014 1:12:48 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tolva',PrintName='Tolva',Updated=TO_TIMESTAMP('2014-01-11 13:12:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56979 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tolva',PrintName='Tolva',Updated=TO_TIMESTAMP('2014-01-11 13:12:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56979 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 1:12:58 PM VET
@@ -904,7 +904,7 @@ UPDATE AD_Element_Trl SET Name='Tolva',PrintName='Tolva',Updated=TO_TIMESTAMP('2
 
 -- Jan 11, 2014 1:13:14 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Column_Trl SET Name='Chute',Updated=TO_TIMESTAMP('2014-01-11 13:13:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=71087 AND AD_Language='es_MX'
+UPDATE AD_Column_Trl SET Name='Chute',Updated=TO_TIMESTAMP('2014-01-11 13:13:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=71087 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 1:13:17 PM VET
@@ -964,7 +964,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Jan 11, 2014 1:17:36 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Tolva',Description='Tolva',Updated=TO_TIMESTAMP('2014-01-11 13:17:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53336 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Tolva',Description='Tolva',Updated=TO_TIMESTAMP('2014-01-11 13:17:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53336 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 1:17:41 PM VET
@@ -984,7 +984,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jan 11, 2014 1:18:49 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Tolva',Updated=TO_TIMESTAMP('2014-01-11 13:18:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53882 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Tolva',Updated=TO_TIMESTAMP('2014-01-11 13:18:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53882 AND AD_Language='es_VE'
 ;
 
 -- Jan 11, 2014 1:19:06 PM VET

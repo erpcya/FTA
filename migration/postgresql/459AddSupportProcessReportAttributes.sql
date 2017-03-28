@@ -108,7 +108,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- May 5, 2014 7:21:39 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Reporte de Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:21:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53800 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Reporte de Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:21:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53800 AND AD_Language='es_VE'
 ;
 
 -- May 5, 2014 7:21:41 AM VET
@@ -153,7 +153,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Attributes Report', Name='Attributes Re
 
 -- May 5, 2014 7:22:09 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Reporte de Atributos',PrintName='Reporte de Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:22:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57149 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Reporte de Atributos',PrintName='Reporte de Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:22:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57149 AND AD_Language='es_VE'
 ;
 
 -- May 5, 2014 7:22:12 AM VET
@@ -203,7 +203,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- May 5, 2014 7:23:38 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Reporte de Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:23:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53358 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Reporte de Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:23:38','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53358 AND AD_Language='es_VE'
 ;
 
 -- May 5, 2014 7:23:40 AM VET
@@ -301,7 +301,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- May 5, 2014 7:24:43 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Reporte de Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:24:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53952 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Reporte de Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:24:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53952 AND AD_Language='es_VE'
 ;
 
 -- May 5, 2014 7:24:46 AM VET
@@ -514,7 +514,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Attributes', Name='Attributes' WHERE Is
 
 -- May 5, 2014 7:28:00 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Atributos',PrintName='Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:28:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57150 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Atributos',PrintName='Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:28:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57150 AND AD_Language='es_VE'
 ;
 
 -- May 5, 2014 7:28:04 AM VET
@@ -624,7 +624,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- May 5, 2014 7:32:17 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Secuencia',Updated=TO_TIMESTAMP('2014-05-05 07:32:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53953 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Secuencia',Updated=TO_TIMESTAMP('2014-05-05 07:32:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53953 AND AD_Language='es_VE'
 ;
 
 -- May 5, 2014 7:32:26 AM VET
@@ -727,7 +727,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- May 5, 2014 7:34:01 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:34:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53954 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Atributos',Updated=TO_TIMESTAMP('2014-05-05 07:34:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53954 AND AD_Language='es_VE'
 ;
 
 -- May 5, 2014 7:34:03 AM VET

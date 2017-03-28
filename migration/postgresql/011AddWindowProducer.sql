@@ -20,12 +20,12 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jun 28, 2013 3:35:10 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Finca',Updated=TO_TIMESTAMP('2013-06-28 15:35:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53237 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Finca',Updated=TO_TIMESTAMP('2013-06-28 15:35:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53237 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 3:35:14 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Finca',Updated=TO_TIMESTAMP('2013-06-28 15:35:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53665 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Finca',Updated=TO_TIMESTAMP('2013-06-28 15:35:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53665 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 3:35:20 PM VET
@@ -224,7 +224,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Jun 28, 2013 3:38:40 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Lote de Finca',Updated=TO_TIMESTAMP('2013-06-28 15:38:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53666 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Lote de Finca',Updated=TO_TIMESTAMP('2013-06-28 15:38:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53666 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 3:38:46 PM VET
@@ -413,7 +413,7 @@ UPDATE AD_Window_Trl SET IsTranslated='N' WHERE AD_Window_ID=53237
 
 -- Jun 28, 2013 3:45:20 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Productor',Updated=TO_TIMESTAMP('2013-06-28 15:45:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53237 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Productor',Updated=TO_TIMESTAMP('2013-06-28 15:45:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53237 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 3:45:54 PM VET
@@ -1317,7 +1317,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Jun 28, 2013 3:51:23 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Cultivo',Updated=TO_TIMESTAMP('2013-06-28 15:51:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53668 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Cultivo',Updated=TO_TIMESTAMP('2013-06-28 15:51:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53668 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 3:53:17 PM VET

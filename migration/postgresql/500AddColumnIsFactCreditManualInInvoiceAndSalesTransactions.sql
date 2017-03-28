@@ -1,6 +1,6 @@
 -- Oct 1, 2014 3:45:15 PM VET
 -- FTA
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,68741,74602,0,186,TO_TIMESTAMP('2014-10-01 15:45:12','YYYY-MM-DD HH24:MI:SS'),100,0,'ECA02','N','Y','Y','Y','N','N','N','Y','N','Is Credit Fact Manual',0,570,0,TO_TIMESTAMP('2014-10-01 15:45:12','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,68741,74602,0,186,TO_TIMESTAMP('2014-10-01 15:45:12','YYYY-MM-DD HH24:MI:SS'),100,0,'ECA02','N','Y','Y','Y','N','N','N','Y','N','Is Credit Fact Manual',0,570,0,TO_TIMESTAMP('2014-10-01 15:45:12','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Oct 1, 2014 3:45:15 PM VET
@@ -210,7 +210,7 @@ UPDATE AD_Field SET DisplayLogic='@#CREDIT_CONTROL_MODULE@ = ''Y''',  IsSameLine
 
 -- Oct 1, 2014 3:48:53 PM VET
 -- FTA
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,HideInListView,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,68742,74603,0,263,TO_TIMESTAMP('2014-10-01 15:48:52','YYYY-MM-DD HH24:MI:SS'),100,0,'ECA02','N','Y','Y','Y','N','N','N','Y','N','Is Credit Fact Manual',0,460,0,TO_TIMESTAMP('2014-10-01 15:48:52','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsEmbedded,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,PreferredWidth,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,68742,74603,0,263,TO_TIMESTAMP('2014-10-01 15:48:52','YYYY-MM-DD HH24:MI:SS'),100,0,'ECA02','N','Y','Y','Y','N','N','N','Y','N','Is Credit Fact Manual',0,460,0,TO_TIMESTAMP('2014-10-01 15:48:52','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Oct 1, 2014 3:48:53 PM VET

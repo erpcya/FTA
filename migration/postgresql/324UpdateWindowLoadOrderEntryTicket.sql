@@ -215,7 +215,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Dec 18, 2013 4:43:43 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Capacidad de Volumen',PrintName='Capacidad de Volumen',Updated=TO_TIMESTAMP('2013-12-18 16:43:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56857 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Capacidad de Volumen',PrintName='Capacidad de Volumen',Updated=TO_TIMESTAMP('2013-12-18 16:43:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56857 AND AD_Language='es_VE'
 ;
 
 -- Dec 18, 2013 4:43:49 PM VET

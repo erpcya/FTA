@@ -674,7 +674,7 @@ UPDATE AD_Column SET AD_Reference_ID=18,Updated=TO_TIMESTAMP('2014-06-14 14:44:3
 
 -- 14/06/2014 02:47:33 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Browse_Trl SET Name='Generar Letra de Cambio por Documentos',Updated=TO_TIMESTAMP('2014-06-14 14:47:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50034 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Generar Letra de Cambio por Documentos',Updated=TO_TIMESTAMP('2014-06-14 14:47:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50034 AND AD_Language='es_VE'
 ;
 
 -- 14/06/2014 02:47:40 PM VET
@@ -699,7 +699,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- 14/06/2014 02:52:02 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Generar Letra de Cambio por Documentos',Description='Generar Letra de Cambio por Documentos',Updated=TO_TIMESTAMP('2014-06-14 14:52:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53841 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Generar Letra de Cambio por Documentos',Description='Generar Letra de Cambio por Documentos',Updated=TO_TIMESTAMP('2014-06-14 14:52:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53841 AND AD_Language='es_VE'
 ;
 
 -- 14/06/2014 02:53:54 PM VET

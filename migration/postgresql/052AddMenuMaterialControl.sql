@@ -15,7 +15,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- 23/08/2013 03:32:37 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Control de Materiales (entrada / salida)',Description='Contiene todo el Proceso de Entrada de y/o Salida de Material',Updated=TO_TIMESTAMP('2013-08-23 15:32:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53600 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Control de Materiales (entrada / salida)',Description='Contiene todo el Proceso de Entrada de y/o Salida de Material',Updated=TO_TIMESTAMP('2013-08-23 15:32:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53600 AND AD_Language='es_VE'
 ;
 
 -- 23/08/2013 03:33:14 PM VET
@@ -105,7 +105,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- 23/08/2013 03:35:33 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Registro del Peso',Description='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 15:35:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53602 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Registro del Peso',Description='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 15:35:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53602 AND AD_Language='es_VE'
 ;
 
 -- 23/08/2013 03:35:36 PM VET
@@ -130,7 +130,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53600, SeqNo=3, Updated=CURRENT_TIMESTAMP WHE
 
 -- 23/08/2013 03:36:23 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Análisis de Calidad',Description='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 15:36:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53601 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Análisis de Calidad',Description='Análisis de Calidad',Updated=TO_TIMESTAMP('2013-08-23 15:36:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53601 AND AD_Language='es_VE'
 ;
 
 -- 23/08/2013 03:36:28 PM VET

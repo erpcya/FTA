@@ -10,7 +10,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Nov 12, 2013 11:19:08 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Orden de Carga',Description='Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:19:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53295 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Orden de Carga',Description='Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:19:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53295 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 11:19:17 AM VET
@@ -30,7 +30,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Nov 12, 2013 11:20:01 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:20:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53801 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:20:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53801 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 11:20:06 AM VET
@@ -395,7 +395,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Nov 12, 2013 11:22:59 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:22:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53667 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:22:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53667 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 11:23:08 AM VET
@@ -405,7 +405,7 @@ UPDATE AD_Table_Trl SET Name='Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 1
 
 -- Nov 12, 2013 11:23:22 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Orden de Carga',PrintName='Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:23:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56599 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Orden de Carga',PrintName='Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:23:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56599 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 11:23:26 AM VET
@@ -425,7 +425,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Nov 12, 2013 11:26:12 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Linea de Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:26:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53802 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Linea de Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:26:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53802 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 11:26:16 AM VET
@@ -435,7 +435,7 @@ UPDATE AD_Tab_Trl SET Name='Linea de Orden de Carga',Updated=TO_TIMESTAMP('2013-
 
 -- Nov 12, 2013 11:26:25 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Linea de Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:26:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53668 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Linea de Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:26:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53668 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 11:26:28 AM VET
@@ -445,7 +445,7 @@ UPDATE AD_Table_Trl SET Name='Linea de Orden de Carga',Updated=TO_TIMESTAMP('201
 
 -- Nov 12, 2013 11:27:05 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Linea de Orden de Carga',PrintName='Linea de Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:27:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56609 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Linea de Orden de Carga',PrintName='Linea de Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:27:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56609 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 11:27:11 AM VET
@@ -673,7 +673,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53684, SeqNo=1,Updated=TO_TIMESTAMP('2013-11-
 
 -- Nov 12, 2013 11:30:59 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Orden de Carga',Description='Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:30:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53686 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Orden de Carga',Description='Orden de Carga',Updated=TO_TIMESTAMP('2013-11-12 11:30:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53686 AND AD_Language='es_VE'
 ;
 
 -- Nov 12, 2013 11:31:07 AM VET

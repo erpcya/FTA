@@ -10,7 +10,7 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Sep 28, 2013 9:38:01 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Crédito a Productor',Description='Crédito a Productor',Help='Crédito a Productor Asignado',Updated=TO_TIMESTAMP('2013-09-28 09:38:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53775 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Crédito a Productor',Description='Crédito a Productor',Help='Crédito a Productor Asignado',Updated=TO_TIMESTAMP('2013-09-28 09:38:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53775 AND AD_Language='es_VE'
 ;
 
 -- Sep 28, 2013 9:38:16 AM VET

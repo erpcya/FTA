@@ -80,6 +80,6 @@ UPDATE AD_PrintFormatItem SET PrintName='Analysis Paid', Name='Analysis Paid' WH
 
 -- Oct 22, 2013 9:48:48 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Analisis Negociado',PrintName='Analisis Negociado',Updated=TO_TIMESTAMP('2013-10-22 21:48:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56537 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Analisis Negociado',PrintName='Analisis Negociado',Updated=TO_TIMESTAMP('2013-10-22 21:48:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56537 AND AD_Language='es_VE'
 ;
 

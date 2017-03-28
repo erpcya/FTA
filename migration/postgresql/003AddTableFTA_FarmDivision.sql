@@ -15,7 +15,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Jun 28, 2013 12:46:05 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Lote de Finca',Updated=TO_TIMESTAMP('2013-06-28 12:46:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53508 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Lote de Finca',Updated=TO_TIMESTAMP('2013-06-28 12:46:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53508 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 12:47:10 PM VET
@@ -133,7 +133,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 12:48:34 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Lote de Finca',PrintName='Lote de Finca',Updated=TO_TIMESTAMP('2013-06-28 12:48:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55969 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Lote de Finca',PrintName='Lote de Finca',Updated=TO_TIMESTAMP('2013-06-28 12:48:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55969 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 12:48:57 PM VET
@@ -204,7 +204,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 28, 2013 12:57:08 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Ciclo de Siembra',PrintName='Ciclo de Siembra',Updated=TO_TIMESTAMP('2013-06-28 12:57:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55970 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Ciclo de Siembra',PrintName='Ciclo de Siembra',Updated=TO_TIMESTAMP('2013-06-28 12:57:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=55970 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:00:01 PM VET
@@ -219,7 +219,7 @@ INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name
 
 -- Jun 28, 2013 1:00:11 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Reference_Trl SET Name='Ciclo de Siembra',Description='Ciclo de Siembra',Updated=TO_TIMESTAMP('2013-06-28 13:00:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53510 AND AD_Language='es_MX'
+UPDATE AD_Reference_Trl SET Name='Ciclo de Siembra',Description='Ciclo de Siembra',Updated=TO_TIMESTAMP('2013-06-28 13:00:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53510 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:00:44 PM VET
@@ -234,7 +234,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Jun 28, 2013 1:00:50 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Invierno',Updated=TO_TIMESTAMP('2013-06-28 13:00:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53982 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Invierno',Updated=TO_TIMESTAMP('2013-06-28 13:00:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53982 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:01:11 PM VET
@@ -249,7 +249,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Jun 28, 2013 1:01:16 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Otoño',Updated=TO_TIMESTAMP('2013-06-28 13:01:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53983 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Otoño',Updated=TO_TIMESTAMP('2013-06-28 13:01:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53983 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:01:34 PM VET
@@ -264,7 +264,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Jun 28, 2013 1:01:53 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Verano',Description='Verano',Updated=TO_TIMESTAMP('2013-06-28 13:01:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53984 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Verano',Description='Verano',Updated=TO_TIMESTAMP('2013-06-28 13:01:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53984 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:01:57 PM VET
@@ -289,7 +289,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Jun 28, 2013 1:03:20 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Primavera',Updated=TO_TIMESTAMP('2013-06-28 13:03:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53986 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Primavera',Updated=TO_TIMESTAMP('2013-06-28 13:03:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53986 AND AD_Language='es_VE'
 ;
 
 -- Jun 28, 2013 1:04:08 PM VET

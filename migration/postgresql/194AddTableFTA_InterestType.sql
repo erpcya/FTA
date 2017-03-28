@@ -12,7 +12,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 24, 2013 8:42:09 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Partidas y Financiamiento',PrintName='Partidas y Financiamiento',Updated=TO_TIMESTAMP('2013-10-24 08:42:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56546 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Partidas y Financiamiento',PrintName='Partidas y Financiamiento',Updated=TO_TIMESTAMP('2013-10-24 08:42:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56546 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 8:42:37 AM VET
@@ -42,7 +42,7 @@ INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_
 
 -- Oct 24, 2013 8:54:55 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Table_Trl SET Name='Tipo de Interes',Updated=TO_TIMESTAMP('2013-10-24 08:54:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53647 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Tipo de Interes',Updated=TO_TIMESTAMP('2013-10-24 08:54:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53647 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 8:55:15 AM VET
@@ -171,7 +171,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Oct 24, 2013 8:55:48 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de Interes',PrintName='Tipo de Interes',Updated=TO_TIMESTAMP('2013-10-24 08:55:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56547 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Interes',PrintName='Tipo de Interes',Updated=TO_TIMESTAMP('2013-10-24 08:55:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56547 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 8:56:10 AM VET

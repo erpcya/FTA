@@ -25,7 +25,7 @@ UPDATE AD_Process_Trl SET IsTranslated='N' WHERE AD_Process_ID=53455
 
 -- 11/09/2013 12:03:36 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Process_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-09-11 12:03:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53455 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Ticket de Entrada',Updated=TO_TIMESTAMP('2013-09-11 12:03:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53455 AND AD_Language='es_VE'
 ;
 
 -- 11/09/2013 12:03:58 PM VET

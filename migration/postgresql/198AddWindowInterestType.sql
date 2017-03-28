@@ -15,7 +15,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 
 -- Oct 24, 2013 9:34:25 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Window_Trl SET Name='Tipo de Interes',Description='Tipo de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:34:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53293 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Tipo de Interes',Description='Tipo de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:34:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53293 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:34:58 AM VET
@@ -104,7 +104,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 24, 2013 9:35:25 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Tipo de Interes',Description='Tipo de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:35:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53791 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Tipo de Interes',Description='Tipo de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:35:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53791 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:35:47 AM VET
@@ -242,7 +242,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 24, 2013 9:44:13 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Tasa de Interes',Description='Tasa de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:44:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53792 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Tasa de Interes',Description='Tasa de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:44:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53792 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:44:22 AM VET
@@ -337,7 +337,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Oct 24, 2013 9:54:10 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Tipo de Interes',Description='Tipo de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:54:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53668 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Tipo de Interes',Description='Tipo de Interes',Updated=TO_TIMESTAMP('2013-10-24 09:54:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53668 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2013 9:54:18 AM VET

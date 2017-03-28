@@ -10,7 +10,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 2, 2013 10:50:25 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Procesar Acta de Crédito',Updated=TO_TIMESTAMP('2013-10-02 10:50:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53479 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Acta de Crédito',Updated=TO_TIMESTAMP('2013-10-02 10:50:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53479 AND AD_Language='es_VE'
 ;
 
 -- Oct 2, 2013 10:50:43 AM VET
@@ -35,7 +35,7 @@ UPDATE AD_Process SET AD_Workflow_ID=50035,Updated=TO_TIMESTAMP('2013-10-02 10:5
 
 -- Oct 2, 2013 10:52:27 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Workflow_Trl SET Name='Proceso de Acta de Crédito',Description='Proceso de Acta de Crédito',Updated=TO_TIMESTAMP('2013-10-02 10:52:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50035 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Acta de Crédito',Description='Proceso de Acta de Crédito',Updated=TO_TIMESTAMP('2013-10-02 10:52:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50035 AND AD_Language='es_VE'
 ;
 
 -- Oct 2, 2013 10:53:07 AM VET
@@ -155,7 +155,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 2, 2013 11:41:24 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Productos Sugeridos',Description='Genera un Listado de Productos Sugeridos',Help='Se Pueden Seleccionar Varios Productos y Cantidades',Updated=TO_TIMESTAMP('2013-10-02 11:41:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53480 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Productos Sugeridos',Description='Genera un Listado de Productos Sugeridos',Help='Se Pueden Seleccionar Varios Productos y Cantidades',Updated=TO_TIMESTAMP('2013-10-02 11:41:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53480 AND AD_Language='es_VE'
 ;
 
 -- Oct 2, 2013 11:41:36 AM VET
@@ -175,7 +175,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 2, 2013 11:48:58 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Orden de Venta',Description='Genera Orden de Venta a Partir de los Productos Sugeridos',Help='Se Generan Ordenes de Venta a Partir de los Productos Sugeridos por el Vendedor',Updated=TO_TIMESTAMP('2013-10-02 11:48:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53481 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Orden de Venta',Description='Genera Orden de Venta a Partir de los Productos Sugeridos',Help='Se Generan Ordenes de Venta a Partir de los Productos Sugeridos por el Vendedor',Updated=TO_TIMESTAMP('2013-10-02 11:48:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53481 AND AD_Language='es_VE'
 ;
 
 -- Oct 2, 2013 11:50:20 AM VET

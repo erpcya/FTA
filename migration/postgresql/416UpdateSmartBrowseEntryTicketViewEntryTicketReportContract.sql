@@ -50,7 +50,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Mar 16, 2014 10:19:54 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Muestra Impresa',PrintName='Muestra Impresa',Updated=TO_TIMESTAMP('2014-03-16 10:19:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57086 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Muestra Impresa',PrintName='Muestra Impresa',Updated=TO_TIMESTAMP('2014-03-16 10:19:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57086 AND AD_Language='es_VE'
 ;
 
 -- Mar 16, 2014 10:20:00 AM VET

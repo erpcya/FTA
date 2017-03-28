@@ -455,7 +455,7 @@ UPDATE AD_Field SET IsSameLine='Y',Updated=TO_TIMESTAMP('2013-08-27 08:52:26','Y
 
 -- Aug 27, 2013 8:53:40 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 08:53:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53564 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 08:53:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53564 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 8:54:14 AM VET
@@ -910,7 +910,7 @@ UPDATE AD_Column SET IsMandatory='N',Updated=TO_TIMESTAMP('2013-08-27 09:17:11',
 
 -- Aug 27, 2013 9:17:51 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-27 09:17:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53733 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-27 09:17:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53733 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:18:27 AM VET
@@ -1100,7 +1100,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Aug 27, 2013 9:33:13 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Secado',Updated=TO_TIMESTAMP('2013-08-27 09:33:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54022 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Secado',Updated=TO_TIMESTAMP('2013-08-27 09:33:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54022 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:33:47 AM VET
@@ -1110,27 +1110,27 @@ UPDATE AD_Column SET AD_Reference_Value_ID=53532,Updated=TO_TIMESTAMP('2013-08-2
 
 -- Aug 27, 2013 9:34:48 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Estimación',Updated=TO_TIMESTAMP('2013-08-27 09:34:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54019 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Estimación',Updated=TO_TIMESTAMP('2013-08-27 09:34:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54019 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:35:00 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Peso de Entrada',Updated=TO_TIMESTAMP('2013-08-27 09:35:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54020 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Peso de Entrada',Updated=TO_TIMESTAMP('2013-08-27 09:35:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54020 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:35:11 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Liquidación',Updated=TO_TIMESTAMP('2013-08-27 09:35:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54018 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Liquidación',Updated=TO_TIMESTAMP('2013-08-27 09:35:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54018 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:35:28 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Ref_List_Trl SET Name='Peso de Sálida',Updated=TO_TIMESTAMP('2013-08-27 09:35:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54021 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Peso de Sálida',Updated=TO_TIMESTAMP('2013-08-27 09:35:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54021 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:39:28 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Rubro',Updated=TO_TIMESTAMP('2013-08-27 09:39:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53566 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Rubro',Updated=TO_TIMESTAMP('2013-08-27 09:39:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53566 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:39:43 AM VET
@@ -1185,42 +1185,42 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53569, SeqNo=6, Updated=CURRENT_TIMESTAMP WHE
 
 -- Aug 27, 2013 9:40:06 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Liquidación y Cruce de Cuentas',Description='Liquidación y Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-27 09:40:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53604 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Liquidación y Cruce de Cuentas',Description='Liquidación y Cruce de Cuentas',Updated=TO_TIMESTAMP('2013-08-27 09:40:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53604 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:40:17 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:40:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53605 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:40:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53605 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:40:42 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Liquidación del Productor',Description='Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:40:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53266 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Liquidación del Productor',Description='Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:40:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53266 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:40:52 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Liquidación del Productor',Description='Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:40:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53735 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Liquidación del Productor',Description='Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:40:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53735 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:41:02 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Detalle Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:41:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53736 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Detalle Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:41:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53736 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:41:28 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Liquidación del Productor',PrintName='Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:41:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56145 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Liquidación del Productor',PrintName='Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:41:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56145 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:42:07 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Detalle Liquidación del Productor',PrintName='Detalle Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:42:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56146 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Detalle Liquidación del Productor',PrintName='Detalle Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:42:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56146 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:42:19 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Detalle Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:42:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53565 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Detalle Liquidación del Productor',Updated=TO_TIMESTAMP('2013-08-27 09:42:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53565 AND AD_Language='es_VE'
 ;
 
 -- Aug 27, 2013 9:43:17 AM VET

@@ -70,12 +70,12 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- 23/10/2013 09:25:47 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Letra de Cambio (Giro)',Description='Generar Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-23 09:25:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53509 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Letra de Cambio (Giro)',Description='Generar Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-23 09:25:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53509 AND AD_Language='es_VE'
 ;
 
 -- 23/10/2013 09:25:59 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Help='Genera un Giro a partir del Monto y Dirección del Productor',Updated=TO_TIMESTAMP('2013-10-23 09:25:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53509 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Help='Genera un Giro a partir del Monto y Dirección del Productor',Updated=TO_TIMESTAMP('2013-10-23 09:25:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53509 AND AD_Language='es_VE'
 ;
 
 -- 23/10/2013 09:26:20 AM VET
@@ -180,7 +180,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53592, SeqNo=8, Updated=CURRENT_TIMESTAMP WHE
 
 -- 23/10/2013 09:31:25 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Generar Letra de Cambio (Giro)',Description='Generar Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-23 09:31:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53664 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Generar Letra de Cambio (Giro)',Description='Generar Letra de Cambio (Giro)',Updated=TO_TIMESTAMP('2013-10-23 09:31:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53664 AND AD_Language='es_VE'
 ;
 
 -- 23/10/2013 09:37:40 AM VET

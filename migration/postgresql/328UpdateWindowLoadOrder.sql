@@ -15,7 +15,7 @@ INSERT INTO AD_UserQuery (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_User_I
 
 -- Dec 23, 2013 9:42:41 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Message_Trl SET MsgText='Producto y Existencia por Almacén',Updated=TO_TIMESTAMP('2013-12-23 09:42:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53258 AND AD_Language='es_MX'
+UPDATE AD_Message_Trl SET MsgText='Producto y Existencia por Almacén',Updated=TO_TIMESTAMP('2013-12-23 09:42:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53258 AND AD_Language='es_VE'
 ;
 
 -- Dec 23, 2013 9:42:48 AM VET

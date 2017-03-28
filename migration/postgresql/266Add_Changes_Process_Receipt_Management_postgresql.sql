@@ -25,7 +25,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 31, 2013 9:13:07 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Días Fijo',PrintName='Días Fijo',Updated=TO_TIMESTAMP('2013-10-31 21:13:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56579 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Días Fijo',PrintName='Días Fijo',Updated=TO_TIMESTAMP('2013-10-31 21:13:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56579 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 9:13:19 PM VET
@@ -75,7 +75,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Oct 31, 2013 9:20:14 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Porcentaje Fijo',PrintName='Porcentaje Fijo',Updated=TO_TIMESTAMP('2013-10-31 21:20:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56575 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Porcentaje Fijo',PrintName='Porcentaje Fijo',Updated=TO_TIMESTAMP('2013-10-31 21:20:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56575 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 9:20:20 PM VET

@@ -155,12 +155,12 @@ UPDATE AD_Process SET Value='FTA_CategoryCalc Production',Updated=TO_TIMESTAMP('
 
 -- Jan 15, 2014 12:25:16 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Categoría Calculo Producción',Updated=TO_TIMESTAMP('2014-01-15 12:25:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53554 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Categoría Calculo Producción',Updated=TO_TIMESTAMP('2014-01-15 12:25:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53554 AND AD_Language='es_VE'
 ;
 
 -- Jan 15, 2014 12:25:33 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Calculo Categoría de Producción',Updated=TO_TIMESTAMP('2014-01-15 12:25:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53554 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Calculo Categoría de Producción',Updated=TO_TIMESTAMP('2014-01-15 12:25:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53554 AND AD_Language='es_VE'
 ;
 
 -- Jan 15, 2014 12:25:38 PM VET
@@ -205,7 +205,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Jan 15, 2014 2:37:50 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Imprimir Registro de Peso Supervisor',Updated=TO_TIMESTAMP('2014-01-15 14:37:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53555 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Imprimir Registro de Peso Supervisor',Updated=TO_TIMESTAMP('2014-01-15 14:37:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53555 AND AD_Language='es_VE'
 ;
 
 -- Jan 15, 2014 2:37:55 PM VET
@@ -245,7 +245,7 @@ UPDATE AD_Menu SET "action"='R', AD_Process_ID=53555, EntityType='ECA02',Updated
 
 -- Jan 15, 2014 2:40:15 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Imprimir Registro de Peso Supervisor',Updated=TO_TIMESTAMP('2014-01-15 14:40:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53746 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Imprimir Registro de Peso Supervisor',Updated=TO_TIMESTAMP('2014-01-15 14:40:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53746 AND AD_Language='es_VE'
 ;
 
 -- Jan 15, 2014 2:40:18 PM VET
@@ -305,7 +305,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Jan 15, 2014 3:02:51 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Imprimir Análisis de Cálidad Supervisor',Updated=TO_TIMESTAMP('2014-01-15 15:02:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53556 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Imprimir Análisis de Cálidad Supervisor',Updated=TO_TIMESTAMP('2014-01-15 15:02:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53556 AND AD_Language='es_VE'
 ;
 
 -- Jan 15, 2014 3:02:56 PM VET
@@ -330,7 +330,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Jan 15, 2014 3:03:36 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Imprimir Análisis de Cálidad Supervisor',Updated=TO_TIMESTAMP('2014-01-15 15:03:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53747 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Imprimir Análisis de Cálidad Supervisor',Updated=TO_TIMESTAMP('2014-01-15 15:03:36','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53747 AND AD_Language='es_VE'
 ;
 
 -- Jan 15, 2014 3:03:41 PM VET
@@ -365,7 +365,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Jan 15, 2014 3:14:41 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Imprimir Ticket de Entrada Supervisor',Updated=TO_TIMESTAMP('2014-01-15 15:14:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53557 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Imprimir Ticket de Entrada Supervisor',Updated=TO_TIMESTAMP('2014-01-15 15:14:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53557 AND AD_Language='es_VE'
 ;
 
 -- Jan 15, 2014 3:14:46 PM VET
@@ -430,7 +430,7 @@ UPDATE AD_Process SET AD_ReportView_ID=53062, IsReport='Y',Updated=TO_TIMESTAMP(
 
 -- Jan 15, 2014 3:19:26 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Producción de Rubro',Updated=TO_TIMESTAMP('2014-01-15 15:19:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53554 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Producción de Rubro',Updated=TO_TIMESTAMP('2014-01-15 15:19:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53554 AND AD_Language='es_VE'
 ;
 
 -- Jan 15, 2014 3:19:33 PM VET

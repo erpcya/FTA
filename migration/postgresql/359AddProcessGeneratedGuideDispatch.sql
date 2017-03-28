@@ -10,7 +10,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Jan 24, 2014 3:51:55 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Guías (Despacho)',Updated=TO_TIMESTAMP('2014-01-24 15:51:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53563 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Guías (Despacho)',Updated=TO_TIMESTAMP('2014-01-24 15:51:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53563 AND AD_Language='es_VE'
 ;
 
 -- Jan 24, 2014 3:52:00 PM VET
@@ -335,7 +335,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Jan 24, 2014 4:11:02 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Guías (Despacho)',Updated=TO_TIMESTAMP('2014-01-24 16:11:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53564 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Guías (Despacho)',Updated=TO_TIMESTAMP('2014-01-24 16:11:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53564 AND AD_Language='es_VE'
 ;
 
 -- Jan 24, 2014 4:11:04 PM VET

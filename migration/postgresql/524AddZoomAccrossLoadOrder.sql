@@ -10,7 +10,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 30, 2014 9:50:12 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Orden De Carga/Factura',Description='Orden De Carga/Factura',Updated=TO_TIMESTAMP('2014-10-30 09:50:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54508 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Orden De Carga/Factura',Description='Orden De Carga/Factura',Updated=TO_TIMESTAMP('2014-10-30 09:50:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54508 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2014 9:50:53 AM VET
@@ -58,7 +58,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 30, 2014 9:53:08 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Factura/Orden de Carga',Description='Factura/Orden de Carga',Updated=TO_TIMESTAMP('2014-10-30 09:53:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54509 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Factura/Orden de Carga',Description='Factura/Orden de Carga',Updated=TO_TIMESTAMP('2014-10-30 09:53:08','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54509 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2014 9:53:39 AM VET
@@ -123,7 +123,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 30, 2014 10:18:29 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Load Order/Shipment Receipt',Description='Load Order/Shipment Receipt',Updated=TO_TIMESTAMP('2014-10-30 10:18:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54510 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Load Order/Shipment Receipt',Description='Load Order/Shipment Receipt',Updated=TO_TIMESTAMP('2014-10-30 10:18:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54510 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2014 10:18:55 AM VET
@@ -138,7 +138,7 @@ UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=54510
 
 -- Oct 30, 2014 10:19:13 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Orden de Carga/Entrega-Recibo',Description='Orden de Carga/Entrega-Recibo',Updated=TO_TIMESTAMP('2014-10-30 10:19:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54510 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Orden de Carga/Entrega-Recibo',Description='Orden de Carga/Entrega-Recibo',Updated=TO_TIMESTAMP('2014-10-30 10:19:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54510 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2014 10:19:33 AM VET
@@ -153,7 +153,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 30, 2014 10:19:49 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Entrega-Recibo/Orden de Carga',Description='Entrega-Recibo/Orden de Carga',Updated=TO_TIMESTAMP('2014-10-30 10:19:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54511 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Entrega-Recibo/Orden de Carga',Description='Entrega-Recibo/Orden de Carga',Updated=TO_TIMESTAMP('2014-10-30 10:19:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54511 AND AD_Language='es_VE'
 ;
 
 -- Oct 30, 2014 10:20:32 AM VET

@@ -200,12 +200,12 @@ UPDATE AD_Process_Para SET IsActive='Y', SeqNo=1,Updated=TO_TIMESTAMP('2014-01-2
 
 -- Jan 24, 2014 2:11:59 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Guías',Description='Generar Guías',Updated=TO_TIMESTAMP('2014-01-24 14:11:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53562 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Guías',Description='Generar Guías',Updated=TO_TIMESTAMP('2014-01-24 14:11:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53562 AND AD_Language='es_VE'
 ;
 
 -- Jan 24, 2014 2:12:06 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Help='Genera las Guías de Movilización del Cultivo',Updated=TO_TIMESTAMP('2014-01-24 14:12:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53562 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Help='Genera las Guías de Movilización del Cultivo',Updated=TO_TIMESTAMP('2014-01-24 14:12:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53562 AND AD_Language='es_VE'
 ;
 
 -- Jan 24, 2014 2:12:12 PM VET

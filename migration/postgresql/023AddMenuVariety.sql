@@ -10,7 +10,7 @@ UPDATE AD_Window_Trl SET IsTranslated='N' WHERE AD_Window_ID=53249
 
 -- Jul 10, 2013 10:32:06 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Variedad',Updated=TO_TIMESTAMP('2013-07-10 10:32:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53249 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Variedad',Updated=TO_TIMESTAMP('2013-07-10 10:32:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53249 AND AD_Language='es_VE'
 ;
 
 -- Jul 10, 2013 10:32:24 AM VET
@@ -30,6 +30,6 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Jul 10, 2013 10:32:29 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Variedad',Updated=TO_TIMESTAMP('2013-07-10 10:32:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53566 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Variedad',Updated=TO_TIMESTAMP('2013-07-10 10:32:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53566 AND AD_Language='es_VE'
 ;
 

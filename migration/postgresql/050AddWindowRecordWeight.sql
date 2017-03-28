@@ -20,12 +20,12 @@ INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Na
 
 -- Aug 23, 2013 11:41:29 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 11:41:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53264 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 11:41:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53264 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 11:41:34 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 11:41:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53731 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 11:41:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53731 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 11:41:53 AM VET
@@ -295,7 +295,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Up
 
 -- Aug 23, 2013 11:43:14 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Menu_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 11:43:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53599 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Registro del Peso',Updated=TO_TIMESTAMP('2013-08-23 11:43:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53599 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 11:43:18 AM VET
@@ -505,7 +505,7 @@ INSERT INTO AD_FieldGroup_Trl (AD_Language,AD_FieldGroup_ID, Name, IsTranslated,
 
 -- Aug 23, 2013 11:48:58 AM VET
 -- SFAndroid Contribution
-UPDATE AD_FieldGroup_Trl SET Name='Peso',Updated=TO_TIMESTAMP('2013-08-23 11:48:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50029 AND AD_Language='es_MX'
+UPDATE AD_FieldGroup_Trl SET Name='Peso',Updated=TO_TIMESTAMP('2013-08-23 11:48:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50029 AND AD_Language='es_VE'
 ;
 
 -- Aug 23, 2013 11:49:12 AM VET

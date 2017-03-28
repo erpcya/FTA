@@ -180,7 +180,7 @@ UPDATE AD_Column SET MandatoryLogic=NULL,Updated=TO_TIMESTAMP('2013-12-10 19:58:
 
 -- Dec 10, 2013 8:01:53 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Movimiento de Salida de Material',Updated=TO_TIMESTAMP('2013-12-10 20:01:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54155 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Movimiento de Salida de Material',Updated=TO_TIMESTAMP('2013-12-10 20:01:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54155 AND AD_Language='es_VE'
 ;
 
 -- Dec 10, 2013 8:02:01 PM VET

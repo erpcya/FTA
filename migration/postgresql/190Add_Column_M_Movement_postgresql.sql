@@ -20,7 +20,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 23, 2013 10:43:25 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Cargo',Updated=TO_TIMESTAMP('2013-10-23 10:43:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54129 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Cargo',Updated=TO_TIMESTAMP('2013-10-23 10:43:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54129 AND AD_Language='es_VE'
 ;
 
 -- Oct 23, 2013 10:43:37 AM VET
@@ -35,7 +35,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 23, 2013 10:43:42 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Abono',Updated=TO_TIMESTAMP('2013-10-23 10:43:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54130 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Abono',Updated=TO_TIMESTAMP('2013-10-23 10:43:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54130 AND AD_Language='es_VE'
 ;
 
 -- Oct 23, 2013 10:43:58 AM VET

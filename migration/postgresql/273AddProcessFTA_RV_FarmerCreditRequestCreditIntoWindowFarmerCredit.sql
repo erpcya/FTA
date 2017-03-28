@@ -15,7 +15,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Nov 2, 2013 7:18:31 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Solicitud de Crédito',Updated=TO_TIMESTAMP('2013-11-02 19:18:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53526 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Solicitud de Crédito',Updated=TO_TIMESTAMP('2013-11-02 19:18:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53526 AND AD_Language='es_VE'
 ;
 
 -- Nov 2, 2013 7:18:35 PM VET

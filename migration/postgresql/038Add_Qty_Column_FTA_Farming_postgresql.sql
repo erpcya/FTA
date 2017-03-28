@@ -1,16 +1,16 @@
 -- 7/08/2013 10:31:11 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Window_Trl SET Description='Rubro o Tipo de Producto',Updated=TO_TIMESTAMP('2013-08-07 10:31:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53249 AND AD_Language='es_MX'
+UPDATE AD_Window_Trl SET Description='Rubro o Tipo de Producto',Updated=TO_TIMESTAMP('2013-08-07 10:31:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Window_ID=53249 AND AD_Language='es_VE'
 ;
 
 -- 7/08/2013 10:32:41 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Tab_Trl SET Description='Cultivo o Siembra',Updated=TO_TIMESTAMP('2013-08-07 10:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53668 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Description='Cultivo o Siembra',Updated=TO_TIMESTAMP('2013-08-07 10:32:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53668 AND AD_Language='es_VE'
 ;
 
 -- 7/08/2013 10:33:32 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='Rubro',PrintName='Rubro o Tipo',Updated=TO_TIMESTAMP('2013-08-07 10:33:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=52017 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Rubro',PrintName='Rubro o Tipo',Updated=TO_TIMESTAMP('2013-08-07 10:33:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=52017 AND AD_Language='es_VE'
 ;
 
 -- 7/08/2013 10:37:45 AM VET

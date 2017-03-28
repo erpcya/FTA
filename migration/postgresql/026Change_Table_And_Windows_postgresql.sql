@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jul 15, 2013 3:49:45 PM VET
 -- SFAndroid Contribution
-UPDATE AD_Element_Trl SET Name='UM Sugerida',PrintName='UM Sugerida',Updated=TO_TIMESTAMP('2013-07-15 15:49:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56033 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='UM Sugerida',PrintName='UM Sugerida',Updated=TO_TIMESTAMP('2013-07-15 15:49:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56033 AND AD_Language='es_VE'
 ;
 
 -- Jul 15, 2013 3:50:42 PM VET

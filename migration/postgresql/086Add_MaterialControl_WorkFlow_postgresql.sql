@@ -131,7 +131,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Sep 4, 2013 10:49:37 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Procesar Ticket de Entrada',Updated=TO_TIMESTAMP('2013-09-04 10:49:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53444 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Ticket de Entrada',Updated=TO_TIMESTAMP('2013-09-04 10:49:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53444 AND AD_Language='es_VE'
 ;
 
 -- Sep 4, 2013 10:50:46 AM VET
@@ -151,7 +151,7 @@ INSERT INTO AD_Workflow_Trl (AD_Language,AD_Workflow_ID, Description,Help,Name, 
 
 -- Sep 4, 2013 10:53:32 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Workflow_Trl SET Name='Proceso de Ticket de Entrada',Description='Proceso de Ticket de Entrada',Updated=TO_TIMESTAMP('2013-09-04 10:53:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50031 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Ticket de Entrada',Description='Proceso de Ticket de Entrada',Updated=TO_TIMESTAMP('2013-09-04 10:53:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50031 AND AD_Language='es_VE'
 ;
 
 -- Sep 4, 2013 10:53:51 AM VET
@@ -773,7 +773,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Chute Quality Analysis', Name='Chute Qu
 
 -- Sep 4, 2013 11:57:01 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Análisis de Calidad Tolva',PrintName='Análisis de Calidad Tolva',Updated=TO_TIMESTAMP('2013-09-04 11:57:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56134 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Análisis de Calidad Tolva',PrintName='Análisis de Calidad Tolva',Updated=TO_TIMESTAMP('2013-09-04 11:57:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56134 AND AD_Language='es_VE'
 ;
 
 -- Sep 4, 2013 11:59:35 AM VET
@@ -905,7 +905,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Sep 4, 2013 1:57:11 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Procesar Análisis de Calidad',Updated=TO_TIMESTAMP('2013-09-04 13:57:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53445 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Análisis de Calidad',Updated=TO_TIMESTAMP('2013-09-04 13:57:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53445 AND AD_Language='es_VE'
 ;
 
 -- Sep 4, 2013 1:57:37 PM VET
@@ -930,7 +930,7 @@ UPDATE AD_Process SET AD_Workflow_ID=50032,Updated=TO_TIMESTAMP('2013-09-04 13:5
 
 -- Sep 4, 2013 2:01:01 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Workflow_Trl SET Name='Proceso de Análisis de Calidad',Description='Proceso de Análisis de Calidad',Updated=TO_TIMESTAMP('2013-09-04 14:01:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50032 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Análisis de Calidad',Description='Proceso de Análisis de Calidad',Updated=TO_TIMESTAMP('2013-09-04 14:01:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50032 AND AD_Language='es_VE'
 ;
 
 -- Sep 4, 2013 2:01:30 PM VET
@@ -1035,7 +1035,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Sep 4, 2013 2:26:56 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Definición de Crédito',Updated=TO_TIMESTAMP('2013-09-04 14:26:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54033 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Definición de Crédito',Updated=TO_TIMESTAMP('2013-09-04 14:26:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54033 AND AD_Language='es_VE'
 ;
 
 -- Sep 4, 2013 2:27:31 PM VET
@@ -1353,7 +1353,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Sep 4, 2013 3:57:58 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Procesar Registro de Peso',Updated=TO_TIMESTAMP('2013-09-04 15:57:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53446 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Procesar Registro de Peso',Updated=TO_TIMESTAMP('2013-09-04 15:57:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53446 AND AD_Language='es_VE'
 ;
 
 -- Sep 4, 2013 3:58:12 PM VET
@@ -1373,7 +1373,7 @@ INSERT INTO AD_Workflow_Trl (AD_Language,AD_Workflow_ID, Description,Help,Name, 
 
 -- Sep 4, 2013 4:01:42 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Workflow_Trl SET Name='Proceso de Registro de Peso',Description='Proceso de Registro de Peso',Updated=TO_TIMESTAMP('2013-09-04 16:01:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50033 AND AD_Language='es_MX'
+UPDATE AD_Workflow_Trl SET Name='Proceso de Registro de Peso',Description='Proceso de Registro de Peso',Updated=TO_TIMESTAMP('2013-09-04 16:01:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Workflow_ID=50033 AND AD_Language='es_VE'
 ;
 
 -- Sep 4, 2013 4:01:55 PM VET

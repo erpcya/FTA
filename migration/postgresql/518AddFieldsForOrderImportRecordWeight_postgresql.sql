@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- 6/02/2014 07:43:31 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Nombre Tipo Doc. Orden de Carga',PrintName='Nombre Tipo Doc. Orden de Carga',Updated=TO_TIMESTAMP('2014-02-06 19:43:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57028 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Nombre Tipo Doc. Orden de Carga',PrintName='Nombre Tipo Doc. Orden de Carga',Updated=TO_TIMESTAMP('2014-02-06 19:43:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57028 AND AD_Language='es_VE'
 ;
 
 -- 6/02/2014 07:43:37 PM VET
@@ -30,7 +30,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- 6/02/2014 07:48:32 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Tipo de Documento Orden (Compra/Venta)',PrintName='Tipo de Documento Orden (Compra/Venta)',Updated=TO_TIMESTAMP('2014-02-06 19:48:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57029 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Tipo de Documento Orden (Compra/Venta)',PrintName='Tipo de Documento Orden (Compra/Venta)',Updated=TO_TIMESTAMP('2014-02-06 19:48:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57029 AND AD_Language='es_VE'
 ;
 
 -- 6/02/2014 07:48:39 PM VET
@@ -50,7 +50,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- 6/02/2014 07:50:55 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Nombre Tipo Doc. Orden (Compra/Venta)',PrintName='Nombre Tipo Doc. Orden (Compra/Venta)',Updated=TO_TIMESTAMP('2014-02-06 19:50:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57030 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Nombre Tipo Doc. Orden (Compra/Venta)',PrintName='Nombre Tipo Doc. Orden (Compra/Venta)',Updated=TO_TIMESTAMP('2014-02-06 19:50:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=57030 AND AD_Language='es_VE'
 ;
 
 -- 6/02/2014 07:51:03 PM VET
@@ -130,13 +130,13 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- 6/02/2014 07:55:20 PM VET
 -- Farming Technical Assistance
-ALTER TABLE I_RecordWeight ADD COLUMN Order_Doc_Type_ID NUMERIC(10) DEFAULT NULL 
+ALTER TABLE I_RecordWeight ADD COLUMN Order_Doc_Type_ID VARCHAR(60) DEFAULT NULL 
 ;
 
 -- 6/02/2014 07:55:29 PM VET
 -- Farming Technical Assistance
-INSERT INTO t_alter_column values('i_recordweight','Order_Doc_Type_Name','VARCHAR(60)',null,'NULL')
-;
+-- INSERT INTO t_alter_column values('i_recordweight','Order_Doc_Type_Name','VARCHAR(60)',null,'NULL')
+--;
 
 -- 6/02/2014 07:58:40 PM VET
 -- Farming Technical Assistance

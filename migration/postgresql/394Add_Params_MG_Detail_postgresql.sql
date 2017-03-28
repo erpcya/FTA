@@ -10,7 +10,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Feb 25, 2014 11:29:44 AM CET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Reportes',Updated=TO_TIMESTAMP('2014-02-25 11:29:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53754 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Reportes',Updated=TO_TIMESTAMP('2014-02-25 11:29:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53754 AND AD_Language='es_VE'
 ;
 
 -- Feb 25, 2014 11:29:48 AM CET

@@ -536,7 +536,7 @@ INSERT INTO AD_Browse_Trl (AD_Language,AD_Browse_ID, Description,Help,Name, IsTr
 
 -- Oct 24, 2014 2:45:18 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Browse_Trl SET Name='Generar Factura desde Orden de Carga',Updated=TO_TIMESTAMP('2014-10-24 14:45:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50041 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Generar Factura desde Orden de Carga',Updated=TO_TIMESTAMP('2014-10-24 14:45:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50041 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2014 2:45:26 PM VET
@@ -1854,7 +1854,7 @@ INSERT INTO AD_Process_Trl (AD_Language,AD_Process_ID, Description,Help,Name, Is
 
 -- Oct 24, 2014 3:47:23 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Generar Factura desde Orden de Carga',Updated=TO_TIMESTAMP('2014-10-24 15:47:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53709 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Factura desde Orden de Carga',Updated=TO_TIMESTAMP('2014-10-24 15:47:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53709 AND AD_Language='es_VE'
 ;
 
 -- Oct 24, 2014 3:47:51 PM VET

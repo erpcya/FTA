@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jan 10, 2014 11:35:18 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Imprimir Documento',PrintName='Imprimir Documento',Updated=TO_TIMESTAMP('2014-01-10 11:35:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56977 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Imprimir Documento',PrintName='Imprimir Documento',Updated=TO_TIMESTAMP('2014-01-10 11:35:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56977 AND AD_Language='es_VE'
 ;
 
 -- Jan 10, 2014 11:35:23 AM VET
@@ -165,7 +165,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jan 10, 2014 12:13:32 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Dueño',PrintName='Dueño',Updated=TO_TIMESTAMP('2014-01-10 12:13:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56978 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Dueño',PrintName='Dueño',Updated=TO_TIMESTAMP('2014-01-10 12:13:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56978 AND AD_Language='es_VE'
 ;
 
 -- Jan 10, 2014 12:13:38 PM VET

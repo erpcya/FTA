@@ -30,7 +30,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53678
 
 -- Oct 31, 2013 8:10:51 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Listado Liquidaciones',Updated=TO_TIMESTAMP('2013-10-31 20:10:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53522 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Listado Liquidaciones',Updated=TO_TIMESTAMP('2013-10-31 20:10:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53522 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 8:10:54 PM VET
@@ -40,7 +40,7 @@ UPDATE AD_Process_Trl SET Name='Listado Liquidaciones',Updated=TO_TIMESTAMP('201
 
 -- Oct 31, 2013 8:11:04 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Listado Liquidaciones',Updated=TO_TIMESTAMP('2013-10-31 20:11:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53678 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Listado Liquidaciones',Updated=TO_TIMESTAMP('2013-10-31 20:11:04','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53678 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 8:11:06 PM VET
@@ -165,7 +165,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Oct 31, 2013 8:15:49 PM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle Liquidaciones',Updated=TO_TIMESTAMP('2013-10-31 20:15:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53524 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle Liquidaciones',Updated=TO_TIMESTAMP('2013-10-31 20:15:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53524 AND AD_Language='es_VE'
 ;
 
 -- Oct 31, 2013 8:15:53 PM VET

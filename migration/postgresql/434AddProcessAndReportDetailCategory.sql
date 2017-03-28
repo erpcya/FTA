@@ -20,7 +20,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Mar 23, 2014 11:32:59 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Detalle de Partidas',Updated=TO_TIMESTAMP('2014-03-23 11:32:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53804 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Detalle de Partidas',Updated=TO_TIMESTAMP('2014-03-23 11:32:59','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53804 AND AD_Language='es_VE'
 ;
 
 -- Mar 23, 2014 11:34:26 AM VET
@@ -50,7 +50,7 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Mar 23, 2014 11:36:23 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle de Partida de Financiamiento',Updated=TO_TIMESTAMP('2014-03-23 11:36:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53613 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle de Partida de Financiamiento',Updated=TO_TIMESTAMP('2014-03-23 11:36:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53613 AND AD_Language='es_VE'
 ;
 
 -- Mar 23, 2014 11:36:27 AM VET
@@ -170,7 +170,7 @@ UPDATE AD_TreeNodeMM SET Parent_ID=53681, SeqNo=7,Updated=TO_TIMESTAMP('2014-03-
 
 -- Mar 23, 2014 11:40:26 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Detalle de Partidas',Updated=TO_TIMESTAMP('2014-03-23 11:40:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53613 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Detalle de Partidas',Updated=TO_TIMESTAMP('2014-03-23 11:40:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53613 AND AD_Language='es_VE'
 ;
 
 -- Mar 23, 2014 11:40:29 AM VET

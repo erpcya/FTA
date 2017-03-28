@@ -185,7 +185,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Sep 12, 2013 10:06:19 AM VET
 -- SFAndroid Contribution
-UPDATE AD_Table_Trl SET Name='Reistros de Pesos por Liquidar',Updated=TO_TIMESTAMP('2013-09-12 10:06:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53586 AND AD_Language='es_MX'
+UPDATE AD_Table_Trl SET Name='Reistros de Pesos por Liquidar',Updated=TO_TIMESTAMP('2013-09-12 10:06:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Table_ID=53586 AND AD_Language='es_VE'
 ;
 
 -- Sep 12, 2013 10:09:34 AM VET

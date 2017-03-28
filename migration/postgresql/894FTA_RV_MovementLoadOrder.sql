@@ -43,10 +43,3 @@ LEFT JOIN M_Movement m ON (ml.M_Movement_ID = m.M_Movement_ID)
 
 
 ;
-SELECT *
-FROM FTA_RV_MovementLoadOrder MLO
-WHERE 
-	MLO.DocStatus = 'CO' 
-	AND MLO.M_MovementLine_ID IS NULL 
-	AND MLO.OperationType = 'MOM' 
-	AND EXISTS (SELECT 1 FROM FTA_WeightScale WHERE FTA_WeightScale.AD_Org_ID = MLO.AD_Org_ID  AND FTA_WeightScale.IsActive = 'Y'	)

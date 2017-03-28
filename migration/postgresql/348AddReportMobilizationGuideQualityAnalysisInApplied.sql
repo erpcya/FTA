@@ -105,12 +105,12 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 
 -- Jan 17, 2014 9:00:05 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Name='Guía Movilización (Pendiente por Recibir)',Updated=TO_TIMESTAMP('2014-01-17 09:00:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53558 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Guía Movilización (Pendiente por Recibir)',Updated=TO_TIMESTAMP('2014-01-17 09:00:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53558 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 9:00:15 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Process_Trl SET Description='Guía de Movilización con Análisis de Calidad no aplicado',Updated=TO_TIMESTAMP('2014-01-17 09:00:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53558 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Description='Guía de Movilización con Análisis de Calidad no aplicado',Updated=TO_TIMESTAMP('2014-01-17 09:00:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53558 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 9:00:22 AM VET
@@ -140,7 +140,7 @@ INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,I
 
 -- Jan 17, 2014 9:01:02 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Name='Guía Movilización (Pendiente por Recibir)',Updated=TO_TIMESTAMP('2014-01-17 09:01:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53750 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Name='Guía Movilización (Pendiente por Recibir)',Updated=TO_TIMESTAMP('2014-01-17 09:01:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53750 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 9:01:06 AM VET
@@ -150,7 +150,7 @@ UPDATE AD_Menu_Trl SET Name='Guía Movilización (Pendiente por Recibir)',Update
 
 -- Jan 17, 2014 9:01:16 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Menu_Trl SET Description='Guía de Movilización con Análisis de Calidad no aplicado',Updated=TO_TIMESTAMP('2014-01-17 09:01:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53750 AND AD_Language='es_MX'
+UPDATE AD_Menu_Trl SET Description='Guía de Movilización con Análisis de Calidad no aplicado',Updated=TO_TIMESTAMP('2014-01-17 09:01:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Menu_ID=53750 AND AD_Language='es_VE'
 ;
 
 -- Jan 17, 2014 9:01:20 AM VET

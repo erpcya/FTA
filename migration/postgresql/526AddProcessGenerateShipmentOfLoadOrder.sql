@@ -673,7 +673,7 @@ UPDATE AD_Browse_Field SET IsIdentifier='Y',Updated=TO_TIMESTAMP('2014-11-07 08:
 
 -- Nov 7, 2014 8:27:06 AM VET
 -- FTA
-UPDATE AD_Browse_Trl SET Name='Generar Entrega desde Orden de Carga',Updated=TO_TIMESTAMP('2014-11-07 08:27:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50043 AND AD_Language='es_MX'
+UPDATE AD_Browse_Trl SET Name='Generar Entrega desde Orden de Carga',Updated=TO_TIMESTAMP('2014-11-07 08:27:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Browse_ID=50043 AND AD_Language='es_VE'
 ;
 
 -- Nov 7, 2014 8:27:46 AM VET
@@ -753,7 +753,7 @@ INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,C
 
 -- Nov 7, 2014 8:41:20 AM VET
 -- FTA
-UPDATE AD_Process_Trl SET Name='Generar Entrega desde Orden de Carga',Updated=TO_TIMESTAMP('2014-11-07 08:41:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53713 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET Name='Generar Entrega desde Orden de Carga',Updated=TO_TIMESTAMP('2014-11-07 08:41:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53713 AND AD_Language='es_VE'
 ;
 
 -- Nov 7, 2014 8:41:43 AM VET

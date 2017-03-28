@@ -10,7 +10,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 28, 2013 9:22:55 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Peso de Importación',PrintName='Peso de Importación',Description='Peso de Importación del Documento',Updated=TO_TIMESTAMP('2013-10-28 09:22:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56561 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Peso de Importación',PrintName='Peso de Importación',Description='Peso de Importación del Documento',Updated=TO_TIMESTAMP('2013-10-28 09:22:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56561 AND AD_Language='es_VE'
 ;
 
 -- Oct 28, 2013 9:23:07 AM VET
@@ -40,7 +40,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Oct 28, 2013 9:28:24 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Element_Trl SET Name='Peso a Seleccionar',PrintName='Peso a Seleccionar',Description='Peso a Seleccionar',Updated=TO_TIMESTAMP('2013-10-28 09:28:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56562 AND AD_Language='es_MX'
+UPDATE AD_Element_Trl SET Name='Peso a Seleccionar',PrintName='Peso a Seleccionar',Description='Peso a Seleccionar',Updated=TO_TIMESTAMP('2013-10-28 09:28:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=56562 AND AD_Language='es_VE'
 ;
 
 -- Oct 28, 2013 9:28:31 AM VET
@@ -100,7 +100,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 28, 2013 9:33:31 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Peso a Pagar',Updated=TO_TIMESTAMP('2013-10-28 09:33:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54136 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Peso a Pagar',Updated=TO_TIMESTAMP('2013-10-28 09:33:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54136 AND AD_Language='es_VE'
 ;
 
 -- Oct 28, 2013 9:33:36 AM VET
@@ -120,7 +120,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Oct 28, 2013 9:34:47 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Ref_List_Trl SET Name='Peso de Importación',Updated=TO_TIMESTAMP('2013-10-28 09:34:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54137 AND AD_Language='es_MX'
+UPDATE AD_Ref_List_Trl SET Name='Peso de Importación',Updated=TO_TIMESTAMP('2013-10-28 09:34:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=54137 AND AD_Language='es_VE'
 ;
 
 -- Oct 28, 2013 9:34:55 AM VET
@@ -255,7 +255,7 @@ INSERT INTO AD_FieldGroup_Trl (AD_Language,AD_FieldGroup_ID, Name, IsTranslated,
 
 -- Oct 28, 2013 9:40:55 AM VET
 -- Farming Technical Assistance
-UPDATE AD_FieldGroup_Trl SET Name='Liquidación',Updated=TO_TIMESTAMP('2013-10-28 09:40:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50039 AND AD_Language='es_MX'
+UPDATE AD_FieldGroup_Trl SET Name='Liquidación',Updated=TO_TIMESTAMP('2013-10-28 09:40:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_FieldGroup_ID=50039 AND AD_Language='es_VE'
 ;
 
 -- Oct 28, 2013 9:41:01 AM VET
@@ -308,7 +308,7 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=53581
 
 -- Oct 28, 2013 11:28:28 AM VET
 -- Farming Technical Assistance
-UPDATE AD_Reference_Trl SET Name='FTA_InterestType Reference',Updated=TO_TIMESTAMP('2013-10-28 11:28:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53581 AND AD_Language='es_MX'
+UPDATE AD_Reference_Trl SET Name='FTA_InterestType Reference',Updated=TO_TIMESTAMP('2013-10-28 11:28:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53581 AND AD_Language='es_VE'
 ;
 
 -- Oct 28, 2013 11:37:42 AM VET

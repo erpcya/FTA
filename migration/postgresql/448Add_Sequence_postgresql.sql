@@ -25,7 +25,7 @@ UPDATE AD_Tab SET TabLevel=1,Updated=TO_TIMESTAMP('2014-04-09 11:38:17','YYYY-MM
 
 -- Apr 9, 2014 11:38:25 AM CEST
 -- Farming Technical Assistance
-UPDATE AD_Tab_Trl SET Name='Secuencia',Updated=TO_TIMESTAMP('2014-04-09 11:38:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53945 AND AD_Language='es_MX'
+UPDATE AD_Tab_Trl SET Name='Secuencia',Updated=TO_TIMESTAMP('2014-04-09 11:38:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53945 AND AD_Language='es_VE'
 ;
 
 -- Apr 9, 2014 11:38:28 AM CEST
