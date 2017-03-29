@@ -85,7 +85,7 @@ public class CategoryProductionReverse extends SvrProcess {
 		m_Reversal_Production.setName(Msg.parseTranslation(getCtx(), "@M_Production_ID@: " + p_MovementDate));
 		m_Reversal_Production.setDescription("--> " + m_Current_Production.getName());
 		m_Reversal_Production.setMovementDate(p_MovementDate);
-		m_Reversal_Production.setIsCreated(true);
+		m_Reversal_Production.setIsCreated("Y");
 		m_Reversal_Production.set_ValueOfColumn("IsReversal", "Y");
 		m_Reversal_Production.set_ValueOfColumn("Reversal_ID", m_Current_Production.getM_Production_ID());
 		m_Reversal_Production.setAD_Org_ID(m_Current_Production.getAD_Org_ID());

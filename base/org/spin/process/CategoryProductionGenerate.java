@@ -389,7 +389,7 @@ public class CategoryProductionGenerate extends SvrProcess {
 				m_Current_Production = new X_M_Production(getCtx(), 0, get_TrxName());
 				m_Current_Production.setName(Msg.parseTranslation(getCtx(), "@M_Production_ID@: " + p_MovementDate));
 				m_Current_Production.setMovementDate(p_MovementDate);
-				m_Current_Production.setIsCreated(true);
+				m_Current_Production.setIsCreated("Y");
 				//	Set optional values
 				if(p_C_Project_ID != 0)
 					m_Current_Production.setC_Project_ID(p_C_Project_ID);
