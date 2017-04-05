@@ -23,7 +23,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.eevolution.form.BrowserCalloutEngine;
+import org.eevolution.form.BrowserCallOutEngine;
 import org.eevolution.form.BrowserRows;
 
 /**
@@ -31,7 +31,7 @@ import org.eevolution.form.BrowserRows;
  * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a>
  *
  */
-public class BrowseCalloutRecordWeight extends BrowserCalloutEngine {
+public class BrowseCalloutRecordWeight extends BrowserCallOutEngine {
 
 	/**
 	 * Calculate Paid Weight
@@ -54,9 +54,9 @@ public class BrowseCalloutRecordWeight extends BrowserCalloutEngine {
 		
 		BigDecimal paidWeight=Env.ZERO;
 		//get Category Calc
-		Object fieldCategoryCalc=mRow.getValueofColumn("FTA_CategoryCalc_ID",current_Row);
-		Object fieldNetWeight=mRow.getValueofColumn("NetWeight",current_Row);
-		Object fieldInDispute=mRow.getValueofColumn("IsInDispute",current_Row);
+		Object fieldCategoryCalc=mRow.getValueOfColumn(current_Row, "FTA_CategoryCalc_ID");
+		Object fieldNetWeight=mRow.getValueOfColumn(current_Row, "NetWeight");
+		Object fieldInDispute=mRow.getValueOfColumn(current_Row, "IsInDispute");
 		
 		
 		if(fieldCategoryCalc!=null && fieldInDispute!=null){
@@ -76,8 +76,8 @@ public class BrowseCalloutRecordWeight extends BrowserCalloutEngine {
 				}
 			}
 		}
-		
-		mRow.setValueofColumn("PayWeight", (paidWeight==null?Env.ZERO:paidWeight), current_Row);
+		mField.setValue((paidWeight==null?Env.ZERO:paidWeight), true);
+		mRow.setValueOfColumn(current_Row, "PayWeight", mField);
 		
 		return "";
 	}

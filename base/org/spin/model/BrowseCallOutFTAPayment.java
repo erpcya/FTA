@@ -23,7 +23,7 @@ import java.util.Properties;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.GridField;
 import org.compiere.util.Env;
-import org.eevolution.form.BrowserCalloutEngine;
+import org.eevolution.form.BrowserCallOutEngine;
 import org.eevolution.form.BrowserRows;
 
 /**
@@ -31,7 +31,7 @@ import org.eevolution.form.BrowserRows;
  * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a>
  *
  */
-public class BrowseCallOutFTAPayment extends BrowserCalloutEngine{
+public class BrowseCallOutFTAPayment extends BrowserCallOutEngine {
 	
 	/**
 	 * Validation Null Values
@@ -51,10 +51,11 @@ public class BrowseCallOutFTAPayment extends BrowserCalloutEngine{
 		if (value==oldValue)
 			return "";
 		if (value ==null){
-			mRow.setValueofColumn("Amt",Env.ZERO , current_Row);
+			mField.setValue(Env.ZERO, true);
+			mRow.setValueOfColumn(current_Row, "Amt", mField);
 			throw new AdempiereException("@Amt@ = @Null@");
 		}
-		Object fieldAvailableAmt=mRow.getValueofColumn("AvailableAmt",current_Row);
+		Object fieldAvailableAmt=mRow.getValueOfColumn(current_Row, "AvailableAmt");
 		BigDecimal m_Value = (BigDecimal) value;
 		
 		if(fieldAvailableAmt!=null){
@@ -65,7 +66,8 @@ public class BrowseCallOutFTAPayment extends BrowserCalloutEngine{
 				BigDecimal m_AvailableAmt = (BigDecimal)gFieldAvaiableAmt.getValue();
 				
 				if (m_Value.compareTo(m_AvailableAmt)==1){
-					mRow.setValueofColumn("PayAmt",m_AvailableAmt, current_Row);
+					mField.setValue(m_AvailableAmt, true);
+					mRow.setValueOfColumn(current_Row, "PayAmt", mField);
 					throw new AdempiereException("@PayAmt@ > @AvailableAmt@ ");
 				}
 					

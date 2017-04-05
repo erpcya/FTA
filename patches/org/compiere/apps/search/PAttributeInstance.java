@@ -17,6 +17,8 @@
 package org.compiere.apps.search;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
@@ -24,9 +26,12 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -50,6 +55,9 @@ import org.compiere.util.Msg;
  *
  *  @author     Jorg Janke
  *  @version    $Id: PAttributeInstance.java,v 1.3 2006/07/30 00:51:27 jjanke Exp $
+ *  
+ *  @author		Michael McKay
+ *  				<li>release/380 clean up size code
  */
 public class PAttributeInstance extends CDialog 
 	implements ListSelectionListener
@@ -71,7 +79,7 @@ public class PAttributeInstance extends CDialog
 	public PAttributeInstance(JFrame parent, String title,
 		int M_Warehouse_ID, int M_Locator_ID, int M_Product_ID, int C_BPartner_ID)
 	{
-		super (parent, Msg.getMsg(Env.getCtx(), "PAttributeInstance") + title, true);
+		super (parent, Msg.getMsg(Env.getCtx(), "PAttributeInstance") + ": " + title, true);
 		init (M_Warehouse_ID, M_Locator_ID, M_Product_ID, C_BPartner_ID);
 		AEnv.showCenterWindow(parent, this);
 	}
@@ -88,7 +96,7 @@ public class PAttributeInstance extends CDialog
 	public PAttributeInstance(JDialog parent, String title,
 		int M_Warehouse_ID, int M_Locator_ID, int M_Product_ID, int C_BPartner_ID)
 	{
-		super (parent, Msg.getMsg(Env.getCtx(), "PAttributeInstance") + title, true);
+		super (parent, Msg.getMsg(Env.getCtx(), "PAttributeInstance") + ": " + title, true);
 		init (M_Warehouse_ID, M_Locator_ID, M_Product_ID, C_BPartner_ID);
 		AEnv.showCenterWindow(parent, this);
 	}
@@ -137,9 +145,17 @@ public class PAttributeInstance extends CDialog
 	private int					m_M_AttributeSetInstance_ID = -1;
 	private String				m_M_AttributeSetInstanceName = null;
 	private String				m_sql;
+	private boolean 			m_wasCancelled;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(PAttributeInstance.class);
 
+	/** Window Width                */
+	Toolkit toolkit = Toolkit.getDefaultToolkit();
+	Dimension screensize = toolkit.getScreenSize();
+
+	protected final int        SCREEN_WIDTH = screensize.width > 1500 ? 1500 : screensize.width - 100;
+	protected final int        SCREEN_HEIGHT = screensize.height > 600 ? 250 : 105;
+	
 	/**
 	 * 	Static Init
 	 * 	@throws Exception
@@ -200,8 +216,8 @@ public class PAttributeInstance extends CDialog
 	private static String s_sqlWhereWithoutWarehouse = " p.M_Product_ID=?";
 	private static String s_sqlWhereSameWarehouse = " AND (l.M_Warehouse_ID=? OR 0=?)";
 
-	private String	m_sqlNonZero = " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
-	private String	m_sqlMinLife = "";
+	private static String	s_sqlNonZero = " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
+	private static String	s_sqlMinLife = "";
 
 	/**
 	 * 	Dynamic Init
@@ -246,17 +262,17 @@ public class PAttributeInstance extends CDialog
 			}
 			if (ShelfLifeMinPct > 0)
 			{
-				m_sqlMinLife = " AND COALESCE(TRUNC(((daysbetween(asi.GuaranteeDate, SYSDATE))/p.GuaranteeDays)*100),0)>=" + ShelfLifeMinPct;
+				s_sqlMinLife = " AND COALESCE(TRUNC(((daysbetween(asi.GuaranteeDate, SYSDATE))/p.GuaranteeDays)*100),0)>=" + ShelfLifeMinPct;
 				log.config( "PAttributeInstance.dynInit - ShelfLifeMinPct=" + ShelfLifeMinPct);
 			}
 			if (ShelfLifeMinDays > 0)
 			{
-				m_sqlMinLife += " AND COALESCE((daysbetween(asi.GuaranteeDate, SYSDATE)),0)>=" + ShelfLifeMinDays;
+				s_sqlMinLife += " AND COALESCE((daysbetween(asi.GuaranteeDate, SYSDATE)),0)>=" + ShelfLifeMinDays;
 				log.config( "PAttributeInstance.dynInit - ShelfLifeMinDays=" + ShelfLifeMinDays);
 			}
 		}	//	BPartner != 0
 
-		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, s_sqlWhereWithoutWarehouse, false, "asi")
+		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, s_sqlWhereWithoutWarehouse + s_sqlNonZero, false, "asi")
 				+ " ORDER BY asi.GuaranteeDate, s.QtyOnHand";	//	oldest, smallest first
 		//
 		m_table.setRowSelectionAllowed(true);
@@ -265,6 +281,11 @@ public class PAttributeInstance extends CDialog
 		m_table.getSelectionModel().addListSelectionListener(this);
 		//
 		refresh();
+
+		//  The minitable class overrides the Enter key if multi-selection is false
+		m_table.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "doDispose");
+		m_table.getActionMap().put("doDispose", doDispose);
+
 	}
 
 	/**
@@ -277,9 +298,9 @@ public class PAttributeInstance extends CDialog
 		if (!showAll.isSelected())
 		{
 			sql = m_sql.substring(0, pos) 
-				+ m_sqlNonZero + s_sqlWhereSameWarehouse;
-			if (m_sqlMinLife.length() > 0)
-				sql += m_sqlMinLife;
+				+ s_sqlWhereSameWarehouse;
+			if (s_sqlMinLife.length() > 0)
+				sql += s_sqlMinLife;
 			sql += m_sql.substring(pos);
 		}
 		//	Yamel Senih 2014-02-08, 14:49
@@ -301,7 +322,6 @@ public class PAttributeInstance extends CDialog
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
-			//pstmt.setInt(2, m_M_Product_ID);
 			if ( !showAll.isSelected() ) {
 				pstmt.setInt(2, m_M_Warehouse_ID);
 				pstmt.setInt(3, m_M_Warehouse_ID);
@@ -322,18 +342,36 @@ public class PAttributeInstance extends CDialog
 	}
 
 	/**
+	 *  Close the window
+	 */
+    private Action doDispose = new AbstractAction() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 8570740756932755958L;
+
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+        }
+    };
+    
+	/**
 	 * 	Action Listener
 	 *	@param e event 
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getActionCommand().equals(ConfirmPanel.A_OK))
+		{
 			dispose();
+			m_wasCancelled = false; 
+		}
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 		{
 			dispose();
 			m_M_AttributeSetInstance_ID = -1;
 			m_M_AttributeSetInstanceName = null;
+			m_wasCancelled = true; 
 		}
 		else if (e.getSource() == showAll)
 		{
@@ -349,22 +387,11 @@ public class PAttributeInstance extends CDialog
 	 */
 	public void valueChanged (ListSelectionEvent e)
 	{
-		if (e.getValueIsAdjusting())
-			return;
-		enableButtons();
-	}
-
-	/**
-	 * 	Enable/Set Buttons and set ID
-	 */
-	private void enableButtons()
-	{
 		m_M_AttributeSetInstance_ID = -1;
 		m_M_AttributeSetInstanceName = null;
 		m_M_Locator_ID = 0;
 		int row = m_table.getSelectedRow();
-		boolean enabled = row != -1;
-		if (enabled)
+		if (row > -1)
 		{
 			Integer ID = m_table.getSelectedRowKey();
 			if (ID != null)
@@ -380,10 +407,21 @@ public class PAttributeInstance extends CDialog
 				}
 			}
 		}
-		confirmPanel.getOKButton().setEnabled(enabled);
 		log.fine("M_AttributeSetInstance_ID=" + m_M_AttributeSetInstance_ID 
 			+ " - " + m_M_AttributeSetInstanceName
 			+ "; M_Locator_ID=" + m_M_Locator_ID);
+
+		enableButtons();
+	}
+
+	/**
+	 * 	Enable/Set Buttons and set ID
+	 */
+	private void enableButtons()
+	{
+		int row = m_table.getSelectedRow();
+		boolean enabled = row > -1;
+		confirmPanel.getOKButton().setEnabled(enabled);
 	}
 
 	/**
@@ -393,9 +431,8 @@ public class PAttributeInstance extends CDialog
 	public void mouseClicked(MouseEvent e)
 	{
 		//  Double click with selected row => exit
-		if (e.getClickCount() > 1 && m_table.getSelectedRow() != -1)
+		if (e.getClickCount() > 1 && m_table.getSelectedRow() > -1)
 		{
-			enableButtons();
 			dispose();
 		}
 	}
@@ -426,6 +463,15 @@ public class PAttributeInstance extends CDialog
 	public int getM_Locator_ID()
 	{
 		return m_M_Locator_ID;
+	}
+
+	/**
+	 * 	Was Cancelled?
+	 *	@return true if cancelled
+	 */
+	public boolean wasCancelled()
+	{
+		return m_wasCancelled;
 	}
 
 }

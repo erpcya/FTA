@@ -24,7 +24,7 @@ import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.eevolution.form.BrowserCalloutEngine;
+import org.eevolution.form.BrowserCallOutEngine;
 import org.eevolution.form.BrowserRows;
 
 /**
@@ -32,7 +32,7 @@ import org.eevolution.form.BrowserRows;
  * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a>
  *
  */
-public class BrowseCallOutCreditAct extends BrowserCalloutEngine{
+public class BrowseCallOutCreditAct extends BrowserCallOutEngine{
 
 	/**
 	 * Calculate Approved Amt For Credit
@@ -59,8 +59,8 @@ public class BrowseCallOutCreditAct extends BrowserCalloutEngine{
 		BigDecimal m_Qty = Env.ZERO;
 		BigDecimal m_Amount = Env.ZERO;
 		BigDecimal m_QtyApproved = (BigDecimal) value;
-		Object fieldFarmerCredit=mRow.getValueofColumn("FTA_FarmerCredit_ID",current_Row);
-		Object fieldQty=mRow.getValueofColumn("Qty",current_Row);
+		Object fieldFarmerCredit=mRow.getValueOfColumn(current_Row, "FTA_FarmerCredit_ID");
+		Object fieldQty=mRow.getValueOfColumn(current_Row, "Qty");
 		
 		if(fieldFarmerCredit!=null){
 			GridField gFieldFC = (GridField)fieldFarmerCredit;
@@ -75,7 +75,8 @@ public class BrowseCallOutCreditAct extends BrowserCalloutEngine{
 				
 				if (fc.getFTA_FarmerCredit_ID()!=0){
 					if (fc.getC_DocType().getDocBaseType().equals("FFL"))
-						mRow.setValueofColumn("ApprovedQty",Env.ZERO, current_Row);
+						//mRow.setValueOfColumn(current_Row, "ApprovedQty",Env.ZERO);
+						mRow.setValueOfColumn(current_Row, "ApprovedQty",mField);
 					else{
 								
 						MFTACreditDefinition cd = new MFTACreditDefinition(ctx, fc.getFTA_CreditDefinition_ID(), null);
@@ -86,11 +87,11 @@ public class BrowseCallOutCreditAct extends BrowserCalloutEngine{
 							m_Amount = m_Amount.add(m_QtyApproved.multiply(cdl[i].getAmt()));
 			
 						if (m_QtyApproved.compareTo(m_Qty)==1 ){
-							mRow.setValueofColumn("ApprovedAmt",Env.ZERO, current_Row);
+							mRow.setValueOfColumn(current_Row, "ApprovedAmt",mField);
 							throw new AdempiereException("@Qty@ > @QtyApproved@");
 						}
 						else
-							mRow.setValueofColumn("ApprovedAmt",m_Amount , current_Row);
+							mRow.setValueOfColumn(current_Row, "ApprovedAmt",mField);
 					}
 				}
 				
@@ -123,8 +124,8 @@ public class BrowseCallOutCreditAct extends BrowserCalloutEngine{
 		
 		BigDecimal m_Amount = Env.ZERO;
 		BigDecimal m_AmtApproved = (BigDecimal) value;
-		Object fieldFarmerCredit=mRow.getValueofColumn("FTA_FarmerCredit_ID",current_Row);
-		Object fieldAmt=mRow.getValueofColumn("Amt",current_Row);
+		Object fieldFarmerCredit=mRow.getValueOfColumn(current_Row, "FTA_FarmerCredit_ID");
+		Object fieldAmt=mRow.getValueOfColumn(current_Row, "Amt");
 		
 		if(fieldFarmerCredit!=null){
 			GridField gFieldFC = (GridField)fieldFarmerCredit;
@@ -138,16 +139,19 @@ public class BrowseCallOutCreditAct extends BrowserCalloutEngine{
 				
 				if (fc.getFTA_FarmerCredit_ID()!=0 ){
 					if (!fc.getC_DocType().getDocBaseType().equals("FFL")){
-						mRow.setValueofColumn("ApprovedAmt",Env.ZERO, current_Row);
-						mRow.setValueofColumn("ApprovedQty",Env.ZERO , current_Row);
+						mField.setValue(Env.ZERO, true);
+						mRow.setValueOfColumn(current_Row, "ApprovedAmt", mField);
 					}
 					else{
 						if(m_AmtApproved.compareTo(m_Amount)==1){
-							mRow.setValueofColumn("ApprovedAmt",Env.ZERO, current_Row);
+							mField.setValue(Env.ZERO, true);
+							mRow.setValueOfColumn(current_Row, "ApprovedAmt", mField);
 							throw new AdempiereException("@Amt@ > @AmtApproved@");
 						}
-						else
-							mRow.setValueofColumn("ApprovedAmt",m_AmtApproved , current_Row);
+						else {
+							mField.setValue(m_AmtApproved, true);
+							mRow.setValueOfColumn(current_Row, "ApprovedAmt", mField);
+						}
 							
 					}
 					
