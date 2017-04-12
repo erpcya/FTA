@@ -36,6 +36,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.compiere.apps.AEnv;
+import org.compiere.apps.ALayout;
+import org.compiere.apps.ALayoutConstraint;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -130,7 +132,6 @@ public class PAttributeInstance extends CDialog
 	private CPanel mainPanel = new CPanel();
 	private BorderLayout mainLayout = new BorderLayout();
 	private CPanel northPanel = new CPanel();
-	private BorderLayout northLayout = new BorderLayout();
 	private JScrollPane centerScrollPane = new JScrollPane();
 	private ConfirmPanel confirmPanel = new ConfirmPanel (true);
 	private CCheckBox showAll = new CCheckBox (Msg.getMsg(Env.getCtx(), "ShowAll"));
@@ -165,8 +166,8 @@ public class PAttributeInstance extends CDialog
 		mainPanel.setLayout(mainLayout);
 		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		//	North
-		northPanel.setLayout(northLayout);
-		northPanel.add(showAll, BorderLayout.CENTER);
+		northPanel.setLayout(new ALayout());
+		northPanel.add(showAll, new ALayoutConstraint(0,0));
 		showAll.addActionListener(this);
 		//	Yamel Senih 2014-02-08, 13:45:05
 		//	Add Category Calc Filter
@@ -179,6 +180,7 @@ public class PAttributeInstance extends CDialog
 		centerScrollPane.getViewport().add(m_table, null);
 		//	South
 		mainPanel.add(confirmPanel, BorderLayout.SOUTH);
+		mainPanel.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		confirmPanel.addActionListener(this);
 	}
 
@@ -204,15 +206,14 @@ public class PAttributeInstance extends CDialog
 	/**	From Clause							*/
 	private static String s_sqlFrom = "M_AttributeSetInstance asi"
 		+ " INNER JOIN M_AttributeSet st ON (st.M_AttributeSet_ID=asi.M_AttributeSet_ID )"
-		//+ " INNER JOIN FTA_CategoryCalc cc ON (cc.M_AttributeSetInstance_ID = asi.M_AttributeSetInstance_ID)"
 		+ " LEFT OUTER JOIN M_Storage s ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)"
 		+ " LEFT OUTER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
 		+ " LEFT OUTER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID)"
-		//+ " LEFT OUTER JOIN M_Product pr ON (asi.M_AttributeSet_ID = pr.M_AttributeSet_ID)"
 	;
-	
+		//  To see all related Attribute Sets, add OR "
+		//+                                   "(asi.M_AttributeSet_ID = p.M_AttributeSet_ID AND p.M_AttributeSetInstance_ID = 0)
+		//  to the last join clause
 	/** Where Clause						*/ 
-	//private static String s_sqlWhereWithoutWarehouse = " (pr.M_Product_ID=? OR p.M_Product_ID=?)";
 	private static String s_sqlWhereWithoutWarehouse = " p.M_Product_ID=?";
 	private static String s_sqlWhereSameWarehouse = " AND (l.M_Warehouse_ID=? OR 0=?)";
 
@@ -345,11 +346,6 @@ public class PAttributeInstance extends CDialog
 	 *  Close the window
 	 */
     private Action doDispose = new AbstractAction() {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 8570740756932755958L;
-
 		public void actionPerformed(ActionEvent e) {
 			dispose();
         }
