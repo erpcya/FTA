@@ -165,10 +165,10 @@ public class WLoadOrder extends LoadOrder
 	private Checkbox 		isBulkCheck = new Checkbox();
 	/**	Product				*/
 	private Label 			productLabel = new Label();
-	private WTableDirEditor productSearch = null;
+	private WSearchEditor	productSearch = null;
 	/**	Business Partner	*/
 	private Label 			bpartnerLabel = new Label();
-	private WTableDirEditor bpartnerSearch = null;
+	private WSearchEditor 	bpartnerSearch = null;
 
 	private DateFormat 		dateFormat 		 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
@@ -615,13 +615,13 @@ public class WLoadOrder extends LoadOrder
 		//	Product
 		AD_Column_ID = 70626;		//	FTA_LoadOrer.M_Product_ID
 		MLookup lookupProduct = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
-		productSearch = new WTableDirEditor("M_Product_ID", true, false, true, lookupProduct);
+		productSearch = new WSearchEditor("M_Product_ID", true, false, true, lookupProduct);
 		productSearch.addValueChangeListener(this);
 		
 		//	Business Partner
 		AD_Column_ID = 2762;		//	C_Order.C_BPartner_ID
 		MLookup lookupBPartner = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
-		bpartnerSearch = new WTableDirEditor("C_BPartner_ID", true, false, true, lookupBPartner);
+		bpartnerSearch = new WSearchEditor("C_BPartner_ID", true, false, true, lookupBPartner);
 		bpartnerSearch.addValueChangeListener(this);
 
 		//	Visible
