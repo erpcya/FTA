@@ -254,10 +254,14 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					//	Get Warehouse
 					MWarehouse warehouse = MWarehouse.get(getCtx(), m_Current_Warehouse_ID, get_TrxName());
 					//	Valid Purchase Order and Business Partner
-					if(m_C_Order_ID == 0)
+					if(m_C_Order_ID == 0) {
+						rs.close();ps.close();
 						throw new AdempiereException("@C_Order_ID@ @NotFound@");
-					if(m_Current_BPartner_ID == 0)
+					}
+					if(m_Current_BPartner_ID == 0) {
+						rs.close();ps.close();
 						throw new AdempiereException("@C_BPartner_ID@ @NotFound@");
+					}
 					//	Create Order
 					MOrder order = new MOrder(getCtx(), m_C_Order_ID, get_TrxName());
 					//Create Shipment From Order
@@ -298,6 +302,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					if(rate == null) {
 						MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
 						MUOM oLineUOM = MUOM.get(getCtx(), oLine.getC_UOM_ID());
+						rs.close();ps.close();
 						throw new AdempiereException("@NoUOMConversion@ @from@ " 
 										+ oLineUOM.getName() + " @to@ " + productUOM.getName());
 					}
@@ -315,6 +320,7 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 						if(rateCumulated == null) {
 							MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
 							MUOM oLineUOM = MUOM.get(getCtx(), clientInfo.getC_UOM_Weight_ID());
+							rs.close();ps.close();
 							throw new AdempiereException("@NoUOMConversion@ @from@ " 
 											+ oLineUOM.getName() + " @to@ " + productUOM.getName());
 						}
