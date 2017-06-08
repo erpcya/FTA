@@ -255,11 +255,9 @@ public class GenerateShipmentLoadOrder extends SvrProcess {
 					MWarehouse warehouse = MWarehouse.get(getCtx(), m_Current_Warehouse_ID, get_TrxName());
 					//	Valid Purchase Order and Business Partner
 					if(m_C_Order_ID == 0) {
-						rs.close();ps.close();
 						throw new AdempiereException("@C_Order_ID@ @NotFound@");
 					}
 					if(m_Current_BPartner_ID == 0) {
-						rs.close();ps.close();
 						throw new AdempiereException("@C_BPartner_ID@ @NotFound@");
 					}
 					//	Create Order
