@@ -186,9 +186,9 @@ public class LoadOrder {
 			//Query for Material Movement
 			sql = new StringBuffer("SELECT " +
 					"wr.Name Warehouse, ord.DD_Order_ID, ord.DocumentNo, " +	//	1..3
-					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..8
+					"ord.DateOrdered, ord.DatePromised, reg.Name, cit.Name, sr.Name SalesRep, " +	//	4..8
 					"cp.Name Partner, bploc.Name, " +	//	9..10
-					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	11..17
+					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID, ord.Weight, ord.Volume " +	//	11..17
 					"FROM DD_Order ord " +
 					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
@@ -251,9 +251,9 @@ public class LoadOrder {
 		} else {//Query for Sales Order
 			sql = new StringBuffer("SELECT " +
 					"wr.Name Warehouse, ord.C_Order_ID, ord.DocumentNo, " +	//	1..3
-					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..8
+					"ord.DateOrdered, ord.DatePromised, reg.Name, cit.Name, sr.Name SalesRep, " +	//	4..8
 					"cp.Name Partner, bploc.Name, " +	//	9..10
-					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	11..17
+					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID, ord.Weight, ord.Volume " +	//	11..17
 					"FROM C_Order ord " +
 					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
@@ -359,17 +359,17 @@ public class LoadOrder {
 				line.add(pp);				       			//  2-DocumentNo
 				line.add(rs.getTimestamp(column++));      	//  3-DateOrdered
 				line.add(rs.getTimestamp(column++));      	//  4-DatePromised
-				line.add(rs.getBigDecimal(column++));		//	5-Weight
-				line.add(rs.getBigDecimal(column++));		//	6-Volume
+				line.add(rs.getString(column++));			//	5-Region
+				line.add(rs.getString(column++));			//	6-City
 				line.add(rs.getString(column++));			//	7-Sales Representative
 				line.add(rs.getString(column++));			//	8-Business Partner
 				line.add(rs.getString(column++));			//	9-Location
-				line.add(rs.getString(column++));			//	10-Region
-				line.add(rs.getString(column++));			//	11-City
-				line.add(rs.getString(column++));			//	12-Address 1
-				line.add(rs.getString(column++));			//	13-Address 2
-				line.add(rs.getString(column++));			//	14-Address 3
-				line.add(rs.getString(column++));			//	15-Address 4
+				line.add(rs.getString(column++));			//	10-Address 1
+				line.add(rs.getString(column++));			//	11-Address 2
+				line.add(rs.getString(column++));			//	12-Address 3
+				line.add(rs.getString(column++));			//	13-Address 4
+				line.add(rs.getBigDecimal(column++));		//	14-Weight
+				line.add(rs.getBigDecimal(column++));		//	15-Volume
 				//
 				data.add(line);
 			}
@@ -577,17 +577,17 @@ public class LoadOrder {
 		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
 		columnNames.add(Msg.translate(Env.getCtx(), "DateOrdered"));
 		columnNames.add(Msg.translate(Env.getCtx(), "DatePromised"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Weight"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Volume"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_Region_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_City_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "SalesRep_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_Location_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_Region_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_City_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address1"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address2"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address3"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address4"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Weight"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Volume"));
 		//	
 		return columnNames;
 	}
@@ -605,17 +605,17 @@ public class LoadOrder {
 		orderTable.setColumnClass(i++, String.class, true);			//  2-DocumentNo
 		orderTable.setColumnClass(i++, Timestamp.class, true);		//  3-DateOrdered
 		orderTable.setColumnClass(i++, Timestamp.class, true);		//  4-DatePromiset
-		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Weight
-		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  6-Volume
+		orderTable.setColumnClass(i++, String.class, true);			//  5-Region
+		orderTable.setColumnClass(i++, String.class, true);			//  6-City
 		orderTable.setColumnClass(i++, String.class, true);			//  7-Sales Representative
 		orderTable.setColumnClass(i++, String.class, true);			//  8-Business Partner
 		orderTable.setColumnClass(i++, String.class, true);			//  9-Location
-		orderTable.setColumnClass(i++, String.class, true);			//  10-Region
-		orderTable.setColumnClass(i++, String.class, true);			//  11-City
-		orderTable.setColumnClass(i++, String.class, true);			//  12-Address 1
-		orderTable.setColumnClass(i++, String.class, true);			//  13-Address 2
-		orderTable.setColumnClass(i++, String.class, true);			//  14-Address 3
-		orderTable.setColumnClass(i++, String.class, true);			//  15-Address 4
+		orderTable.setColumnClass(i++, String.class, true);			//  10-Address 1
+		orderTable.setColumnClass(i++, String.class, true);			//  11-Address 2
+		orderTable.setColumnClass(i++, String.class, true);			//  12-Address 3
+		orderTable.setColumnClass(i++, String.class, true);			//  13-Address 4
+		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  14-Weight
+		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  15-Volume
 		//	
 		//  Table UI
 		orderTable.autoSize();
