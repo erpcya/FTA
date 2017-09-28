@@ -1313,16 +1313,16 @@ public class WLoadOrder extends LoadOrder
 	/**
 	 * Verify if exists the product on table
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 23/12/2013, 10:29:57
-	 * @param p_Product_ID
-	 * @param p_M_Warehouse_ID
+	 * @param productKey
+	 * @param warehouseId
 	 * @return
 	 * @return int
 	 */
-	private int existProductStock(int p_Product_ID, int p_M_Warehouse_ID) {
+	private int existProductStock(KeyNamePair productKey, int warehouseId) {
 		for(int i = 0; i < stockModel.getRowCount(); i++) {
-			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).getKey() == p_Product_ID
+			if(((KeyNamePair) stockModel.getValueAt(i, SW_PRODUCT)).equals(productKey)
 					//2016-04-06 Carlos Parada Add Support to Warehouse Filter
-					&& ((KeyNamePair) stockModel.getValueAt(i, SW_WAREHOUSE)).getKey() == p_M_Warehouse_ID
+					&& ((KeyNamePair) stockModel.getValueAt(i, SW_WAREHOUSE)).getKey() == warehouseId
 					//End Carlos Parada
 					) {
 				return i;
@@ -1340,13 +1340,14 @@ public class WLoadOrder extends LoadOrder
 	 * @return void
 	 */
 	private void loadProductsStock(IMiniTable orderLineTable, int row, boolean isSelected) {
-		KeyNamePair product = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
+		KeyNamePair productKey = (KeyNamePair) orderLineTable.getValueAt(row, OL_PRODUCT);
 		KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
 		KeyNamePair warehouse = (KeyNamePair) orderLineTable.getValueAt(row, OL_WAREHOUSE);
 		BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ON_HAND);
 		BigDecimal qtySet = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
+		BigDecimal qtyInTransit = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_IN_TRANSIT);
 		//	
-		int pos = existProductStock(product.getKey(), warehouse.getKey());
+		int pos = existProductStock(productKey, warehouse.getKey());
 		//	
 		if(pos > -1) {
 			BigDecimal qtyInTransitOld = (BigDecimal) stockModel.getValueAt(pos, SW_QTY_IN_TRANSIT);
@@ -1365,9 +1366,8 @@ public class WLoadOrder extends LoadOrder
 					.setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTY_AVAILABLE);
 		} else if(isSelected) {
 			//	Get Quantity in Transit
-			BigDecimal qtyInTransit = getQtyInTransit(product.getKey(), warehouse.getKey());
 			Vector<Object> line = new Vector<Object>();
-			line.add(product);
+			line.add(productKey);
 			line.add(uom);
 			line.add(warehouse);
 			line.add(qtyOnHand);
