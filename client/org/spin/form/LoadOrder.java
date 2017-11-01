@@ -49,6 +49,9 @@ import org.spin.util.StringNamePair;
 
 /**
  * @author Yamel Senih 24/06/2011, 12:57
+ * @author Carlos Parada, cparada@erpcya.com
+ * <li> FR [ 1 ] Add Support to generate load order with non stocked product
+ * @see https://github.com/erpcya/FTA/issues/1
  *
  */
 public class LoadOrder {
@@ -217,7 +220,7 @@ public class LoadOrder {
 					"	ON(qafl.DD_OrderLine_ID = lord.DD_OrderLine_ID) " +
 					"WHERE  wr.IsActive = 'Y' " +
 					"AND ord.DocStatus = 'CO' " +
-					//carlosp
+					//FR [ 1 ]
 					//"AND pr.IsStocked = 'Y' " +
 					"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
 					"AND ord.AD_Client_ID=? ");
@@ -284,7 +287,7 @@ public class LoadOrder {
 					"WHERE ord.IsSOTrx = 'Y' " +
 					"AND wr.IsActive = 'Y' " +
 					"AND ord.DocStatus = 'CO' " +
-					//carlosp
+					//FR [ 1 ]
 					//"AND pr.IsStocked = 'Y' " +
 					"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
 					"AND ord.AD_Client_ID=? ");
@@ -453,7 +456,7 @@ public class LoadOrder {
 					"														ON(s.M_Product_ID = lord.M_Product_ID " +
 					"																AND s.M_Warehouse_ID = l.M_Warehouse_ID " +
 					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
-					.append("WHERE "/*carlosp
+					.append("WHERE "/*FR [ 1 ]
 							+ "pro.IsStocked = 'Y' ")
 					.append("AND "*/)
 					.append(sqlWhere).append(" ");
@@ -534,7 +537,7 @@ public class LoadOrder {
 					"														ON(s.M_Product_ID = lord.M_Product_ID " +
 					"																AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
 					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
-					.append("WHERE " /* carlosp
+					.append("WHERE " /* FR [ 1 ]
 							+ "pro.IsStocked = 'Y' ")
 					.append("AND "*/)
 					.append(sqlWhere).append(" ");
@@ -666,7 +669,7 @@ public class LoadOrder {
 			BigDecimal m_Volume = Env.ZERO;
 			String m_DeliveryRuleKey= null;
 			
-			//carlosp
+			//FR [ 1 ]
 			boolean isStocked =false;
 			int precision = 0;
 			//	
@@ -687,7 +690,7 @@ public class LoadOrder {
 				m_Weight 			= rs.getBigDecimal(column++);
 				m_Volume 			= rs.getBigDecimal(column++);
 				m_DeliveryRuleKey 	= rs.getString(column++);
-				//carlosp
+				//FR [ 1 ]
 				isStocked = (rs.getString("IsStocked")!=null? "": rs.getString("IsStocked")).equals("Y");
 				//	Get Precision
 				precision = MUOM.getPrecision(Env.getCtx(), m_Product_UOM.getKey());
@@ -695,7 +698,7 @@ public class LoadOrder {
 				//	Valid Null
 				if(m_QtyOnHand == null)
 					m_QtyOnHand = Env.ZERO;
-				//carlosp
+				//FR [ 1 ]
 				if (!isStocked)
 					m_QtyOnHand = m_Qty;
 				//	Delivery Rule
@@ -707,7 +710,7 @@ public class LoadOrder {
 				//	Valid Quantity On Hand
 				if(m_DeliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Availability)
 						&&	m_IsValidateQuantity) {
-					//carlosp
+					//FR [ 1 ]
 					BigDecimal diff = ((BigDecimal)(isStocked ? Env.ONE : Env.ZERO)).multiply(m_QtyOnHand.subtract(m_Qty).setScale(precision, BigDecimal.ROUND_HALF_UP));
 					//	Set Quantity
 					if(diff.doubleValue() < 0) {
