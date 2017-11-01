@@ -186,9 +186,9 @@ public class LoadOrder {
 			//Query for Material Movement
 			sql = new StringBuffer("SELECT " +
 					"wr.Name Warehouse, ord.DD_Order_ID, ord.DocumentNo, " +	//	1..3
-					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..8
+					"ord.DateOrdered, ord.DatePromised, reg.Name, cit.Name, sr.Name SalesRep, " +	//	4..8
 					"cp.Name Partner, bploc.Name, " +	//	9..10
-					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	11..17
+					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID, ord.Weight, ord.Volume " +	//	11..17
 					"FROM DD_Order ord " +
 					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
@@ -217,7 +217,8 @@ public class LoadOrder {
 					"	ON(qafl.DD_OrderLine_ID = lord.DD_OrderLine_ID) " +
 					"WHERE  wr.IsActive = 'Y' " +
 					"AND ord.DocStatus = 'CO' " +
-					"AND pr.IsStocked = 'Y' " +
+					//carlosp
+					//"AND pr.IsStocked = 'Y' " +
 					"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
 					"AND ord.AD_Client_ID=? ");
 			if (m_AD_Org_ID != 0)
@@ -251,9 +252,9 @@ public class LoadOrder {
 		} else {//Query for Sales Order
 			sql = new StringBuffer("SELECT " +
 					"wr.Name Warehouse, ord.C_Order_ID, ord.DocumentNo, " +	//	1..3
-					"ord.DateOrdered, ord.DatePromised, ord.Weight, ord.Volume, sr.Name SalesRep, " +	//	4..8
+					"ord.DateOrdered, ord.DatePromised, reg.Name, cit.Name, sr.Name SalesRep, " +	//	4..8
 					"cp.Name Partner, bploc.Name, " +	//	9..10
-					"reg.Name, cit.Name, loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID " +	//	11..17
+					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID, ord.Weight, ord.Volume " +	//	11..17
 					"FROM C_Order ord " +
 					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
@@ -283,7 +284,8 @@ public class LoadOrder {
 					"WHERE ord.IsSOTrx = 'Y' " +
 					"AND wr.IsActive = 'Y' " +
 					"AND ord.DocStatus = 'CO' " +
-					"AND pr.IsStocked = 'Y' " +
+					//carlosp
+					//"AND pr.IsStocked = 'Y' " +
 					"AND COALESCE(qafl.QtyAvailable, 0) > 0 " +
 					"AND ord.AD_Client_ID=? ");
 			if (m_AD_Org_ID != 0)
@@ -359,17 +361,17 @@ public class LoadOrder {
 				line.add(pp);				       			//  2-DocumentNo
 				line.add(rs.getTimestamp(column++));      	//  3-DateOrdered
 				line.add(rs.getTimestamp(column++));      	//  4-DatePromised
-				line.add(rs.getBigDecimal(column++));		//	5-Weight
-				line.add(rs.getBigDecimal(column++));		//	6-Volume
+				line.add(rs.getString(column++));			//	5-Region
+				line.add(rs.getString(column++));			//	6-City
 				line.add(rs.getString(column++));			//	7-Sales Representative
 				line.add(rs.getString(column++));			//	8-Business Partner
 				line.add(rs.getString(column++));			//	9-Location
-				line.add(rs.getString(column++));			//	10-Region
-				line.add(rs.getString(column++));			//	11-City
-				line.add(rs.getString(column++));			//	12-Address 1
-				line.add(rs.getString(column++));			//	13-Address 2
-				line.add(rs.getString(column++));			//	14-Address 3
-				line.add(rs.getString(column++));			//	15-Address 4
+				line.add(rs.getString(column++));			//	10-Address 1
+				line.add(rs.getString(column++));			//	11-Address 2
+				line.add(rs.getString(column++));			//	12-Address 3
+				line.add(rs.getString(column++));			//	13-Address 4
+				line.add(rs.getBigDecimal(column++));		//	14-Weight
+				line.add(rs.getBigDecimal(column++));		//	15-Volume
 				//
 				data.add(line);
 			}
@@ -411,7 +413,8 @@ public class LoadOrder {
 			}
 			sqlWhere.append(")");
 			
-			sql = new StringBuffer("SELECT alm.M_Warehouse_ID, alm.Name Warehouse, lord.DD_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
+			sql = new StringBuffer("SELECT alm.M_Warehouse_ID, alm.Name Warehouse, lord.DD_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, " + 
+					"(pro.Name || COALESCE(' - ' || productattribute(lord.M_AttributeSetInstance_ID), '')) Product, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, 0 QtyInvoiced, lord.QtyDelivered, " +
 					"SUM(" +
@@ -430,7 +433,7 @@ public class LoadOrder {
 					"		END, 0)" +
 					"		)" +
 					") Qty, " +
-					"pro.Weight, pro.Volume, ord.DeliveryRule " +
+					"pro.Weight, pro.Volume, ord.DeliveryRule, pro.IsStocked " +
 					"FROM DD_Order ord " +
 					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
 					"INNER JOIN M_Locator l ON(l.M_Locator_ID = lord.M_Locator_ID) " + 
@@ -450,17 +453,19 @@ public class LoadOrder {
 					"														ON(s.M_Product_ID = lord.M_Product_ID " +
 					"																AND s.M_Warehouse_ID = l.M_Warehouse_ID " +
 					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
-					.append("WHERE pro.IsStocked = 'Y' ")
-					.append("AND ")
+					.append("WHERE "/*carlosp
+							+ "pro.IsStocked = 'Y' ")
+					.append("AND "*/)
 					.append(sqlWhere).append(" ");
 			//	Add Where
 			if(m_IsBulk)
 				sql.append("AND lord.M_Product_ID = ?").append(" ");
 			//	Group By
 			sql.append("GROUP BY alm.M_Warehouse_ID, lord.DD_Order_ID, lord.DD_OrderLine_ID, " +
-					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
+					"alm.Name, ord.DocumentNo, lord.M_Product_ID, lord.M_AttributeSetInstance_ID, " + 
+					"pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " +
-					"lord.QtyDelivered, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
+					"lord.QtyDelivered, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand,pro.IsStocked").append(" ");
 			//	Having
 			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyInTransit, 0) - COALESCE(lord.QtyDelivered, 0) - " + 
 					"								SUM(" +
@@ -470,9 +475,9 @@ public class LoadOrder {
 					"											ELSE 0 " +
 					"										END, 0)" +
 					"								)" +
-					"			) > 0").append(" ");
+					"			) > 0 OR pro.IsStocked = 'N' ").append(" ");
 			//	Order By
-			sql.append("ORDER BY lord.DD_Order_ID ASC");
+				sql.append("ORDER BY lord.DD_Order_ID ASC");
 			
 		}
 		else{
@@ -490,7 +495,8 @@ public class LoadOrder {
 			}
 			sqlWhere.append(")");
 			
-			sql = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, pro.Name Product, " +
+			sql = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, " + 
+					"(pro.Name || COALESCE(' - ' || productattribute(lord.M_AttributeSetInstance_ID), '')) Product, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
 					"SUM(" +
@@ -509,7 +515,7 @@ public class LoadOrder {
 					"		END, 0)" +
 					"		)" +
 					") Qty, " +
-					"pro.Weight, pro.Volume, ord.DeliveryRule " +
+					"pro.Weight, pro.Volume, ord.DeliveryRule, pro.IsStocked " +
 					"FROM C_Order ord " +
 					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
 					"INNER JOIN M_Warehouse alm ON(alm.M_Warehouse_ID = lord.M_Warehouse_ID) " +
@@ -528,17 +534,19 @@ public class LoadOrder {
 					"														ON(s.M_Product_ID = lord.M_Product_ID " +
 					"																AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
 					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
-					.append("WHERE pro.IsStocked = 'Y' ")
-					.append("AND ")
+					.append("WHERE " /* carlosp
+							+ "pro.IsStocked = 'Y' ")
+					.append("AND "*/)
 					.append(sqlWhere).append(" ");
 			//	Add Where
 			if(m_IsBulk)
 				sql.append("AND lord.M_Product_ID = ?").append(" ");
 			//	Group By
 			sql.append("GROUP BY lord.M_Warehouse_ID, lord.C_Order_ID, lord.C_OrderLine_ID, " +
-					"alm.Name, ord.DocumentNo, lord.M_Product_ID, pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
+					"alm.Name, ord.DocumentNo, lord.M_Product_ID, lord.M_AttributeSetInstance_ID, " + 
+					"pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " + 
-					"lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand").append(" ");
+					"lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand, pro.IsStocked").append(" ");
 			//	Having
 			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " + 
 					"									SUM(" +
@@ -548,7 +556,7 @@ public class LoadOrder {
 					"											ELSE 0 " +
 					"										END, 0)" +
 					"									)" +
-					"			) > 0").append(" ");
+					"			) > 0  OR pro.IsStocked = 'N' ").append(" ");
 			//	Order By
 			sql.append("ORDER BY lord.C_Order_ID ASC");
 			
@@ -573,17 +581,17 @@ public class LoadOrder {
 		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
 		columnNames.add(Msg.translate(Env.getCtx(), "DateOrdered"));
 		columnNames.add(Msg.translate(Env.getCtx(), "DatePromised"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Weight"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Volume"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_Region_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_City_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "SalesRep_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_Location_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_Region_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_City_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address1"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address2"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address3"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address4"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Weight"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Volume"));
 		//	
 		return columnNames;
 	}
@@ -601,17 +609,17 @@ public class LoadOrder {
 		orderTable.setColumnClass(i++, String.class, true);			//  2-DocumentNo
 		orderTable.setColumnClass(i++, Timestamp.class, true);		//  3-DateOrdered
 		orderTable.setColumnClass(i++, Timestamp.class, true);		//  4-DatePromiset
-		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  5-Weight
-		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  6-Volume
+		orderTable.setColumnClass(i++, String.class, true);			//  5-Region
+		orderTable.setColumnClass(i++, String.class, true);			//  6-City
 		orderTable.setColumnClass(i++, String.class, true);			//  7-Sales Representative
 		orderTable.setColumnClass(i++, String.class, true);			//  8-Business Partner
 		orderTable.setColumnClass(i++, String.class, true);			//  9-Location
-		orderTable.setColumnClass(i++, String.class, true);			//  10-Region
-		orderTable.setColumnClass(i++, String.class, true);			//  11-City
-		orderTable.setColumnClass(i++, String.class, true);			//  12-Address 1
-		orderTable.setColumnClass(i++, String.class, true);			//  13-Address 2
-		orderTable.setColumnClass(i++, String.class, true);			//  14-Address 3
-		orderTable.setColumnClass(i++, String.class, true);			//  15-Address 4
+		orderTable.setColumnClass(i++, String.class, true);			//  10-Address 1
+		orderTable.setColumnClass(i++, String.class, true);			//  11-Address 2
+		orderTable.setColumnClass(i++, String.class, true);			//  12-Address 3
+		orderTable.setColumnClass(i++, String.class, true);			//  13-Address 4
+		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  14-Weight
+		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  15-Volume
 		//	
 		//  Table UI
 		orderTable.autoSize();
@@ -657,6 +665,9 @@ public class LoadOrder {
 			BigDecimal m_Weight = Env.ZERO;
 			BigDecimal m_Volume = Env.ZERO;
 			String m_DeliveryRuleKey= null;
+			
+			//carlosp
+			boolean isStocked =false;
 			int precision = 0;
 			//	
 			while (rs.next()) {
@@ -675,13 +686,18 @@ public class LoadOrder {
 				m_Qty 				= rs.getBigDecimal(column++);
 				m_Weight 			= rs.getBigDecimal(column++);
 				m_Volume 			= rs.getBigDecimal(column++);
-				m_DeliveryRuleKey 	= rs.getString(column++);				
+				m_DeliveryRuleKey 	= rs.getString(column++);
+				//carlosp
+				isStocked = (rs.getString("IsStocked")!=null? "": rs.getString("IsStocked")).equals("Y");
 				//	Get Precision
 				precision = MUOM.getPrecision(Env.getCtx(), m_Product_UOM.getKey());
 				//	
 				//	Valid Null
 				if(m_QtyOnHand == null)
 					m_QtyOnHand = Env.ZERO;
+				//carlosp
+				if (!isStocked)
+					m_QtyOnHand = m_Qty;
 				//	Delivery Rule
 				StringNamePair m_DeliveryRule = new StringNamePair(m_DeliveryRuleKey, 
 						MRefList.getListName(Env.getCtx(), 
@@ -691,7 +707,8 @@ public class LoadOrder {
 				//	Valid Quantity On Hand
 				if(m_DeliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Availability)
 						&&	m_IsValidateQuantity) {
-					BigDecimal diff = m_QtyOnHand.subtract(m_Qty).setScale(precision, BigDecimal.ROUND_HALF_UP);
+					//carlosp
+					BigDecimal diff = ((BigDecimal)(isStocked ? Env.ONE : Env.ZERO)).multiply(m_QtyOnHand.subtract(m_Qty).setScale(precision, BigDecimal.ROUND_HALF_UP));
 					//	Set Quantity
 					if(diff.doubleValue() < 0) {
 						m_Qty = m_Qty
