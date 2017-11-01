@@ -143,7 +143,7 @@ public class FarmerCreditBEGenerate extends SvrProcess {
 			validateCredit(m_FTA_FarmerCredit);		
 	}
 
-
+	
 	private void validateCredit( MFTAFarmerCredit m_FTA_FarmerCredit) {
 		if(m_FTA_FarmerCredit.isManagesPaymentProgram()){
 			MFTAFCPaySchedule [] paySchedule = m_FTA_FarmerCredit.getPaySchedule(true, null);

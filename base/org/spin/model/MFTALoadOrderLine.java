@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import org.compiere.model.MProduct;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
@@ -57,34 +58,62 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 		super(ctx, rs, trxName);
 	}
 	
-	/**
-	 * Valid if Exceeded Quantity
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 13/01/2014, 17:47:56
-	 * @return
-	 * @return String
-	 */
-	public String validExcedeed(){
-		BigDecimal res = DB.getSQLValueBD(get_TrxName(), "SELECT ol.QtyOrdered - SUM(COALESCE(lol.ConfirmedQty, lol.Qty)) " +
-				"FROM C_OrderLine ol " +
-				"INNER JOIN FTA_LoadOrderLine lol ON(lol.C_OrderLine_ID = ol.C_OrderLine_ID) " +
-				"INNER JOIN FTA_LoadOrder lo ON(lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID) " +
-				"WHERE lo.DocStatus NOT IN('VO', 'RE', 'CL') " +
-				"AND ol.C_OrderLine_ID = ? " +
-				"AND lol.FTA_LoadOrder_ID <> " + getFTA_LoadOrder_ID() + " " +
-				"GROUP BY ol.C_OrderLine_ID", getC_OrderLine_ID());
-		if(res == null)
-			return null;
-		//	Valid
-		if(res.subtract(getQty()).signum() < 0){
-			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-			return "@Qty@ > (@QtyOrdered@ - @QtyDelivered@) " +
-					"@SeqNo@:" + getSeqNo() + " " +
-					"@M_Product_ID@:\"" + product.getValue() + " - " + product.getName() + "\" " + 
-					"@Difference@=" + res.subtract(getQty());
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		MProduct m_Product = MProduct.get(getCtx(), getM_Product_ID());
+		if(m_Product != null) {
+			BigDecimal m_Weight = m_Product.getWeight();
+			BigDecimal m_Volume = m_Product.getVolume();
+			//	Valid Weight
+			if(m_Weight == null)
+				m_Weight = Env.ZERO;
+			//	Valid Volume
+			if(m_Volume == null)
+				m_Volume = Env.ZERO;
+			//	For Quantity
+			if(is_ValueChanged("Qty")) {
+				BigDecimal m_Qty = getQty();
+				//	Valid Quantity
+				if(m_Qty == null)
+					m_Qty = Env.ZERO;
+				//	Set Weight and Volume
+				setWeight(m_Qty.multiply(m_Weight));
+				setVolume(m_Qty.multiply(m_Volume));
+			} else if(is_ValueChanged("ConfirmedQty")) {
+				BigDecimal m_ConfirmedQty = getConfirmedQty();
+				//	Valid Quantity
+				if(m_ConfirmedQty == null)
+					m_ConfirmedQty = Env.ZERO;
+				//	Set Confirmed Weight
+				setConfirmedWeight(m_ConfirmedQty.multiply(m_Weight));
+			}	
 		}
-		return null;
+		//	Add Warehouse
+		if(is_ValueChanged("C_OrderLine_ID")
+				|| is_ValueChanged("DD_OrderLine_ID")
+				|| is_ValueChanged("M_InOutLine_ID")
+				|| is_ValueChanged("M_MovementLine_ID")) {
+			int m_M_Warehouse_ID = 0;
+			//	For Sales Order
+			if(getC_OrderLine_ID() != 0) {
+				m_M_Warehouse_ID = DB.getSQLValue(get_TrxName(), "SELECT ol.M_Warehouse_ID "
+						+ "FROM C_OrderLine ol "
+						+ "WHERE ol.C_OrderLine_ID = ?", getC_OrderLine_ID());
+			} else if(getDD_OrderLine_ID() != 0) {
+				m_M_Warehouse_ID = DB.getSQLValue(get_TrxName(), "SELECT l.M_Warehouse_ID "
+						+ "FROM DD_OrderLine dol "
+						+ "INNER JOIN M_Locator l ON(l.M_Locator_ID = dol.M_Locator_ID) "
+						+ "WHERE dol.DD_OrderLine_ID = ?", getDD_OrderLine_ID());
+			}
+			//	Set Warehouse
+			if(m_M_Warehouse_ID > 0) {
+				setM_Warehouse_ID(m_M_Warehouse_ID);
+			}
+		}
+		//	
+		return super.beforeSave(newRecord);
 	}
-
+	
 	@Override
 	protected boolean afterSave(boolean newRecord, boolean success) {
 		super.afterSave(newRecord, success);
@@ -108,12 +137,14 @@ public class MFTALoadOrderLine extends X_FTA_LoadOrderLine {
 	 * @return
 	 * @return boolean
 	 */
-	private boolean updateHeader(){
+	private boolean updateHeader() {
 		//	Recalculate Header
 		//	Update Load Order Header
 		String sql = "UPDATE FTA_LoadOrder lo SET Weight=("
 				+ "	SELECT COALESCE(SUM(lol.Weight),0) FROM FTA_LoadOrderLine lol WHERE lol.FTA_LoadOrder_ID=lo.FTA_LoadOrder_ID)"
 				+ " ,Volume =( SELECT COALESCE(SUM(lol.Volume),0) FROM FTA_LoadOrderLine lol "
+				+ " WHERE lol.FTA_LoadOrder_ID=lo.FTA_LoadOrder_ID)"
+				+ " ,ConfirmedWeight =( SELECT COALESCE(SUM(lol.ConfirmedWeight),0) FROM FTA_LoadOrderLine lol "
 				+ " WHERE lol.FTA_LoadOrder_ID=lo.FTA_LoadOrder_ID) WHERE lo.FTA_LoadOrder_ID = " + getFTA_LoadOrder_ID();
 		//
 		int no = DB.executeUpdate(sql, get_TrxName());

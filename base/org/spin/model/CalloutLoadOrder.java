@@ -22,6 +22,7 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MDocType;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.util.DB;
@@ -181,7 +182,8 @@ public class CalloutLoadOrder extends CalloutEngine {
 		MFTAEntryTicket m_EntryTicket = new MFTAEntryTicket(ctx, m_EntriTicket_ID.intValue(), null);
 		
 		//	Set Shipper
-		mTab.setValue("M_Shipper_ID", m_EntryTicket.getM_Shipper_ID());
+		if(m_EntryTicket.getM_Shipper_ID() > 0)
+			mTab.setValue("M_Shipper_ID", m_EntryTicket.getM_Shipper_ID());
 		//	Set Vehicle
 		mTab.setValue("FTA_Vehicle_ID", m_EntryTicket.getFTA_Vehicle_ID());
 		//	Set Driver
@@ -246,6 +248,31 @@ public class CalloutLoadOrder extends CalloutEngine {
 		//	Set Volume Capacity
 		mTab.setValue("VolumeCapacity", m_Vehicle.getVolumeCapacity());
 		
+		return "";
+	}
+
+	/**
+	 * 
+	 * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a> 12/1/2015, 15:39:31
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 * @return String
+	 */
+	public String IsImmediateDelivery (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value){
+		
+		Integer p_DocType_ID = (Integer)value;
+		if (p_DocType_ID == null || p_DocType_ID.intValue() == 0)
+			return "";
+		//	Instance Vehicle
+		MDocType m_DocType = new MDocType(ctx, p_DocType_ID, null);
+
+		//	Set Load Capacity
+		mTab.setValue("IsImmediateDelivery", m_DocType.get_Value("IsImmediateDelivery"));
+
 		return "";
 	}
 

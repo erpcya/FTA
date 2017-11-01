@@ -33,7 +33,7 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20141020L;
+	private static final long serialVersionUID = 20150218L;
 
     /** Standard Constructor */
     public X_FTA_RecordWeight (Properties ctx, int FTA_RecordWeight_ID, String trxName)
@@ -478,6 +478,31 @@ public class X_FTA_RecordWeight extends PO implements I_FTA_RecordWeight, I_Pers
 	public int getFTA_Vehicle_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_Vehicle_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_FTA_WeightScale getFTA_WeightScale() throws RuntimeException
+    {
+		return (org.spin.model.I_FTA_WeightScale)MTable.get(getCtx(), org.spin.model.I_FTA_WeightScale.Table_Name)
+			.getPO(getFTA_WeightScale_ID(), get_TrxName());	}
+
+	/** Set Weight Scale.
+		@param FTA_WeightScale_ID Weight Scale	  */
+	public void setFTA_WeightScale_ID (int FTA_WeightScale_ID)
+	{
+		if (FTA_WeightScale_ID < 1) 
+			set_Value (COLUMNNAME_FTA_WeightScale_ID, null);
+		else 
+			set_Value (COLUMNNAME_FTA_WeightScale_ID, Integer.valueOf(FTA_WeightScale_ID));
+	}
+
+	/** Get Weight Scale.
+		@return Weight Scale	  */
+	public int getFTA_WeightScale_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FTA_WeightScale_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

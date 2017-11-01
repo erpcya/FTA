@@ -18,13 +18,16 @@ package org.spin.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
+import org.compiere.model.MInOut;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -171,6 +174,14 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			return DocAction.STATUS_Invalid;
 		}
 		
+		//	Set if Handle Record Weight
+		setIsHandleRecordWeight(MFTAWeightScale
+				.isWeightScaleOrg(getAD_Org_ID(), get_TrxName()));
+		//	Set Immediate 
+		MDocType m_DocType = MDocType.get(Env.getCtx(), getC_DocType_ID());
+
+		setIsImmediateDelivery(m_DocType.get_ValueAsBoolean("IsImmediateDelivery"));
+		
 		//	Add up Amounts
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
@@ -219,6 +230,18 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
+		
+		//	Valid Volume Capacity
+		if(getVolumeCapacity().compareTo(getVolume()) < 0) {
+			m_processMsg = "@VolumeCapacity@ < @Volume@";
+			return DocAction.STATUS_Invalid;
+		}
+		//	Valid Load Capacity
+		if(getLoadCapacity().compareTo(getWeight()) < 0) {
+			m_processMsg = "@LoadCapacity@ < @Weight@";
+			return DocAction.STATUS_Invalid;
+		}
+		
 		//Waditza Rivas 15/05/2014
 		m_processMsg = validETReference();
 	 	if (m_processMsg != null)
@@ -234,32 +257,15 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		} else {
-			StringBuffer msgLong = new StringBuffer();
-			for(MFTALoadOrderLine line : m_lines){
-				//	Evaluate Error
-				String msg = line.validExcedeed();
-				if(msg != null){
-					if(msgLong.length() != 0)
-						msgLong
-							.append("\n")
-							.append("*")
-							.append(msg)
-							.append("*");
-					else
-						msgLong
-							.append("*")
-							.append(msg)
-							.append("*");
-				}
-			}
 			//	Verify Error
-			if(msgLong.length() != 0){
-				m_processMsg = msgLong.toString();
+			m_processMsg = validStock();
+			if(m_processMsg != null) {
 				return DocAction.STATUS_Invalid;
 			}
 		}
 		//	Valid Entry Ticket
-		if(getFTA_EntryTicket_ID() == 0) {
+		if(getFTA_EntryTicket_ID() == 0
+				&& !MFTAWeightScale.isWeightScaleOrg(getAD_Org_ID(), get_TrxName())) {
 			m_processMsg = "@FTA_EntryTicket_ID@ @NotFound@";
 			return DocAction.STATUS_InProgress;
 		}
@@ -281,6 +287,162 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
+	
+	
+	/**
+	 * Valid Stock for Lines
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 15, 2015, 7:46:19 PM
+	 * @return
+	 * @return String
+	 */
+	private String validStock() {
+		String sql = new String("SELECT lol.SeqNo, s.ProductName, SUM(s.QtyOnHand) QtyOnHand, "
+				+ "SUM(CASE "
+				+ "		WHEN s.OrderLine_ID = COALESCE(ol.C_OrderLine_ID, dol.DD_OrderLine_ID) "
+				+ "			AND s.FTA_LoadOrderLine_ID <> lol.FTA_LoadOrderLine_ID "
+				+ "			THEN s.QtyLoc "
+				+ "			ELSE 0 "
+				+ "		END"
+				+ ") QtyLoc, "
+				+ "SUM(CASE "
+				+ "		WHEN s.FTA_LoadOrderLine_ID <> lol.FTA_LoadOrderLine_ID "
+				+ "			THEN s.QtyLoc "
+				+ "			ELSE 0 "
+				+ "		END"
+				+ ") QtyInTransit, "
+				+ "COALESCE(ol.QtyOrdered, dol.QtyOrdered) QtyOrdered, "
+				+ "COALESCE(ol.QtyDelivered, dol.QtyDelivered) QtyDelivered, "
+				+ "lol.Qty "
+				+ "FROM FTA_LoadOrder lo "
+				+ "INNER JOIN FTA_LoadOrderLine lol ON(lol.FTA_LoadOrder_ID = lo.FTA_LoadOrder_ID) "
+				+ "LEFT JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = lol.C_OrderLine_ID) "
+				+ "LEFT JOIN DD_OrderLine dol ON(dol.DD_OrderLine_ID = lol.DD_OrderLine_ID) "
+				+ "LEFT JOIN (SELECT lc.FTA_LoadOrderLine_ID, COALESCE(ol.C_OrderLine_ID, dol.DD_OrderLine_ID) OrderLine_ID, "
+				+ "				st.M_Product_ID, (p.Value || '-' || p.Name) ProductName, l.M_Warehouse_ID, "
+				+ "				COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID, st.QtyOnHand, "
+				+ "				COALESCE(CASE "
+				+ "					WHEN("
+				+ "							(c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP')) "
+				+ "							OR "
+				+ "							(c.IsMoved = 'N' AND c.OperationType = 'MOM')"
+				+ "						) "
+				+ "						AND c.DocStatus = 'CO'"
+				+ "						THEN lc.Qty "
+				+ "						ELSE 0 "
+				+ "					END, 0) "
+				+ "				QtyLoc "
+				+ "			FROM M_Storage st "
+				+ "			INNER JOIN M_Product p ON(p.M_Product_ID = st.M_Product_ID) "
+				+ "			INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) "
+				+ "			LEFT JOIN FTA_LoadOrderLine lc ON(lc.M_Product_ID = st.M_Product_ID AND lc.M_warehouse_ID = l.M_Warehouse_ID) "
+				+ "			LEFT JOIN FTA_LoadOrder c ON(c.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) "
+				+ "			LEFT JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = lc.C_OrderLine_ID) "
+				+ "			LEFT JOIN DD_OrderLine dol ON(dol.DD_OrderLine_ID = lc.DD_OrderLine_ID)) "
+				+ "		s ON(s.M_Product_ID = lol.M_Product_ID "
+				+ "				AND s.M_Warehouse_ID = lol.M_Warehouse_ID "
+				+ "				AND COALESCE(ol.M_AttributeSetInstance_ID, dol.M_AttributeSetInstance_ID, 0) = s.M_AttributeSetInstance_ID) "
+				+ "WHERE lo.FTA_LoadOrder_ID = ? "
+				+ "GROUP BY lol.SeqNo, s.ProductName, lol.Qty, ol.QtyOrdered, dol.QtyOrdered, "
+				+ "ol.QtyDelivered, dol.QtyDelivered "
+				+ "HAVING("
+				+ "	("
+				+ "		SUM(s.QtyOnHand) < ("
+				+ "								SUM(CASE "
+				+ "										WHEN s.FTA_LoadOrderLine_ID <> lol.FTA_LoadOrderLine_ID "
+				+ "											THEN s.QtyLoc "
+				+ "											ELSE 0 "
+				+ "										END"
+				+ "								) + lol.Qty"
+				+ "							)"
+				+ "	) "
+				+ "	OR "
+				+ "	("
+				+ "		COALESCE(ol.QtyOrdered, dol.QtyOrdered) "
+				+ "						< ("
+				+ "								SUM(CASE "
+				+ "										WHEN s.OrderLine_ID = COALESCE(ol.C_OrderLine_ID, dol.DD_OrderLine_ID) "
+				+ "											AND s.FTA_LoadOrderLine_ID <> lol.FTA_LoadOrderLine_ID "
+				+ "											THEN s.QtyLoc "
+				+ "											ELSE 0 "
+				+ "										END"
+				+ "								) + lol.Qty "
+				+ "							+ COALESCE(ol.QtyDelivered, dol.QtyDelivered)"
+				+ "						)"
+				+ "	)"
+				+ ") "
+				+ "ORDER BY lol.SeqNo");
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		StringBuffer msg = new StringBuffer();
+		try {
+			ps = DB.prepareStatement(sql.toString(), get_TrxName());
+			ps.setInt(1, getFTA_LoadOrder_ID());
+			rs = ps.executeQuery();
+			//	
+			while(rs.next()) {
+				int m_SeqNo					= rs.getInt("SeqNo");
+				String m_ProductName		= rs.getString("ProductName");
+				BigDecimal m_QtyOnHand 		= rs.getBigDecimal("QtyOnHand");
+				BigDecimal m_QtyLoc 		= rs.getBigDecimal("QtyLoc");
+				BigDecimal m_QtyInTransit 	= rs.getBigDecimal("QtyInTransit");
+				BigDecimal m_QtyOrdered 	= rs.getBigDecimal("QtyOrdered");
+				BigDecimal m_QtyDelivered 	= rs.getBigDecimal("QtyDelivered");
+				BigDecimal m_Qty			= rs.getBigDecimal("Qty");
+				String errorMsg = null;
+				
+				//String m_DeliveryRule		= rs.getString("DeliveryRule");
+				//	Valid Quantity Ordered
+				BigDecimal m_AvailableForOrder = m_QtyOrdered
+						.subtract(m_QtyDelivered)
+						.subtract(m_QtyLoc)
+						.subtract(m_Qty);
+				//	
+				BigDecimal m_DiffQtyOnHand = m_QtyOnHand
+						.subtract(m_QtyInTransit)
+						.subtract(m_Qty);
+				//	Valid Order vs Delivered
+				if(m_AvailableForOrder.signum() < 0) {
+					errorMsg = "@Qty@ > (@QtyOrdered@ - @QtyDelivered@ - @QtyInTransit@) " +
+							"[@SeqNo@:" + m_SeqNo + " " +
+							"@M_Product_ID@:\"" + m_ProductName + "\" " +
+							"@Qty@=" + m_Qty.doubleValue() + " " + 
+							"@QtyOrdered@=" + m_QtyOrdered.doubleValue() + " " +
+							"@QtyDelivered@=" + m_QtyDelivered.doubleValue() + " " +
+							"@QtyInTransit@=" + m_QtyLoc.doubleValue() + " " +
+							"@Difference@=" + m_AvailableForOrder.doubleValue() + "]";
+				} else if(
+						//m_DeliveryRule.equals(X_C_Order.DELIVERYRULE_Availability)
+						//&& 
+						m_DiffQtyOnHand.signum() < 0) {
+					errorMsg = "@QtyOnHand@ < (@Qty@ + @QtyInTransit@) " +
+							"[@SeqNo@:" + m_SeqNo + " " +
+							"@M_Product_ID@:\"" + m_ProductName + "\" " +
+							"@QtyOnHand@=" + m_QtyOnHand.doubleValue() + " " +
+							"@Qty@=" + m_Qty.doubleValue() + " " + 
+							"@QtyInTransit@=" + m_QtyInTransit.doubleValue() + " " +
+							"@Difference@=" + m_DiffQtyOnHand.doubleValue() + "]";
+				}
+				//	Add Error Message
+				if(errorMsg != null) {
+					//	Add New Line
+					if(msg.length() > 0)
+						msg.append(Env.NL);
+					//	Add Msg
+					msg.append("*")
+						.append(errorMsg);
+				}
+			}
+		} catch(Exception ex) {
+			log.severe("validExcedeed() Error: " + ex.getMessage());
+		} finally {
+			DB.close(rs, ps);
+			rs = null; ps = null;
+		}
+		//	Return
+		return msg.length() > 0
+				? msg.toString()
+						: null;
+	}
 	
 	/**
 	 * Validate Weight and Volume
@@ -305,11 +467,6 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		if((getVolumeCapacity().subtract(getVolume()).doubleValue() < 0))
 			return "@Volume@ > @VolumeCapacity@";
 		//	End Yamel Senih
-		/*MFTALoadOrderLine[] lines = getLines(true); 
-		for (MFTALoadOrderLine m_FTALoadOrderLine : lines) {
-			m_FTALoadOrderLine
-		}*/
-
 		return null;
 	}
 
@@ -436,17 +593,70 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	 * @return String
 	 */
 	private String validReference(){
-		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(rw.DocumentNo) " +
-				"FROM FTA_RecordWeight rw " +
-				//	Dixon Martinez 23/04/2014 09:51:00
-				//	Add Support for closed Load Order
-				//	"WHERE rw.DocStatus NOT IN('VO', 'RE') " +
-				"WHERE rw.DocStatus NOT IN('VO', 'RE','CL') " +				
-				//	End Dixon Martinez		
-				"AND rw.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
-		if(m_ReferenceNo != null)
-			return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;
+		String m_ReferenceNo = null;
+		//	Valid Record weight
+		if(isWeightRegister()) {
+			m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(rw.DocumentNo) " +
+					"FROM FTA_RecordWeight rw " +
+					"WHERE rw.DocStatus NOT IN('VO', 'RE','CL') " + 	
+					"AND rw.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+			if(m_ReferenceNo != null)
+				return "@SQLErrorReferenced@ @FTA_RecordWeight_ID@: " + m_ReferenceNo;
+		}
+		//	
+		if(getOperationType().equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryFinishedProduct)
+				|| getOperationType().equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryBulkMaterial)) {
+			//	Valid Invoice
+			m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(i.DocumentNo) " +
+					"FROM FTA_LoadOrderLine lol " +
+					"INNER JOIN C_InvoiceLine il ON(il.C_InvoiceLine_ID = lol.C_InvoiceLine_ID) " +
+					"INNER JOIN C_Invoice i ON(i.C_Invoice_ID = il.C_Invoice_ID)" + 
+					"WHERE i.DocStatus NOT IN('VO', 'RE','CL') " +	
+					"AND lol.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+			if(m_ReferenceNo != null)
+				return "@SQLErrorReferenced@ @C_Invoice_ID@: " + m_ReferenceNo;
+			//	Valid Delivery
+			m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(io.DocumentNo) " +
+					"FROM FTA_LoadOrderLine lol " +
+					"INNER JOIN M_InOutLine iol ON(iol.M_InOutLine_ID = lol.M_InOutLine_ID) " +
+					"INNER JOIN M_InOut io ON(io.M_InOut_ID = iol.M_InOut_ID)" + 
+					"WHERE io.DocStatus NOT IN('VO', 'RE','CL') " + 	
+					"AND lol.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+			if(m_ReferenceNo != null)
+				return "@SQLErrorReferenced@ @M_InOut_ID@: " + m_ReferenceNo;
+		} else if(getOperationType().equals(X_FTA_LoadOrder.OPERATIONTYPE_MaterialOutputMovement)) {
+			//	Valid Delivery
+			m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT MAX(mo.DocumentNo) " +
+					"FROM FTA_LoadOrderLine lol " +
+					"INNER JOIN M_MovementLine mol ON(mol.M_MovementLine_ID = lol.M_MovementLine_ID) " +
+					"INNER JOIN M_Movement mo ON(mo.M_Movement_ID = mol.M_Movement_ID)" + 
+					"WHERE mo.DocStatus NOT IN('VO', 'RE','CL') " + 	
+					"AND lol.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+			if(m_ReferenceNo != null)
+				return "@SQLErrorReferenced@ @M_Movement_ID@: " + m_ReferenceNo;
+		}
+		//	
 		return null;
+	}
+	
+	/**
+	 * Get Current Record Weight
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 3, 2015, 9:07:37 PM
+	 * @return
+	 * @return MFTARecordWeight
+	 */
+	public MFTARecordWeight getRecordWeight(){
+		int m_FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(rw.FTA_RecordWeight_ID) " +
+				"FROM FTA_RecordWeight rw " +
+				//2015-03-17 Carlos Parada Change Validation to Complete 
+				//"WHERE rw.DocStatus NOT IN('VO', 'RE') " +				
+				"WHERE rw.DocStatus = 'CO' " +
+				//End Carlos Parada
+				"AND rw.FTA_LoadOrder_ID = ?", getFTA_LoadOrder_ID());
+		if(m_FTA_RecordWeight_ID <= 0)
+			return null;
+		//	Instance
+		return new MFTARecordWeight(getCtx(), m_FTA_RecordWeight_ID, get_TrxName());
 	}
 	
 	
@@ -462,13 +672,6 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
 		if (m_processMsg != null)
 			return false;
-		//	Dixon Martinez 23/04/2014 09:51:00
-		//	Add Support for closed Load Order 
-
-		m_processMsg = validReference();
-		if(m_processMsg != null)
-			return false;
-		//	Set Status
 
 		// After Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
@@ -652,11 +855,126 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	}	//	getLines
 	
 	/**
-	 * 
-	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 09/05/2014, 12:00:53
+	 * Get Lines for Generate In Out
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 2/12/2014, 19:41:32
 	 * @return
-	 * @return String
+	 * @return MFTALoadOrderLine[]
 	 */
+	public MFTALoadOrderLine[] getLinesForInOut() {
+		//	SQL
+		String sql = new String("SELECT lol.* "
+				+ "FROM FTA_LoadOrderLine lol "
+				+ "INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = lol.C_OrderLine_ID) "
+				+ "WHERE lol.FTA_LoadOrder_ID = ? "
+				+ "ORDER BY ol.C_BPartner_ID, ol.M_Warehouse_ID");
+		//	Get
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		//	List
+		ArrayList<MFTALoadOrderLine> list = new ArrayList<MFTALoadOrderLine>();
+		//	
+		try {
+			ps = DB.prepareStatement(sql.toString(), get_TrxName());
+			ps.setInt(1, getFTA_LoadOrder_ID());
+			rs = ps.executeQuery();
+			//	
+			while(rs.next()){
+				list.add(new MFTALoadOrderLine(getCtx(), rs, get_TrxName()));
+			}
+		} catch(Exception ex) {
+			log.severe("getLinesForInOut() Error: " + ex.getMessage());
+		} finally {
+			  DB.close(rs, ps);
+		      rs = null; ps = null;
+		}
+		//	Convert
+		MFTALoadOrderLine [] lines = new MFTALoadOrderLine[list.size ()];
+		list.toArray(lines);
+		return lines;
+	}
+	
+	/**
+	 * Get Shipments from Load Order
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 14/1/2015, 16:29:38
+	 * @param p_FTA_LoadOrder_ID
+	 * @return
+	 * @return MInOut[]
+	 */
+	public MInOut[] getInOutFromLoadOrder(int p_FTA_LoadOrder_ID ) {
+		//	SQL
+		String sql = new String("SELECT io.* "
+				+ " FROM FTA_LoadOrderLine lol "
+				+ " INNER JOIN M_InOutLine iol ON (lol.M_InOutLine_ID = iol.M_InOutLine_ID)"
+				+ " INNER JOIN M_InOut io ON (io.M_InOut_ID = iol.M_InOut_ID )"
+				+ " WHERE lol.FTA_LoadOrder_ID = ?");
+		//	Get
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		//	List
+		ArrayList<MInOut> list = new ArrayList<MInOut>();
+		//	
+		try {
+			ps = DB.prepareStatement(sql.toString(), get_TrxName());
+			ps.setInt(1, p_FTA_LoadOrder_ID);
+			rs = ps.executeQuery();
+			//	
+			while(rs.next()){
+				list.add(new MInOut(getCtx(), rs, get_TrxName()));
+			}
+		} catch(Exception ex) {
+			log.severe("getInOutOfLoadOrder() Error: " + ex.getMessage());
+		} finally {
+			  DB.close(rs, ps);
+		      rs = null; ps = null;
+		}
+		if(list.size() == 0 )
+			return null;
+		//	Convert
+		MInOut [] lines = new MInOut[list.size ()];
+		list.toArray(lines);
+		return lines;
+	}
+	
+	/**
+	 * Get Lines For Movements
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 4/12/2014, 19:55:41
+	 * @return
+	 * @return MFTALoadOrderLine[]
+	 */
+	public MFTALoadOrderLine[] getLinesForMovement() {
+		//	SQL
+		String sql = new String("SELECT lol.* "
+				+ "FROM FTA_LoadOrderLine lol "
+				+ "INNER JOIN DD_OrderLine ol ON(ol.DD_OrderLine_ID = lol.DD_OrderLine_ID) "
+				+ "INNER JOIN DD_Order o ON(o.DD_Order_ID = ol.DD_Order_ID) "
+				+ "WHERE lol.FTA_LoadOrder_ID = ? "
+				+ "ORDER BY o.C_BPartner_ID");
+		//	Get
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		//	List
+		ArrayList<MFTALoadOrderLine> list = new ArrayList<MFTALoadOrderLine>();
+		//	
+		try {
+			ps = DB.prepareStatement(sql.toString(), get_TrxName());
+			ps.setInt(1, getFTA_LoadOrder_ID());
+			rs = ps.executeQuery();
+			//	
+			while(rs.next()){
+				list.add(new MFTALoadOrderLine(getCtx(), rs, get_TrxName()));
+			}
+		} catch(Exception ex) {
+			log.severe("getLinesForInOut() Error: " + ex.getMessage());
+		} finally {
+			  DB.close(rs, ps);
+		      rs = null; ps = null;
+		}
+		//	Convert
+		MFTALoadOrderLine [] lines = new MFTALoadOrderLine[list.size ()];
+		list.toArray(lines);
+		return lines;
+	}
+	
 	/**
 	 * 
 	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 09/05/2014, 12:00:53
@@ -664,12 +982,12 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	 * @return String
 	 */
 	private String validETReference(){
-		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT FTA_LoadOrder_ID " +
+		String m_ReferenceNo = DB.getSQLValueString(get_TrxName(), "SELECT lo.DocumentNo " +
 				"FROM FTA_LoadOrder lo " +
-				"WHERE  lo.DocStatus IN('CO', 'CL') "
-				+ "AND lo.FTA_EntryTicket_ID= ? "
-				+ "AND lo.FTA_LoadOrder_ID != ? ", getFTA_EntryTicket_ID(),getFTA_LoadOrder_ID());
-		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.documentno "
+				"WHERE  lo.DocStatus IN ('" + DOCACTION_Complete + "','" + DOCACTION_Close + "')"
+				+ "AND lo.FTA_EntryTicket_ID = ? "
+				+ "AND lo.FTA_LoadOrder_ID != ? ", getFTA_EntryTicket_ID(), getFTA_LoadOrder_ID());
+		String m_ReferenceNoET = DB.getSQLValueString(get_TrxName(), "SELECT et.DocumentNo "
 				+ "FROM FTA_EntryTicket et "
 				+ "WHERE et.FTA_EntryTicket_ID= ? ", getFTA_EntryTicket_ID());
 		if(m_ReferenceNo != null) 
@@ -725,7 +1043,7 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
 		super.beforeSave(newRecord);
-		//	Dixon Martinez 20/12/2013 09:29
+		//	Dixon Martinez 2013-12-20 09:29
 		//	Add validation for trying to save the charge by not permitted to do so if the vehicle type is null. 
 			
 		String msg = null;
@@ -733,35 +1051,27 @@ public class MFTALoadOrder extends X_FTA_LoadOrder implements DocAction, DocOpti
 		//	Yamel Senih 2013-12-19: 17:04:02
 		//	Valid Operation Type
 		if(getOperationType() == null)
-			msg = "@FTA_VehicleType_ID@ @NotFound@";
+			msg = "@OperationType@ @NotFound@";
 		//	End Yamel Senih
-	
-		if(getVolumeCapacity().compareTo(getVolume()) < 0)
-			msg = "@VolumeCapacity@ < @0@";
-		
-		if(getLoadCapacity().compareTo(getWeight()) < 0)
-			msg = "@LoadCapacity@ < @0@";
 		
 		if(msg != null)
 			throw new AdempiereException(msg);
 		//	End Dixon Martinez
 		
-		//	Set if Handle Record Weight
-		setIsHandleRecordWeight();
+		//	Set Values from ticket
+		if(getFTA_EntryTicket_ID() > 0) {
+			MFTAEntryTicket m_EntryTicket = (MFTAEntryTicket) getFTA_EntryTicket();
+			MFTAVehicle m_Vehicle = (MFTAVehicle) m_EntryTicket.getFTA_Vehicle();
+			setFTA_Driver_ID(m_EntryTicket.getFTA_Driver_ID());
+			setFTA_Vehicle_ID(m_EntryTicket.getFTA_Vehicle_ID());
+			setFTA_VehicleType_ID(m_Vehicle.getFTA_VehicleType_ID());
+			setLoadCapacity(m_Vehicle.getLoadCapacity());
+			setVolumeCapacity(m_Vehicle.getVolumeCapacity());
+		} else if(getFTA_VehicleType_ID() > 0) {
+			MFTAVehicleType m_VehicleType = (MFTAVehicleType) getFTA_VehicleType();
+			setLoadCapacity(m_VehicleType.getLoadCapacity());
+			setVolumeCapacity(m_VehicleType.getVolumeCapacity());
+		}
 		return true;
 	}//	End beforeSave
-	
-	/**
-	 * Set Handle Record Weight from the config Record Weight
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 25/01/2014, 12:45:58
-	 * @return void
-	 */
-	public void setIsHandleRecordWeight() {
-		int m_Reference_ID = DB.getSQLValue(get_TrxName(), "SELECT MAX(ws.FTA_WeightScale_ID) " +
-				"FROM FTA_WeightScale ws " +
-				"WHERE ws.AD_Org_ID = ? "
-				+ " OR ws.AD_Org_ID = 0 ", getAD_Org_ID());
-		//	set Handle Record Weight
-		setIsHandleRecordWeight(m_Reference_ID > 0);
-	}
 }

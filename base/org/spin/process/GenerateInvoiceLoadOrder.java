@@ -16,23 +16,35 @@
  *****************************************************************************/
 package org.spin.process;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.ArrayList;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.util.ProcessUtil;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
-import org.compiere.model.Query;
+import org.compiere.model.MUOM;
+import org.compiere.model.MUOMConversion;
+import org.compiere.model.X_C_Invoice;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
+import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Trx;
 import org.spin.model.MFTALoadOrder;
 import org.spin.model.MFTALoadOrderLine;
+import org.spin.model.MFTARecordWeight;
+import org.spin.model.X_FTA_LoadOrder;
 
 /**
  * @author <a href="mailto:dixon.22martinez@gmail.com">Dixon Martinez</a>
@@ -41,55 +53,59 @@ import org.spin.model.MFTALoadOrderLine;
 public class GenerateInvoiceLoadOrder extends SvrProcess {
 
 
-	/** Document Type*/
-	private int p_C_DocTypeTarget_ID = 0;
+	/** Document Type						*/
+	private int 				p_C_DocTypeInvoice_ID 	= 0;
+	/** DateInvoiced 						*/
+	private Timestamp 			p_DateInvoiced			= null;	
+	/**	Document Action						*/
+	private String				p_DocAction				= null;
+	/**	Current Order						*/
+	private int 				m_Current_BPartner_ID	= 0;
+	/**	Parent Instance						*/
+	private int 				m_Parent_Instance_ID 	= 0;
+	/**	Current Invoice						*/
+	private MInvoice 			m_Current_Invoice		= null;
+	/** Sql									*/
+	private StringBuffer 		sql 					= new StringBuffer();
+	/** Created Records						*/
+	private int 				m_Created 				= 0;
+	/**	Message								*/
+	private StringBuffer 		msg 					= new StringBuffer();
+	/**	Print Document						*/
+	private ArrayList<Integer>	m_IDs					= new ArrayList<Integer>();
 	
-	/** Sql*/
-	private StringBuffer sql = new StringBuffer();
-	
-	/** C_Order_ID */
-	private int m_C_Order_ID =-1; 
-
-	/** Created Records*/
-	private int m_Created =0;
-
-	/** DateInvoiced */
-	private Timestamp p_DateInvoiced;
-	
-	/** Date Acct for Documents*/
-	private Timestamp p_DateAcct;
-	
-	/** Organization */
-	private int p_AD_Org_ID = 0;
-
-	/* (non-Javadoc)
-	 * @see org.compiere.process.SvrProcess#prepare()
-	 */
 	@Override
 	protected void prepare() {
 		for (ProcessInfoParameter para:getParameter()){
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("AD_Org_ID"))
-				p_AD_Org_ID = para.getParameterAsInt();
-			else if (name.equals("C_DocTypeTarget_ID"))
-				p_C_DocTypeTarget_ID = para.getParameterAsInt();
+			else if (name.equals("C_DocTypeInvoice_ID"))
+				p_C_DocTypeInvoice_ID = para.getParameterAsInt();
 			else if (name.equals("DateInvoiced"))
 				p_DateInvoiced =  (Timestamp) para.getParameter();
-			else if (name.equals("DateAcct"))
-				p_DateAcct =  (Timestamp) para.getParameter();
-			
+			else if (name.equals("DocAction"))
+				p_DocAction =  (String) para.getParameter();
+			else if(name.equals("Parent_Instance_ID"))
+					m_Parent_Instance_ID = para.getParameterAsInt();
 		}
-		
+		//	
+		if(m_Parent_Instance_ID == 0)
+			m_Parent_Instance_ID = getAD_PInstance_ID();
+		//	SQL
 		sql.append("Select "
 					+ "	ts.AD_PInstance_ID, "
-					+ " ts.T_Selection_ID As FTA_LoadOrderLine_ID, "
+					+ " ts.T_Selection_ID As Record_ID, "
 					+ " tsb.C_BPartner_ID, "
 					+ " tsb.DateDoc, "
 					+ " tsb.M_Product_ID, "
 					+ " tsb.Qty, "
 					+ " tsb.C_Order_ID,"
+					//2015-06-19 Carlos Parada Add for Support Charges And Not Items Products from Sales Order
+					+ " tsb.C_OrderLine_ID,"
+					+ " tsb.C_Charge_ID,"
+					+ " tsb.FTA_LoadOrderLine_ID,"
+					//End Carlos Parada
 					+ " tsb.FTA_LoadOrder_ID,"
 					+ " tsb.PriceEntered,"
 					+ " tsb.PriceList,"
@@ -102,119 +118,260 @@ public class GenerateInvoiceLoadOrder extends SvrProcess {
 						+ " 	Max(Case When tsb.ColumnName = 'GI_DateDoc' Then tsb.Value_Date Else Null End) As DateDoc, "
 						+ " 	Max(Case When tsb.ColumnName = 'GI_M_Product_ID' Then tsb.Value_Number Else Null End) As M_Product_ID,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_FTA_LoadOrder_ID' Then tsb.Value_Number Else Null End) As FTA_LoadOrder_ID,"
+						
 						+ " 	Max(Case When tsb.ColumnName = 'GI_Qty' Then tsb.Value_Number Else Null End) As Qty,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_PriceActual' Then tsb.Value_Number Else Null End) As PriceActual,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_PriceEntered' Then tsb.Value_Number Else Null End) As PriceEntered,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_PriceList' Then tsb.Value_Number Else Null End) As PriceList,"
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Order_ID' Then tsb.Value_Number Else Null End) As C_Order_ID,"
+						//2015-06-19 Carlos Parada Add for Support Charges And Not Items Products from Sales Order
+						+ " 	Max(Case When tsb.ColumnName = 'GI_C_OrderLine_ID' Then tsb.Value_Number Else Null End) As C_OrderLine_ID,"
+						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Charge_ID' Then tsb.Value_Number Else Null End) As C_Charge_ID,"
+						+ " 	Max(Case When tsb.ColumnName = 'GI_FTA_LoadOrderLine_ID' Then tsb.Value_Number Else Null End) As FTA_LoadOrderLine_ID,"
+						//End Carlos Parada
 						+ " 	Max(Case When tsb.ColumnName = 'GI_C_Tax_ID' Then tsb.Value_Number Else Null End) As C_Tax_ID"
 						+ " From T_Selection_Browse tsb "
 						+ " Group By tsb.AD_PInstance_ID, tsb.T_Selection_ID"
 						+ ") tsb On ts.AD_PInstance_ID=tsb.AD_PInstance_ID And ts.T_Selection_ID=tsb.T_Selection_ID "
-						+ " Where ts.AD_PInstance_ID=? Order By tsb.C_Order_ID");
+						//2015-06-19 Carlos Parada Add for Support Charges And Not Items Products from Sales Order
+						//+ " Inner Join FTA_LoadOrderLine lord ON(lord.FTA_LoadOrderLine_ID = ts.T_Selection_ID) "
+						+ " Inner Join C_OrderLine oline ON(oline.C_OrderLine_ID = tsb.C_OrderLine_ID) "
+						//End Carlos Parada
+						+ " Where ts.AD_PInstance_ID=? "
+						+ " Order By tsb.C_BPartner_ID, oline.Line");
 		log.fine(sql.toString());
 	}
 
-	/* (non-Javadoc)
-	 * @see org.compiere.process.SvrProcess#doIt()
-	 */
 	@Override
 	protected String doIt() throws Exception {
-		if(p_AD_Org_ID == 0)
-			throw new AdempiereUserError("@AD_Org_ID@ @NotFound@");
-		
-		if(p_C_DocTypeTarget_ID == 0)
-			throw new AdempiereUserError("@C_DocType_ID@ @NotFound@");
-		
 		if (p_DateInvoiced == null)
-			throw new AdempiereUserError("@DateInvoiced@ @NotFound@");
-		
-		if (p_DateAcct == null)
-			throw new AdempiereUserError("@DateAcct@ @NotFound@");
-		
+			p_DateInvoiced = Env.getContextAsDate(getCtx(), "#Date");
+		//	Valid Parameter Document Action
+		if (p_DocAction == null)
+			throw new AdempiereUserError("@DocAction@ @NotFound@");
+		//	Return
 		return createInvoices();
 	}
 
 	/**
 	 * Create Invoice From Liquidations
 	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 03/11/2013, 18:59:49
+	 * @contributhor <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 2014-12-08, 22:42:18
 	 * @return
 	 * @return String
 	 */
 	private String createInvoices(){
-		
-		PreparedStatement ps =null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
-		MInvoice invoice =null;
 		try{
 			ps = DB.prepareStatement(sql.toString(), get_TrxName());
-			ps.setInt(1, getAD_PInstance_ID());
+			ps.setInt(1, m_Parent_Instance_ID);
 			rs = ps.executeQuery();
-			
-			
-			while(rs.next()){
-				if (m_C_Order_ID!=rs.getInt("C_Order_ID")){
-					
-					m_C_Order_ID=rs.getInt("C_Order_ID");
-					//	Valid Purchase Order
-					if(m_C_Order_ID == 0)
-						throw new AdempiereException("@C_Order_ID@ @NotFound@");
-					
-					//Load Order From Farming
-					MOrder order = new MOrder(getCtx(), m_C_Order_ID, get_TrxName());
-					
+			//	
+			while(rs.next()) {
+				int m_C_Order_ID = rs.getInt("C_Order_ID");
+				int m_C_OrderLine_ID = rs.getInt("C_OrderLine_ID");
+				int m_C_Charge_ID = rs.getInt("C_Charge_ID");
+				int m_M_Product_ID = rs.getInt("M_Product_ID");
+				
+				BigDecimal rate = Env.ZERO;
+				//	Valid Purchase Order and Business Partner
+				if(m_C_Order_ID == 0)
+					throw new AdempiereException("@C_Order_ID@ @NotFound@");
+				//Load Order From Farming
+				MOrder order = new MOrder(getCtx(), m_C_Order_ID, get_TrxName());				
+				int m_C_BPartner_ID = order.getC_BPartner_ID();
+				BigDecimal m_Qty = rs.getBigDecimal("Qty");
+				//
+				if (m_Current_BPartner_ID != m_C_BPartner_ID) {
+					//	Complete Previous Invoice
+					completeInvoice();
+					m_Current_BPartner_ID = m_C_BPartner_ID;
 					//Create Invoice From Order
-					invoice = new MInvoice(order, p_C_DocTypeTarget_ID, p_DateInvoiced);
-					invoice.setDateAcct(p_DateAcct);
-					invoice.setAD_Org_ID(p_AD_Org_ID);
-					invoice.save(get_TrxName());
-					m_Created++;
+					m_Current_Invoice = new MInvoice(order, p_C_DocTypeInvoice_ID, p_DateInvoiced);
+					m_Current_Invoice.setDateAcct(p_DateInvoiced);
+					//	Set DocStatus
+					m_Current_Invoice.setDocStatus(X_C_Invoice.DOCSTATUS_Drafted);
+					m_Current_Invoice.saveEx(get_TrxName());
 				}
 				//Invoiced Created?
-				if (invoice!=null){
-					//Get Lines From Load Order
-					List<MFTALoadOrderLine> lol_line = new Query(getCtx(), MFTALoadOrderLine.Table_Name, "FTA_LoadOrderLine_ID = ?",get_TrxName())
-							.setOnlyActiveRecords(true)
-							.setParameters(rs.getInt("FTA_LoadOrderLine_ID"))
-							.list();
+				if (m_Current_Invoice != null){
+					//	Get Values from Result Set
+					int m_FTA_LoadOrderLine_ID 	= rs.getInt("FTA_LoadOrderLine_ID");
 					
-					//Create Invoice Lines From Order
-					for (MFTALoadOrderLine mftaLoadOrderLine : lol_line) {
-						MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), 0, get_TrxName());
-						MProduct product = new MProduct(getCtx(), rs.getInt("M_Product_ID"), get_TrxName());
+					//Get Lines From Load Order
+					MFTALoadOrderLine line = new MFTALoadOrderLine(getCtx(), 
+							m_FTA_LoadOrderLine_ID, get_TrxName());
+					
+					MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), 0, get_TrxName());
+					//	Get Product
+					MProduct product = MProduct.get(getCtx(), m_M_Product_ID);
+					
+					MOrderLine oLine = new MOrderLine(getCtx(), m_C_OrderLine_ID, get_TrxName());
+					
+					//2015-05-19 Carlos Parada Only Convertion for Products
+					if(oLine.getM_Product_ID()!=0){
+						//	Rate Convert
+						rate = MUOMConversion.getProductRateTo(Env.getCtx(), 
+								product.getM_Product_ID(), oLine.getC_UOM_ID());
+						//	Validate Rate equals null
+						if(rate == null) {
+							MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
+							MUOM oLineUOM = MUOM.get(getCtx(), oLine.getC_UOM_ID());
+							throw new AdempiereException("@NoUOMConversion@ @from@ " 
+											+ oLineUOM.getName() + " @to@ " + productUOM.getName());
+						}
 						invoiceLine.setM_Product_ID(product.getM_Product_ID());
-						invoiceLine.setC_UOM_ID(product.getC_UOM_ID());
-						invoiceLine.setQty(rs.getBigDecimal("Qty"));
-						invoiceLine.setAD_Org_ID(p_AD_Org_ID);
-						invoiceLine.setPrice(rs.getBigDecimal("PriceList"));
-						invoiceLine.setPriceEntered(rs.getBigDecimal("PriceEntered"));
-						invoiceLine.setPriceActual(rs.getBigDecimal("PriceActual"));
-						invoiceLine.setC_Tax_ID(rs.getInt("C_Tax_ID"));
-						invoiceLine.setC_Invoice_ID(invoice.get_ID());
-						invoiceLine.save(get_TrxName());
-						mftaLoadOrderLine.setC_InvoiceLine_ID(invoiceLine.get_ID());
-						mftaLoadOrderLine.saveEx();
-						
-						MFTALoadOrder lo = new MFTALoadOrder(getCtx(),mftaLoadOrderLine.getFTA_LoadOrder_ID(), get_TrxName());
+					}else if (oLine.getC_Charge_ID()!=0)
+						invoiceLine.setC_Charge_ID(m_C_Charge_ID);
+					
+					
+					if (m_FTA_LoadOrderLine_ID==0){
+						invoiceLine.setQtyEntered(oLine.getQtyOrdered());
+						invoiceLine.setQtyInvoiced(oLine.getQtyOrdered());
+					}
+					//End Carlos Parada
+					//	Set Values For Line
+					invoiceLine.setC_OrderLine_ID(oLine.getC_OrderLine_ID());
+					
+					invoiceLine.setC_UOM_ID(oLine.getC_UOM_ID());
+					int m_FTA_LoadOrder_ID 	= rs.getInt("FTA_LoadOrder_ID");
+					//	
+					MFTALoadOrder m_FTA_LoadOrder = new MFTALoadOrder(getCtx(), 
+							m_FTA_LoadOrder_ID, get_TrxName());
+					//	
+					if (line.getFTA_LoadOrder_ID()!=0){
+						if(m_FTA_LoadOrder.getOperationType().equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryFinishedProduct)) {
+							invoiceLine.setQtyEntered(m_Qty.multiply(rate));
+							invoiceLine.setQtyInvoiced(m_Qty);
+						} else if(m_FTA_LoadOrder.getOperationType().equals(X_FTA_LoadOrder.OPERATIONTYPE_DeliveryBulkMaterial)) {
+							String sql = "SELECT FTA_RecordWeight_ID " +
+									"FROM FTA_RecordWeight " +
+									"WHERE DocStatus IN('CO', 'CL') " +
+									"AND FTA_LoadOrder_ID= ?";
+							//	
+							int FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), sql, m_FTA_LoadOrder_ID);
+							//	Valid Record Weight
+							if(FTA_RecordWeight_ID <= 0)
+								throw new AdempiereException("@FTA_RecordWeight_ID@ @NotFound@");
+							
+							MFTARecordWeight m_RecordWeight = new MFTARecordWeight(getCtx(), FTA_RecordWeight_ID, get_TrxName());
+							//	Get Rate for Weight
+							
+							//2015-05-16 Carlos Parada Change for get Rate From 
+							BigDecimal rateWeight = MUOMConversion.getProductRateFrom(Env.getCtx(), 
+									product.getM_Product_ID(), m_RecordWeight.getC_UOM_ID());
+							//End Carlos Parada
+							//	
+							//	Validate Rate equals null
+							if(rateWeight == null) {
+								MUOM productUOM = MUOM.get(getCtx(), product.getC_UOM_ID());
+								MUOM oLineUOM = MUOM.get(getCtx(), m_RecordWeight.getC_UOM_ID());
+								throw new AdempiereException("@NoUOMConversion@ @from@ " 
+												+ oLineUOM.getName() + " @to@ " + productUOM.getName());
+							}
+							//	
+							BigDecimal m_QtyWeight = m_RecordWeight.getNetWeight();
+							BigDecimal m_QtyInvoced = m_QtyWeight.multiply(rateWeight);
+							BigDecimal m_QtyEntered = m_QtyInvoced.multiply(rate);
+							
+							invoiceLine.setQtyEntered(m_QtyEntered);
+							invoiceLine.setQtyInvoiced(m_QtyInvoced);
+							
+						}	
+					}
+					invoiceLine.setAD_Org_ID(m_Current_Invoice.getAD_Org_ID());
+					invoiceLine.setPriceList(oLine.getPriceList());
+					invoiceLine.setPriceEntered(oLine.getPriceEntered());
+					invoiceLine.setPriceActual(oLine.getPriceActual());
+					invoiceLine.setC_Tax_ID(oLine.getC_Tax_ID());
+					invoiceLine.setC_Invoice_ID(m_Current_Invoice.getC_Invoice_ID());
+					invoiceLine.save(get_TrxName());
+					//	
+					if (line.getFTA_LoadOrder_ID()!=0){
+						line.setC_InvoiceLine_ID(invoiceLine.getC_InvoiceLine_ID());
+						line.saveEx();
+					
+						//	Change Load Order
+						MFTALoadOrder lo = new MFTALoadOrder(getCtx(), 
+								line.getFTA_LoadOrder_ID(), get_TrxName());
 						lo.setIsInvoiced(true);
 						lo.saveEx();
 					}
-					
 				}//End Invoice Line Created
 			}//End Invoice Generated
-			invoice.processIt(MInvoice.DOCACTION_Complete);
-			invoice.saveEx(get_TrxName());
-			
+			//	
+			completeInvoice();
+			//	Commmit
 			commitEx();
+			//	Print Documents
+			printDocuments();
 		}
-		catch(Exception ex){
+		catch(Exception ex) {
 			rollback();
 			return ex.getMessage();
+		} finally{
+			DB.close(rs, ps);
+		    rs = null; ps = null;
 		}
-		finally{
-			  DB.close(rs, ps);
-		      rs = null; ps = null;
+		//	Info
+		return "@C_Invoice_ID@ @Created@ = "+ m_Created + " [" + msg.toString() + "]";
+	}
+	
+	/**
+	 * Print Invoices
+	 * Add support for generating control number to generate invoices from load order
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 1, 2015, 12:29:09 PM
+	 * @author <a href="mailto:dmartinez@erpcya.com">Dixon Martinez</a> 10/11/2015, 18:04:43
+	 * @return void
+	 */
+	private void printDocuments() {
+		for (int Record_ID : m_IDs) {
+			//	Create Trx
+			String trxName = Trx.createTrxName("PRINTER_INVOICE");	
+			Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
+			//	Create Process Info
+			ProcessInfo pi_PrintInvoice = new ProcessInfo(getProcessInfo().getTitle() , 116);
+			//	Dixon Martinez 2015-11-10
+			//	Set AD_PInstance to process generate in/out
+			pi_PrintInvoice.setAD_PInstance_ID(getAD_PInstance_ID());
+			//	End Dixon Martinez
+			//	Add Parameters
+			pi_PrintInvoice.setRecord_ID(Record_ID);
+			//	Execute Process
+			ProcessUtil.startJavaProcess(getCtx(), pi_PrintInvoice, trx, true);
+			ReportCtl.startDocumentPrint(ReportEngine.INVOICE, Record_ID, null, 0, true);
 		}
-		return "@Created@ "+ m_Created + " " + invoice.getDocumentNo();
+	}
+	
+	/**
+	 * Complete Invoice
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> 8/12/2014, 22:49:19
+	 * @return void
+	 */
+	private void completeInvoice(){
+		if(m_Current_Invoice != null
+				&& m_Current_Invoice.getDocStatus().equals(X_C_Invoice.DOCSTATUS_Drafted)) {
+			m_Current_Invoice.setDocAction(p_DocAction);
+			m_Current_Invoice.processIt(p_DocAction);
+			m_Current_Invoice.saveEx();
+			m_Current_Invoice.load(get_TrxName());
+			addLog(m_Current_Invoice.getC_Invoice_ID(), m_Current_Invoice.getDateAcct(), null,
+					m_Current_Invoice.getDocumentNo() + 
+					(m_Current_Invoice.getProcessMsg() != null && m_Current_Invoice.getProcessMsg().length() !=0
+					? ": Error " + m_Current_Invoice.getProcessMsg()
+							:" --> @OK@"));
+			//	Initialize Message
+			if(msg.length() > 0)
+				msg.append(" - " + m_Current_Invoice.getDocumentNo());
+			else
+				msg.append(m_Current_Invoice.getDocumentNo());		
+			//	Created
+			m_Created ++;
+			//	Is Printed?
+			if(m_Current_Invoice.getDocStatus().equals(X_C_Invoice.DOCSTATUS_Completed)) {
+				m_IDs.add(m_Current_Invoice.getC_Invoice_ID());
+			}
+		}
 	}
 }

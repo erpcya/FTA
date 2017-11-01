@@ -113,13 +113,54 @@ ALTER TABLE M_Product ADD COLUMN IsCategory CHAR(1) DEFAULT 'N' CHECK (IsCategor
 ALTER TABLE M_RMA ADD COLUMN FTA_FarmerCredit_ID NUMERIC(10) DEFAULT NULL 
 ;
 
--- Oct 2, 2014 5:27:07 PM VET
--- FTA
-ALTER TABLE FTA_RecordWeight ADD COLUMN TrailerPlate VARCHAR(60) DEFAULT NULL 
-;
-
 -- Oct 24, 2014 10:54:35 AM VET
 -- Farming Technical Assistance
 ALTER TABLE C_DocType ADD COLUMN IsCheckReturn CHAR(1) DEFAULT 'N' CHECK (IsCheckReturn IN ('Y','N'))
 ;
 
+-- Jan 13, 2015 10:01:07 AM VET
+-- FTA
+ALTER TABLE C_DocType ADD COLUMN IsImmediateDelivery CHAR(1) DEFAULT 'N' CHECK (IsImmediateDelivery IN ('Y','N'))
+;
+
+-- Jan 13, 2015 10:01:30 AM VET
+-- FTA
+ALTER TABLE FTA_LoadOrder ADD COLUMN IsImmediateDelivery CHAR(1) DEFAULT 'N' CHECK (IsImmediateDelivery IN ('Y','N'))
+;
+
+-- Jan 13, 2015 10:02:03 AM VET
+-- FTA
+ALTER TABLE M_InOut ADD COLUMN ControlNo VARCHAR(60) DEFAULT NULL 
+;
+
+
+-- Feb 13, 2015 11:08:17 PM VET
+-- FTA
+ALTER TABLE C_DocType ADD COLUMN IsManual CHAR(1) DEFAULT 'N' CHECK (IsManual IN ('Y','N'))
+;
+
+
+-- Feb 13, 2015 11:09:43 PM VET
+-- FTA
+ALTER TABLE C_DocType ADD COLUMN IsValidateQuantity CHAR(1) DEFAULT 'Y' CHECK (IsValidateQuantity IN ('Y','N'))
+;
+
+-- Feb 13, 2015 11:12:49 PM VET
+-- FTA
+ALTER TABLE M_InOut ADD COLUMN IsManual CHAR(1) DEFAULT 'N' CHECK (IsManual IN ('Y','N'))
+;
+-- Feb 13, 2015 11:16:56 PM VET
+-- FTA
+ALTER TABLE M_Movement ADD COLUMN ControlNo VARCHAR(60) DEFAULT NULL 
+;
+
+
+-- Feb 13, 2015 11:17:19 PM VET
+-- FTA
+ALTER TABLE M_Movement ADD COLUMN IsManual CHAR(1) DEFAULT NULL CHECK (IsManual IN ('Y','N'))
+;
+
+-- Feb 13, 2015 11:18:02 PM VET
+-- FTA
+ALTER TABLE M_Movement ADD COLUMN FTA_RecordWeight_ID NUMERIC(10) DEFAULT NULL 
+;

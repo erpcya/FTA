@@ -1,6 +1,6 @@
 ﻿--DROP VIEW FTA_RV_LiquidationsForInvoice;
-Create Or Replace View FTA_RV_LiquidationsForInvoice AS
-Select 
+CREATE OR REPLACE VIEW FTA_RV_LiquidationsForInvoice AS
+SELECT 
 fl.AD_Client_ID,
 fl.AD_Org_ID,
 fl.Amt,
@@ -24,10 +24,10 @@ fl.NetWeight,
 fl.Processed,
 LiquidationAvailable(fl.FTA_FarmerLiquidation_ID) AvailableAmt,
 fming.C_Order_ID
-From 
+FROM 
 FTA_FarmerLiquidation fl
-Left Join (Select Distinct col.C_Order_ID, COALESCE(fc.Parent_FarmerCredit_ID, fming.FTA_FarmerCredit_ID) FTA_FarmerCredit_ID 
-		From  FTA_Farming fming 
+LEFT JOIN (SELECT DISTINCT col.C_Order_ID, COALESCE(fc.Parent_FarmerCredit_ID, fming.FTA_FarmerCredit_ID) FTA_FarmerCredit_ID,fming.Category_ID AS M_Product_ID  
+		FROM  FTA_Farming fming 
 		INNER JOIN FTA_FarmerCredit fc ON(fc.FTA_FarmerCredit_ID = fming.FTA_FarmerCredit_ID)
-		Inner Join C_OrderLine col On fming.C_OrderLine_ID = col.C_OrderLine_ID) fming On fl.FTA_FarmerCredit_ID = fming.FTA_FarmerCredit_ID
+		INNER JOIN C_OrderLine col ON fming.C_OrderLine_ID = col.C_OrderLine_ID) fming ON fl.FTA_FarmerCredit_ID = fming.FTA_FarmerCredit_ID AND fming.M_Product_ID = fl.M_Product_ID
 ;

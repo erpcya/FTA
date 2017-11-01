@@ -1,0 +1,15 @@
+-- Feb 14, 2015 12:32:25 AM VET
+-- FTA
+UPDATE AD_Field SET DisplayLogic='@DocBaseType@ = ''DDO''',Updated=TO_DATE('2015-02-14 00:32:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=76144
+;
+
+-- Feb 14, 2015 12:33:07 AM VET
+-- FTA
+UPDATE AD_Column SET AD_Val_Rule_ID=201,Updated=TO_DATE('2015-02-14 00:33:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=75765
+;
+
+-- Feb 14, 2015 12:36:53 AM VET
+-- FTA
+UPDATE AD_Field SET DisplayLogic='@DocBaseType@ = ''DOO''',Updated=TO_DATE('2015-02-14 00:36:53','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=76144
+;
+

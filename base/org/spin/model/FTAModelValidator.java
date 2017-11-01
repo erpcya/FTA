@@ -31,6 +31,8 @@ import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MMovement;
+import org.compiere.model.MMovementLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPayment;
@@ -87,7 +89,9 @@ public class FTAModelValidator implements ModelValidator {
 		engine.addDocValidate(MPayment.Table_Name, this);
 		engine.addDocValidate(MFTAFarmerCredit.Table_Name, this);
 		engine.addModelChange(X_C_Order.Table_Name, this);
+		engine.addDocValidate(MMovement.Table_Name, this);
 		//	End Dixon Martinez
+		engine.addModelChange(X_FTA_LoadOrder.Table_Name, this);
 	}
 	boolean creditControlModule ;
 	@Override
@@ -403,7 +407,8 @@ public class FTAModelValidator implements ModelValidator {
 						return "@FTA_BillOfExchange_ID@ @Unsigned@";
 				}
 			}
-		} else if(timing == TIMING_BEFORE_REVERSECORRECT){
+		} else if(timing == TIMING_BEFORE_REVERSECORRECT
+				|| timing == TIMING_BEFORE_VOID){
 			if (po.get_TableName().equals(I_C_Invoice.Table_Name)
 					&& creditControlModule){
 				MInvoice invoice = (MInvoice) po;
@@ -449,13 +454,32 @@ public class FTAModelValidator implements ModelValidator {
 						MFTALoadOrderLine lin = 
 								new MFTALoadOrderLine(mInOutLine.getCtx(), p_FTA_LoadOrderLine_ID, mInOutLine.get_TrxName());
 						lin.setM_InOutLine_ID(0);
+						lin.setConfirmedQty(Env.ZERO);
 						lin.saveEx();
 						
 						MFTALoadOrder lo = new MFTALoadOrder(lin.getCtx(),lin.getFTA_LoadOrder_ID(), lin.get_TrxName());
 						lo.setIsDelivered(false);
-						lo.setIsWeightRegister(false);
 						lo.saveEx();
 					}
+				}
+			}else if(po.get_TableName().equals(MMovement.Table_Name)) { //	Reverse Movement
+				MMovement mMovement = (MMovement) po;
+				MMovementLine mMovementLine [] =  mMovement.getLines(true);
+				for (MMovementLine m_MovementLine : mMovementLine) {
+					String sql = "SELECT FTA_LoadOrderLine_ID FROM FTA_LoadOrderLine WHERE M_MovementLine_ID = ?";
+					int p_FTA_LoadOrderLine_ID = DB.getSQLValue(m_MovementLine.get_TrxName(), sql, m_MovementLine.get_ID());
+					if(p_FTA_LoadOrderLine_ID <= 0)
+						continue;
+					
+					MFTALoadOrderLine lin = 
+							new MFTALoadOrderLine(m_MovementLine.getCtx(), p_FTA_LoadOrderLine_ID, m_MovementLine.get_TrxName());
+					lin.setM_MovementLine_ID(0);
+					lin.setConfirmedQty(Env.ZERO);
+					lin.saveEx();
+					
+					MFTALoadOrder lo = new MFTALoadOrder(lin.getCtx(),lin.getFTA_LoadOrder_ID(), lin.get_TrxName());
+					lo.setIsMoved(false);
+					lo.saveEx();
 				}
 			}
 		}else if (timing == TIMING_BEFORE_PREPARE) {

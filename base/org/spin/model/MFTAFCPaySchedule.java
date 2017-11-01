@@ -302,15 +302,14 @@ public class MFTAFCPaySchedule extends X_FTA_FC_PaySchedule {
 	 * @return
 	 * @return boolean
 	 */
-	public boolean applyToFarmerCredit(int FTA_FarmerCredit_ID){
-		MFTAFarmerCredit m_FTA_FarmerCredit = 
-				new MFTAFarmerCredit(getCtx(), FTA_FarmerCredit_ID, get_TrxName());
-		if(m_FTA_FarmerCredit == null
-				|| m_FTA_FarmerCredit.get_ID() == 0){
+	public boolean applyToFarmerCredit(int FTA_FarmerCredit_ID) {
+		if(FTA_FarmerCredit_ID <= 0){
 			log.log(Level.SEVERE, "apply - Not valid FTA_FarmerCredit_ID=" + FTA_FarmerCredit_ID);
 			return false;
 		}
-			
+		//	
+		MFTAFarmerCredit m_FTA_FarmerCredit = 
+				new MFTAFarmerCredit(getCtx(), FTA_FarmerCredit_ID, get_TrxName());
 		return applyToFarmerCredit(m_FTA_FarmerCredit);
 	}
 
@@ -372,7 +371,10 @@ public class MFTAFCPaySchedule extends X_FTA_FC_PaySchedule {
 		//	Update Farmer Credit
 		if (m_FTA_FarmerCredit.getC_PaymentTerm_ID() != m_PayTerm.getC_PaymentTerm_ID())
 			m_FTA_FarmerCredit.setC_PaymentTerm_ID(m_PayTerm.getC_PaymentTerm_ID());
-		
+		//	Valid Null
+		if(m_FTA_FC_PaySchedule == null)
+			return false;
+		//	Default
 		return m_FTA_FC_PaySchedule.validatePaySchedule();
 	}
 		

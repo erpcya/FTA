@@ -1,0 +1,15 @@
+
+
+#Run Scripts:
+
+psql.bin:/opt/Development/workspace/FTA/migration/postgresql/000Add_EntityType_SFAndroid_And_EntityType_Spin_postgresql.sql:9: ERROR:  duplicate key value violates unique constraint "ad_entitytype_pkey"
+DETAIL:  Key (entitytype)=(ECA02) already exists.
+ altercolumn 
+-------------
+ 
+(1 row)
+
+ ad_client_id | ad_org_id | created | createdby | updated | updatedby | isactive | docstatus | datedoc | c_doctype_id | m_product_id | m_warehouse_id | fta_loadorder_id | qty | weight | confirmedqty | confirmedweight | dd_orderline_id | fta_loadorderline_id | documentno | qtyentered | linenetamt | c_uom_id | m_movementline_id | dd_order_id | m_movement_id | c_bpartner_id | movementqty | operationtype | fta_entryticket_id | isimmediatedelivery 
+--------------+-----------+---------+-----------+---------+-----------+----------+-----------+---------+--------------+--------------+----------------+------------------+-----+--------+--------------+-----------------+-----------------+----------------------+------------+------------+------------+----------+-------------------+-------------+---------------+---------------+-------------+---------------+--------------------+---------------------
+(0 rows)
+

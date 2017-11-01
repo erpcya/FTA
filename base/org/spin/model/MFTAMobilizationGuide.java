@@ -204,9 +204,36 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 	}	//	rejectIt
 	
 	/**
+	 * Valid Reference in another record
+	 * @author <a href="mailto:waditzar.c@gmail.com">Waditza Rivas</a> 10/01/2015, 16:05:21
+	 */
+	public void ValidRecordWeight()
+	{
+		
+		String sql ;
+		int p_FTA_RecordWeight_ID = 0;
+		
+		sql = "SELECT rw.FTA_RecordWeight_ID"
+				+ " FROM FTA_RecordWeight rw"
+				+ " WHERE"
+				+ "		rw.DocStatus IN('IP', 'CO')"
+				+ "		AND rw.FTA_LoadOrder_ID = ?"; 
+		
+		p_FTA_RecordWeight_ID = DB.getSQLValue(get_TrxName(), 
+				sql,getFTA_LoadOrder_ID());
+		setFTA_RecordWeight_ID(p_FTA_RecordWeight_ID);
+		saveEx();
+		//	
+		if(p_FTA_RecordWeight_ID <= 0)
+		{
+			m_processMsg = "@FTA_RecordWeight_ID@ @NotFound@";
+		}
+	}
+	/**
 	 * 	Complete Document
 	 * 	@return new status (Complete, In Progress, Invalid, Waiting ..)
 	 */
+	
 	public String completeIt()
 	{
 		//	Re-Check
@@ -234,7 +261,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 			else if(getFTA_RecordWeight_ID() == 0) {
 				MFTALoadOrder loadOrder = new MFTALoadOrder(getCtx(), getFTA_LoadOrder_ID(), get_TrxName());
 				if(loadOrder.isHandleRecordWeight())
-					m_processMsg = "@FTA_RecordWeight_ID@ @NotFound@";
+					ValidRecordWeight();
 			} else 
 				m_processMsg = validMGReference();
 		} else {
@@ -253,15 +280,13 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 		//	Dixon Martinez 03/06/2014 08:58:00
 		//	Add Support to complete exists guide outside
 		if(isSOTrx()
-				&& getExt_Guide() == null){
+				&& (getExt_Guide() == null
+						|| getExt_Guide().trim().length() == 0)){
 			m_processMsg = "@Ext_Guide@ @NotFound@";
 			return DOCACTION_Invalidate;
 		}
 		
 		//	End Dixon Martinez
-		
-		
-		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -572,6 +597,7 @@ public class MFTAMobilizationGuide extends X_FTA_MobilizationGuide implements Do
 				"AND rc.ValidFrom <= ? " +
 				"AND rc.IsActive = 'Y' " +
 				"AND mg.DateDoc >= rc.ValidFrom " +
+				"AND mg.DateDoc<COALESCE((SELECT Min(rcs.ValidFrom) FROM FTA_ReceptionCapacity rcs WHERE rc.M_WareHouse_ID= rcs.M_WareHouse_ID AND rc.AD_Org_ID=rcs.AD_Org_ID AND rcs.ValidFrom > rc.ValidFrom),now()) " +
 				"AND (mg.DocStatus IN('CO', 'CL') OR mg.DocStatus IS NULL) " +
 				"GROUP BY rc.Qty, rc.ValidFrom " +
 				"ORDER BY rc.ValidFrom DESC", getAD_Org_ID(), getM_Warehouse_ID(), getDateDoc());

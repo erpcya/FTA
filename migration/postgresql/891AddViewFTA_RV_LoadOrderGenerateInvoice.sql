@@ -1,5 +1,5 @@
 ﻿--DROP VIEW FTA_RV_LoadOrderGenerateInvoice;
-CREATE OR REPLACE VIEW FTA_RV_LoadOrderGenerateInvoice AS 
+/*CREATE OR REPLACE VIEW FTA_RV_LoadOrderGenerateInvoice AS 
 SELECT 
     lo.AD_Org_ID,
     lo.AD_Client_ID,
@@ -36,7 +36,8 @@ SELECT
     lol.FTA_LoadOrderLine_ID,
     lo.DocStatus,
     lol.C_InvoiceLine_ID,
-    lol.M_InOutLine_ID
+    lol.M_InOutLine_ID,
+    lo.IsImmediateDelivery
 FROM FTA_LoadOrderLine lol 
 INNER JOIN FTA_LoadOrder lo ON (lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID)
 INNER JOIN C_OrderLine ol ON (lol.C_OrderLine_ID = ol.C_OrderLine_ID)
@@ -44,6 +45,7 @@ INNER JOIN C_Order o ON (ol.C_Order_ID = o.C_Order_ID)
 LEFT JOIN C_BPartner_Location bpl ON (o.C_BPartner_Location_ID = bpl.C_BPartner_Location_ID)
 LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID = lol.C_InvoiceLine_ID )
 LEFT JOIN M_InOutLine iol ON (iol.M_InOutLine_ID = lol.M_InOutLine_ID)
+*/
 
 -- WHERE 
 -- 	ol.C_Order_ID = 1000046
@@ -65,6 +67,70 @@ LEFT JOIN M_InOutLine iol ON (iol.M_InOutLine_ID = lol.M_InOutLine_ID)
     --AND sr.C_SalesRegion_ID IS NULL
 
 */
-;
+--;
 
 --SELECT * FROM FTA_RV_LoadOrderGenerateInvoice
+
+-- DROP VIEW fta_rv_loadordergenerateinvoice;
+CREATE OR REPLACE VIEW FTA_RV_LoadOrderGenerateInvoice AS 
+ SELECT COALESCE(lo.AD_Org_ID,o.AD_Org_ID) AD_Org_ID,
+    COALESCE(ol.AD_Client_ID,o.AD_Client_ID) AD_Client_ID,
+    COALESCE(lo.IsActive,o.IsActive) IsActive,
+    COALESCE(lo.Created,o.Created) Created,
+    COALESCE(lo.CreatedBy,o.CreatedBy) CreatedBy,
+    COALESCE(lo.Updated,o.Updated) Updated,
+    COALESCE(lo.UpdatedBy,o.UpdatedBy) UpdatedBy,
+    o.C_BPartner_ID,
+    o.C_Order_ID,
+    p.M_Product_ID,
+    COALESCE(lol.Qty,ol.QtyOrdered) Qty,
+    ol.C_UOM_ID,
+    ol.PriceEntered,
+    ol.PriceActual,
+    ol.PriceList,
+    ol.C_Tax_ID,
+    ol.LinenetAmt,
+    o.SalesRep_ID,
+    bpl.C_SalesRegion_ID,
+    lo.FTA_Vehicle_ID,
+    COALESCE(ol.M_WareHouse_ID, o.M_WareHouse_ID, lo.M_WareHouse_ID) AS M_WareHouse_ID,
+    lo.OperationType,
+    lo.C_DocType_ID,
+    lo.InvoiceRule,
+    lo.DeliveryRule,
+    lo.FTA_VehicleType_ID,
+    lo.DateDoc,
+    lo.ShipDate,
+    lo.FTA_EntryTicket_ID,
+    lo.M_Shipper_ID,
+    lo.FTA_Driver_ID,
+    lo.FTA_LoadOrder_ID,
+    lol.FTA_LoadOrderLine_ID,
+    COALESCE(lo.DocStatus,o.DocStatus) DocStatus,
+    lol.C_InvoiceLine_ID,
+    lol.M_InoutLine_ID,
+    lo.IsImmediateDelivery,
+    ol.C_OrderLine_ID,
+    ol.C_Charge_ID,
+    COALESCE(p.Name,c.Name) ProductName,
+    CASE WHEN  lol.FTA_LoadOrderLine_ID IS NOT NULL THEN tlo.Table_ID ELSE tol.Table_ID END ||
+    COALESCE(lol.FTA_LoadOrderLine_ID,ol.C_OrderLine_ID) Record_ID,
+    ol.qtyinvoiced,
+    ol.qtyordered
+    
+    
+   FROM FTA_LoadOrderLine lol
+     INNER JOIN FTA_LoadOrder lo ON lo.FTA_LoadOrder_ID = lol.FTA_LoadOrder_ID
+     LEFT JOIN C_InvoiceLine il ON il.C_InvoiceLine_ID = lol.C_InvoiceLine_ID
+     LEFT JOIN M_InoutLine iol ON iol.M_InoutLine_ID = lol.M_InoutLine_ID
+     RIGHT JOIN C_OrderLine ol ON lol.C_OrderLine_ID = ol.C_OrderLine_ID
+     JOIN C_Order o ON ol.C_Order_ID = o.C_Order_ID
+     LEFT JOIN C_BPartner_Location bpl ON o.C_BPartner_Location_ID = bpl.C_BPartner_Location_ID
+     LEFT JOIN M_Product p ON p.M_Product_ID = ol.M_Product_ID
+     LEFT JOIN C_Charge c ON c.C_Charge_ID = ol.C_Charge_ID,
+     (SELECT LEFT(CAST(AD_Table_ID AS VARCHAR),1) Table_ID FROM AD_Table WHERE TableName ='FTA_LoadOrderLine') tlo,
+     (SELECT LEFT(CAST(AD_Table_ID AS VARCHAR),1) Table_ID FROM AD_Table WHERE TableName ='C_OrderLine') tol
+     WHERE (
+     (p.ProductType = 'I' AND p.M_Product_ID = lol.M_Product_ID)
+      OR (p.ProductType <> 'I' AND lol.M_Product_ID IS NULL )
+	OR (p.M_Product_ID IS NULL )

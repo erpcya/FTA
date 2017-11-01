@@ -27,7 +27,6 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MRole;
 import org.compiere.process.DocAction;
-import org.compiere.swing.CComboBox;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -389,10 +388,9 @@ public class FarmerCreditAllocation
 	 * @return
 	 * @return int
 	 */
-	protected int loadFarmerCredit(CComboBox comboSearch, int p_C_BPartner_ID) {
-		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
-		
+	protected ArrayList<KeyNamePair> loadFarmerData(int p_C_BPartner_ID) {
 		log.config("getData");
+		ArrayList<KeyNamePair> pp = new ArrayList<KeyNamePair>();
 		String sql = "SELECT cr.FTA_FarmerCredit_ID, "
 				//+ "l.Name || ' - ' || "
 				+ "cr.DocumentNo  || CASE WHEN cd.Description IS NOT NULL THEN  '_' || COALESCE(cd.Description,'') ELSE '' END " +
@@ -405,33 +403,20 @@ public class FarmerCreditAllocation
 				//	"AND cr.Parent_FarmerCredit_ID IS NULL " +					
 				//	End Dixon Martinez
 				"AND cr.DocStatus = 'CO'";
-		
 		try	{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			System.out.println(sql + p_C_BPartner_ID);
 			pstmt.setInt(1, p_C_BPartner_ID);
 			ResultSet rs = pstmt.executeQuery();
-			//
+
 			while (rs.next()) {
-				KeyNamePair pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				data.add(pp);
+				pp.add(new KeyNamePair(rs.getInt(1), rs.getString(2)));
 			}
 			DB.close(rs, pstmt);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		comboSearch.removeAllItems();
-		int m_ID = 0;
-		for(KeyNamePair pp : data) {
-			comboSearch.addItem(pp);
-		}
-		
-		if (comboSearch.getItemCount() != 0) {
-			comboSearch.setSelectedIndex(0);
-			KeyNamePair pp = (KeyNamePair) comboSearch.getSelectedItem();
-			m_ID = (pp != null? pp.getKey(): 0);
-		}
-		return m_ID;
+
+		return pp;
 	}
 	
 	public void calculate(boolean isMultiCurrency)

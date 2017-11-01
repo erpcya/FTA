@@ -34,7 +34,7 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20141020L;
+	private static final long serialVersionUID = 20150218L;
 
     /** Standard Constructor */
     public X_FTA_LoadOrder (Properties ctx, int FTA_LoadOrder_ID, String trxName)
@@ -582,6 +582,27 @@ public class X_FTA_LoadOrder extends PO implements I_FTA_LoadOrder, I_Persistent
 	public boolean isHandleRecordWeight () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsHandleRecordWeight);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Immediate Delivery.
+		@param IsImmediateDelivery Immediate Delivery	  */
+	public void setIsImmediateDelivery (boolean IsImmediateDelivery)
+	{
+		set_Value (COLUMNNAME_IsImmediateDelivery, Boolean.valueOf(IsImmediateDelivery));
+	}
+
+	/** Get Immediate Delivery.
+		@return Immediate Delivery	  */
+	public boolean isImmediateDelivery () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsImmediateDelivery);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
