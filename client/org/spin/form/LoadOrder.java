@@ -412,7 +412,7 @@ public class LoadOrder {
 			sqlWhere.append(")");
 			
 			sql = new StringBuffer("SELECT alm.M_Warehouse_ID, alm.Name Warehouse, lord.DD_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, " + 
-					"(pro.Name || COALESCE(' - ' || get_attribute_description(lord.M_AttributeSetInstance_ID, '" + Env.getAD_Language(Env.getCtx()) + "'), '')) Product, " +
+					"(pro.Name || COALESCE(' - ' || productattribute(lord.M_AttributeSetInstance_ID), '')) Product, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, 0 QtyInvoiced, lord.QtyDelivered, " +
 					"SUM(" +
@@ -493,7 +493,7 @@ public class LoadOrder {
 			sqlWhere.append(")");
 			
 			sql = new StringBuffer("SELECT lord.M_Warehouse_ID, alm.Name Warehouse, lord.C_OrderLine_ID, ord.DocumentNo, lord.M_Product_ID, " + 
-					"(pro.Name || COALESCE(' - ' || get_attribute_description(lord.M_AttributeSetInstance_ID, '" + Env.getAD_Language(Env.getCtx()) + "'), '')) Product, " +
+					"(pro.Name || COALESCE(' - ' || productattribute(lord.M_AttributeSetInstance_ID), '')) Product, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
 					"SUM(" +
