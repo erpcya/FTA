@@ -52,6 +52,8 @@ import org.spin.util.StringNamePair;
  * @author Carlos Parada, cparada@erpcya.com
  * <li> FR [ 1 ] Add Support to generate load order with non stocked product
  * @see https://github.com/erpcya/FTA/issues/1
+ * <li> BR [ 2 ] Separate Order And Global Quantity Transit
+ * @see https://github.com/erpcya/FTA/issues/2
  *
  */
 public class LoadOrder {
@@ -77,7 +79,9 @@ public class LoadOrder {
 	public final int OL_QTY_INVOICED 			= 13;
 	public final int OL_QTY_DELIVERED 			= 14;
 	public final int OL_QTY_IN_TRANSIT 			= 15;
-	public final int OL_DELIVERY_RULE 			= 16;
+	//BR [ 2 ]
+	public final int OL_QTY_ORDER_TRANSIT 		= 16;
+	public final int OL_DELIVERY_RULE 			= 17;
 	/**	Warehouse and Product					*/
 	public final int SW_PRODUCT 				= 0;
 	public final int SW_UOM 					= 1;
@@ -227,7 +231,7 @@ public class LoadOrder {
 			if (m_AD_Org_ID != 0)
 				sql.append("AND lord.AD_Org_ID=? ");
 			if (m_M_Warehouse_ID != 0 )
-				sql.append("AND lord.M_Warehouse_ID=? ");
+				sql.append("AND EXISTS (SELECT 1 FROM M_Locator loc WHERE lord.M_Locator_ID = loc.M_Locator_ID AND loc.M_Warehouse_ID=? )");
 			if (m_C_SalesRegion_ID != 0 )
 				sql.append("AND bploc.C_SalesRegion_ID=? ");
 			if (m_SalesRep_ID != 0 )
@@ -420,13 +424,14 @@ public class LoadOrder {
 					"(pro.Name || COALESCE(' - ' || productattribute(lord.M_AttributeSetInstance_ID), '')) Product, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, 0 QtyInvoiced, lord.QtyDelivered, " +
+					"s.QtyTransit QtyLoc, " +
 					"SUM(" +
 					"		COALESCE(CASE " +
 					"			WHEN (c.IsMoved = 'N' AND c.OperationType = 'MOM' AND c.DocStatus = 'CO') " +
 					"			THEN lc.Qty " +
 					"			ELSE 0 " +
 					"		END, 0)" +
-					") QtyLoc, " +
+					") QtyOrderTransit, " +
 					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyInTransit, 0) - COALESCE(lord.QtyDelivered, 0) - " +
 					"	SUM(" +
 					"		COALESCE(CASE " +
@@ -449,10 +454,24 @@ public class LoadOrder {
 					"LEFT JOIN (" +
 					"				SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
 					"					COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, " +
-					"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
+					"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID, " +
+					"					COALESCE(lc.Qty,0) QtyTransit " +
 					"				FROM M_Storage st " +
 					"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
-					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s " +
+					" 				LEFT JOIN (SELECT COALESCE(ol.M_AttributeSetInstance_ID,dl.M_AttributeSetInstance_ID) M_AttributeSetInstance_ID, " + 
+					"							lc.M_Product_ID, " +  
+                    "							lc.M_Warehouse_ID, " +
+                    "							SUM(lc.Qty) Qty " +
+                    "							FROM FTA_LoadOrder lo " + 
+                    "							INNER JOIN FTA_LoadOrderLine lc ON (lo.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +  
+                    "							LEFT JOIN C_OrderLine ol ON (lc.C_OrderLine_ID = ol.C_OrderLine_ID) " +
+                    "							LEFT JOIN DD_OrderLine dl ON (lc.DD_OrderLine_ID = dl.DD_OrderLine_ID) " +
+                    "							WHERE lc.IsConfirmed = 'N' AND lo.DocStatus = 'CO' " +
+                    " 							GROUP BY COALESCE(ol.M_AttributeSetInstance_ID,dl.M_AttributeSetInstance_ID), " + 
+					"							lc.M_Product_ID, " +  
+                    "							lc.M_Warehouse_ID " +
+                    "				) lc ON (lc.m_product_id = st.m_product_id AND lc.m_warehouse_id = l.m_warehouse_id AND lc.M_AttributeSetInstance_ID = st.M_AttributeSetInstance_ID) " +
+					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID,lc.Qty) s " +
 					"														ON(s.M_Product_ID = lord.M_Product_ID " +
 					"																AND s.M_Warehouse_ID = l.M_Warehouse_ID " +
 					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
@@ -468,7 +487,7 @@ public class LoadOrder {
 					"alm.Name, ord.DocumentNo, lord.M_Product_ID, lord.M_AttributeSetInstance_ID, " + 
 					"pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " +
-					"lord.QtyDelivered, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand,pro.IsStocked").append(" ");
+					"lord.QtyDelivered, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand,pro.IsStocked, s.QtyTransit").append(" ");
 			//	Having
 			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyInTransit, 0) - COALESCE(lord.QtyDelivered, 0) - " + 
 					"								SUM(" +
@@ -502,13 +521,14 @@ public class LoadOrder {
 					"(pro.Name || COALESCE(' - ' || productattribute(lord.M_AttributeSetInstance_ID), '')) Product, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, s.QtyOnHand, " +
 					"lord.QtyOrdered, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyReserved, lord.QtyInvoiced, lord.QtyDelivered, " +
+					"s.QtyTransit QtyLoc, " +
 					"SUM(" +
 					"		COALESCE(CASE " +
 					"			WHEN (c.IsDelivered = 'N' AND c.OperationType IN('DBM', 'DFP') AND c.DocStatus = 'CO') " +
 					"			THEN lc.Qty " +
 					"			ELSE 0 " +
 					"		END, 0)" +
-					") QtyLoc, " +
+					"		)  QtyOrderTransit, " +
 					"(COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " +
 					"	SUM(" +
 					"		COALESCE(CASE " +
@@ -530,10 +550,24 @@ public class LoadOrder {
 					"LEFT JOIN (" +
 					"				SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
 					"					COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, " +
-					"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID " +
+					"					COALESCE(st.M_AttributeSetInstance_ID, 0) M_AttributeSetInstance_ID, " +
+					"					COALESCE(lc.Qty,0) QtyTransit " +
 					"				FROM M_Storage st " +
 					"				INNER JOIN M_Locator l ON(l.M_Locator_ID = st.M_Locator_ID) " +
-					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID) s " +
+					" 				LEFT JOIN (SELECT COALESCE(ol.M_AttributeSetInstance_ID,dl.M_AttributeSetInstance_ID) M_AttributeSetInstance_ID, " + 
+					"							lc.M_Product_ID, " +  
+                    "							lc.M_Warehouse_ID, " +
+                    "							SUM(lc.Qty) Qty " +
+                    "							FROM FTA_LoadOrder lo " + 
+                    "							INNER JOIN FTA_LoadOrderLine lc ON (lo.FTA_LoadOrder_ID = lc.FTA_LoadOrder_ID) " +  
+                    "							LEFT JOIN C_OrderLine ol ON (lc.C_OrderLine_ID = ol.C_OrderLine_ID) " +
+                    "							LEFT JOIN DD_OrderLine dl ON (lc.DD_OrderLine_ID = dl.DD_OrderLine_ID) " +
+                    "							WHERE lc.IsConfirmed = 'N' AND lo.DocStatus = 'CO' " +
+                    " 							GROUP BY COALESCE(ol.M_AttributeSetInstance_ID,dl.M_AttributeSetInstance_ID), " + 
+					"							lc.M_Product_ID, " +  
+                    "							lc.M_Warehouse_ID " +
+                    "				) lc ON (lc.m_product_id = st.m_product_id AND lc.m_warehouse_id = l.m_warehouse_id AND lc.M_AttributeSetInstance_ID = st.M_AttributeSetInstance_ID) " +
+					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, st.M_AttributeSetInstance_ID,lc.Qty) s " +
 					"														ON(s.M_Product_ID = lord.M_Product_ID " +
 					"																AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
 					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
@@ -549,7 +583,7 @@ public class LoadOrder {
 					"alm.Name, ord.DocumentNo, lord.M_Product_ID, lord.M_AttributeSetInstance_ID, " + 
 					"pro.Name, lord.C_UOM_ID, uom.UOMSymbol, lord.QtyEntered, " +
 					"pro.C_UOM_ID, uomp.UOMSymbol, lord.QtyOrdered, lord.QtyReserved, " + 
-					"lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand, pro.IsStocked").append(" ");
+					"lord.QtyDelivered, lord.QtyInvoiced, pro.Weight, pro.Volume, ord.DeliveryRule, s.QtyOnHand, pro.IsStocked, s.QtyTransit ").append(" ");
 			//	Having
 			sql.append("HAVING (COALESCE(lord.QtyOrdered, 0) - COALESCE(lord.QtyDelivered, 0) - " + 
 					"									SUM(" +
@@ -667,6 +701,7 @@ public class LoadOrder {
 			BigDecimal m_Qty = Env.ZERO;
 			BigDecimal m_Weight = Env.ZERO;
 			BigDecimal m_Volume = Env.ZERO;
+			BigDecimal m_QtyOrderTransit = Env.ZERO;
 			String m_DeliveryRuleKey= null;
 			
 			//FR [ 1 ]
@@ -686,12 +721,14 @@ public class LoadOrder {
 				m_QtyInvoiced 		= rs.getBigDecimal(column++);
 				m_QtyDelivered 		= rs.getBigDecimal(column++);
 				m_QtyInTransit 		= rs.getBigDecimal(column++);
+				//BR [ 2 ]
+				m_QtyOrderTransit 	= rs.getBigDecimal(column++);
 				m_Qty 				= rs.getBigDecimal(column++);
 				m_Weight 			= rs.getBigDecimal(column++);
 				m_Volume 			= rs.getBigDecimal(column++);
 				m_DeliveryRuleKey 	= rs.getString(column++);
 				//FR [ 1 ]
-				isStocked = (rs.getString("IsStocked")!=null? "": rs.getString("IsStocked")).equals("Y");
+				isStocked = (rs.getString("IsStocked")==null? "": rs.getString("IsStocked")).equals("Y");
 				//	Get Precision
 				precision = MUOM.getPrecision(Env.getCtx(), m_Product_UOM.getKey());
 				//	
@@ -739,8 +776,10 @@ public class LoadOrder {
 				line.add(m_QtyReserved);				      	//  12-QtyReserved
 				line.add(m_QtyInvoiced);				      	//  13-QtyInvoiced
 				line.add(m_QtyDelivered);				      	//  14-QtyDelivered
-				line.add(m_QtyInTransit);				      	//  15-QtyInTransit			
-				line.add(m_DeliveryRule);						//	16-Delivery Rule
+				line.add(m_QtyInTransit);				      	//  15-QtyInTransit
+				//BR [ 2 ]
+				line.add(m_QtyOrderTransit);				    //  16-QtyOrderTransit
+				line.add(m_DeliveryRule);						//	17-Delivery Rule
 				//	Add Data
 				data.add(line);
 			}
@@ -781,6 +820,8 @@ public class LoadOrder {
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyInvoiced"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyDelivered"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyInTransit"));
+		//BR [ 2 ]
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrderTransit"));
 		columnNames.add(Msg.translate(Env.getCtx(), "DeliveryRule"));
 		return columnNames;
 	}
@@ -848,7 +889,9 @@ public class LoadOrder {
 		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  13-QtyInvoiced
 		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  14-QtyDelivered
 		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//	15-QtyInTransit
-		orderLineTable.setColumnClass(i++, String.class, true);			//  16-Delivery Rule
+		//BR [ 2 ]
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//	16-QtyOrderTransit
+		orderLineTable.setColumnClass(i++, String.class, true);			//  17-Delivery Rule
 		//  Table UI
 		orderLineTable.autoSize();
 	}

@@ -78,6 +78,12 @@ import org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI;
 import org.spin.model.I_FTA_LoadOrder;
 import org.spin.util.StringNamePair;
 
+/**
+* @author Carlos Parada, cparada@erpcya.com
+* <li> BR [ 2 ] Separate Order And Global Quantity Transit
+* @see https://github.com/erpcya/FTA/issues/2
+*
+*/
 public class VLoadOrder extends LoadOrder
 	implements FormPanel, ActionListener, TableModelListener, VetoableChangeListener
 {
@@ -799,7 +805,8 @@ public class VLoadOrder extends LoadOrder
 				BigDecimal volume = (BigDecimal) orderLineTable.getValueAt(row, OL_VOLUME);
 				BigDecimal qtyOnHand = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ON_HAND);
 				BigDecimal qtyOrdered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ORDERED);
-				BigDecimal qtyOrderLine = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_IN_TRANSIT);
+				//BR [ 2 ]
+				BigDecimal qtyOrderLine = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_ORDER_TRANSIT);
 				BigDecimal qtyDelivered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_DELIVERED);
 				
 				//	Get Precision
